@@ -1,7 +1,7 @@
 import React from "react";
 
-const NewsItem = () => {
+const VoteButton = () => {
   return <div></div>;
 };
 
-export default NewsItem;
+export default VoteButton;
