@@ -1,4 +1,4 @@
-import { Calendar, Filters, NewsItem, WeatherBlock } from '../components';
+import { Calendar, Filters, NewsItem, WeatherBlock } from 'components';
 import React from 'react';
 
 const HomePage = () => {

@@ -1,11 +1,11 @@
 import { Auth, Menu, ThemeSwitcher } from '../components';
 import React from 'react';
-import { Input } from '../ui';
+import { Input } from 'ui';
 
 const Header = () => {
   return (
     <div>
-      <a href='../pages/HomePage.tsx'>News</a>
+      <a href='pages/HomePage.tsx'>News</a>
       <Menu />
       <Input />
       <ThemeSwitcher />

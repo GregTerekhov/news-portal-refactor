@@ -1,7 +1,7 @@
 import React from 'react';
 import Header from './Header';
 import { Outlet } from 'react-router-dom';
-import { PageScrollController, SearchBlock } from '../components';
+import { PageScrollController, SearchBlock } from 'components';
 
 const Layout = () => {
   return (
