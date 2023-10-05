@@ -1,7 +1,7 @@
-import React from "react";
+import React from 'react';
 
 const Accordeon = () => {
-  return <div></div>;
+  return <div>Accordeon</div>;
 };
 
 export default Accordeon;

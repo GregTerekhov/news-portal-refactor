@@ -1,7 +1,7 @@
-import React from "react";
+import React from 'react';
 
 const PageScrollController = () => {
-  return <div></div>;
+  return <div>PageScrollController</div>;
 };
 
 export default PageScrollController;

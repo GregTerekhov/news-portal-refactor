@@ -1,7 +1,12 @@
-import React from "react";
+import React from 'react';
+import SvgIcon from './SvgIcon';
 
 const VoteButton = () => {
-  return <div></div>;
+  return (
+    <div>
+      <SvgIcon />
+    </div>
+  );
 };
 
 export default VoteButton;
