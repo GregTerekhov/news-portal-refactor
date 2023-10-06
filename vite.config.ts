@@ -1,13 +1,33 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
-import viteTsconfigPaths from 'vite-tsconfig-paths';
+import tsconfigPaths from 'vite-tsconfig-paths';
+import { resolve } from 'path';
 
 // https://vitejs.dev/config/
 export default defineConfig({
+  build: {
+    sourcemap: false,
+  },
+  resolve: {
+    alias: {
+      assets: resolve(__dirname, './src/assets/'),
+      components: resolve(__dirname, './src/components'),
+      constants: resolve(__dirname, './src/constants'),
+      contexts: resolve(__dirname, './src/contexts'),
+      helpers: resolve(__dirname, './src/helpers'),
+      hooks: resolve(__dirname, './src/hooks'),
+      layouts: resolve(__dirname, './src/layouts'),
+      pages: resolve(__dirname, './src/pages'),
+      redux: resolve(__dirname, './src/redux'),
+      routes: resolve(__dirname, './src/routes'),
+      themes: resolve(__dirname, './src/themes'),
+      ui: resolve(__dirname, './src/ui'),
+    },
+  },
   plugins: [
     react({
       jsxRuntime: 'classic',
     }),
-    viteTsconfigPaths(),
+    tsconfigPaths(),
   ],
 });

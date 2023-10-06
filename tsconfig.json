@@ -8,9 +8,10 @@
     "types": ["vite/client"],
     "rootDir": "./src/",
     "outDir": "./dist/",
+    "declaration": false,
 
     /* Bundler mode */
-    "moduleResolution": "bundler",
+    "moduleResolution": "Bundler",
     "allowImportingTsExtensions": true,
     "resolveJsonModule": true,
     "isolatedModules": true,
@@ -24,20 +25,20 @@
     "noFallthroughCasesInSwitch": true,
 
     /*Paths to files */
-    "baseUrl": "src",
+    "baseUrl": "./src/",
     "paths": {
-      "assets/*": ["src/assets/*"],
-      "components/*": ["src/components/*"],
-      "constants/*": ["src/constants/*"],
-      "contexts/*": ["src/contexts/*"],
-      "helpers/*": ["src/helpers/*"],
-      "hooks/*": ["src/hooks/*"],
-      "layouts/*": ["src/layouts/*"],
-      "pages/*": ["src/pages/*"],
-      "redux/*": ["src/redux/*"],
-      "routes/*": ["src/routes/*"],
-      "themes/*": ["src/themes/*"],
-      "ui/*": ["src/ui/*"]
+      "assets/*": ["assets/*"],
+      "components/*": ["components/*"],
+      "constants/*": ["constants/*"],
+      "contexts/*": ["contexts/*"],
+      "helpers/*": ["helpers/*"],
+      "hooks/*": ["hooks/*"],
+      "layouts/*": ["layouts/*"],
+      "pages/*": ["pages/*"],
+      "redux/*": ["redux/*"],
+      "routes/*": ["routes/*"],
+      "themes/*": ["themes/*"],
+      "ui/*": ["ui/*"]
     }
   },
   "include": ["src"],
