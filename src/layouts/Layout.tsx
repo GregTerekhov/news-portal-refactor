@@ -1,5 +1,5 @@
 import React from 'react';
-import { Header } from './Header';
+import Header from './Header';
 import { Outlet } from 'react-router-dom';
 import { PageScrollController, SearchBlock } from 'components';
 
@@ -14,4 +14,4 @@ const Layout = () => {
   );
 };
 
-export { Layout };
+export default Layout;
