@@ -1,5 +1,5 @@
-import { Auth, Menu, ThemeSwitcher } from '../components';
 import React from 'react';
+import { Menu, ThemeSwitcher, Auth } from 'components';
 import { Input } from 'ui';
 
 const Header = () => {
@@ -14,4 +14,4 @@ const Header = () => {
   );
 };
 
-export default Header;
+export { Header };
