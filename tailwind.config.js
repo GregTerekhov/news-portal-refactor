@@ -2,25 +2,6 @@
 export default {
   content: ['./index.html', './src/**/*.{js,jsx,ts,tsx}'],
   theme: {
-    colors: {
-      backgroundBase: '#f4f4f4',
-      accentBase: '#4440f6',
-      textBase: '#111321',
-      accentAlt: '#4b48db',
-      greyText: '#5f6775',
-      greyTextAlt: '#a8a8a8',
-      greyIcon: '#a2a2a2',
-      accentForeground: 'rgba(68, 64, 246, 0.70)', // accentBase 70%
-      foreground: 'rgba(244, 244, 244, 0.40)', // backgroundBase 40%
-      foregroundAlt: 'rgba(254, 254, 255, 0.30)', //fefefe 30%
-      contrastText: '#ffffff',
-      dropdownBase: '#f8f8f8',
-      readBase: '#00dd73',
-      line: 'rgba(0, 0, 0, 0.20)', // #000000 20%
-      lineAlt: '#929292',
-      calendarText: '#000000',
-      calendarTextLight: 'rgba(60, 60, 67, 0.3)', //'#3c3c343'
-    },
     fontFamily: {
       body: 'Manrope, sans-serif',
       weather: 'Roboto, sans-serif',
@@ -62,7 +43,56 @@ export default {
       40: '40',
       50: '50',
     },
-    extend: {},
+    extend: {
+      colors: {
+        whiteBase: '#f4f4f4',
+        darkBase: '#111321',
+        accentBase: '#4440f6',
+        accentAlt: '#4b48db',
+        greyText: '#5f6775',
+        greyTextAlt: '#a8a8a8',
+        greyIcon: '#a2a2a2',
+        accentForeground: 'rgba(68, 64, 246, 0.70)', // accentBase 70%
+        foreground: 'rgba(244, 244, 244, 0.40)', // whiteBase 40%
+        foregroundAlt: 'rgba(254, 254, 255, 0.30)', //fefefe 30%
+        contrastWhite: '#ffffff',
+        dropdownBase: '#f8f8f8',
+        readBase: '#00dd73',
+        line: 'rgba(0, 0, 0, 0.20)', // #000000 20%
+        lineAlt: '#929292',
+        calendarText: '#000000',
+        calendarTextLight: 'rgba(60, 60, 67, 0.3)', //'#3c3c343'
+      },
+      fontSize: {
+        small: '12px',
+        base: '14px',
+        medium: '16px',
+        xl: '18px',
+        '2xl': '20px',
+        '3xl': '32px',
+        '4xl': '40px',
+        giant: '42px',
+      },
+      letterSpacing: {
+        tightest: -0.408,
+        tighter: -0.4,
+        bigTight: -0.32,
+        mediumTight: -0.24,
+        smallTight: -0.2,
+        tight: -0.078,
+        normal: 0,
+        wide: 0.12,
+        bigWide: 0.24,
+        wider: 0.28,
+        widest: 0.38,
+      },
+      lineHeight: {
+        tighter: '1.333',
+        moreRelaxed: '1.71',
+        mediumRelaxed: '1.75',
+        mostRelaxed: '1.79',
+      },
+    },
   },
   plugins: [],
 };
