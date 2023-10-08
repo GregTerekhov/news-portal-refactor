@@ -1,7 +1,6 @@
 import React from 'react';
 import { Input, PrimaryButton } from 'ui';
-import { Menu, ThemeSwitcher, Auth } from 'components';
-
+// import { Menu, ThemeSwitcher, Auth } from 'components';
 
 const Header = () => {
   return (

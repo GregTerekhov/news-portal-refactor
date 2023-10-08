@@ -13,7 +13,7 @@ const VoteButton = () => {
       <p className='text-white'>
         {addToFavoriteTemplate ? 'Add to favorite' : 'Remove from favorite'}
       </p>
-      <SvgIcon svgName='icon-heart' size='16px' stroke='blue' fill='none' />
+      <SvgIcon svgName='icon-heart' size={16} stroke='blue' fill='none' />
     </button>
   );
 };

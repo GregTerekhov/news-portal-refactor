@@ -3,13 +3,13 @@ import icons from '../assets/icons.svg';
 
 type SvgIncomingData = {
   svgName: string;
-  size: string | number;
-  stroke: string | null;
+  size: number;
+  stroke: string;
   fill: string;
 };
 
 const SvgIcon = (svgData: SvgIncomingData) => {
-  const { svgName, size = '14px', stroke = 'none', fill = 'none' } = svgData;
+  const { svgName, size, stroke = 'none', fill = 'none' } = svgData;
 
   console.log(icons);
 
