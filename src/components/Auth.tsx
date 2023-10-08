@@ -1,5 +1,5 @@
 import React from 'react';
-import { PrimaryButton } from '../ui';
+import { PrimaryButton } from 'ui';
 
 const Auth = () => {
   return (

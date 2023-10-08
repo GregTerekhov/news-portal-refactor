@@ -1,6 +1,7 @@
-import { Auth, Menu, ThemeSwitcher } from '../components';
 import React from 'react';
-import { Input, PrimaryButton, VoteButton } from 'ui';
+import { Input, PrimaryButton } from 'ui';
+import { Menu, ThemeSwitcher, Auth } from 'components';
+
 
 const Header = () => {
   return (
