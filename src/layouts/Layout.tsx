@@ -2,7 +2,7 @@ import React from 'react';
 import Header from './Header';
 import { Outlet } from 'react-router-dom';
 import { PageScrollController, SearchBlock } from 'components';
-import { PrimaryButton, VoteButton } from 'ui';
+import { VoteButton } from 'ui';
 
 const Layout = () => {
   return (

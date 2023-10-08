@@ -12,7 +12,7 @@ const Input = (inputData: InputCollectedData, hasIcon: boolean = true) => {
     //Инпут пока что со своей рамкой при фокусе, будет исправлено в первых же правках
     <form className='border-solid border border-black rounded-3xl flex gap-4 items-center  px-3 py-1.5'>
       {hasIcon && (
-        <SvgIcon svgName='icon-search' size='20px' stroke='none' fill='black' />
+        <SvgIcon svgName='icon-search' size={20} stroke='none' fill='black' />
       )}
 
       <input

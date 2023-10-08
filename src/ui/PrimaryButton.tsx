@@ -15,7 +15,7 @@ const PrimaryButton = (data: PrimaryButtCommon) => {
       {hasIcon ? (
         <SvgIcon
           svgName='icon-burger-menu'
-          size='16px'
+          size={16}
           stroke='black'
           fill='none'
         />
