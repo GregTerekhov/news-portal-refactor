@@ -1,19 +1,29 @@
-import React from 'react';
+import React, { useState } from 'react';
 import SvgIcon from './SvgIcon';
 
-let addToFavoriteTemplate = false;
-
 const VoteButton = () => {
+  const [addToFavoriteTemplate, setAddToFavoriteTemplate] =
+    useState<boolean>(false);
+
+  const onHandleClick = () => {
+    setAddToFavoriteTemplate(!addToFavoriteTemplate);
+  };
+
   return (
-    //Фон черного цвета временно, до момента включения в карточку с новостями
     <button
       type='button'
-      className='flex items-center gap-1  bg-black rounded-3xl px-3 py-1.5  '
+      className='border-solid border-2 border-black flex items-center gap-1 rounded-3xl px-3 py-1.5  '
+      onClick={onHandleClick}
     >
-      <p className='text-white'>
+      <p>
         {addToFavoriteTemplate ? 'Add to favorite' : 'Remove from favorite'}
       </p>
-      <SvgIcon svgName='icon-heart' size={16} stroke='blue' fill='none' />
+      <SvgIcon
+        svgName='icon-heart'
+        size={16}
+        stroke='stroke-accentBase'
+        fill='fill-none'
+      />
     </button>
   );
 };
