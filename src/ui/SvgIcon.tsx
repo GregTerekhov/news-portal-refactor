@@ -9,12 +9,10 @@ type SvgIncomingData = {
 };
 
 const SvgIcon = (svgData: SvgIncomingData) => {
-  const { svgName, size, stroke = 'none', fill = 'none' } = svgData;
-
-  console.log(icons);
+  const { svgName, size, stroke, fill } = svgData; //Значения stroke и fill передавать ввиде класса tailwind, "stroke-*цвет*", "fill-*цвет*"
 
   return (
-    <svg width={size} height={size} stroke={stroke} fill={fill}>
+    <svg className={`${stroke} ${fill}`} width={size} height={size}>
       <use href={icons + `#${svgName}`}></use>
     </svg>
   );
