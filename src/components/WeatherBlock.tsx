@@ -17,7 +17,7 @@ const WeatherBlock = () => {
     setWeatherData(weatherResponse);
   };
 
-  const permissionDenied = () => {};
+  // const permissionDenied = () => {};
 
   try {
     if ('geolocation' in navigator) {
