@@ -5,7 +5,6 @@ function receiveCurrentDate() {
   const number = today.toDateString().slice(8).slice(0, 2);
   const year = today.toDateString().slice(11);
   const dateNow = `${number} ${month} ${year}`;
-  console.log(dateNow);
 
   return { days, dateNow };
 }
