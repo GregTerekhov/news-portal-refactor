@@ -18,7 +18,7 @@ export default defineConfig({
       hooks: resolve(__dirname, './src/hooks'),
       layouts: resolve(__dirname, './src/layouts'),
       pages: resolve(__dirname, './src/pages'),
-      redux: resolve(__dirname, './src/redux'),
+      // redux: resolve(__dirname, './src/redux'),
       routes: resolve(__dirname, './src/routes'),
       themes: resolve(__dirname, './src/themes'),
       ui: resolve(__dirname, './src/ui'),

@@ -6,8 +6,6 @@ type InputCollectedData = { name: string; type: string; placeholder: string };
 const Input = (inputData: InputCollectedData, hasIcon: boolean = true) => {
   const { name, type, placeholder } = inputData;
 
-  console.log(hasIcon);
-
   return (
     //Инпут пока что со своей рамкой при фокусе, будет исправлено в первых же правках
     <form className='relative flex gap-4 items-center  px-3 py-1.5'>
