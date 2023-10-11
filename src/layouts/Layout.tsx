@@ -2,18 +2,20 @@ import React from 'react';
 import Header from './Header';
 import { Outlet } from 'react-router-dom';
 import { PageScrollController, SearchBlock } from 'components';
-import { VoteButton } from 'ui';
+import { WindowWidthProvider } from 'contexts';
 
 const Layout = () => {
   return (
-    <div>
+    <WindowWidthProvider>
       <Header />
-
-      <PageScrollController />
-      <SearchBlock />
-      <VoteButton />
-      <Outlet />
-    </div>
+      <section className='w-full bg-whiteBase h-screen'>
+        <div className='container mx-auto px-4'>
+          <PageScrollController />
+          <SearchBlock />
+          <Outlet />
+        </div>
+      </section>
+    </WindowWidthProvider>
   );
 };
 
