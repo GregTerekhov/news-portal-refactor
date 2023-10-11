@@ -8,4 +8,4 @@ export { default as NewsItem } from './NewsItem';
 export { default as PageScrollController } from './PageScrollController';
 export { default as SearchBlock } from './SearchBlock';
 export { default as ThemeSwitcher } from './ThemeSwitcher';
-export { default as WeatherBlock } from './WeatherBlock';
+// export { default as WeatherBlock } from './WeatherBlock';

@@ -34,15 +34,15 @@ export default {
       md: '768px',
       lg: '1280px',
     },
-    zIndex: {
-      auto: 'auto',
-      0: '0',
-      10: '10',
-      20: '20',
-      30: '30',
-      40: '40',
-      50: '50',
-    },
+    // zIndex: {
+    //   auto: 'auto',
+    //   0: '0',
+    //   10: '10',
+    //   20: '20',
+    //   30: '30',
+    //   40: '40',
+    //   50: '50',
+    // },
     extend: {
       colors: {
         whiteBase: '#f4f4f4',
@@ -69,8 +69,9 @@ export default {
         medium: '16px',
         xl: '18px',
         '2xl': '20px',
-        '3xl': '32px',
-        '4xl': '40px',
+        '3xl': '24px',
+        '4xl': '32px',
+        '5xl': '40px',
         giant: '42px',
       },
       letterSpacing: {
@@ -88,6 +89,7 @@ export default {
       },
       lineHeight: {
         tighter: '1.333',
+        normal: '1.5',
         moreRelaxed: '1.71',
         mediumRelaxed: '1.75',
         mostRelaxed: '1.79',

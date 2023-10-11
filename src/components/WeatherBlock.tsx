@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { weatherOperations, weatherSelectors } from 'redux/weather';
 
 const WeatherBlock = () => {
-  const [weatherData, setWeatherData] = useState<any>();
+const [weatherData, setWeatherData] = useState<any>();
 
   const { days, dateNow } = receiveCurrentDate();
   const getWeatherData = useSelector(weatherSelectors);

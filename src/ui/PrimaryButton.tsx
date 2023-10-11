@@ -8,7 +8,7 @@ type PrimaryButtCommon = {
   hasIcon: boolean;
 };
 
-const PrimaryButton = (data: PrimaryButtCommon) => {
+const PrimaryButton = (data: Partial<PrimaryButtCommon>) => {
   const [categories, setCategories] = useState<boolean>(false);
   const { name, type, hasIcon } = data;
 
