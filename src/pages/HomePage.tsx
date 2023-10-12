@@ -1,5 +1,5 @@
 import React from 'react';
-import { Calendar, Filters, NewsItem } from 'components';
+import { Calendar, Filters, NewsItem, WeatherBlock } from 'components';
 
 const HomePage = () => {
   return (
@@ -8,7 +8,7 @@ const HomePage = () => {
       <Filters />
       <Calendar />
       <NewsItem />
-      {/* <WeatherBlock /> */}
+      <WeatherBlock />
     </div>
   );
 };
