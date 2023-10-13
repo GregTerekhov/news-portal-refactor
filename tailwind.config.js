@@ -62,6 +62,7 @@ export default {
         lineAlt: '#929292',
         calendarText: '#000000',
         calendarTextLight: 'rgba(60, 60, 67, 0.3)', //'#3c3c343'
+        weatherLocation: '#FEFEFF4D',
       },
       fontSize: {
         small: '12px',

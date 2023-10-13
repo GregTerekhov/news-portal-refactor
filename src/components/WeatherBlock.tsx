@@ -1,24 +1,24 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import receiveCurrentDate from 'helpers/receiveCurrentDate';
 import SvgIcon from 'ui/SvgIcon';
 import { useDispatch, useSelector } from 'react-redux';
 import { weatherOperations, weatherSelectors } from 'redux/weather';
+import receiveCurrentTime from 'helpers/receiveCurrentTime';
+import convertTimezone from 'helpers/convertTimezone';
 
 const WeatherBlock = () => {
-const [weatherData, setWeatherData] = useState<any>();
-
   const { days, dateNow } = receiveCurrentDate();
+  const { hours, minutes } = receiveCurrentTime();
   const getWeatherData = useSelector(weatherSelectors);
-
-  console.log(getWeatherData);
 
   const dispatch = useDispatch();
 
+  const geolocation: boolean = 'geolocation' in navigator;
+
   useEffect(() => {
     try {
-      if ('geolocation' in navigator) {
+      if (geolocation) {
         navigator.geolocation.getCurrentPosition((position) => {
-          setWeatherData(position.coords);
           const sendGeoLocation = {
             latitude: position.coords.latitude,
             longitude: position.coords.longitude,
@@ -31,51 +31,62 @@ const [weatherData, setWeatherData] = useState<any>();
     }
   }, []);
 
-  if (weatherData) {
+  if (getWeatherData) {
     return (
-      <div className='bg-accentBase w-72'>
-        <div className='weather-container'>
-          <div className='weather-info'>
-            <span className='temp'>
-              {Math.round(getWeatherData.main.temp) - 273 + '&deg;'}
-            </span>
-            <div className='weather-city'>
-              <span className='main'>{getWeatherData.weather[0].main}</span>
-              <span className='city-name'>
-                <span>
-                  <svg></svg>
-                  {getWeatherData.name}
-                </span>
+      <div className='bg-accentBase w-72 py-10 px-8 rounded-xl'>
+        <div className='flex gap-6 items-center relative'>
+          <p className='text-contrastWhite after:content-[""] after:absolute after:h-full after:w-px after:left-7 after:top-0 after:bg-white'>
+            {Math.round(getWeatherData.main.temp) - 273 + '\u00b0'}
+          </p>
+          <div className='weather-city'>
+            <p className='text-contrastWhite'>{getWeatherData.weather[0].main}</p>
+            <p className='text-contrastWhite'>
+              Feels like {Math.round(getWeatherData.main.feels_like) - 273 + '\u00b0'}
+            </p>
+            <div className='flex gap-1.5 text-contrastWhite bg-weatherLocation py-3 px-3 rounded-lg'>
+              <span className='flex items-center content-center'>
+                <SvgIcon svgName='icon-weather-location' size={18} fill='red' stroke='black' />
               </span>
+              {getWeatherData.name}
             </div>
           </div>
-          <img className='weather-img' />
-          <div className='day'>{days}</div>
-          <span className='date'>{dateNow}</span>
-          <div className='wind'>
-            <span>
-              <svg></svg>
-            </span>
-            {getWeatherData.wind.speed} m/s
-          </div>
+        </div>
+        <img
+          className='mt-20 mb-20 ml-auto mr-auto'
+          src={`https://openweathermap.org/img/wn/${getWeatherData.weather[0]['icon']}@2x.png`}
+          alt='weather-condition'
+        />
+        <div className='flex gap-3 items-center justify-center'>
+          <p className='text-contrastWhite'>{days}</p>
+          <p className='text-contrastWhite'>{dateNow}</p>
+        </div>
+        <div className='flex gap-3 items-center justify-center'>
+          <p className='text-contrastWhite'>{`${hours}:${minutes}`}</p>
+          <p className='text-contrastWhite'>{convertTimezone(getWeatherData.timezone)} UTC</p>
+        </div>
+
+        <div className='text-contrastWhite flex gap-3 items-center justify-center mt-3'>
+          <span>
+            <SvgIcon svgName='icon-weather-wind' size={30} fill='white' stroke='black' />
+          </span>
+          {getWeatherData.wind.speed} m/s
+        </div>
+        <div className='text-contrastWhite text-center'>
+          {/* <span>
+            <SvgIcon svgName='icon-weather-pressure' size={30} fill='white' stroke='black' />
+          </span> */}
+          {getWeatherData.main.pressure} PSI
         </div>
       </div>
     );
   }
 
-  if (!weatherData) {
+  if (!getWeatherData) {
     return (
       <div className='flex flex-col items-center bg-accentBase w-72 h-fit py-10 px-14 rounded-xl text-center'>
-        <h2 className='plug-space__header  '>
-          What a pity, this could be your weather
-        </h2>
+        <h2 className='plug-space__header  '>What a pity, this could be your weather</h2>
         <span className='mt-20 mb-28'>
-          <SvgIcon
-            svgName='icon-moon'
-            size={156}
-            fill='fill-none'
-            stroke='stroke-black'
-          />
+          <SvgIcon svgName='icon-moon' size={156} fill='fill-none' stroke='stroke-black' />
         </span>
       </div>
     );
