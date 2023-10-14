@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Input, SvgIcon } from 'ui';
 import { Menu, ThemeSwitcher, Auth } from 'components';
 import { useWindowWidth } from 'hooks';
+import { V } from 'ui/Input';
 
 const Header = () => {
   const [isOpenMenu, setIsOpenMenu] = useState<boolean>(false);
@@ -28,24 +29,30 @@ const Header = () => {
     setIsScrollDisabled(!isScrollDisabled);
   };
 
+  const inNotMobile = breakpointsForMarkup?.isTablet || breakpointsForMarkup?.isDesktop;
+
   return (
     <div
-      className={`fixed z-10 w-full top-0 left-0 min-h-[81px] md:min-h-[106px] lg:min-h-[113px] border-b-[1px] border-solid border-line bg-whiteBase opacity-80 ${
-        isOpenMenu && 'border-b-0'
+      className={`fixed z-10 w-full top-0 left-0 min-h-[81px] md:min-h-[106px] lg:min-h-[113px]  border-solid border-line bg-foregroundLight  ${
+        isOpenMenu ? 'border-b-0' : 'border-b-[1px]'
       }`}
     >
       <div className='container mx-auto px-4 flex justify-between items-center gap-3.5'>
         <a
           href='/'
-          className='sm:py-6 md:pt-8 md:pb-[30px] lg:py-8 text-3xl md:text-4xl lg:text-giant font-bold text-darkBase'
+          className='sm:py-6 md:pt-8 md:pb-[30px] lg:py-7 text-3xl leading-tight lg:leading-[1.357144] md:text-4xl lg:text-giant font-bold text-darkBase'
         >
           News
         </a>
-        {breakpointsForMarkup?.isTablet || breakpointsForMarkup?.isDesktop ? <Menu /> : null}
+        {inNotMobile ? <Menu /> : null}
 
         {isOpenMenu ? null : (
           <form action='#'>
-            <Input name='query' type='text' placeholder='Search |' />
+            <Input
+              inputData={{ name: 'query', type: 'text', placeholder: 'Search |' }}
+              hasIcon={true}
+              variant={V.Header}
+            />
           </form>
         )}
         <button type='button' className='w-6 h-6 md:hidden' onClick={toggleMenu}>
@@ -56,7 +63,7 @@ const Header = () => {
           />
         </button>
 
-        {breakpointsForMarkup?.isTablet || breakpointsForMarkup?.isDesktop ? (
+        {inNotMobile ? (
           <div>
             <Auth />
             <ThemeSwitcher />

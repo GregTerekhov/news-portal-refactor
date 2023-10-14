@@ -3,7 +3,7 @@ import axios from 'axios';
 
 axios.defaults.baseURL = 'https://api.openweathermap.org';
 
-const fetchWeather: any = createAsyncThunk(
+export const fetchWeather: any = createAsyncThunk(
   `weather/fetch`,
   async (position: any, thunkAPI) => {
     const { latitude, longitude } = position;
@@ -20,8 +20,8 @@ const fetchWeather: any = createAsyncThunk(
   },
 );
 
-const weatherOperations = {
-  fetchWeather,
-};
+// const weatherOperations = {
+//   fetchWeather,
+// };
 
-export default weatherOperations;
+// export default weatherOperations;

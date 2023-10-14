@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
 import receiveCurrentDate from 'helpers/receiveCurrentDate';
-import SvgIcon from 'ui/SvgIcon';
+import { SvgIcon } from 'ui';
 import { useDispatch, useSelector } from 'react-redux';
-import { weatherOperations, weatherSelectors } from 'redux/weather';
+import { fetchWeather, weatherSelectors } from 'redux/weather';
 import receiveCurrentTime from 'helpers/receiveCurrentTime';
 import convertTimezone from 'helpers/convertTimezone';
 
@@ -23,7 +23,7 @@ const WeatherBlock = () => {
             latitude: position.coords.latitude,
             longitude: position.coords.longitude,
           };
-          dispatch(weatherOperations.fetchWeather(sendGeoLocation));
+          dispatch(fetchWeather(sendGeoLocation));
         });
       }
     } catch (error) {

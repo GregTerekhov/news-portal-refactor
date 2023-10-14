@@ -34,25 +34,17 @@ export default {
       md: '768px',
       lg: '1280px',
     },
-    // zIndex: {
-    //   auto: 'auto',
-    //   0: '0',
-    //   10: '10',
-    //   20: '20',
-    //   30: '30',
-    //   40: '40',
-    //   50: '50',
-    // },
     extend: {
       colors: {
         whiteBase: '#f4f4f4',
         darkBase: '#111321',
         accentBase: '#4440f6',
         accentAlt: '#4b48db',
-        greyText: '#5f6775',
-        greyTextAlt: '#a8a8a8',
+        greyBase: '#5f6775',
+        greyAlt: '#a8a8a8',
         greyIcon: '#a2a2a2',
         accentForeground: 'rgba(68, 64, 246, 0.70)', // accentBase 70%
+        foregroundLight: 'rgba(244, 244, 244, 0.80)', // whiteBase 40%
         foreground: 'rgba(244, 244, 244, 0.40)', // whiteBase 40%
         foregroundAlt: 'rgba(254, 254, 255, 0.30)', //fefefe 30%
         contrastWhite: '#ffffff',
@@ -90,10 +82,16 @@ export default {
       },
       lineHeight: {
         tighter: '1.333',
+        tight: '1.375',
         normal: '1.5',
         moreRelaxed: '1.71',
         mediumRelaxed: '1.75',
         mostRelaxed: '1.79',
+      },
+      maxHeight: {
+        sectionSmall: 'calc(100vh - 81px)',
+        sectionMedium: 'calc(100vh - 106px)',
+        sectionLarge: 'calc(100vh - 113px)',
       },
       spacing: {
         '50%': '50%',
