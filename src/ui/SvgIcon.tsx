@@ -13,7 +13,14 @@ const SvgIcon = (svgData: Partial<SvgIncomingData>) => {
   const { svgName, size, stroke, fill = 'transparent' } = svgData;
 
   return (
-    <svg stroke={stroke} fill={fill} width={size} height={size}>
+    // <svg className={`stroke-${stroke} fill-${fill}`} width={size} height={size}>
+    <svg
+      stroke={stroke}
+      fill={fill}
+      width={size}
+      height={size}
+      className='group-hover:fill-whiteBase transition-colors'
+    >
       <use href={icons + `#${svgName}`}></use>
     </svg>
   );
