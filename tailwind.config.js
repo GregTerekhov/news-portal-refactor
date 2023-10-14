@@ -95,6 +95,10 @@ export default {
         mediumRelaxed: '1.75',
         mostRelaxed: '1.79',
       },
+      spacing: {
+        '50%': '50%',
+        '50%-': '-50%',
+      },
     },
   },
   plugins: [],
