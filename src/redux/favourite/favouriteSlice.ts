@@ -10,14 +10,9 @@ const popularSlice: any = createSlice({
   initialState,
   reducers: {},
   extraReducers: (builder) => {
-    builder
-      .addCase(fetchPopularNews.fulfilled, (state, action) => {
-        state.data = action.payload.data;
-      })
-      .addCase(fetchPopularNews.pending, (state, action) => {})
-      .addCase(fetchPopularNews.rejected, (state, action) => {
-        console.log(action);
-      });
+    builder.addCase(fetchPopularNews.fulfilled, (state, action) => {
+      state.data = action.payload.data;
+    });
   },
 });
 

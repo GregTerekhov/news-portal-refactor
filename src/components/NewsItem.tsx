@@ -5,8 +5,6 @@ type PopularData = {
   data: any;
 };
 
-const IMAGE_URL = 'https://www.nytimes.com';
-
 const NewsItem = ({ data }: PopularData) => {
   console.log(data);
 
