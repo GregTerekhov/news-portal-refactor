@@ -94,8 +94,11 @@ export default {
         sectionLarge: 'calc(100vh - 113px)',
       },
       spacing: {
+        '335px': '355px',
+        '395px': '395px',
         '50%': '50%',
         '50%-': '-50%',
+        none: 'none',
       },
     },
   },
