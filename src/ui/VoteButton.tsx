@@ -11,15 +11,15 @@ const VoteButton = () => {
   return (
     <button
       type='button'
-      className='border-solid border-2 border-black flex items-center gap-1 rounded-3xl px-3 py-1.5  '
+      className='absolute top-335px right-2 flex items-center gap-1 rounded-3xl px-3 py-1.5 bg-whiteBase'
       onClick={onHandleClick}
     >
-      <span>{addToFavoriteTemplate ? 'Add to favorite' : 'Remove from favorite'}</span>
+      <span>{addToFavoriteTemplate ? 'Remove from favorite' : 'Add to favorite'}</span>
       <SvgIcon
-        svgName={addToFavoriteTemplate ? 'icon-heart' : 'icon-filled-heart'}
+        svgName='icon-heart'
         size={16}
-        stroke='stroke-accentBase'
-        fill='fill-none'
+        stroke={addToFavoriteTemplate ? 'none' : 'blue'}
+        fill={addToFavoriteTemplate ? 'blue' : 'none'}
       />
     </button>
   );

@@ -19,9 +19,3 @@ export const fetchWeather: any = createAsyncThunk(
     }
   },
 );
-
-// const weatherOperations = {
-//   fetchWeather,
-// };
-
-// export default weatherOperations;
