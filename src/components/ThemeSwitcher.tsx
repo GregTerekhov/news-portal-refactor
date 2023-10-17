@@ -1,12 +1,29 @@
 import React, { useState } from 'react';
-import SvgIcon from 'ui/SvgIcon';
+import { SvgIcon } from 'ui';
 
-const ThemeSwitcher = () => {
+export enum V {
+  Modal = 'modal',
+  Header = 'header',
+}
+
+interface Variant {
+  variant: string;
+}
+
+const ThemeSwitcher = ({ variant }: Partial<Variant>) => {
   const [isCheck, setIsCheck] = useState<boolean>(false);
 
   const handleChange = (e: any) => {
     setIsCheck(e.target.checked);
   };
+
+  let spacing: string = '';
+
+  if (variant === V.Modal) {
+    spacing = 'mr-4';
+  } else if (variant === V.Header) {
+    spacing = 'justify-end';
+  }
 
   const onCheck: any = {
     labelBColor: isCheck ? 'bg-accentBase' : 'bg-greyIcon',
@@ -18,10 +35,10 @@ const ThemeSwitcher = () => {
   };
 
   return (
-    <div className=' mt-3 flex items-center gap-2'>
+    <div className={`flex items-center gap-2 ${spacing}`}>
       <SvgIcon svgName='icon-sun' size={21} fill='none' stroke={onCheck.sunIcon} />
       <div
-        className={`flex items-center justify-center h-6 w-10 overflow-hidden bg-whiteBase ${onCheck.divBorder} `}
+        className={`flex items-center justify-center gap-0 h-6 w-10 overflow-hidden bg-whiteBase ${onCheck.divBorder} `}
       >
         <input
           className='hidden'

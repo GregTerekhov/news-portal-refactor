@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { NewsItem, WeatherBlock } from 'components';
+import { NewsItem, PlugImage, WeatherBlock } from 'components';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchPopularNews, popularSelectors } from 'redux/favourite';
 
@@ -25,6 +25,7 @@ const HomePage = () => {
         })}
       </ul>
       <WeatherBlock />
+      <PlugImage variant='page' />
     </div>
   );
 };
