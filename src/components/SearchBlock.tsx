@@ -1,11 +1,33 @@
-import React from 'react';
-import { Dropdown, Input, PrimaryButton } from 'ui';
+import React, { useState } from 'react';
+import { Dropdown, Input, PrimaryButton, SvgIcon } from 'ui';
 import { V } from 'ui/Input';
 import { PB } from 'ui/PrimaryButton';
 import { Calendar } from 'components';
 
 const SearchBlock = () => {
+    const [showDropdown, setShowDropdown] = useState<boolean>(false);
+
+  const onClick: any = () => {
+    setShowDropdown(!showDropdown);
+  };
+
+  const borderRadius = showDropdown ? 'rounded-t-xl' : 'rounded-xl';
+
   return (
+        <div>
+      <button
+        className={`bg-accentForeground ${borderRadius} w-full py-1.5 px-6 flex justify-end`}
+        type='button'
+        onClick={onClick}
+      >
+        <SvgIcon
+          svgName={showDropdown ? 'icon-arrow-up' : 'icon-arrow-down'}
+          size={15}
+          fill='white'
+          stroke='none'
+        />
+      </button>
+      {showDropdown && (
     <form className='grid grid-cols-2 grid-rows-5 gap-x-3.5 gap-y-1.5 md:grid-cols-3 md:grid-rows-4 md:gap-3.5 lg:grid-cols-5 lg:grid-rows-3 bg-accentForeground p-3.5 rounded-xl'>
       <div className='md:col-span-1.5 lg:col-span-2'>
         <Input
@@ -35,6 +57,8 @@ const SearchBlock = () => {
         </PrimaryButton>
       </div>
     </form>
+      )}
+    </div>
   );
 };
 
