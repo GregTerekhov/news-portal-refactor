@@ -41,6 +41,8 @@ export default {
       },
       boxShadow: {
         modal: '0 5px 15px rgba(168,168,168,.50)',
+        card: '8px 10px 20px rgba(17,19,33,.5)', //darkBase 50%
+        darkCard: '8px 10px 20px rgba(17,19,33,.5), -5px 3px 20px rgba(17,19,33,.5)',
       },
       colors: {
         whiteBase: '#f4f4f4',

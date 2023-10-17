@@ -29,7 +29,7 @@ const Modal: React.FC<ModalProps> = ({ children, closeModal, modalRef, variant }
     <>
       {modalRoot &&
         createPortal(
-          <div className='fixed top-0 left-0 z-2000 bg-foreground w-screen h-screen flex justify-center items-center'>
+          <div className='fixed top-0 left-0 z-20 bg-foreground w-screen h-screen flex justify-center items-center'>
             <div
               ref={modalRef}
               className={`relative bg-whiteBase ${modalWidth} px-4 pb-4 border border-solid border-accentBase rounded-xl shadow-modal md:px-8 md:pb-8 md:pt-4`}

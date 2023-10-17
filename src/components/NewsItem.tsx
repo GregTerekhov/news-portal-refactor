@@ -1,5 +1,6 @@
 import React from 'react';
 import VoteButton from 'ui/VoteButton';
+import { PlugImage } from '.';
 
 type PopularData = {
   data: any;
@@ -11,8 +12,8 @@ const NewsItem = ({ data }: PopularData) => {
   const imgChecker: boolean = data.media.length > 0 ? true : false;
 
   return (
-    <li className='relative w-72 rounded-t-xl  overflow-hidden'>
-      <p className='absolute top-10 left-0 py-1 px-2 text-whiteBase bg-accentBase'>
+    <>
+      <p className='absolute z-10 top-10 left-0 py-1 px-2 text-whiteBase bg-accentBase'>
         {data.section}
       </p>
       <div className='relative h-395px'>
@@ -23,7 +24,8 @@ const NewsItem = ({ data }: PopularData) => {
             alt='placeholder'
           />
         ) : (
-          <div className=' max-w-none h-full bg-accentBase text-center '>PLACEHOLDER</div>
+          <PlugImage variant='card' />
+          // <div className=' max-w-none h-full bg-accentBase text-center '>PLACEHOLDER</div>
         )}
         <VoteButton />
       </div>
@@ -40,7 +42,7 @@ const NewsItem = ({ data }: PopularData) => {
           </div>
         </div>
       </a>
-    </li>
+    </>
   );
 };
 
