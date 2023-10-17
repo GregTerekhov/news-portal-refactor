@@ -33,7 +33,7 @@ const WeatherBlock = () => {
 
   if (getWeatherData) {
     return (
-      <div className='bg-accentBase w-72 py-10 px-8 rounded-xl'>
+      <div className='bg-accentBase w-72 py-10 px-8 sm:h-[469px] md:h-[675px] w-fit'>
         <div className='flex gap-6 items-center relative'>
           <p className='text-contrastWhite after:content-[""] after:absolute after:h-full after:w-px after:left-7 after:top-0 after:bg-white'>
             {Math.round(getWeatherData.main.temp) - 273 + '\u00b0'}
@@ -83,7 +83,7 @@ const WeatherBlock = () => {
 
   if (!getWeatherData) {
     return (
-      <div className='flex flex-col items-center bg-accentBase w-72 h-fit py-10 px-14 rounded-xl text-center'>
+      <div className='flex flex-col items-center bg-accentBase w-72 sm:h-[469px] md:h-[675px] w-fit py-10 px-14 text-center'>
         <h2 className='plug-space__header  '>What a pity, this could be your weather</h2>
         <span className='mt-20 mb-28'>
           <SvgIcon svgName='icon-moon' size={156} fill='fill-none' stroke='stroke-black' />
