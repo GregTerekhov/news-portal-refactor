@@ -1,5 +1,5 @@
 import React from 'react';
-import { NewsItem, WeatherBlock } from 'components';
+import { NewsItem, PlugImage, WeatherBlock } from 'components';
 
 const HomePage = () => {
   return (
@@ -7,6 +7,7 @@ const HomePage = () => {
       HomePage
       <NewsItem />
       <WeatherBlock />
+      <PlugImage variant='page' />
     </div>
   );
 };

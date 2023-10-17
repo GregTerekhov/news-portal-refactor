@@ -1,14 +1,24 @@
 import React from 'react';
-import { PrimaryButton } from 'ui';
+import { Modal, PrimaryButton } from 'ui';
 import { PB } from 'ui/PrimaryButton';
+import AuthModal from './AuthModal';
+import { S } from 'ui/Modal';
+import { usePopUp } from 'hooks';
 
 const Auth = () => {
+  const { isOpenModal, popUpRef, toggleModal } = usePopUp();
+
   return (
-    <div>
-      <PrimaryButton buttonData={{ type: 'button' }} variant={PB.Other}>
+    <>
+      <PrimaryButton buttonData={{ type: 'button' }} variant={PB.Other} onHandleClick={toggleModal}>
         Signin/Signup
       </PrimaryButton>
-    </div>
+      {isOpenModal && (
+        <Modal closeModal={toggleModal} modalRef={popUpRef} variant={S.Auth}>
+          <AuthModal />
+        </Modal>
+      )}
+    </>
   );
 };
 

@@ -1,6 +1,7 @@
 /** @type {import('tailwindcss').Config} */
 export default {
   content: ['./index.html', './src/**/*.{js,jsx,ts,tsx}'],
+  darkMode: 'class',
   theme: {
     fontFamily: {
       body: 'Manrope, sans-serif',
@@ -29,12 +30,18 @@ export default {
       95: '0.95',
       100: '1',
     },
-    screens: {
-      sm: '320px',
-      md: '768px',
-      lg: '1280px',
-    },
     extend: {
+      screens: {
+        preSm: { max: '319px' },
+        sm: '320px',
+        preMd: { max: '767px' },
+        md: '768px',
+        preLg: { max: '1279px' },
+        lg: '1280px',
+      },
+      boxShadow: {
+        modal: '0 5px 15px rgba(168,168,168,.50)',
+      },
       colors: {
         whiteBase: '#f4f4f4',
         darkBase: '#111321',
@@ -44,7 +51,7 @@ export default {
         greyAlt: '#a8a8a8',
         greyIcon: '#a2a2a2',
         accentForeground: 'rgba(68, 64, 246, 0.70)', // accentBase 70%
-        foregroundLight: 'rgba(244, 244, 244, 0.80)', // whiteBase 40%
+        foregroundLight: 'rgba(244, 244, 244, 0.80)', // whiteBase 80%
         foreground: 'rgba(244, 244, 244, 0.40)', // whiteBase 40%
         foregroundAlt: 'rgba(254, 254, 255, 0.30)', //fefefe 30%
         contrastWhite: '#ffffff',
@@ -97,7 +104,10 @@ export default {
         '50%': '50%',
         '50%-': '-50%',
       },
+      // maxWidth: {
+      //   maxWidth: calc('max-w' - '64px'),
+      // },
     },
   },
-  plugins: [],
+  plugins: [require('@headlessui/tailwindcss')({ prefix: 'ui' })],
 };
