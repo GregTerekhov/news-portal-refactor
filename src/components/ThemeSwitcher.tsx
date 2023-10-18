@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { SvgIcon } from 'ui';
 
-export enum V {
+enum V {
   Modal = 'modal',
   Header = 'header',
 }

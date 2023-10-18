@@ -6,6 +6,7 @@ export { default as FiltersBlock } from './FiltersBlock';
 export { default as Loader } from './Loader';
 export { default as Menu } from './Menu';
 export { default as NewsItem } from './NewsItem';
+export { default as NewsList } from './NewsList';
 export { default as NewsModal } from './NewsModal';
 export { default as PageScrollController } from './PageScrollController';
 export { default as Pagination } from './Pagination';

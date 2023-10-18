@@ -8,10 +8,10 @@ interface ModalProps {
   children: ReactNode;
   closeModal: () => void;
   modalRef: React.RefObject<HTMLDivElement>;
-  variant: S;
+  variant: string;
 }
 
-export enum S {
+enum S {
   Auth = 'auth',
   News = 'news',
 }

@@ -2,8 +2,6 @@ import React from 'react';
 import { Input, Modal, SvgIcon } from 'ui';
 import { Menu, ThemeSwitcher, Auth, AuthModal } from 'components';
 import { usePopUp, useWindowWidth } from 'hooks';
-import { V } from 'ui/Input';
-import { S } from 'ui/Modal';
 
 const Header = () => {
   const { isOpenMenu, isOpenModal, toggleMenu, toggleModal, popUpRef } = usePopUp();
@@ -17,7 +15,7 @@ const Header = () => {
   return (
     <>
       <div
-        className={`fixed w-full top-0 left-0 min-h-[81px] md:min-h-[106px] lg:min-h-[113px] border-solid border-line bg-foregroundLight ${
+        className={`fixed w-full z-20 top-0 left-0 min-h-[81px] md:min-h-[106px] lg:min-h-[113px] border-solid border-line bg-foregroundLight ${
           isOpenMenu ? 'border-b-0' : 'border-b-[1px] '
         } ${isOpenModal ? 'z-0 pointer-events-none' : 'z-10 pointer-events-auto'}`}
       >
@@ -35,7 +33,7 @@ const Header = () => {
               <Input
                 inputData={{ name: 'query', type: 'text', placeholder: 'Search |' }}
                 hasIcon={true}
-                variant={V.Header}
+                variant='header'
               />
             </form>
           )}
@@ -64,7 +62,7 @@ const Header = () => {
         </div>
       </div>
       {isOpenModal && (
-        <Modal closeModal={toggleModal} modalRef={popUpRef} variant={S.Auth}>
+        <Modal closeModal={toggleModal} modalRef={popUpRef} variant='auth'>
           <AuthModal />
         </Modal>
       )}

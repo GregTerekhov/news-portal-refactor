@@ -11,7 +11,7 @@ const popularSlice: any = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder.addCase(fetchPopularNews.fulfilled, (state, action) => {
-      state.data = action.payload.data;
+      state.data = action.payload;
     });
   },
 });

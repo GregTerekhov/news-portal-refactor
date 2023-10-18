@@ -1,7 +1,5 @@
 import React from 'react';
 import { Input, PrimaryButton } from 'ui';
-import { V } from 'ui/Input';
-import { PB } from 'ui/PrimaryButton';
 import { Tab } from '@headlessui/react';
 import ThemeSwitcher from './ThemeSwitcher';
 
@@ -27,7 +25,7 @@ const AuthModal = () => {
                   children: 'Name',
                 }}
                 hasIcon={false}
-                variant={V.SearchBlock}
+                variant='searchBlock'
               />
               <Input
                 inputData={{
@@ -37,7 +35,7 @@ const AuthModal = () => {
                   children: 'Email',
                 }}
                 hasIcon={false}
-                variant={V.SearchBlock}
+                variant='searchBlock'
               />
               <Input
                 inputData={{
@@ -47,9 +45,9 @@ const AuthModal = () => {
                   children: 'Password',
                 }}
                 hasIcon={false}
-                variant={V.SearchBlock}
+                variant='searchBlock'
               />
-              <PrimaryButton buttonData={{ type: 'submit' }} variant={PB.Other}>
+              <PrimaryButton buttonData={{ type: 'submit' }} variant='OtherButton'>
                 Register
               </PrimaryButton>
             </form>
@@ -64,7 +62,7 @@ const AuthModal = () => {
                   children: 'Email',
                 }}
                 hasIcon={false}
-                variant={V.SearchBlock}
+                variant='searchBlock'
               />
               <Input
                 inputData={{
@@ -74,7 +72,7 @@ const AuthModal = () => {
                   children: 'Password',
                 }}
                 hasIcon={false}
-                variant={V.SearchBlock}
+                variant='searchBlock'
               />
               <Input
                 inputData={{
@@ -83,9 +81,9 @@ const AuthModal = () => {
                   children: 'Remember me',
                 }}
                 hasIcon={false}
-                variant={V.Checkbox}
+                variant='checkbox'
               />
-              <PrimaryButton buttonData={{ type: 'submit' }} variant={PB.Other}>
+              <PrimaryButton buttonData={{ type: 'submit' }} variant='OtherButton'>
                 Log In
               </PrimaryButton>
             </form>

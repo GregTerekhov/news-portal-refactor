@@ -3,7 +3,7 @@ import SvgIcon from './SvgIcon';
 
 type InputCollectedData = { name: string; type: string; placeholder: string; children: ReactNode };
 
-export enum V {
+enum V {
   Header = 'header',
   SearchBlock = 'searchBlock',
   Checkbox = 'checkbox',
@@ -12,7 +12,7 @@ export enum V {
 interface InputProps {
   inputData: Partial<InputCollectedData>;
   hasIcon: boolean;
-  variant: V;
+  variant: string;
 }
 
 const Input: FC<InputProps> = (props) => {
