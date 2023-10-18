@@ -1,5 +1,5 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import axios, { AxiosError } from 'axios';
+import axios from 'axios';
 
 const BASE_URL = 'https://api.nytimes.com/svc';
 const API_KEY = 'uGHJWsajhmnJg2AMcnCD9YXkamMpVOHo';
@@ -11,12 +11,12 @@ export const fetchPopularNews: any = createAsyncThunk(`popular/fetch`, async (_,
         'api-key': API_KEY,
       },
     });
-    return res;
-  } catch (error: any | AxiosError) {
-    if (axios.isAxiosError(error)) {
-      return thunkAPI.rejectWithValue(error);
-    } else {
-      return thunkAPI.rejectWithValue(error);
-    }
+    return res.data;
+  } catch (error: any) {
+    return thunkAPI.rejectWithValue(error);
+    // if (axios.isAxiosError(error)) {
+    // } else {
+    //   return thunkAPI.rejectWithValue(error);
+    // }
   }
 });
