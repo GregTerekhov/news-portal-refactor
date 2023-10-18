@@ -33,7 +33,7 @@ const NewsList: React.FC<NewsListProps> = ({ currentItems, currentPage }) => {
       {currentItems.map((newsItem: any, index: number) => (
         <li
           key={newsItem.id}
-          className={`relative w-72 md:w-[353px] lg:w-[395px] shadow-card overflow-hidden rounded-[10px] darkMode:shadow-darkCard transition-transform duration-500 hover:scale-105 ${
+          className={`relative w-72 md:w-[353px] lg:w-[395px] h-[630px] md:h-[675px] shadow-card overflow-hidden rounded-[10px] darkMode:shadow-darkCard transition-transform duration-500 hover:scale-105 ${
             index === 0 && 'md:col-start-1 md:row-start-1 lg:col-start-1'
           } ${index === 1 && 'lg:col-start-2 lg:row-start-1'}`}
         >

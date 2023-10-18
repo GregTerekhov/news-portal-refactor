@@ -1,15 +1,27 @@
 import React from 'react';
-import VoteButton from 'ui/VoteButton';
-import { PlugImage } from '.';
+import { VoteButton } from 'ui';
+import PlugImage from './PlugImage';
 
 type PopularData = {
-  data: any;
+  abstract: string;
+  id: number;
+  media: {
+    caption: string;
+    'media-metadata': {
+      url: string;
+    }[];
+  }[];
+  published_date: string;
+  section: string;
+  source: string;
+  title: string;
+  url: string;
 };
 
-const NewsItem = ({ data }: PopularData) => {
+const NewsItem = ({ data }: { data: Partial<PopularData> }) => {
   console.log(data);
 
-  const imgChecker: boolean = data?.media.length > 0 ? true : false;
+  const imgChecker: boolean = data?.media && data?.media.length > 0 ? true : false;
 
   return (
     <>
@@ -20,12 +32,11 @@ const NewsItem = ({ data }: PopularData) => {
         {imgChecker ? (
           <img
             className='rounded-xl max-w-none h-full absolute left-50%-'
-            src={data?.media[0]['media-metadata'][2].url}
-            alt='placeholder'
+            src={data?.media && data?.media[0]['media-metadata'][2].url}
+            alt={(data?.media && data?.media[0].caption) || 'plug image'}
           />
         ) : (
           <PlugImage variant='card' />
-          // <div className=' max-w-none h-full bg-accentBase text-center '>PLACEHOLDER</div>
         )}
         <VoteButton />
       </div>
