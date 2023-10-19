@@ -19,8 +19,6 @@ type PopularData = {
 };
 
 const NewsItem = ({ data }: { data: Partial<PopularData> }) => {
-  console.log(data);
-
   const imgChecker: boolean = data?.media && data?.media.length > 0 ? true : false;
 
   return (
@@ -40,11 +38,7 @@ const NewsItem = ({ data }: { data: Partial<PopularData> }) => {
         )}
         <VoteButton />
       </div>
-      <a
-        className=''
-        href={data?.url}
-        // target='_blank'
-      >
+      <a href={data?.url} target='_blank'>
         <div className=''>
           <div className=''>
             <h2 className='my-5'>{data?.title}</h2>

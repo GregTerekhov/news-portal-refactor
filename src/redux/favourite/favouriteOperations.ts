@@ -1,10 +1,10 @@
-import { createAsyncThunk } from '@reduxjs/toolkit';
+import { AsyncThunk, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
 const BASE_URL = 'https://api.nytimes.com/svc';
 const API_KEY = 'uGHJWsajhmnJg2AMcnCD9YXkamMpVOHo';
 
-export const fetchPopularNews: any = createAsyncThunk(`popular/fetch`, async (_, thunkAPI) => {
+export const fetchPopularNews = createAsyncThunk(`popular/fetch`, async (_, thunkAPI) => {
   try {
     const res: any = await axios.get(`${BASE_URL}/mostpopular/v2/viewed/1.json?`, {
       params: {
