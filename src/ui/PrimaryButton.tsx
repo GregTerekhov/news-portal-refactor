@@ -32,7 +32,6 @@ const PrimaryButton: React.FC<Partial<PBProps>> = (props) => {
   } else if (variant === PB.Other) {
     buttonWidth = 'w-28';
   }
-
   return (
     <button
       className={`flex items-center justify-center gap-2.5 bg-accentBase rounded-[20px] text-contrastWhite py-2 hover:bg-accentAlt transition-colors ${buttonWidth}`}
@@ -40,7 +39,7 @@ const PrimaryButton: React.FC<Partial<PBProps>> = (props) => {
       onClick={onHandleClick}
     >
       {children}
-      {hasIcon && <SvgIcon svgName='icon-reset' size={16} stroke='stroke-none' fill='#f4f4f4' />}
+      {hasIcon && <SvgIcon svgName='icon-reset' size={16} className='fill-whiteBase' />}
     </button>
   );
 };

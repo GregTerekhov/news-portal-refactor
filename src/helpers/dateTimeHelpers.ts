@@ -1,4 +1,32 @@
-function convertTimezone(data: any) {
+function receiveCurrentTime() {
+  const currentTime = new Date();
+
+  const hours = currentTime.getHours();
+  const minutes = currentTime.getMinutes();
+
+  const formatTimeUnit = (timeUnit: number) => {
+    return timeUnit < 10 ? `0${timeUnit}` : timeUnit.toString();
+  };
+
+  const formattedHours = formatTimeUnit(hours);
+  const formattedMinutes = formatTimeUnit(minutes);
+
+  return `${formattedHours}:${formattedMinutes}`;
+}
+
+export function receiveCurrentDate() {
+  const today = new Date();
+  const currentTime = receiveCurrentTime();
+  const days = today.toDateString().slice(0, 3);
+  const month = today.toDateString().slice(4).slice(0, 4);
+  const number = today.toDateString().slice(8).slice(0, 2);
+  const year = today.toDateString().slice(11);
+  const formattedDate = `${currentTime} ${number} ${month} ${year}`;
+
+  return { days, dateNow: formattedDate };
+}
+
+export function convertTimezone(data: any) {
   const zoneList: any = {
     '-43200': '-12:00',
     '-39600': '-11:00',
@@ -44,5 +72,3 @@ function convertTimezone(data: any) {
   const convert = zoneList[data];
   return convert;
 }
-
-export default convertTimezone;
