@@ -6,6 +6,7 @@ export default {
     fontFamily: {
       body: 'Manrope, sans-serif',
       weather: 'Roboto, sans-serif',
+      header: 'Poppins, sans-serif',
     },
     opacity: {
       0: '0',
@@ -38,6 +39,7 @@ export default {
         md: '768px',
         preLg: { max: '1279px' },
         lg: '1280px',
+        hg: '1536px',
       },
       boxShadow: {
         modal: '0 5px 15px rgba(168,168,168,.50)',
@@ -72,11 +74,15 @@ export default {
         xl: '18px',
         '2xl': '20px',
         '3xl': '24px',
+        '3.5xl': '28px',
         '4xl': '32px',
+        '4.5xl': '36px',
         '5xl': '40px',
         giant: '42px',
+        monstrous: '55px',
       },
       letterSpacing: {
+        //tracking
         tightest: -0.408,
         tighter: -0.4,
         bigTight: -0.32,
@@ -90,6 +96,7 @@ export default {
         widest: 0.38,
       },
       lineHeight: {
+        //leading
         tighter: '1.333',
         tight: '1.375',
         normal: '1.5',

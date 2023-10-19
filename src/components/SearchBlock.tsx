@@ -12,7 +12,7 @@ const SearchBlock = () => {
   const borderRadius = showDropdown ? 'rounded-t-xl' : 'rounded-xl';
 
   return (
-    <div>
+    <div className='mb-10 md:mb-12 lg:mb-[60px] w-1/2'>
       <button
         className={`bg-accentForeground ${borderRadius} w-full py-1.5 px-6 flex justify-end`}
         type='button'
@@ -21,20 +21,19 @@ const SearchBlock = () => {
         <SvgIcon
           svgName={showDropdown ? 'icon-arrow-up' : 'icon-arrow-down'}
           size={15}
-          fill='white'
-          stroke='none'
+          className='fill-whiteBase'
         />
       </button>
       {showDropdown && (
-        <form className='grid grid-cols-2 grid-rows-5 gap-x-3.5 gap-y-1.5 md:grid-cols-3 md:grid-rows-4 md:gap-3.5 lg:grid-cols-5 lg:grid-rows-3 bg-accentForeground p-3.5 rounded-xl'>
-          <div className='md:col-span-1.5 lg:col-span-2'>
+        <form className='md:grid md:grid-cols-2 md:grid-rows-5 md:gap-x-3.5 md:gap-y-1.5 lg:grid-cols-3 lg:grid-rows-4 lg:gap-3.5 bg-accentForeground p-3.5 rounded-xl'>
+          <div>
             <Input
               inputData={{ name: 'author', type: 'text', placeholder: 'Author' }}
               hasIcon={true}
               variant='searchBlock'
             />
           </div>
-          <div className='md:col-span-1.5 lg:col-span-2'>
+          <div>
             <Input
               inputData={{ name: 'title', type: 'text', placeholder: 'Title' }}
               hasIcon={true}
@@ -49,7 +48,7 @@ const SearchBlock = () => {
           <PrimaryButton buttonData={{ type: 'reset' }} hasIcon={true} variant='SearchBlock'>
             Reset
           </PrimaryButton>
-          <div className='col-span-2 md:col-span-3'>
+          <div className='md:col-span-2 lg:col-span-3'>
             <PrimaryButton buttonData={{ type: 'submit' }} variant='SearchBlock'>
               Submit
             </PrimaryButton>

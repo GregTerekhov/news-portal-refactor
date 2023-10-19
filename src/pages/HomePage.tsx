@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Loader, NewsList, Pagination } from 'components';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchPopularNews, popularSelectors } from 'redux/favourite';
+import { fetchPopularNews, popularSelectors } from 'redux/news';
 import { useItemsPerPage, useWindowWidth } from 'hooks';
 import { calculatePages } from 'helpers';
 
@@ -27,7 +27,6 @@ const HomePage = () => {
 
   useEffect(() => {
     if (!getPop) {
-      console.log(`GET POP`);
       dispatch(fetchPopularNews());
       setGetPop(true);
     }

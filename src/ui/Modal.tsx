@@ -38,7 +38,7 @@ const Modal: React.FC<ModalProps> = ({ children, closeModal, modalRef, variant }
                 className='absolute top-4 right-4 flex justify-center items-center'
                 onClick={closeModal}
               >
-                <SvgIcon svgName='icon-close' size={16} stroke='#111321' />
+                <SvgIcon svgName='icon-close' size={16} className='stroke-darkBase' />
               </button>
 
               {children}

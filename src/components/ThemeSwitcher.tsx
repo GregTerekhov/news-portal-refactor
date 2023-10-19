@@ -1,3 +1,4 @@
+import { useWindowWidth } from 'hooks';
 import React, { useState } from 'react';
 import { SvgIcon } from 'ui';
 
@@ -12,6 +13,9 @@ interface Variant {
 
 const ThemeSwitcher = ({ variant }: Partial<Variant>) => {
   const [isCheck, setIsCheck] = useState<boolean>(false);
+  const { breakpointsForMarkup } = useWindowWidth() ?? {
+    breakpointsForMarkup: null,
+  };
 
   const handleChange = (e: any) => {
     setIsCheck(e.target.checked);
@@ -30,13 +34,27 @@ const ThemeSwitcher = ({ variant }: Partial<Variant>) => {
     spanBgColor: isCheck ? 'bg-whiteBase' : 'bg-accentBase',
     spanTransition: isCheck ? 'translate-x-4' : 'translate-x-0',
     divBorder: isCheck ? 'border-solid border-2 border-accentBase rounded-xl' : '',
-    sunIcon: isCheck ? 'black' : 'blue',
-    moonIcon: isCheck ? 'blue' : 'black',
+    sunIcon: isCheck ? 'greyBase' : 'accentBase',
+    moonIcon: isCheck ? 'accentBase' : 'greyBase',
   };
 
   return (
     <div className={`flex items-center gap-2 ${spacing}`}>
-      <SvgIcon svgName='icon-sun' size={21} fill='none' stroke={onCheck.sunIcon} />
+      {breakpointsForMarkup?.isDesktop ? (
+        <p
+          className={`font-header text-xl leading-tighter ${
+            isCheck ? 'text-greyBase' : 'text-accentAlt'
+          }`}
+        >
+          Light
+        </p>
+      ) : (
+        <SvgIcon
+          svgName='icon-sun'
+          size={21}
+          className={`fill-transparent ${isCheck ? 'stroke-greyBase' : 'stroke-accentBase'}`}
+        />
+      )}
       <div
         className={`flex items-center justify-center gap-0 h-6 w-10 overflow-hidden bg-whiteBase ${onCheck.divBorder} `}
       >
@@ -56,7 +74,21 @@ const ThemeSwitcher = ({ variant }: Partial<Variant>) => {
           />
         </label>
       </div>
-      <SvgIcon svgName='icon-moon' size={21} fill='none' stroke={onCheck.moonIcon} />
+      {breakpointsForMarkup?.isDesktop ? (
+        <p
+          className={`font-header text-xl leading-tighter ${
+            isCheck ? 'text-accentAlt' : 'text-greyBase'
+          }`}
+        >
+          Dark
+        </p>
+      ) : (
+        <SvgIcon
+          svgName='icon-moon'
+          size={21}
+          className={`fill-transparent stroke-${onCheck.moonIcon}`}
+        />
+      )}
     </div>
   );
 };

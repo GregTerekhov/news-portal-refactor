@@ -120,36 +120,44 @@ const Calendar: React.FC = () => {
       <button
         type='button'
         onClick={handleOpen}
-        className='w-full bg-whiteBase rounded-[20px] border border-solid border-accentBase text-accentBase flex justify-between items-center py-2 px-3 group-hover:text-whiteBase group-hover:bg-accentBase group-hover:border-whiteBase transition-colors '
+        className='w-full bg-whiteBase rounded-[20px] border border-solid border-accentBase text-accentBase flex justify-between items-center py-2 px-3 group-hover:text-whiteBase group-hover:bg-accentBase group-hover:border-whiteBase transition-colors text-small md:text-base leading-mediumRelaxed md:leading-moreRelaxed tracking-bigWide md:tracking-wider'
       >
-        <SvgIcon svgName='icon-calendar' size={20} fill='#4440f6' />
+        <SvgIcon svgName='icon-calendar' size={20} className='fill-accentBase' />
         {selectedDate ? format(selectedDate, 'dd/MM/yyyy') : 'Date'}
         <SvgIcon
           svgName={isOpenCalendar ? 'icon-arrow-up' : 'icon-arrow-down'}
           size={14}
-          fill='#4440f6'
+          className='fill-accentBase'
         />
       </button>
       {isOpenCalendar && (
-        <div className='w-[250px] bg-dropdownBase  absolute bg-whiteBase rounded-[20px] pt-4 px-4 pb-5'>
+        <div className='w-[250px] bg-dropdownBase  absolute z-20 bg-whiteBase rounded-[20px] pt-4 px-4 pb-5'>
           <div className='flex items-center justify-between py-[7px] mb-0.5'>
             <div className='flex gap-2 items-center'>
               <button type='button' onClick={getPrevYear}>
-                <SvgIcon svgName='icon-arrow-left' size={20} fill='#4440f6' />
+                <SvgIcon svgName='icon-arrow-left' size={20} className='fill-accentBase' />
               </button>
               <p className='w-[120px] text-center text-medium font-medium leading-tight tracking-tightest text-calendarText'>
                 {format(firstDayOfMonth, 'MMMM yyyy')}
               </p>
               <button type='button' onClick={getNextYear}>
-                <SvgIcon svgName='icon-arrow-right' size={20} stroke='#4440f6' />
+                <SvgIcon
+                  svgName='icon-arrow-right'
+                  size={20}
+                  className='stroke-accentBase fill-transparent'
+                />
               </button>
             </div>
             <div className='flex'>
               <button type='button' onClick={getPrevMonth}>
-                <SvgIcon svgName='icon-arrow-left' size={20} fill='#4440f6' />
+                <SvgIcon svgName='icon-arrow-left' size={20} className='fill-accentBase' />
               </button>
               <button type='button' onClick={getNextMonth}>
-                <SvgIcon svgName='icon-arrow-right' size={20} stroke='#4440f6' />
+                <SvgIcon
+                  svgName='icon-arrow-right'
+                  size={20}
+                  className='stroke-accentBase fill-transparent'
+                />
               </button>
             </div>
           </div>
@@ -174,7 +182,7 @@ const Calendar: React.FC = () => {
               return (
                 <div key={idx} className={colStartClasses[getDay(day)]}>
                   <p
-                    className={`cursor-pointer flex items-center justify-center text-base  tracking-wider leading-mostRelaxed font-medium h-7 w-7 rounded-full hover:text-contrastWhite hover:bg-accentBase ${
+                    className={`cursor-pointer flex items-center justify-center text-base tracking-widest leading-mostRelaxed font-medium h-7 w-7 rounded-full hover:text-contrastWhite hover:bg-accentBase ${
                       isCurrentMonth ? 'text-calendarText' : 'text-calendarTextLight'
                     } ${isSelectedStyle} ${
                       selectedDate === today && isTodayDate

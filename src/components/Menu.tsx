@@ -52,7 +52,7 @@ const Menu = ({ isOpen }: Partial<MobileMenu>) => {
         modalRoot &&
         createPortal(
           <div
-            className={`fixed top-0 w-full h-full pb-[18px] pt-[147px] z-100 overflow-auto transition-left duration-500 bg-whiteBase before:fixed before:content-[""] before:z-[8] before:h-[81px] before:top-0 before:left-0 ${
+            className={`fixed top-0 w-full h-full pb-[18px] pt-[147px] z-10 overflow-auto transition-left duration-500 bg-whiteBase before:fixed before:content-[""] before:z-[8] before:h-[81px] before:top-0 before:left-0 ${
               isOpen ? 'left-0' : '-left-full'
             }`}
           >
@@ -62,7 +62,7 @@ const Menu = ({ isOpen }: Partial<MobileMenu>) => {
                   <li key={link.path}>
                     <NavLink
                       to={link.path}
-                      className={`flex items-center py-1.5 ${
+                      className={`flex items-center py-1.5 font-medium md:font-bold text-medium lg:text-xl ${
                         link.activeLink && 'bg-accentBase text-whiteBase justify-between'
                       }`}
                     >
@@ -72,12 +72,20 @@ const Menu = ({ isOpen }: Partial<MobileMenu>) => {
                             link.activeLink && 'outline outline-1 outline-whiteBase'
                           }`}
                         >
-                          <SvgIcon svgName={link.icon} size={18} stroke='#f4f4f4' />
+                          <SvgIcon
+                            svgName={link.icon}
+                            size={18}
+                            className='stroke-whiteBase fill-transparent'
+                          />
                         </div>
                         {link.label}
                       </div>
                       {link.activeLink && (
-                        <SvgIcon svgName='icon-arrow-right' size={24} stroke='#f4f4f4' />
+                        <SvgIcon
+                          svgName='icon-arrow-right'
+                          size={24}
+                          className='stroke-whiteBase fill-transparent'
+                        />
                       )}
                     </NavLink>
                   </li>
@@ -94,7 +102,7 @@ const Menu = ({ isOpen }: Partial<MobileMenu>) => {
             <li key={link.path}>
               <NavLink
                 to={link.path}
-                className={`relative pt-12 pb-8 lg:pt-[55px] lg:pb-[33px] hover:text-accentBase font-bold md:text-medium lg:text-xl ${
+                className={`relative pt-12 pb-8 lg:pt-[55px] lg:pb-[33px] hover:text-accentBase font-medium md:font-bold text-medium lg:text-xl md:text-medium lg:text-xl ${
                   link.activeLink
                     ? 'text-accentBase after:content[""] after:block after:absolute after:h-px after:w-full after:bg-accentBase'
                     : ''
