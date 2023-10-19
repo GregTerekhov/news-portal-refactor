@@ -49,7 +49,7 @@ const NewsItem = ({ data }: { data: Partial<PopularData> }) => {
       <a
         className=''
         href={data?.url}
-        // target='_blank'
+        target='_blank'
       >
         <div className='px-4 mt-4'>
           <h2

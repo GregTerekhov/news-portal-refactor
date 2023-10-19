@@ -13,8 +13,9 @@ const Layout = () => {
           <div className='flex gap-7'>
             <SearchBlock />
             <SearchBlock />
-          </div>
-
+          </div>          
+          <PageScrollController direction='top' position='top-36' icon='icon-arrow-up' />
+          <PageScrollController direction='down' position='bottom-12' icon='icon-arrow-down' />
           <Outlet />
         </div>
       </section>
