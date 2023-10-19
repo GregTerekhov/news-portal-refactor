@@ -9,7 +9,7 @@ export const fetchWeather: any = createAsyncThunk(
     const { latitude, longitude } = position;
     try {
       const res: any = await axios.get(
-        `/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=50fae40a64fcd40464e14d0d20ee5d02`,
+        `/data/2.5/weather?lat=${latitude}&lon=${longitude}&units=metric&appid=50fae40a64fcd40464e14d0d20ee5d02`,
       );
       const { data } = await res;
 

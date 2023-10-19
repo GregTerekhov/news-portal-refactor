@@ -1,20 +1,19 @@
-import {
-  configureStore,
-  // getDefaultMiddleware
-} from '@reduxjs/toolkit';
+import { configureStore } from '@reduxjs/toolkit';
 import { weatherSlice } from './weather';
-import { popularSlice } from './favourite';
-// import { AxiosHeaders, AxiosError } from 'axios';
+import { newsSlice } from './news';
+import { FLUSH, PAUSE, PERSIST, PURGE, REGISTER, REHYDRATE } from 'redux-persist';
+
+const middleware = (getDefaultMiddleware: any) =>
+  getDefaultMiddleware({
+    serializableCheck: {
+      ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+    },
+  });
 
 export const store = configureStore({
   reducer: {
     weather: weatherSlice,
-    popular: popularSlice,
+    popular: newsSlice,
   },
-  // middleware: (getDefaultMiddleware) =>
-  //   getDefaultMiddleware({
-  //     serializableCheck: {
-  //       ignoredActions: [AxiosHeaders, AxiosError],
-  //     },
-  //   }),
+  middleware,
 });

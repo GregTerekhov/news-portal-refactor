@@ -1,3 +1,4 @@
+import { useWindowWidth } from 'hooks/useWindowWidth';
 import React from 'react';
 import { PrimaryButton, SvgIcon } from 'ui';
 interface P {
@@ -7,6 +8,89 @@ interface P {
 }
 
 const Pagination: React.FC<P> = ({ pageNumbers, currentPage, setCurrentPage }) => {
+  const { breakpointsForMarkup } = useWindowWidth() ?? {
+    breakpointsForMarkup: null,
+  };
+  const totalPages = pageNumbers.length;
+
+  let visibleButtonsCount: number = 0;
+
+  if (breakpointsForMarkup?.isNothing || breakpointsForMarkup?.isMobile) {
+    visibleButtonsCount = 3;
+  } else {
+    visibleButtonsCount = 6;
+  }
+
+  const paginationButtons = [];
+
+  const firstPage = 1;
+  const lastPage = totalPages;
+  const prevPage = currentPage - 1;
+  const nextPage = currentPage + 1;
+
+  const renderPaginationButton = (pageNumber: number) => (
+    <li
+      key={pageNumber}
+      className={`${pageNumber === currentPage ? 'active' : ''}`}
+      onClick={() => {
+        setCurrentPage(pageNumber);
+        window.scrollTo(0, 0);
+      }}
+    >
+      <button
+        type='button'
+        className={`w-10 h-10 border border-solid border-accentBase rounded-[10px] text-base md:text-medium font-medium ${
+          pageNumber === currentPage && 'bg-accentBase text-contrastWhite'
+        }`}
+      >
+        {pageNumber}
+      </button>
+    </li>
+  );
+
+  const renderEllipsis = (direction: string) => (
+    <li key={direction} className='ellipsis'>
+      <span>...</span>
+    </li>
+  );
+
+  if (totalPages <= visibleButtonsCount) {
+    for (let i = firstPage; i <= lastPage; i += 1) {
+      paginationButtons.push(renderPaginationButton(i));
+    }
+  } else if (currentPage === firstPage) {
+    paginationButtons.push(renderPaginationButton(currentPage));
+    paginationButtons.push(renderPaginationButton(nextPage));
+    paginationButtons.push(renderEllipsis('next'));
+    paginationButtons.push(renderPaginationButton(lastPage));
+  } else if (currentPage === lastPage) {
+    paginationButtons.push(renderPaginationButton(firstPage));
+    paginationButtons.push(renderEllipsis('prev'));
+    paginationButtons.push(renderPaginationButton(prevPage));
+    paginationButtons.push(renderPaginationButton(currentPage));
+  } else if (currentPage > firstPage && currentPage < lastPage) {
+    if (currentPage === 2) {
+      paginationButtons.push(renderEllipsis('prev'));
+      paginationButtons.push(renderPaginationButton(currentPage));
+      paginationButtons.push(renderPaginationButton(nextPage));
+      paginationButtons.push(renderEllipsis('next'));
+      paginationButtons.push(renderPaginationButton(lastPage));
+    }
+    if (currentPage - 1 > firstPage && currentPage + 1 !== lastPage) {
+      paginationButtons.push(renderEllipsis('prev'));
+      paginationButtons.push(renderPaginationButton(prevPage));
+      paginationButtons.push(renderPaginationButton(currentPage));
+      paginationButtons.push(renderEllipsis('next'));
+      paginationButtons.push(renderPaginationButton(lastPage));
+    }
+    if (currentPage + 1 === lastPage) {
+      paginationButtons.push(renderPaginationButton(firstPage));
+      paginationButtons.push(renderEllipsis('prev'));
+      paginationButtons.push(renderPaginationButton(currentPage));
+      paginationButtons.push(renderPaginationButton(lastPage));
+    }
+  }
+
   const handlePrevClick = () => {
     if (currentPage > 1) {
       setCurrentPage(currentPage - 1);
@@ -28,37 +112,24 @@ const Pagination: React.FC<P> = ({ pageNumbers, currentPage, setCurrentPage }) =
         variant='OtherButton'
         onHandleClick={handlePrevClick}
       >
-        <SvgIcon svgName='icon-arrow-left' size={20} fill='#ffffff' />
-        Prev
+        <SvgIcon svgName='icon-arrow-left' size={20} className='fill-whiteBase' />
+        {breakpointsForMarkup?.isTablet || breakpointsForMarkup?.isDesktop ? (
+          <span className='text-base md:text-medium font-medium text-contrastWhite'>Prev</span>
+        ) : null}
       </PrimaryButton>
       <ul id='page-numbers' className='flex gap-2'>
-        {pageNumbers.map((number: number) => (
-          <li
-            key={number}
-            className={`${number === currentPage ? 'active' : ''}`}
-            onClick={() => {
-              setCurrentPage(number);
-              window.scrollTo(0, 0);
-            }}
-          >
-            <button
-              type='button'
-              className={`w-10 h-10 border border-solid border-accentBase rounded-[10px] ${
-                number === currentPage && 'bg-accentBase text-contrastWhite'
-              }`}
-            >
-              {number}
-            </button>
-          </li>
-        ))}
+        {paginationButtons}
       </ul>
       <PrimaryButton
         buttonData={{ type: 'button' }}
         variant='OtherButton'
         onHandleClick={handleNextClick}
       >
-        Next
-        <SvgIcon svgName='icon-arrow-right' size={20} stroke='#ffffff' />
+        {breakpointsForMarkup?.isTablet || breakpointsForMarkup?.isDesktop ? (
+          <span className='text-base md:text-medium font-medium text-contrastWhite'>Next</span>
+        ) : null}
+
+        <SvgIcon svgName='icon-arrow-right' size={20} className='stroke-whiteBase' />
       </PrimaryButton>
     </div>
   );
