@@ -1,5 +1,6 @@
+import { Switch } from '@headlessui/react';
 import { useWindowWidth } from 'hooks';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { SvgIcon } from 'ui';
 
 enum V {
@@ -12,13 +13,9 @@ interface Variant {
 }
 
 const ThemeSwitcher = ({ variant }: Partial<Variant>) => {
-  const [isCheck, setIsCheck] = useState<boolean>(false);
+  const [enabled, setEnabled] = useState<boolean>(false);
   const { breakpointsForMarkup } = useWindowWidth() ?? {
     breakpointsForMarkup: null,
-  };
-
-  const handleChange = (e: any) => {
-    setIsCheck(e.target.checked);
   };
 
   let spacing: string = '';
@@ -29,13 +26,18 @@ const ThemeSwitcher = ({ variant }: Partial<Variant>) => {
     spacing = 'justify-end';
   }
 
-  const onCheck: any = {
-    labelBColor: isCheck ? 'bg-accentBase' : 'bg-greyIcon',
-    spanBgColor: isCheck ? 'bg-whiteBase' : 'bg-accentBase',
-    spanTransition: isCheck ? 'translate-x-4' : 'translate-x-0',
-    divBorder: isCheck ? 'border-solid border-2 border-accentBase rounded-xl' : '',
-    sunIcon: isCheck ? 'greyBase' : 'accentBase',
-    moonIcon: isCheck ? 'accentBase' : 'greyBase',
+  useEffect(() => {
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme === 'dark') {
+      setEnabled(true);
+    }
+  }, []);
+
+  const handleThemeChange = () => {
+    const newTheme = !enabled;
+    setEnabled(newTheme);
+
+    localStorage.setItem('theme', newTheme ? 'dark' : 'light');
   };
 
   return (
@@ -43,7 +45,7 @@ const ThemeSwitcher = ({ variant }: Partial<Variant>) => {
       {breakpointsForMarkup?.isDesktop ? (
         <p
           className={`font-header text-xl leading-tighter ${
-            isCheck ? 'text-greyBase' : 'text-accentAlt'
+            enabled ? 'text-greyBase' : 'text-accentAlt'
           }`}
         >
           Light
@@ -52,32 +54,29 @@ const ThemeSwitcher = ({ variant }: Partial<Variant>) => {
         <SvgIcon
           svgName='icon-sun'
           size={21}
-          className={`fill-transparent ${isCheck ? 'stroke-greyBase' : 'stroke-accentBase'}`}
+          className={`fill-transparent ${enabled ? 'stroke-greyBase' : 'stroke-accentAlt'}`}
         />
       )}
-      <div
-        className={`flex items-center justify-center gap-0 h-6 w-10 overflow-hidden bg-whiteBase ${onCheck.divBorder} `}
+      <Switch
+        checked={enabled}
+        onChange={setEnabled}
+        onClick={handleThemeChange}
+        className={`${
+          enabled ? 'bg-accentBase border-contrastWhite' : 'bg-contrastWhite border-accentBase'
+        }
+          relative inline-flex items-center h-5 w-10 shrink-0 cursor-pointer rounded-full border transition-colors duration-500 ease-in-out focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75`}
       >
-        <input
-          className='hidden'
-          type='checkbox'
-          name='switch'
-          id='toggleSwitch'
-          onChange={handleChange}
+        <span className='sr-only'>Theme switcher</span>
+        <span
+          aria-hidden='true'
+          className={`${enabled ? 'bg-contrastWhite translate-x-5' : 'bg-accentBase translate-x-0'}
+            pointer-events-none inline-block h-4 w-4 transform rounded-full shadow-lg ring-0 transition duration-500 ease-in-out`}
         />
-        <label
-          className={`${onCheck.labelBColor} relative block cursor-pointer h-4 w-8 rounded-xl`}
-          htmlFor='toggleSwitch'
-        >
-          <span
-            className={`absolute top-50% left-0 translate-y-50%- z-10 block w-5 h-5 ${onCheck.spanBgColor} rounded-xl transition duration-100 ${onCheck.spanTransition}`}
-          />
-        </label>
-      </div>
+      </Switch>
       {breakpointsForMarkup?.isDesktop ? (
         <p
           className={`font-header text-xl leading-tighter ${
-            isCheck ? 'text-accentAlt' : 'text-greyBase'
+            enabled ? 'text-accentAlt' : 'text-greyBase'
           }`}
         >
           Dark
@@ -86,7 +85,7 @@ const ThemeSwitcher = ({ variant }: Partial<Variant>) => {
         <SvgIcon
           svgName='icon-moon'
           size={21}
-          className={`fill-transparent stroke-${onCheck.moonIcon}`}
+          className={`fill-transparent ${enabled ? 'stroke-accentAlt' : 'stroke-greyBase'}`}
         />
       )}
     </div>

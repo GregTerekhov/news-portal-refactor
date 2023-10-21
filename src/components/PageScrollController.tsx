@@ -52,9 +52,9 @@ const PageScrollController = (value: ScrollDirection) => {
       id='top'
       onClick={onHandleClick}
       type='button'
-      className={`z-20 fixed ${hide} ${position} left-20 items-center justify-center w-16 h-16 hover:border-solid hover:border-2 hover:border-black hover:rounded-full`}
+      className={`z-40 group fixed ${hide} ${position} left-20 items-center justify-center w-16 h-16 hover:border-solid hover:border-2 hover:border-whiteBase dark:hover:border-whiteBase hover:rounded-full hover:bg-accentForeground `}
     >
-      <SvgIcon svgName={icon} size={30} fill='blue' stroke='none' />
+      <SvgIcon svgName={icon} size={30} className='fill-accentBase group-hover:fill-whiteBase' />
     </button>
   );
 };

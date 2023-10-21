@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { SvgIcon } from 'ui';
 import {
   add,
@@ -26,25 +26,25 @@ const Calendar: React.FC = () => {
 
   const dropdownRef = useRef<HTMLDivElement | null>(null);
 
-  const handleWindowClick = useCallback((event: MouseEvent) => {
-    if (
-      isOpenCalendar &&
-      dropdownRef.current &&
-      !dropdownRef.current.contains(event.target as Node)
-    ) {
-      setIsOpenCalendar(false);
-      setSelectedDate(startOfToday());
-    }
-  }, []);
-
-  const handleKeyDown = useCallback((event: KeyboardEvent) => {
-    if (isOpenCalendar && event.key === 'Escape') {
-      setIsOpenCalendar(false);
-      setSelectedDate(startOfToday());
-    }
-  }, []);
-
   useEffect(() => {
+    const handleWindowClick = (event: MouseEvent) => {
+      if (
+        isOpenCalendar &&
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
+        setIsOpenCalendar(false);
+        setSelectedDate(startOfToday());
+      }
+    };
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (isOpenCalendar && event.key === 'Escape') {
+        setIsOpenCalendar(false);
+        setSelectedDate(startOfToday());
+      }
+    };
+
     window.addEventListener('mousedown', handleWindowClick);
     window.addEventListener('keydown', handleKeyDown);
 
@@ -52,7 +52,7 @@ const Calendar: React.FC = () => {
       window.removeEventListener('mousedown', handleWindowClick);
       window.removeEventListener('keydown', handleKeyDown);
     };
-  }, [handleKeyDown, handleWindowClick, isOpenCalendar]);
+  }, [isOpenCalendar]);
 
   const handleOpen = () => {
     setIsOpenCalendar(!isOpenCalendar);
@@ -131,7 +131,7 @@ const Calendar: React.FC = () => {
         />
       </button>
       {isOpenCalendar && (
-        <div className='w-[250px] bg-dropdownBase  absolute z-20 bg-whiteBase rounded-[20px] pt-4 px-4 pb-5'>
+        <div className='w-[250px] bg-dropdownBase  absolute z-30 bg-whiteBase rounded-[20px] pt-4 px-4 pb-5'>
           <div className='flex items-center justify-between py-[7px] mb-0.5'>
             <div className='flex gap-2 items-center'>
               <button type='button' onClick={getPrevYear}>

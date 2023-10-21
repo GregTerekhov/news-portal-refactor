@@ -24,13 +24,16 @@ const Input: FC<InputProps> = (props) => {
   let inputBorder: string = '';
   let labelCheckbox: string = '';
   let checkboxStyles: string = '';
+  let inputBg: string = '';
 
   if (variant === V.Header) {
     inputGeometry = 'w-[173px] md:w-[213px] lg:w-72 py-[5px]';
-    inputBorder = 'border-darkBase';
+    inputBorder = 'border-darkBase dark:border-whiteBase';
+    inputBg = 'bg-transparent';
   } else if (variant === V.SearchBlock) {
     inputGeometry = 'w-full py-2';
-    inputBorder = 'border-accentBase';
+    inputBorder = 'border-accentBase dark:border-whiteBase';
+    inputBg = 'bg-whiteBase';
   } else if (variant === V.Checkbox) {
     labelCheckbox = 'flex items-center cursor-pointer';
     checkboxStyles = 'w-6 h-6 sm:w-4 sm:w-4 rounded-xl ';
@@ -50,14 +53,14 @@ const Input: FC<InputProps> = (props) => {
         ))}
       {hasIcon && (
         <span className='absolute w-5 h-5 left-3 flex items-center justify-center'>
-          <SvgIcon svgName='icon-search' size={20} className='fill-darkBase' />
+          <SvgIcon svgName='icon-search' size={20} className='fill-darkBase dark:fill-whiteBase' />
         </span>
       )}
 
       <input
         className={` ${inputGeometry} ${checkboxStyles} ${
           hasIcon ? 'pl-11 pr-3' : 'px-4 md:px-4'
-        } font-header border-solid border caret-accentBase rounded-3xl outline-0 text-small leading-mediumRelaxed tracking-bigWide md:text-base md:leading-moreRelaxed md:tracking-wide ${inputBorder} `}
+        } font-header border-solid border caret-accentBase dark:caret-whiteBase rounded-3xl outline-0 text-darkBase dark:text-whiteBase text-small leading-mediumRelaxed tracking-bigWide md:text-base md:leading-moreRelaxed md:tracking-wide placeholder:text-placeholderText dark:placeholder:text-foreground ${inputBorder} ${inputBg}`}
         name={name}
         type={type}
         placeholder={placeholder}

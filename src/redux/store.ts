@@ -1,7 +1,9 @@
-import { configureStore } from '@reduxjs/toolkit';
+import { AnyAction, configureStore } from '@reduxjs/toolkit';
 import { weatherSlice } from './weather';
-import { newsSlice } from './news';
+import { newsAPISlice } from './newsAPI';
+import { newsDBSlice } from './newsDatabase';
 import { FLUSH, PAUSE, PERSIST, PURGE, REGISTER, REHYDRATE } from 'redux-persist';
+import { ThunkDispatch } from 'redux-thunk';
 
 const middleware = (getDefaultMiddleware: any) =>
   getDefaultMiddleware({
@@ -10,10 +12,17 @@ const middleware = (getDefaultMiddleware: any) =>
     },
   });
 
-export const store = configureStore({
+const store = configureStore({
   reducer: {
     weather: weatherSlice,
-    popular: newsSlice,
+    popular: newsAPISlice,
+    newsDB: newsDBSlice,
   },
   middleware,
 });
+
+export type RootState = ReturnType<typeof store.getState>;
+export type TypedDispatch<T> = ThunkDispatch<T, any, AnyAction>;
+export type AppDispatch = typeof store.dispatch;
+
+export default store;

@@ -1,22 +1,24 @@
 import React, { useEffect, useMemo } from 'react';
 import { useWindowWidth } from 'hooks';
 import { createPortal } from 'react-dom';
-import { NavLink, useLocation } from 'react-router-dom';
+import { NavLink, useLocation, useNavigate } from 'react-router-dom';
 import { SvgIcon } from 'ui';
 import { ThemeSwitcher } from 'components';
 
 type MobileMenu = {
   isOpen: boolean;
+  closeMenu: () => void;
 };
 
 const modalRoot = document.querySelector('#modalRoot');
 
-const Menu = ({ isOpen }: Partial<MobileMenu>) => {
+const Menu = ({ isOpen, closeMenu }: Partial<MobileMenu>) => {
   const { breakpointsForMarkup } = useWindowWidth() ?? {
     breakpointsForMarkup: null,
   };
 
   const location = useLocation();
+  const navigate = useNavigate();
 
   const activeLinks = useMemo(
     () => ({
@@ -32,6 +34,14 @@ const Menu = ({ isOpen }: Partial<MobileMenu>) => {
       return;
     }
   }, []);
+
+  const handleNavLinkClick = (path: string) => {
+    if (typeof closeMenu === 'function') {
+      closeMenu();
+    }
+
+    navigate(path);
+  };
 
   const links = [
     { path: '/', label: 'Home', icon: 'icon-home', activeLink: activeLinks.isHomeActive },
@@ -52,7 +62,7 @@ const Menu = ({ isOpen }: Partial<MobileMenu>) => {
         modalRoot &&
         createPortal(
           <div
-            className={`fixed top-0 w-full h-full pb-[18px] pt-[147px] z-10 overflow-auto transition-left duration-500 bg-whiteBase before:fixed before:content-[""] before:z-[8] before:h-[81px] before:top-0 before:left-0 ${
+            className={`fixed top-0 w-full h-full pb-[18px] pt-[147px] z-40 overflow-auto transition-left duration-500 bg-whiteBase dark:bg-darkThemeBackground before:fixed before:content-[""] before:z-[8] before:h-[81px] before:top-0 before:left-0 ${
               isOpen ? 'left-0' : '-left-full'
             }`}
           >
@@ -62,8 +72,11 @@ const Menu = ({ isOpen }: Partial<MobileMenu>) => {
                   <li key={link.path}>
                     <NavLink
                       to={link.path}
+                      onClick={() => handleNavLinkClick(link.path)}
                       className={`flex items-center py-1.5 font-medium md:font-bold text-medium lg:text-xl ${
-                        link.activeLink && 'bg-accentBase text-whiteBase justify-between'
+                        link.activeLink
+                          ? 'bg-accentBase text-whiteBase justify-between'
+                          : 'text-darkBase dark:text-whiteBase'
                       }`}
                     >
                       <div className='flex items-center gap-3.5'>
@@ -105,7 +118,7 @@ const Menu = ({ isOpen }: Partial<MobileMenu>) => {
                 className={`relative pt-12 pb-8 lg:pt-[55px] lg:pb-[33px] hover:text-accentBase font-medium md:font-bold text-medium lg:text-xl md:text-medium lg:text-xl ${
                   link.activeLink
                     ? 'text-accentBase after:content[""] after:block after:absolute after:h-px after:w-full after:bg-accentBase'
-                    : ''
+                    : 'text-darkBase dark:text-whiteBase'
                 }`}
               >
                 {link.label}

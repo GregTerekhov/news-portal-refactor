@@ -21,13 +21,11 @@ interface NewsListProps {
 }
 
 const NewsList: React.FC<NewsListProps> = ({ currentItems, currentPage }) => {
-  const alreadyRead = true;
-
   return (
     <ul className='preMd:space-y-7 md:grid md:grid-cols-2 md:gap-[30px] lg:grid-cols-3 lg:gap-x-8 lg:gap-y-10 hg:gap-10 mb-10 md:mb-12 lg:mb-[60px]'>
       {currentPage === 1 && (
         <li
-          className={`shadow-card overflow-hidden rounded-[10px] darkMode:shadow-darkCard transition-transform duration-500 hover:scale-105 md:col-start-2 lg:col-start-3`}
+          className={`shadow-card overflow-hidden rounded-[10px] dark:shadow-darkCard transition-transform duration-500 hover:scale-105 md:col-start-2 lg:col-start-3`}
         >
           <WeatherBlock />
         </li>
@@ -35,11 +33,10 @@ const NewsList: React.FC<NewsListProps> = ({ currentItems, currentPage }) => {
       {currentItems.map((newsItem: any, index: number) => (
         <li
           key={newsItem.id}
-          className={`relative w-72 md:w-[353px] lg:w-[395px] hg:w-[442px] h-[630px] md:h-[675px] shadow-card overflow-hidden rounded-[10px] darkMode:shadow-darkCard transition-transform duration-500 hover:scale-105 ${
+          className={`relative w-72 md:w-[353px] lg:w-[395px] hg:w-[442px] h-[630px] md:h-[675px] shadow-card overflow-hidden rounded-[10px] dark:shadow-darkCard transition-transform duration-500 hover:scale-105 ${
             index === 0 && 'md:col-start-1 md:row-start-1 lg:col-start-1'
           } ${index === 1 && 'lg:col-start-2 lg:row-start-1'}`}
         >
-          {alreadyRead && <div className='absolute w-full h-full bg-foreground'></div>}
           <NewsItem data={newsItem} />
         </li>
       ))}
