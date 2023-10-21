@@ -31,6 +31,8 @@ const WeatherBlock = () => {
         if (result.state === 'granted') {
           setHasGeolocationPermission(true);
           navigator.geolocation.getCurrentPosition((position) => {
+            // const latitude = position.coords.latitude,
+            //   const longitude = position.coords.longitude,
             const sendGeoLocation = {
               latitude: position.coords.latitude,
               longitude: position.coords.longitude,
