@@ -1,3 +1,5 @@
-const selectPosition = (state: any) => state.weather.data;
+import type { RootState } from 'redux/store';
 
-export default selectPosition;
+export const selectLoading = (state: RootState) => (state as any).weather.isLoading;
+export const selectPosition = (state: RootState) => (state as any).weather.data;
+export const selectHasError = (state: RootState) => (state as any).weather.hasError;

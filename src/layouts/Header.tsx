@@ -15,14 +15,14 @@ const Header = () => {
   return (
     <>
       <div
-        className={`fixed w-full z-20 top-0 left-0 min-h-[81px] md:min-h-[106px] lg:min-h-[113px] border-solid border-line bg-foregroundLight ${
-          isOpenMenu ? 'border-b-0' : 'border-b-[1px] '
-        } ${isOpenModal ? 'z-0 pointer-events-none' : 'z-10 pointer-events-auto'}`}
+        className={`fixed w-full top-0 left-0 min-h-[81px] md:min-h-[106px] lg:min-h-[113px] border-solid border-line dark:border-darkThemeLine bg-foregroundLight dark:bg-foregroundDark ${
+          isOpenMenu ? 'border-b-0' : 'border-b-[1px]'
+        } ${isOpenModal ? 'z-0 pointer-events-none' : 'z-50 pointer-events-auto'}`}
       >
         <div className='container mx-auto px-4 hg:px-[65px] flex justify-between items-center gap-3.5'>
           <a
             href='/'
-            className='sm:py-6 md:pt-8 md:pb-[30px] lg:py-7 text-3xl leading-tight lg:leading-[1.357144] md:text-4xl lg:text-giant font-bold text-darkBase'
+            className='sm:py-6 md:pt-8 md:pb-[30px] lg:py-7 text-3xl leading-tight lg:leading-[1.357144] md:text-4xl lg:text-giant font-bold text-darkBase dark:text-whiteBase'
           >
             News
           </a>
@@ -46,10 +46,14 @@ const Header = () => {
               <SvgIcon
                 svgName={`${isOpenMenu ? 'icon-close' : 'icon-burger-menu'}`}
                 size={24}
-                className='stroke-darkBase'
+                className='stroke-darkBase dark:stroke-whiteBase'
               />
             ) : (
-              <SvgIcon svgName='icon-auth' size={24} className='stroke-darkBase' />
+              <SvgIcon
+                svgName='icon-auth'
+                size={24}
+                className='stroke-darkBase dark:stroke-whiteBase'
+              />
             )}
           </button>
 
@@ -66,7 +70,7 @@ const Header = () => {
           <AuthModal />
         </Modal>
       )}
-      {isOpenMenu && <Menu isOpen={isOpenMenu} />}
+      {isOpenMenu && <Menu isOpen={isOpenMenu} closeMenu={toggleMenu} />}
     </>
   );
 };

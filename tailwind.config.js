@@ -8,29 +8,6 @@ export default {
       weather: 'Roboto, sans-serif',
       header: 'Poppins, sans-serif',
     },
-    opacity: {
-      0: '0',
-      5: '0.05',
-      10: '0.1',
-      15: '0.15',
-      20: '0.2',
-      25: '0.25',
-      30: '0.3',
-      35: '0.35',
-      40: '0.4',
-      45: '0.45',
-      50: '0.5',
-      55: '0.55',
-      60: '0.6',
-      65: '0.65',
-      70: '0.7',
-      75: '0.75',
-      80: '0.8',
-      85: '0.85',
-      90: '0.9',
-      95: '0.95',
-      100: '1',
-    },
     extend: {
       screens: {
         preSm: { max: '319px' },
@@ -49,6 +26,7 @@ export default {
       colors: {
         whiteBase: '#f4f4f4',
         darkBase: '#111321',
+        darkThemeBackground: '#2e2e2e',
         accentBase: '#4440f6',
         accentAlt: '#4b48db',
         greyBase: '#5f6775',
@@ -56,12 +34,16 @@ export default {
         greyIcon: '#a2a2a2',
         accentForeground: 'rgba(68, 64, 246, 0.70)', // accentBase 70%
         foregroundLight: 'rgba(244, 244, 244, 0.80)', // whiteBase 80%
+        foregroundDark: 'rgba(46, 46, 46, 0.80)', // darkThemeBackground 80%
+        foregroundMedium: 'rgba(46, 46, 46, 0.40)', // darkThemeBackground 40%
         foreground: 'rgba(244, 244, 244, 0.40)', // whiteBase 40%
+        placeholderText: 'rgba(17, 19, 33, 0.4)', // darkBase 40%
         foregroundAlt: 'rgba(254, 254, 255, 0.30)', //fefefe 30%
         contrastWhite: '#ffffff',
         dropdownBase: '#f8f8f8',
         readBase: '#00dd73',
         line: 'rgba(0, 0, 0, 0.20)', // #000000 20%
+        darkThemeLine: 'rgba(244, 244, 244, 0.20)', // whiteBase 20%
         lineAlt: '#929292',
         calendarText: '#000000',
         calendarTextLight: 'rgba(60, 60, 67, 0.3)', //'#3c3c343'

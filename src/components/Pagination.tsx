@@ -39,8 +39,10 @@ const Pagination: React.FC<P> = ({ pageNumbers, currentPage, setCurrentPage }) =
     >
       <button
         type='button'
-        className={`w-10 h-10 border border-solid border-accentBase rounded-[10px] text-base md:text-medium font-medium ${
-          pageNumber === currentPage && 'bg-accentBase text-contrastWhite'
+        className={`w-10 h-10 border border-solid border-accentBase  rounded-[10px] text-base md:text-medium font-medium ${
+          pageNumber === currentPage
+            ? 'bg-accentBase text-contrastWhite'
+            : 'text-darkBase dark:text-whiteBase dark:border-whiteBase'
         }`}
       >
         {pageNumber}
@@ -50,7 +52,7 @@ const Pagination: React.FC<P> = ({ pageNumbers, currentPage, setCurrentPage }) =
 
   const renderEllipsis = (direction: string) => (
     <li key={direction} className='ellipsis'>
-      <span>...</span>
+      <span className='text-darkBase dark:text-whiteBase'>...</span>
     </li>
   );
 

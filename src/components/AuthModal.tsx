@@ -9,8 +9,12 @@ const AuthModal = () => {
       <Tab.Group>
         <Tab.List className='w-full h-[60px] flex mb-4 justify-between border-solid border-line border-b-[1px]'>
           <div className='flex gap-3.5'>
-            <Tab className='ui-selected:text-accentBase ui-selected:font-bold'>Register</Tab>
-            <Tab className='ui-selected:text-accentBase ui-selected:font-bold'>Log In</Tab>
+            <Tab className='text-darkBase dark:text-whiteBase ui-selected:text-accentBase dark:ui-selected:text-accentBase ui-selected:font-bold'>
+              Register
+            </Tab>
+            <Tab className='text-darkBase dark:text-whiteBase ui-selected:text-accentBase dark:ui-selected:text-accentBase ui-selected:font-bold'>
+              Log In
+            </Tab>
           </div>
           <ThemeSwitcher variant='modal' />
         </Tab.List>
