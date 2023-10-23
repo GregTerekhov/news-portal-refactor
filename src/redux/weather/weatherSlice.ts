@@ -1,23 +1,6 @@
 import { SerializedError, createSlice } from '@reduxjs/toolkit';
 import { fetchWeather } from './weatherOperations';
-
-type WeatherData = {
-  name: string;
-  main: {
-    feels_like: number;
-    temp: number;
-    pressure: number;
-    humidity: number;
-  };
-  weather: {
-    main: string;
-    icon: string;
-  }[];
-  timezone: number;
-  wind: {
-    speed: number;
-  };
-};
+import { WeatherData } from 'types';
 
 type WeatherState = {
   isLoading: boolean;

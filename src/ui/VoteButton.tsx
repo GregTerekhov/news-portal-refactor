@@ -1,15 +1,12 @@
-import React, { useState } from 'react';
+import React from 'react';
 import SvgIcon from './SvgIcon';
 
-const VoteButton = () => {
-  const [addToFavoriteTemplate, setAddToFavoriteTemplate] = useState<boolean>(false);
+type VBProps = {
+  isFavourite: boolean;
+  onHandleClick: (e: React.MouseEvent) => void;
+};
 
-  const onHandleClick = (e: React.MouseEvent) => {
-    e.stopPropagation();
-    e.preventDefault();
-    setAddToFavoriteTemplate(!addToFavoriteTemplate);
-  };
-
+const VoteButton = ({ onHandleClick, isFavourite }: VBProps) => {
   return (
     <button
       type='button'
@@ -17,14 +14,12 @@ const VoteButton = () => {
       onClick={onHandleClick}
     >
       <span className='text-small text-darkBase font-medium'>
-        {addToFavoriteTemplate ? 'Remove from favorite' : 'Add to favorite'}
+        {isFavourite ? 'Remove from favorite' : 'Add to favorite'}
       </span>
       <SvgIcon
         svgName='icon-heart'
         size={16}
-        className={`${
-          addToFavoriteTemplate ? 'stroke-none fill-accentBase' : 'stroke-accentBase fill-none'
-        }`}
+        className={`${isFavourite ? 'stroke-none fill-accentBase' : 'stroke-accentBase fill-none'}`}
       />
     </button>
   );

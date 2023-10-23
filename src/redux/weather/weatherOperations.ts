@@ -1,29 +1,12 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
+import { WeatherData } from 'types';
 
 const BASE_URL = 'https://api.openweathermap.org';
 
 type Position = {
   latitude: number;
   longitude: number;
-};
-
-type WeatherData = {
-  name: string;
-  main: {
-    feels_like: number;
-    temp: number;
-    pressure: number;
-    humidity: number;
-  };
-  weather: {
-    main: string;
-    icon: string;
-  }[];
-  timezone: number;
-  wind: {
-    speed: number;
-  };
 };
 
 export const fetchWeather = createAsyncThunk(

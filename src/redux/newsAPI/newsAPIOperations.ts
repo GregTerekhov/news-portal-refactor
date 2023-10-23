@@ -1,35 +1,30 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
+import { PopularNewsArray } from 'types';
 
 const BASE_URL = 'https://api.nytimes.com/svc';
 const API_KEY = 'uGHJWsajhmnJg2AMcnCD9YXkamMpVOHo';
 
-type PopularItem = {
-  abstract: string;
-  id: string;
-  media: {
-    'media-metadata': {
-      url: string;
-    }[];
-  }[];
-  published_date: string;
-  section: string;
-  source: string;
-  title: string;
-  type: string;
-  url: string;
-};
-
-export const fetchPopularNews = createAsyncThunk<PopularItem[], void, { rejectValue: any }>(
+export const fetchPopularNews = createAsyncThunk<PopularNewsArray, string, { rejectValue: any }>(
   'popular/fetch',
-  async (_, { rejectWithValue }) => {
+  async (period, { rejectWithValue }) => {
     try {
-      const res = await axios.get(`${BASE_URL}/mostpopular/v2/viewed/30.json?`, {
+      console.log(period);
+      let pathParams = '1';
+
+      if (period === '30') {
+        pathParams = '30';
+      } else if (period === '7') {
+        pathParams = '7';
+      }
+
+      const res = await axios.get(`${BASE_URL}/mostpopular/v2/viewed/${pathParams}.json?`, {
         params: {
           'api-key': API_KEY,
         },
       });
-      return res.data.results as PopularItem[];
+      console.log(res.data.results);
+      return res.data.results as PopularNewsArray;
     } catch (error: any) {
       return rejectWithValue(error.response.data);
     }

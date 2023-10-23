@@ -10,20 +10,19 @@ const Layout = () => {
   };
 
   const location = useLocation();
-
   const isHomePage = location.pathname === '/';
-  console.log(isHomePage);
+
   return (
     <>
       <Header />
       {isHomePage && <Hero />}
       <section className='w-full bg-whiteBase dark:bg-darkThemeBackground h-full pt-2.5 md:pt-7 pb-[60px] md:pb-[100px] lg:pb-[150px]'>
         <div className='container mx-auto px-4 hg:px-[65px]'>
-          <div className='flex gap-7'>
+          <div className='flex gap-7 mb-10 md:mb-12 lg:mb-[60px]'>
             <SearchBlock />
             <SearchBlock />
           </div>
-          {breakpointsForMarkup?.isTablet || breakpointsForMarkup?.isDesktop ? (
+          {(isHomePage && breakpointsForMarkup?.isTablet) || breakpointsForMarkup?.isDesktop ? (
             <>
               <PageScrollController direction='top' position='top-36' icon='icon-triangle-up' />
               <PageScrollController

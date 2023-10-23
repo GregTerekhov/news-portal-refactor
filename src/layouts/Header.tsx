@@ -1,13 +1,19 @@
 import React from 'react';
 import { Input, Modal, SvgIcon } from 'ui';
 import { Menu, ThemeSwitcher, Auth, AuthModal } from 'components';
-import { usePopUp, useWindowWidth } from 'hooks';
+import { useHeaderStyles, usePopUp, useWindowWidth } from 'hooks';
+import { useLocation } from 'react-router-dom';
 
 const Header = () => {
   const { isOpenMenu, isOpenModal, toggleMenu, toggleModal, popUpRef } = usePopUp();
   const { breakpointsForMarkup } = useWindowWidth() ?? {
     breakpointsForMarkup: null,
   };
+  const location = useLocation();
+  const isHomePage = location.pathname === '/';
+
+  const { headerClass, textClass } = useHeaderStyles(isHomePage);
+
   const isLoggedIn = true;
 
   const isNotMobile = breakpointsForMarkup?.isTablet || breakpointsForMarkup?.isDesktop;
@@ -15,14 +21,21 @@ const Header = () => {
   return (
     <>
       <div
-        className={`fixed w-full top-0 left-0 min-h-[81px] md:min-h-[106px] lg:min-h-[113px] border-solid border-line dark:border-darkThemeLine bg-foregroundLight dark:bg-foregroundDark ${
-          isOpenMenu ? 'border-b-0' : 'border-b-[1px]'
-        } ${isOpenModal ? 'z-0 pointer-events-none' : 'z-50 pointer-events-auto'}`}
+        className={`fixed w-full top-0 left-0 min-h-[81px] md:min-h-[106px] lg:min-h-[113px] ${
+          isHomePage
+            ? headerClass
+            : 'bg-foregroundLight dark:bg-foregroundDark border-b border-solid border-line dark:border-darkThemeLine'
+        } transition-colors duration-500 ${isOpenMenu && 'border-b-0'} ${
+          isOpenModal ? 'z-0 pointer-events-none' : 'z-50 pointer-events-auto'
+        }`}
       >
         <div className='container mx-auto px-4 hg:px-[65px] flex justify-between items-center gap-3.5'>
           <a
             href='/'
-            className='sm:py-6 md:pt-8 md:pb-[30px] lg:py-7 text-3xl leading-tight lg:leading-[1.357144] md:text-4xl lg:text-giant font-bold text-darkBase dark:text-whiteBase'
+            className={`sm:py-6 md:pt-8 md:pb-[30px] lg:py-7 text-3xl leading-tight lg:leading-[1.357144] md:text-4xl lg:text-giant font-bold ${
+              isHomePage ? textClass : 'text-darkBase dark:text-whiteBase'
+            } 
+              `}
           >
             News
           </a>
@@ -46,13 +59,15 @@ const Header = () => {
               <SvgIcon
                 svgName={`${isOpenMenu ? 'icon-close' : 'icon-burger-menu'}`}
                 size={24}
-                className='stroke-darkBase dark:stroke-whiteBase'
+                className={`stroke-darkBase dark:stroke-whiteBase ${
+                  !isOpenMenu && isHomePage && 'stroke-whiteBase'
+                }`}
               />
             ) : (
               <SvgIcon
                 svgName='icon-auth'
                 size={24}
-                className='stroke-darkBase dark:stroke-whiteBase'
+                className={`${isHomePage ? 'fill-whiteBase' : 'fill-darkBase dark:fill-whiteBase'}`}
               />
             )}
           </button>

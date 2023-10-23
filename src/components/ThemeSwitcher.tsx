@@ -1,6 +1,7 @@
 import { Switch } from '@headlessui/react';
-import { useWindowWidth } from 'hooks';
+import { useHeaderStyles, useWindowWidth } from 'hooks';
 import React, { useEffect, useState } from 'react';
+import { useLocation } from 'react-router-dom';
 import { SvgIcon } from 'ui';
 
 enum V {
@@ -18,6 +19,11 @@ const ThemeSwitcher = ({ variant }: Partial<Variant>) => {
     breakpointsForMarkup: null,
   };
 
+  const location = useLocation();
+  const isHomePage = location.pathname === '/';
+
+  const { switcherText } = useHeaderStyles(isHomePage);
+
   let spacing: string = '';
 
   if (variant === V.Modal) {
@@ -30,8 +36,12 @@ const ThemeSwitcher = ({ variant }: Partial<Variant>) => {
     const savedTheme = localStorage.getItem('theme');
     if (savedTheme === 'dark') {
       setEnabled(true);
+      document.documentElement.classList.add('dark');
+    } else {
+      setEnabled(false);
+      document.documentElement.classList.remove('dark');
     }
-  }, []);
+  }, [enabled]);
 
   const handleThemeChange = () => {
     const newTheme = !enabled;
@@ -45,7 +55,7 @@ const ThemeSwitcher = ({ variant }: Partial<Variant>) => {
       {breakpointsForMarkup?.isDesktop ? (
         <p
           className={`font-header text-xl leading-tighter ${
-            enabled ? 'text-greyBase' : 'text-accentAlt'
+            enabled ? switcherText : 'text-accentAlt'
           }`}
         >
           Light
@@ -69,14 +79,16 @@ const ThemeSwitcher = ({ variant }: Partial<Variant>) => {
         <span className='sr-only'>Theme switcher</span>
         <span
           aria-hidden='true'
-          className={`${enabled ? 'bg-contrastWhite translate-x-5' : 'bg-accentBase translate-x-0'}
+          className={`${
+            enabled ? 'bg-contrastWhite translate-x-5' : 'bg-accentBase translate-x-[1px]'
+          }
             pointer-events-none inline-block h-4 w-4 transform rounded-full shadow-lg ring-0 transition duration-500 ease-in-out`}
         />
       </Switch>
       {breakpointsForMarkup?.isDesktop ? (
         <p
           className={`font-header text-xl leading-tighter ${
-            enabled ? 'text-accentAlt' : 'text-greyBase'
+            enabled ? 'text-accentAlt' : switcherText
           }`}
         >
           Dark

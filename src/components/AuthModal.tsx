@@ -7,7 +7,7 @@ const AuthModal = () => {
   return (
     <>
       <Tab.Group>
-        <Tab.List className='w-full h-[60px] flex mb-4 justify-between border-solid border-line border-b-[1px]'>
+        <Tab.List className='w-full h-[60px] flex mb-4 justify-between border-solid border-line border-b-[1px] dark:border-darkThemeLine'>
           <div className='flex gap-3.5'>
             <Tab className='text-darkBase dark:text-whiteBase ui-selected:text-accentBase dark:ui-selected:text-accentBase ui-selected:font-bold'>
               Register
@@ -29,7 +29,7 @@ const AuthModal = () => {
                   children: 'Name',
                 }}
                 hasIcon={false}
-                variant='searchBlock'
+                variant='auth'
               />
               <Input
                 inputData={{
@@ -39,7 +39,7 @@ const AuthModal = () => {
                   children: 'Email',
                 }}
                 hasIcon={false}
-                variant='searchBlock'
+                variant='auth'
               />
               <Input
                 inputData={{
@@ -49,7 +49,7 @@ const AuthModal = () => {
                   children: 'Password',
                 }}
                 hasIcon={false}
-                variant='searchBlock'
+                variant='auth'
               />
               <PrimaryButton buttonData={{ type: 'submit' }} variant='OtherButton'>
                 Register
@@ -66,7 +66,7 @@ const AuthModal = () => {
                   children: 'Email',
                 }}
                 hasIcon={false}
-                variant='searchBlock'
+                variant='auth'
               />
               <Input
                 inputData={{
@@ -76,7 +76,7 @@ const AuthModal = () => {
                   children: 'Password',
                 }}
                 hasIcon={false}
-                variant='searchBlock'
+                variant='auth'
               />
               <Input
                 inputData={{

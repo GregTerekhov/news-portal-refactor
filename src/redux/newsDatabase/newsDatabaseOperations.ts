@@ -1,28 +1,13 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
+import { PartialVotedNewsArray } from 'types';
 
 axios.defaults.baseURL = 'https://news-webapp-express.onrender.com/api';
-
-type NewsItem = {
-  _id: number;
-  title: string;
-  description: string;
-  isFavourite: boolean;
-  hasRead: boolean;
-  publishDate: string;
-  edition: string;
-  author: string;
-  category: string;
-  imgLink: string;
-  newsUrl: string;
-};
-
-type NewsArray = Partial<NewsItem>[];
 
 export const fetchAllNews = createAsyncThunk('newsDB/all', async (_, { rejectWithValue }) => {
   try {
     const response = await axios.get('/news');
-    return response.data as NewsArray;
+    return response.data as PartialVotedNewsArray;
   } catch (error: any) {
     return rejectWithValue(error.response.data);
   }
@@ -30,7 +15,7 @@ export const fetchAllNews = createAsyncThunk('newsDB/all', async (_, { rejectWit
 
 export const addNews = createAsyncThunk(
   'newsDB/add',
-  async (newsData: NewsArray, { rejectWithValue }) => {
+  async (newsData: PartialVotedNewsArray, { rejectWithValue }) => {
     try {
       const response = await axios.post('/news', newsData);
       return response.data;
@@ -43,7 +28,8 @@ export const addNews = createAsyncThunk(
 export const fetchFavourites = createAsyncThunk('favourite/all', async (_, { rejectWithValue }) => {
   try {
     const response = await axios.get('/news/favourite');
-    return response.data as NewsArray;
+    console.log(response.data);
+    return response.data as PartialVotedNewsArray;
   } catch (e: any) {
     return rejectWithValue(e.response.data);
   }
@@ -52,7 +38,7 @@ export const fetchFavourites = createAsyncThunk('favourite/all', async (_, { rej
 export const fetchRead = createAsyncThunk('read/all', async (_, { rejectWithValue }) => {
   try {
     const response = await axios.get('/news/read');
-    return response.data as NewsArray;
+    return response.data as PartialVotedNewsArray;
   } catch (e: any) {
     return rejectWithValue(e.response.data);
   }

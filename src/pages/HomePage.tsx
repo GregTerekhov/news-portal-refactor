@@ -16,9 +16,27 @@ const HomePage = () => {
   const popularData = useAppSelector(selectPopular);
   const isLoading = useAppSelector(selectLoading);
   const dispatch = useAppDispatch();
+  // const votedNews = useAppSelector((state) => state.votedNews);
+  // console.log('votedNews', votedNews);
 
   useEffect(() => {
-    dispatch(fetchPopularNews());
+    dispatch(fetchPopularNews('1'));
+  }, []);
+
+  useEffect(() => {
+    const hidePage = document.hidden;
+
+    const handleVisibilityChange = () => {
+      if (hidePage) {
+        console.log('Page has been hidden');
+      }
+    };
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+
+    return () => {
+      console.log('After unmount');
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
+    };
   }, []);
 
   const totalResults = popularData?.length || 0;
