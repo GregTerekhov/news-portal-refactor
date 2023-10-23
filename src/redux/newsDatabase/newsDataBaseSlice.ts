@@ -1,27 +1,12 @@
 import { SerializedError, createSlice } from '@reduxjs/toolkit';
 import { fetchAllNews, fetchFavourites, fetchRead, addNews } from './newsDatabaseOperations';
 // import type { PayloadAction } from '@reduxjs/toolkit';
-
-type NewsItem = {
-  _id: number;
-  title: string;
-  description: string;
-  isFavourite: boolean;
-  hasRead: boolean;
-  publishDate: string;
-  edition: string;
-  author: string;
-  category: string;
-  imgLink: string;
-  newsUrl: string;
-};
-
-type NewsArray = Partial<NewsItem>[];
+import { PartialVotedNewsArray } from 'types';
 
 interface SelectedNewsState {
-  selectedNews: NewsArray;
-  favourites: NewsArray;
-  reads: NewsArray;
+  selectedNews: PartialVotedNewsArray;
+  favourites: PartialVotedNewsArray;
+  reads: PartialVotedNewsArray;
   isLoading: boolean;
   hasError: SerializedError | null;
 }
@@ -76,9 +61,12 @@ const newsDBSlice = createSlice({
     builder
       .addCase(fetchAllNews.pending, (state) => {
         state.isLoading = true;
+        state.hasError = null;
       })
       .addCase(fetchAllNews.fulfilled, (state, action) => {
+        state.isLoading = false;
         state.selectedNews = action.payload;
+        state.hasError = null;
       })
       .addCase(fetchAllNews.rejected, (state, action) => {
         state.isLoading = false;
@@ -86,9 +74,12 @@ const newsDBSlice = createSlice({
       })
       .addCase(fetchFavourites.pending, (state) => {
         state.isLoading = true;
+        state.hasError = null;
       })
       .addCase(fetchFavourites.fulfilled, (state, action) => {
+        state.isLoading = false;
         state.selectedNews = action.payload;
+        state.hasError = null;
       })
       .addCase(fetchFavourites.rejected, (state, action) => {
         state.isLoading = false;
@@ -96,9 +87,12 @@ const newsDBSlice = createSlice({
       })
       .addCase(fetchRead.pending, (state) => {
         state.isLoading = true;
+        state.hasError = null;
       })
       .addCase(fetchRead.fulfilled, (state, action) => {
+        state.isLoading = false;
         state.selectedNews = action.payload;
+        state.hasError = null;
       })
       .addCase(fetchRead.rejected, (state, action) => {
         state.isLoading = false;
@@ -106,10 +100,11 @@ const newsDBSlice = createSlice({
       })
       .addCase(addNews.pending, (state) => {
         state.isLoading = true;
+        state.hasError = null;
       })
       .addCase(addNews.fulfilled, (state, action) => {
         const {
-          _id: id,
+          id: id,
           title,
           description,
           isFavourite,
@@ -119,13 +114,14 @@ const newsDBSlice = createSlice({
           author,
           category,
           imgLink,
+          imgAlt,
           newsUrl,
         } = action.payload;
-        const index = state.selectedNews.findIndex((news) => news._id === id);
+        const index = state.selectedNews.findIndex((news) => news.id === id);
 
         if (index !== -1) {
           state.selectedNews[index] = {
-            _id: id,
+            id: id,
             title,
             description,
             isFavourite,
@@ -135,6 +131,7 @@ const newsDBSlice = createSlice({
             author,
             category,
             imgLink,
+            imgAlt,
             newsUrl,
           };
         }

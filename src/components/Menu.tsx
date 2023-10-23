@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo } from 'react';
-import { useWindowWidth } from 'hooks';
+import { useHeaderStyles, useWindowWidth } from 'hooks';
 import { createPortal } from 'react-dom';
 import { NavLink, useLocation, useNavigate } from 'react-router-dom';
 import { SvgIcon } from 'ui';
@@ -28,6 +28,8 @@ const Menu = ({ isOpen, closeMenu }: Partial<MobileMenu>) => {
     }),
     [location.pathname],
   );
+
+  const { textClass } = useHeaderStyles(activeLinks.isHomeActive);
 
   useEffect(() => {
     if (!modalRoot) {
@@ -73,9 +75,9 @@ const Menu = ({ isOpen, closeMenu }: Partial<MobileMenu>) => {
                     <NavLink
                       to={link.path}
                       onClick={() => handleNavLinkClick(link.path)}
-                      className={`flex items-center py-1.5 font-medium md:font-bold text-medium lg:text-xl ${
+                      className={`flex items-center py-1.5 font-medium md:font-bold text-medium lg:text-xl transition-colors ${
                         link.activeLink
-                          ? 'bg-accentBase text-whiteBase justify-between'
+                          ? 'bg-accentBase text-whiteBase justify-between [clip-path:inset(0 -100vmax)]'
                           : 'text-darkBase dark:text-whiteBase'
                       }`}
                     >
@@ -118,7 +120,7 @@ const Menu = ({ isOpen, closeMenu }: Partial<MobileMenu>) => {
                 className={`relative pt-12 pb-8 lg:pt-[55px] lg:pb-[33px] hover:text-accentBase font-medium md:font-bold text-medium lg:text-xl md:text-medium lg:text-xl ${
                   link.activeLink
                     ? 'text-accentBase after:content[""] after:block after:absolute after:h-px after:w-full after:bg-accentBase'
-                    : 'text-darkBase dark:text-whiteBase'
+                    : textClass
                 }`}
               >
                 {link.label}

@@ -1,26 +1,9 @@
 import { SerializedError, createSlice } from '@reduxjs/toolkit';
 import { fetchPopularNews } from './newsAPIOperations';
-
-type PopularItem = {
-  abstract: string;
-  id: string;
-  media: {
-    'media-metadata': {
-      url: string;
-    }[];
-  }[];
-  published_date: string;
-  section: string;
-  source: string;
-  title: string;
-  type: string;
-  url: string;
-};
-
-type PopularArray = PopularItem[];
+import { PopularNewsArray } from 'types';
 
 type PopularState = {
-  popularNews: PopularArray;
+  popularNews: PopularNewsArray;
   isLoading: boolean;
   hasError: SerializedError | null;
 };

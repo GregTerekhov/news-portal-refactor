@@ -38,6 +38,7 @@
       "redux/*": ["redux/*"],
       "routes/*": ["routes/*"],
       "themes/*": ["themes/*"],
+      "types/*": ["types/*"],
       "ui/*": ["ui/*"]
     }
   },

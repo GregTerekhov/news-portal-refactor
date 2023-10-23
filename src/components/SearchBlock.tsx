@@ -1,18 +1,44 @@
 import React, { useState } from 'react';
 import { Dropdown, Input, PrimaryButton, SvgIcon } from 'ui';
 import Calendar from './Calendar';
+import { useAppDispatch } from 'redux/hooks';
+import { fetchPopularNews } from 'redux/newsAPI';
+import { useLocation } from 'react-router-dom';
 
 const SearchBlock = () => {
   const [showDropdown, setShowDropdown] = useState<boolean>(false);
+  const [selectedPeriod, setSelectedPeriod] = useState<string>('Today');
+
+  const dispatch = useAppDispatch();
+  const location = useLocation();
+  const isHomePage = location.pathname === '/';
 
   const onClick: any = () => {
     setShowDropdown(!showDropdown);
   };
 
+  const getNewsByPeriod = async (period: string) => {
+    setSelectedPeriod(period);
+    console.log(`Selected Period: ${period}`);
+
+    if (selectedPeriod === 'Today') {
+      console.log('Today');
+      await dispatch(fetchPopularNews('1'));
+    } else if (selectedPeriod === 'Week') {
+      console.log('Week');
+
+      await dispatch(fetchPopularNews('7'));
+    } else if (selectedPeriod === 'Month') {
+      console.log('Month');
+
+      await dispatch(fetchPopularNews('30'));
+    }
+  };
+
   const borderRadius = showDropdown ? 'rounded-t-xl' : 'rounded-xl';
 
   return (
-    <div className='mb-10 md:mb-12 lg:mb-[60px] w-1/2'>
+    <div className='w-1/2'>
       <button
         className={`bg-accentForeground ${borderRadius} w-full py-1.5 px-6 flex justify-end`}
         type='button'
@@ -40,10 +66,14 @@ const SearchBlock = () => {
               variant='searchBlock'
             />
           </div>
-          <Dropdown>Categories</Dropdown>
-          <Dropdown>Type</Dropdown>
-          <Dropdown>Time period</Dropdown>
-          <Dropdown>Edition</Dropdown>
+          <Dropdown labels={['1', '2']}>Categories</Dropdown>
+          <Dropdown labels={['1', '2']}>Type</Dropdown>
+          {isHomePage && (
+            <Dropdown labels={['Today', 'Week', 'Month']} getResults={getNewsByPeriod}>
+              Time period
+            </Dropdown>
+          )}
+          <Dropdown labels={['1', '2']}>Edition</Dropdown>
           <Calendar />
           <PrimaryButton buttonData={{ type: 'reset' }} hasIcon={true} variant='SearchBlock'>
             Reset

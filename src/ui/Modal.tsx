@@ -20,7 +20,7 @@ const Modal: React.FC<ModalProps> = ({ children, closeModal, modalRef, variant }
   let modalWidth: string = '';
 
   if (variant === S.Auth) {
-    modalWidth = 'w-full preMd:max-w-[288px] md:w-[600px]';
+    modalWidth = 'w-full max-md:max-w-[288px] md:w-[600px]';
   } else if (variant === S.News) {
     modalWidth = 'w-full';
   }

@@ -10,11 +10,8 @@ export default {
     },
     extend: {
       screens: {
-        preSm: { max: '319px' },
         sm: '320px',
-        preMd: { max: '767px' },
         md: '768px',
-        preLg: { max: '1279px' },
         lg: '1280px',
         hg: '1536px',
       },
@@ -97,6 +94,9 @@ export default {
         '50%': '50%',
         '50%-': '-50%',
         none: 'none',
+      },
+      transitionDuration: {
+        DEFAULT: '500ms',
       },
       // maxWidth: {
       //   maxWidth: calc('max-w' - '64px'),

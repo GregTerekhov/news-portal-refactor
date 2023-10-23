@@ -1,21 +1,10 @@
-import React, { Suspense, useEffect } from 'react';
+import React, { Suspense } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import { HomePage, ErrorPage, FavouritePage, ReadPage } from './pages';
 import { Layout } from './layouts';
 import { WindowWidthProvider } from 'contexts';
 
 function App() {
-  useEffect(() => {
-    const savedTheme = localStorage.getItem('theme');
-    if (
-      savedTheme === 'dark' ||
-      (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)
-    ) {
-      document.documentElement.classList.add('dark');
-    } else {
-      document.documentElement.classList.remove('dark');
-    }
-  }, []);
   return (
     <WindowWidthProvider>
       <Suspense>
