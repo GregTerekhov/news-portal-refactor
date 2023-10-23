@@ -25,11 +25,11 @@ const votedNewsSlice = createSlice({
         state.push(updatedVotedNews);
       }
     },
-    clearVotedNews: (state) => {
-      state = [];
-    },
+    // clearVotedNews: (state) => {
+    //   state = [];
+    // },
   },
 });
 
-export const { addOrUpdateVotedNews, clearVotedNews } = votedNewsSlice.actions;
+export const { addOrUpdateVotedNews } = votedNewsSlice.actions;
 export default votedNewsSlice.reducer;
