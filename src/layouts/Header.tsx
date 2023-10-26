@@ -3,6 +3,8 @@ import { Input, Modal, SvgIcon } from 'ui';
 import { Menu, ThemeSwitcher, Auth, AuthModal } from 'components';
 import { useHeaderStyles, usePopUp, useWindowWidth } from 'hooks';
 import { useLocation } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { fetchArticle } from 'redux/article';
 
 const Header = () => {
   const { isOpenMenu, isOpenModal, toggleMenu, toggleModal, popUpRef } = usePopUp();
@@ -17,6 +19,17 @@ const Header = () => {
   const isLoggedIn = true;
 
   const isNotMobile = breakpointsForMarkup?.isTablet || breakpointsForMarkup?.isDesktop;
+
+  const dispatch = useDispatch();
+
+  const onHandleSubmit = (e: any) => {
+    e.preventDefault();
+    // console.log(e.currentTarget.firstChild.children[1].value);
+    const article = e.currentTarget.firstChild.children[1].value.toLowerCase();
+    console.log(article);
+
+    dispatch(fetchArticle(article));
+  };
 
   return (
     <>
@@ -42,7 +55,7 @@ const Header = () => {
           {isNotMobile && isLoggedIn ? <Menu /> : null}
 
           {isOpenMenu ? null : (
-            <form action='#'>
+            <form action='#' onSubmit={(e) => onHandleSubmit(e)}>
               <Input
                 inputData={{ name: 'query', type: 'text', placeholder: 'Search |' }}
                 hasIcon={true}

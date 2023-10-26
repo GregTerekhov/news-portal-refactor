@@ -15,6 +15,21 @@ export type PopularNewsItem = {
   url: string;
 };
 
+export type ArticleNewsItem = {
+  abstract?: string;
+  snippet?: string;
+  multimedia: {
+    url?: string;
+  }[];
+  pub_date: string;
+  section_name: string;
+  source: string;
+  headline: {
+    main: string;
+  };
+  web_url: string;
+};
+
 export type VotedItem = {
   // id?: number;
   title: string;
