@@ -8,21 +8,20 @@ const FavouritePage = () => {
   const favourites = useAppSelector(selectAllFavourites);
   const isLoading = useAppSelector(selectLoading);
 
-  console.log(favourites);
+  // console.log(favourites);
 
   useEffect(() => {
     dispatch(fetchFavourites());
-  }, []);
+  }, [dispatch]);
+
+  const shouldShowLoader = isLoading && favourites.length === 0;
+  const shouldShowContent = !isLoading && favourites.length !== 0;
 
   return (
     <>
-      {isLoading && favourites && favourites.length === 0 ? (
-        <Loader />
-      ) : !isLoading && favourites && favourites.length === 0 ? (
-        <PlugImage variant='page' />
-      ) : (
-        <NewsList currentItems={favourites} />
-      )}
+      {shouldShowLoader && <Loader />}
+      {shouldShowContent && <NewsList />}
+      {!shouldShowLoader && !shouldShowContent && <PlugImage variant='page' />}
     </>
   );
 };

@@ -1,4 +1,4 @@
-import { Loader, NewsList, PlugImage } from 'components';
+import { Accordeon, Loader, NewsList, PlugImage } from 'components';
 import React, { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import { fetchRead, selectAllReads, selectLoading } from 'redux/newsDatabase';
@@ -8,21 +8,28 @@ const ReadPage = () => {
   const readNews = useAppSelector(selectAllReads);
   const isLoading = useAppSelector(selectLoading);
 
-  console.log(readNews);
+  // console.log(readNews);
 
   useEffect(() => {
     dispatch(fetchRead());
   }, [dispatch]);
 
+  const publishedDate = readNews
+    .map((news) => news.publishDate)
+    .filter((date) => date !== undefined) as string[];
+
+  const shouldShowLoader = isLoading && readNews.length === 0;
+  const shouldShowAccordeon = !isLoading && readNews.length !== 0;
+
   return (
     <>
-      {isLoading && readNews && readNews.length === 0 ? (
-        <Loader />
-      ) : !isLoading && readNews && readNews.length === 0 ? (
-        <PlugImage variant='page' />
-      ) : (
-        <NewsList currentItems={readNews} />
+      {shouldShowLoader && <Loader />}
+      {shouldShowAccordeon && (
+        <Accordeon publishedDate={publishedDate}>
+          <NewsList />
+        </Accordeon>
       )}
+      {!shouldShowLoader && !shouldShowAccordeon && <PlugImage variant='page' />}
     </>
   );
 };

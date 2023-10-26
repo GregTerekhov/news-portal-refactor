@@ -120,7 +120,9 @@ const Menu = ({ isOpen, closeMenu }: Partial<MobileMenu>) => {
                 className={`relative pt-12 pb-8 lg:pt-[55px] lg:pb-[33px] hover:text-accentBase font-medium md:font-bold text-medium lg:text-xl md:text-medium lg:text-xl ${
                   link.activeLink
                     ? 'text-accentBase after:content[""] after:block after:absolute after:h-px after:w-full after:bg-accentBase'
-                    : textClass
+                    : activeLinks.isHomeActive
+                    ? textClass
+                    : 'text-darkBase dark:text-whiteBase'
                 }`}
               >
                 {link.label}

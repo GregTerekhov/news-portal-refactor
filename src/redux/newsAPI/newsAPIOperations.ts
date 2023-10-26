@@ -9,7 +9,6 @@ export const fetchPopularNews = createAsyncThunk<PopularNewsArray, string, { rej
   'popular/fetch',
   async (period, { rejectWithValue }) => {
     try {
-      console.log(period);
       let pathParams = '1';
 
       if (period === '30') {
@@ -23,7 +22,6 @@ export const fetchPopularNews = createAsyncThunk<PopularNewsArray, string, { rej
           'api-key': API_KEY,
         },
       });
-      console.log(res.data.results);
       return res.data.results as PopularNewsArray;
     } catch (error: any) {
       return rejectWithValue(error.response.data);
