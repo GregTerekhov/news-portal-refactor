@@ -3,7 +3,7 @@ import axios from 'axios';
 import { PopularNewsArray } from 'types';
 
 const BASE_URL = 'https://api.nytimes.com/svc';
-const API_KEY = 'uGHJWsajhmnJg2AMcnCD9YXkamMpVOHo';
+export const API_KEY = 'uGHJWsajhmnJg2AMcnCD9YXkamMpVOHo';
 
 export const fetchPopularNews = createAsyncThunk<PopularNewsArray, string, { rejectValue: any }>(
   'popular/fetch',

@@ -2,6 +2,7 @@ import { AnyAction, configureStore } from '@reduxjs/toolkit';
 import { weatherSlice } from './weather';
 import { newsAPISlice } from './newsAPI';
 import { newsDBSlice } from './newsDatabase';
+import { articleSlice } from './article';
 import votedNewsSlice from './votedNewsSlice';
 import { FLUSH, PAUSE, PERSIST, PURGE, REGISTER, REHYDRATE } from 'redux-persist';
 import { ThunkDispatch } from 'redux-thunk';
@@ -19,6 +20,7 @@ const store = configureStore({
     popular: newsAPISlice,
     newsDB: newsDBSlice,
     votedNews: votedNewsSlice,
+    article: articleSlice,
   },
   middleware,
 });
