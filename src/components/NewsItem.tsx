@@ -1,101 +1,63 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useState } from 'react';
 import { SvgIcon, VoteButton } from 'ui';
-import { useAppDispatch } from 'redux/hooks';
-import { addOrUpdateVotedNews } from 'redux/votedNewsSlice';
 import PlugImage from './PlugImage';
 import Loader from './Loader';
-import { updateLocaleStorage } from 'helpers';
-import { PopularNewsItem, VotedItem } from 'types';
+import { VotedItem } from 'types';
+import { useAppDispatch, useAppSelector } from 'redux/hooks';
+import { selectAllNews } from 'redux/newsDatabase';
+import { addOrUpdateVotedNews } from 'redux/newsDatabase/newsDataBaseSlice';
 
-const NewsItem = ({ data }: { data: Partial<PopularNewsItem> }) => {
+interface NewsItemProps {
+  data: Partial<VotedItem>;
+}
+
+const NewsItem: React.FC<Partial<NewsItemProps>> = ({ data = {} }) => {
   const [isFavourite, setIsFavourite] = useState<boolean>(false);
+  const votedNews = useAppSelector(selectAllNews);
   const [hasRead, setHasRead] = useState<boolean>(false);
-  const [isClicked, setIsClicked] = useState<boolean>(false);
-
   const dispatch = useAppDispatch();
-  const dataIdRef = useRef<number | null>(null);
 
-  useEffect(() => {
-    if (data && data?.id) {
-      if (dataIdRef.current === null) {
-        dataIdRef.current = data.id;
-      }
-      const savedFavourites = JSON.parse(localStorage.getItem('isFavourite') || '{}');
-      const savedReads = JSON.parse(localStorage.getItem('hasRead') || '{}');
-
-      const idFKeys = Object.keys(savedFavourites);
-      const idRKeys = Object.keys(savedReads);
-
-      if (dataIdRef.current) {
-        if (idFKeys.includes(data.id.toString())) {
-          setIsFavourite(true);
-        } else {
-          setIsFavourite(false);
-        }
-        if (idRKeys.includes(data.id.toString())) {
-          setHasRead(true);
-        } else {
-          setHasRead(false);
-        }
-      }
-    }
-  }, [data]);
-
-  useEffect(() => {
-    if (data) {
-      if (isClicked || hasRead) {
-        const changedData: VotedItem = {
-          id: data?.id ?? -1,
-          isFavourite: isFavourite,
-          hasRead: hasRead,
-          title: data?.title ?? '',
-          description: data?.abstract,
-          publishDate: data?.published_date ?? '',
-          category: data?.section ?? '',
-          edition: data?.source ?? '',
-          newsUrl: data?.url ?? '',
-          imgLink: data?.media?.[0]?.['media-metadata']?.[2]?.url as string,
-          imgAlt: data?.media?.[0]?.caption ?? '',
-          author: data?.byline ? data.byline.replace(/^By\s+/i, '') : '',
-        };
-        console.log('changedData', changedData);
-        dispatch(addOrUpdateVotedNews(changedData));
-      }
-    }
-  }, [isClicked, hasRead]);
-
-  const imgChecker: boolean = data?.media && data?.media.length > 0 ? true : false;
-
-  const handleVote = (e: React.MouseEvent) => {
+  const handleAddToFavourites = (e: React.MouseEvent) => {
     e.stopPropagation();
     e.preventDefault();
 
-    if (data?.id !== undefined) {
-      const newIsFavourite = !isFavourite;
-      setIsFavourite(newIsFavourite);
-      setIsClicked(true);
-      updateLocaleStorage(data.id, 'isFavourite', newIsFavourite);
+    const newIsFavourite = !isFavourite;
+    setIsFavourite(newIsFavourite);
+    console.log('newIsFavourite', newIsFavourite);
+    if (votedNews && votedNews.length !== 0) {
+      if (data?.newsUrl !== undefined) {
+        const existingNews = votedNews?.find((news) => news.newsUrl === data.newsUrl);
+        const votedRead = existingNews?.hasRead;
+        const updatedData = { ...data, isFavourite: newIsFavourite, hasRead: votedRead || false };
+        dispatch(addOrUpdateVotedNews(updatedData));
+      }
     }
   };
 
-  const handleRead = () => {
-    if (data?.id !== undefined) {
-      const newHasRead = true;
-      setHasRead(newHasRead);
+  const handleReadNews = () => {
+    const newHasRead = true;
+    setHasRead(newHasRead);
 
-      updateLocaleStorage(data.id, 'hasRead', newHasRead);
+    if (votedNews) {
+      if (data?.newsUrl !== undefined) {
+        const existingNews = votedNews?.find((news) => news.newsUrl === data.newsUrl);
+        const votedFavourite = existingNews?.isFavourite;
+
+        const updatedData = { ...data, hasRead: newHasRead, isFavourite: votedFavourite || false };
+        dispatch(addOrUpdateVotedNews(updatedData));
+      }
     }
   };
 
   return (
     <>
-      {data ? (
-        <a className='block' href={data?.url} target='_blank' onClick={handleRead}>
+      {data && data.newsUrl ? (
+        <a className='block' href={data?.newsUrl} target='_blank' onClick={handleReadNews}>
           <div
             className={`${hasRead ? 'absolute z-20 w-full h-full bg-foreground' : 'hidden'}`}
           ></div>
           <p className='absolute z-20 top-10 left-0 py-1 px-2 text-small font-medium text-contrastWhite bg-accentForeground rounded-r'>
-            {data?.section}
+            {data?.category}
           </p>
           {hasRead && (
             <p className='absolute z-10 top-3.5 right-3.5 md:top-5 md:right-5 text-base font-bold text-readBase flex items-center gap-1'>
@@ -104,16 +66,16 @@ const NewsItem = ({ data }: { data: Partial<PopularNewsItem> }) => {
             </p>
           )}
           <div className='relative h-395px flex justify-center items-center overflow-hidden rounded-[10px]'>
-            {imgChecker ? (
+            {data && data?.imgLink ? (
               <img
                 className='rounded-xl max-w-none h-full absolute object-cover'
-                src={data?.media && data?.media?.[0]?.['media-metadata']?.[2].url}
-                alt={(data?.media && data?.media[0].caption) || 'plug image'}
+                src={data?.imgLink}
+                alt={data?.imgAlt ? data?.imgAlt : 'plug image'}
               />
             ) : (
               <PlugImage variant='card' />
             )}
-            <VoteButton onHandleClick={handleVote} isFavourite={isFavourite} />
+            <VoteButton onHandleClick={handleAddToFavourites} isFavourite={isFavourite} />
           </div>
           <div className='px-4 mt-4'>
             <h2
@@ -122,10 +84,10 @@ const NewsItem = ({ data }: { data: Partial<PopularNewsItem> }) => {
               {data?.title}
             </h2>
             <p className='h-[57px] md:h-[66px] text-base md:text-medium leading-tight line-clamp-3 text-darkBase dark:text-whiteBase mb-4'>
-              {data?.abstract}
+              {data?.description}
             </p>
             <div className='flex justify-between'>
-              <p className='text-base md:text-medium text-greyAlt'>{data?.published_date}</p>
+              <p className='text-base md:text-medium text-greyAlt'>{data?.publishDate}</p>
               <p className='text-base md:text-medium text-accentBase'>Read more</p>
             </div>
           </div>

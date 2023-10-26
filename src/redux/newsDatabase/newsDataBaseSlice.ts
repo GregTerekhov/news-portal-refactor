@@ -1,10 +1,10 @@
-import { SerializedError, createSlice } from '@reduxjs/toolkit';
+import { PayloadAction, SerializedError, createSlice } from '@reduxjs/toolkit';
 import { fetchAllNews, fetchFavourites, fetchRead, addNews } from './newsDatabaseOperations';
 // import type { PayloadAction } from '@reduxjs/toolkit';
-import { PartialVotedNewsArray } from 'types';
+import { PartialVotedNewsArray, VotedItem } from 'types';
 
 interface SelectedNewsState {
-  selectedNews: PartialVotedNewsArray;
+  allSelectedNews: PartialVotedNewsArray;
   favourites: PartialVotedNewsArray;
   reads: PartialVotedNewsArray;
   isLoading: boolean;
@@ -19,7 +19,7 @@ interface SelectedNewsState {
 // >;
 
 const initialState = {
-  selectedNews: [],
+  allSelectedNews: [],
   favourites: [],
   reads: [],
   isLoading: false,
@@ -56,7 +56,34 @@ const initialState = {
 const newsDBSlice = createSlice({
   name: 'favourite',
   initialState,
-  reducers: {},
+  reducers: {
+    addOrUpdateVotedNews: (state, action: PayloadAction<Partial<VotedItem>>) => {
+      const updatedVotedNews = action.payload;
+      const existingNewsIndex = state.allSelectedNews.findIndex(
+        (news) => news.newsUrl === updatedVotedNews.newsUrl,
+      );
+      if (existingNewsIndex !== -1) {
+        if (
+          !!updatedVotedNews.isFavourite ||
+          !!updatedVotedNews.hasRead ||
+          (!!updatedVotedNews.isFavourite && !!updatedVotedNews.hasRead)
+        ) {
+          state.allSelectedNews[existingNewsIndex] = {
+            ...state.allSelectedNews[existingNewsIndex],
+            isFavourite: updatedVotedNews.isFavourite,
+            hasRead: updatedVotedNews.hasRead,
+          };
+        } else {
+          state.allSelectedNews.splice(existingNewsIndex, 1);
+        }
+      } else {
+        state.allSelectedNews.push(updatedVotedNews);
+      }
+    },
+    clearVotedNews: (state) => {
+      state.allSelectedNews = [];
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(fetchAllNews.pending, (state) => {
@@ -65,7 +92,7 @@ const newsDBSlice = createSlice({
       })
       .addCase(fetchAllNews.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.selectedNews = action.payload;
+        state.allSelectedNews = action.payload;
         state.hasError = null;
       })
       .addCase(fetchAllNews.rejected, (state, action) => {
@@ -78,7 +105,7 @@ const newsDBSlice = createSlice({
       })
       .addCase(fetchFavourites.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.selectedNews = action.payload;
+        state.favourites = action.payload;
         state.hasError = null;
       })
       .addCase(fetchFavourites.rejected, (state, action) => {
@@ -91,7 +118,7 @@ const newsDBSlice = createSlice({
       })
       .addCase(fetchRead.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.selectedNews = action.payload;
+        state.reads = action.payload;
         state.hasError = null;
       })
       .addCase(fetchRead.rejected, (state, action) => {
@@ -104,7 +131,6 @@ const newsDBSlice = createSlice({
       })
       .addCase(addNews.fulfilled, (state, action) => {
         const {
-          id: id,
           title,
           description,
           isFavourite,
@@ -117,11 +143,11 @@ const newsDBSlice = createSlice({
           imgAlt,
           newsUrl,
         } = action.payload;
-        const index = state.selectedNews.findIndex((news) => news.id === id);
+        console.log('action.payload', action.payload.data);
+        const index = state.allSelectedNews.findIndex((news) => news.newsUrl === newsUrl);
 
         if (index !== -1) {
-          state.selectedNews[index] = {
-            id: id,
+          state.allSelectedNews[index] = {
             title,
             description,
             isFavourite,
@@ -142,5 +168,5 @@ const newsDBSlice = createSlice({
       });
   },
 });
-
+export const { addOrUpdateVotedNews, clearVotedNews } = newsDBSlice.actions;
 export default newsDBSlice.reducer;

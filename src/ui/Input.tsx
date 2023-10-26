@@ -67,6 +67,7 @@ const Input: FC<InputProps> = (props) => {
 
   return (
     <label
+      htmlFor={name}
       className={`relative flex gap-x-4 ${hasIcon && 'justify-center'} ${
         labelCheckbox ? 'flex-row cursor-pointer' : 'flex-col'
       }`}
@@ -86,6 +87,7 @@ const Input: FC<InputProps> = (props) => {
         className={` ${inputGeometry} ${checkboxStyles} ${
           hasIcon ? 'pl-11 pr-3' : 'px-4 md:px-4'
         } font-header border-solid border rounded-3xl outline-0 text-small leading-mediumRelaxed tracking-bigWide md:text-base md:leading-moreRelaxed md:tracking-wide ${placeholderColor} ${inputBorder} ${inputBg} ${caretColor} ${textColor}`}
+        id={name}
         name={name}
         type={type}
         placeholder={placeholder}

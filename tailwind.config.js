@@ -30,6 +30,7 @@ export default {
         greyAlt: '#a8a8a8',
         greyIcon: '#a2a2a2',
         accentForeground: 'rgba(68, 64, 246, 0.70)', // accentBase 70%
+        accentLightForeground: 'rgba(68, 64, 246, 0.40)', // accentBase 70%
         foregroundLight: 'rgba(244, 244, 244, 0.80)', // whiteBase 80%
         foregroundDark: 'rgba(46, 46, 46, 0.80)', // darkThemeBackground 80%
         foregroundMedium: 'rgba(46, 46, 46, 0.40)', // darkThemeBackground 40%
@@ -97,6 +98,20 @@ export default {
       },
       transitionDuration: {
         DEFAULT: '500ms',
+      },
+      keyframes: {
+        'accordion-down': {
+          from: { height: '0' },
+          to: { height: 'var(--radix-accordion-content-height)' },
+        },
+        'accordion-up': {
+          from: { height: 'var(--radix-accordion-content-height)' },
+          to: { height: '0' },
+        },
+      },
+      animation: {
+        'accordion-down': 'accordion-down 0.2s ease-out',
+        'accordion-up': 'accordion-up 0.2s ease-out',
       },
       // maxWidth: {
       //   maxWidth: calc('max-w' - '64px'),

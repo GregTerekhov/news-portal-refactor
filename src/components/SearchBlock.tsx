@@ -40,10 +40,12 @@ const SearchBlock = () => {
   return (
     <div className='w-1/2'>
       <button
-        className={`bg-accentForeground ${borderRadius} w-full py-1.5 px-6 flex justify-end`}
+        className={`flex items-center gap-2 bg-accentBase ${borderRadius} w-full py-1.5 px-6 flex justify-end text-whiteBase font-medium text-medium md:text-2xl`}
         type='button'
         onClick={onClick}
       >
+        {' '}
+        Search
         <SvgIcon
           svgName={showDropdown ? 'icon-arrow-up' : 'icon-arrow-down'}
           size={15}
@@ -51,7 +53,7 @@ const SearchBlock = () => {
         />
       </button>
       {showDropdown && (
-        <form className='md:grid md:grid-cols-2 md:grid-rows-5 md:gap-x-3.5 md:gap-y-1.5 lg:grid-cols-3 lg:grid-rows-4 lg:gap-3.5 bg-accentForeground p-3.5 rounded-xl'>
+        <form className='md:grid md:grid-cols-2 md:grid-rows-5 md:gap-x-3.5 md:gap-y-1.5 lg:grid-cols-3 lg:grid-rows-4 lg:gap-3.5 bg-accentLightForeground p-3.5 rounded-xl'>
           <div>
             <Input
               inputData={{ name: 'author', type: 'text', placeholder: 'Author' }}

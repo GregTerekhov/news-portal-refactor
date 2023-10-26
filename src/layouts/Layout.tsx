@@ -1,7 +1,7 @@
 import React from 'react';
 import Header from './Header';
 import { Outlet, useLocation } from 'react-router-dom';
-import { Hero, PageScrollController, SearchBlock } from 'components';
+import { FiltersBlock, Hero, PageScrollController, SearchBlock } from 'components';
 import { useWindowWidth } from 'hooks';
 
 const Layout = () => {
@@ -20,7 +20,7 @@ const Layout = () => {
         <div className='container mx-auto px-4 hg:px-[65px]'>
           <div className='flex gap-7 mb-10 md:mb-12 lg:mb-[60px]'>
             <SearchBlock />
-            <SearchBlock />
+            <FiltersBlock />
           </div>
           {(isHomePage && breakpointsForMarkup?.isTablet) || breakpointsForMarkup?.isDesktop ? (
             <>

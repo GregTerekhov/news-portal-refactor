@@ -16,19 +16,25 @@ export type PopularNewsItem = {
 };
 
 export type VotedItem = {
-  id: number;
+  // id?: number;
   title: string;
   description?: string;
   isFavourite: boolean;
   hasRead: boolean;
   publishDate: string;
-  edition: string;
+  edition?: string;
   author?: string;
   category: string;
-  imgLink: string;
+  imgLink?: string;
   imgAlt?: string;
   newsUrl: string;
 };
+
+export enum VariantRender {
+  Popular = 'popular',
+  Search = 'search',
+  Categories = 'categories',
+}
 
 export type VotedNewsArray = VotedItem[];
 export type PartialVotedNewsArray = Partial<VotedItem>[];

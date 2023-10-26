@@ -1,10 +1,10 @@
 import React from 'react';
 import NewsItem from './NewsItem';
 import WeatherBlock from './WeatherBlock';
-import { PartialPopularNewsArray } from 'types';
+import { PartialVotedNewsArray, VotedItem } from 'types';
 
 interface NewsListProps {
-  currentItems: PartialPopularNewsArray;
+  currentItems: PartialVotedNewsArray;
   currentPage: number;
 }
 
@@ -19,9 +19,9 @@ const NewsList: React.FC<Partial<NewsListProps>> = ({ currentItems, currentPage 
         </li>
       )}
       {currentItems &&
-        currentItems.map((newsItem: any, index: number) => (
+        currentItems.map((newsItem: Partial<VotedItem>, index: number) => (
           <li
-            key={newsItem.id}
+            key={newsItem.newsUrl}
             className={`relative w-72 md:w-[353px] lg:w-[395px] hg:w-[442px] h-[630px] md:h-[675px] shadow-card overflow-hidden rounded-[10px] dark:shadow-darkCard transition-transform duration-500 hover:scale-105 ${
               index === 0 && 'md:col-start-1 md:row-start-1 lg:col-start-1'
             } ${index === 1 && 'lg:col-start-2 lg:row-start-1'}`}
