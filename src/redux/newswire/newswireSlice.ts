@@ -1,11 +1,11 @@
 import { SerializedError, createSlice } from '@reduxjs/toolkit';
-import { fetchPopularNews } from './newsAPIOperations';
-import { PopularNewsArray } from 'types';
+import { fetchNewswire } from './newswireOperations';
+import { PartialGeneralNewsArray } from 'types';
 
-type PopularState = {
+type NewswireState = {
   incomingData: {
     queryType: string;
-    newsData: PopularNewsArray;
+    newsData: PartialGeneralNewsArray;
   };
   isLoading: boolean;
   hasError: SerializedError | null;
@@ -13,32 +13,32 @@ type PopularState = {
 
 const initialState = {
   incomingData: {
-    queryType: 'popular',
+    queryType: 'categories',
     newsData: [],
   },
   isLoading: false,
   hasError: null,
-} as PopularState;
+} as NewswireState;
 
-const popularSlice: any = createSlice({
+const newswireSlice: any = createSlice({
   name: 'popular',
   initialState,
   reducers: {},
   extraReducers: (builder) => {
     builder
-      .addCase(fetchPopularNews.pending, (state) => {
+      .addCase(fetchNewswire.pending, (state) => {
         state.isLoading = true;
         state.hasError = null;
       })
-      .addCase(fetchPopularNews.fulfilled, (state, action) => {
+      .addCase(fetchNewswire.fulfilled, (state, action) => {
         state.incomingData.newsData = action.payload;
         state.hasError = null;
       })
-      .addCase(fetchPopularNews.rejected, (state, action) => {
+      .addCase(fetchNewswire.rejected, (state, action) => {
         state.isLoading = false;
         state.hasError = action.error;
       });
   },
 });
 
-export default popularSlice.reducer;
+export default newswireSlice.reducer;

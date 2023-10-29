@@ -7,6 +7,7 @@ export type PopularNewsItem = {
     'media-metadata'?: {
       url?: string;
     }[];
+    url?: string;
   }[];
   published_date: string;
   section: string;
@@ -17,14 +18,14 @@ export type PopularNewsItem = {
 
 export type ArticleNewsItem = {
   abstract?: string;
-  snippet?: string;
+  byline?: string;
   multimedia: {
     url?: string;
   }[];
   pub_date: string;
   section_name: string;
   source: string;
-  headline: {
+  headline?: {
     main: string;
   };
   web_url: string;
@@ -55,3 +56,34 @@ export type VotedNewsArray = VotedItem[];
 export type PartialVotedNewsArray = Partial<VotedItem>[];
 export type PopularNewsArray = PopularNewsItem[];
 export type PartialPopularNewsArray = Partial<PopularNewsItem>[];
+export type ArticleNewsArray = ArticleNewsItem[];
+export type PartialArticleNewsArray = Partial<ArticleNewsItem>[];
+
+export type GeneralNewsArray = {
+  abstract?: string;
+  byline?: string;
+  media: {
+    caption?: string;
+    'media-metadata'?: {
+      url?: string;
+    }[];
+    url?: string;
+  }[];
+  published_date: string;
+  section: string;
+  source: string;
+  title: string;
+  url: string;
+
+  multimedia: {
+    url?: string;
+  }[];
+  pub_date: string;
+  section_name: string;
+  headline?: {
+    main: string;
+  };
+  web_url: string;
+};
+
+export type PartialGeneralNewsArray = Partial<GeneralNewsArray>[];

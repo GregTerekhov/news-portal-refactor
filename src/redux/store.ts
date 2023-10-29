@@ -6,6 +6,7 @@ import { articleSlice } from './article';
 import votedNewsSlice from './votedNewsSlice';
 import { FLUSH, PAUSE, PERSIST, PURGE, REGISTER, REHYDRATE } from 'redux-persist';
 import { ThunkDispatch } from 'redux-thunk';
+import { newswireSlice } from './newswire';
 
 const middleware = (getDefaultMiddleware: any) =>
   getDefaultMiddleware({
@@ -21,6 +22,7 @@ const store = configureStore({
     newsDB: newsDBSlice,
     votedNews: votedNewsSlice,
     article: articleSlice,
+    newswire: newswireSlice,
   },
   middleware,
 });

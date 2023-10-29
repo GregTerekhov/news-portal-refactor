@@ -7,7 +7,5 @@ export const fetchArticle: any = createAsyncThunk('article/fetch', async (query,
     `https://api.nytimes.com/svc/search/v2/articlesearch.json?q=${query}&api-key=${API_KEY}`,
   );
 
-  console.log(res.data.response.docs);
-
   return res.data.response.docs;
 });

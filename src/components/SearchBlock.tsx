@@ -5,6 +5,8 @@ import { useAppDispatch } from 'redux/hooks';
 import { fetchPopularNews } from 'redux/newsAPI';
 import { useLocation } from 'react-router-dom';
 
+import { categoriesList } from 'helpers/categoriesList';
+
 const SearchBlock = () => {
   const [showDropdown, setShowDropdown] = useState<boolean>(false);
   const [selectedPeriod, setSelectedPeriod] = useState<string>('Today');
@@ -68,7 +70,7 @@ const SearchBlock = () => {
               variant='searchBlock'
             />
           </div>
-          <Dropdown labels={['1', '2']}>Categories</Dropdown>
+          <Dropdown labels={categoriesList}>Categories</Dropdown>
           <Dropdown labels={['1', '2']}>Type</Dropdown>
           {isHomePage && (
             <Dropdown labels={['Today', 'Week', 'Month']} getResults={getNewsByPeriod}>

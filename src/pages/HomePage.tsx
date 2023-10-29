@@ -1,11 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { Loader, NewsList, Pagination } from 'components';
 import { selectLoading, selectPopular, fetchPopularNews } from 'redux/newsAPI';
+import { selectArticles } from 'redux/article';
+import { selectNewswire } from 'redux/newswire';
 import { useItemsPerPage, useWindowWidth } from 'hooks';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import { addNews, fetchAllNews, selectAllNews } from 'redux/newsDatabase';
-import { PartialVotedNewsArray } from 'types/news';
+import { PartialGeneralNewsArray } from 'types/news';
 import { calculatePages, rebuildNewsArray } from 'helpers';
+import { useSelector } from 'react-redux';
+
 // import { clearVotedNews } from 'redux/votedNewsSlice';
 
 const HomePage = () => {
@@ -16,12 +20,28 @@ const HomePage = () => {
 
   const dispatch = useAppDispatch();
   const popularData = useAppSelector(selectPopular);
+  const newswireData = useSelector(selectNewswire);
+  const articleData = useSelector(selectArticles);
+
   const isLoading = useAppSelector(selectLoading);
   const votedNews = useAppSelector(selectAllNews);
-  const rebuildedNews = rebuildNewsArray(popularData ?? []);
+
+  const [distributeData, setDistributeData] = useState(null);
+  const rebuildedNews = rebuildNewsArray(distributeData);
   const [currentPage, setCurrentPage] = useState<number>(1);
-  const [currentItems, setCurrentItems] = useState<PartialVotedNewsArray>([]);
-  // const [hidden, setHidden] = useState<boolean>(false);
+  const [currentItems, setCurrentItems] = useState<PartialGeneralNewsArray>([]);
+
+  useEffect(() => {
+    console.log('WIRRE', newswireData);
+    // const newsClarify = 0;
+    console.log('ART', articleData);
+
+    if (articleData.newsData.length > 0 && articleData.newsData.length <= 10) {
+      setDistributeData(articleData);
+      return;
+    }
+    setDistributeData(popularData);
+  }, [popularData, articleData, newswireData]);
 
   useEffect(() => {
     dispatch(fetchPopularNews('1'));
@@ -29,26 +49,20 @@ const HomePage = () => {
   }, [dispatch]);
 
   useEffect(() => {
-    const hidePage = document.visibilityState === 'hidden';
+    // const hidePage = document.visibilityState === 'hidden';
 
     const handleVisibilityChange = () => {
-      if (hidePage) {
-        console.log('hidePage', hidePage);
-        // setHidden(true);
-        console.log('Page has been hidden!');
-        console.log('votedNews', votedNews);
-        // if (votedNews && votedNews.length !== 0) {
-        // dispatch(addNews(votedNews));
-        // }
-      }
+      // if (hidePage) {
+      // console.log('hidePage', hidePage);
+      // console.log('Page has been hidden!');
+      // console.log('votedNews', votedNews);
+      // }
     };
     document.addEventListener('visibilitychange', handleVisibilityChange);
 
     return () => {
       console.log('After unmount');
-      // if (votedNews && votedNews.length !== 0) {
       dispatch(addNews(votedNews));
-      // }
       document.removeEventListener('visibilitychange', handleVisibilityChange);
     };
   }, []);
@@ -71,9 +85,10 @@ const HomePage = () => {
       const indexOfLastItem = currentPage * currentCardsPerPage;
       const indexOfFirstItem = indexOfLastItem - currentCardsPerPage;
       const items = rebuildedNews?.slice(indexOfFirstItem, indexOfLastItem);
+      // console.log('ITEMS', items);
       setCurrentItems(items);
     }
-  }, [popularData, currentPage, itemsPerPage]);
+  }, [distributeData, currentPage, itemsPerPage]);
 
   function getCurrentCardsPerPage() {
     if (breakpointsForMarkup?.isMobile || breakpointsForMarkup?.isNothing) {
@@ -94,8 +109,10 @@ const HomePage = () => {
   }
 
   if (votedNews && votedNews.length !== 0) {
-    console.log('votedNews', votedNews);
+    // console.log('votedNews', votedNews);
   }
+
+  // console.log('currentItems', currentItems);
 
   return (
     <div>
@@ -112,7 +129,6 @@ const HomePage = () => {
         </>
       )}
     </div>
-    // <PlugImage variant='page' />
   );
 };
 

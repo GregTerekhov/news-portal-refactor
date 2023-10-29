@@ -1,6 +1,8 @@
 import React, { ReactNode, useState } from 'react';
 import { Menu } from '@headlessui/react';
 import SvgIcon from './SvgIcon';
+import { useDispatch } from 'react-redux';
+import { fetchNewswire } from 'redux/newswire';
 
 type D = {
   children: ReactNode;
@@ -12,15 +14,22 @@ const Dropdown = ({ children, labels }: Partial<D>) => {
   const [isOpenDropdown, setIsOpenDropdown] = useState<boolean>(false);
   // const [selectedValue, setSelectedValue] = useState<string>('');
 
+  const dispatch = useDispatch();
+
   const handleOpenClick = () => {
     setIsOpenDropdown(!isOpenDropdown);
   };
 
-  // const handleItemClick = (item: string) => {
-  //   // setSelectedValue(item);
-  //   // getResults(item);
-  //   setIsOpenDropdown(false);
-  // };
+  console.log(children);
+
+  const handleItemClick = (e: any) => {
+    const selectedCategories = e.currentTarget.textContent;
+    console.log(selectedCategories);
+    dispatch(fetchNewswire(selectedCategories));
+    // setSelectedValue(item);
+    // getResults(item);
+    // setIsOpenDropdown(false);
+  };
 
   return (
     <Menu as='div' className='relative'>
@@ -44,7 +53,7 @@ const Dropdown = ({ children, labels }: Partial<D>) => {
                 className={`${
                   active ? 'bg-accentBase text-contrastWhite' : 'text-accentBase'
                 } text-small tracking-wide py-1.5`}
-                // onClick={() => handleItemClick(item)}
+                onClick={(e) => handleItemClick(e)}
               >
                 {item}
               </button>
