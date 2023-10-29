@@ -2,13 +2,12 @@ import { Accordeon, Loader, NewsList, PlugImage } from 'components';
 import React, { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import { fetchRead, selectAllReads, selectLoading } from 'redux/newsDatabase';
+import { formatDateString } from 'helpers';
 
 const ReadPage = () => {
   const dispatch = useAppDispatch();
   const readNews = useAppSelector(selectAllReads);
   const isLoading = useAppSelector(selectLoading);
-
-  // console.log(readNews);
 
   useEffect(() => {
     dispatch(fetchRead());
@@ -18,16 +17,31 @@ const ReadPage = () => {
     .map((news) => news.publishDate)
     .filter((date) => date !== undefined) as string[];
 
-  const shouldShowLoader = isLoading && readNews.length === 0;
+  // Використовуємо Set для визначення унікальних дат
+  const uniqueDatesSet = new Set(publishedDate);
+
+  // Перетворення і сортування дат
+  const sortedDates = Array.from(uniqueDatesSet).map(formatDateString).sort().reverse();
+
+  const shouldShowLoader = isLoading;
   const shouldShowAccordeon = !isLoading && readNews.length !== 0;
 
   return (
     <>
       {shouldShowLoader && <Loader />}
       {shouldShowAccordeon && (
-        <Accordeon publishedDate={publishedDate}>
-          <NewsList />
-        </Accordeon>
+        <div>
+          {sortedDates.map((date) => (
+            <Accordeon key={date} publishedDate={date}>
+              <NewsList
+                currentItems={readNews?.filter(
+                  (news) =>
+                    news?.publishDate !== undefined && formatDateString(news?.publishDate) === date,
+                )}
+              />
+            </Accordeon>
+          ))}
+        </div>
       )}
       {!shouldShowLoader && !shouldShowAccordeon && <PlugImage variant='page' />}
     </>

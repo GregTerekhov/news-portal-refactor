@@ -17,7 +17,10 @@ export type PopularNewsItem = {
 
 export type ArticleNewsItem = {
   abstract?: string;
-  snippet?: string;
+  byline?: {
+    original?: string;
+  };
+  lead_paragraph?: string;
   multimedia: {
     url?: string;
   }[];
@@ -31,7 +34,6 @@ export type ArticleNewsItem = {
 };
 
 export type VotedItem = {
-  // id?: number;
   title: string;
   description?: string;
   isFavourite: boolean;
@@ -55,3 +57,5 @@ export type VotedNewsArray = VotedItem[];
 export type PartialVotedNewsArray = Partial<VotedItem>[];
 export type PopularNewsArray = PopularNewsItem[];
 export type PartialPopularNewsArray = Partial<PopularNewsItem>[];
+export type ArticleNewsArray = ArticleNewsItem[];
+export type PartialArticleNewsArray = Partial<ArticleNewsItem>[];
