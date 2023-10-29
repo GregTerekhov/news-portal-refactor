@@ -8,19 +8,17 @@ const FavouritePage = () => {
   const favourites = useAppSelector(selectAllFavourites);
   const isLoading = useAppSelector(selectLoading);
 
-  // console.log(favourites);
-
   useEffect(() => {
     dispatch(fetchFavourites());
   }, [dispatch]);
 
-  const shouldShowLoader = isLoading && favourites.length === 0;
+  const shouldShowLoader = isLoading;
   const shouldShowContent = !isLoading && favourites.length !== 0;
 
   return (
     <>
       {shouldShowLoader && <Loader />}
-      {shouldShowContent && <NewsList />}
+      {shouldShowContent && <NewsList currentItems={favourites} />}
       {!shouldShowLoader && !shouldShowContent && <PlugImage variant='page' />}
     </>
   );

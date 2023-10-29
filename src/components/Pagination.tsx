@@ -12,7 +12,7 @@ const Pagination: React.FC<P> = ({ pageNumbers, currentPage, setCurrentPage }) =
     breakpointsForMarkup: null,
   };
   const totalPages = pageNumbers.length;
-
+  const screenHeight = window.innerHeight;
   let visibleButtonsCount: number = 0;
 
   if (breakpointsForMarkup?.isNothing || breakpointsForMarkup?.isMobile) {
@@ -34,7 +34,7 @@ const Pagination: React.FC<P> = ({ pageNumbers, currentPage, setCurrentPage }) =
       className={`${pageNumber === currentPage ? 'active' : ''}`}
       onClick={() => {
         setCurrentPage(pageNumber);
-        window.scrollTo(0, 0);
+        window.scrollTo({ top: 0 + screenHeight, left: 0 });
       }}
     >
       <button
@@ -96,14 +96,14 @@ const Pagination: React.FC<P> = ({ pageNumbers, currentPage, setCurrentPage }) =
   const handlePrevClick = () => {
     if (currentPage > 1) {
       setCurrentPage(currentPage - 1);
-      window.scrollTo(0, 0);
+      window.scrollTo({ top: 0 + screenHeight, left: 0 });
     }
   };
 
   const handleNextClick = () => {
     if (currentPage < pageNumbers.length) {
       setCurrentPage(currentPage + 1);
-      window.scrollTo(0, 0);
+      window.scrollTo({ top: 0 + screenHeight, left: 0 });
     }
   };
 

@@ -5,6 +5,7 @@ import { PartialVotedNewsArray, VotedItem } from 'types';
 
 interface SelectedNewsState {
   allSelectedNews: PartialVotedNewsArray;
+  savedNews: PartialVotedNewsArray;
   favourites: PartialVotedNewsArray;
   reads: PartialVotedNewsArray;
   isLoading: boolean;
@@ -20,6 +21,7 @@ interface SelectedNewsState {
 
 const initialState = {
   allSelectedNews: [],
+  savedNews: [],
   favourites: [],
   reads: [],
   isLoading: false,
@@ -168,5 +170,6 @@ const newsDBSlice = createSlice({
       });
   },
 });
+
 export const { addOrUpdateVotedNews, clearVotedNews } = newsDBSlice.actions;
 export default newsDBSlice.reducer;

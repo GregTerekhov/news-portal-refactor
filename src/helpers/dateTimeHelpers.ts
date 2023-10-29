@@ -72,3 +72,8 @@ export function convertTimezone(data: any) {
   const convert = zoneList[data];
   return convert;
 }
+
+export function formatDateString(dateString: string) {
+  const [year, month, day] = dateString.split('-');
+  return `${day}/${month}/${year}`;
+}

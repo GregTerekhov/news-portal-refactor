@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { SvgIcon, VoteButton } from 'ui';
 import PlugImage from './PlugImage';
 import Loader from './Loader';
@@ -6,55 +6,132 @@ import { VotedItem } from 'types';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import { selectAllNews } from 'redux/newsDatabase';
 import { addOrUpdateVotedNews } from 'redux/newsDatabase/newsDataBaseSlice';
+import { useLocation } from 'react-router-dom';
 
 interface NewsItemProps {
   data: Partial<VotedItem>;
 }
 
 const NewsItem: React.FC<Partial<NewsItemProps>> = ({ data = {} }) => {
-  const [isFavourite, setIsFavourite] = useState<boolean>(false);
-  const votedNews = useAppSelector(selectAllNews);
-  const [hasRead, setHasRead] = useState<boolean>(false);
+  const savedNews = useAppSelector(selectAllNews);
+  const [isFavourite, setIsFavourite] = useState<boolean>(() => {
+    const existingNews = savedNews?.find((news) => news.newsUrl === data?.newsUrl);
+    return existingNews?.isFavourite ?? false;
+  });
+  const [hasRead, setHasRead] = useState<boolean>(() => {
+    const existingNews = savedNews?.find((news) => news.newsUrl === data?.newsUrl);
+    return existingNews?.hasRead ?? false;
+  });
   const dispatch = useAppDispatch();
+  const location = useLocation();
+  const isHomePage = location.pathname === '/';
+
+  useEffect(() => {
+    if (savedNews && data?.newsUrl !== undefined) {
+      if (savedNews?.length !== 0) {
+        const existingNews = savedNews?.find((news) => news.newsUrl === data?.newsUrl);
+        if (existingNews?.isFavourite && existingNews?.hasRead) {
+          setIsFavourite(true);
+          setHasRead(true);
+        }
+        if (existingNews?.isFavourite && !existingNews?.hasRead) {
+          setIsFavourite(true);
+        }
+        if (existingNews?.hasRead && !existingNews?.isFavourite) {
+          setHasRead(true);
+        }
+      } else {
+        return;
+      }
+    }
+  }, [savedNews]);
 
   const handleAddToFavourites = (e: React.MouseEvent) => {
     e.stopPropagation();
     e.preventDefault();
 
-    const newIsFavourite = !isFavourite;
-    setIsFavourite(newIsFavourite);
-    console.log('newIsFavourite', newIsFavourite);
-    if (votedNews && votedNews.length !== 0) {
-      if (data?.newsUrl !== undefined) {
-        const existingNews = votedNews?.find((news) => news.newsUrl === data.newsUrl);
-        const votedRead = existingNews?.hasRead;
-        const updatedData = { ...data, isFavourite: newIsFavourite, hasRead: votedRead || false };
+    if (savedNews && data && data?.newsUrl !== undefined) {
+      if (savedNews.length === 0) {
+        setIsFavourite(true);
+
+        const updatedData = { ...data, isFavourite: true, hasRead: false };
+        console.log('savedNews.length === 0 updatedDataFavour: ', updatedData);
         dispatch(addOrUpdateVotedNews(updatedData));
+      } else {
+        const existingNews = savedNews?.find((news) => news.newsUrl === data.newsUrl);
+        console.log(typeof existingNews?.isFavourite);
+
+        if (!existingNews) {
+          setIsFavourite(true);
+
+          const updatedData = { ...data, isFavourite: true, hasRead: false };
+          console.log('savedNews.length !== 0 && !existingNews updatedDataFavour: ', updatedData);
+          dispatch(addOrUpdateVotedNews(updatedData));
+        } else {
+          const savedRead = existingNews?.hasRead;
+
+          if (!existingNews.isFavourite) {
+            setIsFavourite(true);
+
+            const updatedData = { ...data, isFavourite: true, hasRead: savedRead };
+            console.log(
+              'savedNews.length !== 0 && existingNews.isFavourite === false updatedDataFavour: ',
+              updatedData,
+            );
+            dispatch(addOrUpdateVotedNews(updatedData));
+          } else {
+            setIsFavourite(false);
+
+            const updatedData = { ...data, isFavourite: false, hasRead: savedRead };
+            console.log(
+              'savedNews.length !== 0 && existingNews.isFavourite === true updatedDataFavour: ',
+              updatedData,
+            );
+            dispatch(addOrUpdateVotedNews(updatedData));
+          }
+        }
       }
     }
   };
 
   const handleReadNews = () => {
-    const newHasRead = true;
-    setHasRead(newHasRead);
+    if (savedNews && data && data?.newsUrl !== undefined) {
+      if (savedNews.length === 0) {
+        setHasRead(true);
 
-    if (votedNews) {
-      if (data?.newsUrl !== undefined) {
-        const existingNews = votedNews?.find((news) => news.newsUrl === data.newsUrl);
-        const votedFavourite = existingNews?.isFavourite;
-
-        const updatedData = { ...data, hasRead: newHasRead, isFavourite: votedFavourite || false };
+        const updatedData = { ...data, hasRead: true, isFavourite: false };
+        console.log('updatedDataRead', updatedData);
         dispatch(addOrUpdateVotedNews(updatedData));
+      } else {
+        const existingNews = savedNews?.find((news) => news.newsUrl === data.newsUrl);
+
+        if (!existingNews) {
+          setHasRead(true);
+
+          const updatedData = { ...data, hasRead: true, isFavourite: false };
+          console.log('updatedDataRead', updatedData);
+          dispatch(addOrUpdateVotedNews(updatedData));
+        } else {
+          const updatedData = {
+            ...data,
+            hasRead: existingNews.hasRead,
+            isFavourite: existingNews.isFavourite,
+          };
+          console.log('updatedDataRead', updatedData);
+          dispatch(addOrUpdateVotedNews(updatedData));
+        }
       }
     }
   };
 
   return (
     <>
-      {data && data.newsUrl ? (
+      {data && data?.newsUrl ? (
         <a className='block' href={data?.newsUrl} target='_blank' onClick={handleReadNews}>
           <div
-            className={`${hasRead ? 'absolute z-20 w-full h-full bg-foreground' : 'hidden'}`}
+            className={`${
+              hasRead && isHomePage ? 'absolute z-20 w-full h-full bg-foreground' : 'hidden'
+            }`}
           ></div>
           <p className='absolute z-20 top-10 left-0 py-1 px-2 text-small font-medium text-contrastWhite bg-accentForeground rounded-r'>
             {data?.category}
@@ -88,7 +165,7 @@ const NewsItem: React.FC<Partial<NewsItemProps>> = ({ data = {} }) => {
             </p>
             <div className='flex justify-between'>
               <p className='text-base md:text-medium text-greyAlt'>{data?.publishDate}</p>
-              <p className='text-base md:text-medium text-accentBase'>Read more</p>
+              <p className='text-base md:text-medium text-accentBase'>Click for read more...</p>
             </div>
           </div>
         </a>

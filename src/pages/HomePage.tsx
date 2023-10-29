@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useLayoutEffect, useState } from 'react';
 import { Loader, NewsList, Pagination } from 'components';
 import { selectLoading, selectPopular, fetchPopularNews } from 'redux/newsAPI';
 import { useItemsPerPage, useWindowWidth } from 'hooks';
@@ -6,7 +6,6 @@ import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import { addNews, fetchAllNews, selectAllNews } from 'redux/newsDatabase';
 import { PartialVotedNewsArray } from 'types/news';
 import { calculatePages, rebuildNewsArray } from 'helpers';
-// import { clearVotedNews } from 'redux/votedNewsSlice';
 
 const HomePage = () => {
   const { breakpointsForMarkup } = useWindowWidth() ?? {
@@ -21,37 +20,16 @@ const HomePage = () => {
   const rebuildedNews = rebuildNewsArray(popularData ?? []);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [currentItems, setCurrentItems] = useState<PartialVotedNewsArray>([]);
-  // const [hidden, setHidden] = useState<boolean>(false);
 
   useEffect(() => {
     dispatch(fetchPopularNews('1'));
     dispatch(fetchAllNews());
   }, [dispatch]);
 
-  useEffect(() => {
-    const hidePage = document.visibilityState === 'hidden';
-
-    const handleVisibilityChange = () => {
-      if (hidePage) {
-        console.log('hidePage', hidePage);
-        // setHidden(true);
-        console.log('Page has been hidden!');
-        console.log('votedNews', votedNews);
-        // if (votedNews && votedNews.length !== 0) {
-        // dispatch(addNews(votedNews));
-        // }
-      }
-    };
-    document.addEventListener('visibilitychange', handleVisibilityChange);
-
-    return () => {
-      console.log('After unmount');
-      // if (votedNews && votedNews.length !== 0) {
-      dispatch(addNews(votedNews));
-      // }
-      document.removeEventListener('visibilitychange', handleVisibilityChange);
-    };
-  }, []);
+  useLayoutEffect(() => {
+    console.log('After unmount', votedNews);
+    dispatch(addNews(votedNews));
+  }, [votedNews]);
 
   const totalResults = (rebuildedNews && rebuildedNews?.length) || 0;
 
@@ -66,7 +44,7 @@ const HomePage = () => {
   const currentCardsPerPage = getCurrentCardsPerPage();
 
   useEffect(() => {
-    if (rebuildedNews && rebuildedNews?.length > 0) {
+    if (popularData && popularData?.length > 0 && rebuildedNews && rebuildedNews?.length > 0) {
       // Виконуємо код для розділення сторінок та оновлення компонента
       const indexOfLastItem = currentPage * currentCardsPerPage;
       const indexOfFirstItem = indexOfLastItem - currentCardsPerPage;
@@ -93,13 +71,9 @@ const HomePage = () => {
     pageNumbers.push(i);
   }
 
-  if (votedNews && votedNews.length !== 0) {
-    console.log('votedNews', votedNews);
-  }
-
   return (
     <div>
-      {isLoading && currentItems?.length === 0 ? (
+      {isLoading && rebuildedNews && currentItems?.length === 0 ? (
         <Loader />
       ) : (
         <>
