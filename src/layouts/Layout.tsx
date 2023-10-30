@@ -19,7 +19,7 @@ const Layout = () => {
       <section className='w-full bg-whiteBase dark:bg-darkThemeBackground h-full pt-2.5 md:pt-7 pb-[60px] md:pb-[100px] lg:pb-[150px]'>
         <div className='container mx-auto px-4 hg:px-[65px]'>
           <div className='flex gap-7 mb-10 md:mb-12 lg:mb-[60px]'>
-            <SearchBlock />
+            {isHomePage && <SearchBlock />}
             <FiltersBlock />
           </div>
           {(isHomePage && breakpointsForMarkup?.isTablet) || breakpointsForMarkup?.isDesktop ? (

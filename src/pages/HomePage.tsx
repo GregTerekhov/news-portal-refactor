@@ -1,6 +1,12 @@
 import React, { useEffect, useLayoutEffect, useState } from 'react';
 import { Loader, NewsList, Pagination } from 'components';
-import { selectLoading, selectPopular, fetchPopularNews } from 'redux/newsAPI';
+import {
+  selectLoading,
+  selectPopular,
+  selectSearchByKeyword,
+  selectByCategory,
+  fetchPopularNews,
+} from 'redux/newsAPI';
 import { useItemsPerPage, useWindowWidth } from 'hooks';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import { addNews, fetchAllNews, selectAllNews } from 'redux/newsDatabase';
@@ -15,21 +21,55 @@ const HomePage = () => {
 
   const dispatch = useAppDispatch();
   const popularData = useAppSelector(selectPopular);
+  const searchResults = useAppSelector(selectSearchByKeyword);
+  const searchByCategory = useAppSelector(selectByCategory);
   const isLoading = useAppSelector(selectLoading);
   const votedNews = useAppSelector(selectAllNews);
-  const rebuildedNews = rebuildNewsArray(popularData ?? []);
+
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [currentItems, setCurrentItems] = useState<PartialVotedNewsArray>([]);
+  const [changesHappened, setChangesHappened] = useState<boolean>(false);
+
+  // console.log('popularData', popularData);
+  // console.log('searchResults', searchResults);
+  console.log('searchByCategory', searchByCategory);
+  // console.log('votedNews', votedNews);
 
   useEffect(() => {
     dispatch(fetchPopularNews('1'));
     dispatch(fetchAllNews());
   }, [dispatch]);
 
+  const handleChangeVotes = () => {
+    setChangesHappened(true);
+  };
+
   useLayoutEffect(() => {
-    console.log('After unmount', votedNews);
-    dispatch(addNews(votedNews));
-  }, [votedNews]);
+    // console.log('After unmount', votedNews);
+    if (changesHappened) {
+      console.log('Клік по фаворитах, або по посиланню відбувся');
+      dispatch(addNews(votedNews));
+      setChangesHappened(false);
+    }
+  }, [changesHappened]);
+
+  const chooseRenderingNews = () => {
+    if (searchResults && searchResults?.length > 0) {
+      const rebuildedNews = rebuildNewsArray(searchResults);
+
+      return rebuildedNews;
+    } else if (searchByCategory && searchByCategory.length > 0) {
+      const rebuildedNews = rebuildNewsArray(searchByCategory);
+
+      return rebuildedNews;
+    } else {
+      const rebuildedNews = rebuildNewsArray(popularData);
+
+      return rebuildedNews;
+    }
+  };
+
+  const rebuildedNews = chooseRenderingNews();
 
   const totalResults = (rebuildedNews && rebuildedNews?.length) || 0;
 
@@ -44,14 +84,14 @@ const HomePage = () => {
   const currentCardsPerPage = getCurrentCardsPerPage();
 
   useEffect(() => {
-    if (popularData && popularData?.length > 0 && rebuildedNews && rebuildedNews?.length > 0) {
+    if (rebuildedNews && rebuildedNews?.length) {
       // Виконуємо код для розділення сторінок та оновлення компонента
       const indexOfLastItem = currentPage * currentCardsPerPage;
       const indexOfFirstItem = indexOfLastItem - currentCardsPerPage;
       const items = rebuildedNews?.slice(indexOfFirstItem, indexOfLastItem);
       setCurrentItems(items);
     }
-  }, [popularData, currentPage, itemsPerPage]);
+  }, [popularData, searchResults, searchByCategory, currentPage, itemsPerPage]);
 
   function getCurrentCardsPerPage() {
     if (breakpointsForMarkup?.isMobile || breakpointsForMarkup?.isNothing) {
@@ -77,7 +117,11 @@ const HomePage = () => {
         <Loader />
       ) : (
         <>
-          <NewsList currentItems={currentItems} currentPage={currentPage} />
+          <NewsList
+            currentItems={currentItems}
+            currentPage={currentPage}
+            onChange={handleChangeVotes}
+          />
           <Pagination
             pageNumbers={pageNumbers}
             currentPage={currentPage}

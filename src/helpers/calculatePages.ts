@@ -4,15 +4,12 @@ const calculatePages = (results: number, cardsPerPage: number): number[] => {
   let isFirstPage: boolean = true;
 
   while (remainingResults > 0) {
-    if (isFirstPage) {
-      // Перша сторінка має менше новин
-      pages.push(cardsPerPage - 1);
-      remainingResults -= cardsPerPage - 1;
-      isFirstPage = false;
-    } else {
-      pages.push(cardsPerPage);
-      remainingResults -= cardsPerPage;
-    }
+    const itemsOnPage = isFirstPage
+      ? Math.max(cardsPerPage - 1, 1)
+      : Math.min(cardsPerPage, remainingResults);
+    pages.push(itemsOnPage);
+    remainingResults -= itemsOnPage;
+    isFirstPage = false;
   }
   return pages;
 };

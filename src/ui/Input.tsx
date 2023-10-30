@@ -2,8 +2,14 @@ import React, { ReactNode, FC } from 'react';
 import SvgIcon from './SvgIcon';
 import { useLocation } from 'react-router-dom';
 import useHeaderStyles from 'hooks/useHeaderStyles';
+import { useWindowWidth } from 'hooks/useWindowWidth';
 
-type InputCollectedData = { name: string; type: string; placeholder: string; children: ReactNode };
+type InputCollectedData = {
+  name: string;
+  type: string;
+  placeholder: string;
+  children: ReactNode;
+};
 
 enum V {
   Header = 'header',
@@ -13,20 +19,33 @@ enum V {
 }
 
 interface InputProps {
-  inputData: Partial<InputCollectedData>;
+  inputData?: Partial<InputCollectedData>;
   hasIcon: boolean;
   variant: string;
+  hideInput?: (event: React.MouseEvent<HTMLInputElement>) => void;
+  touched?: boolean;
 }
 
-const Input: FC<InputProps> = (props) => {
-  const { name, type, placeholder, children } = props.inputData;
+const Input: FC<Partial<InputProps>> = (props) => {
+  const { breakpointsForMarkup } = useWindowWidth() ?? {
+    breakpointsForMarkup: null,
+  };
+  const { name, type, placeholder, children } = props.inputData || {};
   const hasIcon = props.hasIcon;
   const variant = props.variant;
+  const onTouch = props.hideInput;
+  const touched = props.touched;
 
   const location = useLocation();
   const isHomePage = location.pathname === '/';
 
   const { inputClass } = useHeaderStyles(isHomePage);
+
+  const onHideInput = (event: React.MouseEvent<HTMLInputElement>) => {
+    if (onTouch) {
+      onTouch(event);
+    }
+  };
 
   let inputGeometry: string = '';
   let inputBorder: string = '';
@@ -39,7 +58,13 @@ const Input: FC<InputProps> = (props) => {
   let placeholderColor: string = '';
 
   if (variant === V.Header) {
-    inputGeometry = 'w-[173px] md:w-[213px] lg:w-72 py-[5px]';
+    inputGeometry = `md:w-[213px] lg:w-72 py-[5px] transition-transform transition-[width] ${
+      breakpointsForMarkup?.isMobile || breakpointsForMarkup?.isNothing
+        ? touched
+          ? 'translate-x-0 w-[173px] '
+          : 'translate-x-full w-0'
+        : ''
+    }`;
     inputBorder = inputClass.inputBorder;
     inputBg = 'bg-transparent';
     svgFill = inputClass.svgFill;
@@ -86,12 +111,13 @@ const Input: FC<InputProps> = (props) => {
       <input
         className={` ${inputGeometry} ${checkboxStyles} ${
           hasIcon ? 'pl-11 pr-3' : 'px-4 md:px-4'
-        } font-header border-solid border rounded-3xl outline-0 text-small leading-mediumRelaxed tracking-bigWide md:text-base md:leading-moreRelaxed md:tracking-wide ${placeholderColor} ${inputBorder} ${inputBg} ${caretColor} ${textColor}`}
+        } transition-colors duration-500 font-header border-solid border rounded-3xl outline-0 text-small leading-mediumRelaxed tracking-bigWide md:text-base md:leading-moreRelaxed md:tracking-wide ${placeholderColor} ${inputBorder} ${inputBg} ${caretColor} ${textColor}`}
         id={name}
         name={name}
         type={type}
         placeholder={placeholder}
         autoComplete='off'
+        onClick={onHideInput}
       />
       <span className={`${!hasIcon && 'mb-1.5 block'} text-accentBase font-medium`}>
         {variant === V.Checkbox && children}{' '}

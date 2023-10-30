@@ -5,6 +5,8 @@ type PrimaryButtCommon = {
   type: 'button' | 'submit' | 'reset';
 };
 
+export type ClickHandler = () => void;
+
 enum PB {
   SearchBlock = 'SearchBlock',
   Other = 'OtherButton',
@@ -12,10 +14,13 @@ enum PB {
 
 interface PBProps {
   buttonData: PrimaryButtCommon;
-  onHandleClick: () => void;
+  onHandleClick: ClickHandler;
   variant: string;
   children: ReactNode;
   hasIcon: boolean;
+  svgName: string;
+  svgSize: number;
+  className: string;
 }
 
 const PrimaryButton: React.FC<Partial<PBProps>> = (props) => {
@@ -24,6 +29,9 @@ const PrimaryButton: React.FC<Partial<PBProps>> = (props) => {
   const variant = props.variant;
   const children = props.children;
   const hasIcon = props.hasIcon;
+  const svgName = props.svgName;
+  const svgSize = props.svgSize;
+  const className = props.className;
 
   let buttonWidth: string = '';
 
@@ -39,7 +47,7 @@ const PrimaryButton: React.FC<Partial<PBProps>> = (props) => {
       onClick={onHandleClick}
     >
       {children}
-      {hasIcon && <SvgIcon svgName='icon-reset' size={16} className='fill-whiteBase' />}
+      {hasIcon && <SvgIcon svgName={svgName} size={svgSize} className={className} />}
     </button>
   );
 };

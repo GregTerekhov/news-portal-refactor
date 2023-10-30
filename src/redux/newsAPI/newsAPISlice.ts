@@ -1,21 +1,32 @@
 import { SerializedError, createSlice } from '@reduxjs/toolkit';
-import { fetchPopularNews } from './newsAPIOperations';
-import { PopularNewsArray } from 'types';
+import {
+  fetchAllCategories,
+  fetchNewsByCategory,
+  fetchNewsByKeyword,
+  fetchPopularNews,
+} from './newsAPIOperations';
+import { ArticleNewsArray, NewsWireArray, PopularNewsArray, C } from 'types';
 
-type PopularState = {
-  popularNews: PopularNewsArray;
+type newsAPIState = {
+  popular: PopularNewsArray;
+  searchResults: ArticleNewsArray;
+  categories: NewsWireArray;
+  categoriesList: C[];
   isLoading: boolean;
   hasError: SerializedError | null;
 };
 
 const initialState = {
-  popularNews: [],
+  popular: [],
+  searchResults: [],
+  categories: [],
+  categoriesList: [],
   isLoading: false,
   hasError: null,
-} as PopularState;
+} as newsAPIState;
 
-const popularSlice: any = createSlice({
-  name: 'popular',
+const newsAPISlice = createSlice({
+  name: 'newsAPI',
   initialState,
   reducers: {},
   extraReducers: (builder) => {
@@ -25,14 +36,54 @@ const popularSlice: any = createSlice({
         state.hasError = null;
       })
       .addCase(fetchPopularNews.fulfilled, (state, action) => {
-        state.popularNews = action.payload;
+        state.isLoading = false;
+        state.popular = action.payload;
         state.hasError = null;
       })
       .addCase(fetchPopularNews.rejected, (state, action) => {
+        state.isLoading = false;
+        state.hasError = action.error;
+      })
+      .addCase(fetchNewsByKeyword.pending, (state) => {
+        state.isLoading = true;
+        state.hasError = null;
+      })
+      .addCase(fetchNewsByKeyword.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.searchResults = action.payload;
+        state.hasError = null;
+      })
+      .addCase(fetchNewsByKeyword.rejected, (state, action) => {
+        state.isLoading = false;
+        state.hasError = action.error;
+      })
+      .addCase(fetchAllCategories.pending, (state) => {
+        state.isLoading = true;
+        state.hasError = null;
+      })
+      .addCase(fetchAllCategories.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.categoriesList = action.payload;
+        state.hasError = null;
+      })
+      .addCase(fetchAllCategories.rejected, (state, action) => {
+        state.isLoading = false;
+        state.hasError = action.error;
+      })
+      .addCase(fetchNewsByCategory.pending, (state) => {
+        state.isLoading = true;
+        state.hasError = null;
+      })
+      .addCase(fetchNewsByCategory.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.categories = action.payload;
+        state.hasError = null;
+      })
+      .addCase(fetchNewsByCategory.rejected, (state, action) => {
         state.isLoading = false;
         state.hasError = action.error;
       });
   },
 });
 
-export default popularSlice.reducer;
+export default newsAPISlice.reducer;
