@@ -9,6 +9,7 @@ export type WeatherData = {
   weather: {
     main: string;
     icon: string;
+    description: string;
   }[];
   timezone: number;
   wind: {
