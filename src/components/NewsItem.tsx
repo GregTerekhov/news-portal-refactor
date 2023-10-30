@@ -10,9 +10,10 @@ import { useLocation } from 'react-router-dom';
 
 interface NewsItemProps {
   data: Partial<VotedItem>;
+  onChange: () => void;
 }
 
-const NewsItem: React.FC<Partial<NewsItemProps>> = ({ data = {} }) => {
+const NewsItem: React.FC<Partial<NewsItemProps>> = ({ data = {}, onChange = () => {} }) => {
   const savedNews = useAppSelector(selectAllNews);
   const [isFavourite, setIsFavourite] = useState<boolean>(() => {
     const existingNews = savedNews?.find((news) => news.newsUrl === data?.newsUrl);
@@ -30,17 +31,24 @@ const NewsItem: React.FC<Partial<NewsItemProps>> = ({ data = {} }) => {
     if (savedNews && data?.newsUrl !== undefined) {
       if (savedNews?.length !== 0) {
         const existingNews = savedNews?.find((news) => news.newsUrl === data?.newsUrl);
-        if (existingNews?.isFavourite && existingNews?.hasRead) {
+        const savedFavourite = existingNews?.isFavourite;
+        const savedRead = existingNews?.hasRead;
+
+        if (savedFavourite === true && savedRead === true) {
+          // console.log('check: savedFavourite === true && savedRead === true');
           setIsFavourite(true);
           setHasRead(true);
         }
-        if (existingNews?.isFavourite && !existingNews?.hasRead) {
+        if (savedFavourite === true && savedRead === false) {
+          // console.log('check: savedFavourite === true && savedRead === false');
           setIsFavourite(true);
         }
-        if (existingNews?.hasRead && !existingNews?.isFavourite) {
+        if (savedRead === true && savedFavourite === false) {
+          // console.log('check: savedFavourite === false && savedRead === true');
           setHasRead(true);
         }
       } else {
+        // console.log('check return: savedNews?.length === 0');
         return;
       }
     }
@@ -49,44 +57,53 @@ const NewsItem: React.FC<Partial<NewsItemProps>> = ({ data = {} }) => {
   const handleAddToFavourites = (e: React.MouseEvent) => {
     e.stopPropagation();
     e.preventDefault();
+    onChange();
 
     if (savedNews && data && data?.newsUrl !== undefined) {
       if (savedNews.length === 0) {
         setIsFavourite(true);
 
         const updatedData = { ...data, isFavourite: true, hasRead: false };
-        console.log('savedNews.length === 0 updatedDataFavour: ', updatedData);
+        // console.log('savedNews.length === 0 updatedDataFavour: ', updatedData);
         dispatch(addOrUpdateVotedNews(updatedData));
       } else {
         const existingNews = savedNews?.find((news) => news.newsUrl === data.newsUrl);
-        console.log(typeof existingNews?.isFavourite);
+        const savedFavourite = existingNews?.isFavourite;
+        const savedRead = existingNews?.hasRead;
 
         if (!existingNews) {
           setIsFavourite(true);
 
           const updatedData = { ...data, isFavourite: true, hasRead: false };
-          console.log('savedNews.length !== 0 && !existingNews updatedDataFavour: ', updatedData);
+          // console.log('savedNews.length !== 0 && !existingNews updatedDataFavour: ', updatedData);
           dispatch(addOrUpdateVotedNews(updatedData));
         } else {
-          const savedRead = existingNews?.hasRead;
-
-          if (!existingNews.isFavourite) {
+          if (savedFavourite === false && savedRead === true) {
             setIsFavourite(true);
 
             const updatedData = { ...data, isFavourite: true, hasRead: savedRead };
-            console.log(
-              'savedNews.length !== 0 && existingNews.isFavourite === false updatedDataFavour: ',
-              updatedData,
-            );
+            // console.log(
+            //   'savedNews.length !== 0 && existingNews.isFavourite === false updatedDataFavour: ',
+            //   updatedData,
+            // );
             dispatch(addOrUpdateVotedNews(updatedData));
-          } else {
+          } else if (savedFavourite === true && savedRead === false) {
             setIsFavourite(false);
 
             const updatedData = { ...data, isFavourite: false, hasRead: savedRead };
-            console.log(
-              'savedNews.length !== 0 && existingNews.isFavourite === true updatedDataFavour: ',
-              updatedData,
-            );
+            // console.log(
+            //   'savedNews.length !== 0 && existingNews.isFavourite === true updatedDataFavour: ',
+            //   updatedData,
+            // );
+            dispatch(addOrUpdateVotedNews(updatedData));
+          } else if (savedFavourite === true && savedRead === true) {
+            setIsFavourite(false);
+
+            const updatedData = { ...data, isFavourite: false, hasRead: savedRead };
+            // console.log(
+            //   'savedNews.length !== 0 && existingNews.isFavourite === true updatedDataFavour: ',
+            //   updatedData,
+            // );
             dispatch(addOrUpdateVotedNews(updatedData));
           }
         }
@@ -98,27 +115,38 @@ const NewsItem: React.FC<Partial<NewsItemProps>> = ({ data = {} }) => {
     if (savedNews && data && data?.newsUrl !== undefined) {
       if (savedNews.length === 0) {
         setHasRead(true);
+        onChange();
 
         const updatedData = { ...data, hasRead: true, isFavourite: false };
-        console.log('updatedDataRead', updatedData);
+        // console.log('updatedDataRead', updatedData);
         dispatch(addOrUpdateVotedNews(updatedData));
       } else {
         const existingNews = savedNews?.find((news) => news.newsUrl === data.newsUrl);
+        const savedFavourite = existingNews?.isFavourite;
+        const savedRead = existingNews?.hasRead;
 
         if (!existingNews) {
           setHasRead(true);
+          onChange();
 
           const updatedData = { ...data, hasRead: true, isFavourite: false };
-          console.log('updatedDataRead', updatedData);
+          // console.log('updatedDataRead', updatedData);
           dispatch(addOrUpdateVotedNews(updatedData));
         } else {
-          const updatedData = {
-            ...data,
-            hasRead: existingNews.hasRead,
-            isFavourite: existingNews.isFavourite,
-          };
-          console.log('updatedDataRead', updatedData);
-          dispatch(addOrUpdateVotedNews(updatedData));
+          if (savedRead === false && savedFavourite === true) {
+            setHasRead(true);
+            onChange();
+
+            const updatedData = {
+              ...data,
+              hasRead: true,
+              isFavourite: savedFavourite,
+            };
+            // console.log('updatedDataRead', updatedData);
+            dispatch(addOrUpdateVotedNews(updatedData));
+          } else if (savedRead === true) {
+            return;
+          }
         }
       }
     }
@@ -155,6 +183,7 @@ const NewsItem: React.FC<Partial<NewsItemProps>> = ({ data = {} }) => {
             <VoteButton onHandleClick={handleAddToFavourites} isFavourite={isFavourite} />
           </div>
           <div className='px-4 mt-4'>
+            {/* <p>{data?.author}</p> */}
             <h2
               className={`h-[100px] md:h-[132px] mb-4 text-3xl md:text-4xl font-bold leading-tight tracking-mediumTight md:tracking-tighter line-clamp-3 dark:text-whiteBase`}
             >

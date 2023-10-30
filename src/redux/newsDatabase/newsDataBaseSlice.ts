@@ -56,7 +56,7 @@ const initialState = {
 // };
 
 const newsDBSlice = createSlice({
-  name: 'favourite',
+  name: 'newsDB',
   initialState,
   reducers: {
     addOrUpdateVotedNews: (state, action: PayloadAction<Partial<VotedItem>>) => {
@@ -75,9 +75,10 @@ const newsDBSlice = createSlice({
             isFavourite: updatedVotedNews.isFavourite,
             hasRead: updatedVotedNews.hasRead,
           };
-        } else {
-          state.allSelectedNews.splice(existingNewsIndex, 1);
         }
+        // else {
+        //   state.allSelectedNews.splice(existingNewsIndex, 1);
+        // }
       } else {
         state.allSelectedNews.push(updatedVotedNews);
       }

@@ -51,7 +51,14 @@ const FiltersBlock = () => {
           <Dropdown labels={['1', '2']}>Type</Dropdown>
           <Dropdown labels={['1', '2']}>Edition</Dropdown>
           <Calendar />
-          <PrimaryButton buttonData={{ type: 'reset' }} hasIcon={true} variant='SearchBlock'>
+          <PrimaryButton
+            buttonData={{ type: 'reset' }}
+            hasIcon={true}
+            variant='SearchBlock'
+            svgName='icon-reset'
+            svgSize={16}
+            className='fill-whiteBase'
+          >
             Reset
           </PrimaryButton>
           <div className='md:col-span-2 lg:col-span-3'>

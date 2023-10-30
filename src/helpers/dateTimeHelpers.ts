@@ -1,3 +1,5 @@
+import { format } from 'date-fns';
+
 function receiveCurrentTime() {
   const currentTime = new Date();
 
@@ -76,4 +78,13 @@ export function convertTimezone(data: any) {
 export function formatDateString(dateString: string) {
   const [year, month, day] = dateString.split('-');
   return `${day}/${month}/${year}`;
+}
+
+export function formatDate(inputDate: string) {
+  if (!inputDate) return '';
+
+  const date = new Date(inputDate);
+  const formattedDate = format(date, 'dd/MM/yyyy');
+
+  return formattedDate;
 }

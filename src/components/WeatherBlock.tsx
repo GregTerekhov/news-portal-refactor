@@ -92,7 +92,7 @@ const WeatherBlock = () => {
             <img
               className='m-auto w-32 h-32 md:w-[165px] md:h-[165px]'
               src={`https://openweathermap.org/img/wn/${getWeatherData?.weather[0]['icon']}@2x.png`}
-              alt={getWeatherData?.weather[0].description}
+              alt={getWeatherData?.weather?.[0]?.description}
             />
           )}
           <div>

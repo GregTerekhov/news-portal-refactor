@@ -1,48 +1,78 @@
-import { PartialArticleNewsArray, PartialPopularNewsArray } from 'types/news';
+import {
+  PartialArticleNewsArray,
+  PartialPopularNewsArray,
+  PartialNewsWireArray,
+  PopularNewsItem,
+  ArticleNewsItem,
+  NewsWireItem,
+} from 'types/news';
+import { formatDate } from 'helpers';
 
-function rebuildNewsArray(data: PartialPopularNewsArray | PartialArticleNewsArray) {
+function rebuildNewsArray(
+  data: PartialPopularNewsArray | PartialArticleNewsArray | PartialNewsWireArray,
+) {
   if (data) {
+    console.log('rebuildNewsArray: ', data);
     const modifiedNewsResults = data.map((item) => {
-      const title = 'title' in item ? item.title : 'headline' in item ? item?.headline?.main : '';
-      const description = item.abstract;
-      const publishDate =
-        'published_date' in item ? item.published_date : 'pub_date' in item ? item.pub_date : '';
-      const category =
-        'section' in item ? item.section : 'section_name' in item ? item.section_name : '';
-      const edition = item.source || '';
-      const newsUrl = 'url' in item ? item.url : 'web_url' in item ? item.web_url : '';
-      const imgLink =
-        'media' in item
-          ? item.media?.[0]?.['media-metadata']?.[2]?.url
-          : 'multimedia' in item
-          ? item.multimedia?.[0]?.url
-          : '';
-      const imgAlt =
-        'media' in item
-          ? item.media?.[0]?.caption
-          : 'lead_paragraph' in item
-          ? item.lead_paragraph
-          : '';
-      const author =
-        'byline' in item
-          ? typeof item.byline === 'string'
-            ? item.byline.replace(/^By\s+/i, '')
-            : item?.byline?.original?.replace(/^By\s+/i, '')
-          : '';
-
-      return {
+      const commonFields = {
         isFavourite: false,
         hasRead: false,
-        title,
-        description,
-        publishDate,
-        category,
-        edition,
-        newsUrl,
-        imgLink,
-        imgAlt,
-        author,
       };
+
+      if ('media' in item) {
+        // Type: PartialPopularNewsArray
+        const popularNewsItem = item as PopularNewsItem;
+        return {
+          ...commonFields,
+          title: popularNewsItem.title || '',
+          description: popularNewsItem.abstract || '',
+          publishDate: popularNewsItem.published_date || '',
+          category: popularNewsItem.section || '',
+          edition: popularNewsItem.source || '',
+          newsUrl: popularNewsItem.url || '',
+          imgLink: popularNewsItem.media?.[0]?.['media-metadata']?.[2]?.url || '',
+          imgAlt: popularNewsItem.media?.[0]?.caption || '',
+          author: popularNewsItem?.byline?.replace(/^By\s+/i, '') || '',
+          // materialType: popularNewsItem.type || ''
+        };
+      } else if ('headline' in item) {
+        // Type: PartialArticleNewsArray
+        const articleNewsItem = item as ArticleNewsItem;
+        return {
+          ...commonFields,
+          title: articleNewsItem.headline?.main || '',
+          description: articleNewsItem.abstract || '',
+          publishDate: formatDate(articleNewsItem.pub_date) || '',
+          category: articleNewsItem.section_name || '',
+          edition: articleNewsItem.source || '',
+          newsUrl: articleNewsItem.web_url || '',
+          imgLink:
+            (articleNewsItem?.multimedia?.[0]?.url &&
+              `https://static01.nyt.com/${articleNewsItem?.multimedia?.[0]?.url}`) ||
+            '',
+          imgAlt: articleNewsItem?.lead_paragraph || '',
+          author: articleNewsItem?.byline
+            ? articleNewsItem?.byline?.original?.replace(/^By\s+/i, '')
+            : '',
+          // materialType: articleNewsItem.type_of_material || ''
+        };
+      } else {
+        // Type: PartialNewsWireArray
+        const newsWireItem = item as NewsWireItem;
+        return {
+          ...commonFields,
+          title: newsWireItem?.title || '',
+          description: newsWireItem?.abstract || '',
+          publishDate: formatDate(newsWireItem.published_date) || '',
+          category: newsWireItem.section || '',
+          edition: newsWireItem.source || '',
+          newsUrl: newsWireItem.url || '',
+          imgLink: newsWireItem.multimedia?.[2]?.url || '',
+          imgAlt: newsWireItem?.multimedia?.[0]?.caption || '',
+          author: newsWireItem.byline ? newsWireItem.byline.replace(/^By\s+/i, '') : '',
+          // materialType: newsWireItem.material_type_facet || '';
+        };
+      }
     });
 
     return modifiedNewsResults;
@@ -50,31 +80,3 @@ function rebuildNewsArray(data: PartialPopularNewsArray | PartialArticleNewsArra
 }
 
 export default rebuildNewsArray;
-
-// import { PartialArticleNewsArray, PartialPopularNewsArray } from 'types/news';
-
-// function rebuildNewsArray(data: PartialPopularNewsArray | PartialArticleNewsArray) {
-//   if (data) {
-//     const modifiedNewsResults = data?.map((item) => {
-//       return {
-//         isFavourite: false,
-//         hasRead: false,
-//         title: item?.title || item?.headline.main || '',
-//         description: item?.abstract,
-//         publishDate: item?.published_date || item?.pub_date || '',
-//         category: item?.section || item?.section_name || '',
-//         edition: item?.source || '',
-//         newsUrl: item?.url || item?.web_url || '',
-//         imgLink: item?.media?.[0]?.['media-metadata']?.[2]?.url || item?.multimedia?.[0]?.url || '',
-//         imgAlt: item?.media?.[0]?.caption || item?.lead_paragraph || '',
-//         author: item?.byline
-//           ? item?.byline.replace(/^By\s+/i, '') || item?.byline?.original.replace(/^By\s+/i, '')
-//           : '',
-//       };
-//     });
-
-//     return modifiedNewsResults;
-//   }
-// }
-
-// export default rebuildNewsArray;

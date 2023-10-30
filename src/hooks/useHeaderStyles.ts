@@ -47,7 +47,7 @@ const useHeaderStyles = (isHomePage: boolean) => {
 
   const textClass = isScrolled ? 'text-darkBase dark:text-whiteBase' : 'text-whiteBase';
 
-  const inputClass = {
+  const inputHomePage = {
     inputBorder: isScrolled ? 'border-darkBase dark:border-whiteBase' : 'border-whiteBase',
     svgFill: isScrolled ? 'fill-darkBase dark:fill-whiteBase' : 'fill-whiteBase',
     caretColor: isScrolled ? 'caret-accentBase dark:caret-whiteBase' : 'caret-whiteBase',
@@ -57,13 +57,28 @@ const useHeaderStyles = (isHomePage: boolean) => {
       : 'placeholder:text-whiteBase',
   };
 
+  const inputClass = {
+    inputBorder: isHomePage ? inputHomePage.inputBorder : 'border-darkBase dark:border-whiteBase',
+    svgFill: isHomePage ? inputHomePage.svgFill : 'fill-darkBase dark:fill-whiteBase',
+    caretColor: isHomePage ? inputHomePage.caretColor : 'caret-accentBase dark:caret-whiteBase',
+    textColor: isHomePage ? inputHomePage.textColor : 'text-darkBase dark:text-whiteBase',
+    placeholderColor: isHomePage
+      ? inputHomePage.placeholderColor
+      : 'placeholder:text-placeholderText dark:placeholder:text-foreground',
+  };
+
   const switcherText = isScrolled ? 'text-greyBase' : 'text-whiteBase';
+
+  const burgerMenuButton = isScrolled
+    ? 'stroke-darkBase dark:stroke-whiteBase'
+    : 'stroke-whiteBase';
 
   return {
     headerClass,
     textClass,
     inputClass,
     switcherText,
+    burgerMenuButton,
   };
 };
 

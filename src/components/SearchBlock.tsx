@@ -1,37 +1,55 @@
-import React, { useState } from 'react';
-import { Dropdown, Input, PrimaryButton, SvgIcon } from 'ui';
+import React, { useEffect, useState } from 'react';
+import { Dropdown, Input, SvgIcon } from 'ui';
 import Calendar from './Calendar';
-import { useAppDispatch } from 'redux/hooks';
-import { fetchPopularNews } from 'redux/newsAPI';
+import { useAppDispatch, useAppSelector } from 'redux/hooks';
+import {
+  fetchAllCategories,
+  fetchNewsByCategory,
+  fetchPopularNews,
+  selectAllCategories,
+} from 'redux/newsAPI';
 import { useLocation } from 'react-router-dom';
+import { MATERIALS_TYPES } from 'constants';
 
 const SearchBlock = () => {
   const [showDropdown, setShowDropdown] = useState<boolean>(false);
-  const [selectedPeriod, setSelectedPeriod] = useState<string>('Today');
-
+  const categoriesList = useAppSelector(selectAllCategories);
   const dispatch = useAppDispatch();
+
   const location = useLocation();
   const isHomePage = location.pathname === '/';
 
-  const onClick: any = () => {
+  useEffect(() => {
+    dispatch(fetchAllCategories());
+  }, [dispatch]);
+
+  const onClick = () => {
     setShowDropdown(!showDropdown);
   };
 
+  const getCategoriesList = () => {
+    if (categoriesList) {
+      const selectedArray = categoriesList.map((item) => item.display_name);
+
+      return selectedArray;
+    }
+  };
+
+  const categoriesForDropdown = getCategoriesList();
+
   const getNewsByPeriod = async (period: string) => {
-    setSelectedPeriod(period);
-    console.log(`Selected Period: ${period}`);
-
-    if (selectedPeriod === 'Today') {
-      console.log('Today');
+    if (period === 'Today') {
       await dispatch(fetchPopularNews('1'));
-    } else if (selectedPeriod === 'Week') {
-      console.log('Week');
-
+    } else if (period === 'Week') {
       await dispatch(fetchPopularNews('7'));
-    } else if (selectedPeriod === 'Month') {
-      console.log('Month');
-
+    } else if (period === 'Month') {
       await dispatch(fetchPopularNews('30'));
+    }
+  };
+
+  const getNewsByCategory = async (section: string) => {
+    if (section) {
+      await dispatch(fetchNewsByCategory(section));
     }
   };
 
@@ -45,7 +63,7 @@ const SearchBlock = () => {
         onClick={onClick}
       >
         {' '}
-        Search
+        Additional search
         <SvgIcon
           svgName={showDropdown ? 'icon-arrow-up' : 'icon-arrow-down'}
           size={15}
@@ -53,39 +71,50 @@ const SearchBlock = () => {
         />
       </button>
       {showDropdown && (
-        <form className='md:grid md:grid-cols-2 md:grid-rows-5 md:gap-x-3.5 md:gap-y-1.5 lg:grid-cols-3 lg:grid-rows-4 lg:gap-3.5 bg-accentLightForeground p-3.5 rounded-xl'>
-          <div>
-            <Input
-              inputData={{ name: 'author', type: 'text', placeholder: 'Author' }}
-              hasIcon={true}
-              variant='searchBlock'
-            />
-          </div>
-          <div>
-            <Input
-              inputData={{ name: 'title', type: 'text', placeholder: 'Title' }}
-              hasIcon={true}
-              variant='searchBlock'
-            />
-          </div>
-          <Dropdown labels={['1', '2']}>Categories</Dropdown>
-          <Dropdown labels={['1', '2']}>Type</Dropdown>
+        <div className='md:grid md:grid-cols-2 md:grid-rows-4 md:gap-x-3.5 md:gap-y-1.5 lg:grid-cols-3 lg:grid-rows-3 lg:gap-3.5 bg-accentLightForeground p-3.5 rounded-xl'>
+          <Input
+            inputData={{ name: 'author', type: 'text', placeholder: 'Author' }}
+            hasIcon={true}
+            variant='searchBlock'
+          />
+          <Input
+            inputData={{ name: 'title', type: 'text', placeholder: 'Title' }}
+            hasIcon={true}
+            variant='searchBlock'
+          />
+          <Input
+            inputData={{ name: 'publisher', type: 'text', placeholder: 'Publisher' }}
+            hasIcon={true}
+            variant='searchBlock'
+          />
+          <Dropdown labels={categoriesForDropdown} getResults={getNewsByCategory}>
+            Categories
+          </Dropdown>
+          <Dropdown labels={MATERIALS_TYPES}>Type</Dropdown>
           {isHomePage && (
             <Dropdown labels={['Today', 'Week', 'Month']} getResults={getNewsByPeriod}>
               Time period
             </Dropdown>
           )}
-          <Dropdown labels={['1', '2']}>Edition</Dropdown>
-          <Calendar />
-          <PrimaryButton buttonData={{ type: 'reset' }} hasIcon={true} variant='SearchBlock'>
+          <div className='md:col-span-2'>
+            <Calendar />
+          </div>
+          {/* <PrimaryButton
+            buttonData={{ type: 'reset' }}
+            hasIcon={true}
+            variant='SearchBlock'
+            svgName='icon-reset'
+            svgSize={16}
+            className='fill-whiteBase'
+          >
             Reset
           </PrimaryButton>
           <div className='md:col-span-2 lg:col-span-3'>
             <PrimaryButton buttonData={{ type: 'submit' }} variant='SearchBlock'>
               Submit
             </PrimaryButton>
-          </div>
-        </form>
+          </div> */}
+        </div>
       )}
     </div>
   );

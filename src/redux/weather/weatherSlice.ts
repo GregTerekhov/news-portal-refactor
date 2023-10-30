@@ -14,7 +14,7 @@ const initialState = {
   hasError: null,
 } as WeatherState;
 
-const weatherSlice: any = createSlice({
+const weatherSlice = createSlice({
   name: 'weather',
   initialState,
   reducers: {},

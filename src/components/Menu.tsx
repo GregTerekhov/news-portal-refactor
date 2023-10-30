@@ -64,7 +64,7 @@ const Menu = ({ isOpen, closeMenu }: Partial<MobileMenu>) => {
         modalRoot &&
         createPortal(
           <div
-            className={`fixed top-0 w-full h-full pb-[18px] pt-[147px] z-40 overflow-auto transition-left duration-500 bg-whiteBase dark:bg-darkThemeBackground before:fixed before:content-[""] before:z-[8] before:h-[81px] before:top-0 before:left-0 ${
+            className={`fixed top-0 w-full h-full pb-[18px] pt-[147px] z-40 overflow-auto transition-left duration-500 bg-whiteBase dark:bg-darkThemeBackground before:fixed before:content-[""] before:z-[8] before:h-[81px] before:top-0 before:left-0 transition-colors duration-500 ${
               isOpen ? 'left-0' : '-left-full'
             }`}
           >
@@ -75,7 +75,7 @@ const Menu = ({ isOpen, closeMenu }: Partial<MobileMenu>) => {
                     <NavLink
                       to={link.path}
                       onClick={() => handleNavLinkClick(link.path)}
-                      className={`flex items-center py-1.5 font-medium md:font-bold text-medium lg:text-xl transition-colors ${
+                      className={`flex items-center py-1.5 font-medium md:font-bold text-medium lg:text-xl transition-colors duration-500 ${
                         link.activeLink
                           ? 'bg-accentBase text-whiteBase justify-between [clip-path:inset(0 -100vmax)]'
                           : 'text-darkBase dark:text-whiteBase'
@@ -83,7 +83,7 @@ const Menu = ({ isOpen, closeMenu }: Partial<MobileMenu>) => {
                     >
                       <div className='flex items-center gap-3.5'>
                         <div
-                          className={`bg-accentBase rounded-full w-8 h-8 flex items-center justify-center ${
+                          className={`bg-accentBase rounded-full w-8 h-8 flex items-center justify-center transition-colors duration-500 ${
                             link.activeLink && 'outline outline-1 outline-whiteBase'
                           }`}
                         >
@@ -117,7 +117,7 @@ const Menu = ({ isOpen, closeMenu }: Partial<MobileMenu>) => {
             <li key={link.path}>
               <NavLink
                 to={link.path}
-                className={`relative pt-12 pb-8 lg:pt-[55px] lg:pb-[33px] hover:text-accentBase font-medium md:font-bold text-medium lg:text-xl md:text-medium lg:text-xl ${
+                className={`relative pt-12 pb-8 lg:pt-[55px] lg:pb-[33px] hover:text-accentBase font-medium md:font-bold text-medium lg:text-xl md:text-medium lg:text-xl transition-colors duration-500 ${
                   link.activeLink
                     ? 'text-accentBase after:content[""] after:block after:absolute after:h-px after:w-full after:bg-accentBase'
                     : activeLinks.isHomeActive
