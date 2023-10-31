@@ -35,63 +35,60 @@ const FiltersBlock = () => {
       </button>
       {showDropdown && (
         <form
-          className={`grid max-lg:grid-cols-4 ${
-            activeLinks.isReadActive ? 'max-lg:grid-rows-4' : 'max-lg:grid-rows-5'
-          } gap-3.5 md:gap-5 lg:grid-cols-9 lg:grid-rows-3 bg-accentLightForeground transition-colors p-3.5 rounded-b-xl`}
+          className={`grid max-lg:grid-cols-6 ${
+            activeLinks.isReadActive
+              ? 'max-lg:grid-rows-4 lg:grid-cols-9'
+              : 'max-lg:grid-rows-5 lg:grid-cols-10'
+          } gap-3.5 md:gap-5 lg:grid-rows-3 bg-accentLightForeground transition-colors p-3.5 rounded-b-xl`}
         >
           <Input
             inputData={{ name: 'keyword', type: 'text', placeholder: 'Keyword' }}
             hasIcon={true}
             variant='searchBlock'
-            className='col-span-2 lg:col-span-3'
+            className='col-span-3 lg:col-span-3'
           />
           <Input
             inputData={{ name: 'author', type: 'text', placeholder: 'Author' }}
             hasIcon={true}
             variant='searchBlock'
-            className='col-span-2 lg:col-span-3'
+            className='col-span-3 lg:col-span-3'
           />
           <Input
             inputData={{ name: 'title', type: 'text', placeholder: 'Title' }}
             hasIcon={true}
             variant='searchBlock'
-            className='col-span-2 lg:col-span-3'
+            className='col-span-3 lg:col-span-3'
           />
+          {!activeLinks.isReadActive && breakpointsForMarkup?.isDesktop && (
+            <div className='flex justify-center md:justify-center lg:col-start-10'>
+              <button
+                type='button'
+                className='p-2.5 border border-solid border-whiteBase rounded-[10px] bg-accentBase dark:bg-transparent hover:bg-accentAlt transition-colors'
+              >
+                <SvgIcon svgName='icon-dateSort-asc' size={20} className='fill-whiteBase' />
+              </button>
+            </div>
+          )}
           <Input
             inputData={{ name: 'publisher', type: 'text', placeholder: 'Publisher' }}
             hasIcon={true}
             variant='searchBlock'
-            className='col-span-2 lg:col-span-3'
+            className='col-span-3 lg:col-span-3'
           />
-          <div className='col-span-3'>
-            <Dropdown labels={MATERIALS_TYPES}>Type</Dropdown>
-          </div>
-          {breakpointsForMarkup?.isDesktop && !activeLinks.isReadActive ? (
-            <div className='lg:col-span-3'>
-              <Calendar />
-            </div>
-          ) : null}
-          {!breakpointsForMarkup?.isDesktop && (
-            <div>
-              <PrimaryButton
-                buttonData={{ type: 'reset' }}
-                hasIcon={true}
-                variant='SearchBlock'
-                svgName='icon-reset'
-                svgSize={16}
-                className='fill-whiteBase'
-              >
-                {breakpointsForMarkup?.isDesktop ? 'Reset' : null}
-              </PrimaryButton>
+          {!activeLinks.isReadActive && (
+            <div className={`${breakpointsForMarkup?.isDesktop ? 'col-span-3' : 'col-span-5'}`}>
+              <Dropdown labels={MATERIALS_TYPES}>Type</Dropdown>
             </div>
           )}
-          {!breakpointsForMarkup?.isDesktop && !activeLinks.isReadActive ? <Calendar /> : null}
-          {breakpointsForMarkup?.isDesktop && activeLinks.isReadActive ? (
+          {activeLinks.isReadActive && (
             <>
+              <div className='col-span-3'>
+                <Dropdown labels={MATERIALS_TYPES}>Type</Dropdown>
+              </div>
               <div className='flex items-center justify-end'>
                 <span className='text-contrastWhite'>Sort:</span>
               </div>
-              <div className='flex justify-end md:justify-center col-start-8'>
+              <div className='flex justify-center md:justify-center lg:col-start-8'>
                 <button
                   type='button'
                   className='p-2.5 border border-solid border-whiteBase rounded-[10px] bg-accentBase dark:bg-transparent hover:bg-accentAlt transition-colors'
@@ -99,7 +96,7 @@ const FiltersBlock = () => {
                   <SvgIcon svgName='icon-dateSort-asc' size={20} className='fill-whiteBase' />
                 </button>
               </div>
-              <div className='flex justify-end md:justify-center col-start-9'>
+              <div className='flex justify-center md:justify-center lg:col-start-9'>
                 <button
                   type='button'
                   className='p-2.5 border border-solid border-whiteBase rounded-[10px] bg-accentBase dark:bg-transparent hover:bg-accentAlt transition-colors'
@@ -108,13 +105,47 @@ const FiltersBlock = () => {
                 </button>
               </div>
             </>
+          )}
+          {!activeLinks.isReadActive && !breakpointsForMarkup?.isDesktop && (
+            <div className='flex justify-center md:justify-center'>
+              <button
+                type='button'
+                className='p-2.5 border border-solid border-whiteBase rounded-[10px] bg-accentBase dark:bg-transparent hover:bg-accentAlt transition-colors'
+              >
+                <SvgIcon svgName='icon-dateSort-asc' size={20} className='fill-whiteBase' />
+              </button>
+            </div>
+          )}
+          {breakpointsForMarkup?.isDesktop && !activeLinks.isReadActive ? (
+            <div className='lg:col-span-3'>
+              <Calendar />
+            </div>
           ) : null}
-          <div className='col-span-4 lg:col-span-7'>
+
+          {!breakpointsForMarkup?.isDesktop && !activeLinks.isReadActive ? (
+            <div className='col-span-5'>
+              <Calendar />
+            </div>
+          ) : null}
+          {!activeLinks.isReadActive && (
+            <div className='flex justify-center md:justify-center'>
+              <button
+                type='button'
+                className='p-2.5 border border-solid border-whiteBase rounded-[10px] bg-accentBase dark:bg-transparent hover:bg-accentAlt transition-colors'
+              >
+                <SvgIcon svgName='icon-dateSort-desc' size={20} className='fill-whiteBase' />
+              </button>
+            </div>
+          )}
+          <div
+            className={`col-span-5 ${activeLinks.isReadActive ? 'lg:col-span-7' : 'lg:col-span-8'}`}
+          >
             <PrimaryButton buttonData={{ type: 'submit' }} variant='SearchBlock'>
               Submit
             </PrimaryButton>
           </div>
-          {breakpointsForMarkup?.isDesktop && (
+
+          {breakpointsForMarkup?.isDesktop ? (
             <div className='col-span-2'>
               <PrimaryButton
                 buttonData={{ type: 'reset' }}
@@ -124,8 +155,17 @@ const FiltersBlock = () => {
                 svgSize={16}
                 className='fill-whiteBase'
               >
-                {breakpointsForMarkup?.isDesktop ? 'Reset' : null}
+                Reset
               </PrimaryButton>
+            </div>
+          ) : (
+            <div className='flex items-center justify-center'>
+              <button
+                type='button'
+                className='p-3 bg-accentBase hover:bg-accentAlt transition-colors rounded-[10px]'
+              >
+                <SvgIcon svgName='icon-reset' size={16} className='fill-whiteBase' />
+              </button>
             </div>
           )}
         </form>
