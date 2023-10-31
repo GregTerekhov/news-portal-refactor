@@ -1,5 +1,5 @@
-import React, { useEffect, useMemo } from 'react';
-import { useHeaderStyles, useWindowWidth } from 'hooks';
+import React, { useEffect } from 'react';
+import { useActiveLinks, useHeaderStyles, useWindowWidth } from 'hooks';
 import { createPortal } from 'react-dom';
 import { NavLink, useLocation, useNavigate } from 'react-router-dom';
 import { SvgIcon } from 'ui';
@@ -20,16 +20,8 @@ const Menu = ({ isOpen, closeMenu }: Partial<MobileMenu>) => {
   const isLoggedIn = false;
 
   const location = useLocation();
+  const activeLinks = useActiveLinks(location);
   const navigate = useNavigate();
-
-  const activeLinks = useMemo(
-    () => ({
-      isHomeActive: location.pathname === '/',
-      isFavoriteActive: location.pathname === '/favourite',
-      isReadActive: location.pathname === '/read',
-    }),
-    [location.pathname],
-  );
 
   const { textClass } = useHeaderStyles(activeLinks.isHomeActive);
 

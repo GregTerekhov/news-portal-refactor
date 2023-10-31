@@ -7,6 +7,7 @@ import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import { selectAllNews } from 'redux/newsDatabase';
 import { addOrUpdateVotedNews } from 'redux/newsDatabase/newsDataBaseSlice';
 import { useLocation } from 'react-router-dom';
+import { useActiveLinks } from 'hooks';
 
 interface NewsItemProps {
   data: Partial<VotedItem>;
@@ -26,7 +27,7 @@ const NewsItem: React.FC<Partial<NewsItemProps>> = ({ data = {}, onChange = () =
   });
   const dispatch = useAppDispatch();
   const location = useLocation();
-  const isHomePage = location.pathname === '/';
+  const activeLinks = useActiveLinks(location);
 
   useEffect(() => {
     if (savedNews && data?.newsUrl !== undefined) {
@@ -159,7 +160,9 @@ const NewsItem: React.FC<Partial<NewsItemProps>> = ({ data = {}, onChange = () =
         <a className='block' href={data?.newsUrl} target='_blank' onClick={handleReadNews}>
           <div
             className={`${
-              hasRead && isHomePage ? 'absolute z-20 w-full h-full bg-foreground' : 'hidden'
+              hasRead && activeLinks.isHomeActive
+                ? 'absolute z-20 w-full h-full bg-foreground'
+                : 'hidden'
             }`}
           ></div>
           <p className='absolute z-20 top-10 left-0 py-1 px-2 text-small font-medium text-contrastWhite bg-accentForeground rounded-r'>

@@ -1,9 +1,9 @@
-import React, { useMemo, useState } from 'react';
+import React, { useState } from 'react';
 import { Dropdown, Input, PrimaryButton, SvgIcon } from 'ui';
 import Calendar from './Calendar';
 import { useLocation } from 'react-router-dom';
 import { MATERIALS_TYPES } from 'constants';
-import { useWindowWidth } from 'hooks';
+import { useActiveLinks, useWindowWidth } from 'hooks';
 
 const FiltersBlock = () => {
   const [showDropdown, setShowDropdown] = useState<boolean>(false);
@@ -11,15 +11,7 @@ const FiltersBlock = () => {
     breakpointsForMarkup: null,
   };
   const location = useLocation();
-
-  const activeLinks = useMemo(
-    () => ({
-      isHomeActive: location.pathname === '/',
-      isFavoriteActive: location.pathname === '/favourite',
-      isReadActive: location.pathname === '/read',
-    }),
-    [location.pathname],
-  );
+  const activeLinks = useActiveLinks(location);
 
   const onClick: any = () => {
     setShowDropdown(!showDropdown);

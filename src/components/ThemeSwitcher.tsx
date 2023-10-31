@@ -1,5 +1,5 @@
 import { Switch } from '@headlessui/react';
-import { useHeaderStyles, useWindowWidth } from 'hooks';
+import { useActiveLinks, useHeaderStyles, useWindowWidth } from 'hooks';
 import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { SvgIcon } from 'ui';
@@ -20,9 +20,9 @@ const ThemeSwitcher = ({ variant }: Partial<Variant>) => {
   };
 
   const location = useLocation();
-  const isHomePage = location.pathname === '/';
+  const activeLinks = useActiveLinks(location);
 
-  const { switcherTextClass } = useHeaderStyles(isHomePage);
+  const { switcherTextClass } = useHeaderStyles(activeLinks.isHomeActive);
 
   let spacing: string = '';
 

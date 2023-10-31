@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { SvgIcon } from 'ui';
 import {
   add,
@@ -16,6 +16,7 @@ import {
   startOfWeek,
 } from 'date-fns';
 import { useLocation } from 'react-router-dom';
+import useActiveLinks from 'hooks/useActiveLinks';
 
 const Calendar: React.FC = () => {
   const [isOpenCalendar, setIsOpenCalendar] = useState<boolean>(false);
@@ -26,15 +27,7 @@ const Calendar: React.FC = () => {
   const [currMonth, setCurrMonth] = useState(() => format(today, 'MMM-yyyy'));
 
   const location = useLocation();
-
-  const activeLinks = useMemo(
-    () => ({
-      isHomeActive: location.pathname === '/',
-      isFavoriteActive: location.pathname === '/favourite',
-      isReadActive: location.pathname === '/read',
-    }),
-    [location.pathname],
-  );
+  const activeLinks = useActiveLinks(location);
 
   const dropdownRef = useRef<HTMLDivElement | null>(null);
 

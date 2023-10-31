@@ -3,6 +3,7 @@ import SvgIcon from './SvgIcon';
 import { useLocation } from 'react-router-dom';
 import useHeaderStyles from 'hooks/useHeaderStyles';
 import { useWindowWidth } from 'hooks/useWindowWidth';
+import { useActiveLinks } from 'hooks';
 
 type InputCollectedData = {
   name: string;
@@ -39,9 +40,9 @@ const Input: FC<Partial<InputProps>> = (props) => {
   const touched = props.touched;
 
   const location = useLocation();
-  const isHomePage = location.pathname === '/';
+  const activeLinks = useActiveLinks(location);
 
-  const { inputClass } = useHeaderStyles(isHomePage);
+  const { inputClass } = useHeaderStyles(activeLinks.isHomeActive);
 
   const onHideInput = (event: React.MouseEvent<HTMLInputElement>) => {
     if (onTouch) {
