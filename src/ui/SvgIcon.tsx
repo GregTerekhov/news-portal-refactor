@@ -1,5 +1,5 @@
 import React from 'react';
-import icons from '../assets/icons.svg';
+import icons from 'assets/icons.svg';
 
 type SvgIncomingData = {
   svgName: string;
