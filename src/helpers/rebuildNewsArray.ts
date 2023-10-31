@@ -6,7 +6,7 @@ import {
   ArticleNewsItem,
   NewsWireItem,
 } from 'types/news';
-import { formatDate } from 'helpers';
+import { formatDate, formatDateToShort } from 'helpers';
 
 function rebuildNewsArray(
   data: PartialPopularNewsArray | PartialArticleNewsArray | PartialNewsWireArray,
@@ -26,7 +26,7 @@ function rebuildNewsArray(
           ...commonFields,
           title: popularNewsItem.title || '',
           description: popularNewsItem.abstract || '',
-          publishDate: popularNewsItem.published_date || '',
+          publishDate: formatDate(popularNewsItem.published_date) || '',
           category: popularNewsItem.section || '',
           edition: popularNewsItem.source || '',
           newsUrl: popularNewsItem.url || '',
@@ -42,7 +42,7 @@ function rebuildNewsArray(
           ...commonFields,
           title: articleNewsItem.headline?.main || '',
           description: articleNewsItem.abstract || '',
-          publishDate: formatDate(articleNewsItem.pub_date) || '',
+          publishDate: formatDateToShort(articleNewsItem.pub_date) || '',
           category: articleNewsItem.section_name || '',
           edition: articleNewsItem.source || '',
           newsUrl: articleNewsItem.web_url || '',

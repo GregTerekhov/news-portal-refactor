@@ -67,9 +67,9 @@ const useHeaderStyles = (isHomePage: boolean) => {
       : 'placeholder:text-placeholderText dark:placeholder:text-foreground',
   };
 
-  const switcherText = isScrolled ? 'text-greyBase' : 'text-whiteBase';
+  const switcherTextClass = isScrolled ? 'text-greyBase' : 'text-whiteBase';
 
-  const burgerMenuButton = isScrolled
+  const burgerMenuButtonClass = isScrolled
     ? 'stroke-darkBase dark:stroke-whiteBase'
     : 'stroke-whiteBase';
 
@@ -77,8 +77,8 @@ const useHeaderStyles = (isHomePage: boolean) => {
     headerClass,
     textClass,
     inputClass,
-    switcherText,
-    burgerMenuButton,
+    switcherTextClass,
+    burgerMenuButtonClass,
   };
 };
 

@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { SvgIcon } from 'ui';
 import {
   add,
@@ -15,6 +15,7 @@ import {
   startOfToday,
   startOfWeek,
 } from 'date-fns';
+import { useLocation } from 'react-router-dom';
 
 const Calendar: React.FC = () => {
   const [isOpenCalendar, setIsOpenCalendar] = useState<boolean>(false);
@@ -23,6 +24,17 @@ const Calendar: React.FC = () => {
 
   const [selectedDate, setSelectedDate] = useState<Date | null>(today);
   const [currMonth, setCurrMonth] = useState(() => format(today, 'MMM-yyyy'));
+
+  const location = useLocation();
+
+  const activeLinks = useMemo(
+    () => ({
+      isHomeActive: location.pathname === '/',
+      isFavoriteActive: location.pathname === '/favourite',
+      isReadActive: location.pathname === '/read',
+    }),
+    [location.pathname],
+  );
 
   const dropdownRef = useRef<HTMLDivElement | null>(null);
 
@@ -116,7 +128,7 @@ const Calendar: React.FC = () => {
   ];
 
   return (
-    <div ref={dropdownRef} className='relative'>
+    <div ref={dropdownRef} className={`relative ${activeLinks.isFavoriteActive && 'col-span-4'}`}>
       <button
         type='button'
         onClick={handleOpen}

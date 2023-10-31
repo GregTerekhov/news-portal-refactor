@@ -17,7 +17,7 @@ const Header = () => {
   const location = useLocation();
   const isHomePage = location.pathname === '/';
 
-  const { headerClass, textClass, burgerMenuButton } = useHeaderStyles(isHomePage);
+  const { headerClass, textClass, burgerMenuButtonClass } = useHeaderStyles(isHomePage);
 
   const isLoggedIn = true;
   const isNotMobile = breakpointsForMarkup?.isTablet || breakpointsForMarkup?.isDesktop;
@@ -58,8 +58,58 @@ const Header = () => {
           </a>
           {isNotMobile && isLoggedIn ? <Menu /> : null}
 
-          <div className='flex items-center gap-3.5'>
-            {isOpenMenu ? null : (
+          {breakpointsForMarkup?.isNothing || breakpointsForMarkup?.isMobile ? (
+            <div className={`flex items-center gap-3.5`}>
+              {isOpenMenu ? null : (
+                <form
+                  action='#'
+                  onSubmit={(e) => onHandleSubmit(e)}
+                  className='max-md:overflow-hidden'
+                >
+                  <Input
+                    inputData={{ name: 'query', type: 'text', placeholder: 'Search |' }}
+                    hasIcon={true}
+                    variant='header'
+                    hideInput={handleVisibilityChange}
+                    touched={touched}
+                  />
+                </form>
+              )}
+              <button
+                type='button'
+                className='w-6 h-6 md:hidden'
+                onClick={isLoggedIn ? toggleMenu : toggleModal}
+              >
+                {isLoggedIn ? (
+                  <SvgIcon
+                    svgName={`${isOpenMenu ? 'icon-close' : 'icon-burger-menu'}`}
+                    size={24}
+                    className={`${
+                      !isOpenMenu && isHomePage
+                        ? burgerMenuButtonClass
+                        : 'stroke-darkBase dark:stroke-whiteBase'
+                    }`}
+                  />
+                ) : (
+                  <SvgIcon
+                    svgName='icon-auth'
+                    size={24}
+                    className={`${
+                      isHomePage ? 'fill-whiteBase' : 'fill-darkBase dark:fill-whiteBase'
+                    }`}
+                  />
+                )}
+              </button>
+
+              {isNotMobile ? (
+                <div className={`${!isLoggedIn && 'flex flex-col gap-3'}`}>
+                  <Auth />
+                  <ThemeSwitcher variant='header' />
+                </div>
+              ) : null}
+            </div>
+          ) : (
+            <>
               <form
                 action='#'
                 onSubmit={(e) => onHandleSubmit(e)}
@@ -73,38 +123,12 @@ const Header = () => {
                   touched={touched}
                 />
               </form>
-            )}
-            <button
-              type='button'
-              className='w-6 h-6 md:hidden'
-              onClick={isLoggedIn ? toggleMenu : toggleModal}
-            >
-              {isLoggedIn ? (
-                <SvgIcon
-                  svgName={`${isOpenMenu ? 'icon-close' : 'icon-burger-menu'}`}
-                  size={24}
-                  className={`${
-                    !isOpenMenu ? burgerMenuButton : 'stroke-darkBase dark:stroke-whiteBase'
-                  }`}
-                />
-              ) : (
-                <SvgIcon
-                  svgName='icon-auth'
-                  size={24}
-                  className={`${
-                    isHomePage ? 'fill-whiteBase' : 'fill-darkBase dark:fill-whiteBase'
-                  }`}
-                />
-              )}
-            </button>
-
-            {isNotMobile ? (
               <div className={`${!isLoggedIn && 'flex flex-col gap-3'}`}>
                 <Auth />
                 <ThemeSwitcher variant='header' />
               </div>
-            ) : null}
-          </div>
+            </>
+          )}
         </div>
       </div>
       {isOpenModal && (
