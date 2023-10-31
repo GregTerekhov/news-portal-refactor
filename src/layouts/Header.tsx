@@ -19,7 +19,7 @@ const Header = () => {
 
   const { headerClass, textClass, burgerMenuButtonClass } = useHeaderStyles(isHomePage);
 
-  const isLoggedIn = true;
+  const isLoggedIn = false;
   const isNotMobile = breakpointsForMarkup?.isTablet || breakpointsForMarkup?.isDesktop;
 
   const onHandleSubmit = (e: any) => {

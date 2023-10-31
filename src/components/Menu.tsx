@@ -17,7 +17,7 @@ const Menu = ({ isOpen, closeMenu }: Partial<MobileMenu>) => {
     breakpointsForMarkup: null,
   };
 
-  const isLoggedIn = true;
+  const isLoggedIn = false;
 
   const location = useLocation();
   const navigate = useNavigate();
