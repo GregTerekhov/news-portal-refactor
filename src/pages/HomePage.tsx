@@ -30,10 +30,10 @@ const HomePage = () => {
   const [currentItems, setCurrentItems] = useState<PartialVotedNewsArray>([]);
   const [changesHappened, setChangesHappened] = useState<boolean>(false);
 
-  console.log('currentItems', currentItems);
-  console.log('searchResults', searchResults);
-  console.log('searchByCategory', searchByCategory);
-  console.log('votedNews', votedNews);
+  // console.log('currentItems', currentItems);
+  // console.log('searchResults', searchResults);
+  // console.log('searchByCategory', searchByCategory);
+  // console.log('votedNews', votedNews);
 
   useEffect(() => {
     dispatch(fetchPopularNews('1'));

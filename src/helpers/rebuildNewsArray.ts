@@ -12,7 +12,7 @@ function rebuildNewsArray(
   data: PartialPopularNewsArray | PartialArticleNewsArray | PartialNewsWireArray,
 ) {
   if (data) {
-    console.log('rebuildNewsArray: ', data);
+    // console.log('rebuildNewsArray: ', data);
     const modifiedNewsResults = data.map((item) => {
       const commonFields = {
         isFavourite: false,
