@@ -15,6 +15,7 @@ interface NewsItemProps {
 
 const NewsItem: React.FC<Partial<NewsItemProps>> = ({ data = {}, onChange = () => {} }) => {
   const savedNews = useAppSelector(selectAllNews);
+
   const [isFavourite, setIsFavourite] = useState<boolean>(() => {
     const existingNews = savedNews?.find((news) => news.newsUrl === data?.newsUrl);
     return existingNews?.isFavourite ?? false;

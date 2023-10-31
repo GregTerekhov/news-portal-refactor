@@ -21,6 +21,7 @@ enum V {
 interface InputProps {
   inputData?: Partial<InputCollectedData>;
   hasIcon: boolean;
+  className: string;
   variant: string;
   hideInput?: (event: React.MouseEvent<HTMLInputElement>) => void;
   touched?: boolean;
@@ -32,6 +33,7 @@ const Input: FC<Partial<InputProps>> = (props) => {
   };
   const { name, type, placeholder, children } = props.inputData || {};
   const hasIcon = props.hasIcon;
+  const className = props.className;
   const variant = props.variant;
   const onTouch = props.hideInput;
   const touched = props.touched;
@@ -58,11 +60,11 @@ const Input: FC<Partial<InputProps>> = (props) => {
   let placeholderColor: string = '';
 
   if (variant === V.Header) {
-    inputGeometry = `md:w-[213px] lg:w-72 py-[5px] transition-transform transition-[width] ${
+    inputGeometry = `md:w-[213px] lg:w-72 md:py-[5px] md:pl-11 md:pr-3 transition-transform transition-[width] ${
       breakpointsForMarkup?.isMobile || breakpointsForMarkup?.isNothing
         ? touched
-          ? 'translate-x-0 w-[173px] '
-          : 'translate-x-full w-0'
+          ? 'translate-x-0 w-[173px] py-[5px] pl-11 pr-3'
+          : 'translate-x-full w-[30px] p-0'
         : ''
     }`;
     inputBorder = inputClass.inputBorder;
@@ -72,7 +74,7 @@ const Input: FC<Partial<InputProps>> = (props) => {
     textColor = inputClass.textColor;
     placeholderColor = inputClass.placeholderColor;
   } else if (variant === V.SearchBlock) {
-    inputGeometry = 'w-full py-2';
+    inputGeometry = 'w-full py-2 pl-11 pr-3';
     inputBorder = 'border-accentBase dark:border-whiteBase';
     inputBg = 'bg-whiteBase';
     svgFill = 'fill-accentBase';
@@ -80,7 +82,7 @@ const Input: FC<Partial<InputProps>> = (props) => {
     textColor = 'text-accentBase';
     placeholderColor = 'placeholder:text-placeholderText';
   } else if (variant === V.Auth) {
-    inputGeometry = 'w-full py-2';
+    inputGeometry = 'w-full py-2 px-4 md:px-4';
     inputBorder = 'border-accentBase dark:border-whiteBase';
     inputBg = 'bg-transparent';
     caretColor = 'caret-accentBase dark:caret-whiteBase';
@@ -95,7 +97,7 @@ const Input: FC<Partial<InputProps>> = (props) => {
       htmlFor={name}
       className={`relative flex gap-x-4 ${hasIcon && 'justify-center'} ${
         labelCheckbox ? 'flex-row cursor-pointer' : 'flex-col'
-      }`}
+      } ${className}`}
     >
       {variant === V.Auth && (
         <span className={`${!hasIcon && 'mb-1.5 block'} text-accentBase font-medium`}>
@@ -109,9 +111,7 @@ const Input: FC<Partial<InputProps>> = (props) => {
       )}
 
       <input
-        className={` ${inputGeometry} ${checkboxStyles} ${
-          hasIcon ? 'pl-11 pr-3' : 'px-4 md:px-4'
-        } transition-colors duration-500 font-header border-solid border rounded-3xl outline-0 text-small leading-mediumRelaxed tracking-bigWide md:text-base md:leading-moreRelaxed md:tracking-wide ${placeholderColor} ${inputBorder} ${inputBg} ${caretColor} ${textColor}`}
+        className={` ${inputGeometry} ${checkboxStyles} transition-colors duration-500 font-header border-solid border rounded-3xl outline-0 text-small leading-mediumRelaxed tracking-bigWide md:text-base md:leading-moreRelaxed md:tracking-wide ${placeholderColor} ${inputBorder} ${inputBg} ${caretColor} ${textColor}`}
         id={name}
         name={name}
         type={type}

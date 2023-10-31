@@ -2,7 +2,6 @@ import { Accordeon, Loader, NewsList, PlugImage } from 'components';
 import React, { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import { fetchRead, selectAllReads, selectLoading } from 'redux/newsDatabase';
-import { formatDateString } from 'helpers';
 
 const ReadPage = () => {
   const dispatch = useAppDispatch();
@@ -21,7 +20,7 @@ const ReadPage = () => {
   const uniqueDatesSet = new Set(publishedDate);
 
   // Перетворення і сортування дат
-  const sortedDates = Array.from(uniqueDatesSet).map(formatDateString).sort().reverse();
+  const sortedDates = Array.from(uniqueDatesSet).sort().reverse();
 
   const shouldShowLoader = isLoading;
   const shouldShowAccordeon = !isLoading && readNews.length !== 0;
@@ -35,8 +34,7 @@ const ReadPage = () => {
             <Accordeon key={date} publishedDate={date}>
               <NewsList
                 currentItems={readNews?.filter(
-                  (news) =>
-                    news?.publishDate !== undefined && formatDateString(news?.publishDate) === date,
+                  (news) => news?.publishDate !== undefined && news?.publishDate === date,
                 )}
               />
             </Accordeon>

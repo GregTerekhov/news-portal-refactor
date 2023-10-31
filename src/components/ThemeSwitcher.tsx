@@ -22,7 +22,7 @@ const ThemeSwitcher = ({ variant }: Partial<Variant>) => {
   const location = useLocation();
   const isHomePage = location.pathname === '/';
 
-  const { switcherText } = useHeaderStyles(isHomePage);
+  const { switcherTextClass } = useHeaderStyles(isHomePage);
 
   let spacing: string = '';
 
@@ -55,7 +55,7 @@ const ThemeSwitcher = ({ variant }: Partial<Variant>) => {
       {breakpointsForMarkup?.isDesktop ? (
         <p
           className={`font-header text-xl leading-tighter ${
-            enabled ? switcherText : 'text-accentAlt'
+            enabled ? switcherTextClass : 'text-accentAlt'
           }`}
         >
           Light
@@ -88,7 +88,7 @@ const ThemeSwitcher = ({ variant }: Partial<Variant>) => {
       {breakpointsForMarkup?.isDesktop ? (
         <p
           className={`font-header text-xl leading-tighter ${
-            enabled ? 'text-accentAlt' : switcherText
+            enabled ? 'text-accentAlt' : switcherTextClass
           }`}
         >
           Dark

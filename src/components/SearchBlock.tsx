@@ -99,6 +99,26 @@ const SearchBlock = () => {
           <div className='md:col-span-2'>
             <Calendar />
           </div>
+          <div className='flex justify-center gap-3.5'>
+            <button
+              type='button'
+              className='p-2.5 border border-solid border-whiteBase rounded-[10px] bg-accentBase dark:bg-transparent hover:bg-accentAlt transition-colors'
+            >
+              <SvgIcon svgName='icon-dateSort-asc' size={20} className='fill-whiteBase' />
+            </button>
+            <button
+              type='button'
+              className='p-2.5 border border-solid border-whiteBase rounded-[10px] bg-accentBase dark:bg-transparent hover:bg-accentAlt transition-colors'
+            >
+              <SvgIcon svgName='icon-dateSort-desc' size={20} className='fill-whiteBase' />
+            </button>
+            <button
+              type='button'
+              className='p-2.5 border border-solid border-whiteBase rounded-[10px] bg-accentBase dark:bg-transparent hover:bg-accentAlt transition-colors'
+            >
+              <SvgIcon svgName='icon-relevant' size={20} className='fill-whiteBase' />
+            </button>
+          </div>
           {/* <PrimaryButton
             buttonData={{ type: 'reset' }}
             hasIcon={true}
