@@ -128,7 +128,7 @@ const Calendar: React.FC = () => {
   ];
 
   return (
-    <div ref={dropdownRef} className={`relative ${activeLinks.isFavoriteActive && 'col-span-4'}`}>
+    <div ref={dropdownRef} className={`relative ${activeLinks.isReadActive ? null : 'col-span-4'}`}>
       <button
         type='button'
         onClick={handleOpen}

@@ -43,7 +43,7 @@ const PrimaryButton: React.FC<Partial<PBProps>> = (props) => {
   return (
     <button
       className={`flex items-center justify-center gap-2.5 bg-accentBase rounded-[20px] text-contrastWhite hover:bg-accentAlt transition-colors ${buttonWidth} ${
-        hasIcon ? 'max-md:py-3' : 'py-2'
+        hasIcon ? 'max-lg:py-3 lg:py-2' : 'py-2'
       }`}
       type={type}
       onClick={onHandleClick}

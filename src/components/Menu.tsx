@@ -17,6 +17,8 @@ const Menu = ({ isOpen, closeMenu }: Partial<MobileMenu>) => {
     breakpointsForMarkup: null,
   };
 
+  const isLoggedIn = true;
+
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -106,7 +108,19 @@ const Menu = ({ isOpen, closeMenu }: Partial<MobileMenu>) => {
                   </li>
                 ))}
               </ul>
-              <ThemeSwitcher />
+              <div className='flex justify-between'>
+                <ThemeSwitcher />
+                <div className='flex items-center p-1.5 border border-solid border-whiteBase rounded-[10px] bg-accentBase hover:bg-accentAlt transition-colors text-contrastWhite'>
+                  <button type='button' className='flex gap-2.5'>
+                    Sign Out
+                    <SvgIcon
+                      svgName={isLoggedIn ? 'icon-signout' : ''}
+                      size={24}
+                      className='fill-whiteBase'
+                    />
+                  </button>
+                </div>
+              </div>
             </div>
           </div>,
           modalRoot,
