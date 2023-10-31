@@ -17,6 +17,8 @@ import {
 } from 'date-fns';
 import { useLocation } from 'react-router-dom';
 import useActiveLinks from 'hooks/useActiveLinks';
+// import { useAppDispatch } from 'redux/hooks';
+// import { fetchNewsByDate } from 'redux/newsAPI';
 
 const Calendar: React.FC = () => {
   const [isOpenCalendar, setIsOpenCalendar] = useState<boolean>(false);
@@ -28,6 +30,8 @@ const Calendar: React.FC = () => {
 
   const location = useLocation();
   const activeLinks = useActiveLinks(location);
+
+  // const dispatch = useAppDispatch();
 
   const dropdownRef = useRef<HTMLDivElement | null>(null);
 
@@ -63,11 +67,40 @@ const Calendar: React.FC = () => {
     setIsOpenCalendar(!isOpenCalendar);
   };
 
-  const handleDateClick = (date: Date) => {
-    if (!isAfter(date, today)) {
-      setSelectedDate(date);
+  const handleDateClick = (firstSelectedDate: Date) => {
+    if (!isAfter(firstSelectedDate, today)) {
+      setSelectedDate(firstSelectedDate);
     }
-    setIsOpenCalendar(false);
+    // Начальная дата
+    // let firstMonth;
+    // let firstDate;
+    // let firstYear;
+
+    // if (firstSelectedDate) {
+    //   firstMonth = ('0' + (firstSelectedDate.getMonth() + 1)).slice(-2);
+    //   firstDate = ('0' + firstSelectedDate.getDate()).slice(-2);
+    //   firstYear = firstSelectedDate.getFullYear();
+    // }
+
+    // // Конечная дата
+    // let secondMonth;
+    // let secondDate;
+    // let secondYear;
+
+    // if (secondSelectedDate) {
+    //   secondMonth = ('0' + (secondSelectedDate.getMonth() + 1)).slice(-2);
+    //   secondDate = ('0' + secondSelectedDate.getDate()).slice(-2);
+    //   secondYear = secondSelectedDate.getFullYear();
+    // }
+
+    // const dateFirst = firstYear + firstDate + firstMonth;
+    // const dateSecond = secondYear + secondDate + firstMonth;
+    // const firstDate = secondDate.getFullYear() + d2te + month;
+    // console.log(dateFirst, dateSecond);
+    // dispatch(fetchNewsByDate(dateFirst));
+
+    // dispatch;
+    // setIsOpenCalendar(false);
   };
 
   let firstDayOfMonth = parse(currMonth, 'MMM-yyyy', new Date());

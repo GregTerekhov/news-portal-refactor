@@ -4,6 +4,7 @@ import {
   fetchNewsByCategory,
   fetchNewsByKeyword,
   fetchPopularNews,
+  fetchNewsByDate,
 } from './newsAPIOperations';
 import { ArticleNewsArray, NewsWireArray, PopularNewsArray, C } from 'types';
 
@@ -80,6 +81,19 @@ const newsAPISlice = createSlice({
         state.hasError = null;
       })
       .addCase(fetchNewsByCategory.rejected, (state, action) => {
+        state.isLoading = false;
+        state.hasError = action.error;
+      })
+      .addCase(fetchNewsByDate.pending, (state) => {
+        state.isLoading = true;
+        state.hasError = null;
+      })
+      .addCase(fetchNewsByDate.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.searchResults = action.payload;
+        state.hasError = null;
+      })
+      .addCase(fetchNewsByDate.rejected, (state, action) => {
         state.isLoading = false;
         state.hasError = action.error;
       });
