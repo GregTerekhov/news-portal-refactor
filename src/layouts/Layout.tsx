@@ -1,8 +1,8 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 import Header from './Header';
 import { Outlet, useLocation } from 'react-router-dom';
 import { FiltersBlock, Hero, PageScrollController, SearchBlock } from 'components';
-import { useWindowWidth } from 'hooks';
+import { useActiveLinks, useWindowWidth } from 'hooks';
 
 const Layout = () => {
   const { breakpointsForMarkup } = useWindowWidth() ?? {
@@ -10,15 +10,7 @@ const Layout = () => {
   };
 
   const location = useLocation();
-
-  const activeLinks = useMemo(
-    () => ({
-      isHomeActive: location.pathname === '/',
-      isFavoriteActive: location.pathname === '/favourite',
-      isReadActive: location.pathname === '/read',
-    }),
-    [location.pathname],
-  );
+  const activeLinks = useActiveLinks(location);
 
   return (
     <>

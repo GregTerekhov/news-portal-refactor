@@ -49,6 +49,7 @@ const WeatherBlock = () => {
   };
 
   const emptyWeather = getWeatherData && Object.keys(getWeatherData).length === 0;
+
   return (
     <>
       {!isLoading && !hasGeolocationPermission ? (

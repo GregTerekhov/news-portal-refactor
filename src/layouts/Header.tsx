@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Input, Modal, SvgIcon } from 'ui';
 import { Menu, ThemeSwitcher, Auth, AuthModal } from 'components';
-import { useHeaderStyles, usePopUp, useWindowWidth } from 'hooks';
+import { useActiveLinks, useHeaderStyles, usePopUp, useWindowWidth } from 'hooks';
 import { useLocation } from 'react-router-dom';
 import { useAppDispatch } from 'redux/hooks';
 import { fetchNewsByKeyword } from 'redux/newsAPI';
@@ -15,11 +15,13 @@ const Header = () => {
 
   const dispatch = useAppDispatch();
   const location = useLocation();
-  const isHomePage = location.pathname === '/';
+  const activeLinks = useActiveLinks(location);
 
-  const { headerClass, textClass, burgerMenuButtonClass } = useHeaderStyles(isHomePage);
+  const { headerClass, textClass, burgerMenuButtonClass } = useHeaderStyles(
+    activeLinks.isHomeActive,
+  );
 
-  const isLoggedIn = false;
+  const isLoggedIn = true;
   const isNotMobile = breakpointsForMarkup?.isTablet || breakpointsForMarkup?.isDesktop;
 
   const onHandleSubmit = (e: any) => {
@@ -39,7 +41,7 @@ const Header = () => {
     <>
       <div
         className={`fixed w-full top-0 left-0 min-h-[81px] md:min-h-[106px] lg:min-h-[113px] ${
-          isHomePage
+          activeLinks.isHomeActive
             ? headerClass
             : 'bg-foregroundLight dark:bg-foregroundDark border-b border-solid border-line dark:border-darkThemeLine'
         } transition-colors duration-500 ${isOpenMenu && 'border-b-0'} ${
@@ -50,7 +52,9 @@ const Header = () => {
           <a
             href='/'
             className={`sm:py-6 md:pt-8 md:pb-[30px] lg:py-7 text-3xl leading-tight lg:leading-[1.357144] md:text-4xl lg:text-giant font-bold transition-colors duration-500 ${
-              !isOpenMenu && isHomePage ? textClass : 'text-darkBase dark:text-whiteBase'
+              !isOpenMenu && activeLinks.isHomeActive
+                ? textClass
+                : 'text-darkBase dark:text-whiteBase'
             } 
               `}
           >
@@ -85,7 +89,7 @@ const Header = () => {
                     svgName={`${isOpenMenu ? 'icon-close' : 'icon-burger-menu'}`}
                     size={24}
                     className={`${
-                      !isOpenMenu && isHomePage
+                      !isOpenMenu && activeLinks.isHomeActive
                         ? burgerMenuButtonClass
                         : 'stroke-darkBase dark:stroke-whiteBase'
                     }`}
@@ -95,7 +99,9 @@ const Header = () => {
                     svgName='icon-auth'
                     size={24}
                     className={`${
-                      isHomePage ? 'fill-whiteBase' : 'fill-darkBase dark:fill-whiteBase'
+                      activeLinks.isHomeActive
+                        ? 'fill-whiteBase'
+                        : 'fill-darkBase dark:fill-whiteBase'
                     }`}
                   />
                 )}
