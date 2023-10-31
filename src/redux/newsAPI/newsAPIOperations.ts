@@ -80,6 +80,25 @@ export const fetchNewsByCategory = createAsyncThunk<NewsWireArray, string, { rej
   },
 );
 
+export const fetchNewsByDate = createAsyncThunk<ArticleNewsArray, string, { rejectValue: any }>(
+  'article/fetchByDate',
+  async (date, { rejectWithValue }) => {
+    try {
+      const res = await axios.get(
+        `${BASE_URL}/search/v2/articlesearch.json?begin_date=${date}&end_date=${date}`,
+        {
+          params: {
+            'api-key': API_KEY,
+          },
+        },
+      );
+      return res.data.response.docs;
+    } catch (error: any) {
+      return rejectWithValue(error.response.data);
+    }
+  },
+);
+
 // export const fetchNewsByTypeOfMaterials = createAsyncThunk('types/fetch', async (type, { rejectWithValue }) => {
 //   try {
 //     const res = await axios.get(`${BASE_URL}/search/v2/articlesearch.json?facet=true&facet_field=`);
