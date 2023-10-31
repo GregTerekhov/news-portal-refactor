@@ -9,7 +9,7 @@ const Auth = () => {
   const { breakpointsForMarkup } = useWindowWidth() ?? {
     breakpointsForMarkup: null,
   };
-  const isLoggedIn = true;
+  const isLoggedIn = false;
 
   return (
     <div className='mb-3 flex items-center justify-center'>
@@ -19,17 +19,17 @@ const Auth = () => {
           variant='SearchBlock'
           onHandleClick={!isLoggedIn ? (toggleModal as ClickHandler) : undefined}
           hasIcon={true}
-          svgName={`${isLoggedIn && 'icon-signout'}`}
-          svgSize={isLoggedIn && 28}
+          svgName={`${isLoggedIn ? 'icon-signout' : 'icon-auth'}`}
+          svgSize={28}
           className='fill-whiteBase'
         >
-          {isLoggedIn ? 'Sign Out' : 'Signin/Signup'}
+          {isLoggedIn ? 'Sign Out' : 'Auth'}
         </PrimaryButton>
       ) : (
         <div className='flex items-center p-1.5 border border-solid border-whiteBase rounded-[10px] bg-accentBase hover:bg-accentAlt transition-colors'>
-          <button type='button'>
+          <button type='button' onClick={!isLoggedIn ? (toggleModal as ClickHandler) : undefined}>
             <SvgIcon
-              svgName={isLoggedIn ? 'icon-signout' : ''}
+              svgName={isLoggedIn ? 'icon-signout' : 'icon-auth'}
               size={24}
               className='fill-whiteBase'
             />

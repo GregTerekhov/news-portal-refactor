@@ -1,5 +1,5 @@
 import React, { useEffect, useLayoutEffect, useState } from 'react';
-import { Loader, NewsList, Pagination } from 'components';
+import { Loader, NewsList, Pagination, PlugImage } from 'components';
 import {
   selectLoading,
   selectPopular,
@@ -45,7 +45,6 @@ const HomePage = () => {
   };
 
   useLayoutEffect(() => {
-    // console.log('After unmount', votedNews);
     if (changesHappened) {
       console.log('Клік по фаворитах, або по посиланню відбувся');
       dispatch(addNews(votedNews));
@@ -129,8 +128,11 @@ const HomePage = () => {
           />
         </>
       )}
+      {!isLoading &&
+        votedNews?.length > 0 &&
+        popularData?.length > 0 &&
+        searchResults?.length === 0 && <PlugImage variant='page' />}
     </div>
-    // <PlugImage variant='page' />
   );
 };
 
