@@ -1,5 +1,5 @@
 import React, { useEffect, useLayoutEffect, useState } from 'react';
-import { Loader, NewsList, Pagination, PlugImage } from 'components';
+import { Loader, NewsList, Pagination } from 'components';
 import {
   selectLoading,
   selectPopular,
@@ -128,10 +128,10 @@ const HomePage = () => {
           />
         </>
       )}
-      {!isLoading &&
+      {/* {!isLoading &&
         votedNews?.length > 0 &&
         popularData?.length > 0 &&
-        searchResults?.length === 0 && <PlugImage variant='page' />}
+        searchResults?.length === 0 && <PlugImage variant='page' />} */}
     </div>
   );
 };
