@@ -33,6 +33,7 @@ const HomePage = () => {
   const [currentItems, setCurrentItems] = useState<PartialVotedNewsArray>([]);
   const [changesHappened, setChangesHappened] = useState<boolean>(false);
 
+
   // console.log('filteredNews', filteredNews);
   // console.log('popularData', popularData);
   // console.log('currentItems', currentItems);

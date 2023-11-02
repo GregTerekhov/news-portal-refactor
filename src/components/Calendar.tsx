@@ -17,8 +17,8 @@ import {
 } from 'date-fns';
 import { useLocation } from 'react-router-dom';
 import useActiveLinks from 'hooks/useActiveLinks';
-// import { useAppDispatch } from 'redux/hooks';
-// import { fetchNewsByDate } from 'redux/newsAPI';
+import { useAppDispatch } from 'redux/hooks';
+import { fetchNewsByDate } from 'redux/newsAPI';
 
 const Calendar: React.FC = () => {
   const [isOpenCalendar, setIsOpenCalendar] = useState<boolean>(false);
@@ -27,13 +27,16 @@ const Calendar: React.FC = () => {
 
   const [selectedDate, setSelectedDate] = useState<Date | null>(today);
   const [currMonth, setCurrMonth] = useState(() => format(today, 'MMM-yyyy'));
+  const [beginDate, setBeginDate] = useState<string | Date | null>(null);
 
   const location = useLocation();
   const activeLinks = useActiveLinks(location);
 
-  // const dispatch = useAppDispatch();
+  const dispatch = useAppDispatch();
 
   const dropdownRef = useRef<HTMLDivElement | null>(null);
+
+  let endDate: Date | string | null | undefined = beginDate;
 
   useEffect(() => {
     const handleWindowClick = (event: MouseEvent) => {
@@ -44,6 +47,12 @@ const Calendar: React.FC = () => {
       ) {
         setIsOpenCalendar(false);
         setSelectedDate(startOfToday());
+        const datePeriod = {
+          beginDate: endDate,
+          endDate,
+        };
+        dispatch(fetchNewsByDate(datePeriod));
+        setBeginDate(null);
       }
     };
 
@@ -51,6 +60,7 @@ const Calendar: React.FC = () => {
       if (isOpenCalendar && event.key === 'Escape') {
         setIsOpenCalendar(false);
         setSelectedDate(startOfToday());
+        setBeginDate(null);
       }
     };
 
@@ -67,40 +77,38 @@ const Calendar: React.FC = () => {
     setIsOpenCalendar(!isOpenCalendar);
   };
 
-  const handleDateClick = (firstSelectedDate: Date) => {
-    if (!isAfter(firstSelectedDate, today)) {
-      setSelectedDate(firstSelectedDate);
+  const handleDateClick = async (date: Date) => {
+    if (!isAfter(date, today)) {
+      setSelectedDate(date);
     }
     // Начальная дата
-    // let firstMonth;
-    // let firstDate;
-    // let firstYear;
-
-    // if (firstSelectedDate) {
-    //   firstMonth = ('0' + (firstSelectedDate.getMonth() + 1)).slice(-2);
-    //   firstDate = ('0' + firstSelectedDate.getDate()).slice(-2);
-    //   firstYear = firstSelectedDate.getFullYear();
-    // }
+    const firstMonth = ('0' + (date.getMonth() + 1)).slice(-2);
+    const firstDate = ('0' + date.getDate()).slice(-2);
+    const firstYear = date.getFullYear();
 
     // // Конечная дата
-    // let secondMonth;
-    // let secondDate;
-    // let secondYear;
+    const secondMonth = ('0' + (date.getMonth() + 1)).slice(-2);
+    const secondDate = ('0' + date.getDate()).slice(-2);
+    const secondYear = date.getFullYear();
 
-    // if (secondSelectedDate) {
-    //   secondMonth = ('0' + (secondSelectedDate.getMonth() + 1)).slice(-2);
-    //   secondDate = ('0' + secondSelectedDate.getDate()).slice(-2);
-    //   secondYear = secondSelectedDate.getFullYear();
-    // }
+    if (!endDate) {
+      setBeginDate(firstYear + firstMonth + firstDate);
+    }
 
-    // const dateFirst = firstYear + firstDate + firstMonth;
-    // const dateSecond = secondYear + secondDate + firstMonth;
-    // const firstDate = secondDate.getFullYear() + d2te + month;
-    // console.log(dateFirst, dateSecond);
-    // dispatch(fetchNewsByDate(dateFirst));
+    endDate = secondYear + secondMonth + secondDate;
 
-    // dispatch;
-    // setIsOpenCalendar(false);
+    if (beginDate && endDate) {
+      const datePeriod = {
+        beginDate,
+        endDate,
+      };
+      dispatch(fetchNewsByDate(datePeriod));
+
+      console.log(beginDate, endDate);
+      console.log(datePeriod);
+      setBeginDate(null);
+      setIsOpenCalendar(false);
+    }
   };
 
   let firstDayOfMonth = parse(currMonth, 'MMM-yyyy', new Date());

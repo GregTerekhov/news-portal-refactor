@@ -80,12 +80,13 @@ export const fetchNewsByCategory = createAsyncThunk<NewsWireArray, string, { rej
   },
 );
 
-export const fetchNewsByDate = createAsyncThunk<ArticleNewsArray, string, { rejectValue: any }>(
+export const fetchNewsByDate = createAsyncThunk<ArticleNewsArray, any, { rejectValue: any }>(
   'article/fetchByDate',
   async (date, { rejectWithValue }) => {
+    const { beginDate, endDate } = date;
     try {
       const res = await axios.get(
-        `${BASE_URL}/search/v2/articlesearch.json?begin_date=${date}&end_date=${date}`,
+        `${BASE_URL}/search/v2/articlesearch.json?begin_date=${beginDate}&end_date=${endDate}`,
         {
           params: {
             'api-key': API_KEY,
