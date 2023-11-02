@@ -11,7 +11,7 @@ export type PopularNewsItem = {
   section: string;
   source: string;
   title: string;
-  // type: string;
+  type: string;
   url: string;
 };
 
@@ -31,7 +31,7 @@ export type ArticleNewsItem = {
     main: string;
   };
   web_url: string;
-  // type_of_material: string;
+  type_of_material: string;
 };
 
 export type NewsWireItem = {
@@ -46,7 +46,7 @@ export type NewsWireItem = {
     caption?: string;
     url?: string;
   }[];
-  // material_type_facet: string;
+  material_type_facet: string;
 };
 
 export type C = {
@@ -65,7 +65,7 @@ export type VotedItem = {
   imgLink?: string;
   imgAlt?: string;
   newsUrl: string;
-  // materialType: string;
+  materialType?: string;
 };
 
 export type VotedNewsArray = VotedItem[];

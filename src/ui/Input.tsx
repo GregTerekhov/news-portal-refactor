@@ -9,6 +9,7 @@ type InputCollectedData = {
   name: string;
   type: string;
   placeholder: string;
+  value: string;
   children: ReactNode;
 };
 
@@ -26,18 +27,20 @@ interface InputProps {
   variant: string;
   hideInput?: (event: React.MouseEvent<HTMLInputElement>) => void;
   touched?: boolean;
+  onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
 const Input: FC<Partial<InputProps>> = (props) => {
   const { breakpointsForMarkup } = useWindowWidth() ?? {
     breakpointsForMarkup: null,
   };
-  const { name, type, placeholder, children } = props.inputData || {};
+  const { name, type, value, placeholder, children } = props.inputData || {};
   const hasIcon = props.hasIcon;
   const className = props.className;
   const variant = props.variant;
   const onTouch = props.hideInput;
   const touched = props.touched;
+  const onChange = props.onChange;
 
   const location = useLocation();
   const activeLinks = useActiveLinks(location);
@@ -116,9 +119,15 @@ const Input: FC<Partial<InputProps>> = (props) => {
         id={name}
         name={name}
         type={type}
+        value={value}
         placeholder={placeholder}
         autoComplete='off'
         onClick={onHideInput}
+        onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+          if (onChange) {
+            onChange(event);
+          }
+        }}
       />
       <span className={`${!hasIcon && 'mb-1.5 block'} text-accentBase font-medium`}>
         {variant === V.Checkbox && children}{' '}

@@ -8,7 +8,7 @@ const materialTypes = [
   'Biography',
   'Birth Notice',
   'Blog',
-  'Brief',
+  'Briefing',
   'Caption',
   'Chronology',
   'Column',
