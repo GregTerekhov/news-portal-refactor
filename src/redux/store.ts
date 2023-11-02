@@ -2,9 +2,9 @@ import { AnyAction, configureStore } from '@reduxjs/toolkit';
 import { weatherSlice } from './weather';
 import { newsAPISlice } from './newsAPI';
 import { newsDBSlice } from './newsDatabase';
-import votedNewsSlice from './votedNewsSlice';
 import { FLUSH, PAUSE, PERSIST, PURGE, REGISTER, REHYDRATE } from 'redux-persist';
 import { ThunkDispatch } from 'redux-thunk';
+import filterSlice from './filterSlice';
 
 const middleware = (getDefaultMiddleware: any) =>
   getDefaultMiddleware({
@@ -18,7 +18,7 @@ const store = configureStore({
     weather: weatherSlice,
     newsAPI: newsAPISlice,
     newsDB: newsDBSlice,
-    votedNews: votedNewsSlice,
+    filters: filterSlice,
   },
   middleware,
 });
