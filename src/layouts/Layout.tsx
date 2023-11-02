@@ -3,6 +3,8 @@ import Header from './Header';
 import { Outlet, useLocation } from 'react-router-dom';
 import { FiltersBlock, Hero, PageScrollController, SearchBlock } from 'components';
 import { useActiveLinks, useWindowWidth } from 'hooks';
+import { useAppSelector } from 'redux/hooks';
+import { selectAllFavourites, selectAllReads } from 'redux/newsDatabase';
 
 const Layout = () => {
   const { breakpointsForMarkup } = useWindowWidth() ?? {
@@ -11,6 +13,8 @@ const Layout = () => {
 
   const location = useLocation();
   const activeLinks = useActiveLinks(location);
+  const favouriteNews = useAppSelector(selectAllFavourites);
+  const readNews = useAppSelector(selectAllReads);
 
   return (
     <>
@@ -30,7 +34,12 @@ const Layout = () => {
               <FiltersBlock />
             </div>
           ) : (
-            <FiltersBlock />
+            <>
+              {(activeLinks.isFavoriteActive && favouriteNews && favouriteNews.length > 0) ||
+              (activeLinks.isReadActive && readNews && readNews.length > 0) ? (
+                <FiltersBlock />
+              ) : null}
+            </>
           )}
           {(activeLinks.isHomeActive && breakpointsForMarkup?.isTablet) ||
           breakpointsForMarkup?.isDesktop ? (

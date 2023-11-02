@@ -5,7 +5,7 @@ type PrimaryButtCommon = {
   type: 'button' | 'submit' | 'reset';
 };
 
-export type ClickHandler = () => void;
+export type ClickHandler = (() => void) | ((event: React.FormEvent) => void);
 
 enum PB {
   SearchBlock = 'SearchBlock',

@@ -1,16 +1,38 @@
 import { Accordeon, Loader, NewsList, PlugImage } from 'components';
-import React, { useEffect } from 'react';
+import React, { useEffect, useLayoutEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
-import { fetchRead, selectAllReads, selectLoading } from 'redux/newsDatabase';
+import {
+  addNews,
+  fetchRead,
+  selectSavedNews,
+  selectAllReads,
+  selectLoading,
+} from 'redux/newsDatabase';
+// import { saveUnsavedChanges } from 'redux/newsDatabase/newsDataBaseSlice';
 
 const ReadPage = () => {
+  const [changesHappened, setChangesHappened] = useState<boolean>(false);
   const dispatch = useAppDispatch();
   const readNews = useAppSelector(selectAllReads);
   const isLoading = useAppSelector(selectLoading);
+  const savedNews = useAppSelector(selectSavedNews);
 
   useEffect(() => {
     dispatch(fetchRead());
   }, [dispatch]);
+
+  useLayoutEffect(() => {
+    if (changesHappened && savedNews) {
+      console.log('Клік по фаворитах, або по посиланню відбувся');
+      dispatch(addNews(savedNews));
+      // dispatch(saveUnsavedChanges());
+      setChangesHappened(false);
+    }
+  }, [changesHappened]);
+
+  const handleChangeVotes = () => {
+    setChangesHappened(true);
+  };
 
   const publishedDate = readNews
     .map((news) => news.publishDate)
@@ -23,7 +45,7 @@ const ReadPage = () => {
   const sortedDates = Array.from(uniqueDatesSet).sort().reverse();
 
   const shouldShowLoader = isLoading;
-  const shouldShowAccordeon = !isLoading && readNews.length !== 0;
+  const shouldShowAccordeon = !isLoading && readNews && readNews?.length !== 0;
 
   return (
     <>
@@ -33,6 +55,7 @@ const ReadPage = () => {
           {sortedDates.map((date) => (
             <Accordeon key={date} publishedDate={date}>
               <NewsList
+                onChange={handleChangeVotes}
                 currentItems={readNews?.filter(
                   (news) => news?.publishDate !== undefined && news?.publishDate === date,
                 )}
@@ -41,7 +64,9 @@ const ReadPage = () => {
           ))}
         </div>
       )}
-      {!shouldShowLoader && !shouldShowAccordeon && <PlugImage variant='page' />}
+      {!shouldShowLoader && !shouldShowAccordeon && readNews?.length === 0 && (
+        <PlugImage variant='page' />
+      )}
     </>
   );
 };

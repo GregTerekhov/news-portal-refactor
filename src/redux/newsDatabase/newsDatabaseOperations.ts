@@ -16,10 +16,10 @@ export const fetchAllNews = createAsyncThunk('newsDB/all', async (_, { rejectWit
 
 export const addNews = createAsyncThunk(
   'newsDB/add',
-  async (newsData: PartialVotedNewsArray, { rejectWithValue }) => {
-    console.log('newsData', newsData);
+  async (updatedData: PartialVotedNewsArray, { rejectWithValue }) => {
+    console.log('updatedData', updatedData);
     try {
-      const response = await axios.post('/news', newsData);
+      const response = await axios.post('/news', updatedData);
       console.log('responseADD', response.data);
       return response.data.data;
     } catch (error: any) {

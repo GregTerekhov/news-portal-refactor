@@ -1,15 +1,15 @@
 import { PayloadAction, SerializedError, createSlice } from '@reduxjs/toolkit';
-import { fetchAllNews, fetchFavourites, fetchRead, addNews } from './newsDatabaseOperations';
+import { fetchAllNews, fetchFavourites, fetchRead } from './newsDatabaseOperations';
 // import type { PayloadAction } from '@reduxjs/toolkit';
 import { PartialVotedNewsArray, VotedItem } from 'types';
 
 interface SelectedNewsState {
-  allSelectedNews: PartialVotedNewsArray;
   savedNews: PartialVotedNewsArray;
   favourites: PartialVotedNewsArray;
   reads: PartialVotedNewsArray;
   isLoading: boolean;
   hasError: SerializedError | null;
+  // unsavedChanges: boolean;
 }
 
 // type FavouritesAction = PayloadAction<
@@ -20,12 +20,12 @@ interface SelectedNewsState {
 // >;
 
 const initialState = {
-  allSelectedNews: [],
   savedNews: [],
   favourites: [],
   reads: [],
   isLoading: false,
   hasError: null,
+  // unsavedChanges: false,
 } as SelectedNewsState;
 
 // const handlePending = (state) => {
@@ -61,7 +61,8 @@ const newsDBSlice = createSlice({
   reducers: {
     addOrUpdateVotedNews: (state, action: PayloadAction<Partial<VotedItem>>) => {
       const updatedVotedNews = action.payload;
-      const existingNewsIndex = state.allSelectedNews.findIndex(
+      console.log('updatedVotedNews', updatedVotedNews);
+      const existingNewsIndex = state.savedNews.findIndex(
         (news) => news.newsUrl === updatedVotedNews.newsUrl,
       );
       if (existingNewsIndex !== -1) {
@@ -70,21 +71,28 @@ const newsDBSlice = createSlice({
           !!updatedVotedNews.hasRead ||
           (!!updatedVotedNews.isFavourite && !!updatedVotedNews.hasRead)
         ) {
-          state.allSelectedNews[existingNewsIndex] = {
-            ...state.allSelectedNews[existingNewsIndex],
+          state.savedNews[existingNewsIndex] = {
+            ...state.savedNews[existingNewsIndex],
             isFavourite: updatedVotedNews.isFavourite,
             hasRead: updatedVotedNews.hasRead,
           };
+          // state.unsavedChanges = true;
         }
-        // else {
-        //   state.allSelectedNews.splice(existingNewsIndex, 1);
-        // }
       } else {
-        state.allSelectedNews.push(updatedVotedNews);
+        state.savedNews.unshift(updatedVotedNews);
+        // state.unsavedChanges = true;
       }
     },
+    removeFromFavourites: (state, action) => {
+      const { newsUrl } = action.payload;
+      console.log(action.payload);
+      state.favourites = state.favourites.filter((fav) => fav.newsUrl !== newsUrl);
+    },
+    // saveUnsavedChanges: (state) => {
+    //   state.unsavedChanges = false;
+    // },
     clearVotedNews: (state) => {
-      state.allSelectedNews = [];
+      state.savedNews = [];
     },
   },
   extraReducers: (builder) => {
@@ -95,7 +103,7 @@ const newsDBSlice = createSlice({
       })
       .addCase(fetchAllNews.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.allSelectedNews = action.payload;
+        state.savedNews = action.payload;
         state.hasError = null;
       })
       .addCase(fetchAllNews.rejected, (state, action) => {
@@ -127,50 +135,55 @@ const newsDBSlice = createSlice({
       .addCase(fetchRead.rejected, (state, action) => {
         state.isLoading = false;
         state.hasError = action.error;
-      })
-      .addCase(addNews.pending, (state) => {
-        state.isLoading = true;
-        state.hasError = null;
-      })
-      .addCase(addNews.fulfilled, (state, action) => {
-        const {
-          title,
-          description,
-          isFavourite,
-          hasRead,
-          publishDate,
-          edition,
-          author,
-          category,
-          imgLink,
-          imgAlt,
-          newsUrl,
-        } = action.payload;
-        console.log('action.payload', action.payload.data);
-        const index = state.allSelectedNews.findIndex((news) => news.newsUrl === newsUrl);
-
-        if (index !== -1) {
-          state.allSelectedNews[index] = {
-            title,
-            description,
-            isFavourite,
-            hasRead,
-            publishDate,
-            edition,
-            author,
-            category,
-            imgLink,
-            imgAlt,
-            newsUrl,
-          };
-        }
-      })
-      .addCase(addNews.rejected, (state, action) => {
-        state.isLoading = false;
-        state.hasError = action.error;
       });
+    // .addCase(addNews.pending, (state) => {
+    //   state.isLoading = true;
+    //   state.hasError = null;
+    // })
+    // .addCase(addNews.fulfilled, (state, action) => {
+    //   const {
+    //     title,
+    //     description,
+    //     isFavourite,
+    //     hasRead,
+    //     publishDate,
+    //     edition,
+    //     author,
+    //     category,
+    //     imgLink,
+    //     imgAlt,
+    //     newsUrl,
+    //     // materialType,
+    //   } = action.payload;
+    //   console.log('action.payload', action.payload);
+
+    //   const index = state.savedNews.findIndex((news) => news.newsUrl === newsUrl);
+
+    //   if (index !== -1) {
+    //     state.savedNews[index] = {
+    //       title,
+    //       description,
+    //       isFavourite: isFavourite,
+    //       hasRead: hasRead,
+    //       publishDate,
+    //       edition,
+    //       author,
+    //       category,
+    //       imgLink,
+    //       imgAlt,
+    //       newsUrl,
+    //       // materialType,
+    //     };
+    //   }
+    // })
+    // .addCase(addNews.rejected, (state, action) => {
+    //   state.isLoading = false;
+    //   state.hasError = action.error;
+    // });
   },
 });
-
-export const { addOrUpdateVotedNews, clearVotedNews } = newsDBSlice.actions;
+// export const removeFromFavouritesAction = (newsUrl, hasRead) => (dispatch) => {
+//   dispatch(removeFromFavourites({newsUrl, hasRead}))
+// }
+export const { addOrUpdateVotedNews, removeFromFavourites, clearVotedNews } = newsDBSlice.actions;
 export default newsDBSlice.reducer;
