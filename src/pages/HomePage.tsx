@@ -28,11 +28,9 @@ const HomePage = () => {
   const isLoading = useAppSelector(selectLoading);
   const savedNews = useAppSelector(selectSavedNews);
   const filteredNews = useAppSelector(selectFilters);
-
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [currentItems, setCurrentItems] = useState<PartialVotedNewsArray>([]);
   const [changesHappened, setChangesHappened] = useState<boolean>(false);
-
 
   // console.log('filteredNews', filteredNews);
   // console.log('popularData', popularData);

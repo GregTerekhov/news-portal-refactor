@@ -35,6 +35,7 @@ export default {
         foregroundDark: 'rgba(46, 46, 46, 0.80)', // darkThemeBackground 80%
         foregroundMedium: 'rgba(46, 46, 46, 0.40)', // darkThemeBackground 40%
         foreground: 'rgba(244, 244, 244, 0.40)', // whiteBase 40%
+        skeletonForeground: 'rgba(244, 244, 244, 0.10)', // whiteBase 10%
         placeholderText: 'rgba(17, 19, 33, 0.4)', // darkBase 40%
         foregroundAlt: 'rgba(254, 254, 255, 0.30)', //fefefe 30%
         contrastWhite: '#ffffff',

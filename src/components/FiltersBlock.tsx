@@ -4,11 +4,10 @@ import Calendar from './Calendar';
 import { useLocation } from 'react-router-dom';
 import { MATERIALS_TYPES } from 'constants';
 import { useActiveLinks, useWindowWidth } from 'hooks';
-import applyCrossFilters from 'helpers/applyCrossFilters';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import { selectByCategory, selectPopular, selectSearchByKeyword } from 'redux/newsAPI';
 import { filterNews } from 'redux/filterSlice';
-import { rebuildNewsArray } from 'helpers';
+import { applyCrossFilters, rebuildNewsArray } from 'helpers';
 import { PartialVotedNewsArray } from 'types/news';
 import { selectAllFavourites, selectAllReads } from 'redux/newsDatabase';
 
