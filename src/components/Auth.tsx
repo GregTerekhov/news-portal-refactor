@@ -9,10 +9,10 @@ const Auth = () => {
   const { breakpointsForMarkup } = useWindowWidth() ?? {
     breakpointsForMarkup: null,
   };
-  const isLoggedIn = false;
+  const isLoggedIn = true;
 
   return (
-    <div className='mb-3 flex items-center justify-center'>
+    <div className='flex items-center justify-center'>
       {breakpointsForMarkup?.isDesktop ? (
         <PrimaryButton
           buttonData={{ type: 'button' }}
@@ -26,15 +26,17 @@ const Auth = () => {
           {isLoggedIn ? 'Sign Out' : 'Auth'}
         </PrimaryButton>
       ) : (
-        <div className='flex items-center p-1.5 border border-solid border-whiteBase rounded-[10px] bg-accentBase hover:bg-accentAlt transition-colors'>
-          <button type='button' onClick={!isLoggedIn ? (toggleModal as ClickHandler) : undefined}>
-            <SvgIcon
-              svgName={isLoggedIn ? 'icon-signout' : 'icon-auth'}
-              size={24}
-              className='fill-whiteBase'
-            />
-          </button>
-        </div>
+        <button
+          type='button'
+          onClick={!isLoggedIn ? (toggleModal as ClickHandler) : undefined}
+          className='flex items-center p-1.5 border border-solid border-whiteBase rounded-[10px] bg-accentBase hover:bg-accentAlt transition-colors'
+        >
+          <SvgIcon
+            svgName={isLoggedIn ? 'icon-signout' : 'icon-auth'}
+            size={24}
+            className='fill-whiteBase'
+          />
+        </button>
       )}
       {isOpenModal && (
         <Modal closeModal={toggleModal} modalRef={popUpRef} variant='auth'>

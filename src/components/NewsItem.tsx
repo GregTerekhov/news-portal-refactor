@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { SvgIcon, VoteButton } from 'ui';
 import PlugImage from './PlugImage';
 import Loader from './Loader';
@@ -21,7 +21,6 @@ const NewsItem: React.FC<Partial<NewsItemProps>> = ({
   // onDelete = () => {},
 }) => {
   const savedNews = useAppSelector(selectSavedNews);
-  // console.log('savedNews', savedNews);
   const [isFavourite, setIsFavourite] = useState<boolean>(() => {
     const existingNews = savedNews?.find((news) => news.newsUrl === liveNews?.newsUrl);
     return existingNews?.isFavourite ?? false;
@@ -34,41 +33,40 @@ const NewsItem: React.FC<Partial<NewsItemProps>> = ({
   const location = useLocation();
   const activeLinks = useActiveLinks(location);
 
-  // useEffect(() => {
-  //   if (savedNews && liveNews?.newsUrl !== undefined) {
-  //     if (savedNews?.length !== 0) {
-  //       const existingNews = savedNews?.find((news) => news.newsUrl === liveNews?.newsUrl);
-  //       const savedFavourite = existingNews?.isFavourite;
-  //       const savedRead = existingNews?.hasRead;
+  const isLoggedIn = true;
 
-  //       if (savedFavourite === true && savedRead === true) {
-  //         console
-  //           .log
-  //           // `check: savedFavourite === true && savedRead === true on ${location.pathname}`,
-  //           ();
-  //         setIsFavourite(true);
-  //         setHasRead(true);
-  //       }
-  //       if (savedFavourite === true && savedRead === false) {
-  //         console
-  //           .log
-  //           // `check: savedFavourite === true && savedRead === false on ${location.pathname}`,
-  //           ();
-  //         setIsFavourite(true);
-  //       }
-  //       if (savedRead === true && savedFavourite === false) {
-  //         console
-  //           .log
-  //           // `check: savedFavourite === false && savedRead === true on ${location.pathname}`,
-  //           ();
-  //         setHasRead(true);
-  //       }
-  //     } else {
-  //       // console.log(`check return: savedNews?.length === 0 on ${location.pathname}`);
-  //       return;
-  //     }
-  //   }
-  // }, [savedNews]);
+  useEffect(() => {
+    if (savedNews && liveNews?.newsUrl !== undefined) {
+      if (savedNews?.length !== 0) {
+        const existingNews = savedNews?.find((news) => news.newsUrl === liveNews?.newsUrl);
+        const savedFavourite = existingNews?.isFavourite;
+        const savedRead = existingNews?.hasRead;
+
+        if (savedFavourite === true && savedRead === true) {
+          // console.log(
+          //   `check: savedFavourite === true && savedRead === true on ${location.pathname}`,
+          // );
+          setIsFavourite(true);
+          setHasRead(true);
+        }
+        if (savedFavourite === true && savedRead === false) {
+          // console.log(
+          //   `check: savedFavourite === true && savedRead === false on ${location.pathname}`,
+          // );
+          setIsFavourite(true);
+        }
+        if (savedRead === true && savedFavourite === false) {
+          // console.log(
+          //   `check: savedFavourite === false && savedRead === true on ${location.pathname}`,
+          // );
+          setHasRead(true);
+        }
+      } else {
+        // console.log(`check return: savedNews?.length === 0 on ${location.pathname}`);
+        return;
+      }
+    }
+  }, [savedNews]);
 
   const handleAddToFavourites = (e: React.MouseEvent) => {
     e.stopPropagation();
@@ -177,7 +175,7 @@ const NewsItem: React.FC<Partial<NewsItemProps>> = ({
 
   return (
     <>
-      {liveNews && liveNews?.newsUrl ? (
+      {liveNews && liveNews?.newsUrl && isLoggedIn ? (
         <a className='block' href={liveNews?.newsUrl} target='_blank' onClick={handleReadNews}>
           <div
             className={`${
@@ -189,7 +187,7 @@ const NewsItem: React.FC<Partial<NewsItemProps>> = ({
           <p className='absolute z-20 top-10 left-0 py-1 px-2 text-small font-medium text-contrastWhite bg-accentForeground rounded-r'>
             {liveNews?.category}
           </p>
-          {hasRead && (
+          {isLoggedIn && hasRead && (
             <p className='absolute z-10 top-3.5 right-3.5 md:top-5 md:right-5 text-base font-bold text-readBase flex items-center gap-1'>
               Already read
               <SvgIcon svgName='icon-check' size={18} className='fill-readBase' />
@@ -205,10 +203,14 @@ const NewsItem: React.FC<Partial<NewsItemProps>> = ({
             ) : (
               <PlugImage variant='card' />
             )}
-            <VoteButton onHandleClick={handleAddToFavourites} isFavourite={isFavourite} />
+            {isLoggedIn && (
+              <VoteButton onHandleClick={handleAddToFavourites} isFavourite={isFavourite} />
+            )}
           </div>
           <div className='px-4 mt-4'>
-            {/* <p>{data?.author}</p> */}
+            <p className='text-small lg:text-base leading-tight text-darkBase dark:text-whiteBase mb-2 text-end line-clamp-1'>
+              By {liveNews?.author}
+            </p>
             <h2
               className={`h-[100px] md:h-[132px] mb-4 text-3xl md:text-4xl font-bold leading-tight tracking-mediumTight md:tracking-tighter line-clamp-3 dark:text-whiteBase`}
             >

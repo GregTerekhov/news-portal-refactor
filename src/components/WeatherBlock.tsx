@@ -53,7 +53,7 @@ const WeatherBlock = () => {
   return (
     <>
       {!isLoading && !hasGeolocationPermission ? (
-        <div className='flex flex-col items-center bg-accentBase w-72 hg:w-[442px] sm:h-[469px] md:h-[675px] w-fit py-10 px-14 text-center'>
+        <div className='flex flex-col items-center bg-accentBase w-72 hg:w-[442px] h-full w-fit py-10 px-14 text-center'>
           <h2 className='text-darkBase dark:text-whiteBase text-medium md:text-2xl lg:text-4xl'>
             What a pity, this could be your weather
           </h2>
@@ -64,7 +64,7 @@ const WeatherBlock = () => {
       ) : isLoading && !hasGeolocationPermission && emptyWeather ? (
         <Loader />
       ) : (
-        <div className='flex flex-col justify-between bg-accentBase w-72 hg:w-[442px] py-8 px-9 md:pt-10 md:pb-[60px] md:px-8 lg:px-[53px] sm:h-[469px] md:h-[675px] w-fit'>
+        <div className='flex flex-col justify-between bg-accentBase w-72 hg:w-[442px] py-8 px-9 md:pt-10 md:pb-[60px] md:px-8 lg:px-[53px] h-full w-fit'>
           <div className='flex gap-6 items-center cursor-pointer' onClick={toggleTemperatureScale}>
             <p className='relative font-weather text-monstrous md:text-[64px] text-contrastWhite after:content-[""] after:h-full after:absolute after:w-px after:-right-2 after:top-0 after:bg-white'>
               {isCelsius

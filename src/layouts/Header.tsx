@@ -5,6 +5,7 @@ import { useActiveLinks, useHeaderStyles, usePopUp, useWindowWidth } from 'hooks
 import { useLocation } from 'react-router-dom';
 import { useAppDispatch } from 'redux/hooks';
 import { fetchNewsByKeyword } from 'redux/newsAPI';
+import { resetOtherRequests } from 'redux/newsAPI/newsAPISlice';
 
 const Header = () => {
   const { isOpenMenu, isOpenModal, toggleMenu, toggleModal, popUpRef } = usePopUp();
@@ -12,6 +13,7 @@ const Header = () => {
     breakpointsForMarkup: null,
   };
   const [touched, setTouched] = useState<boolean>(false);
+  const [query, setQuery] = useState<string>('');
 
   const dispatch = useAppDispatch();
   const location = useLocation();
@@ -20,15 +22,22 @@ const Header = () => {
   const { headerClass, textClass, burgerMenuButtonClass } = useHeaderStyles(
     activeLinks.isHomeActive,
   );
-
   const isLoggedIn = true;
   const isNotMobile = breakpointsForMarkup?.isTablet || breakpointsForMarkup?.isDesktop;
 
-  const onHandleSubmit = (e: any) => {
-    e.preventDefault();
-    const keyword = e.currentTarget.firstChild.children[1].value.toLowerCase();
+  const onChangeInput = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { value } = event.target;
+    setQuery(value.toLowerCase());
+  };
 
-    dispatch(fetchNewsByKeyword(keyword));
+  const onHandleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    if (query) {
+      dispatch(resetOtherRequests());
+      dispatch(fetchNewsByKeyword(query));
+      setQuery('');
+    }
   };
 
   const handleVisibilityChange = () => {
@@ -65,16 +74,18 @@ const Header = () => {
           {breakpointsForMarkup?.isNothing || breakpointsForMarkup?.isMobile ? (
             <div className={`flex items-center gap-3.5`}>
               {isOpenMenu ? null : (
-                <form
-                  action='#'
-                  onSubmit={(e) => onHandleSubmit(e)}
-                  className='max-md:overflow-hidden'
-                >
+                <form onSubmit={onHandleSubmit} className='max-md:overflow-hidden'>
                   <Input
-                    inputData={{ name: 'query', type: 'text', placeholder: 'Search |' }}
+                    inputData={{
+                      name: 'query',
+                      type: 'text',
+                      value: query,
+                      placeholder: 'Search |',
+                    }}
                     hasIcon={true}
                     variant='header'
                     hideInput={handleVisibilityChange}
+                    onChange={(event: React.ChangeEvent<HTMLInputElement>) => onChangeInput(event)}
                     touched={touched}
                   />
                 </form>
@@ -84,35 +95,22 @@ const Header = () => {
                 className='w-6 h-6 md:hidden'
                 onClick={isLoggedIn ? toggleMenu : toggleModal}
               >
-                {isLoggedIn ? (
-                  <SvgIcon
-                    svgName={`${isOpenMenu ? 'icon-close' : 'icon-burger-menu'}`}
-                    size={24}
-                    className={`${
-                      !isOpenMenu && activeLinks.isHomeActive
+                <SvgIcon
+                  svgName={`${
+                    isLoggedIn ? (isOpenMenu ? 'icon-close' : 'icon-burger-menu') : 'icon-auth'
+                  }`}
+                  size={24}
+                  className={`${
+                    isLoggedIn
+                      ? !isOpenMenu && activeLinks.isHomeActive
                         ? burgerMenuButtonClass
                         : 'stroke-darkBase dark:stroke-whiteBase'
-                    }`}
-                  />
-                ) : (
-                  <SvgIcon
-                    svgName='icon-auth'
-                    size={24}
-                    className={`${
-                      activeLinks.isHomeActive
-                        ? 'fill-whiteBase'
-                        : 'fill-darkBase dark:fill-whiteBase'
-                    }`}
-                  />
-                )}
+                      : activeLinks.isHomeActive
+                      ? 'fill-whiteBase'
+                      : 'fill-darkBase dark:fill-whiteBase'
+                  }`}
+                />
               </button>
-
-              {isNotMobile ? (
-                <div className={`${!isLoggedIn && 'flex flex-col gap-3'}`}>
-                  <Auth />
-                  <ThemeSwitcher variant='header' />
-                </div>
-              ) : null}
             </div>
           ) : (
             <>
@@ -122,14 +120,14 @@ const Header = () => {
                 className='max-md:overflow-hidden'
               >
                 <Input
-                  inputData={{ name: 'query', type: 'text', placeholder: 'Search |' }}
+                  inputData={{ name: 'query', type: 'text', value: query, placeholder: 'Search |' }}
                   hasIcon={true}
                   variant='header'
-                  hideInput={handleVisibilityChange}
+                  onChange={(event: React.ChangeEvent<HTMLInputElement>) => onChangeInput(event)}
                   touched={touched}
                 />
               </form>
-              <div className={`${!isLoggedIn && 'flex flex-col gap-3'}`}>
+              <div className='flex flex-col gap-3'>
                 <Auth />
                 <ThemeSwitcher variant='header' />
               </div>

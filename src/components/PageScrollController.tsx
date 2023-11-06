@@ -89,7 +89,7 @@ const PageScrollController = (value: ScrollDirection) => {
       id='top'
       onClick={onHandleClick}
       type='button'
-      className={`z-40 group fixed ${upButtonVisibility} ${downButtonVisibility} ${position} left-20 items-center justify-center w-16 h-16 hover:border-solid hover:border-2 hover:border-whiteBase dark:hover:border-whiteBase rounded-full hover:bg-accentForeground transition-colors duration-500`}
+      className={`z-30 group fixed ${upButtonVisibility} ${downButtonVisibility} ${position} left-20 items-center justify-center w-16 h-16 hover:border-solid hover:border-2 hover:border-whiteBase dark:hover:border-whiteBase rounded-full hover:bg-accentForeground transition-colors duration-500`}
     >
       <SvgIcon svgName={icon} size={30} className='fill-accentBase group-hover:fill-whiteBase' />
     </button>

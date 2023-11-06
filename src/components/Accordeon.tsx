@@ -4,10 +4,12 @@ import { SvgIcon } from 'ui';
 
 interface A {
   children: ReactNode;
-  publishedDate: string;
+  publishedDate?: string;
+  position: string;
+  filtersBlock?: string;
 }
 
-const Accordeon: React.FC<A> = ({ children, publishedDate }) => {
+const Accordeon: React.FC<A> = ({ children, publishedDate, position, filtersBlock }) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
   const handleClick = () => {
@@ -15,13 +17,17 @@ const Accordeon: React.FC<A> = ({ children, publishedDate }) => {
   };
   return (
     <Accordion.Root type='single' collapsible className='w-full'>
-      <Accordion.Item value={publishedDate} className=''>
-        <Accordion.Header className='border-b border-solid border-lineAlt mb-7 md:mb-[30px] lg:mb-10'>
+      <Accordion.Item value={position === 'readPage' ? publishedDate || '' : filtersBlock || ''}>
+        <Accordion.Header
+          className={`border-b border-solid border-lineAlt ${
+            position === 'readPage' ? 'mb-7 md:mb-[30px] lg:mb-10' : ''
+          }`}
+        >
           <Accordion.Trigger
             className='w-full flex py-3 items-center gap-1.5 md:gap-2 text-darkBase dark:text-whiteBase leading-moreRelaxed tracking-wider'
             onClick={handleClick}
           >
-            {publishedDate}
+            {position === 'readPage' ? publishedDate : filtersBlock}
             <SvgIcon
               svgName='icon-arrow-down'
               size={18}

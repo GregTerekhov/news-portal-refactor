@@ -32,6 +32,7 @@ export const addNews = createAsyncThunk(
 export const fetchFavourites = createAsyncThunk('favourite/all', async (_, { rejectWithValue }) => {
   try {
     const response = await axios.get('/news/favourite');
+    console.log('allFavourites: ', response.data.data);
     return response.data.data as PartialVotedNewsArray;
   } catch (error: any) {
     console.log(error.response.data);

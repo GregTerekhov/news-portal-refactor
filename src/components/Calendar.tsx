@@ -1,190 +1,112 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useState } from 'react';
 import { SvgIcon } from 'ui';
-import {
-  add,
-  eachDayOfInterval,
-  endOfMonth,
-  endOfWeek,
-  format,
-  getDay,
-  isAfter,
-  isSameDay,
-  isSameMonth,
-  isToday,
-  parse,
-  startOfToday,
-  startOfWeek,
-} from 'date-fns';
+import { format, getDay, isAfter, isSameDay, isSameMonth, isToday, parse } from 'date-fns';
 import { useLocation } from 'react-router-dom';
-import useActiveLinks from 'hooks/useActiveLinks';
+import { useActiveLinks, useCalendar, usePopUp } from 'hooks';
 import { useAppDispatch } from 'redux/hooks';
 import { fetchNewsByDate } from 'redux/newsAPI';
+import { capitalizeFirstLetter } from 'helpers';
+import { resetOtherRequests } from 'redux/newsAPI/newsAPISlice';
+import { DAYS, COL_START_CLASSES } from 'constants';
 
-const Calendar: React.FC = () => {
-  const [isOpenCalendar, setIsOpenCalendar] = useState<boolean>(false);
+type CalendarProps = {
+  variant: string;
+};
 
-  const today = startOfToday();
+const Calendar: React.FC<CalendarProps> = ({ variant }) => {
+  const {
+    today,
+    selectedDate,
+    isOpenCalendar,
+    popUpRef,
+    setSelectedDate,
+    setIsOpenCalendar,
+    toggleCalendar,
+  } = usePopUp();
 
-  const [selectedDate, setSelectedDate] = useState<Date | null>(today);
-  const [currMonth, setCurrMonth] = useState(() => format(today, 'MMM-yyyy'));
+  const {
+    currMonth,
+    firstDayOfMonth,
+    daysInMonth,
+    getPrevMonth,
+    getNextMonth,
+    getPrevYear,
+    getNextYear,
+  } = useCalendar();
+
   const [beginDate, setBeginDate] = useState<string | Date | null>(null);
-
+  // console.log('beginDate', beginDate, typeof beginDate);
+  // console.log('selectedDate', selectedDate, typeof selectedDate);
   const location = useLocation();
   const activeLinks = useActiveLinks(location);
 
   const dispatch = useAppDispatch();
 
-  const dropdownRef = useRef<HTMLDivElement | null>(null);
-
   let endDate: Date | string | null | undefined = beginDate;
-
-  useEffect(() => {
-    const handleWindowClick = (event: MouseEvent) => {
-      if (
-        isOpenCalendar &&
-        dropdownRef.current &&
-        !dropdownRef.current.contains(event.target as Node)
-      ) {
-        setIsOpenCalendar(false);
-        setSelectedDate(startOfToday());
-        const datePeriod = {
-          beginDate: endDate,
-          endDate,
-        };
-        dispatch(fetchNewsByDate(datePeriod));
-        setBeginDate(null);
-      }
-    };
-
-    const handleKeyDown = (event: KeyboardEvent) => {
-      if (isOpenCalendar && event.key === 'Escape') {
-        setIsOpenCalendar(false);
-        setSelectedDate(startOfToday());
-        setBeginDate(null);
-      }
-    };
-
-    window.addEventListener('mousedown', handleWindowClick);
-    window.addEventListener('keydown', handleKeyDown);
-
-    return () => {
-      window.removeEventListener('mousedown', handleWindowClick);
-      window.removeEventListener('keydown', handleKeyDown);
-    };
-  }, [isOpenCalendar]);
-
-  const handleOpen = () => {
-    setIsOpenCalendar(!isOpenCalendar);
-  };
-
+  // console.log('endDate', endDate, typeof endDate);
   const handleDateClick = async (date: Date) => {
     if (!isAfter(date, today)) {
       setSelectedDate(date);
     }
-    // Начальная дата
-    const firstMonth = ('0' + (date.getMonth() + 1)).slice(-2);
-    const firstDate = ('0' + date.getDate()).slice(-2);
-    const firstYear = date.getFullYear();
+    if (variant === 'SearchBlock') {
+      // Начальная дата
+      const firstMonth = ('0' + (date.getMonth() + 1)).slice(-2);
+      const firstDate = ('0' + date.getDate()).slice(-2);
+      const firstYear = date.getFullYear();
 
-    // // Конечная дата
-    const secondMonth = ('0' + (date.getMonth() + 1)).slice(-2);
-    const secondDate = ('0' + date.getDate()).slice(-2);
-    const secondYear = date.getFullYear();
+      const secondMonth = ('0' + (date.getMonth() + 1)).slice(-2);
+      const secondDate = ('0' + date.getDate()).slice(-2);
+      const secondYear = date.getFullYear();
 
-    if (!endDate) {
-      setBeginDate(firstYear + firstMonth + firstDate);
-    }
+      if (!endDate) {
+        setBeginDate(firstYear + firstMonth + firstDate);
+      }
 
-    endDate = secondYear + secondMonth + secondDate;
+      endDate = secondYear + secondMonth + secondDate;
 
-    if (beginDate && endDate) {
-      const datePeriod = {
-        beginDate,
-        endDate,
-      };
-      dispatch(fetchNewsByDate(datePeriod));
+      if (beginDate && endDate) {
+        const datePeriod = {
+          beginDate,
+          endDate,
+        };
+        dispatch(resetOtherRequests());
+        await dispatch(fetchNewsByDate(datePeriod));
 
-      console.log(beginDate, endDate);
-      console.log(datePeriod);
-      setBeginDate(null);
+        setBeginDate(null);
+      }
       setIsOpenCalendar(false);
     }
   };
 
-  let firstDayOfMonth = parse(currMonth, 'MMM-yyyy', new Date());
-
-  const daysInMonth = eachDayOfInterval({
-    start: startOfWeek(firstDayOfMonth),
-    end: endOfWeek(endOfMonth(firstDayOfMonth)),
-  });
-
-  const getPrevMonth = (event: React.MouseEvent<HTMLButtonElement>) => {
-    event.preventDefault();
-    const firstDayOfPrevMonth = add(firstDayOfMonth, { months: -1 });
-    setCurrMonth(format(firstDayOfPrevMonth, 'MMM-yyyy'));
-  };
-
-  const getNextMonth = (event: React.MouseEvent<HTMLButtonElement>) => {
-    event.preventDefault();
-    const firstDayOfNextMonth = add(firstDayOfMonth, { months: 1 });
-    setCurrMonth(format(firstDayOfNextMonth, 'MMM-yyyy'));
-  };
-
-  const getPrevYear = (event: React.MouseEvent<HTMLButtonElement>) => {
-    event.preventDefault();
-    const firstDayOfPrevYear = add(firstDayOfMonth, { years: -1 });
-    setCurrMonth(format(firstDayOfPrevYear, 'MMM-yyyy'));
-  };
-
-  const getNextYear = (event: React.MouseEvent<HTMLButtonElement>) => {
-    event.preventDefault();
-    const firstDayOfNextYear = add(firstDayOfMonth, { years: 1 });
-    setCurrMonth(format(firstDayOfNextYear, 'MMM-yyyy'));
-  };
-
-  const days = ['su', 'mo', 'tu', 'we', 'th', 'fr', 'sa'];
-
-  function capitalizeFirstLetter(str: string) {
-    if (typeof str !== 'string') {
-      return '';
-    }
-    return str.charAt(0).toUpperCase() + str.slice(1);
-  }
-
-  const colStartClasses = [
-    '',
-    'col-start-2',
-    'col-start-3',
-    'col-start-4',
-    'col-start-5',
-    'col-start-6',
-    'col-start-7',
-  ];
-
   return (
-    <div ref={dropdownRef} className={`relative ${activeLinks.isReadActive ? null : 'col-span-4'}`}>
+    <div ref={popUpRef} className={`relative ${activeLinks.isReadActive ? null : 'col-span-4'}`}>
+      <p className='text-darkBase dark:text-whiteBase mb-2 text-base'>
+        Search by Date or Date Period:
+      </p>
       <button
         type='button'
-        onClick={handleOpen}
+        onClick={toggleCalendar}
         className='w-full bg-whiteBase rounded-[20px] border border-solid border-accentBase text-accentBase flex justify-between items-center py-2 px-3 group-hover:text-whiteBase group-hover:bg-accentBase group-hover:border-whiteBase transition-colors text-small md:text-base leading-mediumRelaxed md:leading-moreRelaxed tracking-bigWide md:tracking-wider'
       >
         <SvgIcon svgName='icon-calendar' size={20} className='fill-accentBase' />
-        {selectedDate ? format(selectedDate, 'dd/MM/yyyy') : 'Date'}
+        {selectedDate ? format(selectedDate, 'dd/MM/yyyy') : today.toString()}
         <SvgIcon
-          svgName={isOpenCalendar ? 'icon-arrow-up' : 'icon-arrow-down'}
+          svgName='icon-arrow-down'
           size={14}
-          className='fill-accentBase'
+          className={`fill-accentBase transition-transform ${
+            isOpenCalendar ? 'rotate-180' : 'rotate-0'
+          }`}
         />
       </button>
       {isOpenCalendar && (
-        <div className='w-[250px] bg-dropdownBase  absolute z-30 bg-whiteBase rounded-[20px] pt-4 px-4 pb-5'>
+        <div className='w-[250px] bg-dropdownBase absolute z-40 bg-whiteBase rounded-[20px] pt-4 px-4 pb-5 shadow-card dark:shadow-darkCard'>
           <div className='flex items-center justify-between py-[7px] mb-0.5'>
             <div className='flex gap-2 items-center'>
               <button type='button' onClick={getPrevYear}>
                 <SvgIcon svgName='icon-arrow-left' size={20} className='fill-accentBase' />
               </button>
-              <p className='w-[120px] text-center text-medium font-medium leading-tight tracking-tightest text-calendarText'>
-                {format(firstDayOfMonth, 'MMMM yyyy')}
+              <p className='text-center text-medium font-medium leading-tight tracking-tightest text-calendarText'>
+                {format(firstDayOfMonth, 'yyyy')}
               </p>
               <button type='button' onClick={getNextYear}>
                 <SvgIcon
@@ -198,6 +120,9 @@ const Calendar: React.FC = () => {
               <button type='button' onClick={getPrevMonth}>
                 <SvgIcon svgName='icon-arrow-left' size={20} className='fill-accentBase' />
               </button>
+              <p className='text-center text-medium font-medium leading-tight tracking-tightest text-calendarText'>
+                {format(firstDayOfMonth, 'MMM')}
+              </p>
               <button type='button' onClick={getNextMonth}>
                 <SvgIcon
                   svgName='icon-arrow-right'
@@ -208,7 +133,7 @@ const Calendar: React.FC = () => {
             </div>
           </div>
           <div className='grid grid-cols-7 gap-[18px] place-items-center'>
-            {days.map((day, idx) => {
+            {DAYS.map((day, idx) => {
               return (
                 <p
                   key={idx}
@@ -226,7 +151,7 @@ const Calendar: React.FC = () => {
               const isTodayDate = isToday(day);
               const isSelectedStyle = isSelectedDate ? 'text-contrastWhite bg-accentBase' : '';
               return (
-                <div key={idx} className={colStartClasses[getDay(day)]}>
+                <div key={idx} className={COL_START_CLASSES[getDay(day)]}>
                   <p
                     className={`cursor-pointer flex items-center justify-center text-base tracking-widest leading-mostRelaxed font-medium h-7 w-7 rounded-full hover:text-contrastWhite hover:bg-accentBase ${
                       isCurrentMonth ? 'text-calendarText' : 'text-calendarTextLight'

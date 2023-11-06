@@ -5,7 +5,10 @@ type PrimaryButtCommon = {
   type: 'button' | 'submit' | 'reset';
 };
 
-export type ClickHandler = (() => void) | ((event: React.FormEvent) => void);
+export type ClickHandler =
+  | (() => void)
+  | ((event: React.FormEvent) => void)
+  | (() => Promise<void>);
 
 enum PB {
   SearchBlock = 'SearchBlock',
@@ -36,14 +39,14 @@ const PrimaryButton: React.FC<Partial<PBProps>> = (props) => {
   let buttonWidth: string = '';
 
   if (variant === PB.SearchBlock) {
-    buttonWidth = 'w-full';
+    buttonWidth = 'w-full py-2';
   } else if (variant === PB.Other) {
     buttonWidth = 'w-28';
   }
   return (
     <button
-      className={`flex items-center justify-center gap-2.5 bg-accentBase rounded-[20px] text-contrastWhite hover:bg-accentAlt transition-colors ${buttonWidth} ${
-        hasIcon ? 'max-lg:py-3 lg:py-2' : 'py-2'
+      className={`flex items-center justify-center gap-2.5 bg-accentBase rounded-[20px] text-base text-contrastWhite hover:bg-accentAlt transition-colors duration-500 ${buttonWidth} ${
+        hasIcon ? 'max-lg:py-2.5 lg:py-2' : 'py-1.5'
       }`}
       type={type}
       onClick={onHandleClick}

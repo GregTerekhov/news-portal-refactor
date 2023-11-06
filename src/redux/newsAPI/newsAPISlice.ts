@@ -10,18 +10,20 @@ import { ArticleNewsArray, NewsWireArray, PopularNewsArray, C } from 'types';
 
 type newsAPIState = {
   popular: PopularNewsArray;
-  searchResults: ArticleNewsArray;
+  searchByWord: ArticleNewsArray;
   categories: NewsWireArray;
   categoriesList: C[];
+  searchByDate: ArticleNewsArray;
   isLoading: boolean;
   hasError: SerializedError | null;
 };
 
 const initialState = {
   popular: [],
-  searchResults: [],
+  searchByWord: [],
   categories: [],
   categoriesList: [],
+  searchByDate: [],
   isLoading: false,
   hasError: null,
 } as newsAPIState;
@@ -29,7 +31,22 @@ const initialState = {
 const newsAPISlice = createSlice({
   name: 'newsAPI',
   initialState,
-  reducers: {},
+  reducers: {
+    resetOtherRequests: (state) => {
+      if (state.popular.length > 0) {
+        state.popular = initialState.popular;
+      }
+      if (state.categories.length > 0) {
+        state.categories = initialState.categories;
+      }
+      if (state.searchByDate.length > 0) {
+        state.searchByDate = initialState.searchByDate;
+      }
+      if (state.searchByWord.length > 0) {
+        state.searchByWord = initialState.searchByWord;
+      }
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(fetchPopularNews.pending, (state) => {
@@ -51,7 +68,7 @@ const newsAPISlice = createSlice({
       })
       .addCase(fetchNewsByKeyword.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.searchResults = action.payload;
+        state.searchByWord = action.payload;
         state.hasError = null;
       })
       .addCase(fetchNewsByKeyword.rejected, (state, action) => {
@@ -90,7 +107,7 @@ const newsAPISlice = createSlice({
       })
       .addCase(fetchNewsByDate.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.searchResults = action.payload;
+        state.searchByDate = action.payload;
         state.hasError = null;
       })
       .addCase(fetchNewsByDate.rejected, (state, action) => {
@@ -99,5 +116,5 @@ const newsAPISlice = createSlice({
       });
   },
 });
-
+export const { resetOtherRequests } = newsAPISlice.actions;
 export default newsAPISlice.reducer;

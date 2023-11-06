@@ -2,21 +2,27 @@ import React from 'react';
 import { Input, PrimaryButton } from 'ui';
 import { Tab } from '@headlessui/react';
 import ThemeSwitcher from './ThemeSwitcher';
+import { useWindowWidth } from 'hooks';
 
 const AuthModal = () => {
+  const { breakpointsForMarkup } = useWindowWidth() ?? {
+    breakpointsForMarkup: null,
+  };
   return (
     <>
       <Tab.Group>
-        <Tab.List className='w-full h-[60px] flex mb-4 justify-between border-solid border-line border-b-[1px] dark:border-darkThemeLine'>
+        <Tab.List className='w-full h-[60px] flex mb-4 justify-between border-solid border-line border-b-[1px] dark:border-darkThemeLine transition-colors duration-500'>
           <div className='flex gap-3.5'>
-            <Tab className='text-darkBase dark:text-whiteBase ui-selected:text-accentBase dark:ui-selected:text-accentBase ui-selected:font-bold'>
+            <Tab className='text-xl ui-selected:font-medium text-darkBase dark:text-whiteBase ui-selected:text-accentBase dark:ui-selected:text-accentBase ui-selected:font-bold transition-colors duration-500'>
               Register
             </Tab>
-            <Tab className='text-darkBase dark:text-whiteBase ui-selected:text-accentBase dark:ui-selected:text-accentBase ui-selected:font-bold'>
+            <Tab className='text-xl ui-selected:font-medium text-darkBase dark:text-whiteBase ui-selected:text-accentBase dark:ui-selected:text-accentBase ui-selected:font-bold transition-colors duration-500'>
               Log In
             </Tab>
           </div>
-          <ThemeSwitcher variant='modal' />
+          {breakpointsForMarkup?.isTablet || breakpointsForMarkup?.isDesktop ? (
+            <ThemeSwitcher variant='modal' />
+          ) : null}
         </Tab.List>
         <Tab.Panels>
           <Tab.Panel>
@@ -51,9 +57,14 @@ const AuthModal = () => {
                 hasIcon={false}
                 variant='auth'
               />
-              <PrimaryButton buttonData={{ type: 'submit' }} variant='OtherButton'>
-                Register
-              </PrimaryButton>
+              <div className='max-md:flex max-md:justify-between max-md:items-center'>
+                <PrimaryButton buttonData={{ type: 'submit' }} variant='OtherButton'>
+                  Register
+                </PrimaryButton>
+                {breakpointsForMarkup?.isNothing || breakpointsForMarkup?.isMobile ? (
+                  <ThemeSwitcher variant='modal' />
+                ) : null}
+              </div>
             </form>
           </Tab.Panel>
           <Tab.Panel>
@@ -87,9 +98,14 @@ const AuthModal = () => {
                 hasIcon={false}
                 variant='checkbox'
               />
-              <PrimaryButton buttonData={{ type: 'submit' }} variant='OtherButton'>
-                Log In
-              </PrimaryButton>
+              <div className='max-md:flex max-md:justify-between max-md:items-center'>
+                <PrimaryButton buttonData={{ type: 'submit' }} variant='OtherButton'>
+                  Log In
+                </PrimaryButton>
+                {breakpointsForMarkup?.isNothing || breakpointsForMarkup?.isMobile ? (
+                  <ThemeSwitcher variant='modal' />
+                ) : null}
+              </div>
             </form>
           </Tab.Panel>
         </Tab.Panels>

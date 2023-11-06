@@ -39,6 +39,9 @@ export default {
         placeholderText: 'rgba(17, 19, 33, 0.4)', // darkBase 40%
         foregroundAlt: 'rgba(254, 254, 255, 0.30)', //fefefe 30%
         contrastWhite: '#ffffff',
+        contrastWhiteSkeleton: 'rgba(255, 255, 255, 0.8)', // contrastWhite 80%
+        skeletonGreyAlt: 'rgba(168, 168, 168, 0.4)', // greyAlt 40 %
+        skeletonGreyBase: 'rgba(95, 103, 117, 0.4)', // greyBase 40%
         dropdownBase: '#f8f8f8',
         readBase: '#00dd73',
         line: 'rgba(0, 0, 0, 0.20)', // #000000 20%
@@ -115,7 +118,7 @@ export default {
         'accordion-up': 'accordion-up 0.2s ease-out',
       },
       gridTemplateColumns: {
-        13: 'repeat(13, minmax(0, 1fr))',
+        16: 'repeat(16, minmax(0, 1fr))',
       },
       // maxWidth: {
       //   maxWidth: calc('max-w' - '64px'),
