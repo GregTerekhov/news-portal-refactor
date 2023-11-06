@@ -29,10 +29,10 @@ const Modal: React.FC<ModalProps> = ({ children, closeModal, modalRef, variant }
     <>
       {modalRoot &&
         createPortal(
-          <div className='fixed top-0 left-0 z-[60] bg-foreground dark:bg-foregroundMedium w-screen h-screen flex justify-center items-center'>
+          <div className='fixed top-0 left-0 z-[60] bg-foreground dark:bg-foregroundMedium w-screen h-screen flex justify-center items-center transition-colors duration-500'>
             <div
               ref={modalRef}
-              className={`relative bg-whiteBase dark:bg-darkThemeBackground ${modalWidth} px-4 pb-4 border border-solid border-accentBase dark:border-whiteBase rounded-xl shadow-modal dark:shadow-darkCard md:px-8 md:pb-8 md:pt-4`}
+              className={`relative bg-whiteBase dark:bg-darkThemeBackground ${modalWidth} p-4 border border-solid border-accentBase dark:border-whiteBase rounded-xl shadow-modal dark:shadow-darkCard md:px-8 md:pb-8 transition-colors duration-500`}
             >
               <button
                 className='absolute top-4 right-4 flex justify-center items-center'
@@ -40,8 +40,8 @@ const Modal: React.FC<ModalProps> = ({ children, closeModal, modalRef, variant }
               >
                 <SvgIcon
                   svgName='icon-close'
-                  size={16}
-                  className='stroke-darkBase dark:stroke-whiteBase'
+                  size={20}
+                  className='stroke-darkBase dark:stroke-whiteBase hover:rotate-90 transition-transform'
                 />
               </button>
 

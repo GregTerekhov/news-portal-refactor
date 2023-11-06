@@ -136,50 +136,6 @@ const newsDBSlice = createSlice({
         state.isLoading = false;
         state.hasError = action.error;
       });
-    // .addCase(addNews.pending, (state) => {
-    //   state.isLoading = true;
-    //   state.hasError = null;
-    // })
-    // .addCase(addNews.fulfilled, (state, action) => {
-    //   const {
-    //     title,
-    //     description,
-    //     isFavourite,
-    //     hasRead,
-    //     publishDate,
-    //     edition,
-    //     author,
-    //     category,
-    //     imgLink,
-    //     imgAlt,
-    //     newsUrl,
-    //     // materialType,
-    //   } = action.payload;
-    //   console.log('action.payload', action.payload);
-
-    //   const index = state.savedNews.findIndex((news) => news.newsUrl === newsUrl);
-
-    //   if (index !== -1) {
-    //     state.savedNews[index] = {
-    //       title,
-    //       description,
-    //       isFavourite: isFavourite,
-    //       hasRead: hasRead,
-    //       publishDate,
-    //       edition,
-    //       author,
-    //       category,
-    //       imgLink,
-    //       imgAlt,
-    //       newsUrl,
-    //       // materialType,
-    //     };
-    //   }
-    // })
-    // .addCase(addNews.rejected, (state, action) => {
-    //   state.isLoading = false;
-    //   state.hasError = action.error;
-    // });
   },
 });
 // export const removeFromFavouritesAction = (newsUrl, hasRead) => (dispatch) => {

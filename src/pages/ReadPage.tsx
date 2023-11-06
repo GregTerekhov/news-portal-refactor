@@ -53,7 +53,7 @@ const ReadPage = () => {
       {shouldShowAccordeon && (
         <div>
           {sortedDates.map((date) => (
-            <Accordeon key={date} publishedDate={date}>
+            <Accordeon key={date} publishedDate={date} position='readPage'>
               <NewsList
                 onChange={handleChangeVotes}
                 currentItems={readNews?.filter(

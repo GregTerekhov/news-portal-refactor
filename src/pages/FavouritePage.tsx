@@ -7,6 +7,7 @@ import {
   selectAllFavourites,
   selectSavedNews,
   selectLoading,
+  fetchAllNews,
 } from 'redux/newsDatabase';
 // import { saveUnsavedChanges } from 'redux/newsDatabase/newsDataBaseSlice';
 
@@ -21,6 +22,7 @@ const FavouritePage = () => {
 
   useEffect(() => {
     dispatch(fetchFavourites());
+    dispatch(fetchAllNews());
   }, [dispatch]);
 
   // const handleDeleteNews = (index: number) => {

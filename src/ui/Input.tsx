@@ -1,4 +1,4 @@
-import React, { ReactNode, FC } from 'react';
+import React, { ReactNode, FC, useState } from 'react';
 import SvgIcon from './SvgIcon';
 import { useLocation } from 'react-router-dom';
 import useHeaderStyles from 'hooks/useHeaderStyles';
@@ -23,23 +23,24 @@ enum V {
 interface InputProps {
   inputData?: Partial<InputCollectedData>;
   hasIcon: boolean;
-  className: string;
+  className?: string;
   variant: string;
   hideInput?: (event: React.MouseEvent<HTMLInputElement>) => void;
   touched?: boolean;
-  onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
 const Input: FC<Partial<InputProps>> = (props) => {
   const { breakpointsForMarkup } = useWindowWidth() ?? {
     breakpointsForMarkup: null,
   };
+  const [isPasswordVisibility, setPasswordVisibility] = useState<boolean>(false);
   const { name, type, value, placeholder, children } = props.inputData || {};
   const hasIcon = props.hasIcon;
   const className = props.className;
   const variant = props.variant;
-  const onTouch = props.hideInput;
   const touched = props.touched;
+  const onTouch = props.hideInput;
   const onChange = props.onChange;
 
   const location = useLocation();
@@ -51,6 +52,10 @@ const Input: FC<Partial<InputProps>> = (props) => {
     if (onTouch) {
       onTouch(event);
     }
+  };
+
+  const togglePasswordVisibility = () => {
+    setPasswordVisibility(!isPasswordVisibility);
   };
 
   let inputGeometry: string = '';
@@ -103,32 +108,49 @@ const Input: FC<Partial<InputProps>> = (props) => {
         labelCheckbox ? 'flex-row cursor-pointer' : 'flex-col'
       } ${className}`}
     >
+      {variant === V.SearchBlock && (
+        <p className='text-darkBase dark:text-whiteBase mb-2 text-base'>
+          Filter by <span className='capitalize'>{name}:</span>
+        </p>
+      )}
       {variant === V.Auth && (
-        <span className={`${!hasIcon && 'mb-1.5 block'} text-accentBase font-medium`}>
-          {children}
-        </span>
+        <>
+          <span className={`${!hasIcon && 'mb-1.5 block'} text-accentBase font-medium`}>
+            {children}
+          </span>
+          {type === 'password' ? (
+            <button type='button' onClick={togglePasswordVisibility}>
+              <SvgIcon
+                svgName={`${isPasswordVisibility ? 'icon-eye-opened' : 'icon-eye-closed'}`}
+                size={20}
+                className='fill-greyBase absolute right-3 bottom-[15px] md:right-4 md:bottom-4 cursor-pointer'
+              />
+            </button>
+          ) : null}
+        </>
       )}
-      {hasIcon && (
-        <span className='absolute w-5 h-5 left-3 flex items-center justify-center'>
-          <SvgIcon svgName='icon-search' size={20} className={`${svgFill}`} />
-        </span>
-      )}
-
-      <input
-        className={` ${inputGeometry} ${checkboxStyles} transition-colors duration-500 font-header border-solid border rounded-3xl outline-0 text-small leading-mediumRelaxed tracking-bigWide md:text-base md:leading-moreRelaxed md:tracking-wide ${placeholderColor} ${inputBorder} ${inputBg} ${caretColor} ${textColor}`}
-        id={name}
-        name={name}
-        type={type}
-        value={value}
-        placeholder={placeholder}
-        autoComplete='off'
-        onClick={onHideInput}
-        onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-          if (onChange) {
-            onChange(event);
-          }
-        }}
-      />
+      <div className={`${variant === V.SearchBlock ? 'relative' : ''}`}>
+        {hasIcon && (
+          <span className='absolute w-5 h-5 left-3 top-50% transform -translate-y-1/2 flex items-center justify-center'>
+            <SvgIcon svgName='icon-search' size={20} className={`${svgFill}`} />
+          </span>
+        )}
+        <input
+          className={` ${inputGeometry} ${checkboxStyles} transition-colors duration-500 font-header border-solid border rounded-3xl outline-0 text-small leading-mediumRelaxed tracking-bigWide md:text-base md:leading-moreRelaxed md:tracking-wide ${placeholderColor} ${inputBorder} ${inputBg} ${caretColor} ${textColor}`}
+          id={name}
+          name={name}
+          type={isPasswordVisibility ? 'text' : type}
+          value={value}
+          placeholder={placeholder}
+          autoComplete='off'
+          onClick={onHideInput}
+          onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+            if (onChange) {
+              onChange(event);
+            }
+          }}
+        />
+      </div>
       <span className={`${!hasIcon && 'mb-1.5 block'} text-accentBase font-medium`}>
         {variant === V.Checkbox && children}{' '}
       </span>
