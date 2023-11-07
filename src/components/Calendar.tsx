@@ -72,6 +72,7 @@ const Calendar: React.FC<CalendarProps> = ({ variant }) => {
         Search by Date or Date Period:
       </p>
       <button
+        id='Toggle calendar button'
         type='button'
         onClick={toggleCalendar}
         className='w-full bg-whiteBase rounded-[20px] border border-solid border-accentBase text-accentBase flex justify-between items-center py-2 px-3 group-hover:text-whiteBase group-hover:bg-accentBase group-hover:border-whiteBase transition-colors text-small md:text-base leading-mediumRelaxed md:leading-moreRelaxed tracking-bigWide md:tracking-wider'
@@ -97,13 +98,13 @@ const Calendar: React.FC<CalendarProps> = ({ variant }) => {
         <div className='w-[250px] bg-dropdownBase absolute z-40 bg-whiteBase rounded-[20px] pt-4 px-4 pb-5 shadow-card dark:shadow-darkCard'>
           <div className='flex items-center justify-between py-[7px] mb-0.5'>
             <div className='flex gap-2 items-center'>
-              <button type='button' onClick={getPrevYear}>
+              <button aria-label='Previous year button' type='button' onClick={getPrevYear}>
                 <SvgIcon svgName='icon-arrow-left' size={20} className='fill-accentBase' />
               </button>
               <p className='text-center text-medium font-medium leading-tight tracking-tightest text-fullDark'>
                 {format(firstDayOfMonth, 'yyyy')}
               </p>
-              <button type='button' onClick={getNextYear}>
+              <button aria-label='Next year button' type='button' onClick={getNextYear}>
                 <SvgIcon
                   svgName='icon-arrow-right'
                   size={20}
@@ -112,13 +113,13 @@ const Calendar: React.FC<CalendarProps> = ({ variant }) => {
               </button>
             </div>
             <div className='flex'>
-              <button type='button' onClick={getPrevMonth}>
+              <button aria-label='Previous month button' type='button' onClick={getPrevMonth}>
                 <SvgIcon svgName='icon-arrow-left' size={20} className='fill-accentBase' />
               </button>
               <p className='text-center text-medium font-medium leading-tight tracking-tightest text-fullDark'>
                 {format(firstDayOfMonth, 'MMM')}
               </p>
-              <button type='button' onClick={getNextMonth}>
+              <button aria-label='Next month button' type='button' onClick={getNextMonth}>
                 <SvgIcon
                   svgName='icon-arrow-right'
                   size={20}

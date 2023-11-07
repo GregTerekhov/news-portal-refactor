@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { SvgIcon } from 'ui';
+import { PrimaryButton, SvgIcon } from 'ui';
 import { fetchWeather, selectLoading, selectPosition } from 'redux/weather';
 import { receiveCurrentDate, convertTimezone } from 'helpers';
 import { useWindowWidth } from 'hooks';
@@ -21,28 +21,50 @@ const WeatherBlock = () => {
 
   useEffect(() => {
     if (geolocation) {
+      const hasVisitedBefore = localStorage.getItem('geolocationPermission');
+      if (hasVisitedBefore) {
+        setHasGeolocationPermission(true);
+      }
       // const hasVisitedBefore = document.cookie
       //   .split(';')
       //   .some((cookie) => cookie.trim().startsWith('visited='));
       // if (hasVisitedBefore) { }
       // else {
 
+      // navigator.permissions.query({ name: 'geolocation' }).then((result) => {
+      //   if (result.state === 'granted') {
+      //     setHasGeolocationPermission(true);
+      //     navigator.geolocation.getCurrentPosition((position) => {
+      //       // const latitude = position.coords.latitude,
+      //       //   const longitude = position.coords.longitude,
+      //       const sendGeoLocation = {
+      //         latitude: position.coords.latitude,
+      //         longitude: position.coords.longitude,
+      //       };
+      //       dispatch(fetchWeather(sendGeoLocation));
+      //     });
+      //   }
+      // });
+    }
+  }, []);
+
+  const requestGeolocationPermission = () => {
+    if (geolocation) {
       navigator.permissions.query({ name: 'geolocation' }).then((result) => {
         if (result.state === 'granted') {
           setHasGeolocationPermission(true);
+          localStorage.setItem('geolocationPermission', 'granted');
           navigator.geolocation.getCurrentPosition((position) => {
-            // const latitude = position.coords.latitude,
-            //   const longitude = position.coords.longitude,
-            const sendGeoLocation = {
+            const sendGeolocation = {
               latitude: position.coords.latitude,
               longitude: position.coords.longitude,
             };
-            dispatch(fetchWeather(sendGeoLocation));
+            dispatch(fetchWeather(sendGeolocation));
           });
         }
       });
     }
-  }, []);
+  };
 
   const toggleTemperatureScale = () => {
     setIsCelsius(!isCelsius);
@@ -60,6 +82,15 @@ const WeatherBlock = () => {
           <span className='mt-20 mb-28'>
             <SvgIcon svgName='icon-moon' size={156} className='fill-transparent stroke-greyBase' />
           </span>
+          <PrimaryButton></PrimaryButton>
+          <button
+            id='Geolocation permission button'
+            type='button'
+            onClick={requestGeolocationPermission}
+            className=''
+          >
+            Give permission for your geolocation
+          </button>
         </div>
       ) : isLoading && emptyWeather ? (
         <Loader variant='element' />

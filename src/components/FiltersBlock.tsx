@@ -98,6 +98,7 @@ const FiltersBlock: FC<FiltersBlockProps> = ({
         <>
           <div className='flex gap-3.5'>
             <PrimaryButton
+              id='Filters submit button'
               buttonData={{ type: 'submit' }}
               variant='SearchBlock'
               onHandleClick={handleFiltration}
@@ -105,6 +106,7 @@ const FiltersBlock: FC<FiltersBlockProps> = ({
               Submit
             </PrimaryButton>
             <button
+              aria-label='Ascending sort button'
               type='button'
               className='p-2.5 border border-solid border-whiteBase rounded-[10px] bg-accentBase dark:bg-transparent hover:bg-accentAlt transition-colors'
               onClick={() => handleSort('asc')}
@@ -114,6 +116,7 @@ const FiltersBlock: FC<FiltersBlockProps> = ({
           </div>
           <div className='flex gap-3.5'>
             <PrimaryButton
+              id='Filters reset button'
               buttonData={{ type: 'reset' }}
               hasIcon={true}
               variant='SearchBlock'
@@ -125,6 +128,7 @@ const FiltersBlock: FC<FiltersBlockProps> = ({
               Reset
             </PrimaryButton>
             <button
+              aria-label='Descending sort button'
               type='button'
               className='p-2.5 border border-solid border-whiteBase rounded-[10px] bg-accentBase dark:bg-transparent hover:bg-accentAlt transition-colors'
               onClick={() => handleSort('desc')}
@@ -137,6 +141,7 @@ const FiltersBlock: FC<FiltersBlockProps> = ({
         <>
           <div className='md:col-span-3 md:flex md:items-center lg:items-end lg:col-span-4'>
             <PrimaryButton
+              id='Filters submit button'
               buttonData={{ type: 'submit' }}
               variant='SearchBlock'
               onHandleClick={handleFiltration}
@@ -146,6 +151,7 @@ const FiltersBlock: FC<FiltersBlockProps> = ({
           </div>
           <div className='md:col-span-3 md:flex md:items-center lg:items-end lg:col-span-2'>
             <PrimaryButton
+              id='Filters reset button'
               buttonData={{ type: 'reset' }}
               hasIcon={true}
               variant='SearchBlock'
@@ -164,6 +170,7 @@ const FiltersBlock: FC<FiltersBlockProps> = ({
           ) : null}
           <div className='md-max-lg:col-start-8 md:flex md:items-center md:justify-end lg:items-end'>
             <button
+              aria-label='Ascending sort button'
               type='button'
               className='p-2.5 border border-solid border-whiteBase rounded-[10px] bg-accentBase dark:bg-transparent hover:bg-accentAlt transition-colors'
               onClick={() => handleSort('asc')}
@@ -173,6 +180,7 @@ const FiltersBlock: FC<FiltersBlockProps> = ({
           </div>
           <div className='md-max-lg:col-start-9 md:flex md:items-center md:justify-start lg:items-end'>
             <button
+              aria-label='Descending sort button'
               type='button'
               className='p-2.5 border border-solid border-whiteBase rounded-[10px] bg-accentBase dark:bg-transparent hover:bg-accentAlt transition-colors'
               onClick={() => handleSort('desc')}

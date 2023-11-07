@@ -194,7 +194,11 @@ const NewsItem: React.FC<Partial<NewsItemProps>> = ({
               <PlugImage variant='card' />
             )}
             {isLoggedIn && (
-              <VoteButton onHandleClick={handleAddToFavourites} isFavourite={isFavourite} />
+              <VoteButton
+                onHandleClick={handleAddToFavourites}
+                isFavourite={isFavourite}
+                buttonData={{ id: `Add ${liveNews?.newsUrl} to favourites or remove from them` }}
+              />
             )}
           </div>
           <div className='px-4 mt-4'>

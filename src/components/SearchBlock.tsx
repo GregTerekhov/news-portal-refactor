@@ -41,6 +41,7 @@ const SearchBlock: FC<SearchBlockProps> = ({
       </div>
       <div className='md:mt-auto'>
         <PrimaryButton
+          id='Reset all requests button'
           buttonData={{ type: 'submit' }}
           hasIcon={true}
           variant='SearchBlock'

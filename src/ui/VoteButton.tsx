@@ -2,13 +2,17 @@ import React from 'react';
 import SvgIcon from './SvgIcon';
 
 type VBProps = {
+  buttonData: {
+    id?: string;
+  };
   isFavourite: boolean;
   onHandleClick: (e: React.MouseEvent) => void;
 };
 
-const VoteButton = ({ onHandleClick, isFavourite }: VBProps) => {
+const VoteButton = ({ onHandleClick, isFavourite, buttonData }: Partial<VBProps>) => {
   return (
     <button
+      id={buttonData?.id}
       type='button'
       className='absolute z-20 bottom-3 right-2 flex items-center gap-1 rounded-3xl px-3 py-1.5 bg-contrastWhite group hover:bg-accentBase transition-colors duration-500'
       onClick={onHandleClick}

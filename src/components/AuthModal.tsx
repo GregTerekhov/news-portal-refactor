@@ -58,7 +58,11 @@ const AuthModal = () => {
                 variant='auth'
               />
               <div className='max-md:flex max-md:justify-between max-md:items-center'>
-                <PrimaryButton buttonData={{ type: 'submit' }} variant='OtherButton'>
+                <PrimaryButton
+                  buttonData={{ type: 'submit' }}
+                  id='Registration button'
+                  variant='OtherButton'
+                >
                   Register
                 </PrimaryButton>
                 {breakpointsForMarkup?.isNothing || breakpointsForMarkup?.isMobile ? (
@@ -99,7 +103,11 @@ const AuthModal = () => {
                 variant='checkbox'
               />
               <div className='max-md:flex max-md:justify-between max-md:items-center'>
-                <PrimaryButton buttonData={{ type: 'submit' }} variant='OtherButton'>
+                <PrimaryButton
+                  buttonData={{ type: 'submit' }}
+                  id='Login button'
+                  variant='OtherButton'
+                >
                   Log In
                 </PrimaryButton>
                 {breakpointsForMarkup?.isNothing || breakpointsForMarkup?.isMobile ? (

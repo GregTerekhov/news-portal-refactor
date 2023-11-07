@@ -35,6 +35,7 @@ const Modal: React.FC<ModalProps> = ({ children, closeModal, modalRef, variant }
               className={`relative bg-whiteBase dark:bg-darkBackground ${modalWidth} p-4 border border-solid border-accentBase dark:border-whiteBase rounded-xl shadow-modal dark:shadow-darkCard md:px-8 md:pb-8 transition-colors duration-500`}
             >
               <button
+                aria-label='Modal close button'
                 className='absolute top-4 right-4 flex justify-center items-center'
                 onClick={closeModal}
               >

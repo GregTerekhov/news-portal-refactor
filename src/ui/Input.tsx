@@ -119,7 +119,11 @@ const Input: FC<Partial<InputProps>> = (props) => {
             {children}
           </span>
           {type === 'password' ? (
-            <button type='button' onClick={togglePasswordVisibility}>
+            <button
+              aria-label='Password visibility button'
+              type='button'
+              onClick={togglePasswordVisibility}
+            >
               <SvgIcon
                 svgName={`${isPasswordVisibility ? 'icon-eye-opened' : 'icon-eye-closed'}`}
                 size={20}

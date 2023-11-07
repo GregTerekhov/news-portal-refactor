@@ -24,6 +24,8 @@ interface PBProps {
   svgName: string;
   svgSize: number;
   className: string;
+  id?: string;
+  ariaLabel?: string;
 }
 
 const PrimaryButton: React.FC<Partial<PBProps>> = (props) => {
@@ -35,6 +37,8 @@ const PrimaryButton: React.FC<Partial<PBProps>> = (props) => {
   const svgName = props.svgName;
   const svgSize = props.svgSize;
   const className = props.className;
+  const id = props.id;
+  const ariaLabel = props.ariaLabel;
 
   let buttonWidth: string = '';
 
@@ -45,6 +49,8 @@ const PrimaryButton: React.FC<Partial<PBProps>> = (props) => {
   }
   return (
     <button
+      id={id}
+      aria-label={ariaLabel}
       className={`flex items-center justify-center gap-2.5 bg-accentBase rounded-[20px] text-base text-contrastWhite hover:bg-accentAlt transition-colors duration-500 ${buttonWidth} ${
         hasIcon ? 'max-lg:py-2.5 lg:py-2' : 'py-1.5'
       }`}

@@ -46,6 +46,7 @@ const NewsFilterManager = () => {
   return (
     <div className={`w-full ${shouldNotShowFilters && 'hidden'}`}>
       <button
+        id='Open filter service button'
         className={`flex items-center gap-2 w-full py-1.5 px-6 flex justify-end text-darkBase dark:text-whiteBase font-medium text-medium md:text-2xl`}
         type='button'
         onClick={handleOpenManager}

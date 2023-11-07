@@ -87,6 +87,7 @@ const PageScrollController = (value: ScrollDirection) => {
   return (
     <button
       id='top'
+      aria-label={`Page scroll controller button in direction ${direction}`}
       onClick={onHandleClick}
       type='button'
       className={`z-30 group fixed ${upButtonVisibility} ${downButtonVisibility} ${position} left-20 items-center justify-center w-16 h-16 hover:border-solid hover:border-2 hover:border-whiteBase dark:hover:border-whiteBase rounded-full hover:bg-accentBase/[.7] transition-colors duration-500`}
