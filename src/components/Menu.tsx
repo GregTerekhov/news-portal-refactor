@@ -103,7 +103,7 @@ const Menu = ({ isOpen, closeMenu }: Partial<MobileMenu>) => {
               <div className='flex justify-between'>
                 <ThemeSwitcher />
                 <div className='flex items-center p-1.5 border border-solid border-whiteBase rounded-[10px] bg-accentBase hover:bg-accentAlt transition-colors text-contrastWhite'>
-                  <button type='button' className='flex gap-2.5'>
+                  <button id='Sign out button' type='button' className='flex gap-2.5'>
                     Sign Out
                     <SvgIcon
                       svgName={isLoggedIn ? 'icon-signout' : ''}

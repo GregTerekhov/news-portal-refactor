@@ -15,6 +15,7 @@ const Auth = () => {
     <div className='flex items-center justify-center'>
       {breakpointsForMarkup?.isDesktop ? (
         <PrimaryButton
+          id='Auth button for signin and signout'
           buttonData={{ type: 'button' }}
           variant='SearchBlock'
           onHandleClick={!isLoggedIn ? (toggleModal as ClickHandler) : undefined}
@@ -27,6 +28,7 @@ const Auth = () => {
         </PrimaryButton>
       ) : (
         <button
+          aria-label='Auth button for signin and signout'
           type='button'
           onClick={!isLoggedIn ? (toggleModal as ClickHandler) : undefined}
           className='flex items-center p-1.5 border border-solid border-whiteBase rounded-[10px] bg-accentBase hover:bg-accentAlt transition-colors'

@@ -91,6 +91,7 @@ const Header = () => {
                 </form>
               )}
               <button
+                aria-label={`Open ${isLoggedIn ? 'mobile menu' : 'auth modal'} button`}
                 type='button'
                 className='w-6 h-6 md:hidden'
                 onClick={isLoggedIn ? toggleMenu : toggleModal}

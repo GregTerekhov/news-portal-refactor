@@ -38,6 +38,7 @@ const Pagination: React.FC<P> = ({ pageNumbers, currentPage, setCurrentPage }) =
       }}
     >
       <button
+        aria-label={pageNumber.toString()}
         type='button'
         className={`w-10 h-10 border border-solid border-accentBase  rounded-[10px] text-base md:text-medium font-medium ${
           pageNumber === currentPage
@@ -110,6 +111,7 @@ const Pagination: React.FC<P> = ({ pageNumbers, currentPage, setCurrentPage }) =
   return (
     <div className='flex justify-center items-center gap-2'>
       <PrimaryButton
+        id='Previous page button'
         buttonData={{ type: 'button' }}
         variant='OtherButton'
         onHandleClick={handlePrevClick}
@@ -123,6 +125,7 @@ const Pagination: React.FC<P> = ({ pageNumbers, currentPage, setCurrentPage }) =
         {paginationButtons}
       </ul>
       <PrimaryButton
+        id='Next page button'
         buttonData={{ type: 'button' }}
         variant='OtherButton'
         onHandleClick={handleNextClick}
