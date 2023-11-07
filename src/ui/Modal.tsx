@@ -29,10 +29,10 @@ const Modal: React.FC<ModalProps> = ({ children, closeModal, modalRef, variant }
     <>
       {modalRoot &&
         createPortal(
-          <div className='fixed top-0 left-0 z-[60] bg-foreground dark:bg-foregroundMedium w-screen h-screen flex justify-center items-center transition-colors duration-500'>
+          <div className='fixed top-0 left-0 z-[60] bg-whiteBase/[.4] dark:bg-darkBackground/[.4] w-screen h-screen flex justify-center items-center transition-colors duration-500'>
             <div
               ref={modalRef}
-              className={`relative bg-whiteBase dark:bg-darkThemeBackground ${modalWidth} p-4 border border-solid border-accentBase dark:border-whiteBase rounded-xl shadow-modal dark:shadow-darkCard md:px-8 md:pb-8 transition-colors duration-500`}
+              className={`relative bg-whiteBase dark:bg-darkBackground ${modalWidth} p-4 border border-solid border-accentBase dark:border-whiteBase rounded-xl shadow-modal dark:shadow-darkCard md:px-8 md:pb-8 transition-colors duration-500`}
             >
               <button
                 className='absolute top-4 right-4 flex justify-center items-center'

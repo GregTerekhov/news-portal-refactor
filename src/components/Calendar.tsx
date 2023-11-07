@@ -5,7 +5,7 @@ import { useLocation } from 'react-router-dom';
 import { useActiveLinks, useCalendar, usePopUp } from 'hooks';
 import { useAppDispatch } from 'redux/hooks';
 import { fetchNewsByDate } from 'redux/newsAPI';
-import { capitalizeFirstLetter } from 'helpers';
+import { capitalizeFirstLetter, convertLinesForCalendar } from 'helpers';
 import { resetOtherRequests } from 'redux/newsAPI/newsAPISlice';
 import { DAYS, COL_START_CLASSES } from 'constants';
 
@@ -14,67 +14,55 @@ type CalendarProps = {
 };
 
 const Calendar: React.FC<CalendarProps> = ({ variant }) => {
+  const { isOpenCalendar, popUpRef, setIsOpenCalendar, toggleCalendar } = usePopUp();
+
   const {
     today,
     selectedDate,
-    isOpenCalendar,
-    popUpRef,
-    setSelectedDate,
-    setIsOpenCalendar,
-    toggleCalendar,
-  } = usePopUp();
-
-  const {
     currMonth,
     firstDayOfMonth,
     daysInMonth,
+    setSelectedDate,
     getPrevMonth,
     getNextMonth,
     getPrevYear,
     getNextYear,
   } = useCalendar();
 
-  const [beginDate, setBeginDate] = useState<string | Date | null>(null);
-  // console.log('beginDate', beginDate, typeof beginDate);
-  // console.log('selectedDate', selectedDate, typeof selectedDate);
+  const [beginDate, setBeginDate] = useState<Date | null>(null);
   const location = useLocation();
   const activeLinks = useActiveLinks(location);
 
   const dispatch = useAppDispatch();
 
-  let endDate: Date | string | null | undefined = beginDate;
-  // console.log('endDate', endDate, typeof endDate);
+  const showToday = selectedDate.beginDate === null && selectedDate.endDate === null;
+
   const handleDateClick = async (date: Date) => {
     if (!isAfter(date, today)) {
-      setSelectedDate(date);
-    }
-    if (variant === 'SearchBlock') {
-      // Начальная дата
-      const firstMonth = ('0' + (date.getMonth() + 1)).slice(-2);
-      const firstDate = ('0' + date.getDate()).slice(-2);
-      const firstYear = date.getFullYear();
+      if (variant === 'SearchBlock') {
+        if (!beginDate) {
+          setBeginDate(date);
+        } else {
+          let newSelectedDate;
+          if (isAfter(date, beginDate)) {
+            newSelectedDate = {
+              beginDate: format(beginDate, 'yyyyMMdd'),
+              endDate: format(date, 'yyyyMMdd'),
+            };
+          } else {
+            newSelectedDate = {
+              beginDate: format(date, 'yyyyMMdd'),
+              endDate: format(beginDate, 'yyyyMMdd'),
+            };
+          }
+          setSelectedDate(newSelectedDate);
+          dispatch(resetOtherRequests());
+          await dispatch(fetchNewsByDate(newSelectedDate));
+          setBeginDate(null);
 
-      const secondMonth = ('0' + (date.getMonth() + 1)).slice(-2);
-      const secondDate = ('0' + date.getDate()).slice(-2);
-      const secondYear = date.getFullYear();
-
-      if (!endDate) {
-        setBeginDate(firstYear + firstMonth + firstDate);
+          setIsOpenCalendar(false);
+        }
       }
-
-      endDate = secondYear + secondMonth + secondDate;
-
-      if (beginDate && endDate) {
-        const datePeriod = {
-          beginDate,
-          endDate,
-        };
-        dispatch(resetOtherRequests());
-        await dispatch(fetchNewsByDate(datePeriod));
-
-        setBeginDate(null);
-      }
-      setIsOpenCalendar(false);
     }
   };
 
@@ -89,7 +77,14 @@ const Calendar: React.FC<CalendarProps> = ({ variant }) => {
         className='w-full bg-whiteBase rounded-[20px] border border-solid border-accentBase text-accentBase flex justify-between items-center py-2 px-3 group-hover:text-whiteBase group-hover:bg-accentBase group-hover:border-whiteBase transition-colors text-small md:text-base leading-mediumRelaxed md:leading-moreRelaxed tracking-bigWide md:tracking-wider'
       >
         <SvgIcon svgName='icon-calendar' size={20} className='fill-accentBase' />
-        {selectedDate ? format(selectedDate, 'dd/MM/yyyy') : today.toString()}
+        {selectedDate &&
+        selectedDate.beginDate !== null &&
+        selectedDate.endDate !== null &&
+        !showToday
+          ? `${convertLinesForCalendar(selectedDate.beginDate)} - ${convertLinesForCalendar(
+              selectedDate.endDate,
+            )}`
+          : format(today, 'dd/MM/yyyy')}
         <SvgIcon
           svgName='icon-arrow-down'
           size={14}
@@ -105,7 +100,7 @@ const Calendar: React.FC<CalendarProps> = ({ variant }) => {
               <button type='button' onClick={getPrevYear}>
                 <SvgIcon svgName='icon-arrow-left' size={20} className='fill-accentBase' />
               </button>
-              <p className='text-center text-medium font-medium leading-tight tracking-tightest text-calendarText'>
+              <p className='text-center text-medium font-medium leading-tight tracking-tightest text-fullDark'>
                 {format(firstDayOfMonth, 'yyyy')}
               </p>
               <button type='button' onClick={getNextYear}>
@@ -120,7 +115,7 @@ const Calendar: React.FC<CalendarProps> = ({ variant }) => {
               <button type='button' onClick={getPrevMonth}>
                 <SvgIcon svgName='icon-arrow-left' size={20} className='fill-accentBase' />
               </button>
-              <p className='text-center text-medium font-medium leading-tight tracking-tightest text-calendarText'>
+              <p className='text-center text-medium font-medium leading-tight tracking-tightest text-fullDark'>
                 {format(firstDayOfMonth, 'MMM')}
               </p>
               <button type='button' onClick={getNextMonth}>
@@ -147,19 +142,23 @@ const Calendar: React.FC<CalendarProps> = ({ variant }) => {
           <div className='grid grid-cols-7 gap-y-3 gap-x-[18px] mt-3.5 place-items-center'>
             {daysInMonth.map((day, idx) => {
               const isCurrentMonth = isSameMonth(day, parse(currMonth, 'MMM-yyyy', new Date()));
-              const isSelectedDate = selectedDate ? isSameDay(day, selectedDate) : false;
+              const isSelectedDate =
+                (selectedDate &&
+                  selectedDate.beginDate !== null &&
+                  isSameDay(day, parse(selectedDate?.beginDate, 'yyyyMMdd', new Date()))) ||
+                (selectedDate &&
+                  selectedDate.endDate !== null &&
+                  isSameDay(day, parse(selectedDate?.endDate, 'yyyyMMdd', new Date())));
               const isTodayDate = isToday(day);
-              const isSelectedStyle = isSelectedDate ? 'text-contrastWhite bg-accentBase' : '';
+              const isSelectedStyle = isSelectedDate ? 'text-whiteBase bg-accentBase' : '';
               return (
                 <div key={idx} className={COL_START_CLASSES[getDay(day)]}>
                   <p
-                    className={`cursor-pointer flex items-center justify-center text-base tracking-widest leading-mostRelaxed font-medium h-7 w-7 rounded-full hover:text-contrastWhite hover:bg-accentBase ${
-                      isCurrentMonth ? 'text-calendarText' : 'text-calendarTextLight'
-                    } ${isSelectedStyle} ${
-                      selectedDate === today && isTodayDate
-                        ? 'text-contrastWhite bg-accentBase'
-                        : ''
-                    }`}
+                    className={`cursor-pointer flex items-center justify-center text-base tracking-widest leading-mostRelaxed font-medium h-7 w-7 rounded-full hover:text-contrastWhite hover:bg-accentBase hover:animate-pulse ${
+                      isCurrentMonth ? 'text-fullDark' : 'text-calendarTextLight'
+                    } ${isSelectedStyle} 
+                      ${isTodayDate && !isSelectedDate ? 'text-whiteBase bg-accentBase' : ''}
+                    `}
                     onClick={() => handleDateClick(day)}
                   >
                     {format(day, 'd')}
@@ -174,4 +173,4 @@ const Calendar: React.FC<CalendarProps> = ({ variant }) => {
   );
 };
 
-export default Calendar;
+export default React.memo(Calendar);

@@ -1,4 +1,3 @@
-import { startOfToday } from 'date-fns';
 import { useCallback, useEffect, useRef, useState } from 'react';
 
 const usePopUp = () => {
@@ -6,9 +5,6 @@ const usePopUp = () => {
   const [isOpenModal, setIsOpenModal] = useState<boolean>(false);
   const [isOpenCalendar, setIsOpenCalendar] = useState<boolean>(false);
   const [isScrollDisabled, setIsScrollDisabled] = useState<boolean>(false);
-  const today = startOfToday();
-
-  const [selectedDate, setSelectedDate] = useState<Date | null>(today);
 
   const popUpRef = useRef<HTMLDivElement | null>(null);
 
@@ -20,10 +16,7 @@ const usePopUp = () => {
           setIsScrollDisabled(false);
         }
         if (isOpenCalendar) {
-          //
           setIsOpenCalendar(false);
-          setSelectedDate(today);
-          // setBeginDate(null);
         }
       }
     },
@@ -34,15 +27,11 @@ const usePopUp = () => {
     (event: KeyboardEvent) => {
       if (event.key === 'Escape') {
         if (isOpenModal) {
-          //
           setIsOpenModal(false);
           setIsScrollDisabled(false);
         }
         if (isOpenCalendar) {
-          //
           setIsOpenCalendar(false);
-          setSelectedDate(today);
-          // setBeginDate(null);
         }
       }
     },
@@ -86,15 +75,12 @@ const usePopUp = () => {
   };
 
   return {
-    today,
-    selectedDate,
-    setSelectedDate,
     isOpenMenu,
     isOpenModal,
     isOpenCalendar,
-    setIsOpenCalendar,
     isScrollDisabled,
     popUpRef,
+    setIsOpenCalendar,
     toggleMenu,
     toggleModal,
     toggleCalendar,

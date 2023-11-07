@@ -26,13 +26,8 @@ const useChooseRenderingNews = ({ activeLinks }: RenderHookProps) => {
   const reads = useAppSelector(selectAllReads);
   const filteredNews = useAppSelector(selectFilters);
 
-  // console.log('popularData', popularData);
-  // console.log('searchByCategory', searchByCategory);
-  // console.log('searchResults', searchResults);
-  // console.log('searchByDate', searchByDate);
-
   const chooseRenderingNews = () => {
-    if (filteredNews && filteredNews?.length > 0 && activeLinks?.isHomeActive) {
+    if (filteredNews && filteredNews?.length > 0) {
       return filteredNews;
     } else if (searchResults && searchResults?.length > 0 && activeLinks?.isHomeActive) {
       const searchByWordNews = rebuildNewsArray(searchResults);

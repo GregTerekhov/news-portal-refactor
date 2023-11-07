@@ -23,7 +23,7 @@ const SearchBlock: FC<SearchBlockProps> = ({
   };
 
   return (
-    <div className='relative md:grid md:grid-cols-2 md:gap-4 md-grid-rows-2 lg:grid-cols-7 lg:gap-6 p-3.5 after:content-[""] after:block after:w-full after:h-px after:bg-line after:dark:bg-darkThemeLine max-md:after:mt-4 md:after:col-span-full max-md:space-y-4'>
+    <div className='relative md:grid md:grid-cols-2 md:gap-4 md-grid-rows-2 lg:grid-cols-7 lg:gap-6 p-3.5 after:content-[""] after:block after:w-full after:h-px after:bg-fullDark/[.2] after:dark:bg-whiteBase/[.2] max-md:after:mt-4 md:after:col-span-full max-md:space-y-4'>
       <div className='lg:col-span-2'>
         <Dropdown labels={categoriesList || []} getResults={getNewsByCategory}>
           Categories

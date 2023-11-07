@@ -55,7 +55,7 @@ const FavouritePage = () => {
 
   return (
     <>
-      {shouldShowLoader && <Loader />}
+      {shouldShowLoader && <Loader variant='page' />}
       {shouldShowContent && (
         <NewsList
           currentItems={favourites}
