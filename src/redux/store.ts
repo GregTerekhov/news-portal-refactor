@@ -5,6 +5,7 @@ import { newsDBSlice } from './newsDatabase';
 import { FLUSH, PAUSE, PERSIST, PURGE, REGISTER, REHYDRATE } from 'redux-persist';
 import { ThunkDispatch } from 'redux-thunk';
 import filterSlice from './filterSlice';
+import { authSlice } from './auth';
 
 const middleware = (getDefaultMiddleware: any) =>
   getDefaultMiddleware({
@@ -19,6 +20,7 @@ const store = configureStore({
     newsAPI: newsAPISlice,
     newsDB: newsDBSlice,
     filters: filterSlice,
+    auth: authSlice,
   },
   middleware,
 });
