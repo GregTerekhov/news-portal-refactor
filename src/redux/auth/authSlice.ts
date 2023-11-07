@@ -65,8 +65,8 @@ const authSlice = createSlice({
         state.isCurrentUser = true;
         state.hasError = null;
       })
-      .addCase(signOut.fulfilled, (state) => {
-        state = initialState;
+      .addCase(signOut.fulfilled, () => {
+        return { ...initialState };
       })
       .addCase(signOut.rejected, (state, action) => {
         state.isCurrentUser = false;
