@@ -89,7 +89,7 @@ const Input: FC<Partial<InputProps>> = (props) => {
     svgFill = 'fill-accentBase';
     caretColor = 'caret-accentBase';
     textColor = 'text-accentBase';
-    placeholderColor = 'placeholder:text-placeholderText';
+    placeholderColor = 'placeholder:text-darkBase/[.4]';
   } else if (variant === V.Auth) {
     inputGeometry = 'w-full py-2 px-4 md:px-4';
     inputBorder = 'border-accentBase dark:border-whiteBase';

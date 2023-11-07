@@ -1,17 +1,22 @@
-import { useActiveLinks, useAdditionalRequest, useFilterNews } from 'hooks';
 import React, { useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { MATERIALS_TYPES } from 'constants';
+import { useActiveLinks, useAdditionalRequest, useFilterNews } from 'hooks';
 import { SvgIcon } from 'ui';
 import SearchBlock from './SearchBlock';
 import Accordeon from './Accordeon';
 import FiltersBlock from './FiltersBlock';
+import { useAppSelector } from 'redux/hooks';
+import { selectAllFavourites, selectAllReads } from 'redux/newsDatabase';
 
 const NewsFilterManager = () => {
   const [showDropdown, setShowDropdown] = useState<boolean>(false);
 
   const location = useLocation();
   const activeLinks = useActiveLinks(location);
+
+  const favourites = useAppSelector(selectAllFavourites);
+  const readNews = useAppSelector(selectAllReads);
 
   const {
     categoriesForDropdown,
@@ -34,8 +39,12 @@ const NewsFilterManager = () => {
     setShowDropdown(!showDropdown);
   };
 
+  const shouldNotShowFilters =
+    (activeLinks.isFavoriteActive && favourites && favourites?.length === 0) ||
+    (activeLinks.isReadActive && readNews && readNews?.length === 0);
+
   return (
-    <div className='w-full'>
+    <div className={`w-full ${shouldNotShowFilters && 'hidden'}`}>
       <button
         className={`flex items-center gap-2 w-full py-1.5 px-6 flex justify-end text-darkBase dark:text-whiteBase font-medium text-medium md:text-2xl`}
         type='button'
@@ -54,7 +63,7 @@ const NewsFilterManager = () => {
         <div>
           {activeLinks.isHomeActive ? (
             <>
-              <Accordeon position='filtersBlock' filtersBlock='Additional requests'>
+              <Accordeon position='filtersService' filtersBlock='Additional requests'>
                 <SearchBlock
                   showPopularNews={showPopular}
                   categoriesList={categoriesForDropdown}
@@ -63,7 +72,7 @@ const NewsFilterManager = () => {
                   handleResetRequests={handleResetRequests}
                 />
               </Accordeon>
-              <Accordeon position='filtersBlock' filtersBlock='Filtering news'>
+              <Accordeon position='filtersService' filtersBlock='Filtering news'>
                 <FiltersBlock
                   filters={filters}
                   materialTypes={MATERIALS_TYPES}
@@ -78,7 +87,7 @@ const NewsFilterManager = () => {
               </Accordeon>
             </>
           ) : (
-            <Accordeon position='filtersBlock' filtersBlock='Filtering news'>
+            <Accordeon position='filtersService' filtersBlock='Filtering news'>
               <FiltersBlock
                 filters={filters}
                 materialTypes={MATERIALS_TYPES}

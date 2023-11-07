@@ -42,7 +42,7 @@ const useHeaderStyles = (isHomePage: boolean) => {
   }, [isHomePage, screenHeight]);
 
   const headerClass = isScrolled
-    ? 'bg-foregroundLight dark:bg-foregroundDark border-b'
+    ? 'bg-whiteBase/[.8] dark:bg-darkBackground/[.8] border-b'
     : 'bg-transparent border-0';
 
   const textClass = isScrolled ? 'text-darkBase dark:text-whiteBase' : 'text-whiteBase';
@@ -53,7 +53,7 @@ const useHeaderStyles = (isHomePage: boolean) => {
     caretColor: isScrolled ? 'caret-accentBase dark:caret-whiteBase' : 'caret-whiteBase',
     textColor: isScrolled ? 'text-darkBase dark:text-whiteBase' : 'text-whiteBase',
     placeholderColor: isScrolled
-      ? 'placeholder:text-placeholderText dark:placeholder:text-foreground'
+      ? 'placeholder:text-darkBase/[.4] dark:placeholder:text-whiteBase/[.4]'
       : 'placeholder:text-whiteBase',
   };
 
@@ -64,7 +64,7 @@ const useHeaderStyles = (isHomePage: boolean) => {
     textColor: isHomePage ? inputHomePage.textColor : 'text-darkBase dark:text-whiteBase',
     placeholderColor: isHomePage
       ? inputHomePage.placeholderColor
-      : 'placeholder:text-placeholderText dark:placeholder:text-foreground',
+      : 'placeholder:text-darkBase/[.4] dark:placeholder:text-whiteBase/[.4]',
   };
 
   const switcherTextClass = isScrolled ? 'text-greyBase' : 'text-greyBase dark:text-whiteBase';

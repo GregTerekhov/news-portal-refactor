@@ -49,7 +49,7 @@ const ReadPage = () => {
 
   return (
     <>
-      {shouldShowLoader && <Loader />}
+      {shouldShowLoader && <Loader variant='page' />}
       {shouldShowAccordeon && (
         <div>
           {sortedDates.map((date) => (

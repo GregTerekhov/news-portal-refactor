@@ -23,7 +23,7 @@ const Layout = () => {
       <Header />
       {activeLinks.isHomeActive && <Hero />}
       <section
-        className={`w-full bg-whiteBase dark:bg-darkThemeBackground transition-colors duration-500 h-full ${
+        className={`w-full bg-whiteBase dark:bg-darkBackground transition-colors duration-500 h-full ${
           activeLinks.isFavoriteActive || activeLinks.isReadActive
             ? 'pt-10 md:pt-12 lg:pt-[60px]'
             : 'pt-6 md:pt-7'

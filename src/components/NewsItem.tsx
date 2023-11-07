@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { SvgIcon, VoteButton } from 'ui';
 import PlugImage from './PlugImage';
-import Loader from './Loader';
 import { VotedItem } from 'types';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import { addOrUpdateVotedNews, removeFromFavourites } from 'redux/newsDatabase/newsDataBaseSlice';
@@ -43,32 +42,22 @@ const NewsItem: React.FC<Partial<NewsItemProps>> = ({
         const savedRead = existingNews?.hasRead;
 
         if (savedFavourite === true && savedRead === true) {
-          // console.log(
-          //   `check: savedFavourite === true && savedRead === true on ${location.pathname}`,
-          // );
           setIsFavourite(true);
           setHasRead(true);
         }
         if (savedFavourite === true && savedRead === false) {
-          // console.log(
-          //   `check: savedFavourite === true && savedRead === false on ${location.pathname}`,
-          // );
           setIsFavourite(true);
         }
         if (savedRead === true && savedFavourite === false) {
-          // console.log(
-          //   `check: savedFavourite === false && savedRead === true on ${location.pathname}`,
-          // );
           setHasRead(true);
         }
       } else {
-        // console.log(`check return: savedNews?.length === 0 on ${location.pathname}`);
         return;
       }
     }
   }, [savedNews]);
 
-  const handleAddToFavourites = (e: React.MouseEvent) => {
+  const handleAddToFavourites = async (e: React.MouseEvent) => {
     e.stopPropagation();
     e.preventDefault();
     onChange();
@@ -92,7 +81,7 @@ const NewsItem: React.FC<Partial<NewsItemProps>> = ({
 
           const updatedData = { ...liveNews, isFavourite: true, hasRead: false };
           console.log(
-            `savedNews.length !== 0 && !existingNews updatedDataFavour: on ${location.pathname} `,
+            `savedNews.length !== 0 && !existingNews, updatedDataFavour: on ${location.pathname} `,
             updatedData,
           );
           dispatch(addOrUpdateVotedNews(updatedData));
@@ -102,7 +91,7 @@ const NewsItem: React.FC<Partial<NewsItemProps>> = ({
 
             const updatedData = { ...liveNews, isFavourite: true, hasRead: savedRead };
             console.log(
-              `savedNews.length !== 0 && existingNews.isFavourite === false updatedDataFavour: on ${location.pathname}`,
+              `savedNews.length !== 0 && existingNews.isFavourite === false, updatedDataFavour: on ${location.pathname}`,
             );
             dispatch(addOrUpdateVotedNews(updatedData));
           } else if (savedFavourite === true && savedRead === false) {
@@ -110,18 +99,19 @@ const NewsItem: React.FC<Partial<NewsItemProps>> = ({
 
             const updatedData = { ...liveNews, isFavourite: false, hasRead: savedRead };
             console.log(
-              `savedNews.length !== 0 && existingNews.isFavourite === true updatedDataFavour: on ${location.pathname} and existingNews.isFavourite = ${liveNews.isFavourite}`,
+              `savedNews.length !== 0 && existingNews.isFavourite === true, updatedDataFavour: on ${location.pathname} and existingNews.isFavourite = ${liveNews.isFavourite}`,
               updatedData,
             );
             dispatch(removeFromFavourites(liveNews.newsUrl));
             dispatch(addOrUpdateVotedNews(updatedData));
+
             // onDelete();
           } else if (savedFavourite === true && savedRead === true) {
             setIsFavourite(false);
 
             const updatedData = { ...liveNews, isFavourite: false, hasRead: savedRead };
             console.log(
-              `savedNews.length !== 0 && existingNews.isFavourite === true updatedDataFavour: on ${location.pathname}`,
+              `savedNews.length !== 0 && existingNews.isFavourite === true, updatedDataFavour: on ${location.pathname}`,
             );
             dispatch(removeFromFavourites(liveNews.newsUrl));
             dispatch(addOrUpdateVotedNews(updatedData));
@@ -175,17 +165,17 @@ const NewsItem: React.FC<Partial<NewsItemProps>> = ({
 
   return (
     <>
-      {liveNews && liveNews?.newsUrl && isLoggedIn ? (
+      {liveNews && liveNews?.newsUrl && isLoggedIn && (
         <a className='block' href={liveNews?.newsUrl} target='_blank' onClick={handleReadNews}>
           <div
             className={`${
               hasRead && activeLinks.isHomeActive
-                ? 'absolute z-20 w-full h-full bg-foreground'
+                ? 'absolute z-20 w-full h-full bg-whiteBase/[.4]'
                 : 'hidden'
             }`}
           ></div>
-          <p className='absolute z-20 top-10 left-0 py-1 px-2 text-small font-medium text-contrastWhite bg-accentForeground rounded-r'>
-            {liveNews?.category}
+          <p className='absolute z-20 top-10 left-0 py-1 px-2 text-small font-medium text-contrastWhite bg-accentBase/[.7] rounded-r'>
+            {liveNews?.category} / {liveNews?.materialType}
           </p>
           {isLoggedIn && hasRead && (
             <p className='absolute z-10 top-3.5 right-3.5 md:top-5 md:right-5 text-base font-bold text-readBase flex items-center gap-1'>
@@ -221,12 +211,14 @@ const NewsItem: React.FC<Partial<NewsItemProps>> = ({
             </p>
             <div className='flex justify-between'>
               <p className='text-base md:text-medium text-greyAlt'>{liveNews?.publishDate}</p>
-              <p className='text-base md:text-medium text-accentBase'>Click for read more...</p>
+              <p className='text-base md:text-medium text-accentBase dark:text-accentAlt'>
+                Click for read more...
+              </p>
             </div>
           </div>
         </a>
-      ) : (
-        <Loader />
+        // ) : (
+        //   <Loader variant='element' />
       )}
     </>
   );

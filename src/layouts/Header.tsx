@@ -52,7 +52,7 @@ const Header = () => {
         className={`fixed w-full top-0 left-0 min-h-[81px] md:min-h-[106px] lg:min-h-[113px] ${
           activeLinks.isHomeActive
             ? headerClass
-            : 'bg-foregroundLight dark:bg-foregroundDark border-b border-solid border-line dark:border-darkThemeLine'
+            : 'bg-whiteBase/[.8] dark:bg-darkBackground/[.8] border-b border-solid border-fullDark/[.2] dark:border-whiteBase/[.2]'
         } transition-colors duration-500 ${isOpenMenu && 'border-b-0'} ${
           isOpenModal ? 'z-0 pointer-events-none' : 'z-50 pointer-events-auto'
         }`}

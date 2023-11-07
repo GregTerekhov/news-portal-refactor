@@ -20,6 +20,9 @@ const HomePage = () => {
     rebuildedNews || [],
   );
 
+  // console.log('rebuildedNews', rebuildedNews);
+  // console.log('currentItems', currentItems);
+
   useEffect(() => {
     dispatch(fetchPopularNews('1'));
     dispatch(fetchAllNews());
@@ -41,7 +44,7 @@ const HomePage = () => {
   return (
     <div>
       {isLoading && rebuildedNews && currentItems?.length === 0 ? (
-        <Loader />
+        <Loader variant='page' />
       ) : (
         <>
           {rebuildedNews && rebuildedNews.length === 0 ? (

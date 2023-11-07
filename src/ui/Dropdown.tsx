@@ -48,7 +48,7 @@ const Dropdown = ({ children, labels, getResults }: Partial<D>) => {
             leaveFrom='transform opacity-100 scale-100'
             leaveTo='transform opacity-0 scale-95'
           ></Transition>
-          <Menu.Items className='absolute z-40 w-56 max-h-96 overflow-auto flex flex-col bg-dropdownBase rounded-[20px] py-3.5 space-y-3'>
+          <Menu.Items className='absolute z-40 w-56 max-h-96 overflow-auto flex flex-col bg-dropdownBase rounded-[20px] py-3.5 space-y-3 shadow-card dark:shadow-darkCard'>
             {labels?.map((item, index) => (
               <Menu.Item key={index}>
                 {({ active }) => (

@@ -11,7 +11,7 @@ const AuthModal = () => {
   return (
     <>
       <Tab.Group>
-        <Tab.List className='w-full h-[60px] flex mb-4 justify-between border-solid border-line border-b-[1px] dark:border-darkThemeLine transition-colors duration-500'>
+        <Tab.List className='w-full h-[60px] flex mb-4 justify-between border-solid border-fullDark/[.2] border-b-[1px] dark:border-whiteBase/[.2] transition-colors duration-500'>
           <div className='flex gap-3.5'>
             <Tab className='text-xl ui-selected:font-medium text-darkBase dark:text-whiteBase ui-selected:text-accentBase dark:ui-selected:text-accentBase ui-selected:font-bold transition-colors duration-500'>
               Register

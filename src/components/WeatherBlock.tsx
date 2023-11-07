@@ -61,8 +61,8 @@ const WeatherBlock = () => {
             <SvgIcon svgName='icon-moon' size={156} className='fill-transparent stroke-greyBase' />
           </span>
         </div>
-      ) : isLoading && !hasGeolocationPermission && emptyWeather ? (
-        <Loader />
+      ) : isLoading && emptyWeather ? (
+        <Loader variant='element' />
       ) : (
         <div className='flex flex-col justify-between bg-accentBase w-72 hg:w-[442px] py-8 px-9 md:pt-10 md:pb-[60px] md:px-8 lg:px-[53px] h-full w-fit'>
           <div className='flex gap-6 items-center cursor-pointer' onClick={toggleTemperatureScale}>
@@ -83,7 +83,7 @@ const WeatherBlock = () => {
                   ? Math.round(getWeatherData?.main?.feels_like) + '\u00b0' + 'C'
                   : Math.round((getWeatherData?.main?.feels_like * 9) / 5 + 32) + '\u00b0' + 'F'}
               </p>
-              <div className='flex items-center gap-1 md:gap-2 text-contrastWhite bg-weatherLocation py-[9px] px-2 md:pt-[10px] md:pr-[17px] md:pb-[9px] md:pl-[7px] rounded-lg'>
+              <div className='flex items-center gap-1 md:gap-2 text-contrastWhite bg-weatherForeground py-[9px] px-2 md:pt-[10px] md:pr-[17px] md:pb-[9px] md:pl-[7px] rounded-lg'>
                 <SvgIcon svgName='icon-location' size={27} className='fill-whiteBase' />
                 <p className='text-base md:text-2xl text-contrastWhite'>{getWeatherData?.name}</p>
               </div>

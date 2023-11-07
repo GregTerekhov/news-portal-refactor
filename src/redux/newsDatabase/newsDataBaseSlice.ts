@@ -61,23 +61,16 @@ const newsDBSlice = createSlice({
   reducers: {
     addOrUpdateVotedNews: (state, action: PayloadAction<Partial<VotedItem>>) => {
       const updatedVotedNews = action.payload;
-      console.log('updatedVotedNews', updatedVotedNews);
       const existingNewsIndex = state.savedNews.findIndex(
         (news) => news.newsUrl === updatedVotedNews.newsUrl,
       );
       if (existingNewsIndex !== -1) {
-        if (
-          !!updatedVotedNews.isFavourite ||
-          !!updatedVotedNews.hasRead ||
-          (!!updatedVotedNews.isFavourite && !!updatedVotedNews.hasRead)
-        ) {
-          state.savedNews[existingNewsIndex] = {
-            ...state.savedNews[existingNewsIndex],
-            isFavourite: updatedVotedNews.isFavourite,
-            hasRead: updatedVotedNews.hasRead,
-          };
+        state.savedNews[existingNewsIndex] = {
+          ...state.savedNews[existingNewsIndex],
+          isFavourite: updatedVotedNews.isFavourite,
+          hasRead: updatedVotedNews.hasRead,
           // state.unsavedChanges = true;
-        }
+        };
       } else {
         state.savedNews.unshift(updatedVotedNews);
         // state.unsavedChanges = true;
@@ -85,7 +78,6 @@ const newsDBSlice = createSlice({
     },
     removeFromFavourites: (state, action) => {
       const { newsUrl } = action.payload;
-      console.log(action.payload);
       state.favourites = state.favourites.filter((fav) => fav.newsUrl !== newsUrl);
     },
     // saveUnsavedChanges: (state) => {
@@ -138,8 +130,6 @@ const newsDBSlice = createSlice({
       });
   },
 });
-// export const removeFromFavouritesAction = (newsUrl, hasRead) => (dispatch) => {
-//   dispatch(removeFromFavourites({newsUrl, hasRead}))
-// }
+
 export const { addOrUpdateVotedNews, removeFromFavourites, clearVotedNews } = newsDBSlice.actions;
 export default newsDBSlice.reducer;
