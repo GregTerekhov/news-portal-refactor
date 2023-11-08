@@ -80,9 +80,12 @@ export default {
         sectionLarge: 'calc(100vh - 113px)',
       },
       spacing: {
+        '676px': '676px',
+        '323px': '323px',
         '335px': '355px',
         '395px': '395px',
         '50%': '50%',
+        '48%-': '-48%',
         '50%-': '-50%',
         none: 'none',
       },
