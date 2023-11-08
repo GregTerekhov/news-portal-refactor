@@ -7,21 +7,25 @@ import {
   selectWeatherByHours,
   fetchHourlyForecastWeather,
 } from 'redux/weather';
-import { receiveCurrentDate, convertTimezone } from 'helpers';
-import { useWindowWidth } from 'hooks';
+import {
+  receiveCurrentDate,
+  // convertTimezone
+} from 'helpers';
+// import { useWindowWidth } from 'hooks';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import Loader from './Loader';
-import { format } from 'date-fns';
+// import { format } from 'date-fns';
 
 const WeatherBlock = () => {
   const { days, dateNow } = receiveCurrentDate();
-  const { breakpointsForMarkup } = useWindowWidth() ?? {
-    breakpointsForMarkup: null,
-  };
+  // const { breakpointsForMarkup } = useWindowWidth() ?? {
+  //   breakpointsForMarkup: null,
+  // };
   const [isCelsius, setIsCelsius] = useState<boolean>(true);
   const [weatherSlide, setWeatherSlide] = useState<boolean>(true);
   const [hasGeolocationPermission, setHasGeolocationPermission] = useState<boolean>(false);
 
+  console.log(hasGeolocationPermission);
   const getWeatherData = useAppSelector(selectPosition);
   const getWeatherByHours = useAppSelector(selectWeatherByHours);
   const isLoading = useAppSelector(selectLoading);
