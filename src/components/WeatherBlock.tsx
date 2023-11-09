@@ -11,16 +11,16 @@ import {
   receiveCurrentDate,
   // convertTimezone
 } from 'helpers';
-// import { useWindowWidth } from 'hooks';
+import { useWindowWidth } from 'hooks';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import Loader from './Loader';
 // import { format } from 'date-fns';
 
 const WeatherBlock = () => {
   const { days, dateNow } = receiveCurrentDate();
-  // const { breakpointsForMarkup } = useWindowWidth() ?? {
-  //   breakpointsForMarkup: null,
-  // };
+  const { breakpointsForMarkup } = useWindowWidth() ?? {
+    breakpointsForMarkup: null,
+  };
   const [isCelsius, setIsCelsius] = useState<boolean>(true);
   const [weatherSlide, setWeatherSlide] = useState<boolean>(true);
   const [hasGeolocationPermission, setHasGeolocationPermission] = useState<boolean>(false);
@@ -88,8 +88,9 @@ const WeatherBlock = () => {
     setWeatherSlide(!weatherSlide);
   };
 
-  const weatherSlideTranslate = weatherSlide ? 'translate-x-0' : 'translate-x-48%-';
+  const weatherSlideTranslate = weatherSlide ? 'translate-y-0' : 'translate-y-40%-';
   const emptyWeather = getWeatherData && Object.keys(getWeatherData).length === 0;
+  let val = 0;
 
   console.log(getWeatherByHours);
   return (
@@ -117,7 +118,7 @@ const WeatherBlock = () => {
       ) : (
         getWeatherByHours && (
           <>
-            <div className='flex flex-col justify-between bg-accentBase w-72 hg:w-[442px] py-8 px-9 md:pt-10 md:pb-[60px] md:px-8 lg:px-[53px]  w-fit'>
+            <div className='flex flex-col justify-between bg-accentBase w-72 hg:w-[442px] py-8 px-9 md:pb-[30px] md:px-8 lg:px-[53px]  w-fit'>
               <div
                 className='flex gap-6 items-center cursor-pointer'
                 onClick={toggleTemperatureScale}
@@ -157,7 +158,7 @@ const WeatherBlock = () => {
                 />
               )}
               <div>
-                <div className='text-center mb-3'>
+                <div className='text-center'>
                   <p className='font-weather text-3.5xl md:text-4.5xl text-contrastWhite'>{days}</p>
                   <p className='font-weather text-2.5xl md:text-3.5xl text-contrastWhite'>
                     {dateNow}
@@ -200,119 +201,84 @@ const WeatherBlock = () => {
             </div> */}
               </div>
             </div>
+
             <div
-              className={`flex border-t-solid border-t-white border-t-2 bg-accentBase h-48 w-676px ${weatherSlideTranslate} duration-500 ease-in`}
+              className={`flex w-full flex-col border-t-solid border-t-white border-t-2 bg-accentBase  ${weatherSlideTranslate} duration-500 ease-in`}
             >
-              <table className='bg-accentBase w-323px h-full'>
-                <thead>
-                  <tr>
-                    <td></td>
-                    {/* {getWeatherByHours.map(({ dt }: any) => {
-                      const convertDate = new Date(dt * 1000);
-
-                      const currentHours = format(convertDate, 'HH:mm');
-
-                      console.log(dt);
-                      console.log(convertDate, '|', currentHours);
-                      return <td>{currentHours}</td>;
-                    })} */}
-                    <td>00:00</td>
-                    <td>06:00</td>
-                    <td>12:00</td>
-                    <td>18:00</td>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>Icon</td>
-                    <td>icon</td>
-                    <td>icon</td>
-                    <td>icon</td>
-                    <td>icon</td>
-                  </tr>
-                  <tr>
-                    <td>{'t,' + '\u00b0'}</td>
-                    <td>temp</td>
-                    <td>temp</td>
-                    <td>temp</td>
-                    <td>temp</td>
-                  </tr>
-                  <tr>
-                    <td>hum</td>
-                    <td>num</td>
-                    <td>num</td>
-                    <td>num</td>
-                    <td>num</td>
-                  </tr>
-                  <tr>
-                    <td>p, PSI</td>
-                    <td>press</td>
-                    <td>press</td>
-                    <td>press</td>
-                    <td>press</td>
-                  </tr>
-                  <tr>
-                    <td>w, PSI</td>
-                    <td>press</td>
-                    <td>press</td>
-                    <td>press</td>
-                    <td>press</td>
-                  </tr>
-                </tbody>
-              </table>
-              <button type='button' className='bg-accentAlt' onClick={weatherSlideChange}>
+              <button
+                type='button'
+                className='bg-accentAlt w-full m-auto'
+                onClick={weatherSlideChange}
+              >
                 <SvgIcon
-                  svgName={weatherSlide ? 'icon-arrow-right' : 'icon-arrow-left'}
-                  size={30}
+                  svgName={weatherSlide ? 'icon-arrow-up' : 'icon-arrow-down'}
+                  size={20}
                   className='fill-whiteBase group-hover:fill-whiteBase animate-pulse'
                 />
               </button>
-              <table className='bg-accentBase w-323px h-full'>
-                <thead>
+              <table className='bg-accentBase h-full '>
+                <thead className=''>
                   <tr>
                     <td></td>
-                    <td>08:11</td>
-                    <td>09:11</td>
-                    <td>10:11</td>
-                    <td>11:11</td>
+                    <td></td>
+                    <td>{'t,' + '\u00b0'}</td>
+                    <td>
+                      <SvgIcon
+                        svgName='icon-humidity'
+                        size={
+                          breakpointsForMarkup?.isNothing || breakpointsForMarkup?.isMobile ? 5 : 20
+                        }
+                        className='fill-whiteBase'
+                      />
+                    </td>
+                    <td className=''>
+                      <SvgIcon
+                        svgName='icon-pressure'
+                        size={
+                          breakpointsForMarkup?.isNothing || breakpointsForMarkup?.isMobile ? 5 : 20
+                        }
+                        className='fill-whiteBase'
+                      />
+                      PSI
+                    </td>
+                    <td className=''>
+                      <SvgIcon
+                        svgName='icon-weather-wind'
+                        size={
+                          breakpointsForMarkup?.isNothing || breakpointsForMarkup?.isMobile ? 5 : 20
+                        }
+                        className='fill-whiteBase'
+                      />
+                      , m/s
+                    </td>
                   </tr>
                 </thead>
                 <tbody>
-                  <tr>
-                    <td>Icon</td>
-                    <td>icon</td>
-                    <td>icon</td>
-                    <td>icon</td>
-                    <td>icon</td>
-                  </tr>
-                  <tr>
-                    <td>{'t,' + '\u00b0'}</td>
-                    <td>temp</td>
-                    <td>temp</td>
-                    <td>temp</td>
-                    <td>temp</td>
-                  </tr>
-                  <tr>
-                    <td>hum</td>
-                    <td>num</td>
-                    <td>num</td>
-                    <td>num</td>
-                    <td>num</td>
-                  </tr>
-                  <tr>
-                    <td>p, PSI</td>
-                    <td>press</td>
-                    <td>press</td>
-                    <td>press</td>
-                    <td>press</td>
-                  </tr>
-                  <tr>
-                    <td>w, PSI</td>
-                    <td>press</td>
-                    <td>press</td>
-                    <td>press</td>
-                    <td>press</td>
-                  </tr>
+                  {getWeatherByHours.map((item: any) => {
+                    val += 1;
+                    const extractHours = item.dt_txt.split(' ');
+                    const convertHours = extractHours[1].split('').splice(0, 5).join('');
+                    console.log('VAL:', val);
+
+                    if (val > 8) return;
+
+                    return (
+                      <tr key={item.dt}>
+                        <td>{convertHours}</td>
+                        <td>
+                          <img
+                            className='m-auto w-10 h-10'
+                            src={`https://openweathermap.org/img/wn/${getWeatherData?.weather[0]['icon']}@2x.png`}
+                            alt={getWeatherData?.weather?.[0]?.description}
+                          />
+                        </td>
+                        <td>{Math.floor(getWeatherData.main.temp) + '\u00b0'}</td>
+                        <td>{item.main.humidity}</td>
+                        <td>{item.main.pressure}</td>
+                        <td>{item.wind.speed}</td>
+                      </tr>
+                    );
+                  })}
                 </tbody>
               </table>
             </div>
