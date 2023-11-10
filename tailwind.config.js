@@ -1,6 +1,26 @@
 /** @type {import('tailwindcss').Config} */
+import plugin from 'tailwindcss/plugin';
+
+const backfaceVisibility = plugin(function ({ addUtilities }) {
+  addUtilities({
+    '.backface-visible': {
+      'backface-visibility': 'visible',
+      '-moz-backface-visibility': 'visible',
+      '-webkit-backface-visibility': 'visible',
+      '-ms-backface-visibility': 'visible',
+    },
+    '.backface-hidden': {
+      'backface-visibility': 'hidden',
+      '-moz-backface-visibility': 'hidden',
+      '-webkit-backface-visibility': 'hidden',
+      '-ms-backface-visibility': 'hidden',
+    },
+  });
+});
+
 export default {
-  content: ['./index.html', './src/**/*.{js,jsx,ts,tsx}'],
+  mode: 'jit',
+  content: ['./index.html', './src/**/*.{js,jsx,ts,tsx}', 'node_modules/preline/dist/*.js'],
   darkMode: 'class',
   theme: {
     fontFamily: {
@@ -38,6 +58,7 @@ export default {
         calendarTextLight: 'rgba(60, 60, 67, 0.3)', //'#3c3c343'
       },
       fontSize: {
+        xs: '10px',
         small: '12px',
         base: '14px',
         medium: '16px',
@@ -111,5 +132,10 @@ export default {
       },
     },
   },
-  plugins: [require('@headlessui/tailwindcss')({ prefix: 'ui' })],
+  plugins: [
+    backfaceVisibility,
+    require('@headlessui/tailwindcss')({ prefix: 'ui' }),
+    require('preline/plugin'),
+    require('@kamona/tailwindcss-perspective'),
+  ],
 };

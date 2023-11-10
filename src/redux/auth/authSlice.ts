@@ -7,6 +7,7 @@ interface AuthState {
   isCurrentUser: boolean;
   userTheme: string;
   accessToken: string | null;
+  refreshToken: string | null;
   user: {
     name: string;
     email: string;
@@ -19,6 +20,7 @@ const initialState = {
   isCurrentUser: false,
   userTheme: 'light',
   accessToken: null,
+  refreshToken: null,
   user: {
     name: '',
     email: '',
@@ -54,6 +56,7 @@ const authSlice = createSlice({
         state.isCurrentUser = false;
         state.user = action.payload.user;
         state.accessToken = action.payload.accessToken;
+        state.refreshToken = action.payload.refreshToken;
         state.userTheme = action.payload.userTheme;
         state.hasError = null;
       })

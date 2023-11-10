@@ -9,7 +9,7 @@ const Auth = () => {
   const { breakpointsForMarkup } = useWindowWidth() ?? {
     breakpointsForMarkup: null,
   };
-  const isLoggedIn = true;
+  const isLoggedIn = false;
 
   return (
     <div className='flex items-center justify-center'>
@@ -17,12 +17,12 @@ const Auth = () => {
         <PrimaryButton
           id='Auth button for signin and signout'
           buttonData={{ type: 'button' }}
-          variant='SearchBlock'
+          variant='Blocks'
           onHandleClick={!isLoggedIn ? (toggleModal as ClickHandler) : undefined}
           hasIcon={true}
           svgName={`${isLoggedIn ? 'icon-signout' : 'icon-auth'}`}
           svgSize={28}
-          className='fill-whiteBase'
+          classNameIcon='fill-whiteBase'
         >
           {isLoggedIn ? 'Sign Out' : 'Auth'}
         </PrimaryButton>
@@ -31,7 +31,7 @@ const Auth = () => {
           aria-label='Auth button for signin and signout'
           type='button'
           onClick={!isLoggedIn ? (toggleModal as ClickHandler) : undefined}
-          className='flex items-center p-1.5 border border-solid border-whiteBase rounded-[10px] bg-accentBase hover:bg-accentAlt transition-colors'
+          className='flex items-center p-1.5 border border-solid border-whiteBase rounded-[10px] bg-accentBase hover:bg-accentAlt transition-colors duration-500'
         >
           <SvgIcon
             svgName={isLoggedIn ? 'icon-signout' : 'icon-auth'}

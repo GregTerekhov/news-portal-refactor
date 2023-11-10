@@ -11,7 +11,7 @@ export type ClickHandler =
   | (() => Promise<void>);
 
 enum PB {
-  SearchBlock = 'SearchBlock',
+  Blocks = 'SearchBlock',
   Other = 'OtherButton',
 }
 
@@ -23,7 +23,7 @@ interface PBProps {
   hasIcon: boolean;
   svgName: string;
   svgSize: number;
-  className: string;
+  classNameIcon: string;
   id?: string;
   ariaLabel?: string;
 }
@@ -36,29 +36,27 @@ const PrimaryButton: React.FC<Partial<PBProps>> = (props) => {
   const hasIcon = props.hasIcon;
   const svgName = props.svgName;
   const svgSize = props.svgSize;
-  const className = props.className;
+  const classNameIcon = props.classNameIcon;
   const id = props.id;
   const ariaLabel = props.ariaLabel;
 
   let buttonWidth: string = '';
 
-  if (variant === PB.SearchBlock) {
+  if (variant === PB.Blocks) {
     buttonWidth = 'w-full py-2';
   } else if (variant === PB.Other) {
-    buttonWidth = 'w-28';
+    buttonWidth = 'w-40';
   }
   return (
     <button
       id={id}
       aria-label={ariaLabel}
-      className={`flex items-center justify-center gap-2.5 bg-accentBase rounded-[20px] text-base text-contrastWhite hover:bg-accentAlt transition-colors duration-500 ${buttonWidth} ${
-        hasIcon ? 'max-lg:py-2.5 lg:py-2' : 'py-1.5'
-      }`}
+      className={`flex items-center justify-center gap-2.5 bg-accentBase rounded-[20px] text-base text-contrastWhite hover:bg-accentAlt transition-colors duration-500 ${buttonWidth} max-lg:py-2.5 lg:py-2`}
       type={type}
       onClick={onHandleClick}
     >
       {children}
-      {hasIcon && <SvgIcon svgName={svgName} size={svgSize} className={className} />}
+      {hasIcon && <SvgIcon svgName={svgName} size={svgSize} className={classNameIcon} />}
     </button>
   );
 };

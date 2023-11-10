@@ -26,18 +26,12 @@ const FavouritePage = () => {
   }, [dispatch]);
 
   // const handleDeleteNews = (index: number) => {
-  //   console.log('index', index);
   //   setDeletedNewsIndex(index);
   // };
-  // if (favourites) {
-  //   console.log('favourites', favourites);
-  // }
 
   useLayoutEffect(() => {
     if (changesHappened && savedNews) {
-      console.log('Клік по фаворитах, або по посиланню відбувся');
       // const updatedSavedNews = [...savedNews];
-      // console.log('updatedSavedNews', updatedSavedNews);
       // updatedSavedNews.splice(deletedNewsIndex, 1);
       dispatch(addNews(savedNews));
       // dispatch(saveUnsavedChanges());

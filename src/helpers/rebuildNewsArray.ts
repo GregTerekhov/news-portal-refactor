@@ -5,7 +5,7 @@ import {
   PopularNewsItem,
   ArticleNewsItem,
   NewsWireItem,
-} from 'types/news';
+} from 'types';
 import { formatDate, formatDateToShort } from 'helpers';
 
 function rebuildNewsArray(

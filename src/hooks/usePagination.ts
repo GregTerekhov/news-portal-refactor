@@ -1,8 +1,6 @@
 import { useEffect, useState } from 'react';
 import { PartialVotedNewsArray } from 'types';
 import { useWindowWidth } from './useWindowWidth';
-import useItemsPerPage from './useItemsPerPage';
-import { calculatePages } from 'helpers';
 import { useAppSelector } from 'redux/hooks';
 import {
   selectByCategory,
@@ -13,10 +11,9 @@ import {
 import { selectFilters } from 'redux/filterSlice';
 
 const usePagination = (rebuildedNews: PartialVotedNewsArray) => {
-  const { breakpointsForMarkup } = useWindowWidth() ?? {
+  const { breakpointsForMarkup } = useWindowWidth() || {
     breakpointsForMarkup: null,
   };
-  const itemsPerPage = useItemsPerPage();
 
   const [currentPage, setCurrentPage] = useState(1);
   const [currentItems, setCurrentItems] = useState<PartialVotedNewsArray>([]);
@@ -27,50 +24,60 @@ const usePagination = (rebuildedNews: PartialVotedNewsArray) => {
   const searchByDate = useAppSelector(selectByDate);
   const filteredNews = useAppSelector(selectFilters);
 
-  const totalResults = (rebuildedNews && rebuildedNews?.length) || 0;
-  const mobileCardsPerPage = 5; // Кількість новин для мобільного пристрою
-  const tabletCardsPerPage = 8; // Кількість новин для таблетки
-  const desktopCardsPerPage = 9; // Кількість новин для десктопу
+  const totalPages = (rebuildedNews && rebuildedNews?.length) || 0;
+  const firstMobileItemsPerPage = 4; // Кількість новин для мобільного пристрою на першій сторінці
+  const firstTabletItemsPerPage = 7; // Кількість новин для мобільного пристрою на першій сторінці
+  const firstDesktopItemsPerPage = 8; // Кількість новин для мобільного пристрою на першій сторінці
+  const otherMobileCardsPerPage = 5; // Кількість новин для мобільного пристрою на послідуючих сторінках
+  const otherTabletCardsPerPage = 8; // Кількість новин для таблетки на послідуючих сторінках
+  const otherDesktopCardsPerPage = 9; // Кількість новин для десктопу на послідуючих сторінках
 
-  const mobilePages = calculatePages(totalResults, mobileCardsPerPage);
-  const tabletPages = calculatePages(totalResults, tabletCardsPerPage);
-  const desktopPages = calculatePages(totalResults, desktopCardsPerPage);
+  // Розрахунок кількості сторінок для кожного типу пристрою
+  const mobilePages = calculatePages(totalPages, firstMobileItemsPerPage, otherMobileCardsPerPage);
+  const tabletPages = calculatePages(totalPages, firstTabletItemsPerPage, otherTabletCardsPerPage);
+  const desktopPages = calculatePages(
+    totalPages,
+    firstDesktopItemsPerPage,
+    otherDesktopCardsPerPage,
+  );
 
   const currentCardsPerPage = getCurrentCardsPerPage();
-
   useEffect(() => {
     if (rebuildedNews && rebuildedNews?.length > 0) {
-      // Виконуємо код для розділення сторінок та оновлення компонента
       const indexOfLastItem = currentPage * currentCardsPerPage;
       const indexOfFirstItem = indexOfLastItem - currentCardsPerPage;
-      const items = rebuildedNews?.slice(indexOfFirstItem, indexOfLastItem);
+
+      const items = rebuildedNews.slice(indexOfFirstItem, indexOfLastItem);
       setCurrentItems(items);
     }
-  }, [
-    popularData,
-    searchResults,
-    searchByCategory,
-    searchByDate,
-    filteredNews,
-    currentPage,
-    itemsPerPage,
-  ]);
+  }, [popularData, searchResults, searchByCategory, searchByDate, filteredNews, currentPage]);
 
+  // Розрахунок кількості сторінок для кожного типу пристрою
+  function calculatePages(total: number, firstPageCount: number, otherPageCount: number) {
+    const pages = [firstPageCount];
+    let remainingItems = total - firstPageCount;
+
+    while (remainingItems > 0) {
+      pages.push(otherPageCount);
+      remainingItems -= otherPageCount;
+    }
+
+    return pages;
+  }
+
+  // Визначення кількості об'єктів новин на сторінці в залежності від типу пристрою
   function getCurrentCardsPerPage() {
     if (breakpointsForMarkup?.isMobile || breakpointsForMarkup?.isNothing) {
-      // Мобільний пристрій
       return mobilePages[currentPage - 1] || 0;
     } else if (breakpointsForMarkup?.isTablet) {
-      // Таблетка
       return tabletPages[currentPage - 1] || 0;
     } else {
-      // Десктоп
       return desktopPages[currentPage - 1] || 0;
     }
   }
 
   const pageNumbers = [];
-  for (let i = 1; i <= Math.ceil((rebuildedNews?.length || 0) / itemsPerPage); i++) {
+  for (let i = 1; i <= Math.ceil(totalPages / currentCardsPerPage); i++) {
     pageNumbers.push(i);
   }
 

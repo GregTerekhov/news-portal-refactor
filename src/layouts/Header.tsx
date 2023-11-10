@@ -22,7 +22,7 @@ const Header = () => {
   const { headerClass, textClass, burgerMenuButtonClass } = useHeaderStyles(
     activeLinks.isHomeActive,
   );
-  const isLoggedIn = true;
+  const isLoggedIn = false;
   const isNotMobile = breakpointsForMarkup?.isTablet || breakpointsForMarkup?.isDesktop;
 
   const onChangeInput = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -73,23 +73,29 @@ const Header = () => {
 
           {breakpointsForMarkup?.isNothing || breakpointsForMarkup?.isMobile ? (
             <div className={`flex items-center gap-3.5`}>
-              {isOpenMenu ? null : (
-                <form onSubmit={onHandleSubmit} className='max-md:overflow-hidden'>
-                  <Input
-                    inputData={{
-                      name: 'query',
-                      type: 'text',
-                      value: query,
-                      placeholder: 'Search |',
-                    }}
-                    hasIcon={true}
-                    variant='header'
-                    hideInput={handleVisibilityChange}
-                    onChange={(event: React.ChangeEvent<HTMLInputElement>) => onChangeInput(event)}
-                    touched={touched}
-                  />
-                </form>
-              )}
+              {isLoggedIn ? (
+                <>
+                  {isOpenMenu ? null : (
+                    <form onSubmit={onHandleSubmit} className='max-md:overflow-hidden'>
+                      <Input
+                        inputData={{
+                          name: 'query',
+                          type: 'text',
+                          value: query,
+                          placeholder: 'Search |',
+                        }}
+                        hasIcon={true}
+                        variant='header'
+                        hideInput={handleVisibilityChange}
+                        onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
+                          onChangeInput(event)
+                        }
+                        touched={touched}
+                      />
+                    </form>
+                  )}
+                </>
+              ) : null}
               <button
                 aria-label={`Open ${isLoggedIn ? 'mobile menu' : 'auth modal'} button`}
                 type='button'
@@ -115,19 +121,26 @@ const Header = () => {
             </div>
           ) : (
             <>
-              <form
-                action='#'
-                onSubmit={(e) => onHandleSubmit(e)}
-                className='max-md:overflow-hidden'
-              >
-                <Input
-                  inputData={{ name: 'query', type: 'text', value: query, placeholder: 'Search |' }}
-                  hasIcon={true}
-                  variant='header'
-                  onChange={(event: React.ChangeEvent<HTMLInputElement>) => onChangeInput(event)}
-                  touched={touched}
-                />
-              </form>
+              {isLoggedIn ? (
+                <form
+                  action='#'
+                  onSubmit={(e) => onHandleSubmit(e)}
+                  className='max-md:overflow-hidden'
+                >
+                  <Input
+                    inputData={{
+                      name: 'query',
+                      type: 'text',
+                      value: query,
+                      placeholder: 'Search |',
+                    }}
+                    hasIcon={true}
+                    variant='header'
+                    onChange={(event: React.ChangeEvent<HTMLInputElement>) => onChangeInput(event)}
+                    touched={touched}
+                  />
+                </form>
+              ) : null}
               <div className='flex flex-col gap-3'>
                 <Auth />
                 <ThemeSwitcher variant='header' />

@@ -1,12 +1,4 @@
-import { PartialVotedNewsArray } from 'types/news';
-
-type Filters = {
-  keyword: string;
-  title: string;
-  author: string;
-  publisher: string;
-  materialType: string;
-};
+import { Filters, PartialVotedNewsArray } from 'types';
 
 function applyCrossFilters(newsArray: PartialVotedNewsArray | undefined, filters: Filters) {
   const { keyword, title, author, publisher, materialType } = filters;

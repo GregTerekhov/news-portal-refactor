@@ -9,7 +9,7 @@ import { useLocation } from 'react-router-dom';
 
 const HomePage = () => {
   const dispatch = useAppDispatch();
-  const isLoading = useAppSelector(selectLoading);
+  const isLoading: boolean = useAppSelector(selectLoading);
   const savedNews = useAppSelector(selectSavedNews);
   const [changesHappened, setChangesHappened] = useState<boolean>(false);
 
@@ -20,17 +20,21 @@ const HomePage = () => {
     rebuildedNews || [],
   );
 
+  const isLoggedIn = false;
+
   // console.log('rebuildedNews', rebuildedNews);
   // console.log('currentItems', currentItems);
 
   useEffect(() => {
     dispatch(fetchPopularNews('1'));
-    dispatch(fetchAllNews());
-  }, [dispatch]);
+
+    if (isLoggedIn) {
+      dispatch(fetchAllNews());
+    }
+  }, [dispatch, isLoggedIn]);
 
   useLayoutEffect(() => {
     if (changesHappened) {
-      console.log('Клік по фаворитах, або по посиланню відбувся');
       dispatch(addNews(savedNews));
       // dispatch(saveUnsavedChanges());
       setChangesHappened(false);
