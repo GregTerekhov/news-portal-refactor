@@ -37,17 +37,17 @@ const Pagination: React.FC<P> = ({ pageNumbers, currentPage, setCurrentPage }) =
         window.scrollTo({ top: 0 + screenHeight, left: 0 });
       }}
     >
-      <button
+      <PrimaryButton
         aria-label={pageNumber.toString()}
-        type='button'
-        className={`w-10 h-10 border border-solid border-accentBase  rounded-[10px] text-base md:text-medium font-medium ${
+        classNameButton={`h-10 border-accentBase font-medium ${
           pageNumber === currentPage
             ? 'bg-accentBase text-contrastWhite'
             : 'text-darkBase dark:text-whiteBase dark:border-whiteBase'
         }`}
+        variant='Small'
       >
         {pageNumber}
-      </button>
+      </PrimaryButton>
     </li>
   );
 
@@ -112,9 +112,9 @@ const Pagination: React.FC<P> = ({ pageNumbers, currentPage, setCurrentPage }) =
     <div className='flex justify-center items-center gap-2'>
       <PrimaryButton
         id='Previous page button'
-        buttonData={{ type: 'button' }}
         variant='OtherButton'
         onHandleClick={handlePrevClick}
+        width='w-32'
       >
         <SvgIcon svgName='icon-arrow-left' size={20} className='fill-whiteBase' />
         {breakpointsForMarkup?.isTablet || breakpointsForMarkup?.isDesktop ? (
@@ -126,9 +126,9 @@ const Pagination: React.FC<P> = ({ pageNumbers, currentPage, setCurrentPage }) =
       </ul>
       <PrimaryButton
         id='Next page button'
-        buttonData={{ type: 'button' }}
         variant='OtherButton'
         onHandleClick={handleNextClick}
+        width='w-32'
       >
         {breakpointsForMarkup?.isTablet || breakpointsForMarkup?.isDesktop ? (
           <span className='text-base md:text-medium font-medium text-contrastWhite'>Next</span>

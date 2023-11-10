@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { useActiveLinks, useHeaderStyles, useWindowWidth } from 'hooks';
 import { createPortal } from 'react-dom';
 import { NavLink, useLocation, useNavigate } from 'react-router-dom';
-import { SvgIcon } from 'ui';
+import { PrimaryButton, SvgIcon } from 'ui';
 import { ThemeSwitcher } from 'components';
 
 type MobileMenu = {
@@ -16,8 +16,6 @@ const Menu = ({ isOpen, closeMenu }: Partial<MobileMenu>) => {
   const { breakpointsForMarkup } = useWindowWidth() ?? {
     breakpointsForMarkup: null,
   };
-
-  const isLoggedIn = true;
 
   const location = useLocation();
   const activeLinks = useActiveLinks(location);
@@ -102,16 +100,18 @@ const Menu = ({ isOpen, closeMenu }: Partial<MobileMenu>) => {
               </ul>
               <div className='flex justify-between'>
                 <ThemeSwitcher />
-                <div className='flex items-center p-1.5 border border-solid border-whiteBase rounded-[10px] bg-accentBase hover:bg-accentAlt transition-colors text-contrastWhite'>
-                  <button id='Sign out button' type='button' className='flex gap-2.5'>
-                    Sign Out
-                    <SvgIcon
-                      svgName={isLoggedIn ? 'icon-signout' : ''}
-                      size={24}
-                      className='fill-whiteBase'
-                    />
-                  </button>
-                </div>
+                <PrimaryButton
+                  id='Sign out button'
+                  classNameButton='border border-solid border-transparent dark:border-whiteBase'
+                  hasIcon={true}
+                  variant='OtherButton'
+                  width='w-32'
+                  svgName='icon-signout'
+                  svgSize={24}
+                  classNameIcon='fill-whiteBase'
+                >
+                  Sign Out
+                </PrimaryButton>
               </div>
             </div>
           </div>,

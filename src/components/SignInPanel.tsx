@@ -39,6 +39,27 @@ const SignInPanel = ({
         hasIcon={false}
         variant='auth'
       />
+      <div className='text-center'>
+        <button
+          id='Show password recovery input'
+          type='button'
+          className='text-small md:text-medium text-darkBase dark:text-whiteBase'
+          onClick={handleShowRecoveryInput}
+        >
+          Forgot password?
+        </button>
+        {isShowRecoveryInput ? (
+          <Input
+            inputData={{
+              name: 'recoveryEmail',
+              type: 'email',
+              placeholder: 'Enter your email',
+            }}
+            hasIcon={false}
+            variant='auth'
+          />
+        ) : null}
+      </div>
       <Input
         inputData={{
           name: 'checkbox',
@@ -49,27 +70,13 @@ const SignInPanel = ({
         variant='checkbox'
         onChange={(event: React.ChangeEvent<HTMLInputElement>) => handleCheckboxChange(event)}
       />
-      <button
-        id='Show password recovery input'
-        type='button'
-        className='text-small md:text-medium text-darkBase dark:text-whiteBase'
-        onClick={handleShowRecoveryInput}
-      >
-        Forgot password?
-      </button>
-      {isShowRecoveryInput ? (
-        <Input
-          inputData={{
-            name: 'recoveryEmail',
-            type: 'email',
-            placeholder: 'Enter your email',
-          }}
-          hasIcon={false}
-          variant='auth'
-        />
-      ) : null}
       <div className='max-md:flex max-md:justify-between max-md:items-center'>
-        <PrimaryButton buttonData={{ type: 'submit' }} id='Login button' variant='OtherButton'>
+        <PrimaryButton
+          buttonData={{ type: 'submit' }}
+          id='Login button'
+          variant='OtherButton'
+          classNameButton='w-32'
+        >
           Log In
         </PrimaryButton>
         {breakpointsForMarkup?.isNothing || breakpointsForMarkup?.isMobile ? (

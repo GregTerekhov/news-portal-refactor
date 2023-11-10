@@ -25,7 +25,7 @@ const WeatherBlock = () => {
   return (
     <>
       {!isLoading ? (
-        <div className='flex flex-col items-center justify-between bg-accentBase w-full hg:w-[442px] h-full py-10 px-14 text-center'>
+        <div className='flex flex-col items-center justify-between bg-accentBase w-full hg:w-[442px] h-full py-10 px-14 md:px-10 text-center'>
           <h2 className='text-whiteBase text-medium md:text-2xl lg:text-4xl'>
             What a pity, this could be your weather
           </h2>
@@ -34,9 +34,9 @@ const WeatherBlock = () => {
           </span>
           <PrimaryButton
             id='Geolocation permission button'
-            buttonData={{ type: 'button' }}
-            variant='Blocks'
+            variant='Primary'
             onHandleClick={requestGeolocationPermission}
+            classNameButton='border border-solid border-whiteBase'
           >
             Give permission for your geolocation
           </PrimaryButton>

@@ -9,46 +9,48 @@ const SignUpPanel = () => {
   };
 
   return (
-    <form className='flex flex-col gap-3.5'>
-      <Input
-        inputData={{
-          name: 'name',
-          type: 'text',
-          placeholder: 'Enter your name',
-          children: 'Name',
-        }}
-        hasIcon={false}
-        variant='auth'
-      />
-      <Input
-        inputData={{
-          name: 'email',
-          type: 'email',
-          placeholder: 'Enter your email',
-          children: 'Email',
-        }}
-        hasIcon={false}
-        variant='auth'
-      />
-      <Input
-        inputData={{
-          name: 'password',
-          type: 'password',
-          placeholder: 'Enter your password',
-          children: 'Password',
-        }}
-        hasIcon={false}
-        variant='auth'
-      />
+    <form className=''>
+      <div className='flex flex-col gap-3.5 mb-8'>
+        <Input
+          inputData={{
+            name: 'name',
+            type: 'text',
+            placeholder: 'Enter your name',
+            children: 'Name',
+          }}
+          hasIcon={false}
+          variant='auth'
+        />
+        <Input
+          inputData={{
+            name: 'email',
+            type: 'email',
+            placeholder: 'Enter your email',
+            children: 'Email',
+          }}
+          hasIcon={false}
+          variant='auth'
+        />
+        <Input
+          inputData={{
+            name: 'password',
+            type: 'password',
+            placeholder: 'Enter your password',
+            children: 'Password',
+          }}
+          hasIcon={false}
+          variant='auth'
+        />
+      </div>
       {breakpointsForMarkup?.isNothing || breakpointsForMarkup?.isMobile ? (
         <PrimaryButton
           id='Google authentication button'
-          buttonData={{ type: 'button' }}
           svgName='icon-google'
           svgSize={16}
           classNameIcon='fill-whiteBase'
-          variant='SearchBlock'
+          variant='Primary'
           hasIcon={true}
+          classNameButton='mb-6'
         >
           Authentication
         </PrimaryButton>
@@ -58,18 +60,19 @@ const SignUpPanel = () => {
           buttonData={{ type: 'submit' }}
           id='Registration button'
           variant='OtherButton'
+          width='w-32'
         >
           Register
         </PrimaryButton>
         {breakpointsForMarkup?.isTablet || breakpointsForMarkup?.isDesktop ? (
           <PrimaryButton
             id='Google authentication button'
-            buttonData={{ type: 'button' }}
             svgName='icon-google'
-            svgSize={16}
+            svgSize={18}
             classNameIcon='fill-whiteBase'
             variant='OtherButton'
             hasIcon={true}
+            width='w-44'
           >
             Authentication
           </PrimaryButton>
