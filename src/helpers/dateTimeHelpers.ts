@@ -23,56 +23,9 @@ export function receiveCurrentDate() {
   const month = today.toDateString().slice(4).slice(0, 4);
   const number = today.toDateString().slice(8).slice(0, 2);
   const year = today.toDateString().slice(11);
-  const formattedDate = `${currentTime} ${number} ${month} ${year}`;
+  const formattedDate = `${currentTime} | ${number} ${month} ${year}`;
 
   return { days, dateNow: formattedDate };
-}
-
-export function convertTimezone(data: any) {
-  const zoneList: any = {
-    '-43200': '-12:00',
-    '-39600': '-11:00',
-    '-36000': '-10:00',
-    '-34200': '-09:30',
-    '-32400': '-09:00',
-    '-28800': '-08:00',
-    '-25200': '-07:00',
-    '-21600': '-06:00',
-    '-18000': '-05:00',
-    '-16200': '-04:30',
-    '-14400': '-04:00',
-    '-12600': '-03:30',
-    '-10800': '-03:00',
-    '-7200': '-02:00',
-    '-3600': '-01:00',
-    '0': '00:00',
-    '3600': '+01:00',
-    '7200': '+02:00',
-    '10800': '+03:00',
-    '12600': '+03:30',
-    '14400': '+04:00',
-    '16200': '+04:30',
-    '18000': '+05:00',
-    '19800': '+05:30',
-    '20700': '+05:45',
-    '21600': '+06:00',
-    '23400': '+06:30',
-    '25200': '+07:00',
-    '28800': '+08:00',
-    '32400': '+09:00',
-    '34200': '+09:30',
-    '36000': '+10:00',
-    '37800': '+10:30',
-    '39600': '+11:00',
-    '41400': '+11:30',
-    '43200': '+12:00',
-    '45900': '+12:45',
-    '46800': '+13:00',
-    '50400': '+14:00',
-  };
-
-  const convert = zoneList[data];
-  return convert;
 }
 
 export function formatDate(inputDate: string) {
@@ -108,4 +61,20 @@ export function convertLinesForCalendar(dateStr: string) {
   const formattedDate = `${day}/${month}/${year}`;
 
   return formattedDate;
+}
+
+export function convertUnixTimestampToHHMM(unixTimestamp: number) {
+  // Створюємо новий об'єкт Date, використовуючи переданий Unix Timestamp (у мілісекундах)
+  const date = new Date(unixTimestamp * 1000);
+
+  // Отримуємо години та хвилини з цього об'єкта Date
+  const hours = date.getHours();
+  const minutes = date.getMinutes();
+
+  // Форматуємо години та хвилини до двозначного формату
+  const formattedHours = String(hours).padStart(2, '0');
+  const formattedMinutes = String(minutes).padStart(2, '0');
+
+  // Повертаємо рядок у форматі HH:MM
+  return `${formattedHours}:${formattedMinutes}`;
 }

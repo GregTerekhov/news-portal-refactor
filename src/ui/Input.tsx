@@ -35,6 +35,7 @@ const Input: FC<Partial<InputProps>> = (props) => {
     breakpointsForMarkup: null,
   };
   const [isPasswordVisibility, setPasswordVisibility] = useState<boolean>(false);
+  const [isChecked, setIsChecked] = useState<boolean>(false);
   const { name, type, value, placeholder, children } = props.inputData || {};
   const hasIcon = props.hasIcon;
   const className = props.className;
@@ -98,14 +99,14 @@ const Input: FC<Partial<InputProps>> = (props) => {
     textColor = 'text-darkBase dark:text-whiteBase';
   } else if (variant === V.Checkbox) {
     labelCheckbox = 'flex items-center cursor-pointer';
-    checkboxStyles = 'w-6 h-6 sm:w-4 sm:w-4 rounded-xl ';
+    checkboxStyles = 'sr-only';
   }
 
   return (
     <label
       htmlFor={name}
-      className={`relative flex gap-x-4 ${hasIcon && 'justify-center'} ${
-        labelCheckbox ? 'flex-row cursor-pointer' : 'flex-col'
+      className={`relative flex gap-x-4 ${hasIcon ? 'justify-center' : ''} ${
+        labelCheckbox ? 'flex-row cursor-pointer items-center' : 'flex-col'
       } ${className}`}
     >
       {variant === V.SearchBlock && (
@@ -127,13 +128,30 @@ const Input: FC<Partial<InputProps>> = (props) => {
               <SvgIcon
                 svgName={`${isPasswordVisibility ? 'icon-eye-opened' : 'icon-eye-closed'}`}
                 size={20}
-                className='fill-greyBase absolute right-3 bottom-[15px] md:right-4 md:bottom-4 cursor-pointer'
+                className='fill-greyBase absolute right-3 bottom-[9px] md:right-4 cursor-pointer'
               />
             </button>
           ) : null}
         </>
       )}
-      <div className={`${variant === V.SearchBlock ? 'relative' : ''}`}>
+      <div
+        className={`${variant === V.SearchBlock ? 'relative' : ''} ${
+          variant === V.Checkbox
+            ? `flex items-center justify-center w-6 h-6 sm:w-4 sm:h-4 rounded-sm cursor-pointer ${
+                isChecked
+                  ? 'bg-accentBase'
+                  : 'bg-whiteBase border border-solid border-accentBase dark:border-0'
+              }`
+            : ''
+        }`}
+      >
+        {variant === V.Checkbox ? (
+          <SvgIcon
+            svgName='icon-check'
+            size={16}
+            className={`${isChecked ? 'fill-whiteBase' : 'fill-none'}`}
+          />
+        ) : null}
         {hasIcon && (
           <span className='absolute w-5 h-5 left-3 top-50% transform -translate-y-1/2 flex items-center justify-center'>
             <SvgIcon svgName='icon-search' size={20} className={`${svgFill}`} />
@@ -145,17 +163,19 @@ const Input: FC<Partial<InputProps>> = (props) => {
           name={name}
           type={isPasswordVisibility ? 'text' : type}
           value={value}
+          checked={isChecked}
           placeholder={placeholder}
           autoComplete='off'
           onClick={onHideInput}
           onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
             if (onChange) {
+              setIsChecked(event.target.checked);
               onChange(event);
             }
           }}
         />
       </div>
-      <span className={`${!hasIcon && 'mb-1.5 block'} text-accentBase font-medium`}>
+      <span className={`${!hasIcon && 'block'} text-accentBase font-medium`}>
         {variant === V.Checkbox && children}{' '}
       </span>
     </label>

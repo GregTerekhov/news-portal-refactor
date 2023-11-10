@@ -58,7 +58,7 @@ const Menu = ({ isOpen, closeMenu }: Partial<MobileMenu>) => {
         modalRoot &&
         createPortal(
           <div
-            className={`fixed top-0 w-full h-full pb-[18px] pt-[147px] z-40 overflow-auto transition-left duration-500 bg-whiteBase dark:bg-darkBackground before:fixed before:content-[""] before:z-[8] before:h-[81px] before:top-0 before:left-0 transition-colors duration-500 ${
+            className={`fixed top-0 w-full h-full pb-[18px] pt-[147px] z-40 overflow-auto transition-left duration-500 bg-whiteBase dark:bg-darkBackground before:fixed before:content-[""] before:z-[8] before:h-[81px] before:top-0 before:left-0 transition-colors ${
               isOpen ? 'left-0' : '-left-full'
             }`}
           >
@@ -123,7 +123,7 @@ const Menu = ({ isOpen, closeMenu }: Partial<MobileMenu>) => {
             <li key={link.path}>
               <NavLink
                 to={link.path}
-                className={`relative pt-12 pb-8 lg:pt-[55px] lg:pb-[33px] hover:text-accentBase font-medium md:font-bold text-medium lg:text-xl md:text-medium lg:text-xl transition-colors duration-500 ${
+                className={`relative pt-12 pb-8 lg:pt-[55px] lg:pb-[33px] hover:text-accentBase font-medium md:font-bold text-medium lg:text-xl md:text-medium transition-colors duration-500 ${
                   link.activeLink
                     ? 'text-accentBase after:content[""] after:block after:absolute after:h-px after:w-full after:bg-accentBase'
                     : activeLinks.isHomeActive

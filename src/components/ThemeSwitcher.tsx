@@ -26,9 +26,7 @@ const ThemeSwitcher = ({ variant }: Partial<Variant>) => {
 
   let spacing: string = '';
 
-  if (variant === V.Modal) {
-    spacing = 'mr-4';
-  } else if (variant === V.Header) {
+  if (variant === V.Header) {
     spacing = 'justify-end';
   }
 

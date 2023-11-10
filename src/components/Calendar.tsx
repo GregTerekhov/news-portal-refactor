@@ -62,6 +62,7 @@ const Calendar: React.FC<CalendarProps> = ({ variant }) => {
 
           setIsOpenCalendar(false);
         }
+      } else {
       }
     }
   };
@@ -95,7 +96,7 @@ const Calendar: React.FC<CalendarProps> = ({ variant }) => {
         />
       </button>
       {isOpenCalendar && (
-        <div className='w-[250px] bg-dropdownBase absolute z-40 bg-whiteBase rounded-[20px] pt-4 px-4 pb-5 shadow-card dark:shadow-darkCard'>
+        <div className='w-[250px] bg-dropdownBase absolute z-40 rounded-[20px] pt-4 px-4 pb-5 shadow-card dark:shadow-darkCard'>
           <div className='flex items-center justify-between py-[7px] mb-0.5'>
             <div className='flex gap-2 items-center'>
               <button aria-label='Previous year button' type='button' onClick={getPrevYear}>
@@ -143,14 +144,12 @@ const Calendar: React.FC<CalendarProps> = ({ variant }) => {
           <div className='grid grid-cols-7 gap-y-3 gap-x-[18px] mt-3.5 place-items-center'>
             {daysInMonth.map((day, idx) => {
               const isCurrentMonth = isSameMonth(day, parse(currMonth, 'MMM-yyyy', new Date()));
-              const isSelectedDate =
-                (selectedDate &&
-                  selectedDate.beginDate !== null &&
-                  isSameDay(day, parse(selectedDate?.beginDate, 'yyyyMMdd', new Date()))) ||
-                (selectedDate &&
-                  selectedDate.endDate !== null &&
-                  isSameDay(day, parse(selectedDate?.endDate, 'yyyyMMdd', new Date())));
               const isTodayDate = isToday(day);
+              const isSelectedDate =
+                (selectedDate?.beginDate !== null &&
+                  isSameDay(day, parse(selectedDate?.beginDate, 'yyyyMMdd', new Date()))) ||
+                (selectedDate?.endDate !== null &&
+                  isSameDay(day, parse(selectedDate?.endDate, 'yyyyMMdd', new Date())));
               const isSelectedStyle = isSelectedDate ? 'text-whiteBase bg-accentBase' : '';
               return (
                 <div key={idx} className={COL_START_CLASSES[getDay(day)]}>
@@ -158,7 +157,11 @@ const Calendar: React.FC<CalendarProps> = ({ variant }) => {
                     className={`cursor-pointer flex items-center justify-center text-base tracking-widest leading-mostRelaxed font-medium h-7 w-7 rounded-full hover:text-contrastWhite hover:bg-accentBase hover:animate-pulse ${
                       isCurrentMonth ? 'text-fullDark' : 'text-calendarTextLight'
                     } ${isSelectedStyle} 
-                      ${isTodayDate && !isSelectedDate ? 'text-whiteBase bg-accentBase' : ''}
+                      ${
+                        selectedDate && isTodayDate && !isSelectedDate
+                          ? 'text-whiteBase bg-accentBase'
+                          : ''
+                      }
                     `}
                     onClick={() => handleDateClick(day)}
                   >

@@ -23,7 +23,6 @@ const ReadPage = () => {
 
   useLayoutEffect(() => {
     if (changesHappened && savedNews) {
-      console.log('Клік по фаворитах, або по посиланню відбувся');
       dispatch(addNews(savedNews));
       // dispatch(saveUnsavedChanges());
       setChangesHappened(false);

@@ -1,22 +1,34 @@
-import React from 'react';
-import { Input, PrimaryButton } from 'ui';
+import React, { useState } from 'react';
 import { Tab } from '@headlessui/react';
-import ThemeSwitcher from './ThemeSwitcher';
 import { useWindowWidth } from 'hooks';
+import ThemeSwitcher from './ThemeSwitcher';
+import SignUpPanel from './SignUpPanel';
+import SignInPanel from './SignInPanel';
 
 const AuthModal = () => {
   const { breakpointsForMarkup } = useWindowWidth() ?? {
     breakpointsForMarkup: null,
   };
+  const [isShowRecoveryInput, setIsShowRecoveryInput] = useState<boolean>(false);
+
+  const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const isChecked = event.target.checked;
+    console.log('isChecked', isChecked, typeof isChecked);
+  };
+
+  const handleShowRecoveryInput = () => {
+    setIsShowRecoveryInput(!isShowRecoveryInput);
+  };
+
   return (
     <>
       <Tab.Group>
         <Tab.List className='w-full h-[60px] flex mb-4 justify-between border-solid border-fullDark/[.2] border-b-[1px] dark:border-whiteBase/[.2] transition-colors duration-500'>
           <div className='flex gap-3.5'>
-            <Tab className='text-xl ui-selected:font-medium text-darkBase dark:text-whiteBase ui-selected:text-accentBase dark:ui-selected:text-accentBase ui-selected:font-bold transition-colors duration-500'>
+            <Tab className='text-xl ui-selected:font-medium text-darkBase dark:text-whiteBase ui-selected:text-accentBase dark:ui-selected:text-accentBase transition-colors duration-500'>
               Register
             </Tab>
-            <Tab className='text-xl ui-selected:font-medium text-darkBase dark:text-whiteBase ui-selected:text-accentBase dark:ui-selected:text-accentBase ui-selected:font-bold transition-colors duration-500'>
+            <Tab className='text-xl ui-selected:font-medium text-darkBase dark:text-whiteBase ui-selected:text-accentBase dark:ui-selected:text-accentBase transition-colors duration-500'>
               Log In
             </Tab>
           </div>
@@ -26,95 +38,14 @@ const AuthModal = () => {
         </Tab.List>
         <Tab.Panels>
           <Tab.Panel>
-            <form className='flex flex-col gap-3.5'>
-              <Input
-                inputData={{
-                  name: 'name',
-                  type: 'text',
-                  placeholder: 'Enter your name',
-                  children: 'Name',
-                }}
-                hasIcon={false}
-                variant='auth'
-              />
-              <Input
-                inputData={{
-                  name: 'email',
-                  type: 'email',
-                  placeholder: 'Enter your email',
-                  children: 'Email',
-                }}
-                hasIcon={false}
-                variant='auth'
-              />
-              <Input
-                inputData={{
-                  name: 'password',
-                  type: 'password',
-                  placeholder: 'Enter your password',
-                  children: 'Password',
-                }}
-                hasIcon={false}
-                variant='auth'
-              />
-              <div className='max-md:flex max-md:justify-between max-md:items-center'>
-                <PrimaryButton
-                  buttonData={{ type: 'submit' }}
-                  id='Registration button'
-                  variant='OtherButton'
-                >
-                  Register
-                </PrimaryButton>
-                {breakpointsForMarkup?.isNothing || breakpointsForMarkup?.isMobile ? (
-                  <ThemeSwitcher variant='modal' />
-                ) : null}
-              </div>
-            </form>
+            <SignUpPanel />
           </Tab.Panel>
           <Tab.Panel>
-            <form className='flex flex-col gap-3.5'>
-              <Input
-                inputData={{
-                  name: 'email',
-                  type: 'email',
-                  placeholder: 'Enter your email',
-                  children: 'Email',
-                }}
-                hasIcon={false}
-                variant='auth'
-              />
-              <Input
-                inputData={{
-                  name: 'password',
-                  type: 'password',
-                  placeholder: 'Enter your password',
-                  children: 'Password',
-                }}
-                hasIcon={false}
-                variant='auth'
-              />
-              <Input
-                inputData={{
-                  name: 'checkbox',
-                  type: 'checkbox',
-                  children: 'Remember me',
-                }}
-                hasIcon={false}
-                variant='checkbox'
-              />
-              <div className='max-md:flex max-md:justify-between max-md:items-center'>
-                <PrimaryButton
-                  buttonData={{ type: 'submit' }}
-                  id='Login button'
-                  variant='OtherButton'
-                >
-                  Log In
-                </PrimaryButton>
-                {breakpointsForMarkup?.isNothing || breakpointsForMarkup?.isMobile ? (
-                  <ThemeSwitcher variant='modal' />
-                ) : null}
-              </div>
-            </form>
+            <SignInPanel
+              isShowRecoveryInput={isShowRecoveryInput}
+              handleCheckboxChange={handleCheckboxChange}
+              handleShowRecoveryInput={handleShowRecoveryInput}
+            />
           </Tab.Panel>
         </Tab.Panels>
       </Tab.Group>

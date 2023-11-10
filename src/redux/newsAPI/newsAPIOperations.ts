@@ -32,7 +32,6 @@ export const fetchPopularNews = createAsyncThunk<PopularNewsArray, string, { rej
 export const fetchNewsByKeyword = createAsyncThunk<ArticleNewsArray, string, { rejectValue: any }>(
   'article/fetch',
   async (query, { rejectWithValue }) => {
-    console.log('query in Operations: ', query);
     try {
       const res = await axios.get(`${BASE_URL}/search/v2/articlesearch.json?q=${query}`, {
         params: {
@@ -66,14 +65,13 @@ export const fetchNewsByCategory = createAsyncThunk<NewsWireArray, string, { rej
   'categories/fetch',
   async (section, { rejectWithValue }) => {
     // console.log('source', source);
-    console.log('section: ', section);
+    // console.log('section: ', section);
     try {
       const res = await axios.get(`${BASE_URL}/news/v3/content/all/${section}.json`, {
         params: {
           'api-key': API_KEY,
         },
       });
-      console.log('fetchNewsByCategory', res.data.results);
       return res.data.results as NewsWireArray;
     } catch (error: any) {
       return rejectWithValue(error.response.data);

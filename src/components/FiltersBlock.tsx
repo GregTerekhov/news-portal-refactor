@@ -100,7 +100,7 @@ const FiltersBlock: FC<FiltersBlockProps> = ({
             <PrimaryButton
               id='Filters submit button'
               buttonData={{ type: 'submit' }}
-              variant='SearchBlock'
+              variant='Blocks'
               onHandleClick={handleFiltration}
             >
               Submit
@@ -119,10 +119,10 @@ const FiltersBlock: FC<FiltersBlockProps> = ({
               id='Filters reset button'
               buttonData={{ type: 'reset' }}
               hasIcon={true}
-              variant='SearchBlock'
+              variant='Blocks'
               svgName='icon-reset'
               svgSize={16}
-              className='fill-whiteBase'
+              classNameIcon='fill-whiteBase'
               onHandleClick={handleResetFilters}
             >
               Reset
@@ -143,7 +143,7 @@ const FiltersBlock: FC<FiltersBlockProps> = ({
             <PrimaryButton
               id='Filters submit button'
               buttonData={{ type: 'submit' }}
-              variant='SearchBlock'
+              variant='Blocks'
               onHandleClick={handleFiltration}
             >
               Submit
@@ -154,10 +154,10 @@ const FiltersBlock: FC<FiltersBlockProps> = ({
               id='Filters reset button'
               buttonData={{ type: 'reset' }}
               hasIcon={true}
-              variant='SearchBlock'
+              variant='Blocks'
               svgName='icon-reset'
               svgSize={16}
-              className='fill-whiteBase'
+              classNameIcon='fill-whiteBase'
               onHandleClick={handleResetFilters}
             >
               Reset

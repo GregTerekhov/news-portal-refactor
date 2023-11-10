@@ -32,10 +32,10 @@ const NewsItem: React.FC<Partial<NewsItemProps>> = ({
   const location = useLocation();
   const activeLinks = useActiveLinks(location);
 
-  const isLoggedIn = true;
+  const isLoggedIn = false;
 
   useEffect(() => {
-    if (savedNews && liveNews?.newsUrl !== undefined) {
+    if (isLoggedIn && savedNews && liveNews?.newsUrl !== undefined) {
       if (savedNews?.length !== 0) {
         const existingNews = savedNews?.find((news) => news.newsUrl === liveNews?.newsUrl);
         const savedFavourite = existingNews?.isFavourite;
@@ -129,7 +129,6 @@ const NewsItem: React.FC<Partial<NewsItemProps>> = ({
         onChange();
 
         const updatedData = { ...liveNews, hasRead: true, isFavourite: false };
-        // console.log('updatedDataRead', updatedData);
         dispatch(addOrUpdateVotedNews(updatedData));
       } else {
         const existingNews = savedNews?.find((news) => news.newsUrl === liveNews.newsUrl);
@@ -141,7 +140,6 @@ const NewsItem: React.FC<Partial<NewsItemProps>> = ({
           onChange();
 
           const updatedData = { ...liveNews, hasRead: true, isFavourite: false };
-          // console.log('updatedDataRead', updatedData);
           dispatch(addOrUpdateVotedNews(updatedData));
         } else {
           if (savedRead === false && savedFavourite === true) {
@@ -153,7 +151,6 @@ const NewsItem: React.FC<Partial<NewsItemProps>> = ({
               hasRead: true,
               isFavourite: savedFavourite,
             };
-            // console.log('updatedDataRead', updatedData);
             dispatch(addOrUpdateVotedNews(updatedData));
           } else if (savedRead === true) {
             return;
@@ -165,8 +162,13 @@ const NewsItem: React.FC<Partial<NewsItemProps>> = ({
 
   return (
     <>
-      {liveNews && liveNews?.newsUrl && isLoggedIn && (
-        <a className='block' href={liveNews?.newsUrl} target='_blank' onClick={handleReadNews}>
+      {liveNews && liveNews?.newsUrl && (
+        <a
+          className='block group transition-colors duration-500'
+          href={liveNews?.newsUrl}
+          target='_blank'
+          onClick={handleReadNews}
+        >
           <div
             className={`${
               hasRead && activeLinks.isHomeActive
@@ -203,7 +205,7 @@ const NewsItem: React.FC<Partial<NewsItemProps>> = ({
           </div>
           <div className='px-4 mt-4'>
             <p className='text-small lg:text-base leading-tight text-darkBase dark:text-whiteBase mb-2 text-end line-clamp-1'>
-              By {liveNews?.author}
+              {liveNews?.author ? `By ${liveNews?.author}` : `${liveNews?.materialType}`}
             </p>
             <h2
               className={`h-[100px] md:h-[132px] mb-4 text-3xl md:text-4xl font-bold leading-tight tracking-mediumTight md:tracking-tighter line-clamp-3 dark:text-whiteBase`}
@@ -215,9 +217,12 @@ const NewsItem: React.FC<Partial<NewsItemProps>> = ({
             </p>
             <div className='flex justify-between'>
               <p className='text-base md:text-medium text-greyAlt'>{liveNews?.publishDate}</p>
-              <p className='text-base md:text-medium text-accentBase dark:text-accentAlt'>
-                Click for read more...
-              </p>
+              <div className='flex pr-2 items-center gap-2 bg-accentAlt dark:bg-transparent duration-500 transition-all translate-x-full rounded-2xl group-hover:translate-x-0 group-hover:bg-accentAlt'>
+                <SvgIcon svgName='icon-arrow-direction-left' size={16} className='fill-whiteBase' />
+                <p className='text-base md:text-medium text-whiteBase transition-colors duration-500'>
+                  Click for read more...
+                </p>
+              </div>
             </div>
           </div>
         </a>
