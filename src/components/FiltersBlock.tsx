@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
-import { Dropdown, Input, PrimaryButton, SvgIcon } from 'ui';
-import Calendar from './Calendar';
 import { useWindowWidth } from 'hooks';
+import { Dropdown, Input, PrimaryButton } from 'ui';
+import Calendar from './Calendar';
 
 type FiltersBlockProps = {
   filters: {
@@ -100,26 +100,28 @@ const FiltersBlock: FC<FiltersBlockProps> = ({
             <PrimaryButton
               id='Filters submit button'
               buttonData={{ type: 'submit' }}
-              variant='Blocks'
+              variant='Primary'
               onHandleClick={handleFiltration}
             >
               Submit
             </PrimaryButton>
-            <button
+            <PrimaryButton
               aria-label='Ascending sort button'
-              type='button'
-              className='p-2.5 border border-solid border-whiteBase rounded-[10px] bg-accentBase dark:bg-transparent hover:bg-accentAlt transition-colors'
-              onClick={() => handleSort('asc')}
-            >
-              <SvgIcon svgName='icon-dateSort-asc' size={20} className='fill-whiteBase' />
-            </button>
+              classNameButton='border-whiteBase bg-accentBase dark:bg-transparent hover:bg-accentAlt transition-colors duration-500 p-2'
+              onHandleClick={() => handleSort('asc')}
+              variant='Small'
+              hasIcon={true}
+              svgName='icon-dateSort-asc'
+              svgSize={20}
+              classNameIcon='fill-whiteBase'
+            />
           </div>
           <div className='flex gap-3.5'>
             <PrimaryButton
               id='Filters reset button'
               buttonData={{ type: 'reset' }}
               hasIcon={true}
-              variant='Blocks'
+              variant='Primary'
               svgName='icon-reset'
               svgSize={16}
               classNameIcon='fill-whiteBase'
@@ -127,14 +129,16 @@ const FiltersBlock: FC<FiltersBlockProps> = ({
             >
               Reset
             </PrimaryButton>
-            <button
+            <PrimaryButton
               aria-label='Descending sort button'
-              type='button'
-              className='p-2.5 border border-solid border-whiteBase rounded-[10px] bg-accentBase dark:bg-transparent hover:bg-accentAlt transition-colors'
-              onClick={() => handleSort('desc')}
-            >
-              <SvgIcon svgName='icon-dateSort-desc' size={20} className='fill-whiteBase' />
-            </button>
+              classNameButton='p-2 border-whiteBase bg-accentBase dark:bg-transparent hover:bg-accentAlt transition-colors duration-500'
+              onHandleClick={() => handleSort('desc')}
+              variant='Small'
+              hasIcon={true}
+              svgName='icon-dateSort-desc'
+              svgSize={20}
+              classNameIcon='fill-whiteBase'
+            />
           </div>
         </>
       ) : (
@@ -143,7 +147,7 @@ const FiltersBlock: FC<FiltersBlockProps> = ({
             <PrimaryButton
               id='Filters submit button'
               buttonData={{ type: 'submit' }}
-              variant='Blocks'
+              variant='Primary'
               onHandleClick={handleFiltration}
             >
               Submit
@@ -154,7 +158,7 @@ const FiltersBlock: FC<FiltersBlockProps> = ({
               id='Filters reset button'
               buttonData={{ type: 'reset' }}
               hasIcon={true}
-              variant='Blocks'
+              variant='Primary'
               svgName='icon-reset'
               svgSize={16}
               classNameIcon='fill-whiteBase'
@@ -169,24 +173,28 @@ const FiltersBlock: FC<FiltersBlockProps> = ({
             </p>
           ) : null}
           <div className='md-max-lg:col-start-8 md:flex md:items-center md:justify-end lg:items-end'>
-            <button
+            <PrimaryButton
               aria-label='Ascending sort button'
-              type='button'
-              className='p-2.5 border border-solid border-whiteBase rounded-[10px] bg-accentBase dark:bg-transparent hover:bg-accentAlt transition-colors'
-              onClick={() => handleSort('asc')}
-            >
-              <SvgIcon svgName='icon-dateSort-asc' size={20} className='fill-whiteBase' />
-            </button>
+              classNameButton='border-whiteBase bg-accentBase dark:bg-transparent hover:bg-accentAlt transition-colors duration-500 p-2'
+              onHandleClick={() => handleSort('asc')}
+              variant='Small'
+              hasIcon={true}
+              svgName='icon-dateSort-asc'
+              svgSize={20}
+              classNameIcon='fill-whiteBase'
+            />
           </div>
           <div className='md-max-lg:col-start-9 md:flex md:items-center md:justify-start lg:items-end'>
-            <button
+            <PrimaryButton
               aria-label='Descending sort button'
-              type='button'
-              className='p-2.5 border border-solid border-whiteBase rounded-[10px] bg-accentBase dark:bg-transparent hover:bg-accentAlt transition-colors'
-              onClick={() => handleSort('desc')}
-            >
-              <SvgIcon svgName='icon-dateSort-desc' size={20} className='fill-whiteBase' />
-            </button>
+              classNameButton='p-2 border-whiteBase bg-accentBase dark:bg-transparent hover:bg-accentAlt transition-colors duration-500'
+              onHandleClick={() => handleSort('desc')}
+              variant='Small'
+              hasIcon={true}
+              svgName='icon-dateSort-desc'
+              svgSize={20}
+              classNameIcon='fill-whiteBase'
+            />
           </div>
         </>
       )}

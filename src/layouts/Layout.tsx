@@ -12,7 +12,7 @@ const Layout = () => {
   const location = useLocation();
   const activeLinks = useActiveLinks(location);
 
-  const isLoggedIn = false;
+  const isLoggedIn = true;
 
   const shouldShowPageScrollController =
     (activeLinks.isHomeActive && breakpointsForMarkup?.isTablet) ||

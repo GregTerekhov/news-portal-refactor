@@ -32,7 +32,7 @@ const NewsItem: React.FC<Partial<NewsItemProps>> = ({
   const location = useLocation();
   const activeLinks = useActiveLinks(location);
 
-  const isLoggedIn = false;
+  const isLoggedIn = true;
 
   useEffect(() => {
     if (isLoggedIn && savedNews && liveNews?.newsUrl !== undefined) {
@@ -171,7 +171,7 @@ const NewsItem: React.FC<Partial<NewsItemProps>> = ({
         >
           <div
             className={`${
-              hasRead && activeLinks.isHomeActive
+              isLoggedIn && hasRead && activeLinks.isHomeActive
                 ? 'absolute z-20 w-full h-full bg-whiteBase/[.4]'
                 : 'hidden'
             }`}

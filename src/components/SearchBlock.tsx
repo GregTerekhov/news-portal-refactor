@@ -44,13 +44,13 @@ const SearchBlock: FC<SearchBlockProps> = ({
           id='Reset all requests button'
           buttonData={{ type: 'submit' }}
           hasIcon={true}
-          variant='Blocks'
+          variant='Primary'
           svgName='icon-reset'
           svgSize={16}
           classNameIcon='fill-whiteBase'
           onHandleClick={handleResetRequests}
         >
-          {breakpointsForMarkup?.isDesktop ? 'Reset requests' : 'Reset all requests'}
+          {breakpointsForMarkup?.isDesktop ? 'Reset' : 'Reset all requests'}
         </PrimaryButton>
       </div>
     </div>

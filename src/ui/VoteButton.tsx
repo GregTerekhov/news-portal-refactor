@@ -21,10 +21,10 @@ const VoteButton = ({ onHandleClick, isFavourite, buttonData }: Partial<VBProps>
       <SvgIcon
         svgName='icon-heart'
         size={16}
-        className={`${
+        className={`transition-colors duration-500 ${
           isFavourite
             ? 'stroke-none fill-accentBase'
-            : 'stroke-accentBase fill-transparent group-hover:stroke-whiteBase group-hover:fill-transparent'
+            : 'stroke-accentBase fill-none hover:stroke-whiteBase hover:fill-transparent'
         }`}
       />
     </button>

@@ -22,7 +22,7 @@ const Header = () => {
   const { headerClass, textClass, burgerMenuButtonClass } = useHeaderStyles(
     activeLinks.isHomeActive,
   );
-  const isLoggedIn = false;
+  const isLoggedIn = true;
   const isNotMobile = breakpointsForMarkup?.isTablet || breakpointsForMarkup?.isDesktop;
 
   const onChangeInput = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -57,7 +57,11 @@ const Header = () => {
           isOpenModal ? 'z-0 pointer-events-none' : 'z-50 pointer-events-auto'
         }`}
       >
-        <div className='container mx-auto px-4 hg:px-[65px] flex justify-between items-center gap-3.5'>
+        <div
+          className={`container mx-auto px-4 hg:px-[65px] flex justify-between items-center ${
+            isLoggedIn ? 'gap-3.5' : ''
+          }`}
+        >
           <a
             href='/'
             className={`sm:py-6 md:pt-8 md:pb-[30px] lg:py-7 text-3xl leading-tight lg:leading-[1.357144] md:text-4xl lg:text-giant font-bold transition-colors duration-500 ${
@@ -71,81 +75,58 @@ const Header = () => {
           </a>
           {isNotMobile && isLoggedIn ? <Menu /> : null}
 
-          {breakpointsForMarkup?.isNothing || breakpointsForMarkup?.isMobile ? (
-            <div className={`flex items-center gap-3.5`}>
-              {isLoggedIn ? (
-                <>
-                  {isOpenMenu ? null : (
-                    <form onSubmit={onHandleSubmit} className='max-md:overflow-hidden'>
-                      <Input
-                        inputData={{
-                          name: 'query',
-                          type: 'text',
-                          value: query,
-                          placeholder: 'Search |',
-                        }}
-                        hasIcon={true}
-                        variant='header'
-                        hideInput={handleVisibilityChange}
-                        onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-                          onChangeInput(event)
-                        }
-                        touched={touched}
-                      />
-                    </form>
-                  )}
-                </>
-              ) : null}
-              <button
-                aria-label={`Open ${isLoggedIn ? 'mobile menu' : 'auth modal'} button`}
-                type='button'
-                className='w-6 h-6 md:hidden'
-                onClick={isLoggedIn ? toggleMenu : toggleModal}
-              >
-                <SvgIcon
-                  svgName={`${
-                    isLoggedIn ? (isOpenMenu ? 'icon-close' : 'icon-burger-menu') : 'icon-auth'
-                  }`}
-                  size={24}
-                  className={`${
-                    isLoggedIn
-                      ? !isOpenMenu && activeLinks.isHomeActive
-                        ? burgerMenuButtonClass
-                        : 'stroke-darkBase dark:stroke-whiteBase'
-                      : activeLinks.isHomeActive
-                      ? 'fill-whiteBase'
-                      : 'fill-darkBase dark:fill-whiteBase'
-                  }`}
-                />
-              </button>
-            </div>
-          ) : (
+          {isLoggedIn ? (
             <>
-              {isLoggedIn ? (
-                <form
-                  action='#'
-                  onSubmit={(e) => onHandleSubmit(e)}
-                  className='max-md:overflow-hidden'
-                >
-                  <Input
-                    inputData={{
-                      name: 'query',
-                      type: 'text',
-                      value: query,
-                      placeholder: 'Search |',
-                    }}
-                    hasIcon={true}
-                    variant='header'
-                    onChange={(event: React.ChangeEvent<HTMLInputElement>) => onChangeInput(event)}
-                    touched={touched}
-                  />
-                </form>
-              ) : null}
-              <div className='flex flex-col gap-3'>
-                <Auth />
-                <ThemeSwitcher variant='header' />
+              <div className='flex items-center gap-3.5'>
+                {isOpenMenu ? null : (
+                  <form onSubmit={(e) => onHandleSubmit(e)} className='max-md:overflow-hidden'>
+                    <Input
+                      inputData={{
+                        name: 'query',
+                        type: 'text',
+                        value: query,
+                        placeholder: 'Search |',
+                      }}
+                      hasIcon={true}
+                      variant='header'
+                      hideInput={handleVisibilityChange}
+                      onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
+                        onChangeInput(event)
+                      }
+                      touched={touched}
+                    />
+                  </form>
+                )}
+                {breakpointsForMarkup?.isNothing || breakpointsForMarkup?.isMobile ? (
+                  <button
+                    aria-label={`${!isOpenMenu ? 'Open' : 'Close'} mobile menu button`}
+                    type='button'
+                    className='w-6 h-6 md:hidden'
+                    onClick={toggleMenu}
+                  >
+                    <SvgIcon
+                      svgName={`${isOpenMenu ? 'icon-close' : 'icon-burger-menu'}`}
+                      size={24}
+                      className={`${
+                        !isOpenMenu && activeLinks.isHomeActive
+                          ? burgerMenuButtonClass
+                          : 'stroke-darkBase dark:stroke-whiteBase'
+                      }`}
+                    />
+                  </button>
+                ) : (
+                  <div className='flex flex-col gap-3'>
+                    <Auth />
+                    <ThemeSwitcher variant='header' />
+                  </div>
+                )}
               </div>
             </>
+          ) : (
+            <div className='flex flex-col gap-3'>
+              <Auth />
+              <ThemeSwitcher variant='header' />
+            </div>
           )}
         </div>
       </div>
