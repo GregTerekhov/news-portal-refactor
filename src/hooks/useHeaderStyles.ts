@@ -39,11 +39,12 @@ const useHeaderStyles = (isHomePage: boolean) => {
         window.removeEventListener('scroll', handleScroll);
       };
     }
+    return () => {};
   }, [isHomePage, screenHeight]);
 
   const headerClass = isScrolled
     ? 'bg-whiteBase/[.8] dark:bg-darkBackground/[.8] border-b'
-    : 'bg-transparent border-0';
+    : 'bg-transparent border-0 backdrop-blur-lg';
 
   const textClass = isScrolled ? 'text-darkBase dark:text-whiteBase' : 'text-whiteBase';
 

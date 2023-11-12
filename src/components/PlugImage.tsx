@@ -7,9 +7,9 @@ const enum V {
   CardNews = 'card',
 }
 
-type PlugImageVariants = {
+interface PlugImageVariants {
   variant: string;
-};
+}
 
 const PlugImage = ({ variant }: PlugImageVariants) => {
   const devicePixelRatio = window.devicePixelRatio || 1;

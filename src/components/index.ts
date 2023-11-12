@@ -2,6 +2,7 @@ export { default as Accordeon } from './Accordeon';
 export { default as Auth } from './Auth';
 export { default as AuthModal } from './AuthModal';
 export { default as Calendar } from './Calendar';
+export { default as CalendarContent } from './CalendarContent';
 export { default as FiltersBlock } from './FiltersBlock';
 export { default as Hero } from './Hero';
 export { default as Loader } from './Loader';

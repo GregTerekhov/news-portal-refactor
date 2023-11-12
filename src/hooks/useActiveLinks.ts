@@ -7,6 +7,7 @@ const useActiveLinks = (location: Location) => {
       isHomeActive: location.pathname === '/',
       isFavoriteActive: location.pathname === '/favourite',
       isReadActive: location.pathname === '/read',
+      isArchiveActive: location.pathname === '/archive',
     }),
     [location.pathname],
   );

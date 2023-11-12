@@ -1,7 +1,8 @@
 import axios from 'axios';
+import { RootState } from 'redux/store';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { AuthCredentials } from 'types';
-import { RootState } from 'redux/store';
+
 axios.defaults.baseURL = 'https://news-webapp-express.onrender.com/api';
 
 const token = {
@@ -40,9 +41,9 @@ export const signIn = createAsyncThunk(
 
 export const signOut = createAsyncThunk('/auth/signOut', async (_, { rejectWithValue }) => {
   try {
-    await axios.post('auth/sign-out');
+    const response = await axios.post('auth/sign-out');
     token.unset();
-    // return response.data;
+    return response.data;
   } catch (error: any) {
     return rejectWithValue(error.response.data);
   }
@@ -50,7 +51,7 @@ export const signOut = createAsyncThunk('/auth/signOut', async (_, { rejectWithV
 
 export const fetchCurrentUser = createAsyncThunk('auth/current', async (_, thunkAPI) => {
   const state = thunkAPI.getState() as RootState;
-  const persistedToken = state.auth.accessToken;
+  const persistedToken = state.auth.refreshToken;
 
   if (persistedToken === null) {
     return thunkAPI.rejectWithValue('No token found');

@@ -8,12 +8,12 @@ import {
   startOfToday,
   startOfWeek,
 } from 'date-fns';
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 
-type SelectedDate = {
+export interface SelectedDate {
   beginDate: string | null;
   endDate: string | null;
-};
+}
 
 const useCalendar = () => {
   const today = startOfToday();
@@ -70,12 +70,12 @@ const useCalendar = () => {
     [firstDayOfMonth],
   );
 
-  useEffect(() => {
-    setSelectedDate({
-      beginDate: null,
-      endDate: null,
-    });
-  }, []);
+  // useEffect(() => {
+  //   setSelectedDate({
+  //     beginDate: null,
+  //     endDate: null,
+  //   });
+  // }, []);
 
   return {
     today,

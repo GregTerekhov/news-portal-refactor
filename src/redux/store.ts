@@ -1,11 +1,17 @@
-import { AnyAction, configureStore } from '@reduxjs/toolkit';
-import { weatherSlice } from './weather';
-import { newsAPISlice } from './newsAPI';
-import { newsDBSlice } from './newsDatabase';
-import { FLUSH, PAUSE, PERSIST, PURGE, REGISTER, REHYDRATE } from 'redux-persist';
+import { AnyAction, combineReducers, configureStore } from '@reduxjs/toolkit';
+import {
+  FLUSH,
+  PAUSE,
+  PERSIST,
+  PURGE,
+  REGISTER,
+  REHYDRATE,
+  persistReducer,
+  persistStore,
+} from 'redux-persist';
 import { ThunkDispatch } from 'redux-thunk';
-import filterSlice from './filterSlice';
-import { authSlice } from './auth';
+import storage from 'redux-persist/lib/storage';
+import { authReducer, filtersReducer, APIReducer, DBReducer, weatherReducer } from './reducers';
 
 const middleware = (getDefaultMiddleware: any) =>
   getDefaultMiddleware({
@@ -14,16 +20,40 @@ const middleware = (getDefaultMiddleware: any) =>
     },
   });
 
+const persistConfig = {
+  key: 'root',
+  storage,
+  blacklist: ['auth', 'newsAPI', 'newsDB', 'weather', 'filters'],
+};
+
+const authPersistConfig = {
+  key: 'auth',
+  storage,
+  whitelist: ['userTheme', 'refreshToken'],
+};
+
+const NewsDBPersistConfig = {
+  key: 'newsDB',
+  storage,
+  whitelist: ['savedNews'],
+};
+
+const rootReducer = combineReducers({
+  auth: persistReducer(authPersistConfig, authReducer),
+  newsAPI: APIReducer,
+  newsDB: persistReducer(NewsDBPersistConfig, DBReducer),
+  weather: weatherReducer,
+  filters: filtersReducer,
+});
+
+const persistedReducer = persistReducer(persistConfig, rootReducer);
+
 const store = configureStore({
-  reducer: {
-    weather: weatherSlice,
-    newsAPI: newsAPISlice,
-    newsDB: newsDBSlice,
-    filters: filterSlice,
-    auth: authSlice,
-  },
+  reducer: persistedReducer,
   middleware,
 });
+
+export const persistor = persistStore(store);
 
 export type RootState = ReturnType<typeof store.getState>;
 export type TypedDispatch<T> = ThunkDispatch<T, any, AnyAction>;

@@ -1,18 +1,13 @@
 import React, { useEffect, useState, ReactNode } from 'react';
-import {
-  WindowWidthContext,
-  WindowWidthContextValue,
-} from './WindowWidthContext';
+import { WindowWidthContext, WindowWidthContextValue } from './WindowWidthContext';
 
 // Опис властивостей провайдера
-type WindowWidthProviderProps = {
+interface WindowWidthProviderProps {
   children: ReactNode;
-};
+}
 
 // Компонент-провайдер, який надає значення контексту своїм дітям
-export const WindowWidthProvider: React.FC<WindowWidthProviderProps> = ({
-  children,
-}) => {
+export const WindowWidthProvider: React.FC<WindowWidthProviderProps> = ({ children }) => {
   const [windowWidth, setWindowWidth] = useState<number>(window.innerWidth);
 
   useEffect(() => {
@@ -40,9 +35,5 @@ export const WindowWidthProvider: React.FC<WindowWidthProviderProps> = ({
     breakpointsForMarkup,
   };
 
-  return (
-    <WindowWidthContext.Provider value={contextValue}>
-      {children}
-    </WindowWidthContext.Provider>
-  );
+  return <WindowWidthContext.Provider value={contextValue}>{children}</WindowWidthContext.Provider>;
 };

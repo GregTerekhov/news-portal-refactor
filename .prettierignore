@@ -1,3 +1,5 @@
 node_modules/
 .prettierrc
 .eslintrc.cjs
+dist/
+package-lock.json

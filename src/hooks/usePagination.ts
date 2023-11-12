@@ -1,28 +1,19 @@
 import { useEffect, useState } from 'react';
 import { PartialVotedNewsArray } from 'types';
-import { useWindowWidth } from './useWindowWidth';
-import { useAppSelector } from 'redux/hooks';
-import {
-  selectByCategory,
-  selectByDate,
-  selectPopular,
-  selectSearchByKeyword,
-} from 'redux/newsAPI';
-import { selectFilters } from 'redux/filterSlice';
+import useWindowWidth from './useWindowWidth';
+import useNewsAPICollector from './useNewsAPICollector';
+import useFilterCollector from './useFilterCollector';
 
 const usePagination = (rebuildedNews: PartialVotedNewsArray) => {
   const { breakpointsForMarkup } = useWindowWidth() || {
     breakpointsForMarkup: null,
   };
 
+  const { popularNews, newsByKeyword, newsByCategory, newsByDate } = useNewsAPICollector();
+  const { filteredNews } = useFilterCollector();
+
   const [currentPage, setCurrentPage] = useState(1);
   const [currentItems, setCurrentItems] = useState<PartialVotedNewsArray>([]);
-
-  const popularData = useAppSelector(selectPopular);
-  const searchResults = useAppSelector(selectSearchByKeyword);
-  const searchByCategory = useAppSelector(selectByCategory);
-  const searchByDate = useAppSelector(selectByDate);
-  const filteredNews = useAppSelector(selectFilters);
 
   const totalPages = (rebuildedNews && rebuildedNews?.length) || 0;
   const firstMobileItemsPerPage = 4; // Кількість новин для мобільного пристрою на першій сторінці
@@ -50,7 +41,7 @@ const usePagination = (rebuildedNews: PartialVotedNewsArray) => {
       const items = rebuildedNews.slice(indexOfFirstItem, indexOfLastItem);
       setCurrentItems(items);
     }
-  }, [popularData, searchResults, searchByCategory, searchByDate, filteredNews, currentPage]);
+  }, [popularNews, newsByKeyword, newsByCategory, newsByDate, filteredNews, currentPage]);
 
   // Розрахунок кількості сторінок для кожного типу пристрою
   function calculatePages(total: number, firstPageCount: number, otherPageCount: number) {

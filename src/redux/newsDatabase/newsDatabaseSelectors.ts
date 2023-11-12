@@ -4,4 +4,4 @@ export const selectSavedNews = (state: RootState) => state.newsDB.savedNews;
 export const selectAllFavourites = (state: RootState) => state.newsDB.favourites;
 export const selectAllReads = (state: RootState) => state.newsDB.reads;
 export const selectLoading = (state: RootState) => state.newsDB.isLoading;
-export const selectHasError = (state: RootState) => state.newsDB.hasError;
+export const selectHasDBError = (state: RootState) => state.newsDB.hasError;

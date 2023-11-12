@@ -1,4 +1,4 @@
-import { useWindowWidth } from 'hooks/useWindowWidth';
+import { useWindowWidth } from 'hooks';
 import React from 'react';
 import { PrimaryButton, SvgIcon } from 'ui';
 interface P {

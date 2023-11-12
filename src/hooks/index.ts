@@ -1,4 +1,4 @@
-export { useWindowWidth } from './useWindowWidth';
+export { default as useWindowWidth } from './useWindowWidth';
 export { default as usePopUp } from './usePopUp';
 export { default as useCalendar } from './useCalendar';
 export { default as useHeaderStyles } from './useHeaderStyles';
@@ -8,3 +8,8 @@ export { default as useAdditionalRequest } from './useAdditionalRequest';
 export { default as useFilterNews } from './useFilterNews';
 export { default as useChooseRenderingNews } from './useChooseRenderingNews';
 export { default as useWeather } from './useWeather';
+export { default as useNewsAPICollector } from './useNewsAPICollector';
+export { default as useNewsDBCollector } from './useNewsDBCollector';
+export { default as useWeatherCollector } from './useWeatherCollector';
+export { default as useAuthCollector } from './useAuthCollector';
+export { default as useFilterCollector } from './useFilterCollector';

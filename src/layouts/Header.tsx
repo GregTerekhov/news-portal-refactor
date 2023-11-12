@@ -49,11 +49,11 @@ const Header = () => {
   return (
     <>
       <div
-        className={`fixed w-full top-0 left-0 min-h-[81px] md:min-h-[106px] lg:min-h-[113px] ${
+        className={`fixed w-full top-0 left-0 min-h-[81px] md:min-h-[106px] lg:min-h-[113px] flex items-center justify-center ${
           activeLinks.isHomeActive
             ? headerClass
             : 'bg-whiteBase/[.8] dark:bg-darkBackground/[.8] border-b border-solid border-fullDark/[.2] dark:border-whiteBase/[.2]'
-        } transition-colors duration-500 ${isOpenMenu && 'border-b-0'} ${
+        } transition-all duration-100 ${isOpenMenu && 'border-b-0 backdrop-blur-0'} ${
           isOpenModal ? 'z-0 pointer-events-none' : 'z-50 pointer-events-auto'
         }`}
       >
@@ -77,8 +77,8 @@ const Header = () => {
 
           {isLoggedIn ? (
             <>
-              <div className='flex items-center gap-3.5'>
-                {isOpenMenu ? null : (
+              <div className='flex items-center gap-3.5 lg:gap-12'>
+                {!isOpenMenu && activeLinks.isHomeActive ? (
                   <form onSubmit={(e) => onHandleSubmit(e)} className='max-md:overflow-hidden'>
                     <Input
                       inputData={{
@@ -96,7 +96,7 @@ const Header = () => {
                       touched={touched}
                     />
                   </form>
-                )}
+                ) : null}
                 {breakpointsForMarkup?.isNothing || breakpointsForMarkup?.isMobile ? (
                   <button
                     aria-label={`${!isOpenMenu ? 'Open' : 'Close'} mobile menu button`}

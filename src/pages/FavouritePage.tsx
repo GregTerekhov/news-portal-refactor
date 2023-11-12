@@ -1,14 +1,8 @@
 import { Loader, NewsList, PlugImage } from 'components';
+import { useNewsDBCollector } from 'hooks';
 import React, { useEffect, useLayoutEffect, useState } from 'react';
-import { useAppDispatch, useAppSelector } from 'redux/hooks';
-import {
-  addNews,
-  fetchFavourites,
-  selectAllFavourites,
-  selectSavedNews,
-  selectLoading,
-  fetchAllNews,
-} from 'redux/newsDatabase';
+import { useAppDispatch } from 'redux/hooks';
+import { addNews } from 'redux/newsDatabase';
 // import { saveUnsavedChanges } from 'redux/newsDatabase/newsDataBaseSlice';
 
 const FavouritePage = () => {
@@ -16,14 +10,13 @@ const FavouritePage = () => {
   // const [deletedNewsIndex, setDeletedNewsIndex] = useState<number | null>(null);
 
   const dispatch = useAppDispatch();
-  const favourites = useAppSelector(selectAllFavourites);
-  const isLoading = useAppSelector(selectLoading);
-  const savedNews = useAppSelector(selectSavedNews);
+  const { allFavourites, savedNews, isLoadingDBData, getFavourites, getSavedNews } =
+    useNewsDBCollector();
 
   useEffect(() => {
-    dispatch(fetchFavourites());
-    dispatch(fetchAllNews());
-  }, [dispatch]);
+    getFavourites();
+    getSavedNews();
+  }, []);
 
   // const handleDeleteNews = (index: number) => {
   //   setDeletedNewsIndex(index);
@@ -44,15 +37,15 @@ const FavouritePage = () => {
     setChangesHappened(true);
   };
 
-  const shouldShowLoader = isLoading;
-  const shouldShowContent = !isLoading && favourites.length !== 0;
+  const shouldShowLoader = isLoadingDBData;
+  const shouldShowContent = !isLoadingDBData && allFavourites.length !== 0;
 
   return (
     <>
       {shouldShowLoader && <Loader variant='page' />}
       {shouldShowContent && (
         <NewsList
-          currentItems={favourites}
+          currentItems={allFavourites}
           onChange={handleChangeVotes}
           // onDeleteNews={handleDeleteNews}
         />

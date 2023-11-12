@@ -1,33 +1,28 @@
 import { useEffect } from 'react';
-import { useAppDispatch, useAppSelector } from 'redux/hooks';
-import {
-  fetchAllCategories,
-  fetchNewsByCategory,
-  fetchPopularNews,
-  selectAllCategories,
-  selectByCategory,
-  selectByDate,
-  selectPopular,
-  selectSearchByKeyword,
-} from 'redux/newsAPI';
-import { resetOtherRequests } from 'redux/newsAPI/newsAPISlice';
+import { useAppDispatch } from 'redux/hooks';
+import { fetchNewsByCategory, fetchPopularNews } from 'redux/newsAPI';
+import { useNewsAPICollector } from '.';
 
 const useAdditionalRequest = () => {
   const dispatch = useAppDispatch();
-  const categoriesList = useAppSelector(selectAllCategories);
-  const popularNews = useAppSelector(selectPopular);
-  const searchResults = useAppSelector(selectSearchByKeyword);
-  const searchByCategory = useAppSelector(selectByCategory);
-  const searchByDate = useAppSelector(selectByDate);
+  const {
+    popularNews,
+    newsByKeyword,
+    newsByCategory,
+    newsByDate,
+    categoriesList,
+    fetchCategoriesList,
+    resetPreviousRequest,
+  } = useNewsAPICollector();
 
   const showPopular =
-    (searchResults && searchResults?.length === 0) ||
-    (searchByCategory && searchByCategory?.length === 0) ||
-    (searchByDate && searchByDate?.length === 0);
+    (newsByKeyword && newsByKeyword?.length === 0) ||
+    (newsByCategory && newsByCategory?.length === 0) ||
+    (newsByDate && newsByDate?.length === 0);
 
   useEffect(() => {
-    dispatch(fetchAllCategories());
-  }, [dispatch]);
+    fetchCategoriesList();
+  }, []);
 
   const getCategoriesList = () => {
     if (categoriesList) {
@@ -35,19 +30,20 @@ const useAdditionalRequest = () => {
 
       return selectedArray;
     }
+    return [];
   };
 
   const categoriesForDropdown = getCategoriesList();
 
   const getNewsByCategory = async (section: string) => {
     if (section) {
-      dispatch(resetOtherRequests());
+      resetPreviousRequest();
       await dispatch(fetchNewsByCategory(section));
     }
   };
 
   const getNewsByPeriod = async (period: string) => {
-    dispatch(resetOtherRequests());
+    resetPreviousRequest();
     if (period === 'Today') {
       await dispatch(fetchPopularNews('1'));
     } else if (period === 'Week') {
@@ -60,11 +56,11 @@ const useAdditionalRequest = () => {
   const handleResetRequests = async () => {
     if (
       (popularNews && popularNews?.length > 0) ||
-      (searchResults && searchResults?.length > 0) ||
-      (searchByCategory && searchByCategory?.length > 0) ||
-      (searchByDate && searchByDate?.length > 0)
+      (newsByKeyword && newsByKeyword?.length > 0) ||
+      (newsByCategory && newsByCategory?.length > 0) ||
+      (newsByDate && newsByDate?.length > 0)
     ) {
-      dispatch(resetOtherRequests());
+      resetPreviousRequest();
       await dispatch(fetchPopularNews('1'));
     }
   };

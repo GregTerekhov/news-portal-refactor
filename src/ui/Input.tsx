@@ -2,16 +2,15 @@ import React, { ReactNode, FC, useState } from 'react';
 import SvgIcon from './SvgIcon';
 import { useLocation } from 'react-router-dom';
 import useHeaderStyles from 'hooks/useHeaderStyles';
-import { useWindowWidth } from 'hooks/useWindowWidth';
-import { useActiveLinks } from 'hooks';
+import { useActiveLinks, useWindowWidth } from 'hooks';
 
-type InputCollectedData = {
+interface InputCollectedData {
   name: string;
   type: string;
   placeholder: string;
   value: string;
   children: ReactNode;
-};
+}
 
 enum V {
   Header = 'header',
@@ -70,7 +69,7 @@ const Input: FC<Partial<InputProps>> = (props) => {
   let placeholderColor: string = '';
 
   if (variant === V.Header) {
-    inputGeometry = `md:w-[213px] lg:w-72 md:py-[5px] md:pl-11 md:pr-3 transition-transform transition-[width] ${
+    inputGeometry = `md:w-48 lg:w-72 md:py-[5px] md:pl-11 md:pr-3 transition-transform transition-[width] ${
       breakpointsForMarkup?.isMobile || breakpointsForMarkup?.isNothing
         ? touched
           ? 'translate-x-0 w-[173px] py-[5px] pl-11 pr-3'

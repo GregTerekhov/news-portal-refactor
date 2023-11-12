@@ -1,22 +1,18 @@
 import React, { useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { MATERIALS_TYPES } from 'constants';
-import { useActiveLinks, useAdditionalRequest, useFilterNews } from 'hooks';
+import { useActiveLinks, useAdditionalRequest, useFilterNews, useNewsDBCollector } from 'hooks';
 import { SvgIcon } from 'ui';
 import SearchBlock from './SearchBlock';
 import Accordeon from './Accordeon';
 import FiltersBlock from './FiltersBlock';
-import { useAppSelector } from 'redux/hooks';
-import { selectAllFavourites, selectAllReads } from 'redux/newsDatabase';
 
 const NewsFilterManager = () => {
+  const { allFavourites, allReads } = useNewsDBCollector();
   const [showDropdown, setShowDropdown] = useState<boolean>(false);
 
   const location = useLocation();
   const activeLinks = useActiveLinks(location);
-
-  const favourites = useAppSelector(selectAllFavourites);
-  const readNews = useAppSelector(selectAllReads);
 
   const {
     categoriesForDropdown,
@@ -40,8 +36,8 @@ const NewsFilterManager = () => {
   };
 
   const shouldNotShowFilters =
-    (activeLinks.isFavoriteActive && favourites && favourites?.length === 0) ||
-    (activeLinks.isReadActive && readNews && readNews?.length === 0);
+    (activeLinks.isFavoriteActive && allFavourites && allFavourites?.length === 0) ||
+    (activeLinks.isReadActive && allReads && allReads?.length === 0);
 
   return (
     <div className={`w-full ${shouldNotShowFilters && 'hidden'}`}>

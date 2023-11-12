@@ -7,18 +7,16 @@ import {
   formatKmToMetre,
   getWindStrengthScale,
 } from 'helpers';
-import { useWindowWidth } from 'hooks';
-import { useAppSelector } from 'redux/hooks';
-import { selectPosition } from 'redux/weather';
-import { WeatherData } from 'types';
+import { useWeatherCollector, useWindowWidth } from 'hooks';
 import { SvgIcon } from 'ui';
 
 const WeatherDetailsForToday = () => {
-  const weatherData: WeatherData = useAppSelector(selectPosition);
-  const { days, dateNow } = receiveCurrentDate();
+  const { currentWeather } = useWeatherCollector();
   const { breakpointsForMarkup } = useWindowWidth() ?? {
     breakpointsForMarkup: null,
   };
+  const { days, dateNow } = receiveCurrentDate();
+
   return (
     <div className='w-full h-full backface-hidden col-[1/1] rows-[1/1] flex flex-col gap-3 justify-between'>
       <div className='text-center mb-3'>
@@ -32,10 +30,10 @@ const WeatherDetailsForToday = () => {
             size={breakpointsForMarkup?.isNothing || breakpointsForMarkup?.isMobile ? 16 : 24}
             className='fill-whiteBase'
           />
-          {convertTimezone(weatherData?.timezone)} UTC
+          {convertTimezone(currentWeather?.timezone)} UTC
         </p>
         <p className='text-contrastWhite text-base md:text-medium flex gap-3 items-center justify-end'>
-          {weatherData?.main?.humidity} &#37;
+          {currentWeather?.main?.humidity} &#37;
           <SvgIcon
             svgName='icon-humidity'
             size={breakpointsForMarkup?.isNothing || breakpointsForMarkup?.isMobile ? 18 : 30}
@@ -48,10 +46,10 @@ const WeatherDetailsForToday = () => {
             size={breakpointsForMarkup?.isNothing || breakpointsForMarkup?.isMobile ? 18 : 30}
             className='fill-whiteBase'
           />
-          {hPaToMmHg(weatherData?.main?.pressure)} mm.Hg
+          {hPaToMmHg(currentWeather?.main?.pressure)} mm.Hg
         </p>
         <p className='text-contrastWhite text-base md:text-medium flex gap-3 items-center justify-end'>
-          {weatherData?.main?.pressure} &#13169;
+          {currentWeather?.main?.pressure} &#13169;
           <SvgIcon
             svgName='icon-pressure'
             size={breakpointsForMarkup?.isNothing || breakpointsForMarkup?.isMobile ? 18 : 30}
@@ -64,10 +62,10 @@ const WeatherDetailsForToday = () => {
             size={breakpointsForMarkup?.isNothing || breakpointsForMarkup?.isMobile ? 20 : 30}
             className='fill-whiteBase'
           />
-          {convertUnixTimestampToHHMM(weatherData?.sys?.sunrise)} AM
+          {convertUnixTimestampToHHMM(currentWeather?.sys?.sunrise)} AM
         </p>
         <p className='text-contrastWhite text-base md:text-medium flex gap-3 items-center justify-end'>
-          {convertUnixTimestampToHHMM(weatherData?.sys?.sunset)} PM
+          {convertUnixTimestampToHHMM(currentWeather?.sys?.sunset)} PM
           <SvgIcon
             svgName='icon-sunset'
             size={breakpointsForMarkup?.isNothing || breakpointsForMarkup?.isMobile ? 20 : 30}
@@ -80,13 +78,13 @@ const WeatherDetailsForToday = () => {
             size={breakpointsForMarkup?.isNothing || breakpointsForMarkup?.isMobile ? 20 : 30}
             className='fill-whiteBase'
           />
-          {formatKmToMetre(weatherData?.visibility)} km
+          {formatKmToMetre(currentWeather?.visibility)} km
         </p>
         <div className='flex gap-3 items-center justify-end'>
           <p className='text-contrastWhite flex flex-col text-base lg:text-medium'>
-            {weatherData?.wind?.speed} m/s{' '}
+            {currentWeather?.wind?.speed} m/s{' '}
             <span className='text-[8px]'>
-              ({getWindStrengthScale(weatherData?.wind?.speed)} on the Beaufort scale)
+              ({getWindStrengthScale(currentWeather?.wind?.speed)} on the Beaufort scale)
             </span>
           </p>
           <SvgIcon

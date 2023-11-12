@@ -1,11 +1,11 @@
 import React from 'react';
 import icons from 'assets/icons.svg';
 
-type SvgIncomingData = {
-  svgName: string;
-  size: number;
-  className: string;
-};
+interface SvgIncomingData {
+  svgName?: string | undefined;
+  size: number | undefined;
+  className: string | undefined;
+}
 
 const SvgIcon = (svgData: Partial<SvgIncomingData>) => {
   const { svgName, size, className } = svgData;

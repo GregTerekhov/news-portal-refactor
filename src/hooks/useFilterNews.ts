@@ -45,7 +45,7 @@ const useFilterNews = ({ activeLinks, setShowDropdown }: FilterHookProps) => {
   const handleFiltration = (event: React.FormEvent) => {
     event.preventDefault();
 
-    if (rebuildedNews && rebuildedNews.length > 0) {
+    if (rebuildedNews && typeof rebuildedNews !== undefined && rebuildedNews.length > 0) {
       const filteredNews = applyCrossFilters(rebuildedNews, filters);
 
       if (filteredNews) {

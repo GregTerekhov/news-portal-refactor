@@ -2,15 +2,14 @@ import React, { useEffect, useState } from 'react';
 import { SvgIcon, VoteButton } from 'ui';
 import PlugImage from './PlugImage';
 import { VotedItem } from 'types';
-import { useAppDispatch, useAppSelector } from 'redux/hooks';
+import { useAppDispatch } from 'redux/hooks';
 import { addOrUpdateVotedNews, removeFromFavourites } from 'redux/newsDatabase/newsDataBaseSlice';
 import { useLocation } from 'react-router-dom';
-import { useActiveLinks } from 'hooks';
-import { selectSavedNews } from 'redux/newsDatabase';
+import { useActiveLinks, useNewsDBCollector } from 'hooks';
 
 interface NewsItemProps {
   liveNews: Partial<VotedItem>;
-  onChange: () => void;
+  onChange: (() => void) | undefined;
   // onDelete: () => void;
 }
 
@@ -19,7 +18,7 @@ const NewsItem: React.FC<Partial<NewsItemProps>> = ({
   onChange = () => {},
   // onDelete = () => {},
 }) => {
-  const savedNews = useAppSelector(selectSavedNews);
+  const { savedNews } = useNewsDBCollector();
   const [isFavourite, setIsFavourite] = useState<boolean>(() => {
     const existingNews = savedNews?.find((news) => news.newsUrl === liveNews?.newsUrl);
     return existingNews?.isFavourite ?? false;
@@ -29,6 +28,7 @@ const NewsItem: React.FC<Partial<NewsItemProps>> = ({
     return existingNews?.hasRead ?? false;
   });
   const dispatch = useAppDispatch();
+
   const location = useLocation();
   const activeLinks = useActiveLinks(location);
 
@@ -70,7 +70,7 @@ const NewsItem: React.FC<Partial<NewsItemProps>> = ({
         console.log(
           `savedNews.length === 0 updatedDataFavour: on ${location.pathname} ${liveNews.isFavourite}`,
         );
-        dispatch(addOrUpdateVotedNews(updatedData));
+        await dispatch(addOrUpdateVotedNews(updatedData));
       } else {
         const existingNews = savedNews?.find((news) => news.newsUrl === liveNews.newsUrl);
         const savedFavourite = existingNews?.isFavourite;
@@ -84,7 +84,7 @@ const NewsItem: React.FC<Partial<NewsItemProps>> = ({
             `savedNews.length !== 0 && !existingNews, updatedDataFavour: on ${location.pathname} `,
             updatedData,
           );
-          dispatch(addOrUpdateVotedNews(updatedData));
+          await dispatch(addOrUpdateVotedNews(updatedData));
         } else {
           if (savedFavourite === false && savedRead === true) {
             setIsFavourite(true);
@@ -93,7 +93,7 @@ const NewsItem: React.FC<Partial<NewsItemProps>> = ({
             console.log(
               `savedNews.length !== 0 && existingNews.isFavourite === false, updatedDataFavour: on ${location.pathname}`,
             );
-            dispatch(addOrUpdateVotedNews(updatedData));
+            await dispatch(addOrUpdateVotedNews(updatedData));
           } else if (savedFavourite === true && savedRead === false) {
             setIsFavourite(false);
 
@@ -103,7 +103,7 @@ const NewsItem: React.FC<Partial<NewsItemProps>> = ({
               updatedData,
             );
             dispatch(removeFromFavourites(liveNews.newsUrl));
-            dispatch(addOrUpdateVotedNews(updatedData));
+            await dispatch(addOrUpdateVotedNews(updatedData));
 
             // onDelete();
           } else if (savedFavourite === true && savedRead === true) {
@@ -114,7 +114,7 @@ const NewsItem: React.FC<Partial<NewsItemProps>> = ({
               `savedNews.length !== 0 && existingNews.isFavourite === true, updatedDataFavour: on ${location.pathname}`,
             );
             dispatch(removeFromFavourites(liveNews.newsUrl));
-            dispatch(addOrUpdateVotedNews(updatedData));
+            await addOrUpdateVotedNews(updatedData);
             // onDelete();
           }
         }
@@ -122,14 +122,14 @@ const NewsItem: React.FC<Partial<NewsItemProps>> = ({
     }
   };
 
-  const handleReadNews = () => {
+  const handleReadNews = async () => {
     if (savedNews && liveNews && liveNews?.newsUrl !== undefined) {
       if (savedNews.length === 0) {
         setHasRead(true);
         onChange();
 
         const updatedData = { ...liveNews, hasRead: true, isFavourite: false };
-        dispatch(addOrUpdateVotedNews(updatedData));
+        await addOrUpdateVotedNews(updatedData);
       } else {
         const existingNews = savedNews?.find((news) => news.newsUrl === liveNews.newsUrl);
         const savedFavourite = existingNews?.isFavourite;
@@ -140,7 +140,7 @@ const NewsItem: React.FC<Partial<NewsItemProps>> = ({
           onChange();
 
           const updatedData = { ...liveNews, hasRead: true, isFavourite: false };
-          dispatch(addOrUpdateVotedNews(updatedData));
+          await dispatch(addOrUpdateVotedNews(updatedData));
         } else {
           if (savedRead === false && savedFavourite === true) {
             setHasRead(true);
@@ -151,7 +151,7 @@ const NewsItem: React.FC<Partial<NewsItemProps>> = ({
               hasRead: true,
               isFavourite: savedFavourite,
             };
-            dispatch(addOrUpdateVotedNews(updatedData));
+            await dispatch(addOrUpdateVotedNews(updatedData));
           } else if (savedRead === true) {
             return;
           }
@@ -226,8 +226,6 @@ const NewsItem: React.FC<Partial<NewsItemProps>> = ({
             </div>
           </div>
         </a>
-        // ) : (
-        //   <Loader variant='element' />
       )}
     </>
   );

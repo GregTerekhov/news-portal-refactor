@@ -3,9 +3,9 @@ import React, { FC } from 'react';
 import { useLocation } from 'react-router-dom';
 import { SkeletonEl } from 'ui';
 
-type LoaderProps = {
+interface LoaderProps {
   variant: string;
-};
+}
 
 const Loader: FC<LoaderProps> = ({ variant }) => {
   const { breakpointsForMarkup } = useWindowWidth() ?? {
