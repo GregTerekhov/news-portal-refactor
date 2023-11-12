@@ -3,7 +3,7 @@ import { useWindowWidth } from 'hooks';
 import { Dropdown, Input, PrimaryButton } from 'ui';
 import Calendar from './Calendar';
 
-type FiltersBlockProps = {
+interface FiltersBlockProps {
   filters: {
     keyword: string;
     title: string;
@@ -17,7 +17,7 @@ type FiltersBlockProps = {
   handleFiltration: (event: React.FormEvent) => void;
   handleSort: (order: string) => void;
   handleResetFilters: () => void;
-};
+}
 
 const FiltersBlock: FC<FiltersBlockProps> = ({
   filters,

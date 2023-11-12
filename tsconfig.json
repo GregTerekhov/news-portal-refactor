@@ -17,12 +17,17 @@
     "isolatedModules": true,
     "noEmit": true,
     "jsx": "react",
+    "alwaysStrict": true,
 
     /* Linting */
     "strict": true,
     "noUnusedLocals": true,
+    "allowUnreachableCode": false,
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
+    "noImplicitAny": true,
+    "exactOptionalPropertyTypes": true,
+    "noImplicitReturns": true,
 
     /*Paths to files */
     "baseUrl": "./src/",
@@ -42,6 +47,6 @@
       "ui/*": ["ui/*"]
     }
   },
-  "include": ["src"],
+  "include": ["src/**/*.*"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

@@ -2,11 +2,11 @@ import React, { ReactNode, useState } from 'react';
 import { Menu, Transition } from '@headlessui/react';
 import SvgIcon from './SvgIcon';
 
-type D = {
+interface D {
   children: ReactNode;
-  labels: string[];
+  labels: string[] | undefined;
   getResults: (value: string) => void;
-};
+}
 
 const Dropdown = ({ children, labels, getResults }: Partial<D>) => {
   const [isOpenDropdown, setIsOpenDropdown] = useState<boolean>(false);

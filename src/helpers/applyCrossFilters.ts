@@ -19,6 +19,7 @@ function applyCrossFilters(newsArray: PartialVotedNewsArray | undefined, filters
       return keywordMatch || matchesAuthor || matchesPublisher || matchesTitle || matchMaterialType;
     });
   }
+  return [];
 }
 
 export default applyCrossFilters;

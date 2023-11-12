@@ -117,4 +117,4 @@ const newsAPISlice = createSlice({
   },
 });
 export const { resetOtherRequests } = newsAPISlice.actions;
-export default newsAPISlice.reducer;
+export const newsAPIReducer = newsAPISlice.reducer;

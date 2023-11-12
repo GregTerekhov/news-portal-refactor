@@ -3,11 +3,11 @@ import { Input, PrimaryButton } from 'ui';
 import ThemeSwitcher from './ThemeSwitcher';
 import { useWindowWidth } from 'hooks';
 
-type SignInProps = {
+interface SignInProps {
   handleCheckboxChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   handleShowRecoveryInput: () => void;
   isShowRecoveryInput: boolean;
-};
+}
 
 const SignInPanel = ({
   handleCheckboxChange,

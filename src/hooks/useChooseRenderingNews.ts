@@ -1,13 +1,7 @@
 import { rebuildNewsArray } from 'helpers';
-import { selectFilters } from 'redux/filterSlice';
-import { useAppSelector } from 'redux/hooks';
-import {
-  selectByCategory,
-  selectByDate,
-  selectPopular,
-  selectSearchByKeyword,
-} from 'redux/newsAPI';
-import { selectAllFavourites, selectAllReads } from 'redux/newsDatabase';
+import useNewsAPICollector from './useNewsAPICollector';
+import useNewsDBCollector from './useNewsDBCollector';
+import useFilterCollector from './useFilterCollector';
 
 type RenderHookProps = {
   activeLinks: {
@@ -18,38 +12,36 @@ type RenderHookProps = {
 };
 
 const useChooseRenderingNews = ({ activeLinks }: RenderHookProps) => {
-  const popularData = useAppSelector(selectPopular);
-  const searchResults = useAppSelector(selectSearchByKeyword);
-  const searchByCategory = useAppSelector(selectByCategory);
-  const searchByDate = useAppSelector(selectByDate);
-  const favourites = useAppSelector(selectAllFavourites);
-  const reads = useAppSelector(selectAllReads);
-  const filteredNews = useAppSelector(selectFilters);
+  const { popularNews, newsByKeyword, newsByCategory, newsByDate } = useNewsAPICollector();
+  const { allFavourites, allReads } = useNewsDBCollector();
+  const { filteredNews } = useFilterCollector();
 
   const chooseRenderingNews = () => {
     if (filteredNews && filteredNews?.length > 0) {
+      console.log('filteredNews', filteredNews);
       return filteredNews;
-    } else if (searchResults && searchResults?.length > 0 && activeLinks?.isHomeActive) {
-      const searchByWordNews = rebuildNewsArray(searchResults);
+    } else if (newsByKeyword && newsByKeyword?.length > 0 && activeLinks?.isHomeActive) {
+      const searchByWordNews = rebuildNewsArray(newsByKeyword);
 
       return searchByWordNews || [];
-    } else if (searchByCategory && searchByCategory?.length > 0 && activeLinks?.isHomeActive) {
-      const searchByCategoryNews = rebuildNewsArray(searchByCategory);
+    } else if (newsByCategory && newsByCategory?.length > 0 && activeLinks?.isHomeActive) {
+      const searchByCategoryNews = rebuildNewsArray(newsByCategory);
 
       return searchByCategoryNews || [];
-    } else if (searchByDate && searchByDate?.length > 0 && activeLinks?.isHomeActive) {
-      const searchByDateNews = rebuildNewsArray(searchByDate);
+    } else if (newsByDate && newsByDate?.length > 0 && activeLinks?.isHomeActive) {
+      const searchByDateNews = rebuildNewsArray(newsByDate);
 
       return searchByDateNews || [];
-    } else if (popularData && popularData?.length > 0 && activeLinks?.isHomeActive) {
-      const popularNews = rebuildNewsArray(popularData);
+    } else if (popularNews && popularNews?.length > 0 && activeLinks?.isHomeActive) {
+      const popularNewsArray = rebuildNewsArray(popularNews);
 
-      return popularNews || [];
-    } else if (favourites && favourites?.length > 0 && activeLinks?.isFavoriteActive) {
-      return favourites;
-    } else if (reads && reads?.length > 0 && activeLinks?.isReadActive) {
-      return reads;
+      return popularNewsArray || [];
+    } else if (allFavourites && allFavourites?.length > 0 && activeLinks?.isFavoriteActive) {
+      return allFavourites || [];
+    } else if (allReads && allReads?.length > 0 && activeLinks?.isReadActive) {
+      return allReads || [];
     }
+    return [];
   };
 
   const rebuildedNews = chooseRenderingNews();

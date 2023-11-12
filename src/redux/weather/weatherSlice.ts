@@ -1,13 +1,13 @@
 import { SerializedError, createSlice } from '@reduxjs/toolkit';
 import { fetchWeather, fetchHourlyForecastWeather } from './weatherOperations';
-import { WeatherData } from 'types';
+import { HourlyWeatherData, WeatherData } from 'types';
 
-type WeatherState = {
+interface WeatherState {
   isLoading: boolean;
   data: WeatherData;
-  weatherByHour: any;
+  weatherByHour: HourlyWeatherData;
   hasError: SerializedError | null;
-};
+}
 
 const initialState = {
   data: {},
@@ -49,4 +49,4 @@ const weatherSlice = createSlice({
   },
 });
 
-export default weatherSlice.reducer;
+export const weatherSliceReducer = weatherSlice.reducer;

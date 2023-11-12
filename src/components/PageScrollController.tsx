@@ -1,12 +1,12 @@
-import { useWindowWidth } from 'hooks/useWindowWidth';
+import { useWindowWidth } from 'hooks';
 import React, { useEffect, useState } from 'react';
 import { SvgIcon } from 'ui';
 
-type ScrollDirection = {
+interface ScrollDirection {
   direction: string;
   position: string;
   icon: string;
-};
+}
 
 const PageScrollController = (value: ScrollDirection) => {
   const [upButtonVisibility, setUpButtonVisibility] = useState<string>('');

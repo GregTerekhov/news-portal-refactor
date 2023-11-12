@@ -3,12 +3,12 @@ import { useActiveLinks, useHeaderStyles, useWindowWidth } from 'hooks';
 import { createPortal } from 'react-dom';
 import { NavLink, useLocation, useNavigate } from 'react-router-dom';
 import { PrimaryButton, SvgIcon } from 'ui';
-import { ThemeSwitcher } from 'components';
+import ThemeSwitcher from './ThemeSwitcher';
 
-type MobileMenu = {
+interface MobileMenu {
   isOpen: boolean;
   closeMenu: () => void;
-};
+}
 
 const modalRoot = document.querySelector('#modalRoot');
 
@@ -46,6 +46,12 @@ const Menu = ({ isOpen, closeMenu }: Partial<MobileMenu>) => {
       activeLink: activeLinks.isFavoriteActive,
     },
     { path: '/read', label: 'Read', icon: 'icon-open-book', activeLink: activeLinks.isReadActive },
+    {
+      path: '/archive',
+      label: 'Archive',
+      icon: 'icon-archive',
+      activeLink: activeLinks.isArchiveActive,
+    },
   ];
 
   const shouldRenderPortal = breakpointsForMarkup?.isNothing || breakpointsForMarkup?.isMobile;
@@ -118,7 +124,7 @@ const Menu = ({ isOpen, closeMenu }: Partial<MobileMenu>) => {
           modalRoot,
         )
       ) : (
-        <ul className='flex gap-11 lg:gap-[69px]'>
+        <ul className='flex gap-5 lg:gap-[69px]'>
           {links.map((link) => (
             <li key={link.path}>
               <NavLink

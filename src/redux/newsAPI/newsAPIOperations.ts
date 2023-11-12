@@ -2,6 +2,11 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 import { ArticleNewsArray, NewsWireArray, PopularNewsArray, C } from 'types';
 
+interface Date {
+  beginDate: string | null;
+  endDate: string | null;
+}
+
 const BASE_URL = 'https://api.nytimes.com/svc';
 export const API_KEY = 'uGHJWsajhmnJg2AMcnCD9YXkamMpVOHo';
 
@@ -79,7 +84,7 @@ export const fetchNewsByCategory = createAsyncThunk<NewsWireArray, string, { rej
   },
 );
 
-export const fetchNewsByDate = createAsyncThunk<ArticleNewsArray, any, { rejectValue: any }>(
+export const fetchNewsByDate = createAsyncThunk<ArticleNewsArray, Date, { rejectValue: any }>(
   'article/fetchByDate',
   async (date, { rejectWithValue }) => {
     const { beginDate, endDate } = date;

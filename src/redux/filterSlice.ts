@@ -7,7 +7,6 @@ const filterSlice = createSlice({
   initialState: [] as PartialVotedNewsArray,
   reducers: {
     filterNews: (state, action: PayloadAction<PartialVotedNewsArray>) => {
-      // console.log(action.payload);
       state.length = 0;
       state.push(...action.payload);
     },
@@ -16,4 +15,4 @@ const filterSlice = createSlice({
 
 export const selectFilters = (state: RootState) => state.filters;
 export const { filterNews } = filterSlice.actions;
-export default filterSlice.reducer;
+export const filtersSliceReducer = filterSlice.reducer;

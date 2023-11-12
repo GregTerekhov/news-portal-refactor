@@ -1,13 +1,13 @@
 import React from 'react';
 import SvgIcon from './SvgIcon';
 
-type VBProps = {
+interface VBProps {
   buttonData: {
     id?: string;
   };
   isFavourite: boolean;
   onHandleClick: (e: React.MouseEvent) => void;
-};
+}
 
 const VoteButton = ({ onHandleClick, isFavourite, buttonData }: Partial<VBProps>) => {
   return (
@@ -24,7 +24,7 @@ const VoteButton = ({ onHandleClick, isFavourite, buttonData }: Partial<VBProps>
         className={`transition-colors duration-500 ${
           isFavourite
             ? 'stroke-none fill-accentBase'
-            : 'stroke-accentBase fill-none hover:stroke-whiteBase hover:fill-transparent'
+            : 'stroke-accentBase fill-transparent hover:stroke-none hover:fill-accentBase'
         }`}
       />
     </button>

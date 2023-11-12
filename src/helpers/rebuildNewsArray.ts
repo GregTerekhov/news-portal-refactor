@@ -76,6 +76,7 @@ function rebuildNewsArray(
 
     return modifiedNewsResults;
   }
+  return [];
 }
 
 export default rebuildNewsArray;

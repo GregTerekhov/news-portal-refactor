@@ -1,18 +1,26 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
+import { AppDispatch, RootState } from 'redux/store';
 import { HourlyWeatherData, WeatherData } from 'types';
 
 const BASE_URL = 'https://api.openweathermap.org';
 const API_KEY = `50fae40a64fcd40464e14d0d20ee5d02`;
 
-type Position = {
+interface Position {
   latitude: number;
   longitude: number;
-};
+}
 
-export const fetchWeather = createAsyncThunk(
+const createAppAsyncThunk = createAsyncThunk.withTypes<{
+  state: RootState;
+  dispatch: AppDispatch;
+  rejectValue: string;
+  extra: { s: string; n: number };
+}>();
+
+export const fetchWeather = createAppAsyncThunk<WeatherData, Position>(
   `weather/fetch`,
-  async (position: Position, { rejectWithValue }) => {
+  async (position, { rejectWithValue }) => {
     const { latitude, longitude } = position;
     try {
       const response = await axios.get(
@@ -21,12 +29,12 @@ export const fetchWeather = createAsyncThunk(
       // console.log(response.data);
       return response.data as WeatherData;
     } catch (error: any) {
-      return rejectWithValue(error.response.data);
+      return rejectWithValue(error.message);
     }
   },
 );
 
-export const fetchHourlyForecastWeather = createAsyncThunk(
+export const fetchHourlyForecastWeather = createAppAsyncThunk(
   `weather/hourlyForecast`,
   async (position: Position, { rejectWithValue }) => {
     const { latitude, longitude } = position;

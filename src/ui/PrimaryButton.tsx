@@ -19,21 +19,21 @@ enum PB {
 
 interface PBProps {
   buttonData: PrimaryButtCommon;
-  onHandleClick: ClickHandler;
+  onHandleClick: ClickHandler | undefined;
   variant: string;
   children?: ReactNode;
-  hasIcon: boolean;
+  hasIcon?: boolean;
   svgName: string;
   svgSize: number;
-  width?: string;
   classNameIcon: string;
+  width?: string;
   classNameButton?: string;
   id?: string;
   ariaLabel?: string;
 }
 
 const PrimaryButton: React.FC<Partial<PBProps>> = (props) => {
-  const { type } = props.buttonData || { type: 'button' };
+  const { type } = props.buttonData ?? { type: 'button' };
   const onHandleClick = props.onHandleClick;
   const variant = props.variant;
   const children = props.children;

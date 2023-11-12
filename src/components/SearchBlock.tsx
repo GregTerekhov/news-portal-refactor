@@ -3,13 +3,13 @@ import { Dropdown, PrimaryButton } from 'ui';
 import Calendar from './Calendar';
 import { useWindowWidth } from 'hooks';
 
-type SearchBlockProps = {
+interface SearchBlockProps {
   showPopularNews: boolean;
   categoriesList: string[] | undefined;
   getNewsByCategory: (section: string) => Promise<void>;
   getNewsByPeriod: (period: string) => Promise<void>;
   handleResetRequests: () => void;
-};
+}
 
 const SearchBlock: FC<SearchBlockProps> = ({
   showPopularNews,

@@ -1,20 +1,17 @@
 import { convertUnixTimestampToHHMM } from 'helpers';
-import { useWindowWidth } from 'hooks';
+import { useWeatherCollector, useWindowWidth } from 'hooks';
 import React from 'react';
-import { useAppSelector } from 'redux/hooks';
-import { selectWeatherByHours } from 'redux/weather';
 import { HourlyWeatherData } from 'types';
 import { SvgIcon } from 'ui';
 
 const WeatherDetailsForHours = () => {
-  const weatherByHours: HourlyWeatherData | [] = useAppSelector(selectWeatherByHours);
+  const { hourlyWeather } = useWeatherCollector();
   const { breakpointsForMarkup } = useWindowWidth() ?? {
     breakpointsForMarkup: null,
   };
   return (
     <div
       className={`w-full h-full backface-hidden flex bg-accentBase duration-500 ease-in rotate-y-180 col-[1/1] rows-[1/1]`}
-      // onClick={weatherSlideChange}
     >
       <table className='bg-accentBase min-w-full h-full border border-separate border-transparent'>
         <thead className='h-10'>
@@ -26,9 +23,9 @@ const WeatherDetailsForHours = () => {
                 className='fill-whiteBase'
               />
             </th>
-            {weatherByHours &&
-              Array.isArray(weatherByHours) &&
-              weatherByHours?.map((item: HourlyWeatherData) => {
+            {hourlyWeather &&
+              Array.isArray(hourlyWeather) &&
+              hourlyWeather?.map((item: HourlyWeatherData) => {
                 const convertedTime = convertUnixTimestampToHHMM(item?.dt);
                 return (
                   <th
@@ -51,9 +48,9 @@ const WeatherDetailsForHours = () => {
                 className='fill-whiteBase'
               />
             </th>
-            {weatherByHours &&
-              Array.isArray(weatherByHours) &&
-              weatherByHours?.map((item: HourlyWeatherData) => {
+            {hourlyWeather &&
+              Array.isArray(hourlyWeather) &&
+              hourlyWeather?.map((item: HourlyWeatherData) => {
                 return (
                   <td
                     key={item?.dt}
@@ -72,9 +69,9 @@ const WeatherDetailsForHours = () => {
                 className='stroke-whiteBase fill-transparent'
               />
             </th>
-            {weatherByHours &&
-              Array.isArray(weatherByHours) &&
-              weatherByHours?.map((item: HourlyWeatherData) => {
+            {hourlyWeather &&
+              Array.isArray(hourlyWeather) &&
+              hourlyWeather?.map((item: HourlyWeatherData) => {
                 return (
                   <td key={item?.dt} className='h-[35px]'>
                     <img
@@ -94,9 +91,9 @@ const WeatherDetailsForHours = () => {
                 className='fill-whiteBase'
               />
             </th>
-            {weatherByHours &&
-              Array.isArray(weatherByHours) &&
-              weatherByHours?.map((item: HourlyWeatherData) => {
+            {hourlyWeather &&
+              Array.isArray(hourlyWeather) &&
+              hourlyWeather?.map((item: HourlyWeatherData) => {
                 return (
                   <td
                     key={item?.dt}
@@ -116,9 +113,9 @@ const WeatherDetailsForHours = () => {
                 className='fill-whiteBase'
               />
             </th>
-            {weatherByHours &&
-              Array.isArray(weatherByHours) &&
-              weatherByHours?.map((item: HourlyWeatherData) => {
+            {hourlyWeather &&
+              Array.isArray(hourlyWeather) &&
+              hourlyWeather?.map((item: HourlyWeatherData) => {
                 return (
                   <td
                     key={item?.dt}
@@ -137,9 +134,9 @@ const WeatherDetailsForHours = () => {
                 className='fill-whiteBase'
               />
             </th>
-            {weatherByHours &&
-              Array.isArray(weatherByHours) &&
-              weatherByHours?.map((item: HourlyWeatherData) => {
+            {hourlyWeather &&
+              Array.isArray(hourlyWeather) &&
+              hourlyWeather?.map((item: HourlyWeatherData) => {
                 return (
                   <td
                     key={item?.dt}

@@ -132,4 +132,4 @@ const newsDBSlice = createSlice({
 });
 
 export const { addOrUpdateVotedNews, removeFromFavourites, clearVotedNews } = newsDBSlice.actions;
-export default newsDBSlice.reducer;
+export const newsDBReducer = newsDBSlice.reducer;

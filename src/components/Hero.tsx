@@ -2,7 +2,7 @@ import React from 'react';
 
 const Hero = () => {
   return (
-    <div className='w-full h-screen flex items-center justify-center -mt-[81px] md:-mt-[106px] lg:-mt-[113px]'>
+    <div className='w-screen h-screen flex items-center justify-center -mt-[81px] md:-mt-[106px] lg:-mt-[113px]'>
       <iframe
         width='100%'
         height='100%'

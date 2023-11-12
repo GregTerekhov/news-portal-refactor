@@ -12,31 +12,33 @@ const Auth = () => {
   const isLoggedIn = true;
 
   return (
-    <div className='flex items-center justify-center'>
-      <PrimaryButton
-        id={breakpointsForMarkup?.isDesktop ? 'Auth button for signin and signout' : ''}
-        ariaLabel={!breakpointsForMarkup?.isDesktop ? 'Auth button for signin and signout' : ''}
-        variant={`${breakpointsForMarkup?.isDesktop ? 'Primary' : 'Small'}`}
-        onHandleClick={!isLoggedIn ? (toggleModal as ClickHandler) : undefined}
-        hasIcon={true}
-        svgName={`${isLoggedIn ? 'icon-signout' : 'icon-auth'}`}
-        svgSize={breakpointsForMarkup?.isDesktop ? 28 : 24}
-        classNameIcon='fill-whiteBase'
-        classNameButton={`${
-          breakpointsForMarkup?.isDesktop
-            ? ''
-            : 'border-transparent dark:border-whiteBase bg-accentBase hover:bg-accentAlt transition-colors duration-500 p-1.5'
-        }`}
-      >
-        {breakpointsForMarkup?.isDesktop ? (isLoggedIn ? 'Sign Out' : 'Auth') : null}
-      </PrimaryButton>
-
+    <>
+      <div className='flex items-center justify-center'>
+        <PrimaryButton
+          id={breakpointsForMarkup?.isDesktop ? 'Auth button for signin and signout' : ''}
+          ariaLabel={!breakpointsForMarkup?.isDesktop ? 'Auth button for signin and signout' : ''}
+          variant={`${breakpointsForMarkup?.isDesktop ? 'Primary' : 'Small'}`}
+          onHandleClick={!isLoggedIn ? (toggleModal as ClickHandler) : undefined}
+          hasIcon={true}
+          svgName={`${isLoggedIn ? 'icon-signout' : 'icon-auth'}`}
+          svgSize={breakpointsForMarkup?.isDesktop ? 28 : 24}
+          classNameIcon='fill-whiteBase'
+          classNameButton={`${
+            breakpointsForMarkup?.isDesktop
+              ? ''
+              : 'border-transparent dark:border-whiteBase bg-accentBase hover:bg-accentAlt transition-colors duration-500 p-1.5'
+          }`}
+        >
+          {breakpointsForMarkup?.isDesktop ? (isLoggedIn ? 'Sign Out' : 'Auth') : null}
+          <span></span>
+        </PrimaryButton>
+      </div>
       {isOpenModal && (
         <Modal closeModal={toggleModal} modalRef={popUpRef} variant='auth'>
           <AuthModal />
         </Modal>
       )}
-    </div>
+    </>
   );
 };
 

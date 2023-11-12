@@ -1,25 +1,20 @@
 import { Accordeon, Loader, NewsList, PlugImage } from 'components';
+import { useNewsDBCollector } from 'hooks';
 import React, { useEffect, useLayoutEffect, useState } from 'react';
-import { useAppDispatch, useAppSelector } from 'redux/hooks';
-import {
-  addNews,
-  fetchRead,
-  selectSavedNews,
-  selectAllReads,
-  selectLoading,
-} from 'redux/newsDatabase';
+import { useAppDispatch } from 'redux/hooks';
+import { addNews } from 'redux/newsDatabase';
 // import { saveUnsavedChanges } from 'redux/newsDatabase/newsDataBaseSlice';
 
 const ReadPage = () => {
   const [changesHappened, setChangesHappened] = useState<boolean>(false);
+
+  const { allReads, isLoadingDBData, savedNews, getReads } = useNewsDBCollector();
+
   const dispatch = useAppDispatch();
-  const readNews = useAppSelector(selectAllReads);
-  const isLoading = useAppSelector(selectLoading);
-  const savedNews = useAppSelector(selectSavedNews);
 
   useEffect(() => {
-    dispatch(fetchRead());
-  }, [dispatch]);
+    getReads();
+  }, []);
 
   useLayoutEffect(() => {
     if (changesHappened && savedNews) {
@@ -33,7 +28,7 @@ const ReadPage = () => {
     setChangesHappened(true);
   };
 
-  const publishedDate = readNews
+  const publishedDate = allReads
     .map((news) => news.publishDate)
     .filter((date) => date !== undefined) as string[];
 
@@ -43,8 +38,8 @@ const ReadPage = () => {
   // Перетворення і сортування дат
   const sortedDates = Array.from(uniqueDatesSet).sort().reverse();
 
-  const shouldShowLoader = isLoading;
-  const shouldShowAccordeon = !isLoading && readNews && readNews?.length !== 0;
+  const shouldShowLoader = isLoadingDBData;
+  const shouldShowAccordeon = !isLoadingDBData && allReads && allReads?.length !== 0;
 
   return (
     <>
@@ -55,7 +50,7 @@ const ReadPage = () => {
             <Accordeon key={date} publishedDate={date} position='readPage'>
               <NewsList
                 onChange={handleChangeVotes}
-                currentItems={readNews?.filter(
+                currentItems={allReads?.filter(
                   (news) => news?.publishDate !== undefined && news?.publishDate === date,
                 )}
               />
@@ -63,7 +58,7 @@ const ReadPage = () => {
           ))}
         </div>
       )}
-      {!shouldShowLoader && !shouldShowAccordeon && readNews?.length === 0 && (
+      {!shouldShowLoader && !shouldShowAccordeon && allReads?.length === 0 && (
         <PlugImage variant='page' />
       )}
     </>

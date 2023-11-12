@@ -1,4 +1,6 @@
-export type PopularNewsItem = {
+type VotedPartial<T> = { [P in keyof T]?: T[P] };
+
+export interface PopularNewsItem {
   abstract?: string;
   byline?: string;
   media: {
@@ -13,9 +15,9 @@ export type PopularNewsItem = {
   title: string;
   type: string;
   url: string;
-};
+}
 
-export type ArticleNewsItem = {
+export interface ArticleNewsItem {
   abstract?: string;
   byline?: {
     original?: string;
@@ -32,9 +34,9 @@ export type ArticleNewsItem = {
   };
   web_url: string;
   type_of_material: string;
-};
+}
 
-export type NewsWireItem = {
+export interface NewsWireItem {
   section: string;
   title: string;
   abstract: string;
@@ -47,29 +49,29 @@ export type NewsWireItem = {
     url?: string;
   }[];
   material_type_facet: string;
-};
+}
 
-export type C = {
+export interface C {
   display_name: string;
-};
+}
 
-export type VotedItem = {
+export interface VotedItem {
   title: string;
   description?: string;
-  isFavourite: boolean;
-  hasRead: boolean;
+  isFavourite: boolean | undefined; // тимчасово для уникнення помилки типів в синхронній дії addOrUpdateVotedNews
+  hasRead: boolean | undefined; // так само як описано вище
   publishDate: string;
   edition?: string;
-  author?: string;
+  author?: string | undefined;
   category: string;
   imgLink?: string;
   imgAlt?: string;
   newsUrl: string;
   materialType?: string;
-};
+}
 
 export type VotedNewsArray = VotedItem[];
-export type PartialVotedNewsArray = Partial<VotedItem>[];
+export type PartialVotedNewsArray = VotedPartial<VotedItem>[];
 export type PopularNewsArray = PopularNewsItem[];
 export type PartialPopularNewsArray = Partial<PopularNewsItem>[];
 export type ArticleNewsArray = ArticleNewsItem[];
