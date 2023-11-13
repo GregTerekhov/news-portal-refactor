@@ -14,7 +14,7 @@ interface InputCollectedData {
 
 enum V {
   Header = 'header',
-  SearchBlock = 'searchBlock',
+  FilterServiceBlock = 'filterServiceBlock',
   Checkbox = 'checkbox',
   Auth = 'auth',
 }
@@ -82,7 +82,7 @@ const Input: FC<Partial<InputProps>> = (props) => {
     caretColor = inputClass.caretColor;
     textColor = inputClass.textColor;
     placeholderColor = inputClass.placeholderColor;
-  } else if (variant === V.SearchBlock) {
+  } else if (variant === V.FilterServiceBlock) {
     inputGeometry = 'w-full py-2 pl-11 pr-3';
     inputBorder = 'border-accentBase dark:border-whiteBase';
     inputBg = 'bg-whiteBase';
@@ -108,11 +108,11 @@ const Input: FC<Partial<InputProps>> = (props) => {
         labelCheckbox ? 'flex-row cursor-pointer items-center' : 'flex-col'
       } ${className}`}
     >
-      {variant === V.SearchBlock && (
+      {variant === V.FilterServiceBlock ? (
         <p className='text-darkBase dark:text-whiteBase mb-2 text-base'>
-          Filter by <span className='capitalize'>{name}:</span>
+          {name === 'query' ? 'Search' : 'Filter'} by <span className='capitalize'>{name}:</span>
         </p>
-      )}
+      ) : null}
       {variant === V.Auth && (
         <>
           <span className={`${!hasIcon && 'mb-1.5 block'} text-accentBase font-medium`}>
@@ -134,7 +134,7 @@ const Input: FC<Partial<InputProps>> = (props) => {
         </>
       )}
       <div
-        className={`${variant === V.SearchBlock ? 'relative' : ''} ${
+        className={`${variant === V.FilterServiceBlock ? 'relative' : ''} ${
           variant === V.Checkbox
             ? `flex items-center justify-center w-6 h-6 sm:w-4 sm:h-4 rounded-sm cursor-pointer ${
                 isChecked

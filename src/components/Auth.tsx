@@ -30,7 +30,6 @@ const Auth = () => {
           }`}
         >
           {breakpointsForMarkup?.isDesktop ? (isLoggedIn ? 'Sign Out' : 'Auth') : null}
-          <span></span>
         </PrimaryButton>
       </div>
       {isOpenModal && (

@@ -44,7 +44,7 @@ const FiltersBlock: FC<FiltersBlockProps> = ({
           }}
           hasIcon={true}
           onChange={(event: React.ChangeEvent<HTMLInputElement>) => handleChangeFilter(event)}
-          variant='searchBlock'
+          variant='filterServiceBlock'
         />
       </div>
       <div className='md:col-span-3 lg:col-span-4'>
@@ -56,7 +56,7 @@ const FiltersBlock: FC<FiltersBlockProps> = ({
             placeholder: 'Author',
           }}
           hasIcon={true}
-          variant='searchBlock'
+          variant='filterServiceBlock'
           onChange={(event: React.ChangeEvent<HTMLInputElement>) => handleChangeFilter(event)}
         />
       </div>
@@ -69,7 +69,7 @@ const FiltersBlock: FC<FiltersBlockProps> = ({
             placeholder: 'Title',
           }}
           hasIcon={true}
-          variant='searchBlock'
+          variant='filterServiceBlock'
           onChange={(event: React.ChangeEvent<HTMLInputElement>) => handleChangeFilter(event)}
         />
       </div>
@@ -82,7 +82,7 @@ const FiltersBlock: FC<FiltersBlockProps> = ({
             placeholder: 'Publisher',
           }}
           hasIcon={true}
-          variant='searchBlock'
+          variant='filterServiceBlock'
           onChange={(event: React.ChangeEvent<HTMLInputElement>) => handleChangeFilter(event)}
         />
       </div>
@@ -103,7 +103,7 @@ const FiltersBlock: FC<FiltersBlockProps> = ({
               variant='Primary'
               onHandleClick={handleFiltration}
             >
-              Submit
+              Apply
             </PrimaryButton>
             <PrimaryButton
               aria-label='Ascending sort button'
@@ -150,7 +150,7 @@ const FiltersBlock: FC<FiltersBlockProps> = ({
               variant='Primary'
               onHandleClick={handleFiltration}
             >
-              Submit
+              Apply
             </PrimaryButton>
           </div>
           <div className='md:col-span-3 md:flex md:items-center lg:items-end lg:col-span-2'>

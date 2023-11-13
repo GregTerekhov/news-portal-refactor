@@ -25,7 +25,8 @@ const Dropdown = ({ children, labels, getResults }: Partial<D>) => {
       {({ open }) => (
         <>
           <p className='text-darkBase dark:text-whiteBase mb-2 text-base'>
-            Search {children === 'Time period' ? 'for popular news' : ''} by{' '}
+            {children === 'Type' ? 'Filter' : 'Search'}{' '}
+            {children === 'Time period' ? 'for popular' : ''} by{' '}
             <span className='capitalize'>{children}</span>:
           </p>
           <Menu.Button

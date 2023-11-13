@@ -1,21 +1,23 @@
 import React, { useState } from 'react';
 import { Input, Modal, SvgIcon } from 'ui';
 import { Menu, ThemeSwitcher, Auth, AuthModal } from 'components';
-import { useActiveLinks, useHeaderStyles, usePopUp, useWindowWidth } from 'hooks';
+import {
+  useActiveLinks,
+  useAdditionalRequest,
+  useHeaderStyles,
+  usePopUp,
+  useWindowWidth,
+} from 'hooks';
 import { useLocation } from 'react-router-dom';
-import { useAppDispatch } from 'redux/hooks';
-import { fetchNewsByKeyword } from 'redux/newsAPI';
-import { resetOtherRequests } from 'redux/newsAPI/newsAPISlice';
 
 const Header = () => {
+  const { query, onChangeInput, onHandleSearch } = useAdditionalRequest();
   const { isOpenMenu, isOpenModal, toggleMenu, toggleModal, popUpRef } = usePopUp();
   const { breakpointsForMarkup } = useWindowWidth() ?? {
     breakpointsForMarkup: null,
   };
   const [touched, setTouched] = useState<boolean>(false);
-  const [query, setQuery] = useState<string>('');
 
-  const dispatch = useAppDispatch();
   const location = useLocation();
   const activeLinks = useActiveLinks(location);
 
@@ -25,25 +27,8 @@ const Header = () => {
   const isLoggedIn = true;
   const isNotMobile = breakpointsForMarkup?.isTablet || breakpointsForMarkup?.isDesktop;
 
-  const onChangeInput = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { value } = event.target;
-    setQuery(value.toLowerCase());
-  };
-
-  const onHandleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-
-    if (query) {
-      dispatch(resetOtherRequests());
-      dispatch(fetchNewsByKeyword(query));
-      setQuery('');
-    }
-  };
-
   const handleVisibilityChange = () => {
-    if (breakpointsForMarkup?.isNothing || breakpointsForMarkup?.isMobile) {
-      setTouched(!touched);
-    }
+    setTouched(!touched);
   };
 
   return (
@@ -78,42 +63,44 @@ const Header = () => {
           {isLoggedIn ? (
             <>
               <div className='flex items-center gap-3.5 lg:gap-12'>
-                {!isOpenMenu && activeLinks.isHomeActive ? (
-                  <form onSubmit={(e) => onHandleSubmit(e)} className='max-md:overflow-hidden'>
-                    <Input
-                      inputData={{
-                        name: 'query',
-                        type: 'text',
-                        value: query,
-                        placeholder: 'Search |',
-                      }}
-                      hasIcon={true}
-                      variant='header'
-                      hideInput={handleVisibilityChange}
-                      onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-                        onChangeInput(event)
-                      }
-                      touched={touched}
-                    />
-                  </form>
-                ) : null}
                 {breakpointsForMarkup?.isNothing || breakpointsForMarkup?.isMobile ? (
-                  <button
-                    aria-label={`${!isOpenMenu ? 'Open' : 'Close'} mobile menu button`}
-                    type='button'
-                    className='w-6 h-6 md:hidden'
-                    onClick={toggleMenu}
-                  >
-                    <SvgIcon
-                      svgName={`${isOpenMenu ? 'icon-close' : 'icon-burger-menu'}`}
-                      size={24}
-                      className={`${
-                        !isOpenMenu && activeLinks.isHomeActive
-                          ? burgerMenuButtonClass
-                          : 'stroke-darkBase dark:stroke-whiteBase'
-                      }`}
-                    />
-                  </button>
+                  <>
+                    {!isOpenMenu && activeLinks.isHomeActive ? (
+                      <form onSubmit={(e) => onHandleSearch(e)} className='max-md:overflow-hidden'>
+                        <Input
+                          inputData={{
+                            name: 'query',
+                            type: 'text',
+                            value: query,
+                            placeholder: 'Search |',
+                          }}
+                          hasIcon={true}
+                          variant='header'
+                          hideInput={handleVisibilityChange}
+                          onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
+                            onChangeInput(event)
+                          }
+                          touched={touched}
+                        />
+                      </form>
+                    ) : null}
+                    <button
+                      aria-label={`${!isOpenMenu ? 'Open' : 'Close'} mobile menu button`}
+                      type='button'
+                      className='w-6 h-6 md:hidden'
+                      onClick={toggleMenu}
+                    >
+                      <SvgIcon
+                        svgName={`${isOpenMenu ? 'icon-close' : 'icon-burger-menu'}`}
+                        size={24}
+                        className={`${
+                          !isOpenMenu && activeLinks.isHomeActive
+                            ? burgerMenuButtonClass
+                            : 'stroke-darkBase dark:stroke-whiteBase'
+                        }`}
+                      />
+                    </button>
+                  </>
                 ) : (
                   <div className='flex flex-col gap-3'>
                     <Auth />

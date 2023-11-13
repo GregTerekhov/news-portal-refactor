@@ -16,7 +16,9 @@ const Layout = () => {
 
   const shouldShowPageScrollController =
     (activeLinks.isHomeActive && breakpointsForMarkup?.isTablet) ||
-    (activeLinks.isHomeActive && breakpointsForMarkup?.isDesktop);
+    (activeLinks.isHomeActive && breakpointsForMarkup?.isDesktop) ||
+    (activeLinks.isArchiveActive && breakpointsForMarkup?.isTablet) ||
+    (activeLinks.isArchiveActive && breakpointsForMarkup?.isDesktop);
 
   return (
     <>
@@ -25,9 +27,7 @@ const Layout = () => {
         {activeLinks.isHomeActive && <Hero />}
         <section
           className={`w-full bg-whiteBase dark:bg-darkBackground transition-colors duration-500 h-full ${
-            activeLinks.isFavoriteActive || activeLinks.isReadActive
-              ? 'pt-10 md:pt-12 lg:pt-[60px]'
-              : 'pt-6 md:pt-7'
+            !activeLinks.isHomeActive ? 'pt-10 md:pt-12 lg:pt-[60px]' : 'pt-6 md:pt-7'
           } pb-[60px] md:pb-[100px] lg:pb-[150px]`}
         >
           <div className='container mx-auto px-4 hg:px-[65px]'>

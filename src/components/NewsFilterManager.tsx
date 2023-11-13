@@ -15,8 +15,11 @@ const NewsFilterManager = () => {
   const activeLinks = useActiveLinks(location);
 
   const {
+    query,
     categoriesForDropdown,
     showPopular,
+    onChangeInput,
+    onHandleSearch,
     getNewsByCategory,
     getNewsByPeriod,
     handleResetRequests,
@@ -62,8 +65,11 @@ const NewsFilterManager = () => {
             <>
               <Accordeon position='filtersService' filtersBlock='Additional requests'>
                 <SearchBlock
+                  inputQuery={query}
                   showPopularNews={showPopular}
                   categoriesList={categoriesForDropdown}
+                  handleInputChange={onChangeInput}
+                  handleSearch={onHandleSearch}
                   getNewsByCategory={(section: string) => getNewsByCategory(section)}
                   getNewsByPeriod={(period: string) => getNewsByPeriod(period)}
                   handleResetRequests={handleResetRequests}
