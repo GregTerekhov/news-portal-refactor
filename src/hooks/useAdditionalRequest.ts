@@ -1,9 +1,10 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useAppDispatch } from 'redux/hooks';
-import { fetchNewsByCategory, fetchPopularNews } from 'redux/newsAPI';
+import { fetchNewsByCategory, fetchNewsByKeyword, fetchPopularNews } from 'redux/newsAPI';
 import { useNewsAPICollector } from '.';
 
 const useAdditionalRequest = () => {
+  const [query, setQuery] = useState<string>('');
   const dispatch = useAppDispatch();
   const {
     popularNews,
@@ -34,6 +35,21 @@ const useAdditionalRequest = () => {
   };
 
   const categoriesForDropdown = getCategoriesList();
+
+  const onChangeInput = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { value } = event.target;
+    setQuery(value.toLowerCase());
+  };
+
+  const onHandleSearch = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    if (query) {
+      resetPreviousRequest();
+      dispatch(fetchNewsByKeyword(query));
+      setQuery('');
+    }
+  };
 
   const getNewsByCategory = async (section: string) => {
     if (section) {
@@ -66,8 +82,11 @@ const useAdditionalRequest = () => {
   };
 
   return {
+    query,
     categoriesForDropdown,
     showPopular,
+    onChangeInput,
+    onHandleSearch,
     getNewsByCategory,
     getNewsByPeriod,
     handleResetRequests,

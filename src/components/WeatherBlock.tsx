@@ -46,14 +46,16 @@ const WeatherBlock = () => {
           <>
             <div className='bg-accentBase w-full h-full hg:w-[442px] py-8 px-3.5 md:pt-10 md:px-8 lg:px-[53px]'>
               <div
-                className='flex gap-6 items-center mx-auto cursor-pointer'
+                className='flex justify-between gap-5 items-center mx-auto cursor-pointer'
                 onClick={toggleTemperatureScale}
               >
-                <p className='relative font-weather text-monstrous md:text-[64px] text-contrastWhite after:content-[""] after:h-full after:absolute after:w-px after:-right-2 after:top-0 after:bg-white'>
-                  {isCelsius
-                    ? Math.round(currentWeather?.main?.temp) + '\u00b0'
-                    : Math.round((currentWeather?.main?.temp * 9) / 5 + 32) + '\u00b0'}
-                </p>
+                <div className='relative w-[83px] md:w-[96px] after:content-[""] after:h-full after:absolute after:w-px after:-right-2 after:top-0 after:bg-white text-center'>
+                  <p className='w-full font-weather text-monstrous md:text-[64px] text-contrastWhite'>
+                    {isCelsius
+                      ? Math.round(currentWeather?.main?.temp) + '\u00b0'
+                      : Math.round((currentWeather?.main?.temp * 9) / 5 + 32) + '\u00b0'}
+                  </p>
+                </div>
                 <div>
                   {currentWeather?.weather && currentWeather?.weather[0]?.main && (
                     <p className='font-weather text-3xl md:text-4.5xl text-contrastWhite'>

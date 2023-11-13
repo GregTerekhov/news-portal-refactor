@@ -128,6 +128,7 @@ export default {
         'accordion-up': 'accordion-up 0.2s ease-out',
       },
       gridTemplateColumns: {
+        13: 'repeat(13, minmax(0, 1fr))',
         16: 'repeat(16, minmax(0, 1fr))',
       },
     },

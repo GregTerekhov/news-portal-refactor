@@ -1,4 +1,4 @@
-import { convertUnixTimestampToHHMM } from 'helpers';
+import { convertUnixTimestampToHHMM, hPaToMmHg } from 'helpers';
 import { useWeatherCollector, useWindowWidth } from 'hooks';
 import React from 'react';
 import { HourlyWeatherData } from 'types';
@@ -9,6 +9,7 @@ const WeatherDetailsForHours = () => {
   const { breakpointsForMarkup } = useWindowWidth() ?? {
     breakpointsForMarkup: null,
   };
+
   return (
     <div
       className={`w-full h-full backface-hidden flex bg-accentBase duration-500 ease-in rotate-y-180 col-[1/1] rows-[1/1]`}
@@ -104,7 +105,6 @@ const WeatherDetailsForHours = () => {
                 );
               })}
           </tr>
-
           <tr>
             <th scope='row' className='w-10 pr-2'>
               <SvgIcon
@@ -113,6 +113,7 @@ const WeatherDetailsForHours = () => {
                 className='fill-whiteBase'
               />
             </th>
+
             {hourlyWeather &&
               Array.isArray(hourlyWeather) &&
               hourlyWeather?.map((item: HourlyWeatherData) => {
@@ -121,7 +122,7 @@ const WeatherDetailsForHours = () => {
                     key={item?.dt}
                     className='py-1.5 md:py-4 text-small md:text-base text-whiteBase text-center'
                   >
-                    {item?.main?.pressure}
+                    {hPaToMmHg(item?.main?.pressure)}
                   </td>
                 );
               })}

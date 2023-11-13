@@ -62,18 +62,18 @@ const Calendar: React.FC<CalendarProps> = ({ variant }) => {
           setSelectedDate(newSelectedDate);
           dispatch(resetOtherRequests());
           await dispatch(fetchNewsByDate(newSelectedDate));
-        } else if (rebuildedNews) {
+        } else if (rebuildedNews && rebuildedNews?.length > 0) {
           const filteredData = rebuildedNews
             ?.filter((news) => {
-              if (news?.publishDate && newSelectedDate) {
+              if (news?.publishDate && selectedDate) {
                 console.log('filter');
                 const newsDate = parse(news?.publishDate, 'dd/MM/yyyy', new Date());
-                if (newSelectedDate.beginDate !== null && newSelectedDate.endDate !== null) {
+                if (selectedDate.beginDate !== null && selectedDate.endDate !== null) {
                   return (
-                    isSameDay(newsDate, parse(newSelectedDate.beginDate, 'yyyyMMdd', new Date())) ||
-                    isSameDay(newsDate, parse(newSelectedDate.endDate, 'yyyyMMdd', new Date())) ||
-                    (isAfter(newsDate, parse(newSelectedDate.beginDate, 'yyyyMMdd', new Date())) &&
-                      isBefore(date, parse(newSelectedDate.endDate, 'yyyyMMdd', new Date())))
+                    isSameDay(newsDate, parse(selectedDate.beginDate, 'yyyyMMdd', new Date())) ||
+                    isSameDay(newsDate, parse(selectedDate.endDate, 'yyyyMMdd', new Date())) ||
+                    (isAfter(newsDate, parse(selectedDate.beginDate, 'yyyyMMdd', new Date())) &&
+                      isBefore(date, parse(selectedDate.endDate, 'yyyyMMdd', new Date())))
                   );
                 }
               }
@@ -91,7 +91,7 @@ const Calendar: React.FC<CalendarProps> = ({ variant }) => {
   return (
     <div ref={popUpRef} className={`relative ${activeLinks.isReadActive ? null : 'col-span-4'}`}>
       <p className='text-darkBase dark:text-whiteBase mb-2 text-base'>
-        Search by Date or Date Period:
+        {variant === 'SearchBlock' ? 'Search' : 'Filter'} by Date or Date Period:
       </p>
       <button
         id='Toggle calendar button'

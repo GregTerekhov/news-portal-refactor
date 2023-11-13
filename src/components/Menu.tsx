@@ -62,7 +62,7 @@ const Menu = ({ isOpen, closeMenu }: Partial<MobileMenu>) => {
         modalRoot &&
         createPortal(
           <div
-            className={`fixed top-0 w-full h-full pb-[18px] pt-[147px] z-40 overflow-auto transition-left duration-500 bg-whiteBase dark:bg-darkBackground before:fixed before:content-[""] before:z-[8] before:h-[81px] before:top-0 before:left-0 transition-colors ${
+            className={`fixed top-0 w-full h-full pb-[18px] pt-[147px] z-40 overflow-auto transition-all duration-500 bg-whiteBase dark:bg-darkBackground before:fixed before:content-[""] before:z-[8] before:h-[81px] before:top-0 before:left-0  ${
               isOpen ? 'left-0' : '-left-full'
             }`}
           >
@@ -124,7 +124,7 @@ const Menu = ({ isOpen, closeMenu }: Partial<MobileMenu>) => {
           modalRoot,
         )
       ) : (
-        <ul className='flex gap-5 lg:gap-[69px]'>
+        <ul className='flex gap-5 md:gap-14 lg:gap-[69px]'>
           {links.map((link) => (
             <li key={link.path}>
               <NavLink
