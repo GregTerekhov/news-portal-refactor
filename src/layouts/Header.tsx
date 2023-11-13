@@ -3,9 +3,10 @@ import { Input, Modal, SvgIcon } from 'ui';
 import { Menu, ThemeSwitcher, Auth, AuthModal } from 'components';
 import { useActiveLinks, useHeaderStyles, usePopUp, useWindowWidth } from 'hooks';
 import { useLocation } from 'react-router-dom';
-import { useAppDispatch } from 'redux/hooks';
+import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import { fetchNewsByKeyword } from 'redux/newsAPI';
 import { resetOtherRequests } from 'redux/newsAPI/newsAPISlice';
+import { selectIsLoggedIn, selectUser } from 'redux/auth';
 
 const Header = () => {
   const { isOpenMenu, isOpenModal, toggleMenu, toggleModal, popUpRef } = usePopUp();
@@ -22,7 +23,8 @@ const Header = () => {
   const { headerClass, textClass, burgerMenuButtonClass } = useHeaderStyles(
     activeLinks.isHomeActive,
   );
-  const isLoggedIn = true;
+  const isLoggedIn = useAppSelector(selectIsLoggedIn);
+  const userDate = useAppSelector(selectUser);
   const isNotMobile = breakpointsForMarkup?.isTablet || breakpointsForMarkup?.isDesktop;
 
   const onChangeInput = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -45,6 +47,11 @@ const Header = () => {
       setTouched(!touched);
     }
   };
+
+  let ram = '';
+  if (userDate) {
+    console.log(ram.length);
+  }
 
   return (
     <>
@@ -97,6 +104,12 @@ const Header = () => {
                     />
                   </form>
                 )}
+                {userDate &&
+                  (userDate.name.length > 0 ? (
+                    <p className='text-whiteBase'>{userDate.name}</p>
+                  ) : (
+                    <p className='text-whiteBase'>Some user</p>
+                  ))}
                 {breakpointsForMarkup?.isNothing || breakpointsForMarkup?.isMobile ? (
                   <button
                     aria-label={`${!isOpenMenu ? 'Open' : 'Close'} mobile menu button`}

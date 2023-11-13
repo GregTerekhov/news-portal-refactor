@@ -18,6 +18,7 @@ export const signUp = createAsyncThunk(
   async (credentials: AuthCredentials, { rejectWithValue }) => {
     try {
       const response = await axios.post('/auth/sign-up', credentials);
+      console.log(response.data);
       return response.data;
     } catch (error: any) {
       return rejectWithValue(error.message);
@@ -31,6 +32,8 @@ export const signIn = createAsyncThunk(
     try {
       const response = await axios.post('/auth/sign-in', credentials);
       token.set(response.data.accessToken);
+      console.log(response.data);
+
       return response.data;
     } catch (error: any) {
       return rejectWithValue(error.response.data);

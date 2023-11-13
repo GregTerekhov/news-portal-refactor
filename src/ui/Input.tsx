@@ -4,6 +4,7 @@ import { useLocation } from 'react-router-dom';
 import useHeaderStyles from 'hooks/useHeaderStyles';
 import { useWindowWidth } from 'hooks/useWindowWidth';
 import { useActiveLinks } from 'hooks';
+import { Path, UseFormRegister } from 'react-hook-form';
 
 type InputCollectedData = {
   name: string;
@@ -20,6 +21,12 @@ enum V {
   Auth = 'auth',
 }
 
+interface IFormValues {
+  Name: string;
+  Email: string;
+  Password: string;
+}
+
 interface InputProps {
   inputData?: Partial<InputCollectedData>;
   hasIcon: boolean;
@@ -28,6 +35,9 @@ interface InputProps {
   hideInput?: (event: React.MouseEvent<HTMLInputElement>) => void;
   touched?: boolean;
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  label?: Path<IFormValues>;
+  register?: UseFormRegister<IFormValues>;
+  required?: boolean;
 }
 
 const Input: FC<Partial<InputProps>> = (props) => {
@@ -43,6 +53,9 @@ const Input: FC<Partial<InputProps>> = (props) => {
   const touched = props.touched;
   const onTouch = props.hideInput;
   const onChange = props.onChange;
+  // const label = props.label;
+  // const register = props.register;
+  // const required = props.required;
 
   const location = useLocation();
   const activeLinks = useActiveLinks(location);
@@ -173,6 +186,8 @@ const Input: FC<Partial<InputProps>> = (props) => {
               onChange(event);
             }
           }}
+          // {...register(label, { required })}
+          required
         />
       </div>
       <span className={`${!hasIcon && 'block'} text-accentBase font-medium`}>

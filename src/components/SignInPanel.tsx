@@ -1,13 +1,22 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Input, PrimaryButton } from 'ui';
 import ThemeSwitcher from './ThemeSwitcher';
-import { useWindowWidth } from 'hooks';
+import { usePopUp, useWindowWidth } from 'hooks';
+import { useAppDispatch } from 'redux/hooks';
+import { signIn } from 'redux/auth';
+// import { Path, useForm, UseFormRegister, SubmitHandler } from 'react-hook-form';
 
 type SignInProps = {
   handleCheckboxChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   handleShowRecoveryInput: () => void;
   isShowRecoveryInput: boolean;
 };
+
+// interface IFormValues {
+//   Name: string;
+//   Email: string;
+//   Password: string;
+// }
 
 const SignInPanel = ({
   handleCheckboxChange,
@@ -17,8 +26,49 @@ const SignInPanel = ({
   const { breakpointsForMarkup } = useWindowWidth() ?? {
     breakpointsForMarkup: null,
   };
+
+  const [email, setEmail] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
+
+  const dispatch = useAppDispatch();
+
+  const { setIsOpenModal } = usePopUp();
+
+  // const { register, handleSubmit } = useForm();
+  // const onSubmit: SubmitHandler<Partial<IFormValues>> = (data) => {
+  // alert(JSON.stringify(data));
+  // };
+
+  const handleChange = (e: React.FormEvent<HTMLInputElement>) => {
+    const targetInput = e.currentTarget.name;
+    const inputValue = e.currentTarget.value;
+
+    switch (targetInput) {
+      case 'email':
+        setEmail(inputValue);
+        break;
+      case 'password':
+        setPassword(inputValue);
+        break;
+      default:
+        break;
+    }
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    const credentials = {
+      email,
+      password,
+    };
+    console.log(credentials);
+
+    await dispatch(signIn(credentials));
+    setIsOpenModal(false);
+  };
+
   return (
-    <form className='flex flex-col gap-3.5'>
+    <form className='flex flex-col gap-3.5' onSubmit={(e) => handleSubmit(e)}>
       <Input
         inputData={{
           name: 'email',
@@ -28,6 +78,10 @@ const SignInPanel = ({
         }}
         hasIcon={false}
         variant='auth'
+        // label='Email'
+        // register={register}
+        onChange={handleChange}
+        required
       />
       <Input
         inputData={{
@@ -38,6 +92,8 @@ const SignInPanel = ({
         }}
         hasIcon={false}
         variant='auth'
+        onChange={handleChange}
+        required
       />
       <div className='text-center'>
         <button

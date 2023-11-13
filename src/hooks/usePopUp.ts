@@ -77,6 +77,7 @@ const usePopUp = () => {
   return {
     isOpenMenu,
     isOpenModal,
+    setIsOpenModal,
     isOpenCalendar,
     isScrollDisabled,
     popUpRef,

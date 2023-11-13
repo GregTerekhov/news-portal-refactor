@@ -38,7 +38,7 @@ const authSlice = createSlice({
         state.hasError = null;
       })
       .addCase(signUp.fulfilled, (state, action) => {
-        state.isLoggedIn = false;
+        state.isLoggedIn = true;
         state.isCurrentUser = false;
         state.user = action.payload.user;
         state.hasError = null;
@@ -59,6 +59,8 @@ const authSlice = createSlice({
         state.refreshToken = action.payload.refreshToken;
         state.userTheme = action.payload.userTheme;
         state.hasError = null;
+
+        console.log(state.accessToken);
       })
       .addCase(signIn.rejected, (state, action) => {
         state.isCurrentUser = false;
