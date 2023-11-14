@@ -6,7 +6,7 @@ import { VotedItem } from 'types';
 import { useAppDispatch } from 'reduxStore/hooks';
 import { addOrUpdateVotedNews, removeFromFavourites } from 'reduxStore/newsDatabase';
 
-import { useActiveLinks, useNewsDBCollector } from 'hooks';
+import { useActiveLinks, useAuthCollector, useNewsDBCollector } from 'hooks';
 
 import { SvgIcon, VoteButton } from 'ui';
 
@@ -24,6 +24,7 @@ const NewsItem: React.FC<Partial<NewsItemProps>> = ({
   // onDelete = () => {},
 }) => {
   const { savedNews } = useNewsDBCollector();
+  const { isLoggedIn } = useAuthCollector();
   const [isFavourite, setIsFavourite] = useState<boolean>(() => {
     const existingNews = savedNews?.find((news) => news.newsUrl === liveNews?.newsUrl);
     return existingNews?.isFavourite ?? false;
@@ -36,8 +37,6 @@ const NewsItem: React.FC<Partial<NewsItemProps>> = ({
 
   const location = useLocation();
   const activeLinks = useActiveLinks(location);
-
-  const isLoggedIn = true;
 
   useEffect(() => {
     if (isLoggedIn && savedNews && liveNews?.newsUrl !== undefined) {

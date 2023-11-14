@@ -4,6 +4,7 @@ import { useLocation } from 'react-router-dom';
 import { fetchPopularNews } from 'reduxStore/newsAPI';
 import {
   useActiveLinks,
+  useAuthCollector,
   useChooseRenderingNews,
   useNewsAPICollector,
   useNewsDBCollector,
@@ -28,7 +29,7 @@ const HomePage = () => {
     rebuildedNews ?? [],
   );
 
-  const isLoggedIn = false;
+  const { isLoggedIn } = useAuthCollector();
 
   // console.log('rebuildedNews', rebuildedNews);
   // console.log('currentItems', currentItems);

@@ -20,7 +20,7 @@ enum PB {
 
 interface PBProps {
   buttonData: PrimaryButtCommon;
-  onHandleClick: ClickHandler | undefined;
+  onHandleClick: ClickHandler;
   variant: string;
   children?: ReactNode;
   hasIcon?: boolean;

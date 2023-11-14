@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { Outlet, useLocation } from 'react-router-dom';
 
-import { useActiveLinks, useNewsAPICollector, useWindowWidth } from 'hooks';
+import { useActiveLinks, useAuthCollector, useNewsAPICollector, useWindowWidth } from 'hooks';
 
 import { Hero, NewsFilterManager, PageScrollController } from 'components';
 
@@ -12,6 +12,7 @@ const Layout = () => {
     breakpointsForMarkup: null,
   };
   const { fetchCategoriesList } = useNewsAPICollector();
+  const { isLoggedIn } = useAuthCollector();
 
   useEffect(() => {
     fetchCategoriesList();
@@ -19,8 +20,6 @@ const Layout = () => {
 
   const location = useLocation();
   const activeLinks = useActiveLinks(location);
-
-  const isLoggedIn = true;
 
   const shouldShowPageScrollController =
     (activeLinks.isHomeActive && breakpointsForMarkup?.isTablet) ||

@@ -1,6 +1,7 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
-import { usePopUp, useWindowWidth } from 'hooks';
+import { useAuthCollector, usePopUp, useWindowWidth } from 'hooks';
 
 import { Modal, PrimaryButton } from 'ui';
 import { ClickHandler } from 'ui/PrimaryButton';
@@ -12,7 +13,13 @@ const Auth = () => {
   const { breakpointsForMarkup } = useWindowWidth() ?? {
     breakpointsForMarkup: null,
   };
-  const isLoggedIn = true;
+  const { isLoggedIn, logout } = useAuthCollector();
+  const navigate = useNavigate();
+
+  const onSignOut = async () => {
+    await logout();
+    navigate('/');
+  };
 
   return (
     <>
@@ -21,7 +28,7 @@ const Auth = () => {
           id={breakpointsForMarkup?.isDesktop ? 'Auth button for signin and signout' : ''}
           ariaLabel={!breakpointsForMarkup?.isDesktop ? 'Auth button for signin and signout' : ''}
           variant={`${breakpointsForMarkup?.isDesktop ? 'Primary' : 'Small'}`}
-          onHandleClick={!isLoggedIn ? (toggleModal as ClickHandler) : undefined}
+          onHandleClick={!isLoggedIn ? (toggleModal as ClickHandler) : (onSignOut as ClickHandler)}
           hasIcon={true}
           svgName={`${isLoggedIn ? 'icon-signout' : 'icon-auth'}`}
           svgSize={breakpointsForMarkup?.isDesktop ? 28 : 24}

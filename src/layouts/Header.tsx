@@ -4,6 +4,7 @@ import { useLocation } from 'react-router-dom';
 import {
   useActiveLinks,
   useAdditionalRequest,
+  useAuthCollector,
   useHeaderStyles,
   usePopUp,
   useWindowWidth,
@@ -18,6 +19,7 @@ const Header = () => {
   const { breakpointsForMarkup } = useWindowWidth() ?? {
     breakpointsForMarkup: null,
   };
+  const { isLoggedIn, user } = useAuthCollector();
   const [touched, setTouched] = useState<boolean>(false);
 
   const location = useLocation();
@@ -26,12 +28,17 @@ const Header = () => {
   const { headerClass, textClass, burgerMenuButtonClass } = useHeaderStyles(
     activeLinks.isHomeActive,
   );
-  const isLoggedIn = true;
+
   const isNotMobile = breakpointsForMarkup?.isTablet || breakpointsForMarkup?.isDesktop;
 
   const handleVisibilityChange = () => {
     setTouched(!touched);
   };
+
+  let ram = '';
+  if (user) {
+    console.log(ram.length);
+  }
 
   return (
     <>
@@ -86,6 +93,11 @@ const Header = () => {
                         />
                       </form>
                     ) : null}
+                    {user && user.name.length > 0 ? (
+                      <p className='text-whiteBase'>{user.name}</p>
+                    ) : (
+                      <p className='text-whiteBase'>User</p>
+                    )}
                     <button
                       aria-label={`${!isOpenMenu ? 'Open' : 'Close'} mobile menu button`}
                       type='button'

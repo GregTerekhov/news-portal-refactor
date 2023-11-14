@@ -1,12 +1,19 @@
-import React, { Suspense } from 'react';
+import React, { Suspense, useEffect } from 'react';
 import { Route, Routes } from 'react-router-dom';
 
 import { WindowWidthProvider } from 'contexts';
+import { useAuthCollector } from './hooks';
 
 import { HomePage, ErrorPage, FavouritePage, ReadPage, ArchivePage } from './pages';
 import { Layout } from './layouts';
 
 function App() {
+  const { fetchCurrentAuthUser } = useAuthCollector();
+
+  useEffect(() => {
+    fetchCurrentAuthUser();
+  }, []);
+
   return (
     <WindowWidthProvider>
       <Suspense>
