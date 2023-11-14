@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+
 import useWindowWidth from './useWindowWidth';
 
 const useHeaderStyles = (isHomePage: boolean) => {

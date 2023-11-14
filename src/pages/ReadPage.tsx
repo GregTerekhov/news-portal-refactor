@@ -1,8 +1,11 @@
-import { Accordeon, Loader, NewsList, PlugImage } from 'components';
-import { useNewsDBCollector } from 'hooks';
 import React, { useEffect, useLayoutEffect, useState } from 'react';
+
 import { useAppDispatch } from 'reduxStore/hooks';
 import { addNews } from 'reduxStore/newsDatabase';
+
+import { useNewsDBCollector } from 'hooks';
+
+import { Accordeon, Loader, NewsList, PlugImage } from 'components';
 // import { saveUnsavedChanges } from 'reduxStore/newsDatabase/newsDataBaseSlice';
 
 const ReadPage = () => {

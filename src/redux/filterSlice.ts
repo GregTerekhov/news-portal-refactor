@@ -1,6 +1,8 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
-import { PartialVotedNewsArray } from 'types/news';
+
 import { RootState } from './store';
+
+import { PartialVotedNewsArray } from 'types/news';
 
 const initialState = [] as PartialVotedNewsArray;
 

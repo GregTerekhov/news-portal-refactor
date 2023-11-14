@@ -1,7 +1,10 @@
 import React, { FC } from 'react';
-import { Dropdown, Input, PrimaryButton } from 'ui';
-import Calendar from './Calendar';
+
 import { useAdditionalRequest, useWindowWidth } from 'hooks';
+
+import { Dropdown, Input, PrimaryButton } from 'ui';
+
+import Calendar from './Calendar';
 
 const SearchBlock: FC = () => {
   const { breakpointsForMarkup } = useWindowWidth() ?? {

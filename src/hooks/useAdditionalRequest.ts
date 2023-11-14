@@ -1,4 +1,6 @@
 import { useState } from 'react';
+import { format, isAfter, startOfToday } from 'date-fns';
+
 import { useAppDispatch } from 'reduxStore/hooks';
 import {
   fetchNewsByCategory,
@@ -6,7 +8,7 @@ import {
   fetchNewsByKeyword,
   fetchPopularNews,
 } from 'reduxStore/newsAPI';
-import { format, isAfter, startOfToday } from 'date-fns';
+
 import useNewsAPICollector from './useNewsAPICollector';
 import usePopUp from './usePopUp';
 

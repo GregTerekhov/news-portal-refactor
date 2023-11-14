@@ -1,7 +1,7 @@
 import React from 'react';
-import { SvgIcon } from 'ui';
-import { format } from 'date-fns';
 import { useLocation } from 'react-router-dom';
+import { format } from 'date-fns';
+
 import {
   useActiveLinks,
   useAdditionalRequest,
@@ -11,11 +11,15 @@ import {
   // useNewsAPICollector,
   usePopUp,
 } from 'hooks';
+import { convertLinesForCalendar } from 'helpers';
+
+import { SvgIcon } from 'ui';
+
+import CalendarContent from './CalendarContent';
+
 // import { useAppDispatch } from 'redux/hooks';
 // import { fetchNewsByDate } from 'redux/newsAPI';
-import { convertLinesForCalendar } from 'helpers';
 // import { filterNews } from 'redux/filterSlice';
-import CalendarContent from './CalendarContent';
 // import { PartialVotedNewsArray } from 'types';
 
 interface CalendarProps {

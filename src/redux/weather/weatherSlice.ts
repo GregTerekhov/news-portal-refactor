@@ -1,6 +1,8 @@
 import { SerializedError, createSlice } from '@reduxjs/toolkit';
-import { fetchWeather, fetchHourlyForecastWeather } from './weatherOperations';
+
 import { HourlyWeatherData, WeatherData } from 'types';
+
+import { fetchWeather, fetchHourlyForecastWeather } from './weatherOperations';
 
 interface WeatherState {
   isLoading: boolean;

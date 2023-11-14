@@ -1,6 +1,8 @@
-import { useActiveLinks, useWindowWidth } from 'hooks';
 import React, { FC } from 'react';
 import { useLocation } from 'react-router-dom';
+
+import { useActiveLinks, useWindowWidth } from 'hooks';
+
 import { SkeletonEl } from 'ui';
 
 interface LoaderProps {

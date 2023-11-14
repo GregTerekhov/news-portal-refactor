@@ -1,11 +1,16 @@
 import React, { useEffect, useState } from 'react';
-import { SvgIcon, VoteButton } from 'ui';
-import PlugImage from './PlugImage';
-import { VotedItem } from 'types';
-import { useAppDispatch } from 'reduxStore/hooks';
-import { addOrUpdateVotedNews, removeFromFavourites } from 'redux/newsDatabase/newsDataBaseSlice';
 import { useLocation } from 'react-router-dom';
+
+import { VotedItem } from 'types';
+
+import { useAppDispatch } from 'reduxStore/hooks';
+import { addOrUpdateVotedNews, removeFromFavourites } from 'reduxStore/newsDatabase';
+
 import { useActiveLinks, useNewsDBCollector } from 'hooks';
+
+import { SvgIcon, VoteButton } from 'ui';
+
+import PlugImage from './PlugImage';
 
 interface NewsItemProps {
   liveNews: Partial<VotedItem>;

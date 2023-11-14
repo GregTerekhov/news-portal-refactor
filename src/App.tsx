@@ -1,8 +1,10 @@
 import React, { Suspense } from 'react';
 import { Route, Routes } from 'react-router-dom';
+
+import { WindowWidthProvider } from 'contexts';
+
 import { HomePage, ErrorPage, FavouritePage, ReadPage, ArchivePage } from './pages';
 import { Layout } from './layouts';
-import { WindowWidthProvider } from 'contexts';
 
 function App() {
   return (

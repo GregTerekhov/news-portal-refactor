@@ -1,9 +1,11 @@
-import { format, getDay, isSameDay, isSameMonth, isToday, parse } from 'date-fns';
-import { capitalizeFirstLetter } from 'helpers';
 import React, { FC } from 'react';
-import { SvgIcon } from 'ui';
+import { format, getDay, isSameDay, isSameMonth, isToday, parse } from 'date-fns';
+
 import { DAYS, COL_START_CLASSES } from 'constants';
+import { capitalizeFirstLetter } from 'helpers';
 import { SelectedDate } from 'hooks/useAdditionalRequest';
+
+import { SvgIcon } from 'ui';
 
 interface Calendar {
   variant: string;

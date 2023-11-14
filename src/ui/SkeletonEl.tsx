@@ -1,6 +1,7 @@
-import { useActiveLinks } from 'hooks';
 import React from 'react';
 import { useLocation } from 'react-router-dom';
+
+import { useActiveLinks } from 'hooks';
 
 const SkeletonEl = () => {
   const location = useLocation();

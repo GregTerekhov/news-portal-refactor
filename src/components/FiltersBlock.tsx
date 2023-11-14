@@ -1,9 +1,12 @@
 import React, { FC } from 'react';
-import { useActiveLinks, useFilterNews, useWindowWidth } from 'hooks';
-import { Dropdown, Input, PrimaryButton } from 'ui';
-import Calendar from './Calendar';
-import { MATERIALS_TYPES } from 'constants';
 import { useLocation } from 'react-router-dom';
+
+import { MATERIALS_TYPES } from 'constants';
+import { useActiveLinks, useFilterNews, useWindowWidth } from 'hooks';
+
+import { Dropdown, Input, PrimaryButton } from 'ui';
+
+import Calendar from './Calendar';
 
 const FiltersBlock: FC = () => {
   const { breakpointsForMarkup } = useWindowWidth() ?? {

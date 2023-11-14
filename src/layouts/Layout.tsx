@@ -1,8 +1,11 @@
 import React, { useEffect } from 'react';
-import Header from './Header';
 import { Outlet, useLocation } from 'react-router-dom';
-import { Hero, NewsFilterManager, PageScrollController } from 'components';
+
 import { useActiveLinks, useNewsAPICollector, useWindowWidth } from 'hooks';
+
+import { Hero, NewsFilterManager, PageScrollController } from 'components';
+
+import Header from './Header';
 
 const Layout = () => {
   const { breakpointsForMarkup } = useWindowWidth() ?? {

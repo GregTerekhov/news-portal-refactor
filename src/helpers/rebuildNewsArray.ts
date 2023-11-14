@@ -6,6 +6,7 @@ import {
   ArticleNewsItem,
   NewsWireItem,
 } from 'types';
+
 import { formatDate, formatDateToShort } from 'helpers';
 
 function rebuildNewsArray(

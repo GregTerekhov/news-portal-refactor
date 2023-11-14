@@ -1,8 +1,11 @@
 import React from 'react';
-import { Modal, PrimaryButton } from 'ui';
+
 import { usePopUp, useWindowWidth } from 'hooks';
-import AuthModal from './AuthModal';
+
+import { Modal, PrimaryButton } from 'ui';
 import { ClickHandler } from 'ui/PrimaryButton';
+
+import AuthModal from './AuthModal';
 
 const Auth = () => {
   const { isOpenModal, popUpRef, toggleModal } = usePopUp();

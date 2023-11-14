@@ -1,4 +1,5 @@
 import { SerializedError, createSlice } from '@reduxjs/toolkit';
+
 import { fetchCurrentUser, signIn, signOut, signUp } from './authOperations';
 
 interface AuthState {

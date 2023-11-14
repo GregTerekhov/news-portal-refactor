@@ -1,4 +1,5 @@
 import { rebuildNewsArray } from 'helpers';
+
 import useNewsAPICollector from './useNewsAPICollector';
 import useNewsDBCollector from './useNewsDBCollector';
 import useFilterCollector from './useFilterCollector';

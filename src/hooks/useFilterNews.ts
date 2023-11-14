@@ -1,9 +1,13 @@
-import { applyCrossFilters } from 'helpers';
 import { useEffect, useState } from 'react';
+import { format, isAfter, startOfToday } from 'date-fns';
+
 import { filterNews } from 'reduxStore/filterSlice';
 import { useAppDispatch } from 'reduxStore/hooks';
+
 import { Filters, PartialVotedNewsArray } from 'types';
-import { format, isAfter, startOfToday } from 'date-fns';
+
+import { applyCrossFilters } from 'helpers';
+
 import useChooseRenderingNews from './useChooseRenderingNews';
 import useFilterCollector from './useFilterCollector';
 import useNewsDBCollector from './useNewsDBCollector';

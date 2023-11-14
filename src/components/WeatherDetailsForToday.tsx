@@ -1,4 +1,5 @@
 import React from 'react';
+
 import {
   convertTimezone,
   receiveCurrentDate,
@@ -8,6 +9,7 @@ import {
   getWindStrengthScale,
 } from 'helpers';
 import { useWeatherCollector, useWindowWidth } from 'hooks';
+
 import { SvgIcon } from 'ui';
 
 const WeatherDetailsForToday = () => {

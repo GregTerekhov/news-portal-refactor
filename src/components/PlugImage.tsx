@@ -1,6 +1,7 @@
 import React from 'react';
-import { generateContentImages } from 'helpers';
+
 import { IMAGES } from 'constants';
+import { generateContentImages } from 'helpers';
 
 const enum V {
   Page = 'page',

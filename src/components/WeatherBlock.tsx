@@ -1,9 +1,12 @@
 import React from 'react';
+
+import { useWeather, useWeatherCollector } from 'hooks';
+
 import { PrimaryButton, SvgIcon } from 'ui';
+
 import Loader from './Loader';
 import WeatherDetailsForHours from './WeatherDetailsForHours';
 import WeatherDetailsForToday from './WeatherDetailsForToday';
-import { useWeather, useWeatherCollector } from 'hooks';
 
 const WeatherBlock = () => {
   const {

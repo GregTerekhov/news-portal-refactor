@@ -1,4 +1,4 @@
-import type { RootState } from 'redux/store';
+import type { RootState } from 'reduxStore/store';
 
 export const selectLoading = (state: RootState) => state.weather.isLoading;
 export const selectPosition = (state: RootState) => state.weather.data;

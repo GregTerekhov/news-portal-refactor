@@ -1,5 +1,6 @@
-import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
+import { createAsyncThunk } from '@reduxjs/toolkit';
+
 import { PartialVotedNewsArray } from 'types';
 
 axios.defaults.baseURL = 'https://news-webapp-express.onrender.com/api';

@@ -1,8 +1,11 @@
 import React, { useEffect } from 'react';
-import { useActiveLinks, useFilterCollector, useHeaderStyles, useWindowWidth } from 'hooks';
 import { createPortal } from 'react-dom';
 import { NavLink, useLocation, useNavigate } from 'react-router-dom';
+
+import { useActiveLinks, useFilterCollector, useHeaderStyles, useWindowWidth } from 'hooks';
+
 import { PrimaryButton, SvgIcon } from 'ui';
+
 import ThemeSwitcher from './ThemeSwitcher';
 
 interface MobileMenu {

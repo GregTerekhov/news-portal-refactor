@@ -1,4 +1,4 @@
-import type { RootState } from 'redux/store';
+import type { RootState } from 'reduxStore/store';
 
 export const selectSavedNews = (state: RootState) => state.newsDB.savedNews;
 export const selectAllFavourites = (state: RootState) => state.newsDB.favourites;
