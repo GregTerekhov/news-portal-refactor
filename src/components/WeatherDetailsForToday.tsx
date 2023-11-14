@@ -81,7 +81,7 @@ const WeatherDetailsForToday = () => {
           {formatKmToMetre(currentWeather?.visibility)} km
         </p>
         <div className='flex gap-3 items-center justify-end'>
-          <p className='text-contrastWhite flex flex-col text-base lg:text-medium'>
+          <p className='text-contrastWhite flex flex-col text-base lg:text-medium text-end'>
             {currentWeather?.wind?.speed} m/s{' '}
             <span className='text-[8px]'>
               ({getWindStrengthScale(currentWeather?.wind?.speed)} on the Beaufort scale)

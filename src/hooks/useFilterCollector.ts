@@ -1,17 +1,19 @@
 // import { useCallback } from "react";
-import { selectFilters } from 'redux/filterSlice';
-import { useAppSelector } from 'redux/hooks';
+import { useCallback } from 'react';
+import { resetFilters, selectFilters } from 'redux/filterSlice';
+import { useAppDispatch, useAppSelector } from 'redux/hooks';
 
 const useFilterCollector = () => {
   const filteredNews = useAppSelector(selectFilters);
 
-  // const dispatch = useAppDispatch()
+  const dispatch = useAppDispatch();
 
   // const getFilteredNews = useCallback(() => dispatch(filterNews(filteredData)))
-
+  const resetAllFilters = useCallback(() => dispatch(resetFilters()), [dispatch]);
   return {
     filteredNews,
     //   getFilteredNews,
+    resetAllFilters,
   };
 };
 

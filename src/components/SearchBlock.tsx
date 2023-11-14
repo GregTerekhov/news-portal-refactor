@@ -1,32 +1,23 @@
 import React, { FC } from 'react';
 import { Dropdown, Input, PrimaryButton } from 'ui';
 import Calendar from './Calendar';
-import { useWindowWidth } from 'hooks';
+import { useAdditionalRequest, useWindowWidth } from 'hooks';
 
-interface SearchBlockProps {
-  inputQuery: string;
-  showPopularNews: boolean;
-  categoriesList: string[] | undefined;
-  handleInputChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
-  handleSearch: (e: React.FormEvent<HTMLFormElement>) => void;
-  getNewsByCategory: (section: string) => Promise<void>;
-  getNewsByPeriod: (period: string) => Promise<void>;
-  handleResetRequests: () => void;
-}
-
-const SearchBlock: FC<SearchBlockProps> = ({
-  inputQuery,
-  showPopularNews,
-  categoriesList,
-  handleInputChange,
-  handleSearch,
-  getNewsByCategory,
-  getNewsByPeriod,
-  handleResetRequests,
-}) => {
+const SearchBlock: FC = () => {
   const { breakpointsForMarkup } = useWindowWidth() ?? {
     breakpointsForMarkup: null,
   };
+
+  const {
+    query,
+    categoriesForDropdown,
+    showPopular,
+    onChangeInput,
+    onHandleSearch,
+    getNewsByCategory,
+    getNewsByPeriod,
+    handleResetRequests,
+  } = useAdditionalRequest();
 
   const isNotMobile = breakpointsForMarkup?.isTablet || breakpointsForMarkup?.isDesktop;
 
@@ -34,28 +25,28 @@ const SearchBlock: FC<SearchBlockProps> = ({
     <div className='relative md:grid md:grid-cols-6 md:gap-4 md-grid-rows-2 lg:grid-cols-13 lg:gap-6 p-3.5 after:content-[""] after:block after:w-full after:h-px after:bg-fullDark/[.2] after:dark:bg-whiteBase/[.2] max-md:after:mt-4 md:after:col-span-full max-md:space-y-4'>
       {isNotMobile ? (
         <form
-          onSubmit={(e) => handleSearch(e)}
+          onSubmit={(e) => onHandleSearch(e)}
           className='max-md:overflow-hidden md:col-span-2 lg:col-span-3'
         >
           <Input
             inputData={{
               name: 'query',
               type: 'text',
-              value: inputQuery,
+              value: query,
               placeholder: 'Search |',
             }}
             hasIcon={true}
             variant='filterServiceBlock'
-            onChange={(event: React.ChangeEvent<HTMLInputElement>) => handleInputChange(event)}
+            onChange={(event: React.ChangeEvent<HTMLInputElement>) => onChangeInput(event)}
           />
         </form>
       ) : null}
       <div className='md:col-span-2 lg:col-span-3'>
-        <Dropdown labels={categoriesList || []} getResults={getNewsByCategory}>
+        <Dropdown labels={categoriesForDropdown || []} getResults={getNewsByCategory}>
           Categories
         </Dropdown>
       </div>
-      {showPopularNews ? (
+      {showPopular ? (
         <div className='md:col-span-2 lg:col-span-3'>
           <Dropdown labels={['Today', 'Week', 'Month']} getResults={getNewsByPeriod}>
             Time period

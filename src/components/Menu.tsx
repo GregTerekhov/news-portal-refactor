@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { useActiveLinks, useHeaderStyles, useWindowWidth } from 'hooks';
+import { useActiveLinks, useFilterCollector, useHeaderStyles, useWindowWidth } from 'hooks';
 import { createPortal } from 'react-dom';
 import { NavLink, useLocation, useNavigate } from 'react-router-dom';
 import { PrimaryButton, SvgIcon } from 'ui';
@@ -16,6 +16,7 @@ const Menu = ({ isOpen, closeMenu }: Partial<MobileMenu>) => {
   const { breakpointsForMarkup } = useWindowWidth() ?? {
     breakpointsForMarkup: null,
   };
+  const { resetAllFilters } = useFilterCollector();
 
   const location = useLocation();
   const activeLinks = useActiveLinks(location);
@@ -72,7 +73,10 @@ const Menu = ({ isOpen, closeMenu }: Partial<MobileMenu>) => {
                   <li key={link.path}>
                     <NavLink
                       to={link.path}
-                      onClick={() => handleNavLinkClick(link.path)}
+                      onClick={() => {
+                        handleNavLinkClick(link.path);
+                        resetAllFilters();
+                      }}
                       className={`flex items-center py-1.5 font-medium md:font-bold text-medium lg:text-xl transition-colors duration-500 ${
                         link.activeLink
                           ? 'bg-accentBase text-whiteBase justify-between [clip-path:inset(0 -100vmax)]'
@@ -129,6 +133,7 @@ const Menu = ({ isOpen, closeMenu }: Partial<MobileMenu>) => {
             <li key={link.path}>
               <NavLink
                 to={link.path}
+                onClick={resetAllFilters}
                 className={`relative pt-12 pb-8 lg:pt-[55px] lg:pb-[33px] hover:text-accentBase font-medium md:font-bold text-medium lg:text-xl md:text-medium transition-colors duration-500 ${
                   link.activeLink
                     ? 'text-accentBase after:content[""] after:block after:absolute after:h-px after:w-full after:bg-accentBase'

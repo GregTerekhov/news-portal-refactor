@@ -1,13 +1,18 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Header from './Header';
 import { Outlet, useLocation } from 'react-router-dom';
 import { Hero, NewsFilterManager, PageScrollController } from 'components';
-import { useActiveLinks, useWindowWidth } from 'hooks';
+import { useActiveLinks, useNewsAPICollector, useWindowWidth } from 'hooks';
 
 const Layout = () => {
   const { breakpointsForMarkup } = useWindowWidth() ?? {
     breakpointsForMarkup: null,
   };
+  const { fetchCategoriesList } = useNewsAPICollector();
+
+  useEffect(() => {
+    fetchCategoriesList();
+  }, []);
 
   const location = useLocation();
   const activeLinks = useActiveLinks(location);

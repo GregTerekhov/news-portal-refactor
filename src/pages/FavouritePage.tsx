@@ -1,6 +1,7 @@
 import { Loader, NewsList, PlugImage } from 'components';
-import { useNewsDBCollector } from 'hooks';
+import { useActiveLinks, useChooseRenderingNews, useNewsDBCollector } from 'hooks';
 import React, { useEffect, useLayoutEffect, useState } from 'react';
+import { useLocation } from 'react-router-dom';
 import { useAppDispatch } from 'redux/hooks';
 import { addNews } from 'redux/newsDatabase';
 // import { saveUnsavedChanges } from 'redux/newsDatabase/newsDataBaseSlice';
@@ -12,6 +13,9 @@ const FavouritePage = () => {
   const dispatch = useAppDispatch();
   const { allFavourites, savedNews, isLoadingDBData, getFavourites, getSavedNews } =
     useNewsDBCollector();
+  const location = useLocation();
+  const activeLinks = useActiveLinks(location);
+  const { rebuildedNews } = useChooseRenderingNews({ activeLinks });
 
   useEffect(() => {
     getFavourites();
@@ -45,7 +49,7 @@ const FavouritePage = () => {
       {shouldShowLoader && <Loader variant='page' />}
       {shouldShowContent && (
         <NewsList
-          currentItems={allFavourites}
+          currentItems={rebuildedNews}
           onChange={handleChangeVotes}
           // onDeleteNews={handleDeleteNews}
         />

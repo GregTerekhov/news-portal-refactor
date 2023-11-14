@@ -8,6 +8,7 @@ type RenderHookProps = {
     isHomeActive: boolean;
     isFavoriteActive: boolean;
     isReadActive: boolean;
+    isArchiveActive: boolean;
   };
 };
 
@@ -16,9 +17,9 @@ const useChooseRenderingNews = ({ activeLinks }: RenderHookProps) => {
   const { allFavourites, allReads } = useNewsDBCollector();
   const { filteredNews } = useFilterCollector();
 
+  console.log('filteredNews', filteredNews);
   const chooseRenderingNews = () => {
     if (filteredNews && filteredNews?.length > 0) {
-      console.log('filteredNews', filteredNews);
       return filteredNews;
     } else if (newsByKeyword && newsByKeyword?.length > 0 && activeLinks?.isHomeActive) {
       const searchByWordNews = rebuildNewsArray(newsByKeyword);
