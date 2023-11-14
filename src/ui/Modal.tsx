@@ -1,5 +1,6 @@
 import React, { ReactNode } from 'react';
 import { createPortal } from 'react-dom';
+
 import SvgIcon from './SvgIcon';
 
 const modalRoot = document.querySelector('#modalRoot');

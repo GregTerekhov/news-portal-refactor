@@ -1,8 +1,9 @@
 import React, { ReactNode, FC, useState } from 'react';
-import SvgIcon from './SvgIcon';
 import { useLocation } from 'react-router-dom';
-import useHeaderStyles from 'hooks/useHeaderStyles';
-import { useActiveLinks, useWindowWidth } from 'hooks';
+
+import { useHeaderStyles, useActiveLinks, useWindowWidth } from 'hooks';
+
+import SvgIcon from './SvgIcon';
 
 interface InputCollectedData {
   name: string;

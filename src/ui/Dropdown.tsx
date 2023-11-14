@@ -1,5 +1,6 @@
 import React, { ReactNode, useState } from 'react';
 import { Menu, Transition } from '@headlessui/react';
+
 import SvgIcon from './SvgIcon';
 
 interface D {
@@ -10,6 +11,7 @@ interface D {
 
 const Dropdown = ({ children, labels, getResults }: Partial<D>) => {
   const [isOpenDropdown, setIsOpenDropdown] = useState<boolean>(false);
+  const [selectedItem, setSelectedItem] = useState<string>('');
 
   const handleOpenClick = () => {
     setIsOpenDropdown(!isOpenDropdown);
@@ -17,6 +19,7 @@ const Dropdown = ({ children, labels, getResults }: Partial<D>) => {
 
   const handleItemClick = (item: string) => {
     if (getResults) getResults(item);
+    setSelectedItem(item);
     setIsOpenDropdown(false);
   };
 
@@ -33,7 +36,7 @@ const Dropdown = ({ children, labels, getResults }: Partial<D>) => {
             className={`flex items-center justify-center gap-2.5 w-full border border-solid border-accentBase rounded-[20px] bg-whiteBase py-2.5 text-accentBase text-small font-normal group-hover:underline transition-colors `}
             onClick={handleOpenClick}
           >
-            {children}
+            {selectedItem || children}
             <SvgIcon
               svgName='icon-arrow-down'
               size={14}
@@ -42,10 +45,10 @@ const Dropdown = ({ children, labels, getResults }: Partial<D>) => {
           </Menu.Button>
           <Transition
             show={open}
-            enter='transition ease-out duration-100'
+            enter='transition-transform ease-out duration-100'
             enterFrom='transform opacity-0 scale-95'
             enterTo='transform opacity-100 scale-100'
-            leave='transition ease-in duration-75'
+            leave='transition-transform ease-in duration-75'
             leaveFrom='transform opacity-100 scale-100'
             leaveTo='transform opacity-0 scale-95'
           ></Transition>

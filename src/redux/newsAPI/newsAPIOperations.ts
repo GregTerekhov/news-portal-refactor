@@ -1,5 +1,6 @@
-import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
+import { createAsyncThunk } from '@reduxjs/toolkit';
+
 import { ArticleNewsArray, NewsWireArray, PopularNewsArray, C } from 'types';
 
 interface Date {

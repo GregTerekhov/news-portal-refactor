@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
-import { useWindowWidth } from '.';
+
+import useWindowWidth from './useWindowWidth';
 
 const useHeaderStyles = (isHomePage: boolean) => {
   const [isScrolled, setIsScrolled] = useState<boolean>(false);

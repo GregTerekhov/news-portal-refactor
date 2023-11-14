@@ -1,7 +1,10 @@
+import React from 'react';
+
+import { HourlyWeatherData } from 'types';
+
 import { convertUnixTimestampToHHMM, hPaToMmHg } from 'helpers';
 import { useWeatherCollector, useWindowWidth } from 'hooks';
-import React from 'react';
-import { HourlyWeatherData } from 'types';
+
 import { SvgIcon } from 'ui';
 
 const WeatherDetailsForHours = () => {

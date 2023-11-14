@@ -1,12 +1,15 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
-import App from './App';
-import './input.css';
 import { Provider } from 'react-redux';
-import store, { persistor } from 'redux/store';
-import('preline');
 import { PersistGate } from 'redux-persist/integration/react';
+import('preline');
+
+import store, { persistor } from 'reduxStore/store';
+
+import App from './App';
+
+import './input.css';
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   // <React.StrictMode>

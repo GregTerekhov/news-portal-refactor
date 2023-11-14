@@ -1,36 +1,29 @@
 import React, { FC } from 'react';
-import { useWindowWidth } from 'hooks';
+import { useLocation } from 'react-router-dom';
+
+import { MATERIALS_TYPES } from 'constants';
+import { useActiveLinks, useFilterNews, useWindowWidth } from 'hooks';
+
 import { Dropdown, Input, PrimaryButton } from 'ui';
+
 import Calendar from './Calendar';
 
-interface FiltersBlockProps {
-  filters: {
-    keyword: string;
-    title: string;
-    author: string;
-    publisher: string;
-    materialType: string;
-  };
-  materialTypes: string[] | undefined;
-  handleChangeFilter: (event: React.ChangeEvent<HTMLInputElement>) => void;
-  handleChangeType: (selectedType: string) => void;
-  handleFiltration: (event: React.FormEvent) => void;
-  handleSort: (order: string) => void;
-  handleResetFilters: () => void;
-}
-
-const FiltersBlock: FC<FiltersBlockProps> = ({
-  filters,
-  materialTypes,
-  handleChangeFilter,
-  handleChangeType,
-  handleFiltration,
-  handleSort,
-  handleResetFilters,
-}) => {
+const FiltersBlock: FC = () => {
   const { breakpointsForMarkup } = useWindowWidth() ?? {
     breakpointsForMarkup: null,
   };
+
+  const location = useLocation();
+  const activeLinks = useActiveLinks(location);
+
+  const {
+    filters,
+    handleChangeFilter,
+    handleMaterialTypeChange,
+    handleFiltration,
+    handleSort,
+    handleReset,
+  } = useFilterNews({ activeLinks });
 
   return (
     <form className='p-3.5 max-md:space-y-4 md:grid md:grid-cols-9 md:grid-rows-3 md:gap-3.5 lg:grid-cols-16 lg:grid-rows-2'>
@@ -87,7 +80,7 @@ const FiltersBlock: FC<FiltersBlockProps> = ({
         />
       </div>
       <div className='md:col-span-3 lg:col-span-4'>
-        <Dropdown labels={materialTypes} getResults={handleChangeType}>
+        <Dropdown labels={MATERIALS_TYPES} getResults={handleMaterialTypeChange}>
           Type
         </Dropdown>
       </div>
@@ -125,7 +118,7 @@ const FiltersBlock: FC<FiltersBlockProps> = ({
               svgName='icon-reset'
               svgSize={16}
               classNameIcon='fill-whiteBase'
-              onHandleClick={handleResetFilters}
+              onHandleClick={handleReset}
             >
               Reset
             </PrimaryButton>
@@ -162,7 +155,7 @@ const FiltersBlock: FC<FiltersBlockProps> = ({
               svgName='icon-reset'
               svgSize={16}
               classNameIcon='fill-whiteBase'
-              onHandleClick={handleResetFilters}
+              onHandleClick={handleReset}
             >
               Reset
             </PrimaryButton>

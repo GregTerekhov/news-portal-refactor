@@ -11,6 +11,7 @@ import {
 } from 'redux-persist';
 import { ThunkDispatch } from 'redux-thunk';
 import storage from 'redux-persist/lib/storage';
+
 import { authReducer, filtersReducer, APIReducer, DBReducer, weatherReducer } from './reducers';
 
 const middleware = (getDefaultMiddleware: any) =>

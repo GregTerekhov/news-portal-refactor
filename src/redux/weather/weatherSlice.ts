@@ -1,6 +1,8 @@
 import { SerializedError, createSlice } from '@reduxjs/toolkit';
-import { fetchWeather, fetchHourlyForecastWeather } from './weatherOperations';
+
 import { HourlyWeatherData, WeatherData } from 'types';
+
+import { fetchWeather, fetchHourlyForecastWeather } from './weatherOperations';
 
 interface WeatherState {
   isLoading: boolean;
@@ -27,6 +29,7 @@ const weatherSlice = createSlice({
         state.hasError = null;
       })
       .addCase(fetchWeather.fulfilled, (state, action) => {
+        state.isLoading = false;
         state.data = action.payload;
         state.hasError = null;
       })
@@ -39,6 +42,7 @@ const weatherSlice = createSlice({
         state.hasError = null;
       })
       .addCase(fetchHourlyForecastWeather.fulfilled, (state, action) => {
+        state.isLoading = false;
         state.weatherByHour = action.payload;
         state.hasError = null;
       })

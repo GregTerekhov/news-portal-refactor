@@ -1,6 +1,8 @@
 import axios from 'axios';
-import { RootState } from 'redux/store';
 import { createAsyncThunk } from '@reduxjs/toolkit';
+
+import { RootState } from 'reduxStore/store';
+
 import { AuthCredentials } from 'types';
 
 axios.defaults.baseURL = 'https://news-webapp-express.onrender.com/api';

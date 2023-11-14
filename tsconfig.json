@@ -40,7 +40,7 @@
       "hooks/*": ["hooks/*"],
       "layouts/*": ["layouts/*"],
       "pages/*": ["pages/*"],
-      "redux/*": ["redux/*"],
+      "reduxStore/*": ["redux/*"],
       "routes/*": ["routes/*"],
       "themes/*": ["themes/*"],
       "types/*": ["types/*"],

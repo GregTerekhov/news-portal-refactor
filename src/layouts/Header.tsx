@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { Input, Modal, SvgIcon } from 'ui';
-import { Menu, ThemeSwitcher, Auth, AuthModal } from 'components';
+import { useLocation } from 'react-router-dom';
+
 import {
   useActiveLinks,
   useAdditionalRequest,
@@ -8,7 +8,9 @@ import {
   usePopUp,
   useWindowWidth,
 } from 'hooks';
-import { useLocation } from 'react-router-dom';
+
+import { Menu, ThemeSwitcher, Auth, AuthModal } from 'components';
+import { Input, Modal, SvgIcon } from 'ui';
 
 const Header = () => {
   const { query, onChangeInput, onHandleSearch } = useAdditionalRequest();

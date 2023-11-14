@@ -1,5 +1,7 @@
-import { useWindowWidth } from 'hooks';
 import React, { useEffect, useState } from 'react';
+
+import { useWindowWidth } from 'hooks';
+
 import { SvgIcon } from 'ui';
 
 interface ScrollDirection {

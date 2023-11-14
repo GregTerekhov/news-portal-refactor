@@ -1,11 +1,14 @@
-import { format, getDay, isSameDay, isSameMonth, isToday, parse } from 'date-fns';
-import { capitalizeFirstLetter } from 'helpers';
 import React, { FC } from 'react';
-import { SvgIcon } from 'ui';
+import { format, getDay, isSameDay, isSameMonth, isToday, parse } from 'date-fns';
+
 import { DAYS, COL_START_CLASSES } from 'constants';
-import { SelectedDate } from 'hooks/useCalendar';
+import { capitalizeFirstLetter } from 'helpers';
+import { SelectedDate } from 'hooks/useAdditionalRequest';
+
+import { SvgIcon } from 'ui';
 
 interface Calendar {
+  variant: string;
   currMonth: string;
   firstDayOfMonth: number | Date;
   daysInMonth: Date[];
@@ -14,10 +17,12 @@ interface Calendar {
   getNextYear: (event: React.MouseEvent<HTMLButtonElement>) => void;
   getPrevMonth: (event: React.MouseEvent<HTMLButtonElement>) => void;
   getNextMonth: (event: React.MouseEvent<HTMLButtonElement>) => void;
-  handleDateClick: (date: Date) => void;
+  handleDateRequest: (date: Date) => void;
+  handleDateFilter: (date: Date) => void;
 }
 
 const CalendarContent: FC<Calendar> = ({
+  variant,
   getPrevYear,
   firstDayOfMonth,
   getNextYear,
@@ -26,7 +31,8 @@ const CalendarContent: FC<Calendar> = ({
   daysInMonth,
   currMonth,
   selectedDate,
-  handleDateClick,
+  handleDateRequest,
+  handleDateFilter,
 }) => {
   return (
     <div className='w-[250px] bg-dropdownBase absolute z-40 rounded-[20px] pt-4 px-4 pb-5 shadow-card dark:shadow-darkCard'>
@@ -97,7 +103,11 @@ const CalendarContent: FC<Calendar> = ({
                           : ''
                       }
                     `}
-                  onClick={() => handleDateClick(day)}
+                  onClick={
+                    variant === 'SearchBlock'
+                      ? () => handleDateRequest(day)
+                      : () => handleDateFilter(day)
+                  }
                 >
                   {format(day, 'd')}
                 </p>

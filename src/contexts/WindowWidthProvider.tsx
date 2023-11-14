@@ -1,4 +1,5 @@
 import React, { useEffect, useState, ReactNode } from 'react';
+
 import { WindowWidthContext, WindowWidthContextValue } from './WindowWidthContext';
 
 // Опис властивостей провайдера

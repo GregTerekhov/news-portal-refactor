@@ -1,4 +1,7 @@
 import { SerializedError, createSlice } from '@reduxjs/toolkit';
+
+import { ArticleNewsArray, NewsWireArray, PopularNewsArray, C } from 'types';
+
 import {
   fetchAllCategories,
   fetchNewsByCategory,
@@ -6,7 +9,6 @@ import {
   fetchPopularNews,
   fetchNewsByDate,
 } from './newsAPIOperations';
-import { ArticleNewsArray, NewsWireArray, PopularNewsArray, C } from 'types';
 
 type newsAPIState = {
   popular: PopularNewsArray;

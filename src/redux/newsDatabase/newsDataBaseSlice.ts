@@ -1,7 +1,9 @@
 import { PayloadAction, SerializedError, createSlice } from '@reduxjs/toolkit';
-import { fetchAllNews, fetchFavourites, fetchRead } from './newsDatabaseOperations';
 // import type { PayloadAction } from '@reduxjs/toolkit';
+
 import { PartialVotedNewsArray, VotedItem } from 'types';
+
+import { fetchAllNews, fetchFavourites, fetchRead } from './newsDatabaseOperations';
 
 interface SelectedNewsState {
   savedNews: PartialVotedNewsArray;

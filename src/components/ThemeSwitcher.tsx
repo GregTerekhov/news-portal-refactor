@@ -1,7 +1,9 @@
-import { Switch } from '@headlessui/react';
-import { useActiveLinks, useHeaderStyles, useWindowWidth } from 'hooks';
 import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
+import { Switch } from '@headlessui/react';
+
+import { useActiveLinks, useHeaderStyles, useWindowWidth } from 'hooks';
+
 import { SvgIcon } from 'ui';
 
 enum V {

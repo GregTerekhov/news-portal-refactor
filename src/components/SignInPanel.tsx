@@ -1,7 +1,10 @@
 import React from 'react';
-import { Input, PrimaryButton } from 'ui';
-import ThemeSwitcher from './ThemeSwitcher';
+
 import { useWindowWidth } from 'hooks';
+
+import { Input, PrimaryButton } from 'ui';
+
+import ThemeSwitcher from './ThemeSwitcher';
 
 interface SignInProps {
   handleCheckboxChange: (event: React.ChangeEvent<HTMLInputElement>) => void;

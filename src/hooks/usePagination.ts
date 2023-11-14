@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react';
+
 import { PartialVotedNewsArray } from 'types';
+
 import useWindowWidth from './useWindowWidth';
 import useNewsAPICollector from './useNewsAPICollector';
 import useFilterCollector from './useFilterCollector';

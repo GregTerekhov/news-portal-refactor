@@ -1,6 +1,8 @@
-import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
-import { AppDispatch, RootState } from 'redux/store';
+import { createAsyncThunk } from '@reduxjs/toolkit';
+
+import { AppDispatch, RootState } from 'reduxStore/store';
+
 import { HourlyWeatherData, WeatherData } from 'types';
 
 const BASE_URL = 'https://api.openweathermap.org';

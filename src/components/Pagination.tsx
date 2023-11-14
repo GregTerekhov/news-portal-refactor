@@ -1,5 +1,7 @@
-import { useWindowWidth } from 'hooks';
 import React from 'react';
+
+import { useWindowWidth } from 'hooks';
+
 import { PrimaryButton, SvgIcon } from 'ui';
 interface P {
   pageNumbers: number[];

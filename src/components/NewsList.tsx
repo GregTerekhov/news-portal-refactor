@@ -1,7 +1,9 @@
 import React from 'react';
+
+import { PartialVotedNewsArray, VotedItem } from 'types';
+
 import NewsItem from './NewsItem';
 import WeatherBlock from './WeatherBlock';
-import { PartialVotedNewsArray, VotedItem } from 'types';
 
 interface NewsListProps {
   currentItems: PartialVotedNewsArray;

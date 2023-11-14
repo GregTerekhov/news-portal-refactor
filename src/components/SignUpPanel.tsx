@@ -1,6 +1,9 @@
-import { useWindowWidth } from 'hooks';
 import React from 'react';
+
+import { useWindowWidth } from 'hooks';
+
 import { Input, PrimaryButton } from 'ui';
+
 import ThemeSwitcher from './ThemeSwitcher';
 
 const SignUpPanel = () => {

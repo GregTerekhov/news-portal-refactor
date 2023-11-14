@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import { useLocation } from 'react-router-dom';
-import { MATERIALS_TYPES } from 'constants';
-import { useActiveLinks, useAdditionalRequest, useFilterNews, useNewsDBCollector } from 'hooks';
+
+import { useActiveLinks, useNewsDBCollector } from 'hooks';
+
 import { SvgIcon } from 'ui';
-import SearchBlock from './SearchBlock';
+
 import Accordeon from './Accordeon';
 import FiltersBlock from './FiltersBlock';
+import SearchBlock from './SearchBlock';
 
 const NewsFilterManager = () => {
   const { allFavourites, allReads } = useNewsDBCollector();
@@ -13,26 +15,6 @@ const NewsFilterManager = () => {
 
   const location = useLocation();
   const activeLinks = useActiveLinks(location);
-
-  const {
-    query,
-    categoriesForDropdown,
-    showPopular,
-    onChangeInput,
-    onHandleSearch,
-    getNewsByCategory,
-    getNewsByPeriod,
-    handleResetRequests,
-  } = useAdditionalRequest();
-
-  const {
-    filters,
-    handleChangeFilter,
-    handleMaterialTypeChange,
-    handleFiltration,
-    handleSort,
-    handleReset,
-  } = useFilterNews({ activeLinks, setShowDropdown });
 
   const handleOpenManager = () => {
     setShowDropdown(!showDropdown);
@@ -64,44 +46,15 @@ const NewsFilterManager = () => {
           {activeLinks.isHomeActive ? (
             <>
               <Accordeon position='filtersService' filtersBlock='Additional requests'>
-                <SearchBlock
-                  inputQuery={query}
-                  showPopularNews={showPopular}
-                  categoriesList={categoriesForDropdown}
-                  handleInputChange={onChangeInput}
-                  handleSearch={onHandleSearch}
-                  getNewsByCategory={(section: string) => getNewsByCategory(section)}
-                  getNewsByPeriod={(period: string) => getNewsByPeriod(period)}
-                  handleResetRequests={handleResetRequests}
-                />
+                <SearchBlock />
               </Accordeon>
               <Accordeon position='filtersService' filtersBlock='Filtering news'>
-                <FiltersBlock
-                  filters={filters}
-                  materialTypes={MATERIALS_TYPES}
-                  handleChangeFilter={(event: React.ChangeEvent<HTMLInputElement>) =>
-                    handleChangeFilter(event)
-                  }
-                  handleChangeType={handleMaterialTypeChange}
-                  handleFiltration={handleFiltration}
-                  handleSort={handleSort}
-                  handleResetFilters={handleReset}
-                />
+                <FiltersBlock />
               </Accordeon>
             </>
           ) : (
             <Accordeon position='filtersService' filtersBlock='Filtering news'>
-              <FiltersBlock
-                filters={filters}
-                materialTypes={MATERIALS_TYPES}
-                handleChangeFilter={(event: React.ChangeEvent<HTMLInputElement>) =>
-                  handleChangeFilter(event)
-                }
-                handleChangeType={handleMaterialTypeChange}
-                handleFiltration={handleFiltration}
-                handleSort={handleSort}
-                handleResetFilters={handleReset}
-              />
+              <FiltersBlock />
             </Accordeon>
           )}
         </div>

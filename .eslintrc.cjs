@@ -21,7 +21,8 @@ module.exports = {
   plugins: ['react-refresh', '@typescript-eslint', 'prettier', 'jest', 'prettier-plugin-tailwindcss'],
   settings: {
     'import/resolver': {
-      typescript: {},
+      typescript: true,
+      node: true,
     },
   },
   rules: {

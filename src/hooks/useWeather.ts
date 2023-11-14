@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
-import { useAppDispatch } from 'redux/hooks';
-import { fetchHourlyForecastWeather, fetchWeather } from 'redux/weather';
+
+import { useAppDispatch } from 'reduxStore/hooks';
+import { fetchHourlyForecastWeather, fetchWeather } from 'reduxStore/weather';
 
 const useWeather = () => {
   const [isCelsius, setIsCelsius] = useState<boolean>(true);
