@@ -1,4 +1,4 @@
-import { useAppSelector } from 'redux/hooks';
+import { useAppSelector } from 'reduxStore/hooks';
 import {
   // fetchHourlyForecastWeather,
   // fetchWeather,
@@ -6,7 +6,7 @@ import {
   selectLoading,
   selectPosition,
   selectWeatherByHours,
-} from 'redux/weather';
+} from 'reduxStore/weather';
 
 const useWeatherCollector = () => {
   const isWeatherLoading = useAppSelector(selectLoading);

@@ -1,7 +1,7 @@
 import { applyCrossFilters } from 'helpers';
 import { useEffect, useState } from 'react';
-import { filterNews } from 'redux/filterSlice';
-import { useAppDispatch } from 'redux/hooks';
+import { filterNews } from 'reduxStore/filterSlice';
+import { useAppDispatch } from 'reduxStore/hooks';
 import { Filters, PartialVotedNewsArray } from 'types';
 import { format, isAfter, startOfToday } from 'date-fns';
 import useChooseRenderingNews from './useChooseRenderingNews';

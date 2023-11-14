@@ -1,5 +1,5 @@
 import { useCallback } from 'react';
-import { useAppDispatch, useAppSelector } from 'redux/hooks';
+import { useAppDispatch, useAppSelector } from 'reduxStore/hooks';
 import {
   //   addNews,
   fetchAllNews,
@@ -10,8 +10,8 @@ import {
   selectHasDBError,
   selectLoading,
   selectSavedNews,
-} from 'redux/newsDatabase';
-// import { addOrUpdateVotedNews } from 'redux/newsDatabase/newsDataBaseSlice';
+} from 'reduxStore/newsDatabase';
+// import { addOrUpdateVotedNews } from 'reduxStore/newsDatabase/newsDataBaseSlice';
 
 const useNewsDBCollector = () => {
   const isLoadingDBData = useAppSelector(selectLoading);

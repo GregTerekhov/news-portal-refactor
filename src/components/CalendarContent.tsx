@@ -3,7 +3,7 @@ import { capitalizeFirstLetter } from 'helpers';
 import React, { FC } from 'react';
 import { SvgIcon } from 'ui';
 import { DAYS, COL_START_CLASSES } from 'constants';
-import { SelectedDate } from 'hooks/useCalendar';
+import { SelectedDate } from 'hooks/useAdditionalRequest';
 
 interface Calendar {
   variant: string;

@@ -2,9 +2,9 @@ import { Loader, NewsList, PlugImage } from 'components';
 import { useActiveLinks, useChooseRenderingNews, useNewsDBCollector } from 'hooks';
 import React, { useEffect, useLayoutEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
-import { useAppDispatch } from 'redux/hooks';
-import { addNews } from 'redux/newsDatabase';
-// import { saveUnsavedChanges } from 'redux/newsDatabase/newsDataBaseSlice';
+import { useAppDispatch } from 'reduxStore/hooks';
+import { addNews } from 'reduxStore/newsDatabase';
+// import { saveUnsavedChanges } from 'reduxStore/newsDatabase/newsDataBaseSlice';
 
 const FavouritePage = () => {
   const [changesHappened, setChangesHappened] = useState<boolean>(false);

@@ -1,6 +1,6 @@
 import React, { useEffect, useLayoutEffect, useState } from 'react';
 import { Loader, NewsList, Pagination, PlugImage } from 'components';
-import { fetchPopularNews } from 'redux/newsAPI';
+import { fetchPopularNews } from 'reduxStore/newsAPI';
 import {
   useActiveLinks,
   useChooseRenderingNews,
@@ -8,10 +8,10 @@ import {
   useNewsDBCollector,
   usePagination,
 } from 'hooks';
-import { useAppDispatch } from 'redux/hooks';
-import { addNews, fetchAllNews } from 'redux/newsDatabase';
+import { useAppDispatch } from 'reduxStore/hooks';
+import { addNews, fetchAllNews } from 'reduxStore/newsDatabase';
 import { useLocation } from 'react-router-dom';
-// import { saveUnsavedChanges } from 'redux/newsDatabase/newsDataBaseSlice';
+// import { saveUnsavedChanges } from 'reduxStore/newsDatabase/newsDataBaseSlice';
 
 const HomePage = () => {
   const dispatch = useAppDispatch();

@@ -1,5 +1,5 @@
 import { useCallback } from 'react';
-import { useAppDispatch, useAppSelector } from 'redux/hooks';
+import { useAppDispatch, useAppSelector } from 'reduxStore/hooks';
 import {
   fetchAllCategories,
   //   fetchNewsByCategory,
@@ -13,8 +13,8 @@ import {
   selectLoading,
   selectPopular,
   selectSearchByKeyword,
-} from 'redux/newsAPI';
-import { resetOtherRequests } from 'redux/newsAPI/newsAPISlice';
+} from 'reduxStore/newsAPI';
+import { resetOtherRequests } from 'reduxStore/newsAPI';
 
 const useNewsAPICollector = () => {
   const isLoadingAPIData = useAppSelector(selectLoading);

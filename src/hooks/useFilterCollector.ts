@@ -1,7 +1,7 @@
 // import { useCallback } from "react";
 import { useCallback } from 'react';
-import { resetFilters, selectFilters } from 'redux/filterSlice';
-import { useAppDispatch, useAppSelector } from 'redux/hooks';
+import { resetFilters, selectFilters } from 'reduxStore/filterSlice';
+import { useAppDispatch, useAppSelector } from 'reduxStore/hooks';
 
 const useFilterCollector = () => {
   const filteredNews = useAppSelector(selectFilters);

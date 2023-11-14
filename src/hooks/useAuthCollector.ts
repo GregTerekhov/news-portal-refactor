@@ -8,9 +8,9 @@ import {
   //   signIn,
   signOut,
   //   signUp,
-} from 'redux/auth';
+} from 'reduxStore/auth';
 // import { AuthCredentials } from 'types';
-import { useAppDispatch, useAppSelector } from 'redux/hooks';
+import { useAppDispatch, useAppSelector } from 'reduxStore/hooks';
 
 const useAuthCollector = () => {
   const isLoggedIn = useAppSelector(selectIsLoggedIn);

@@ -1,11 +1,11 @@
 import { useState } from 'react';
-import { useAppDispatch } from 'redux/hooks';
+import { useAppDispatch } from 'reduxStore/hooks';
 import {
   fetchNewsByCategory,
   fetchNewsByDate,
   fetchNewsByKeyword,
   fetchPopularNews,
-} from 'redux/newsAPI';
+} from 'reduxStore/newsAPI';
 import { format, isAfter, startOfToday } from 'date-fns';
 import useNewsAPICollector from './useNewsAPICollector';
 import usePopUp from './usePopUp';

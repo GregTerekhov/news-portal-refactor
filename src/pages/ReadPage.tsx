@@ -1,9 +1,9 @@
 import { Accordeon, Loader, NewsList, PlugImage } from 'components';
 import { useNewsDBCollector } from 'hooks';
 import React, { useEffect, useLayoutEffect, useState } from 'react';
-import { useAppDispatch } from 'redux/hooks';
-import { addNews } from 'redux/newsDatabase';
-// import { saveUnsavedChanges } from 'redux/newsDatabase/newsDataBaseSlice';
+import { useAppDispatch } from 'reduxStore/hooks';
+import { addNews } from 'reduxStore/newsDatabase';
+// import { saveUnsavedChanges } from 'reduxStore/newsDatabase/newsDataBaseSlice';
 
 const ReadPage = () => {
   const [changesHappened, setChangesHappened] = useState<boolean>(false);

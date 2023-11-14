@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { SvgIcon, VoteButton } from 'ui';
 import PlugImage from './PlugImage';
 import { VotedItem } from 'types';
-import { useAppDispatch } from 'redux/hooks';
+import { useAppDispatch } from 'reduxStore/hooks';
 import { addOrUpdateVotedNews, removeFromFavourites } from 'redux/newsDatabase/newsDataBaseSlice';
 import { useLocation } from 'react-router-dom';
 import { useActiveLinks, useNewsDBCollector } from 'hooks';
