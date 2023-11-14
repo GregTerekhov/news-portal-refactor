@@ -1,5 +1,6 @@
 import React, { ReactNode, FC, useState } from 'react';
 import { useLocation } from 'react-router-dom';
+import { Path, UseFormRegister } from 'react-hook-form';
 
 import { useHeaderStyles, useActiveLinks, useWindowWidth } from 'hooks';
 
@@ -11,6 +12,7 @@ interface InputCollectedData {
   placeholder: string;
   value: string;
   children: ReactNode;
+  required?: boolean;
 }
 
 enum V {
@@ -25,9 +27,17 @@ interface InputProps {
   hasIcon: boolean;
   className?: string;
   variant: string;
+  label?: Path<IFormValues>;
+  register?: UseFormRegister<IFormValues>;
   hideInput?: (event: React.MouseEvent<HTMLInputElement>) => void;
   touched?: boolean;
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+}
+
+interface IFormValues {
+  name: string;
+  email: string;
+  password: string;
 }
 
 const Input: FC<Partial<InputProps>> = (props) => {
@@ -36,11 +46,13 @@ const Input: FC<Partial<InputProps>> = (props) => {
   };
   const [isPasswordVisibility, setPasswordVisibility] = useState<boolean>(false);
   const [isChecked, setIsChecked] = useState<boolean>(false);
-  const { name, type, value, placeholder, children } = props.inputData || {};
+  const { name, type, value, placeholder, children, required } = props.inputData || {};
   const hasIcon = props.hasIcon;
   const className = props.className;
   const variant = props.variant;
   const touched = props.touched;
+  // const label = props.label;
+  // const register = props.register;
   const onTouch = props.hideInput;
   const onChange = props.onChange;
 
@@ -165,6 +177,7 @@ const Input: FC<Partial<InputProps>> = (props) => {
           value={value}
           checked={isChecked}
           placeholder={placeholder}
+          required={required}
           autoComplete='off'
           onClick={onHideInput}
           onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
@@ -173,6 +186,7 @@ const Input: FC<Partial<InputProps>> = (props) => {
               onChange(event);
             }
           }}
+          // {...register(label, {required})}
         />
       </div>
       <span className={`${!hasIcon && 'block'} text-accentBase font-medium`}>

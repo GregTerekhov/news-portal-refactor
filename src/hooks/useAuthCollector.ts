@@ -1,3 +1,4 @@
+import { useCallback } from 'react';
 import {
   fetchCurrentUser,
   selectCurrentUser,
@@ -9,8 +10,8 @@ import {
   signOut,
   //   signUp,
 } from 'reduxStore/auth';
-// import { AuthCredentials } from 'types';
 import { useAppDispatch, useAppSelector } from 'reduxStore/hooks';
+// import { AuthCredentials } from 'types';
 
 const useAuthCollector = () => {
   const isLoggedIn = useAppSelector(selectIsLoggedIn);
@@ -23,8 +24,8 @@ const useAuthCollector = () => {
 
   // const register = dispatch(signUp(credentials): AuthCredentials);
   // const login = dispatch(signIn(credentials): AuthCredentials);
-  const logout = dispatch(signOut());
-  const fetchCurrentAuthUser = dispatch(fetchCurrentUser());
+  const logout = useCallback(() => dispatch(signOut()), [dispatch]);
+  const fetchCurrentAuthUser = useCallback(() => dispatch(fetchCurrentUser()), [dispatch]);
 
   return {
     isLoggedIn,

@@ -1,10 +1,13 @@
-import React from 'react';
+import React, { useState } from 'react';
 
-import { useWindowWidth } from 'hooks';
+import { useAppDispatch } from 'reduxStore/hooks';
+
+import { usePopUp, useWindowWidth } from 'hooks';
 
 import { Input, PrimaryButton } from 'ui';
 
 import ThemeSwitcher from './ThemeSwitcher';
+import { signIn } from 'reduxStore/auth';
 
 interface SignInProps {
   handleCheckboxChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
@@ -20,17 +23,56 @@ const SignInPanel = ({
   const { breakpointsForMarkup } = useWindowWidth() ?? {
     breakpointsForMarkup: null,
   };
+
+  const [email, setEmail] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
+
+  const dispatch = useAppDispatch();
+
+  const { toggleModal } = usePopUp();
+
+  const handleInputChange = (e: React.FormEvent<HTMLInputElement>) => {
+    const targetInput = e.currentTarget.name;
+    const inputValue = e.currentTarget.value;
+
+    switch (targetInput) {
+      case 'email':
+        setEmail(inputValue);
+        break;
+      case 'password':
+        setPassword(inputValue);
+        break;
+      default:
+        break;
+    }
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    const credentials = {
+      email,
+      password,
+    };
+
+    console.log(credentials);
+    await dispatch(signIn(credentials));
+    toggleModal();
+  };
+
   return (
-    <form className='flex flex-col gap-3.5'>
+    <form className='flex flex-col gap-3.5' onSubmit={(e: React.FormEvent) => handleSubmit(e)}>
       <Input
         inputData={{
           name: 'email',
           type: 'email',
           placeholder: 'Enter your email',
           children: 'Email',
+          required: true,
         }}
         hasIcon={false}
         variant='auth'
+        onChange={handleInputChange}
       />
       <Input
         inputData={{
@@ -38,9 +80,11 @@ const SignInPanel = ({
           type: 'password',
           placeholder: 'Enter your password',
           children: 'Password',
+          required: true,
         }}
         hasIcon={false}
         variant='auth'
+        onChange={handleInputChange}
       />
       <div className='text-center'>
         <button
@@ -68,6 +112,7 @@ const SignInPanel = ({
           name: 'checkbox',
           type: 'checkbox',
           children: 'Remember me',
+          required: true,
         }}
         hasIcon={false}
         variant='checkbox'

@@ -18,7 +18,7 @@ const useChooseRenderingNews = ({ activeLinks }: RenderHookProps) => {
   const { allFavourites, allReads } = useNewsDBCollector();
   const { filteredNews } = useFilterCollector();
 
-  console.log('filteredNews', filteredNews);
+  // console.log('filteredNews', filteredNews);
   const chooseRenderingNews = () => {
     if (filteredNews && filteredNews?.length > 0) {
       return filteredNews;
