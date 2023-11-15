@@ -19,12 +19,12 @@ const Header = () => {
   const { breakpointsForMarkup } = useWindowWidth() ?? {
     breakpointsForMarkup: null,
   };
-  const { isLoggedIn, user } = useAuthCollector();
+  const { user, isLoggedIn } = useAuthCollector();
   const [touched, setTouched] = useState<boolean>(false);
 
   const location = useLocation();
   const activeLinks = useActiveLinks(location);
-
+  // const isLoggedIn = true;
   const { headerClass, textClass, burgerMenuButtonClass } = useHeaderStyles(
     activeLinks.isHomeActive,
   );
@@ -52,10 +52,13 @@ const Header = () => {
         }`}
       >
         <div
-          className={`container mx-auto px-4 hg:px-[65px] flex justify-between items-center ${
+          className={`container relative mx-auto px-4 hg:px-[65px] flex justify-between items-center ${
             isLoggedIn ? 'gap-3.5' : ''
           }`}
         >
+          {isLoggedIn && isNotMobile ? (
+            <p className='absolute top-1.5 right-40 text-whiteBase'>Hello,{user.name}</p>
+          ) : null}
           <a
             href='/'
             className={`sm:py-6 md:pt-8 md:pb-[30px] lg:py-7 text-3xl leading-tight lg:leading-[1.357144] md:text-4xl lg:text-giant font-bold transition-colors duration-500 ${
@@ -93,11 +96,6 @@ const Header = () => {
                         />
                       </form>
                     ) : null}
-                    {user && user.name.length > 0 ? (
-                      <p className='text-whiteBase'>{user.name}</p>
-                    ) : (
-                      <p className='text-whiteBase'>User</p>
-                    )}
                     <button
                       aria-label={`${!isOpenMenu ? 'Open' : 'Close'} mobile menu button`}
                       type='button'
@@ -124,9 +122,9 @@ const Header = () => {
               </div>
             </>
           ) : (
-            <div className='flex flex-col gap-3'>
+            <div className={`${isNotMobile ? 'flex flex-col gap-3' : ''}`}>
               <Auth />
-              <ThemeSwitcher variant='header' />
+              {isNotMobile ? <ThemeSwitcher variant='header' /> : null}
             </div>
           )}
         </div>

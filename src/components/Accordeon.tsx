@@ -5,12 +5,12 @@ import { SvgIcon } from 'ui';
 
 interface A {
   children: ReactNode;
-  publishedDate?: string;
+  dateSeparator?: string;
   position: string;
   filtersBlock?: string;
 }
 
-const Accordeon: React.FC<A> = ({ children, publishedDate, position, filtersBlock }) => {
+const Accordeon: React.FC<A> = ({ children, dateSeparator, position, filtersBlock }) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
   const handleClick = () => {
@@ -18,17 +18,25 @@ const Accordeon: React.FC<A> = ({ children, publishedDate, position, filtersBloc
   };
   return (
     <Accordion.Root type='single' collapsible className='w-full'>
-      <Accordion.Item value={position === 'readPage' ? publishedDate || '' : filtersBlock || ''}>
+      <Accordion.Item
+        value={
+          position === 'readPage' || position === 'archivePage'
+            ? dateSeparator || ''
+            : filtersBlock || ''
+        }
+      >
         <Accordion.Header
           className={`border-b border-solid border-lineAlt ${
-            position === 'readPage' ? 'mb-7 md:mb-[30px] lg:mb-10' : ''
+            position === 'readPage' || position === 'archivePage'
+              ? 'mb-7 md:mb-[30px] lg:mb-10'
+              : ''
           }`}
         >
           <Accordion.Trigger
             className='w-full flex py-3 items-center gap-1.5 md:gap-2 text-darkBase dark:text-whiteBase leading-moreRelaxed tracking-wider'
             onClick={handleClick}
           >
-            {position === 'readPage' ? publishedDate : filtersBlock}
+            {position === 'readPage' || position === 'archivePage' ? dateSeparator : filtersBlock}
             <SvgIcon
               svgName='icon-arrow-down'
               size={18}

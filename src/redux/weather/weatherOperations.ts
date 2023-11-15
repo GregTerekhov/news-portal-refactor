@@ -8,7 +8,7 @@ import { HourlyWeatherData, WeatherData } from 'types';
 const BASE_URL = 'https://api.openweathermap.org';
 const API_KEY = `50fae40a64fcd40464e14d0d20ee5d02`;
 
-interface Position {
+export interface Position {
   latitude: number;
   longitude: number;
 }

@@ -6,12 +6,12 @@ import {
   selectIsLoggedIn,
   selectUser,
   selectUserTheme,
-  //   signIn,
+  signIn,
   signOut,
-  //   signUp,
+  signUp,
 } from 'reduxStore/auth';
 import { useAppDispatch, useAppSelector } from 'reduxStore/hooks';
-// import { AuthCredentials } from 'types';
+import { AuthCredentials } from 'types';
 
 const useAuthCollector = () => {
   const isLoggedIn = useAppSelector(selectIsLoggedIn);
@@ -22,8 +22,14 @@ const useAuthCollector = () => {
 
   const dispatch = useAppDispatch();
 
-  // const register = dispatch(signUp(credentials): AuthCredentials);
-  // const login = dispatch(signIn(credentials): AuthCredentials);
+  const register = useCallback(
+    (credentials: AuthCredentials) => dispatch(signUp(credentials)),
+    [dispatch],
+  );
+  const login = useCallback(
+    (credentials: AuthCredentials) => dispatch(signIn(credentials)),
+    [dispatch],
+  );
   const logout = useCallback(() => dispatch(signOut()), [dispatch]);
   const fetchCurrentAuthUser = useCallback(() => dispatch(fetchCurrentUser()), [dispatch]);
 
@@ -33,6 +39,8 @@ const useAuthCollector = () => {
     isCurrentUser,
     userTheme,
     authError,
+    register,
+    login,
     logout,
     fetchCurrentAuthUser,
   };

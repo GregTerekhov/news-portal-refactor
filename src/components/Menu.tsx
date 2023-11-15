@@ -2,7 +2,13 @@ import React, { useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import { NavLink, useLocation, useNavigate } from 'react-router-dom';
 
-import { useActiveLinks, useFilterCollector, useHeaderStyles, useWindowWidth } from 'hooks';
+import {
+  useActiveLinks,
+  useAuthCollector,
+  useFilterCollector,
+  useHeaderStyles,
+  useWindowWidth,
+} from 'hooks';
 
 import { PrimaryButton, SvgIcon } from 'ui';
 
@@ -20,6 +26,7 @@ const Menu = ({ isOpen, closeMenu }: Partial<MobileMenu>) => {
     breakpointsForMarkup: null,
   };
   const { resetAllFilters } = useFilterCollector();
+  const { user } = useAuthCollector();
 
   const location = useLocation();
   const activeLinks = useActiveLinks(location);
@@ -111,6 +118,7 @@ const Menu = ({ isOpen, closeMenu }: Partial<MobileMenu>) => {
                   </li>
                 ))}
               </ul>
+              <p className='text-whiteBase text-end'>Hello,{user.name}</p>
               <div className='flex justify-between'>
                 <ThemeSwitcher />
                 <PrimaryButton

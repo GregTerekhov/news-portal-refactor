@@ -1,14 +1,6 @@
 import { useState } from 'react';
 import { format, isAfter, startOfToday } from 'date-fns';
 
-import { useAppDispatch } from 'reduxStore/hooks';
-import {
-  fetchNewsByCategory,
-  fetchNewsByDate,
-  fetchNewsByKeyword,
-  fetchPopularNews,
-} from 'reduxStore/newsAPI';
-
 import useNewsAPICollector from './useNewsAPICollector';
 import usePopUp from './usePopUp';
 
@@ -25,14 +17,16 @@ const useAdditionalRequest = () => {
     endDate: null,
   });
 
-  const dispatch = useAppDispatch();
-
   const {
     popularNews,
     newsByKeyword,
     newsByCategory,
     newsByDate,
     categoriesList,
+    fetchByCategory,
+    fetchByDate,
+    fetchByKeyword,
+    fetchPopular,
     resetPreviousRequest,
   } = useNewsAPICollector();
   const { setIsOpenCalendar } = usePopUp();
@@ -65,7 +59,7 @@ const useAdditionalRequest = () => {
 
     if (query) {
       resetPreviousRequest();
-      dispatch(fetchNewsByKeyword(query));
+      fetchByKeyword(query);
       setQuery('');
     }
   };
@@ -73,18 +67,19 @@ const useAdditionalRequest = () => {
   const getNewsByCategory = async (section: string) => {
     if (section) {
       resetPreviousRequest();
-      await dispatch(fetchNewsByCategory(section));
+      await fetchByCategory(section);
     }
   };
 
   const getNewsByPeriod = async (period: string) => {
     resetPreviousRequest();
+
     if (period === 'Today') {
-      await dispatch(fetchPopularNews('1'));
+      await fetchPopular('1');
     } else if (period === 'Week') {
-      await dispatch(fetchPopularNews('7'));
+      await fetchPopular('7');
     } else if (period === 'Month') {
-      await dispatch(fetchPopularNews('30'));
+      await fetchPopular('30');
     }
   };
 
@@ -108,7 +103,7 @@ const useAdditionalRequest = () => {
 
         setSelectedRequestDate(newSelectedDate);
         resetPreviousRequest();
-        await dispatch(fetchNewsByDate(newSelectedDate));
+        await fetchByDate(newSelectedDate);
         setBeginDate(null);
         setIsOpenCalendar(false);
       }
@@ -124,7 +119,7 @@ const useAdditionalRequest = () => {
     ) {
       resetPreviousRequest();
       setSelectedRequestDate({ beginDate: null, endDate: null });
-      await dispatch(fetchPopularNews('1'));
+      await fetchPopular('1');
     }
   };
 

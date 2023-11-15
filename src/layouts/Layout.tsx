@@ -3,7 +3,7 @@ import { Outlet, useLocation } from 'react-router-dom';
 
 import { useActiveLinks, useAuthCollector, useNewsAPICollector, useWindowWidth } from 'hooks';
 
-import { Hero, NewsFilterManager, PageScrollController } from 'components';
+import { Hero, NewsFilterManager, PageScrollController, ThemeSwitcher } from 'components';
 
 import Header from './Header';
 
@@ -16,7 +16,7 @@ const Layout = () => {
 
   useEffect(() => {
     fetchCategoriesList();
-  }, []);
+  }, [fetchCategoriesList]);
 
   const location = useLocation();
   const activeLinks = useActiveLinks(location);
@@ -38,11 +38,16 @@ const Layout = () => {
           } pb-[60px] md:pb-[100px] lg:pb-[150px]`}
         >
           <div className='container mx-auto px-4 hg:px-[65px]'>
-            {isLoggedIn && (
+            {isLoggedIn ? (
               <div className='mb-10 md:mb-12 lg:mb-[60px]'>
                 <NewsFilterManager />
               </div>
-            )}
+            ) : null}
+            {(!isLoggedIn && breakpointsForMarkup?.isNothing) || breakpointsForMarkup?.isMobile ? (
+              <div className='flex items-center justify-end mb-10'>
+                <ThemeSwitcher />
+              </div>
+            ) : null}
             {shouldShowPageScrollController ? (
               <>
                 <PageScrollController direction='top' position='top-36' icon='icon-triangle-up' />

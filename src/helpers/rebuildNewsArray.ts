@@ -17,6 +17,7 @@ function rebuildNewsArray(
       const commonFields = {
         isFavourite: false,
         hasRead: false,
+        additionDate: '',
       };
 
       if ('media' in item) {

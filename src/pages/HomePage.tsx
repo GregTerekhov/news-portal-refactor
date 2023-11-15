@@ -1,7 +1,6 @@
 import React, { useEffect, useLayoutEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 
-import { fetchPopularNews } from 'reduxStore/newsAPI';
 import {
   useActiveLinks,
   useAuthCollector,
@@ -10,16 +9,12 @@ import {
   useNewsDBCollector,
   usePagination,
 } from 'hooks';
-import { useAppDispatch } from 'reduxStore/hooks';
-import { addNews, fetchAllNews } from 'reduxStore/newsDatabase';
-// import { saveUnsavedChanges } from 'reduxStore/newsDatabase/newsDataBaseSlice';
 
 import { Loader, NewsList, Pagination, PlugImage } from 'components';
 
 const HomePage = () => {
-  const dispatch = useAppDispatch();
-  const { isLoadingAPIData } = useNewsAPICollector();
-  const { savedNews, isLoadingDBData } = useNewsDBCollector();
+  const { isLoadingAPIData, fetchPopular } = useNewsAPICollector();
+  const { savedNews, isLoadingDBData, getSavedNews, addVotedNews } = useNewsDBCollector();
   const [changesHappened, setChangesHappened] = useState<boolean>(false);
 
   const location = useLocation();
@@ -28,27 +23,22 @@ const HomePage = () => {
   const { currentItems, currentPage, pageNumbers, setCurrentPage } = usePagination(
     rebuildedNews ?? [],
   );
-
   const { isLoggedIn } = useAuthCollector();
 
-  // console.log('rebuildedNews', rebuildedNews);
-  // console.log('currentItems', currentItems);
-
   useEffect(() => {
-    dispatch(fetchPopularNews('1'));
+    fetchPopular('1');
 
     if (isLoggedIn) {
-      dispatch(fetchAllNews());
+      getSavedNews();
     }
-  }, [dispatch, isLoggedIn]);
+  }, [fetchPopular, getSavedNews, isLoggedIn]);
 
   useLayoutEffect(() => {
     if (changesHappened) {
-      dispatch(addNews(savedNews));
-      // dispatch(saveUnsavedChanges());
+      addVotedNews(savedNews);
       setChangesHappened(false);
     }
-  }, [changesHappened]);
+  }, [changesHappened, addVotedNews]);
 
   const handleChangeVotes = () => {
     setChangesHappened(true);
