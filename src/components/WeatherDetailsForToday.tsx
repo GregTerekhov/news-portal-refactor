@@ -26,7 +26,11 @@ const WeatherDetailsForToday = () => {
         <p className='font-weather text-2.5xl md:text-3.5xl text-contrastWhite'>{dateNow}</p>
       </div>
       <div className='grid grid-cols-2 grid-rows-2 gap-y-3.5'>
-        <p className='text-contrastWhite text-base md:text-medium flex gap-3 items-center'>
+        <p
+          className='text-contrastWhite text-base md:text-medium flex gap-3 items-center'
+          data-tooltip-target='tooltip-timezone'
+          data-tooltip-placement='right'
+        >
           <SvgIcon
             svgName='icon-earth'
             size={breakpointsForMarkup?.isNothing || breakpointsForMarkup?.isMobile ? 16 : 24}
@@ -34,7 +38,20 @@ const WeatherDetailsForToday = () => {
           />
           {convertTimezone(currentWeather?.timezone)} UTC
         </p>
-        <p className='text-contrastWhite text-base md:text-medium flex gap-3 items-center justify-end'>
+        <div
+          id='tooltip-timezone'
+          role='tooltip'
+          className='absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700'
+        >
+          Timezone
+          <div className='tooltip-arrow' data-popper-arrow></div>
+        </div>
+
+        <p
+          className='text-contrastWhite text-base md:text-medium flex gap-3 items-center justify-end'
+          data-tooltip-target='tooltip-humidity'
+          data-tooltip-placement='left'
+        >
           {currentWeather?.main?.humidity} &#37;
           <SvgIcon
             svgName='icon-humidity'
@@ -42,7 +59,20 @@ const WeatherDetailsForToday = () => {
             className='fill-whiteBase'
           />
         </p>
-        <p className='text-contrastWhite text-base md:text-medium flex gap-3 items-center'>
+        <div
+          id='tooltip-humidity'
+          role='tooltip'
+          className='absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700'
+        >
+          Humidity
+          <div className='tooltip-arrow' data-popper-arrow></div>
+        </div>
+
+        <p
+          className='text-contrastWhite text-base md:text-medium flex gap-3 items-center'
+          data-tooltip-target='tooltip-pressure-mmHg'
+          data-tooltip-placement='right'
+        >
           <SvgIcon
             svgName='icon-pressure'
             size={breakpointsForMarkup?.isNothing || breakpointsForMarkup?.isMobile ? 18 : 30}
@@ -50,7 +80,20 @@ const WeatherDetailsForToday = () => {
           />
           {hPaToMmHg(currentWeather?.main?.pressure)} mm.Hg
         </p>
-        <p className='text-contrastWhite text-base md:text-medium flex gap-3 items-center justify-end'>
+        <div
+          id='tooltip-pressure-mmHg'
+          role='tooltip'
+          className='absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700'
+        >
+          Pressure
+          <div className='tooltip-arrow' data-popper-arrow></div>
+        </div>
+
+        <p
+          className='text-contrastWhite text-base md:text-medium flex gap-3 items-center justify-end'
+          data-tooltip-target='tooltip-pressure-hpa'
+          data-tooltip-placement='left'
+        >
           {currentWeather?.main?.pressure} &#13169;
           <SvgIcon
             svgName='icon-pressure'
@@ -58,7 +101,20 @@ const WeatherDetailsForToday = () => {
             className='fill-whiteBase'
           />
         </p>
-        <p className='text-contrastWhite text-base md:text-medium flex gap-3 items-center'>
+        <div
+          id='tooltip-pressure-hpa'
+          role='tooltip'
+          className='absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700'
+        >
+          Pressure
+          <div className='tooltip-arrow' data-popper-arrow></div>
+        </div>
+
+        <p
+          className='text-contrastWhite text-base md:text-medium flex gap-3 items-center'
+          data-tooltip-target='tooltip-sunrise'
+          data-tooltip-placement='right'
+        >
           <SvgIcon
             svgName='icon-sunrise'
             size={breakpointsForMarkup?.isNothing || breakpointsForMarkup?.isMobile ? 20 : 30}
@@ -66,7 +122,20 @@ const WeatherDetailsForToday = () => {
           />
           {convertUnixTimestampToHHMM(currentWeather?.sys?.sunrise)} AM
         </p>
-        <p className='text-contrastWhite text-base md:text-medium flex gap-3 items-center justify-end'>
+        <div
+          id='tooltip-sunrise'
+          role='tooltip'
+          className='absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700'
+        >
+          Sunrise
+          <div className='tooltip-arrow' data-popper-arrow></div>
+        </div>
+
+        <p
+          className='text-contrastWhite text-base md:text-medium flex gap-3 items-center justify-end'
+          data-tooltip-target='tooltip-sunset'
+          data-tooltip-placement='left'
+        >
           {convertUnixTimestampToHHMM(currentWeather?.sys?.sunset)} PM
           <SvgIcon
             svgName='icon-sunset'
@@ -74,7 +143,20 @@ const WeatherDetailsForToday = () => {
             className='fill-whiteBase'
           />
         </p>
-        <p className='text-contrastWhite text-base md:text-medium flex gap-3 items-center'>
+        <div
+          id='tooltip-sunset'
+          role='tooltip'
+          className='absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700'
+        >
+          Sunset
+          <div className='tooltip-arrow' data-popper-arrow></div>
+        </div>
+
+        <p
+          className='text-contrastWhite text-base md:text-medium flex gap-3 items-center'
+          data-tooltip-target='tooltip-visibility'
+          data-tooltip-placement='right'
+        >
           <SvgIcon
             svgName='icon-eye-opened'
             size={breakpointsForMarkup?.isNothing || breakpointsForMarkup?.isMobile ? 20 : 30}
@@ -82,13 +164,35 @@ const WeatherDetailsForToday = () => {
           />
           {formatKmToMetre(currentWeather?.visibility)} km
         </p>
+        <div
+          id='tooltip-visibility'
+          role='tooltip'
+          className='absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700'
+        >
+          Visibility
+          <div className='tooltip-arrow' data-popper-arrow></div>
+        </div>
+
         <div className='flex gap-3 items-center justify-end'>
-          <p className='text-contrastWhite flex flex-col text-base lg:text-medium text-end'>
+          <p
+            className='text-contrastWhite flex flex-col text-base lg:text-medium text-end'
+            data-tooltip-target='tooltip-windSpeed'
+            data-tooltip-placement='left'
+          >
             {currentWeather?.wind?.speed} m/s{' '}
             <span className='text-[8px]'>
               ({getWindStrengthScale(currentWeather?.wind?.speed)} on the Beaufort scale)
             </span>
           </p>
+          <div
+            id='tooltip-windSpeed'
+            role='tooltip'
+            className='absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700'
+          >
+            Wind speed
+            <div className='tooltip-arrow' data-popper-arrow></div>
+          </div>
+
           <SvgIcon
             svgName='icon-weather-wind'
             size={breakpointsForMarkup?.isNothing || breakpointsForMarkup?.isMobile ? 20 : 30}

@@ -58,18 +58,33 @@ const PrimaryButton: React.FC<Partial<PBProps>> = (props) => {
     buttonStyles = 'w-10 rounded-[10px] border border-solid';
   }
   return (
-    <button
-      id={id}
-      aria-label={ariaLabel}
-      className={`flex items-center justify-center ${hasIcon ? 'gap-2.5' : ''} ${
-        children ? 'text-base lg:text-medium text-contrastWhite' : ''
-      } ${buttonStyles} ${classNameButton}`}
-      type={type}
-      onClick={onHandleClick}
-    >
-      {children}
-      {hasIcon && <SvgIcon svgName={svgName} size={svgSize} className={classNameIcon} />}
-    </button>
+    <>
+      <button
+        id={id}
+        aria-label={ariaLabel}
+        className={`flex items-center justify-center ${hasIcon ? 'gap-2.5' : ''} ${
+          children ? 'text-base lg:text-medium text-contrastWhite' : ''
+        } ${buttonStyles} ${classNameButton}`}
+        type={type}
+        onClick={onHandleClick}
+        data-tooltip-target='tooltip-sort-button'
+        data-tooltip-placement='top'
+      >
+        {children}
+        {hasIcon && <SvgIcon svgName={svgName} size={svgSize} className={classNameIcon} />}
+      </button>
+
+      {ariaLabel === 'AscendingSortButton' || ariaLabel === 'DescendingSortButton' ? (
+        <div
+          id='tooltip-sort-button'
+          role='tooltip'
+          className='absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700'
+        >
+          {ariaLabel === 'AscendingSortButton' ? 'Sort by ascending' : 'Sort by descending'}
+          <div className='tooltip-arrow' data-popper-arrow></div>
+        </div>
+      ) : null}
+    </>
   );
 };
 

@@ -87,15 +87,27 @@ const PageScrollController = (value: ScrollDirection) => {
   }
 
   return (
-    <button
-      id='top'
-      aria-label={`Page scroll controller button in direction ${direction}`}
-      onClick={onHandleClick}
-      type='button'
-      className={`z-30 group fixed ${upButtonVisibility} ${downButtonVisibility} ${position} left-20 items-center justify-center w-16 h-16 hover:border-solid hover:border-2 hover:border-whiteBase dark:hover:border-whiteBase rounded-full hover:bg-accentBase/[.7] transition-colors duration-500`}
-    >
-      <SvgIcon svgName={icon} size={30} className='fill-accentBase group-hover:fill-whiteBase' />
-    </button>
+    <>
+      <button
+        id='top'
+        aria-label={`Page scroll controller button in direction ${direction}`}
+        onClick={onHandleClick}
+        type='button'
+        className={`z-30 group fixed ${upButtonVisibility} ${downButtonVisibility} ${position} left-20 items-center justify-center w-16 h-16 hover:border-solid hover:border-2 hover:border-whiteBase dark:hover:border-whiteBase rounded-full hover:bg-accentBase/[.7] transition-colors duration-500`}
+        data-tooltip-target='tooltip-button'
+        data-tooltip-placement='right'
+      >
+        <SvgIcon svgName={icon} size={30} className='fill-accentBase group-hover:fill-whiteBase' />
+      </button>
+      <div
+        id='tooltip-button'
+        role='tooltip'
+        className='absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700'
+      >
+        {direction === 'top' ? 'Scroll Up' : 'Scroll Down'}
+        <div className='tooltip-arrow' data-popper-arrow></div>
+      </div>
+    </>
   );
 };
 

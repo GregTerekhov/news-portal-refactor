@@ -167,7 +167,7 @@ const FiltersBlock: FC = () => {
           ) : null}
           <div className='md-max-lg:col-start-8 md:flex md:items-center md:justify-end lg:items-end'>
             <PrimaryButton
-              aria-label='Ascending sort button'
+              aria-label='AscendingSortButton'
               classNameButton='border-whiteBase bg-accentBase dark:bg-transparent hover:bg-accentAlt transition-colors duration-500 p-2'
               onHandleClick={() => handleSort('asc')}
               variant='Small'
@@ -179,7 +179,7 @@ const FiltersBlock: FC = () => {
           </div>
           <div className='md-max-lg:col-start-9 md:flex md:items-center md:justify-start lg:items-end'>
             <PrimaryButton
-              aria-label='Descending sort button'
+              aria-label='DescendingSortButton'
               classNameButton='p-2 border-whiteBase bg-accentBase dark:bg-transparent hover:bg-accentAlt transition-colors duration-500'
               onHandleClick={() => handleSort('desc')}
               variant='Small'
