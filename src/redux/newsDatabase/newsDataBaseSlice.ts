@@ -1,17 +1,22 @@
 import { PayloadAction, SerializedError, createSlice } from '@reduxjs/toolkit';
-// import type { PayloadAction } from '@reduxjs/toolkit';
 
 import { PartialVotedNewsArray, VotedItem } from 'types';
 
-import { fetchAllNews, fetchFavourites, fetchRead } from './newsDatabaseOperations';
+import {
+  deleteNews,
+  fetchAllNews,
+  fetchArchivedNews,
+  fetchFavourites,
+  fetchRead,
+} from './newsDatabaseOperations';
 
 interface SelectedNewsState {
   savedNews: PartialVotedNewsArray;
   favourites: PartialVotedNewsArray;
   reads: PartialVotedNewsArray;
+  archivedNews: PartialVotedNewsArray;
   isLoading: boolean;
   hasError: SerializedError | null;
-  // unsavedChanges: boolean;
 }
 
 // type FavouritesAction = PayloadAction<
@@ -25,9 +30,9 @@ const initialState = {
   savedNews: [],
   favourites: [],
   reads: [],
+  archivedNews: [],
   isLoading: false,
   hasError: null,
-  // unsavedChanges: false,
 } as SelectedNewsState;
 
 // const handlePending = (state) => {
@@ -71,20 +76,16 @@ const newsDBSlice = createSlice({
           ...state.savedNews[existingNewsIndex],
           isFavourite: updatedVotedNews.isFavourite,
           hasRead: updatedVotedNews.hasRead,
-          // state.unsavedChanges = true;
+          additionDate: updatedVotedNews.additionDate,
         };
       } else {
         state.savedNews.unshift(updatedVotedNews);
-        // state.unsavedChanges = true;
       }
     },
     removeFromFavourites: (state, action) => {
       const { newsUrl } = action.payload;
       state.favourites = state.favourites.filter((fav) => fav.newsUrl !== newsUrl);
     },
-    // saveUnsavedChanges: (state) => {
-    //   state.unsavedChanges = false;
-    // },
     clearVotedNews: (state) => {
       state.savedNews = [];
     },
@@ -127,6 +128,33 @@ const newsDBSlice = createSlice({
         state.hasError = null;
       })
       .addCase(fetchRead.rejected, (state, action) => {
+        state.isLoading = false;
+        state.hasError = action.error;
+      })
+      .addCase(fetchArchivedNews.pending, (state) => {
+        state.isLoading = true;
+        state.hasError = null;
+      })
+      .addCase(fetchArchivedNews.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.archivedNews = action.payload;
+        state.hasError = null;
+      })
+      .addCase(fetchArchivedNews.rejected, (state, action) => {
+        state.isLoading = false;
+        state.hasError = action.error;
+      })
+      .addCase(deleteNews.pending, (state) => {
+        state.isLoading = true;
+        state.hasError = null;
+      })
+      .addCase(deleteNews.fulfilled, (state, action) => {
+        const { deletedNewsUrl } = action.payload;
+        state.isLoading = false;
+        state.archivedNews = state.archivedNews.filter((news) => news.newsUrl !== deletedNewsUrl);
+        state.hasError = null;
+      })
+      .addCase(deleteNews.rejected, (state, action) => {
         state.isLoading = false;
         state.hasError = action.error;
       });

@@ -1,13 +1,10 @@
 import React, { useState } from 'react';
 
-import { useAppDispatch } from 'reduxStore/hooks';
-
-import { usePopUp, useWindowWidth } from 'hooks';
+import { useAuthCollector, usePopUp, useWindowWidth } from 'hooks';
 
 import { Input, PrimaryButton } from 'ui';
 
 import ThemeSwitcher from './ThemeSwitcher';
-import { signIn } from 'reduxStore/auth';
 
 interface SignInProps {
   handleCheckboxChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
@@ -20,15 +17,12 @@ const SignInPanel = ({
   handleShowRecoveryInput,
   isShowRecoveryInput,
 }: SignInProps) => {
+  const [email, setEmail] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
   const { breakpointsForMarkup } = useWindowWidth() ?? {
     breakpointsForMarkup: null,
   };
-
-  const [email, setEmail] = useState<string>('');
-  const [password, setPassword] = useState<string>('');
-
-  const dispatch = useAppDispatch();
-
+  const { login } = useAuthCollector();
   const { toggleModal } = usePopUp();
 
   const handleInputChange = (e: React.FormEvent<HTMLInputElement>) => {
@@ -56,7 +50,7 @@ const SignInPanel = ({
     };
 
     console.log(credentials);
-    await dispatch(signIn(credentials));
+    await login(credentials);
     toggleModal();
   };
 
@@ -112,7 +106,6 @@ const SignInPanel = ({
           name: 'checkbox',
           type: 'checkbox',
           children: 'Remember me',
-          required: true,
         }}
         hasIcon={false}
         variant='checkbox'

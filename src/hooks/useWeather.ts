@@ -1,14 +1,13 @@
 import { useEffect, useState } from 'react';
 
-import { useAppDispatch } from 'reduxStore/hooks';
-import { fetchHourlyForecastWeather, fetchWeather } from 'reduxStore/weather';
+import useWeatherCollector from './useWeatherCollector';
 
 const useWeather = () => {
   const [isCelsius, setIsCelsius] = useState<boolean>(true);
   const [isFlipped, setIsFlipped] = useState<boolean>(false);
   const [hasGeolocationPermission, setHasGeolocationPermission] = useState<boolean>(false);
 
-  const dispatch = useAppDispatch();
+  const { getCurrentWeather, getHourlyWeather } = useWeatherCollector();
 
   const geolocation: boolean = 'geolocation' in navigator;
 
@@ -32,8 +31,8 @@ const useWeather = () => {
               latitude: position.coords.latitude,
               longitude: position.coords.longitude,
             };
-            dispatch(fetchWeather(sendGeolocation));
-            dispatch(fetchHourlyForecastWeather(sendGeolocation));
+            getCurrentWeather(sendGeolocation);
+            getHourlyWeather(sendGeolocation);
           });
         } else if (result.state === 'prompt') {
           navigator.geolocation.getCurrentPosition(
@@ -44,8 +43,8 @@ const useWeather = () => {
                 latitude: position.coords.latitude,
                 longitude: position.coords.longitude,
               };
-              dispatch(fetchWeather(sendGeolocation));
-              dispatch(fetchHourlyForecastWeather(sendGeolocation));
+              getCurrentWeather(sendGeolocation);
+              getHourlyWeather(sendGeolocation);
             },
             (error) => {
               setHasGeolocationPermission(false);

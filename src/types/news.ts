@@ -68,6 +68,7 @@ export interface VotedItem {
   imgAlt?: string;
   newsUrl: string;
   materialType?: string;
+  additionDate: string | undefined;
 }
 
 export type VotedNewsArray = VotedItem[];

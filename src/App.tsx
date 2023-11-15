@@ -8,11 +8,17 @@ import { HomePage, ErrorPage, FavouritePage, ReadPage, ArchivePage } from './pag
 import { Layout } from './layouts';
 
 function App() {
+  // const location = useLocation();
+  // const activeLinks = useActiveLinks(location);
   const { fetchCurrentAuthUser } = useAuthCollector();
+  const persistedToken = localStorage.getItem('refreshToken');
 
   useEffect(() => {
-    fetchCurrentAuthUser();
-  }, []);
+    console.log('useEffect');
+    if (persistedToken) {
+      fetchCurrentAuthUser();
+    }
+  }, [fetchCurrentAuthUser]);
 
   return (
     <WindowWidthProvider>

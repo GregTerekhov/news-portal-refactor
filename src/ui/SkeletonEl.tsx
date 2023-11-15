@@ -12,7 +12,7 @@ const SkeletonEl = () => {
       <div
         className={`${
           activeLinks.isHomeActive ? 'mb-10 md:mb-12 lg:mb-[60px]' : ''
-        }w-72 md:w-[353px] lg:w-[395px] hg:w-[442px] h-[630px] md:h-[675px] bg-contrastWhite/[.8] dark:bg-darkBase/[.4] overflow-hidden rounded-[10px] animate-pulse transition-colors duration-500`}
+        } w-72 md:w-[353px] lg:w-[395px] hg:w-[442px] h-[630px] md:h-[675px] bg-contrastWhite/[.8] dark:bg-darkBase/[.4] overflow-hidden rounded-[10px] animate-pulse transition-colors duration-500`}
       >
         <div className='relative h-[395px] bg-greyAlt/[.4] dark:bg-whiteBase/[.1] rounded-[10px] mb-4 transition-colors duration-500'>
           <div className='absolute z-20 top-10 left-0 w-28 h-6 bg-greyBase/[.4] dark:bg-darkBackground/[.8] rounded-r transition-colors duration-500'></div>
@@ -35,11 +35,11 @@ const SkeletonEl = () => {
       </div>
       {activeLinks.isHomeActive && (
         <div className='flex items-center justify-center gap-2'>
-          <div className='w-28 h-10 bg-greyAlt/[.4] dark:bg-whiteBase/[.1] rounded-[20px] transition-colors duration-500'></div>
+          <div className='w-14 md:w-28 h-10 bg-greyAlt/[.4] dark:bg-whiteBase/[.1] rounded-[20px] transition-colors duration-500'></div>
           <div className='w-10 h-10 bg-greyAlt/[.4] dark:bg-whiteBase/[.1] rounded-full transition-colors duration-500'></div>
           <div className='w-10 h-10 bg-greyAlt/[.4] dark:bg-whiteBase/[.1] rounded-full transition-colors duration-500'></div>
           <div className='w-10 h-10 bg-greyAlt/[.4] dark:bg-whiteBase/[.1] rounded-full transition-colors duration-500'></div>
-          <div className='w-28 h-10 bg-greyAlt/[.4] dark:bg-whiteBase/[.1] rounded-[20px] transition-colors duration-500'></div>
+          <div className='w-14 md:w-28 h-10 bg-greyAlt/[.4] dark:bg-whiteBase/[.1] rounded-[20px] transition-colors duration-500'></div>
         </div>
       )}
     </>

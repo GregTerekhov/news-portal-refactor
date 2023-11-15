@@ -1,9 +1,6 @@
 import { useEffect, useState } from 'react';
 import { format, isAfter, startOfToday } from 'date-fns';
 
-import { filterNews } from 'reduxStore/filterSlice';
-import { useAppDispatch } from 'reduxStore/hooks';
-
 import { Filters, PartialVotedNewsArray } from 'types';
 
 import { applyCrossFilters } from 'helpers';
@@ -31,11 +28,10 @@ const useFilterNews = ({ activeLinks, setIsOpenCalendar }: FilterHookProps) => {
     materialType: '',
     selectedFilterDate: '',
   });
-  const { resetAllFilters } = useFilterCollector();
+  const { getFilteredNews, resetAllFilters } = useFilterCollector();
   const { allFavourites, allReads } = useNewsDBCollector();
   const { rebuildedNews } = useChooseRenderingNews({ activeLinks });
 
-  const dispatch = useAppDispatch();
   const today = startOfToday();
 
   useEffect(() => {
@@ -82,24 +78,24 @@ const useFilterNews = ({ activeLinks, setIsOpenCalendar }: FilterHookProps) => {
         const filteredNews = applyCrossFilters(rebuildedNews, filters);
         console.log('filters', filters);
         if (filteredNews) {
-          dispatch(filterNews(filteredNews));
+          getFilteredNews(filteredNews);
         }
       } else if (activeLinks.isFavoriteActive) {
         const filteredNews = applyCrossFilters(allFavourites, filters);
 
         if (filteredNews) {
-          dispatch(filterNews(filteredNews));
+          getFilteredNews(filteredNews);
         }
       } else if (activeLinks.isReadActive) {
         const filteredNews = applyCrossFilters(allReads, filters);
 
         if (filteredNews) {
-          dispatch(filterNews(filteredNews));
+          getFilteredNews(filteredNews);
         }
       }
     } else {
       const defaultFilteredNews: PartialVotedNewsArray = [];
-      dispatch(filterNews(defaultFilteredNews));
+      getFilteredNews(defaultFilteredNews);
     }
     setFilters({
       keyword: '',
@@ -141,7 +137,7 @@ const useFilterNews = ({ activeLinks, setIsOpenCalendar }: FilterHookProps) => {
 
         return 0;
       });
-      dispatch(filterNews(sortedNews));
+      getFilteredNews(sortedNews);
     }
   };
 
