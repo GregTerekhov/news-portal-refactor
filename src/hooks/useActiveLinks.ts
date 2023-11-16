@@ -8,6 +8,7 @@ const useActiveLinks = (location: Location) => {
       isFavoriteActive: location.pathname === '/favourite',
       isReadActive: location.pathname === '/read',
       isArchiveActive: location.pathname === '/archive',
+      isAccountPage: location.pathname === '/account',
     }),
     [location.pathname],
   );

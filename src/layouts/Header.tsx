@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
 import {
   useActiveLinks,
@@ -56,8 +56,13 @@ const Header = () => {
             isLoggedIn ? 'gap-3.5' : ''
           }`}
         >
-          {isLoggedIn && isNotMobile ? (
-            <p className='absolute top-1.5 right-40 text-whiteBase'>Hello,{user.name}</p>
+          {isNotMobile ? (
+            <Link
+              to='/account'
+              className='absolute top-1.5 right-40 lg:right-60 text-darkBase dark:text-whiteBase hover:text-accentBase hover:underline hover:decoration-accentBase'
+            >
+              Account {user.name}
+            </Link>
           ) : null}
           <a
             href='/'
@@ -86,6 +91,7 @@ const Header = () => {
                             value: query,
                             placeholder: 'Search |',
                           }}
+                          svgName='icon-search'
                           hasIcon={true}
                           variant='header'
                           hideInput={handleVisibilityChange}

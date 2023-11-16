@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import { HourlyWeatherData } from 'types';
 
@@ -8,6 +8,7 @@ import { useWeatherCollector, useWindowWidth } from 'hooks';
 import { SvgIcon } from 'ui';
 
 const WeatherDetailsForHours = () => {
+  const [showTooltip, setShowTooltip] = useState<boolean>(false);
   const { hourlyWeather } = useWeatherCollector();
   const { breakpointsForMarkup } = useWindowWidth() ?? {
     breakpointsForMarkup: null,
@@ -44,7 +45,15 @@ const WeatherDetailsForHours = () => {
           </tr>
         </thead>
         <tbody>
-          <tr>
+          <tr
+            className={`relative ${
+              showTooltip
+                ? 'hover:after:content-["Temperature_in_°C"] hover:after:absolute hover:after:block hover:after:-bottom-2 hover:after:left-2/4 hover:after:-translate-x-2/4 hover:after:bg-whiteBase/[.2] hover:after:text-whiteBase hover:after:rounded-md hover:after:z-10 hover:after:text-small hover:after:py-0.5 hover:after:px-1.5 hover:after:whitespace-nowrap hover:after:border hover:after:border-solid hover:after:border-whiteBase'
+                : ''
+            }`}
+            onMouseEnter={() => setShowTooltip(true)}
+            onMouseLeave={() => setShowTooltip(false)}
+          >
             <th scope='row' className='w-10 pr-2'>
               <SvgIcon
                 svgName='icon-thermometer'
@@ -65,7 +74,15 @@ const WeatherDetailsForHours = () => {
                 );
               })}
           </tr>
-          <tr>
+          <tr
+            className={`relative ${
+              showTooltip
+                ? 'hover:after:content-["Precipitation_and_weather"] hover:after:absolute hover:after:block hover:after:-bottom-3 hover:after:left-2/4 hover:after:-translate-x-2/4 hover:after:bg-whiteBase/[.2] hover:after:text-whiteBase hover:after:rounded-md hover:after:z-10 hover:after:text-small hover:after:py-0.5 hover:after:px-1.5 hover:after:whitespace-nowrap hover:after:border hover:after:border-solid hover:after:border-whiteBase'
+                : ''
+            }`}
+            onMouseEnter={() => setShowTooltip(true)}
+            onMouseLeave={() => setShowTooltip(false)}
+          >
             <th scope='row' className='w-10 pr-2'>
               <SvgIcon
                 svgName='icon-sun'
@@ -87,7 +104,15 @@ const WeatherDetailsForHours = () => {
                 );
               })}
           </tr>
-          <tr data-tooltip-target='tooltip-humidity' data-tooltip-placement='left'>
+          <tr
+            className={`relative ${
+              showTooltip
+                ? 'hover:after:content-["Humidity_(%)"] hover:after:absolute hover:after:block hover:after:-bottom-3 hover:after:left-2/4 hover:after:-translate-x-2/4 hover:after:bg-whiteBase/[.2] hover:after:text-whiteBase hover:after:rounded-md hover:after:z-10 hover:after:text-small hover:after:py-0.5 hover:after:px-1.5 hover:after:whitespace-nowrap hover:after:border hover:after:border-solid hover:after:border-whiteBase'
+                : ''
+            }`}
+            onMouseEnter={() => setShowTooltip(true)}
+            onMouseLeave={() => setShowTooltip(false)}
+          >
             <th scope='row' className='w-10 pr-2'>
               <SvgIcon
                 svgName='icon-humidity'
@@ -109,15 +134,16 @@ const WeatherDetailsForHours = () => {
                 );
               })}
           </tr>
-          <div
-            id='tooltip-humidity'
-            role='tooltip'
-            className='absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700'
-          >
-            Humidity, %<div className='tooltip-arrow' data-popper-arrow></div>
-          </div>
 
-          <tr data-tooltip-target='tooltip-pressure' data-tooltip-placement='left'>
+          <tr
+            className={`relative ${
+              showTooltip
+                ? 'hover:after:content-["Pressure_(mm.Hg)"] hover:after:absolute hover:after:block hover:after:-bottom-3 hover:after:left-2/4 hover:after:-translate-x-2/4 hover:after:bg-whiteBase/[.2] hover:after:text-whiteBase hover:after:rounded-md hover:after:z-10 hover:after:text-small hover:after:py-0.5 hover:after:px-1.5 hover:after:whitespace-nowrap hover:after:border hover:after:border-solid hover:after:border-whiteBase'
+                : ''
+            }`}
+            onMouseEnter={() => setShowTooltip(true)}
+            onMouseLeave={() => setShowTooltip(false)}
+          >
             <th scope='row' className='w-10 pr-2'>
               <SvgIcon
                 svgName='icon-pressure'
@@ -139,17 +165,18 @@ const WeatherDetailsForHours = () => {
                 );
               })}
           </tr>
-          <div
-            id='tooltip-pressure'
-            role='tooltip'
-            className='absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700'
-          >
-            Pressure, mm.Hg
-            <div className='tooltip-arrow' data-popper-arrow></div>
-          </div>
 
-          <tr data-tooltip-target='tooltip-windSpeed' data-tooltip-placement='left'>
-            <th scope='row' className='w-10 pr-2'>
+          <tr
+            title='Wind speed (m/s)'
+            className={`relative ${
+              showTooltip
+                ? 'hover:after:content-["Wind_speed_(m/s)"] hover:after:absolute hover:after:block hover:after:-bottom-3 hover:after:left-2/4 hover:after:-translate-x-2/4 hover:after:bg-whiteBase/[.2] hover:after:text-whiteBase hover:after:rounded-md hover:after:z-10 hover:after:text-small hover:after:py-0.5 hover:after:px-1.5 hover:after:whitespace-nowrap hover:after:border hover:after:border-solid hover:after:border-whiteBase'
+                : ''
+            }`}
+            onMouseEnter={() => setShowTooltip(true)}
+            onMouseLeave={() => setShowTooltip(false)}
+          >
+            <th title='Wind speed' scope='row' className='w-10 pr-2'>
               <SvgIcon
                 svgName='icon-weather-wind'
                 size={breakpointsForMarkup?.isNothing || breakpointsForMarkup?.isMobile ? 20 : 24}
@@ -169,14 +196,6 @@ const WeatherDetailsForHours = () => {
                 );
               })}
           </tr>
-          <div
-            id='tooltip-windSpeed'
-            role='tooltip'
-            className='absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700'
-          >
-            Wind speed, m/s
-            <div className='tooltip-arrow' data-popper-arrow></div>
-          </div>
         </tbody>
       </table>
     </div>

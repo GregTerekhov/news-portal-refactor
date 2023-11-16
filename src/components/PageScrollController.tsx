@@ -8,6 +8,7 @@ interface ScrollDirection {
   direction: string;
   position: string;
   icon: string;
+  dataTooltipTarget: string;
 }
 
 const PageScrollController = (value: ScrollDirection) => {
@@ -17,7 +18,7 @@ const PageScrollController = (value: ScrollDirection) => {
     breakpointsForMarkup: null,
   };
 
-  const { direction, position, icon } = value;
+  const { direction, position, icon, dataTooltipTarget } = value;
 
   const headerHeight = getHeaderHeight();
 
@@ -94,17 +95,19 @@ const PageScrollController = (value: ScrollDirection) => {
         onClick={onHandleClick}
         type='button'
         className={`z-30 group fixed ${upButtonVisibility} ${downButtonVisibility} ${position} left-20 items-center justify-center w-16 h-16 hover:border-solid hover:border-2 hover:border-whiteBase dark:hover:border-whiteBase rounded-full hover:bg-accentBase/[.7] transition-colors duration-500`}
-        data-tooltip-target='tooltip-button'
+        data-tooltip-target={dataTooltipTarget}
         data-tooltip-placement='right'
       >
         <SvgIcon svgName={icon} size={30} className='fill-accentBase group-hover:fill-whiteBase' />
       </button>
       <div
-        id='tooltip-button'
+        id={dataTooltipTarget}
         role='tooltip'
-        className='absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700'
+        className='absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-whiteBase bg-accentBase/[.9] rounded-lg shadow-sm opacity-0 tooltip'
       >
-        {direction === 'top' ? 'Scroll Up' : 'Scroll Down'}
+        {direction === 'top' && dataTooltipTarget === 'tooltip-scroll-up'
+          ? 'Scroll Up'
+          : 'Scroll Down'}
         <div className='tooltip-arrow' data-popper-arrow></div>
       </div>
     </>
