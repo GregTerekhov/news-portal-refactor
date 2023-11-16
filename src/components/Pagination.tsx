@@ -47,6 +47,9 @@ const Pagination: React.FC<P> = ({ pageNumbers, currentPage, setCurrentPage }) =
             : 'text-darkBase dark:text-whiteBase dark:border-whiteBase'
         }`}
         variant='Small'
+        dataTooltipTarget={`tooltip-pagination-pages-${pageNumber.toString()}`}
+        dataTooltipPlacement='bottom'
+        tooltipText={`Paginate news to ${pageNumber.toString()} page`}
       >
         {pageNumber}
       </PrimaryButton>

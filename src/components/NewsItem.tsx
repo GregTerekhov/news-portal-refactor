@@ -206,16 +206,21 @@ const NewsItem: React.FC<Partial<NewsItemProps>> = ({
             }`}
           ></div>
           {activeLinks.isArchiveActive ? (
-            <PrimaryButton
-              onHandleClick={handleDeleteNews}
-              variant='Small'
-              hasIcon={true}
-              svgName='icon-close'
-              svgSize={24}
-              classNameIcon='stroke-whiteBase'
-              ariaLabel='Delete news from archive button'
-              classNameButton='absolute z-40 top-3 right-3 bg-accentBase/[.8] py-1.5'
-            />
+            <div>
+              <PrimaryButton
+                onHandleClick={handleDeleteNews}
+                variant='Small'
+                dataTooltipTarget={`tooltip-delete-${liveNews.newsUrl} news`}
+                dataTooltipPlacement='left'
+                tooltipText='Delete news from archive'
+                hasIcon={true}
+                svgName='icon-close'
+                svgSize={24}
+                classNameIcon='stroke-whiteBase'
+                ariaLabel='Delete news from archive button'
+                classNameButton='absolute z-40 top-3 right-3 bg-accentBase/[.8] py-1.5'
+              />
+            </div>
           ) : null}
           <p className='absolute z-20 top-10 left-0 py-1 px-2 text-small font-medium text-contrastWhite bg-accentBase/[.7] rounded-r'>
             {liveNews?.category} / {liveNews?.materialType}

@@ -38,6 +38,7 @@ const SearchBlock: FC = () => {
               value: query,
               placeholder: 'Search |',
             }}
+            svgName='icon-search'
             hasIcon={true}
             variant='filterServiceBlock'
             onChange={(event: React.ChangeEvent<HTMLInputElement>) => onChangeInput(event)}

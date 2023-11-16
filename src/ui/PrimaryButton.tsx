@@ -31,6 +31,9 @@ interface PBProps {
   classNameButton?: string;
   id?: string;
   ariaLabel?: string;
+  dataTooltipTarget?: string;
+  dataTooltipPlacement?: string;
+  tooltipText?: string;
 }
 
 const PrimaryButton: React.FC<Partial<PBProps>> = (props) => {
@@ -46,6 +49,9 @@ const PrimaryButton: React.FC<Partial<PBProps>> = (props) => {
   const classNameButton = props.classNameButton;
   const id = props.id;
   const ariaLabel = props.ariaLabel;
+  const dataTooltipTarget = props.dataTooltipTarget;
+  const dataTooltipPlacement = props.dataTooltipPlacement;
+  const tooltipText = props.tooltipText;
 
   let buttonStyles: string = '';
 
@@ -67,20 +73,20 @@ const PrimaryButton: React.FC<Partial<PBProps>> = (props) => {
         } ${buttonStyles} ${classNameButton}`}
         type={type}
         onClick={onHandleClick}
-        data-tooltip-target='tooltip-sort-button'
-        data-tooltip-placement='top'
+        data-tooltip-target={dataTooltipTarget}
+        data-tooltip-placement={dataTooltipPlacement}
       >
         {children}
         {hasIcon && <SvgIcon svgName={svgName} size={svgSize} className={classNameIcon} />}
       </button>
 
-      {ariaLabel === 'AscendingSortButton' || ariaLabel === 'DescendingSortButton' ? (
+      {variant === PB.Small ? (
         <div
-          id='tooltip-sort-button'
+          id={dataTooltipTarget}
           role='tooltip'
-          className='absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700'
+          className='absolute z-40 invisible inline-block px-3 py-2 text-sm font-medium text-whiteBase bg-accentBase/[.9] rounded-lg shadow-sm opacity-0 tooltip'
         >
-          {ariaLabel === 'AscendingSortButton' ? 'Sort by ascending' : 'Sort by descending'}
+          {tooltipText}
           <div className='tooltip-arrow' data-popper-arrow></div>
         </div>
       ) : null}
