@@ -131,9 +131,7 @@ const Input: FC<Partial<InputProps>> = (props) => {
             variant === V.Auth ||
             variant === V.FilterServiceBlock ||
             (variant === V.Header && 'gap-x-4')
-          } ${variant === V.Checkbox ? 'mb-3 cursor-pointer gap-x-4' : ''} ${
-            variant === V.Account ? 'text-darkBase dark:text-whiteBase text-end gap-x-4' : ''
-          } ${className}`}
+          } ${variant === V.Checkbox ? 'mb-3 cursor-pointer gap-x-4' : ''} ${className}`}
         >
           {variant === V.FilterServiceBlock && (
             <p className='text-darkBase dark:text-whiteBase mb-2 text-base'>
@@ -141,7 +139,6 @@ const Input: FC<Partial<InputProps>> = (props) => {
               <span className='capitalize'>{name}:</span>
             </p>
           )}
-          {variant === V.Account && <p className='mb-2 md:mb-4 md:text-2xl'>Change your {name}</p>}
           {variant === V.Auth && (
             <>
               <span className={`${!hasIcon && 'mb-1.5 block'} text-accentBase font-medium`}>
@@ -181,6 +178,19 @@ const Input: FC<Partial<InputProps>> = (props) => {
                 size={16}
                 className={`${isChecked ? 'fill-whiteBase' : 'fill-none'}`}
               />
+            ) : null}
+            {type === 'password' ? (
+              <button
+                aria-label='Password visibility button'
+                type='button'
+                onClick={togglePasswordVisibility}
+              >
+                <SvgIcon
+                  svgName={`${isPasswordVisibility ? 'icon-eye-opened' : 'icon-eye-closed'}`}
+                  size={20}
+                  className='fill-greyBase absolute right-3 bottom-[9px] md:right-4 cursor-pointer'
+                />
+              </button>
             ) : null}
             {hasIcon && (
               <span className='absolute w-5 h-5 left-3 top-50% transform -translate-y-1/2 flex items-center justify-center'>

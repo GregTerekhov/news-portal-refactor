@@ -5,12 +5,13 @@ import {
   useActiveLinks,
   useAdditionalRequest,
   useAuthCollector,
+  useFilterCollector,
   useHeaderStyles,
   usePopUp,
   useWindowWidth,
 } from 'hooks';
 
-import { Menu, ThemeSwitcher, Auth, AuthModal } from 'components';
+import { Menu, ThemeSwitcher, Auth, AuthModal, AccountMenu } from 'components';
 import { Input, Modal, SvgIcon } from 'ui';
 
 const Header = () => {
@@ -19,12 +20,13 @@ const Header = () => {
   const { breakpointsForMarkup } = useWindowWidth() ?? {
     breakpointsForMarkup: null,
   };
-  const { user, isLoggedIn } = useAuthCollector();
+  const { user } = useAuthCollector();
+  const { resetAllFilters } = useFilterCollector();
   const [touched, setTouched] = useState<boolean>(false);
 
   const location = useLocation();
   const activeLinks = useActiveLinks(location);
-  // const isLoggedIn = true;
+  const isLoggedIn = true;
   const { headerClass, textClass, burgerMenuButtonClass } = useHeaderStyles(
     activeLinks.isHomeActive,
   );
@@ -39,6 +41,8 @@ const Header = () => {
   if (user) {
     console.log(ram.length);
   }
+
+  const isAccountPages = activeLinks.isAccountPage || activeLinks.isManageAccountPage;
 
   return (
     <>
@@ -103,10 +107,15 @@ const Header = () => {
                       </form>
                     ) : null}
                     <button
-                      aria-label={`${!isOpenMenu ? 'Open' : 'Close'} mobile menu button`}
+                      aria-label={`${!isOpenMenu ? 'Open' : 'Close'} ${
+                        !isAccountPages ? 'mobile' : 'account'
+                      } menu button`}
                       type='button'
                       className='w-6 h-6 md:hidden'
-                      onClick={toggleMenu}
+                      onClick={() => {
+                        toggleMenu();
+                        resetAllFilters();
+                      }}
                     >
                       <SvgIcon
                         svgName={`${isOpenMenu ? 'icon-close' : 'icon-burger-menu'}`}
@@ -140,7 +149,8 @@ const Header = () => {
           <AuthModal />
         </Modal>
       )}
-      {isOpenMenu && <Menu isOpen={isOpenMenu} closeMenu={toggleMenu} />}
+      {isOpenMenu && !isAccountPages && <Menu isOpen={isOpenMenu} closeMenu={toggleMenu} />}
+      {isOpenMenu && isAccountPages && <AccountMenu isOpen={isOpenMenu} closeMenu={toggleMenu} />}
     </>
   );
 };

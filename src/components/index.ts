@@ -1,3 +1,4 @@
+export { default as AccountMenu } from './AccountMenu';
 export { default as Accordeon } from './Accordeon';
 export { default as Auth } from './Auth';
 export { default as AuthModal } from './AuthModal';

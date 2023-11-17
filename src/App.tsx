@@ -4,8 +4,16 @@ import { Route, Routes } from 'react-router-dom';
 import { WindowWidthProvider } from 'contexts';
 import { useAuthCollector } from './hooks';
 
-import { HomePage, ErrorPage, FavouritePage, ReadPage, ArchivePage, AccountPage } from './pages';
-import { Layout } from './layouts';
+import {
+  HomePage,
+  ErrorPage,
+  FavouritePage,
+  ReadPage,
+  ArchivePage,
+  AccountPage,
+  AccountManagePage,
+} from './pages';
+import { AccountLayout, Layout } from './layouts';
 
 function App() {
   // const location = useLocation();
@@ -26,10 +34,13 @@ function App() {
         <Routes>
           <Route path='/' element={<Layout />}>
             <Route index element={<HomePage />} />
-            <Route path='/account' element={<AccountPage />} />
             <Route path='/favourite' element={<FavouritePage />} />
             <Route path='/read' element={<ReadPage />} />
             <Route path='/archive' element={<ArchivePage />} />
+            <Route element={<AccountLayout />}>
+              <Route path='/account' element={<AccountPage />} />
+              <Route path='/accountManage' element={<AccountManagePage />} />
+            </Route>
             <Route path='*' element={<ErrorPage />} />
           </Route>
         </Routes>
