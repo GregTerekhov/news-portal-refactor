@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
+import React, { FC, useState } from 'react';
 
 import { useWindowWidth } from 'hooks';
 
 import { Accordeon } from 'components';
 import { Input, PrimaryButton } from 'ui';
 
-const AccountManagePage = () => {
+const AccountManagePage: FC = () => {
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [confirmPassword, setConfirmPassword] = useState<string>('');

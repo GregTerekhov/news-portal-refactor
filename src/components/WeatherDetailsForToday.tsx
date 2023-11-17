@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { FC } from 'react';
 
 import {
   convertTimezone,
@@ -12,7 +12,7 @@ import { useWeatherCollector, useWindowWidth } from 'hooks';
 
 import { SvgIcon } from 'ui';
 
-const WeatherDetailsForToday = () => {
+const WeatherDetailsForToday: FC = () => {
   const { currentWeather } = useWeatherCollector();
   const { breakpointsForMarkup } = useWindowWidth() ?? {
     breakpointsForMarkup: null,

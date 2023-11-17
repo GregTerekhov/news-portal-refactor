@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { FC } from 'react';
 
 import { PartialVotedNewsArray, VotedItem } from 'types';
 
@@ -7,12 +7,12 @@ import WeatherBlock from './WeatherBlock';
 
 interface NewsListProps {
   currentItems: PartialVotedNewsArray;
-  currentPage: number;
+  currentPage?: number;
   onChange: () => void;
   // onDeleteNews: (index: number) => void;
 }
 
-const NewsList: React.FC<Partial<NewsListProps>> = ({
+const NewsList: FC<Partial<NewsListProps>> = ({
   currentItems,
   currentPage,
   onChange,

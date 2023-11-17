@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 
 import { useWindowWidth } from 'hooks';
 
@@ -11,7 +11,7 @@ interface ScrollDirection {
   dataTooltipTarget: string;
 }
 
-const PageScrollController = (value: ScrollDirection) => {
+const PageScrollController: FC<ScrollDirection> = (value) => {
   const [upButtonVisibility, setUpButtonVisibility] = useState<string>('');
   const [downButtonVisibility, setDownButtonVisibility] = useState<string>('');
   const { breakpointsForMarkup } = useWindowWidth() ?? {

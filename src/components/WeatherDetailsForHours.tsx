@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { FC, useState } from 'react';
 
 import { HourlyWeatherData } from 'types';
 
@@ -7,7 +7,7 @@ import { useWeatherCollector, useWindowWidth } from 'hooks';
 
 import { SvgIcon } from 'ui';
 
-const WeatherDetailsForHours = () => {
+const WeatherDetailsForHours: FC = () => {
   const [showTooltip, setShowTooltip] = useState<boolean>(false);
   const { hourlyWeather } = useWeatherCollector();
   const { breakpointsForMarkup } = useWindowWidth() ?? {

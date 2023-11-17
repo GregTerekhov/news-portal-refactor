@@ -1,16 +1,16 @@
-import React, { ReactNode, useState } from 'react';
+import React, { FC, ReactElement, ReactNode, useState } from 'react';
 import * as Accordion from '@radix-ui/react-accordion';
 
 import { SvgIcon } from 'ui';
 
-interface A {
-  children: ReactNode;
+interface AccordeonProps {
   dateSeparator?: string;
   position: string;
   filtersBlock?: string;
+  children: ReactElement | ReactNode;
 }
 
-const Accordeon: React.FC<A> = ({ children, dateSeparator, position, filtersBlock }) => {
+const Accordeon: FC<AccordeonProps> = ({ children, dateSeparator, position, filtersBlock }) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
   const handleClick = () => {

@@ -1,15 +1,15 @@
-import React, { ReactNode, useState } from 'react';
+import React, { FC, ReactNode, useState } from 'react';
 import { Menu, Transition } from '@headlessui/react';
 
 import SvgIcon from './SvgIcon';
 
-interface D {
+interface DropdownProps {
   children: ReactNode;
   labels: string[] | undefined;
   getResults: (value: string) => void;
 }
 
-const Dropdown = ({ children, labels, getResults }: Partial<D>) => {
+const Dropdown: FC<DropdownProps> = ({ children, labels, getResults }) => {
   const [isOpenDropdown, setIsOpenDropdown] = useState<boolean>(false);
   const [selectedItem, setSelectedItem] = useState<string>('');
 

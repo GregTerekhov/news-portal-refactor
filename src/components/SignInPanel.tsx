@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { FC, useState } from 'react';
 
 import { useAuthCollector, usePopUp, useWindowWidth } from 'hooks';
 
@@ -12,11 +12,11 @@ interface SignInProps {
   isShowRecoveryInput: boolean;
 }
 
-const SignInPanel = ({
+const SignInPanel: FC<SignInProps> = ({
   handleCheckboxChange,
   handleShowRecoveryInput,
   isShowRecoveryInput,
-}: SignInProps) => {
+}) => {
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const { breakpointsForMarkup } = useWindowWidth() ?? {

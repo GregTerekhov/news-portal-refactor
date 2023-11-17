@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { FC, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 
 import { useActiveLinks, useNewsDBCollector } from 'hooks';
@@ -9,7 +9,7 @@ import Accordeon from './Accordeon';
 import FiltersBlock from './FiltersBlock';
 import SearchBlock from './SearchBlock';
 
-const NewsFilterManager = () => {
+const NewsFilterManager: FC = () => {
   const { allFavourites, allReads } = useNewsDBCollector();
   const [showDropdown, setShowDropdown] = useState<boolean>(false);
 

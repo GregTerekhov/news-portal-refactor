@@ -1,4 +1,4 @@
-import React, { useEffect, useLayoutEffect, useState } from 'react';
+import React, { FC, useEffect, useLayoutEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 
 import {
@@ -12,7 +12,7 @@ import {
 
 import { Loader, NewsList, Pagination, PlugImage } from 'components';
 
-const HomePage = () => {
+const HomePage: FC = () => {
   const { isLoadingAPIData, fetchPopular } = useNewsAPICollector();
   const { savedNews, isLoadingDBData, getSavedNews, addVotedNews } = useNewsDBCollector();
   const [changesHappened, setChangesHappened] = useState<boolean>(false);

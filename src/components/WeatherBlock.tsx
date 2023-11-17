@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { FC } from 'react';
 
 import { useWeather, useWeatherCollector, useWindowWidth } from 'hooks';
 
@@ -8,7 +8,7 @@ import Loader from './Loader';
 import WeatherDetailsForHours from './WeatherDetailsForHours';
 import WeatherDetailsForToday from './WeatherDetailsForToday';
 
-const WeatherBlock = () => {
+const WeatherBlock: FC = () => {
   const {
     hasGeolocationPermission,
     isCelsius,

@@ -1,11 +1,11 @@
-import React, { useEffect, useLayoutEffect, useState } from 'react';
+import React, { FC, useEffect, useLayoutEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 
 import { useActiveLinks, useChooseRenderingNews, useNewsDBCollector } from 'hooks';
 
 import { Loader, NewsList, PlugImage } from 'components';
 
-const FavouritePage = () => {
+const FavouritePage: FC = () => {
   const [changesHappened, setChangesHappened] = useState<boolean>(false);
   // const [deletedNewsIndex, setDeletedNewsIndex] = useState<number | null>(null);
 

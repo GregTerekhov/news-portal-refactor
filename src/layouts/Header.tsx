@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { FC, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 
 import {
@@ -14,7 +14,7 @@ import {
 import { Menu, ThemeSwitcher, Auth, AuthModal, AccountMenu } from 'components';
 import { Input, Modal, SvgIcon } from 'ui';
 
-const Header = () => {
+const Header: FC = () => {
   const { query, onChangeInput, onHandleSearch } = useAdditionalRequest();
   const { isOpenMenu, isOpenModal, toggleMenu, toggleModal, popUpRef } = usePopUp();
   const { breakpointsForMarkup } = useWindowWidth() ?? {

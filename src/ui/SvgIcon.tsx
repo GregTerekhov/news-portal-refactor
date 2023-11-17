@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { FC } from 'react';
 
 import icons from 'assets/icons.svg';
 
@@ -8,7 +8,7 @@ interface SvgIncomingData {
   className: string | undefined;
 }
 
-const SvgIcon = (svgData: Partial<SvgIncomingData>) => {
+const SvgIcon: FC<SvgIncomingData> = (svgData) => {
   const { svgName, size, className } = svgData;
 
   return (

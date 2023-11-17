@@ -1,8 +1,8 @@
-import React, { ReactNode } from 'react';
+import React, { FC, ReactNode } from 'react';
 
 import SvgIcon from './SvgIcon';
 
-type PrimaryButtCommon = {
+type PrimaryButtonType = {
   type: 'button' | 'submit' | 'reset';
 };
 
@@ -12,21 +12,21 @@ export type ClickHandler =
   | (() => Promise<void>)
   | ((e: React.MouseEvent) => void);
 
-enum PB {
+enum VariantButton {
   Primary = 'Primary',
   Other = 'OtherButton',
   Small = 'Small',
 }
 
 interface PBProps {
-  buttonData: PrimaryButtCommon;
-  onHandleClick: ClickHandler;
+  buttonData?: PrimaryButtonType;
+  onHandleClick?: ClickHandler;
   variant: string;
   children?: ReactNode;
   hasIcon?: boolean;
-  svgName: string;
-  svgSize: number;
-  classNameIcon: string;
+  svgName?: string;
+  svgSize?: number;
+  classNameIcon?: string;
   width?: string;
   classNameButton?: string;
   id?: string;
@@ -36,7 +36,7 @@ interface PBProps {
   tooltipText?: string;
 }
 
-const PrimaryButton: React.FC<Partial<PBProps>> = (props) => {
+const PrimaryButton: FC<PBProps> = (props) => {
   const { type } = props.buttonData ?? { type: 'button' };
   const onHandleClick = props.onHandleClick;
   const variant = props.variant;
@@ -55,12 +55,12 @@ const PrimaryButton: React.FC<Partial<PBProps>> = (props) => {
 
   let buttonStyles: string = '';
 
-  if (variant === PB.Primary) {
+  if (variant === VariantButton.Primary) {
     buttonStyles =
       'w-full py-2 bg-accentBase hover:bg-accentAlt transition-colors duration-500 rounded-[20px]';
-  } else if (variant === PB.Other) {
+  } else if (variant === VariantButton.Other) {
     buttonStyles = `${width} max-lg:py-2.5 lg:py-2 rounded-[20px] bg-accentBase hover:bg-accentAlt transition-colors duration-500`;
-  } else if (variant === PB.Small) {
+  } else if (variant === VariantButton.Small) {
     buttonStyles = 'w-10 rounded-[10px] border border-solid';
   }
   return (
@@ -80,7 +80,7 @@ const PrimaryButton: React.FC<Partial<PBProps>> = (props) => {
         {hasIcon && <SvgIcon svgName={svgName} size={svgSize} className={classNameIcon} />}
       </button>
 
-      {variant === PB.Small ? (
+      {variant === VariantButton.Small ? (
         <div
           id={dataTooltipTarget}
           role='tooltip'

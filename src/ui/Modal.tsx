@@ -1,4 +1,4 @@
-import React, { ReactNode } from 'react';
+import React, { FC, ReactNode } from 'react';
 import { createPortal } from 'react-dom';
 
 import SvgIcon from './SvgIcon';
@@ -17,7 +17,7 @@ enum S {
   Weather = 'weather',
 }
 
-const Modal: React.FC<ModalProps> = ({ children, closeModal, modalRef, variant }) => {
+const Modal: FC<ModalProps> = ({ children, closeModal, modalRef, variant }) => {
   let modalWidth: string = '';
 
   if (variant === S.Auth) {

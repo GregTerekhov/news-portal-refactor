@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { FC, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import { Link, NavLink, useLocation } from 'react-router-dom';
 
@@ -15,13 +15,13 @@ import { PrimaryButton, SvgIcon } from 'ui';
 import ThemeSwitcher from './ThemeSwitcher';
 
 interface MobileMenu {
-  isOpen: boolean;
-  closeMenu: () => void;
+  isOpen?: boolean;
+  closeMenu?: () => void;
 }
 
 const modalRoot = document.querySelector('#modalRoot');
 
-const Menu = ({ isOpen, closeMenu }: Partial<MobileMenu>) => {
+const Menu: FC<MobileMenu> = ({ isOpen, closeMenu }) => {
   const { breakpointsForMarkup } = useWindowWidth() ?? {
     breakpointsForMarkup: null,
   };
