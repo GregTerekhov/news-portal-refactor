@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { createPortal } from 'react-dom';
-import { NavLink, useLocation, useNavigate } from 'react-router-dom';
+import { Link, NavLink, useLocation } from 'react-router-dom';
 
 import {
   useActiveLinks,
@@ -26,11 +26,10 @@ const Menu = ({ isOpen, closeMenu }: Partial<MobileMenu>) => {
     breakpointsForMarkup: null,
   };
   const { resetAllFilters } = useFilterCollector();
-  const { user } = useAuthCollector();
+  const { user, logout } = useAuthCollector();
 
   const location = useLocation();
   const activeLinks = useActiveLinks(location);
-  const navigate = useNavigate();
 
   const { textClass } = useHeaderStyles(activeLinks.isHomeActive);
 
@@ -40,12 +39,15 @@ const Menu = ({ isOpen, closeMenu }: Partial<MobileMenu>) => {
     }
   }, []);
 
-  const handleNavLinkClick = (path: string) => {
+  const handleNavLinkClick = () => {
     if (typeof closeMenu === 'function') {
       closeMenu();
     }
+  };
 
-    navigate(path);
+  const handleSignOut = () => {
+    logout();
+    localStorage.clear();
   };
 
   const links = [
@@ -78,13 +80,13 @@ const Menu = ({ isOpen, closeMenu }: Partial<MobileMenu>) => {
             }`}
           >
             <div className='container mx-auto px-4 flex flex-col justify-between h-full'>
-              <ul className='flex flex-col gap-3'>
+              <ul className='space-y-3'>
                 {links.map((link) => (
                   <li key={link.path}>
                     <NavLink
                       to={link.path}
                       onClick={() => {
-                        handleNavLinkClick(link.path);
+                        handleNavLinkClick();
                         resetAllFilters();
                       }}
                       className={`flex items-center py-1.5 font-medium md:font-bold text-medium lg:text-xl transition-colors duration-500 ${
@@ -118,7 +120,9 @@ const Menu = ({ isOpen, closeMenu }: Partial<MobileMenu>) => {
                   </li>
                 ))}
               </ul>
-              <p className='text-whiteBase text-end'>Hello,{user.name}</p>
+              <Link to='/account' className='text-darkBase dark:text-whiteBase text-end'>
+                Your account, {user.name}
+              </Link>
               <div className='flex justify-between'>
                 <ThemeSwitcher />
                 <PrimaryButton
@@ -130,6 +134,7 @@ const Menu = ({ isOpen, closeMenu }: Partial<MobileMenu>) => {
                   svgName='icon-signout'
                   svgSize={24}
                   classNameIcon='fill-whiteBase'
+                  onHandleClick={handleSignOut}
                 >
                   Sign Out
                 </PrimaryButton>

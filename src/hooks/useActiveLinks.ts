@@ -9,6 +9,7 @@ const useActiveLinks = (location: Location) => {
       isReadActive: location.pathname === '/read',
       isArchiveActive: location.pathname === '/archive',
       isAccountPage: location.pathname === '/account',
+      isManageAccountPage: location.pathname === '/accountManage',
     }),
     [location.pathname],
   );

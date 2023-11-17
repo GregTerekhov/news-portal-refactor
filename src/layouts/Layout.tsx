@@ -5,7 +5,6 @@ import { useActiveLinks, useAuthCollector, useNewsAPICollector, useWindowWidth }
 
 import { Hero, NewsFilterManager, PageScrollController, ThemeSwitcher } from 'components';
 
-import { SvgIcon } from 'ui';
 import Header from './Header';
 
 const Layout = () => {
@@ -28,6 +27,8 @@ const Layout = () => {
     (activeLinks.isArchiveActive && breakpointsForMarkup?.isTablet) ||
     (activeLinks.isArchiveActive && breakpointsForMarkup?.isDesktop);
 
+  const isAccountPages = activeLinks.isAccountPage || activeLinks.isManageAccountPage;
+
   return (
     <>
       <Header />
@@ -49,23 +50,10 @@ const Layout = () => {
             {(!isLoggedIn && breakpointsForMarkup?.isNothing) || breakpointsForMarkup?.isMobile ? (
               <div
                 className={`flex items-start ${
-                  !activeLinks.isAccountPage ? 'justify-end mb-10' : 'justify-between mb-2'
+                  !isAccountPages ? 'justify-end mb-10' : 'justify-between mb-2'
                 }`}
               >
-                {activeLinks.isAccountPage ? (
-                  <SvgIcon
-                    svgName='icon-logo'
-                    size={80}
-                    className='fill-darkBase dark:fill-whiteBase'
-                  />
-                ) : null}
-                {!activeLinks.isAccountPage ? (
-                  <ThemeSwitcher />
-                ) : (
-                  <p className='text-darkBase dark:text-whiteBase text-xl leading-tighter'>
-                    Your account
-                  </p>
-                )}
+                {!isAccountPages ? <ThemeSwitcher /> : null}
               </div>
             ) : null}
             {shouldShowPageScrollController ? (
