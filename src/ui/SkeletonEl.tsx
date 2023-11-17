@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { FC } from 'react';
 import { useLocation } from 'react-router-dom';
 
 import { useActiveLinks } from 'hooks';
 
-const SkeletonEl = () => {
+const SkeletonEl: FC = () => {
   const location = useLocation();
   const activeLinks = useActiveLinks(location);
 

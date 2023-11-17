@@ -1,10 +1,10 @@
-import React, { useEffect, useLayoutEffect, useState } from 'react';
+import React, { FC, useEffect, useLayoutEffect, useState } from 'react';
 
 import { useNewsDBCollector } from 'hooks';
 
 import { Accordeon, Loader, NewsList, PlugImage } from 'components';
 
-const ReadPage = () => {
+const ReadPage: FC = () => {
   const [changesHappened, setChangesHappened] = useState<boolean>(false);
 
   const { allReads, isLoadingDBData, savedNews, getReads, addVotedNews } = useNewsDBCollector();

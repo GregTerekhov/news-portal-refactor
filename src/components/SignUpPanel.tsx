@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { FC, useState } from 'react';
 
 import { useAuthCollector, usePopUp, useWindowWidth } from 'hooks';
 
@@ -6,7 +6,7 @@ import { Input, PrimaryButton } from 'ui';
 
 import ThemeSwitcher from './ThemeSwitcher';
 
-const SignUpPanel = () => {
+const SignUpPanel: FC = () => {
   const { breakpointsForMarkup } = useWindowWidth() ?? {
     breakpointsForMarkup: null,
   };

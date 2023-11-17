@@ -7,7 +7,7 @@ import { SelectedDate } from 'hooks/useAdditionalRequest';
 
 import { SvgIcon } from 'ui';
 
-interface Calendar {
+interface CalendarContentProps {
   variant: string;
   currMonth: string;
   firstDayOfMonth: number | Date;
@@ -21,7 +21,7 @@ interface Calendar {
   handleDateFilter: (date: Date) => void;
 }
 
-const CalendarContent: FC<Calendar> = ({
+const CalendarContent: FC<CalendarContentProps> = ({
   variant,
   getPrevYear,
   firstDayOfMonth,

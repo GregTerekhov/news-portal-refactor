@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { Switch } from '@headlessui/react';
 
@@ -6,16 +6,16 @@ import { useActiveLinks, useHeaderStyles, useWindowWidth } from 'hooks';
 
 import { SvgIcon } from 'ui';
 
-enum V {
+enum VariantSwitcher {
   Modal = 'modal',
   Header = 'header',
 }
 
-interface Variant {
-  variant: string;
+interface ThemeSwitcherProps {
+  variant?: string;
 }
 
-const ThemeSwitcher = ({ variant }: Partial<Variant>) => {
+const ThemeSwitcher: FC<ThemeSwitcherProps> = ({ variant }) => {
   const [enabled, setEnabled] = useState<boolean>(false);
   const { breakpointsForMarkup } = useWindowWidth() ?? {
     breakpointsForMarkup: null,
@@ -28,7 +28,7 @@ const ThemeSwitcher = ({ variant }: Partial<Variant>) => {
 
   let spacing: string = '';
 
-  if (variant === V.Header) {
+  if (variant === VariantSwitcher.Header) {
     spacing = 'justify-end';
   }
 

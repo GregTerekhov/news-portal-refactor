@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { FC } from 'react';
 import { useLocation } from 'react-router-dom';
 import { format } from 'date-fns';
 
@@ -26,7 +26,7 @@ interface CalendarProps {
   variant: string;
 }
 
-const Calendar: React.FC<CalendarProps> = ({ variant }) => {
+const Calendar: FC<CalendarProps> = ({ variant }) => {
   const { isOpenCalendar, popUpRef, setIsOpenCalendar, toggleCalendar } = usePopUp();
   const { selectedRequestDate, handleDateRequest } = useAdditionalRequest();
 

@@ -1,10 +1,10 @@
-import React from 'react';
+import React, { FC } from 'react';
 
 import { useAuthCollector, useWindowWidth } from 'hooks';
 
 import { PrimaryButton } from 'ui';
 
-const AccountPage = () => {
+const AccountPage: FC = () => {
   const { breakpointsForMarkup } = useWindowWidth() ?? {
     breakpointsForMarkup: null,
   };

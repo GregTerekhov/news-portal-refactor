@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { FC, useEffect } from 'react';
 import { Outlet, useLocation } from 'react-router-dom';
 
 import { useActiveLinks, useAuthCollector, useNewsAPICollector, useWindowWidth } from 'hooks';
@@ -7,7 +7,7 @@ import { Hero, NewsFilterManager, PageScrollController, ThemeSwitcher } from 'co
 
 import Header from './Header';
 
-const Layout = () => {
+const Layout: FC = () => {
   const { breakpointsForMarkup } = useWindowWidth() ?? {
     breakpointsForMarkup: null,
   };

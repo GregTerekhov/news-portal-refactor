@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { format } from 'date-fns';
 
@@ -9,17 +9,18 @@ import { removeFromFavourites } from 'reduxStore/newsDatabase';
 
 import { useActiveLinks, useAuthCollector, useNewsDBCollector } from 'hooks';
 
-import { PrimaryButton, SvgIcon, VoteButton } from 'ui';
+import { PrimaryButton, SvgIcon } from 'ui';
 
 import PlugImage from './PlugImage';
+import VoteButton from './VoteButton';
 
 interface NewsItemProps {
   liveNews: Partial<VotedItem>;
-  onChange: (() => void) | undefined;
+  onChange?: (() => void) | undefined;
   // onDelete: () => void;
 }
 
-const NewsItem: React.FC<Partial<NewsItemProps>> = ({
+const NewsItem: FC<Partial<NewsItemProps>> = ({
   liveNews = {},
   onChange = () => {},
   // onDelete = () => {},

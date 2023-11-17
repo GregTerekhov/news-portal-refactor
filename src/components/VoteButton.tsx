@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { FC } from 'react';
 
-import SvgIcon from './SvgIcon';
+import SvgIcon from '../ui/SvgIcon';
 
 interface VBProps {
   buttonData: {
@@ -10,7 +10,7 @@ interface VBProps {
   onHandleClick: (e: React.MouseEvent) => void;
 }
 
-const VoteButton = ({ onHandleClick, isFavourite, buttonData }: Partial<VBProps>) => {
+const VoteButton: FC<VBProps> = ({ onHandleClick, isFavourite, buttonData }) => {
   return (
     <button
       id={buttonData?.id}

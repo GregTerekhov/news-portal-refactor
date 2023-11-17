@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { FC } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 
 import { useActiveLinks, useAuthCollector } from 'hooks';
@@ -6,11 +6,11 @@ import { useActiveLinks, useAuthCollector } from 'hooks';
 import { PrimaryButton, SvgIcon } from 'ui';
 
 interface MobileMenu {
-  isOpen: boolean;
-  closeMenu: () => void;
+  isOpen?: boolean;
+  closeMenu?: () => void;
 }
 
-const AccountMenu = ({ isOpen, closeMenu }: Partial<MobileMenu>) => {
+const AccountMenu: FC<MobileMenu> = ({ isOpen, closeMenu }) => {
   const location = useLocation();
   const activeLinks = useActiveLinks(location);
   const { logout } = useAuthCollector();

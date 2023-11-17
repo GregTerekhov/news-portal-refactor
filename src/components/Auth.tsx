@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { FC } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { useAuthCollector, usePopUp, useWindowWidth } from 'hooks';
@@ -8,7 +8,7 @@ import { ClickHandler } from 'ui/PrimaryButton';
 
 import AuthModal from './AuthModal';
 
-const Auth = () => {
+const Auth: FC = () => {
   const { isOpenModal, popUpRef, toggleModal } = usePopUp();
   const { breakpointsForMarkup } = useWindowWidth() ?? {
     breakpointsForMarkup: null,

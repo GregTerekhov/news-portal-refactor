@@ -1,18 +1,18 @@
-import React from 'react';
+import React, { FC } from 'react';
 
 import { IMAGES } from 'constants';
 import { generateContentImages } from 'helpers';
 
-const enum V {
+const enum VariantImage {
   Page = 'page',
-  CardNews = 'card',
+  Card = 'card',
 }
 
-interface PlugImageVariants {
+interface PlugImageProps {
   variant: string;
 }
 
-const PlugImage = ({ variant }: PlugImageVariants) => {
+const PlugImage: FC<PlugImageProps> = ({ variant }) => {
   const devicePixelRatio = window.devicePixelRatio || 1;
 
   const matchedPlugImage = generateContentImages(
@@ -24,7 +24,7 @@ const PlugImage = ({ variant }: PlugImageVariants) => {
 
   return (
     <>
-      {variant === V.Page ? (
+      {variant === VariantImage.Page ? (
         <div className='flex flex-col items-center justify-center'>
           <p className='text-darkBase dark:text-whiteBase text-2xl font-bold tracking-smallTight mb-10 text-center md:text-5xl md:tracking-tighter md:w-[548px]'>
             We haven’t found news from this category

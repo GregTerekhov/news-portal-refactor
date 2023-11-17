@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { FC } from 'react';
 
-const ErrorPage = () => {
+const ErrorPage: FC = () => {
   return <div>ErrorPage</div>;
 };
 

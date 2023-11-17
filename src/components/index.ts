@@ -18,6 +18,7 @@ export { default as SearchBlock } from './SearchBlock';
 export { default as SignInPanel } from './SignInPanel';
 export { default as SignUpPanel } from './SignUpPanel';
 export { default as ThemeSwitcher } from './ThemeSwitcher';
+export { default as VoteButton } from './VoteButton';
 export { default as WeatherBlock } from './WeatherBlock';
 export { default as WeatherDetailsForHours } from './WeatherDetailsForHours';
 export { default as WeatherDetailsForToday } from './WeatherDetailsForToday';

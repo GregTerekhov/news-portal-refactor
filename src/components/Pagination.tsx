@@ -1,15 +1,15 @@
-import React from 'react';
+import React, { FC } from 'react';
 
 import { useWindowWidth } from 'hooks';
 
 import { PrimaryButton, SvgIcon } from 'ui';
-interface P {
+interface PaginationProps {
   pageNumbers: number[];
   currentPage: number;
   setCurrentPage: (number: number) => void;
 }
 
-const Pagination: React.FC<P> = ({ pageNumbers, currentPage, setCurrentPage }) => {
+const Pagination: FC<PaginationProps> = ({ pageNumbers, currentPage, setCurrentPage }) => {
   const { breakpointsForMarkup } = useWindowWidth() ?? {
     breakpointsForMarkup: null,
   };

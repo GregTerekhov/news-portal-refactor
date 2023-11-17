@@ -1,11 +1,11 @@
-import React from 'react';
+import React, { FC } from 'react';
 
 import { organiseNewsByMonth } from 'helpers';
 import { useNewsDBCollector } from 'hooks';
 
 import { Accordeon, NewsList } from 'components';
 
-const ArchivePage = () => {
+const ArchivePage: FC = () => {
   const { savedNews } = useNewsDBCollector();
 
   const organisedNews = organiseNewsByMonth(savedNews);

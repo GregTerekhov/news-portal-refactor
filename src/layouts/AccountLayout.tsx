@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { FC } from 'react';
 import { Outlet } from 'react-router-dom';
 
 import { useWindowWidth } from 'hooks';
@@ -6,7 +6,7 @@ import { useWindowWidth } from 'hooks';
 import { AccountMenu } from 'components';
 import { Input, SvgIcon } from 'ui';
 
-const AccountLayout = () => {
+const AccountLayout: FC = () => {
   const { breakpointsForMarkup } = useWindowWidth() ?? {
     breakpointsForMarkup: null,
   };

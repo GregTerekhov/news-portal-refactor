@@ -16,13 +16,19 @@ interface InputCollectedData {
   required?: boolean;
 }
 
-enum V {
+enum VariantInputs {
   Header = 'header',
   FilterServiceBlock = 'filterServiceBlock',
   Checkbox = 'checkbox',
   Auth = 'auth',
   Account = 'accountPage',
   RadioTheme = 'themeChanger',
+}
+
+interface IFormValues {
+  name: string;
+  email: string;
+  password: string;
 }
 
 interface InputProps {
@@ -37,12 +43,6 @@ interface InputProps {
   hideInput?: (event: React.MouseEvent<HTMLInputElement>) => void;
   touched?: boolean;
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
-}
-
-interface IFormValues {
-  name: string;
-  email: string;
-  password: string;
 }
 
 const Input: FC<Partial<InputProps>> = (props) => {
@@ -87,7 +87,7 @@ const Input: FC<Partial<InputProps>> = (props) => {
   let textColor: string = '';
   let placeholderColor: string = '';
 
-  if (variant === V.Header) {
+  if (variant === VariantInputs.Header) {
     inputGeometry = `md:w-48 lg:w-72 md:py-[5px] md:pl-11 md:pr-3 transition-transform transition-[width] ${
       breakpointsForMarkup?.isMobile || breakpointsForMarkup?.isNothing
         ? touched
@@ -101,7 +101,7 @@ const Input: FC<Partial<InputProps>> = (props) => {
     caretColor = inputClass.caretColor;
     textColor = inputClass.textColor;
     placeholderColor = inputClass.placeholderColor;
-  } else if (variant === V.FilterServiceBlock || variant === V.Account) {
+  } else if (variant === VariantInputs.FilterServiceBlock || variant === VariantInputs.Account) {
     inputGeometry = 'w-full py-2 pl-11 pr-3';
     inputBorder = 'border-accentBase dark:border-whiteBase';
     inputBg = 'bg-whiteBase';
@@ -109,37 +109,39 @@ const Input: FC<Partial<InputProps>> = (props) => {
     caretColor = 'caret-accentBase';
     textColor = 'text-accentBase';
     placeholderColor = 'placeholder:text-darkBase/[.4]';
-  } else if (variant === V.Auth) {
+  } else if (variant === VariantInputs.Auth) {
     inputGeometry = 'w-full py-2 px-4 md:px-4';
     inputBorder = 'border-accentBase dark:border-whiteBase';
     inputBg = 'bg-transparent';
     caretColor = 'caret-accentBase dark:caret-whiteBase';
     textColor = 'text-darkBase dark:text-whiteBase';
-  } else if (variant === V.Checkbox) {
+  } else if (variant === VariantInputs.Checkbox) {
     labelCheckbox = 'flex items-center cursor-pointer gap-x-4';
     checkboxStyles = 'sr-only';
   }
 
   return (
     <>
-      {variant !== V.RadioTheme ? (
+      {variant !== VariantInputs.RadioTheme ? (
         <label
           htmlFor={name}
           className={`relative flex ${hasIcon ? 'justify-center' : ''} ${
             labelCheckbox ? 'flex-row' : 'flex-col'
           } ${
-            variant === V.Auth ||
-            variant === V.FilterServiceBlock ||
-            (variant === V.Header && 'gap-x-4')
-          } ${variant === V.Checkbox ? 'mb-3 cursor-pointer gap-x-4' : ''} ${className}`}
+            variant === VariantInputs.Auth ||
+            variant === VariantInputs.FilterServiceBlock ||
+            (variant === VariantInputs.Header && 'gap-x-4')
+          } ${
+            variant === VariantInputs.Checkbox ? 'mb-3 cursor-pointer gap-x-4' : ''
+          } ${className}`}
         >
-          {variant === V.FilterServiceBlock && (
+          {variant === VariantInputs.FilterServiceBlock && (
             <p className='text-darkBase dark:text-whiteBase mb-2 text-base'>
               {name === 'query' ? 'Search' : 'Filter'} by{' '}
               <span className='capitalize'>{name}:</span>
             </p>
           )}
-          {variant === V.Auth && (
+          {variant === VariantInputs.Auth && (
             <>
               <span className={`${!hasIcon && 'mb-1.5 block'} text-accentBase font-medium`}>
                 {children}
@@ -161,9 +163,11 @@ const Input: FC<Partial<InputProps>> = (props) => {
           )}
           <div
             className={`${
-              variant === V.FilterServiceBlock || variant === V.Account ? 'relative' : ''
+              variant === VariantInputs.FilterServiceBlock || variant === VariantInputs.Account
+                ? 'relative'
+                : ''
             } ${
-              variant === V.Checkbox
+              variant === VariantInputs.Checkbox
                 ? `flex items-center justify-center w-4 h-4 md:w-6 md:h-6 rounded-sm cursor-pointer ${
                     isChecked
                       ? 'bg-accentBase'
@@ -172,7 +176,7 @@ const Input: FC<Partial<InputProps>> = (props) => {
                 : ''
             }`}
           >
-            {variant === V.Checkbox ? (
+            {variant === VariantInputs.Checkbox ? (
               <SvgIcon
                 svgName='icon-check'
                 size={16}
@@ -218,7 +222,7 @@ const Input: FC<Partial<InputProps>> = (props) => {
             />
           </div>
           <span className={`${!hasIcon && 'block'} text-accentBase font-medium`}>
-            {variant === V.Checkbox && children}
+            {variant === VariantInputs.Checkbox && children}
           </span>
         </label>
       ) : (
