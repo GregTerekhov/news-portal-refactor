@@ -37,10 +37,10 @@ const Header: FC = () => {
     setTouched(!touched);
   };
 
-  let ram = '';
-  if (user) {
-    console.log(ram.length);
-  }
+  // let ram = '';
+  // if (user) {
+  // console.log(ram.length);
+  // }
 
   const isAccountPages = activeLinks.isAccountPage || activeLinks.isManageAccountPage;
 
