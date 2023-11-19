@@ -19,13 +19,13 @@ function App() {
   // const location = useLocation();
   // const activeLinks = useActiveLinks(location);
   const { fetchCurrentAuthUser } = useAuthCollector();
-  // const persistedToken = JSON.parse(localStorage.getItem('persist:auth'));
+  const persistedToken = localStorage.getItem('refreshToken');
 
   useEffect(() => {
-    // if (persistedToken.refreshToken) {
-    //   console.log(persistedToken.refreshToken);
-    // }
-    fetchCurrentAuthUser();
+    console.log(`useEffect`);
+    if (persistedToken) {
+      fetchCurrentAuthUser();
+    }
   }, [fetchCurrentAuthUser]);
 
   return (
