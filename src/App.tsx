@@ -22,7 +22,7 @@ function App() {
   const persistedToken = localStorage.getItem('refreshToken');
 
   useEffect(() => {
-    console.log('useEffect');
+    console.log(`useEffect`);
     if (persistedToken) {
       fetchCurrentAuthUser();
     }

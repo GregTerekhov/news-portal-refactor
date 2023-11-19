@@ -79,6 +79,8 @@ const authSlice = createSlice({
       .addCase(fetchCurrentUser.pending, (state) => {
         state.isCurrentUser = true;
         state.hasError = null;
+        // console.log('CYR', state.refreshToken);
+        // console.log('ACT', action);
       })
       .addCase(fetchCurrentUser.fulfilled, (state, action) => {
         state.isLoggedIn = true;
