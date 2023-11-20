@@ -6,6 +6,8 @@ import useWindowWidth from './useWindowWidth';
 import useNewsAPICollector from './useNewsAPICollector';
 import useFilterCollector from './useFilterCollector';
 
+let accumulatePages = 8;
+
 const usePagination = (rebuildedNews: PartialVotedNewsArray) => {
   const { breakpointsForMarkup } = useWindowWidth() || {
     breakpointsForMarkup: null,
@@ -15,10 +17,11 @@ const usePagination = (rebuildedNews: PartialVotedNewsArray) => {
   const { filteredNews } = useFilterCollector();
 
   const [currentPage, setCurrentPage] = useState(1);
+  const [accPage, setAccPage] = useState(() => setStartIdx());
   const [currentItems, setCurrentItems] = useState<PartialVotedNewsArray>([]);
 
   const totalPages = (rebuildedNews && rebuildedNews?.length) || 0;
-  // console.log('totalPages', totalPages);
+
   const firstMobileItemsPerPage = 4; // Кількість новин для мобільного пристрою на першій сторінці
   const firstTabletItemsPerPage = 7; // Кількість новин для мобільного пристрою на першій сторінці
   const firstDesktopItemsPerPage = 8; // Кількість новин для мобільного пристрою на першій сторінці
@@ -40,10 +43,20 @@ const usePagination = (rebuildedNews: PartialVotedNewsArray) => {
   // console.log('mobilePages', mobilePages);
   useEffect(() => {
     if (rebuildedNews && rebuildedNews?.length > 0) {
-      const indexOfLastItem = currentPage * currentCardsPerPage;
+      if (currentPage !== 1) {
+        setAccPage(accPage + currentCardsPerPage);
+      }
+      const indexOfLastItem =
+        currentPage === 1
+          ? currentPage * currentCardsPerPage
+          : currentPage * currentCardsPerPage - 1;
       const indexOfFirstItem = indexOfLastItem - currentCardsPerPage;
 
+      console.log(accumulatePages);
       const items = rebuildedNews.slice(indexOfFirstItem, indexOfLastItem);
+      console.log('ITMES', items);
+      console.log('FRST', indexOfFirstItem);
+      console.log('LST', indexOfLastItem);
       setCurrentItems(items);
     }
   }, [popularNews, newsByKeyword, newsByCategory, newsByDate, filteredNews, currentPage]);
@@ -56,6 +69,8 @@ const usePagination = (rebuildedNews: PartialVotedNewsArray) => {
     while (remainingItems > 0) {
       pages.push(otherPageCount);
       remainingItems -= otherPageCount;
+      // console.log('PAGES', pages);
+      // console.log('REMAIN', remainingItems);
     }
 
     return pages;
@@ -72,10 +87,23 @@ const usePagination = (rebuildedNews: PartialVotedNewsArray) => {
     }
   }
 
+  // Визначення кількості об'єктів новин на сторінці в залежності від типу пристрою
+  function setStartIdx() {
+    if (breakpointsForMarkup?.isMobile || breakpointsForMarkup?.isNothing) {
+      return 4;
+    } else if (breakpointsForMarkup?.isTablet) {
+      return 7;
+    } else {
+      return 8;
+    }
+  }
+
   const pageNumbers = [];
   for (let i = 1; i <= Math.ceil(totalPages / currentCardsPerPage); i++) {
     pageNumbers.push(i);
   }
+
+  // console.log('CUR_I', currentItems);
 
   return {
     currentItems,

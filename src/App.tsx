@@ -48,6 +48,7 @@ function App() {
   //   // }, [fetchCurrentAuthUser, errorDB]);
   // }, []);
 
+
   return (
     <Routes>
       <Route path='/' element={<Layout />}>

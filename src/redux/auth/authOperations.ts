@@ -41,6 +41,7 @@ export const signIn = createAsyncThunk(
     try {
       const response = await axios.post('/auth/sign-in', credentials);
       setTokens(response.data);
+
       return response.data;
     } catch (error: any) {
       return rejectWithValue(error.message);
@@ -66,6 +67,7 @@ export const fetchCurrentUser = createAsyncThunk('auth/current', async (_, thunk
   //   return thunkAPI.rejectWithValue('No token found');
   // }
   // token.set(persistedToken);
+
   try {
     const response = await axiosInstance.get('/auth/current-user');
     return response.data;
