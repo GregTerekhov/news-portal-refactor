@@ -9,7 +9,7 @@ import Accordeon from './Accordeon';
 import FiltersBlock from './FiltersBlock';
 import SearchBlock from './SearchBlock';
 
-const NewsFilterManager: FC = () => {
+const NewsFilterManager: FC<{}> = () => {
   const { allFavourites, allReads } = useNewsDBCollector();
   const [showDropdown, setShowDropdown] = useState<boolean>(false);
 

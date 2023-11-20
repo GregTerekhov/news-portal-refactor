@@ -4,7 +4,7 @@ import { useNewsDBCollector } from 'hooks';
 
 import { Accordeon, Loader, NewsList, PlugImage } from 'components';
 
-const ReadPage: FC = () => {
+const ReadPage: FC<{}> = () => {
   const [changesHappened, setChangesHappened] = useState<boolean>(false);
 
   const { allReads, isLoadingDBData, savedNews, getReads, addVotedNews } = useNewsDBCollector();

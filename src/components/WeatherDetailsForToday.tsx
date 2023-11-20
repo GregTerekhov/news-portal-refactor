@@ -12,7 +12,7 @@ import { useWeatherCollector, useWindowWidth } from 'hooks';
 
 import { SvgIcon } from 'ui';
 
-const WeatherDetailsForToday: FC = () => {
+const WeatherDetailsForToday: FC<{}> = () => {
   const { currentWeather } = useWeatherCollector();
   const { breakpointsForMarkup } = useWindowWidth() ?? {
     breakpointsForMarkup: null,

@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 
-const Hero: FC = () => {
+const Hero: FC<{}> = () => {
   return (
     <div className='w-screen h-screen flex items-center justify-center -mt-[81px] md:-mt-[106px] lg:-mt-[113px]'>
       <iframe

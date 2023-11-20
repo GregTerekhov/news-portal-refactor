@@ -20,7 +20,7 @@ type newsAPIState = {
   hasError: SerializedError | null;
 };
 
-const initialState = {
+const initialState: newsAPIState = {
   popular: [],
   searchByWord: [],
   categories: [],
@@ -28,7 +28,7 @@ const initialState = {
   searchByDate: [],
   isLoading: false,
   hasError: null,
-} as newsAPIState;
+};
 
 const newsAPISlice = createSlice({
   name: 'newsAPI',

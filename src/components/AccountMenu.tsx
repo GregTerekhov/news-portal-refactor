@@ -34,8 +34,8 @@ const AccountMenu: FC<MobileMenu> = ({ isOpen, closeMenu }) => {
       activeLink: activeLinks.isAccountPage,
     },
     {
-      path: '/accountManage',
-      label: 'Manage your account',
+      path: '/account-manage',
+      label: 'Account settings',
       icon: 'icon-manage',
       activeLink: activeLinks.isManageAccountPage,
     },
@@ -43,7 +43,7 @@ const AccountMenu: FC<MobileMenu> = ({ isOpen, closeMenu }) => {
 
   return (
     <>
-      {isOpen && (
+      {isOpen ? (
         <div
           className={`fixed top-0 z-40 pb-[18px] pt-[147px] before:fixed before:content-[""] before:z-[8] before:w-full before:h-[81px] before:top-0 before:left-0 w-screen h-screen bg-whiteBase dark:bg-darkBackground transition-all duration-500 ${
             isOpen ? 'left-0' : '-left-full'
@@ -98,6 +98,42 @@ const AccountMenu: FC<MobileMenu> = ({ isOpen, closeMenu }) => {
             </PrimaryButton>
           </div>
         </div>
+      ) : (
+        <>
+          <ul className='space-y-2 after:content-[""] after:w-full after:h-px after:bg-accentBase after:block after:mt-3'>
+            {links.map((link) => (
+              <li key={link.path}>
+                <Link
+                  to={link.path}
+                  onClick={handleLinkClick}
+                  className={`flex items-center group py-1.5 font-medium md:font-bold text-medium lg:text-xl text-darkBase hover:text-whiteBase dark:text-whiteBase transition-colors duration-500 hover:bg-accentBase`}
+                >
+                  <div className='flex items-center gap-3.5'>{link.label}</div>
+                  {link.activeLink && (
+                    <SvgIcon
+                      svgName='icon-arrow-right'
+                      size={24}
+                      className='stroke-darkBase dark:stroke-whiteBase group-hover:stroke-whiteBase group-hover:fill-none fill-transparent'
+                    />
+                  )}
+                </Link>
+              </li>
+            ))}
+          </ul>
+          <PrimaryButton
+            id='Sign out button'
+            classNameButton='border border-solid border-transparent dark:border-whiteBase'
+            hasIcon={true}
+            variant='OtherButton'
+            width='w-32'
+            svgName='icon-signout'
+            svgSize={24}
+            classNameIcon='fill-whiteBase'
+            onHandleClick={handleSignOut}
+          >
+            Sign Out
+          </PrimaryButton>
+        </>
       )}
     </>
   );

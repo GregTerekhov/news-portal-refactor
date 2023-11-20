@@ -1,6 +1,5 @@
 import React, { FC, useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
-import { format } from 'date-fns';
 
 import { VotedItem } from 'types';
 
@@ -26,16 +25,16 @@ const NewsItem: FC<Partial<NewsItemProps>> = ({
   // onDelete = () => {},
 }) => {
   const { savedNews, updateSavedNews } = useNewsDBCollector();
-  const { isLoggedIn } = useAuthCollector();
+  const { isAuthenticated } = useAuthCollector();
   const [isFavourite, setIsFavourite] = useState<boolean>(() => getIsFavourite());
   const [hasRead, setHasRead] = useState<boolean>(() => getHasRead());
   const dispatch = useAppDispatch();
-
+  // const isAuthenticated = true;
   const location = useLocation();
   const activeLinks = useActiveLinks(location);
 
   useEffect(() => {
-    if (isLoggedIn && savedNews && liveNews?.newsUrl !== undefined) {
+    if (isAuthenticated && savedNews && liveNews?.newsUrl !== undefined) {
       if (savedNews?.length !== 0) {
         const existingNews = savedNews.find((news) => news.newsUrl === liveNews?.newsUrl);
         const savedFavourite = existingNews?.isFavourite;
@@ -55,7 +54,7 @@ const NewsItem: FC<Partial<NewsItemProps>> = ({
         return;
       }
     }
-  }, [savedNews, isLoggedIn, liveNews]);
+  }, [savedNews, isAuthenticated, liveNews]);
 
   function getIsFavourite(): boolean {
     const existingNews = savedNews?.find((news) => news.newsUrl === liveNews?.newsUrl);
@@ -67,14 +66,14 @@ const NewsItem: FC<Partial<NewsItemProps>> = ({
     return existingNews?.hasRead ?? false;
   }
 
-  const handleChangeFavourites = async (e: React.MouseEvent) => {
+  const handleChangeFavourites = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation();
     e.preventDefault();
     onChange();
 
     if (savedNews && liveNews && liveNews?.newsUrl !== undefined) {
       const currentTime = new Date();
-      const formattedTime = format(currentTime, 'dd-MM-yyyy HH:mm:ss');
+      const clickDate = currentTime.getTime();
 
       if (savedNews.length === 0) {
         setIsFavourite(true);
@@ -83,7 +82,7 @@ const NewsItem: FC<Partial<NewsItemProps>> = ({
           ...liveNews,
           isFavourite: true,
           hasRead: false,
-          additionDate: formattedTime,
+          additionDate: clickDate,
         };
         await updateSavedNews(updatedData);
       } else {
@@ -98,14 +97,14 @@ const NewsItem: FC<Partial<NewsItemProps>> = ({
             ...liveNews,
             isFavourite: true,
             hasRead: false,
-            additionDate: formattedTime,
+            additionDate: clickDate,
           };
           await updateSavedNews(updatedData);
         } else {
           if (savedFavourite === false && savedRead === true) {
             setIsFavourite(true);
 
-            const updatedData = { ...liveNews, isFavourite: true, hasRead: savedRead };
+            const updatedData = { ...liveNews, isFavourite: true };
             await updateSavedNews(updatedData);
           } else if (savedFavourite === true && savedRead === false) {
             setIsFavourite(false);
@@ -114,7 +113,7 @@ const NewsItem: FC<Partial<NewsItemProps>> = ({
               ...liveNews,
               isFavourite: false,
               hasRead: savedRead,
-              additionDate: '',
+              additionDate: null,
             };
             dispatch(removeFromFavourites(liveNews.newsUrl));
             await updateSavedNews(updatedData);
@@ -123,7 +122,11 @@ const NewsItem: FC<Partial<NewsItemProps>> = ({
           } else if (savedFavourite === true && savedRead === true) {
             setIsFavourite(false);
 
-            const updatedData = { ...liveNews, isFavourite: false, hasRead: savedRead };
+            const updatedData = {
+              ...liveNews,
+              isFavourite: false,
+              hasRead: savedRead,
+            };
             dispatch(removeFromFavourites(liveNews.newsUrl));
             await updateSavedNews(updatedData);
             // onDelete();
@@ -136,7 +139,7 @@ const NewsItem: FC<Partial<NewsItemProps>> = ({
   const handleReadNews = async () => {
     if (savedNews && liveNews && liveNews?.newsUrl !== undefined) {
       const currentTime = new Date();
-      const formattedTime = format(currentTime, 'dd-MM-yyyy HH:mm:ss');
+      const clickDate = currentTime.getTime();
 
       if (savedNews.length === 0) {
         setHasRead(true);
@@ -146,7 +149,7 @@ const NewsItem: FC<Partial<NewsItemProps>> = ({
           ...liveNews,
           hasRead: true,
           isFavourite: false,
-          additionDate: formattedTime,
+          additionDate: clickDate,
         };
         await updateSavedNews(updatedData);
       } else {
@@ -161,8 +164,7 @@ const NewsItem: FC<Partial<NewsItemProps>> = ({
           const updatedData = {
             ...liveNews,
             hasRead: true,
-            isFavourite: false,
-            additionDate: formattedTime,
+            additionDate: clickDate,
           };
           await updateSavedNews(updatedData);
         } else {
@@ -173,7 +175,6 @@ const NewsItem: FC<Partial<NewsItemProps>> = ({
             const updatedData = {
               ...liveNews,
               hasRead: true,
-              isFavourite: savedFavourite,
             };
             await updateSavedNews(updatedData);
           } else if (savedRead === true) {
@@ -184,7 +185,7 @@ const NewsItem: FC<Partial<NewsItemProps>> = ({
     }
   };
 
-  const handleDeleteNews = (e: React.MouseEvent) => {
+  const handleDeleteNews = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation();
     e.preventDefault();
     console.log('Delete news');
@@ -197,11 +198,12 @@ const NewsItem: FC<Partial<NewsItemProps>> = ({
           className='block group transition-colors duration-500'
           href={liveNews?.newsUrl}
           target='_blank'
-          onClick={isLoggedIn ? handleReadNews : undefined}
+          onClick={isAuthenticated ? handleReadNews : undefined}
         >
           <div
             className={`${
-              (isLoggedIn && hasRead && activeLinks.isHomeActive) || activeLinks.isArchiveActive
+              (isAuthenticated && hasRead && activeLinks.isHomeActive) ||
+              activeLinks.isArchiveActive
                 ? 'absolute z-20 w-full h-full bg-whiteBase/[.4]'
                 : 'hidden'
             }`}
@@ -226,7 +228,7 @@ const NewsItem: FC<Partial<NewsItemProps>> = ({
           <p className='absolute z-20 top-10 left-0 py-1 px-2 text-small font-medium text-contrastWhite bg-accentBase/[.7] rounded-r'>
             {liveNews?.category} / {liveNews?.materialType}
           </p>
-          {isLoggedIn && hasRead && (
+          {isAuthenticated && hasRead && (
             <p className='absolute z-10 top-3.5 right-14 md:top-5 text-base font-bold text-readBase flex items-center gap-1'>
               Already read
               <SvgIcon svgName='icon-check' size={18} className='fill-readBase' />
@@ -242,7 +244,7 @@ const NewsItem: FC<Partial<NewsItemProps>> = ({
             ) : (
               <PlugImage variant='card' />
             )}
-            {isLoggedIn && (
+            {isAuthenticated && (
               <VoteButton
                 onHandleClick={handleChangeFavourites}
                 isFavourite={isFavourite}

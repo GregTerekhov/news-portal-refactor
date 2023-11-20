@@ -1,84 +1,127 @@
 import React, { FC, useState } from 'react';
+import { useForm, SubmitHandler } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
 
+import { SignInCredentials, IRecoveryPassword } from 'types';
+
+import { signInSchema, recoveryPasswordSchema } from 'helpers';
 import { useAuthCollector, usePopUp, useWindowWidth } from 'hooks';
 
-import { Input, PrimaryButton } from 'ui';
+import { PrimaryButton, UnverifiableInput, VerifiableInput } from 'ui';
 
 import ThemeSwitcher from './ThemeSwitcher';
 
 interface SignInProps {
-  handleCheckboxChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   handleShowRecoveryInput: () => void;
   isShowRecoveryInput: boolean;
 }
 
-const SignInPanel: FC<SignInProps> = ({
-  handleCheckboxChange,
-  handleShowRecoveryInput,
-  isShowRecoveryInput,
-}) => {
-  const [email, setEmail] = useState<string>('');
-  const [password, setPassword] = useState<string>('');
+const SignInPanel: FC<SignInProps> = ({ handleShowRecoveryInput, isShowRecoveryInput }) => {
+  // const [initialEmail, setInitialEmail] = useState<string>(() =>
+  //   localStorage.rememberMe ? localStorage.userEmail : '',
+  // );
+  // const [initialPassword, setInitialPassword] = useState<string>(() =>
+  //   localStorage.rememberMe ? localStorage.userPassword : '',
+  // );
+  const [isChecked, setIsChecked] = useState<boolean>(() => !!localStorage.rememberMe);
   const { breakpointsForMarkup } = useWindowWidth() ?? {
     breakpointsForMarkup: null,
   };
   const { login } = useAuthCollector();
   const { toggleModal } = usePopUp();
 
-  const handleInputChange = (e: React.FormEvent<HTMLInputElement>) => {
-    const targetInput = e.currentTarget.name;
-    const inputValue = e.currentTarget.value;
+  const {
+    handleSubmit: handleSignInSubmit,
+    register: registerSignIn,
+    reset,
+    getValues,
+    formState: { errors: signInErrors },
+  } = useForm<SignInCredentials>({ resolver: yupResolver(signInSchema) });
 
-    switch (targetInput) {
-      case 'email':
-        setEmail(inputValue);
-        break;
-      case 'password':
-        setPassword(inputValue);
-        break;
-      default:
-        break;
-    }
+  const {
+    handleSubmit: handleRecoveryPasswordSubmit,
+    register: registerRecovery,
+    resetField,
+    formState: { errors: recoveryPasswordErrors },
+  } = useForm<IRecoveryPassword>({ resolver: yupResolver(recoveryPasswordSchema) });
+
+  const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const isRememberMe = event.target.checked;
+    setIsChecked(isRememberMe);
+    console.log('isRememberMe', isRememberMe, typeof isRememberMe);
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleSignInSubmitHandler: SubmitHandler<SignInCredentials> = async (data, e) => {
+    e?.preventDefault();
+    const { email, password } = data;
+    console.log('SignIn data', data);
+    // setInitialEmail(email);
+    // setInitialPassword(password);
 
-    const credentials = {
+    if (isChecked && email !== '') {
+      localStorage.setItem('userEmail', email);
+      localStorage.setItem('userPassword', password);
+      localStorage.setItem('rememberMe', isChecked.toString());
+    }
+
+    const signInCredentials = {
       email,
       password,
     };
 
-    console.log(credentials);
-    await login(credentials);
+    const response = await login(signInCredentials);
+
+    if (response.payload === 'User is not authentified') {
+      console.log('Email or password are wrong');
+      return;
+    }
+    reset({
+      ...getValues,
+      email: '',
+      password: '',
+    });
+
     toggleModal();
   };
 
+  const handleRecoverySubmitHandler: SubmitHandler<IRecoveryPassword> = async (data, e) => {
+    e?.stopPropagation();
+    e?.preventDefault();
+    console.log('Recovery email', data);
+    resetField('recoveryEmail');
+  };
+
   return (
-    <form className='flex flex-col gap-3.5' onSubmit={(e: React.FormEvent) => handleSubmit(e)}>
-      <Input
+    <form
+      className='flex flex-col gap-3.5'
+      onSubmit={handleSignInSubmit(handleSignInSubmitHandler)}
+    >
+      <VerifiableInput
         inputData={{
-          name: 'email',
-          type: 'email',
           placeholder: 'Enter your email',
           children: 'Email',
-          required: true,
+          // value: initialEmail,
         }}
+        errors={signInErrors?.email?.message}
+        register={registerSignIn}
+        label='email'
         hasIcon={false}
         variant='auth'
-        onChange={handleInputChange}
+        ariaInvalid={signInErrors?.email ? 'true' : 'false'}
       />
-      <Input
+      <VerifiableInput
         inputData={{
-          name: 'password',
           type: 'password',
           placeholder: 'Enter your password',
           children: 'Password',
-          required: true,
+          // value: initialPassword,
         }}
+        errors={signInErrors?.password?.message}
+        register={registerSignIn}
+        label='password'
         hasIcon={false}
         variant='auth'
-        onChange={handleInputChange}
+        ariaInvalid={signInErrors?.password ? 'true' : 'false'}
       />
       <div className='text-center'>
         <button
@@ -90,23 +133,27 @@ const SignInPanel: FC<SignInProps> = ({
           Forgot password?
         </button>
         {isShowRecoveryInput ? (
-          <Input
+          <VerifiableInput
             inputData={{
-              name: 'recoveryEmail',
-              type: 'email',
               placeholder: 'Enter your email',
             }}
+            errors={recoveryPasswordErrors?.recoveryEmail?.message}
+            register={registerRecovery}
+            handleSubmitRecovery={handleRecoveryPasswordSubmit(handleRecoverySubmitHandler)}
+            label='recoveryEmail'
             hasIcon={false}
             variant='auth'
+            ariaInvalid={recoveryPasswordErrors?.recoveryEmail ? 'true' : 'false'}
           />
         ) : null}
       </div>
-      <Input
+      <UnverifiableInput
         inputData={{
           name: 'checkbox',
           type: 'checkbox',
           children: 'Remember me',
         }}
+        isChecked={isChecked}
         hasIcon={false}
         variant='checkbox'
         onChange={(event: React.ChangeEvent<HTMLInputElement>) => handleCheckboxChange(event)}

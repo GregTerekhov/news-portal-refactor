@@ -1,6 +1,5 @@
-import React, { ReactNode, FC, useState } from 'react';
+import React, { ReactNode, FC } from 'react';
 import { useLocation } from 'react-router-dom';
-import { Path, UseFormRegister } from 'react-hook-form';
 
 import { useHeaderStyles, useActiveLinks, useWindowWidth } from 'hooks';
 
@@ -13,46 +12,44 @@ interface InputCollectedData {
   placeholder: string;
   value: string;
   children: ReactNode;
-  required?: boolean;
 }
 
 enum VariantInputs {
   Header = 'header',
   FilterServiceBlock = 'filterServiceBlock',
   Checkbox = 'checkbox',
-  Auth = 'auth',
-  Account = 'accountPage',
   RadioTheme = 'themeChanger',
-}
-
-interface IFormValues {
-  name: string;
-  email: string;
-  password: string;
 }
 
 interface InputProps {
   inputData?: Partial<InputCollectedData>;
+  isChecked?: boolean;
   hasIcon: boolean;
   className?: string;
-  svgName: string;
+  svgName?: string;
   variant: string;
-  label?: Path<IFormValues>;
-  register?: UseFormRegister<IFormValues>;
   hideInput?: (event: React.MouseEvent<HTMLInputElement>) => void;
   touched?: boolean;
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-const Input: FC<Partial<InputProps>> = (props) => {
+const UnverifiableInput: FC<InputProps> = (props) => {
   const { breakpointsForMarkup } = useWindowWidth() ?? {
     breakpointsForMarkup: null,
   };
-  const [isPasswordVisibility, setPasswordVisibility] = useState<boolean>(false);
-  const [isChecked, setIsChecked] = useState<boolean>(false);
 
-  const { inputData, hasIcon, svgName, className, variant, touched, hideInput, onChange } = props;
-  const { id, name, type, value, placeholder, children, required } = inputData ?? {};
+  const {
+    inputData,
+    hasIcon,
+    svgName,
+    className,
+    isChecked,
+    variant,
+    touched,
+    hideInput,
+    onChange,
+  } = props;
+  const { id, name, type, value, placeholder, children } = inputData ?? {};
 
   const location = useLocation();
   const activeLinks = useActiveLinks(location);
@@ -65,19 +62,15 @@ const Input: FC<Partial<InputProps>> = (props) => {
     }
   };
 
-  const togglePasswordVisibility = () => {
-    setPasswordVisibility(!isPasswordVisibility);
-  };
-
   let inputGeometry: string = '';
   let inputBorder: string = '';
-  let labelCheckbox: string = '';
-  let checkboxStyles: string = '';
   let inputBg: string = '';
   let svgFill: string = '';
   let caretColor: string = '';
   let textColor: string = '';
   let placeholderColor: string = '';
+  let labelCheckbox: string = '';
+  let checkboxStyles: string = '';
 
   if (variant === VariantInputs.Header) {
     inputGeometry = `md:w-48 lg:w-72 md:py-[5px] md:pl-11 md:pr-3 transition-transform transition-[width] ${
@@ -93,7 +86,7 @@ const Input: FC<Partial<InputProps>> = (props) => {
     caretColor = inputClass.caretColor;
     textColor = inputClass.textColor;
     placeholderColor = inputClass.placeholderColor;
-  } else if (variant === VariantInputs.FilterServiceBlock || variant === VariantInputs.Account) {
+  } else if (variant === VariantInputs.FilterServiceBlock) {
     inputGeometry = 'w-full py-2 pl-11 pr-3';
     inputBorder = 'border-accentBase dark:border-whiteBase';
     inputBg = 'bg-whiteBase';
@@ -101,12 +94,6 @@ const Input: FC<Partial<InputProps>> = (props) => {
     caretColor = 'caret-accentBase';
     textColor = 'text-accentBase';
     placeholderColor = 'placeholder:text-darkBase/[.4]';
-  } else if (variant === VariantInputs.Auth) {
-    inputGeometry = 'w-full py-2 px-4 md:px-4';
-    inputBorder = 'border-accentBase dark:border-whiteBase';
-    inputBg = 'bg-transparent';
-    caretColor = 'caret-accentBase dark:caret-whiteBase';
-    textColor = 'text-darkBase dark:text-whiteBase';
   } else if (variant === VariantInputs.Checkbox) {
     labelCheckbox = 'flex items-center cursor-pointer gap-x-4';
     checkboxStyles = 'sr-only';
@@ -119,12 +106,11 @@ const Input: FC<Partial<InputProps>> = (props) => {
           htmlFor={name}
           className={`relative flex ${hasIcon ? 'justify-center' : ''} ${
             labelCheckbox ? 'flex-row' : 'flex-col'
-          } ${
-            variant === VariantInputs.Auth ||
+          }
+          ${
             variant === VariantInputs.FilterServiceBlock ||
-            (variant === VariantInputs.Header && 'gap-x-4')
-          } ${
-            variant === VariantInputs.Checkbox ? 'mb-3 cursor-pointer gap-x-4' : ''
+            (variant === VariantInputs.Header && 'gap-x-4') ||
+            (variant === VariantInputs.Checkbox && 'mb-3 cursor-pointer gap-x-4')
           } ${className}`}
         >
           {variant === VariantInputs.FilterServiceBlock && (
@@ -133,32 +119,8 @@ const Input: FC<Partial<InputProps>> = (props) => {
               <span className='capitalize'>{name}:</span>
             </p>
           )}
-          {variant === VariantInputs.Auth && (
-            <>
-              <span className={`${!hasIcon && 'mb-1.5 block'} text-accentBase font-medium`}>
-                {children}
-              </span>
-              {type === 'password' ? (
-                <button
-                  aria-label='Password visibility button'
-                  type='button'
-                  onClick={togglePasswordVisibility}
-                >
-                  <SvgIcon
-                    svgName={`${isPasswordVisibility ? 'icon-eye-opened' : 'icon-eye-closed'}`}
-                    size={20}
-                    className='fill-greyBase absolute right-3 bottom-[9px] md:right-4 cursor-pointer'
-                  />
-                </button>
-              ) : null}
-            </>
-          )}
           <div
-            className={`${
-              variant === VariantInputs.FilterServiceBlock || variant === VariantInputs.Account
-                ? 'relative'
-                : ''
-            } ${
+            className={`${variant === VariantInputs.FilterServiceBlock ? 'relative' : ''} ${
               variant === VariantInputs.Checkbox
                 ? `flex items-center justify-center w-4 h-4 md:w-6 md:h-6 rounded-sm cursor-pointer ${
                     isChecked
@@ -175,47 +137,28 @@ const Input: FC<Partial<InputProps>> = (props) => {
                 className={`${isChecked ? 'fill-whiteBase' : 'fill-none'}`}
               />
             ) : null}
-            {type === 'password' ? (
-              <button
-                aria-label='Password visibility button'
-                type='button'
-                onClick={togglePasswordVisibility}
-              >
-                <SvgIcon
-                  svgName={`${isPasswordVisibility ? 'icon-eye-opened' : 'icon-eye-closed'}`}
-                  size={20}
-                  className='fill-greyBase absolute right-3 bottom-[9px] md:right-4 cursor-pointer'
-                />
-              </button>
-            ) : null}
             {hasIcon && (
               <span className='absolute w-5 h-5 left-3 top-50% transform -translate-y-1/2 flex items-center justify-center'>
                 <SvgIcon svgName={svgName} size={20} className={`${svgFill}`} />
               </span>
             )}
             <input
-              className={` ${inputGeometry} ${checkboxStyles} transition-colors duration-500 font-header border-solid border rounded-3xl outline-0 text-small leading-mediumRelaxed tracking-bigWide md:text-base md:leading-moreRelaxed md:tracking-wide ${placeholderColor} ${inputBorder} ${inputBg} ${caretColor} ${textColor}`}
+              className={` ${inputGeometry} transition-colors duration-500 font-header border-solid border rounded-3xl outline-0 text-small leading-mediumRelaxed tracking-bigWide md:text-base md:leading-moreRelaxed md:tracking-wide ${placeholderColor} ${inputBorder} ${inputBg} ${caretColor} ${textColor} ${checkboxStyles}`}
               id={name}
               name={name}
-              type={isPasswordVisibility ? 'text' : type}
+              type={type}
               value={value}
-              checked={isChecked}
               placeholder={placeholder}
-              required={required}
               autoComplete='off'
               onClick={onHideInput}
               onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
                 if (onChange) {
-                  setIsChecked(event.target.checked);
                   onChange(event);
                 }
               }}
-              // {...register(label, {required})}
             />
           </div>
-          <span className={`${!hasIcon && 'block'} text-accentBase font-medium`}>
-            {variant === VariantInputs.Checkbox && children}
-          </span>
+          <span className={`${!hasIcon && 'block'} text-accentBase font-medium`}>{children}</span>
         </label>
       ) : (
         <>
@@ -235,4 +178,4 @@ const Input: FC<Partial<InputProps>> = (props) => {
   );
 };
 
-export default Input;
+export default UnverifiableInput;

@@ -10,7 +10,7 @@ export type ClickHandler =
   | (() => void)
   | ((event: React.FormEvent) => void)
   | (() => Promise<void>)
-  | ((e: React.MouseEvent) => void);
+  | ((e: React.MouseEvent<HTMLButtonElement>) => void);
 
 enum VariantButton {
   Primary = 'Primary',

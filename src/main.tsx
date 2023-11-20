@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import ReactDOM from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
@@ -7,6 +7,8 @@ import 'flowbite';
 
 import store, { persistor } from 'reduxStore/store';
 
+import { WindowWidthProvider } from './contexts';
+
 import App from './App';
 
 import './input.css';
@@ -14,11 +16,15 @@ import './input.css';
 ReactDOM.createRoot(document.getElementById('root')!).render(
   // <React.StrictMode>
   <Provider store={store}>
-    <PersistGate persistor={persistor}>
-      <BrowserRouter>
-        <App />
-      </BrowserRouter>
-    </PersistGate>
+    <WindowWidthProvider>
+      <PersistGate persistor={persistor}>
+        <BrowserRouter>
+          <Suspense>
+            <App />
+          </Suspense>
+        </BrowserRouter>
+      </PersistGate>
+    </WindowWidthProvider>
   </Provider>,
   // </React.StrictMode>,
 );

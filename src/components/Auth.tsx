@@ -8,12 +8,12 @@ import { ClickHandler } from 'ui/PrimaryButton';
 
 import AuthModal from './AuthModal';
 
-const Auth: FC = () => {
-  const { isOpenModal, popUpRef, toggleModal } = usePopUp();
+const Auth: FC<{}> = () => {
   const { breakpointsForMarkup } = useWindowWidth() ?? {
     breakpointsForMarkup: null,
   };
-  const { isLoggedIn, logout } = useAuthCollector();
+  const { isAuthenticated, logout } = useAuthCollector();
+  const { isOpenModal, popUpRef, toggleModal } = usePopUp();
   const navigate = useNavigate();
 
   const onSignOut = async () => {
@@ -28,9 +28,11 @@ const Auth: FC = () => {
           id={breakpointsForMarkup?.isDesktop ? 'Auth button for signin and signout' : ''}
           ariaLabel={!breakpointsForMarkup?.isDesktop ? 'Auth button for signin and signout' : ''}
           variant={`${breakpointsForMarkup?.isDesktop ? 'Primary' : 'Small'}`}
-          onHandleClick={!isLoggedIn ? (toggleModal as ClickHandler) : (onSignOut as ClickHandler)}
+          onHandleClick={
+            !isAuthenticated ? (toggleModal as ClickHandler) : (onSignOut as ClickHandler)
+          }
           hasIcon={true}
-          svgName={`${isLoggedIn ? 'icon-signout' : 'icon-auth'}`}
+          svgName={`${isAuthenticated ? 'icon-signout' : 'icon-auth'}`}
           svgSize={breakpointsForMarkup?.isDesktop ? 28 : 24}
           classNameIcon='fill-whiteBase'
           classNameButton={`${
@@ -39,7 +41,7 @@ const Auth: FC = () => {
               : 'border-transparent dark:border-whiteBase bg-accentBase hover:bg-accentAlt transition-colors duration-500 p-1.5'
           }`}
         >
-          {breakpointsForMarkup?.isDesktop ? (isLoggedIn ? 'Sign Out' : 'Auth') : null}
+          {breakpointsForMarkup?.isDesktop ? (isAuthenticated ? 'Sign Out' : 'Auth') : null}
         </PrimaryButton>
       </div>
       {isOpenModal && (

@@ -1,43 +1,35 @@
-import React, { FC, useState } from 'react';
+import React, { FC } from 'react';
+import { useForm, SubmitHandler } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
 
+import { SignUpCredentials } from 'types';
+
+import { signUpSchema } from 'helpers';
 import { useAuthCollector, usePopUp, useWindowWidth } from 'hooks';
 
-import { Input, PrimaryButton } from 'ui';
+import { PrimaryButton, VerifiableInput } from 'ui';
 
 import ThemeSwitcher from './ThemeSwitcher';
 
-const SignUpPanel: FC = () => {
+const SignUpPanel: FC<{}> = () => {
   const { breakpointsForMarkup } = useWindowWidth() ?? {
     breakpointsForMarkup: null,
   };
-  const [name, setName] = useState<string>('');
-  const [email, setEmail] = useState<string>('');
-  const [password, setPassword] = useState<string>('');
 
   const { register, login } = useAuthCollector();
   const { toggleModal } = usePopUp();
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const targetInput = e.target.name;
-    const inputValue = e.target.value;
+  const {
+    handleSubmit: handleSignUpSubmit,
+    register: registerSignUp,
+    reset,
+    getValues,
+    formState: { errors: signUpErrors },
+  } = useForm<SignUpCredentials>({ resolver: yupResolver(signUpSchema) });
 
-    switch (targetInput) {
-      case 'name':
-        setName(inputValue);
-        break;
-      case 'email':
-        setEmail(inputValue);
-        break;
-      case 'password':
-        setPassword(inputValue);
-        break;
-      default:
-        break;
-    }
-  };
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleSignUpSubmitHandler: SubmitHandler<SignUpCredentials> = async (data) => {
+    console.log('SignUp data', data);
+    const { name, email, password } = data;
 
     const signUpCredentials = {
       name,
@@ -50,64 +42,70 @@ const SignUpPanel: FC = () => {
       password,
     };
 
-    console.log(signUpCredentials);
-    console.log(signInCredentials);
-
     const response = await register(signUpCredentials);
 
     if (
-      response.payload === 'Request failed with status code 409' ||
-      response.payload === 'Request failed with status code 400'
+      response.payload === 'Email already in use' ||
+      response.payload === 'All sign-up fields are required'
     ) {
       return;
     } else {
       const response = await login(signInCredentials);
 
-      if (response.payload === 'Request failed with status code 401') {
+      if (response.payload === 'User is not authentified') {
         console.log('Email or password are wrong');
+        return;
       }
     }
+    reset({
+      ...getValues,
+      name: '',
+      email: '',
+      password: '',
+    });
     toggleModal();
   };
 
   return (
-    <form className='' onSubmit={(e: React.FormEvent) => handleSubmit(e)}>
+    <form className='' onSubmit={handleSignUpSubmit(handleSignUpSubmitHandler)}>
       <div className='flex flex-col gap-3.5 mb-8'>
-        <Input
+        <VerifiableInput
           inputData={{
-            name: 'name',
             type: 'text',
             placeholder: 'Enter your name',
             children: 'Name',
-            required: true,
           }}
+          errors={signUpErrors?.name && signUpErrors?.name?.message}
+          register={registerSignUp}
+          label='name'
           hasIcon={false}
           variant='auth'
-          onChange={handleInputChange}
+          ariaInvalid={signUpErrors?.name ? 'true' : 'false'}
         />
-        <Input
+        <VerifiableInput
           inputData={{
-            name: 'email',
-            type: 'email',
             placeholder: 'Enter your email',
             children: 'Email',
-            required: true,
           }}
+          errors={signUpErrors?.email?.message}
+          register={registerSignUp}
+          label='email'
           hasIcon={false}
           variant='auth'
-          onChange={handleInputChange}
+          ariaInvalid={signUpErrors?.email ? 'true' : 'false'}
         />
-        <Input
+        <VerifiableInput
           inputData={{
-            name: 'password',
             type: 'password',
             placeholder: 'Enter your password',
             children: 'Password',
-            required: true,
           }}
+          errors={signUpErrors?.password?.message}
+          register={registerSignUp}
+          label='password'
           hasIcon={false}
           variant='auth'
-          onChange={handleInputChange}
+          ariaInvalid={signUpErrors?.password ? 'true' : 'false'}
         />
       </div>
       {breakpointsForMarkup?.isNothing || breakpointsForMarkup?.isMobile ? (

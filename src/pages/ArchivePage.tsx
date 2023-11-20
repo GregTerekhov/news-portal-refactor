@@ -5,7 +5,7 @@ import { useNewsDBCollector } from 'hooks';
 
 import { Accordeon, NewsList } from 'components';
 
-const ArchivePage: FC = () => {
+const ArchivePage: FC<{}> = () => {
   const { savedNews } = useNewsDBCollector();
 
   const organisedNews = organiseNewsByMonth(savedNews);

@@ -7,7 +7,7 @@ import { useWeatherCollector, useWindowWidth } from 'hooks';
 
 import { SvgIcon } from 'ui';
 
-const WeatherDetailsForHours: FC = () => {
+const WeatherDetailsForHours: FC<{}> = () => {
   const [showTooltip, setShowTooltip] = useState<boolean>(false);
   const { hourlyWeather } = useWeatherCollector();
   const { breakpointsForMarkup } = useWindowWidth() ?? {

@@ -1,8 +1,7 @@
 import React, { FC, useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom';
 import { Switch } from '@headlessui/react';
 
-import { useActiveLinks, useHeaderStyles, useWindowWidth } from 'hooks';
+import { useWindowWidth } from 'hooks';
 
 import { SvgIcon } from 'ui';
 
@@ -20,11 +19,6 @@ const ThemeSwitcher: FC<ThemeSwitcherProps> = ({ variant }) => {
   const { breakpointsForMarkup } = useWindowWidth() ?? {
     breakpointsForMarkup: null,
   };
-
-  const location = useLocation();
-  const activeLinks = useActiveLinks(location);
-
-  const { switcherTextClass } = useHeaderStyles(activeLinks.isHomeActive);
 
   let spacing: string = '';
 
@@ -55,7 +49,7 @@ const ThemeSwitcher: FC<ThemeSwitcherProps> = ({ variant }) => {
       {breakpointsForMarkup?.isDesktop ? (
         <p
           className={`font-header text-xl leading-tighter ${
-            enabled ? switcherTextClass : 'text-accentAlt'
+            enabled ? 'text-whiteBase' : 'text-accentAlt'
           }`}
         >
           Light
@@ -88,7 +82,7 @@ const ThemeSwitcher: FC<ThemeSwitcherProps> = ({ variant }) => {
       {breakpointsForMarkup?.isDesktop ? (
         <p
           className={`font-header text-xl leading-tighter ${
-            enabled ? 'text-accentAlt' : switcherTextClass
+            enabled ? 'text-accentAlt' : 'text-greyBase'
           }`}
         >
           Dark

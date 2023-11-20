@@ -18,6 +18,7 @@ const usePagination = (rebuildedNews: PartialVotedNewsArray) => {
   const [currentItems, setCurrentItems] = useState<PartialVotedNewsArray>([]);
 
   const totalPages = (rebuildedNews && rebuildedNews?.length) || 0;
+  // console.log('totalPages', totalPages);
   const firstMobileItemsPerPage = 4; // Кількість новин для мобільного пристрою на першій сторінці
   const firstTabletItemsPerPage = 7; // Кількість новин для мобільного пристрою на першій сторінці
   const firstDesktopItemsPerPage = 8; // Кількість новин для мобільного пристрою на першій сторінці
@@ -35,6 +36,8 @@ const usePagination = (rebuildedNews: PartialVotedNewsArray) => {
   );
 
   const currentCardsPerPage = getCurrentCardsPerPage();
+  // console.log('currentCardsPerPage', currentCardsPerPage);
+  // console.log('mobilePages', mobilePages);
   useEffect(() => {
     if (rebuildedNews && rebuildedNews?.length > 0) {
       const indexOfLastItem = currentPage * currentCardsPerPage;
