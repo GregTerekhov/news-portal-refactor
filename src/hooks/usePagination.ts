@@ -46,7 +46,9 @@ const usePagination = (rebuildedNews: PartialVotedNewsArray) => {
         setAccPage(accPage + currentCardsPerPage);
       }
       const indexOfLastItem =
-        currentPage === 1 ? currentPage * currentCardsPerPage : accPage + currentCardsPerPage;
+        currentPage === 1
+          ? currentPage * currentCardsPerPage
+          : currentPage * currentCardsPerPage - 1;
       const indexOfFirstItem = indexOfLastItem - currentCardsPerPage;
 
       console.log(accumulatePages);
