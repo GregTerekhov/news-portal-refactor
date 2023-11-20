@@ -3,7 +3,7 @@ import { useLocation } from 'react-router-dom';
 
 import { useActiveLinks } from 'hooks';
 
-const SkeletonEl: FC = () => {
+const SkeletonEl: FC<{}> = () => {
   const location = useLocation();
   const activeLinks = useActiveLinks(location);
 

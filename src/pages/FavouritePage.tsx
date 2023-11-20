@@ -5,7 +5,7 @@ import { useActiveLinks, useChooseRenderingNews, useNewsDBCollector } from 'hook
 
 import { Loader, NewsList, PlugImage } from 'components';
 
-const FavouritePage: FC = () => {
+const FavouritePage: FC<{}> = () => {
   const [changesHappened, setChangesHappened] = useState<boolean>(false);
   // const [deletedNewsIndex, setDeletedNewsIndex] = useState<number | null>(null);
 

@@ -23,15 +23,15 @@ const HomePage: FC = () => {
   const { currentItems, currentPage, pageNumbers, setCurrentPage } = usePagination(
     rebuildedNews ?? [],
   );
-  const { isLoggedIn } = useAuthCollector();
+  const { isAuthenticated } = useAuthCollector();
 
   useEffect(() => {
     fetchPopular('1');
 
-    if (isLoggedIn) {
+    if (isAuthenticated) {
       getSavedNews();
     }
-  }, [fetchPopular, getSavedNews, isLoggedIn]);
+  }, [fetchPopular, getSavedNews, isAuthenticated]);
 
   useLayoutEffect(() => {
     if (changesHappened) {

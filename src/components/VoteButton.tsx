@@ -7,7 +7,7 @@ interface VBProps {
     id?: string;
   };
   isFavourite: boolean;
-  onHandleClick: (e: React.MouseEvent) => void;
+  onHandleClick: (e: React.MouseEvent<HTMLButtonElement>) => void;
 }
 
 const VoteButton: FC<VBProps> = ({ onHandleClick, isFavourite, buttonData }) => {

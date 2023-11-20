@@ -10,7 +10,7 @@ import {
   fetchRead,
 } from './newsDatabaseOperations';
 
-interface SelectedNewsState {
+interface NewsDBState {
   savedNews: PartialVotedNewsArray;
   favourites: PartialVotedNewsArray;
   reads: PartialVotedNewsArray;
@@ -26,14 +26,14 @@ interface SelectedNewsState {
 //   never
 // >;
 
-const initialState = {
+const initialState: NewsDBState = {
   savedNews: [],
   favourites: [],
   reads: [],
   archivedNews: [],
   isLoading: false,
   hasError: null,
-} as SelectedNewsState;
+};
 
 // const handlePending = (state) => {
 //   state.isLoading = true;

@@ -1,4 +1,4 @@
-import { SerializedError, createSlice } from '@reduxjs/toolkit';
+import { PayloadAction, SerializedError, createSlice } from '@reduxjs/toolkit';
 
 import { fetchCurrentUser, signIn, signOut, signUp } from './authOperations';
 
@@ -12,10 +12,22 @@ interface AuthState {
   user: {
     name: string;
     email: string;
+    id: string;
+    rememberMe: boolean;
+  };
+  haveAccounts: {
+    google: boolean;
+    facebook: boolean;
+    apple: boolean;
   };
 }
 
-const initialState = {
+interface SetTokensPayload {
+  accessToken: string | null;
+  refreshToken: string | null;
+}
+
+const initialState: AuthState = {
   isLoggedIn: false,
   hasError: null,
   isCurrentUser: false,
@@ -25,13 +37,25 @@ const initialState = {
   user: {
     name: '',
     email: '',
+    id: '',
+    rememberMe: false,
   },
-} as AuthState;
+  haveAccounts: {
+    google: false,
+    facebook: false,
+    apple: false,
+  },
+};
 
 const authSlice = createSlice({
   name: 'auth',
   initialState,
-  reducers: {},
+  reducers: {
+    setTokens: (state: AuthState, action: PayloadAction<SetTokensPayload>) => {
+      state.accessToken = action.payload.accessToken;
+      state.refreshToken = action.payload.refreshToken;
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(signUp.pending, (state) => {
@@ -83,8 +107,10 @@ const authSlice = createSlice({
         // console.log('ACT', action);
       })
       .addCase(fetchCurrentUser.fulfilled, (state, action) => {
+        state.isCurrentUser = false;
         state.isLoggedIn = true;
         state.user = action.payload.user;
+        state.hasError = null;
       })
       .addCase(fetchCurrentUser.rejected, (state, action) => {
         state.isCurrentUser = false;
@@ -93,4 +119,5 @@ const authSlice = createSlice({
   },
 });
 
+export const { setTokens } = authSlice.actions;
 export const authSliceReducer = authSlice.reducer;

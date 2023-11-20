@@ -24,6 +24,7 @@ const Accordeon: FC<AccordeonProps> = ({ children, dateSeparator, position, filt
             ? dateSeparator || ''
             : filtersBlock || ''
         }
+        className={`${position === 'accountManagePage' ? 'lg:text-2xl' : ''}`}
       >
         <Accordion.Header
           className={`border-b border-solid border-lineAlt ${

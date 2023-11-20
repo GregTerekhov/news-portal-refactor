@@ -4,7 +4,7 @@ import { RootState } from './store';
 
 import { PartialVotedNewsArray } from 'types/news';
 
-const initialState = [] as PartialVotedNewsArray;
+const initialState: PartialVotedNewsArray = [];
 
 const filterSlice = createSlice({
   name: 'filters',

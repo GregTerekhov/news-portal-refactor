@@ -8,7 +8,7 @@ import Loader from './Loader';
 import WeatherDetailsForHours from './WeatherDetailsForHours';
 import WeatherDetailsForToday from './WeatherDetailsForToday';
 
-const WeatherBlock: FC = () => {
+const WeatherBlock: FC<{}> = () => {
   const {
     hasGeolocationPermission,
     isCelsius,
@@ -66,9 +66,10 @@ const WeatherBlock: FC = () => {
             >
               <div className='relative w-[83px] md:w-[96px] after:content-[""] after:h-full after:absolute after:w-px after:-right-2 after:top-0 after:bg-white text-center'>
                 <p className='w-full font-weather text-monstrous md:text-[64px] text-contrastWhite'>
-                  {isCelsius
-                    ? Math.round(currentWeather?.main?.temp) + '\u00b0'
-                    : Math.round((currentWeather?.main?.temp * 9) / 5 + 32) + '\u00b0'}
+                  {currentWeather?.main !== undefined &&
+                    (isCelsius
+                      ? Math.round(currentWeather?.main?.temp) + '\u00b0'
+                      : Math.round((currentWeather?.main?.temp * 9) / 5 + 32) + '\u00b0')}
                 </p>
               </div>
               <div>

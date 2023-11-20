@@ -7,16 +7,11 @@ import ThemeSwitcher from './ThemeSwitcher';
 import SignUpPanel from './SignUpPanel';
 import SignInPanel from './SignInPanel';
 
-const AuthModal: FC = () => {
+const AuthModal: FC<{}> = () => {
   const { breakpointsForMarkup } = useWindowWidth() ?? {
     breakpointsForMarkup: null,
   };
   const [isShowRecoveryInput, setIsShowRecoveryInput] = useState<boolean>(false);
-
-  const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const isChecked = event.target.checked;
-    console.log('isChecked', isChecked, typeof isChecked);
-  };
 
   const handleShowRecoveryInput = () => {
     setIsShowRecoveryInput(!isShowRecoveryInput);
@@ -45,7 +40,6 @@ const AuthModal: FC = () => {
           <Tab.Panel>
             <SignInPanel
               isShowRecoveryInput={isShowRecoveryInput}
-              handleCheckboxChange={handleCheckboxChange}
               handleShowRecoveryInput={handleShowRecoveryInput}
             />
           </Tab.Panel>

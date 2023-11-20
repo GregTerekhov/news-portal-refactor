@@ -12,7 +12,7 @@ import {
 } from 'hooks';
 
 import { Menu, ThemeSwitcher, Auth, AuthModal, AccountMenu } from 'components';
-import { Input, Modal, SvgIcon } from 'ui';
+import { Modal, SvgIcon, UnverifiableInput } from 'ui';
 
 const Header: FC = () => {
   const { query, onChangeInput, onHandleSearch } = useAdditionalRequest();
@@ -20,13 +20,13 @@ const Header: FC = () => {
   const { breakpointsForMarkup } = useWindowWidth() ?? {
     breakpointsForMarkup: null,
   };
-  const { user } = useAuthCollector();
+  const { user, isAuthenticated } = useAuthCollector();
   const { resetAllFilters } = useFilterCollector();
   const [touched, setTouched] = useState<boolean>(false);
 
   const location = useLocation();
   const activeLinks = useActiveLinks(location);
-  const isLoggedIn = true;
+  // const isAuthenticated = true;
   const { headerClass, textClass, burgerMenuButtonClass } = useHeaderStyles(
     activeLinks.isHomeActive,
   );
@@ -36,11 +36,6 @@ const Header: FC = () => {
   const handleVisibilityChange = () => {
     setTouched(!touched);
   };
-
-  // let ram = '';
-  // if (user) {
-  // console.log(ram.length);
-  // }
 
   const isAccountPages = activeLinks.isAccountPage || activeLinks.isManageAccountPage;
 
@@ -57,13 +52,15 @@ const Header: FC = () => {
       >
         <div
           className={`container relative mx-auto px-4 hg:px-[65px] flex justify-between items-center ${
-            isLoggedIn ? 'gap-3.5' : ''
+            isAuthenticated ? 'gap-3.5' : ''
           }`}
         >
-          {isNotMobile ? (
+          {isNotMobile && !isAccountPages && isAuthenticated ? (
             <Link
               to='/account'
-              className='absolute top-1.5 right-40 lg:right-60 text-darkBase dark:text-whiteBase hover:text-accentBase hover:underline hover:decoration-accentBase'
+              className={`absolute top-1.5 right-40 lg:right-60 hg:text-xl ${
+                activeLinks.isHomeActive ? textClass : 'text-darkBase dark:text-whiteBase'
+              } hover:text-accentBase hover:underline hover:decoration-accentBase transition-colors duration-500`}
             >
               Account {user.name}
             </Link>
@@ -79,16 +76,16 @@ const Header: FC = () => {
           >
             News
           </a>
-          {isNotMobile && isLoggedIn ? <Menu /> : null}
+          {isNotMobile && isAuthenticated ? <Menu /> : null}
 
-          {isLoggedIn ? (
+          {isAuthenticated ? (
             <>
               <div className='flex items-center gap-3.5 lg:gap-12'>
                 {breakpointsForMarkup?.isNothing || breakpointsForMarkup?.isMobile ? (
                   <>
                     {!isOpenMenu && activeLinks.isHomeActive ? (
                       <form onSubmit={(e) => onHandleSearch(e)} className='max-md:overflow-hidden'>
-                        <Input
+                        <UnverifiableInput
                           inputData={{
                             name: 'query',
                             type: 'text',

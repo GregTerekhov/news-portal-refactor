@@ -2,9 +2,9 @@ import React, { FC } from 'react';
 
 import { useAuthCollector, useWindowWidth } from 'hooks';
 
-import { PrimaryButton } from 'ui';
+import { SvgIcon } from 'ui';
 
-const AccountPage: FC = () => {
+const AccountPage: FC<{}> = () => {
   const { breakpointsForMarkup } = useWindowWidth() ?? {
     breakpointsForMarkup: null,
   };
@@ -12,73 +12,61 @@ const AccountPage: FC = () => {
 
   return (
     <div>
-      <p className='text-darkBase dark:text-whiteBase text-2xl leading-tighter text-end mb-14'>
+      <p className='text-darkBase dark:text-whiteBase text-3xl leading-tighter text-end mb-14'>
         Your account
       </p>
       <div className='flex items-center justify-end mb-6 md:mb-10'>
         <div className='space-y-6 md:space-y-10 w-52 md:w-80'>
           <div>
-            <p className='text-darkBase dark:text-whiteBase mb-2 text-end md:text-2xl'>
+            <h3 className='text-darkBase dark:text-whiteBase mb-2 text-end md:text-2xl'>
               Account ID:
-            </p>
+            </h3>
             <p className='text-accentBase dark:text-greyAlt text-end md:text-medium'>
-              3453451236246
+              3453451236246{user.id}
             </p>
           </div>
           <div>
-            <p className='text-darkBase dark:text-whiteBase mb-2 text-end md:text-2xl'>
+            <h3 className='text-darkBase dark:text-whiteBase mb-2 text-end md:text-2xl'>
               Your name:
-            </p>
+            </h3>
             <p className='text-accentBase dark:text-greyAlt text-end md:text-medium'>
               {user.name} Example Name
             </p>
           </div>
           <div>
-            <p className='text-darkBase dark:text-whiteBase mb-2 text-end md:text-2xl'>
+            <h3 className='text-darkBase dark:text-whiteBase mb-2 text-end md:text-2xl'>
               Your email:
-            </p>
+            </h3>
             <p className='text-accentBase dark:text-greyAlt text-end md:text-medium'>
               {user.email} example@mail.com
             </p>
           </div>
           <div>
-            <p className='text-darkBase dark:text-whiteBase mb-4 md:text-2xl text-end'>
+            <h3 className='text-darkBase dark:text-whiteBase mb-4 md:text-2xl text-end'>
               Connected accounts
-            </p>
-            <div className='flex items-center justify-end gap-4 md:gap-6'>
-              <PrimaryButton
-                variant='Small'
-                hasIcon={true}
-                svgName='icon-google'
-                svgSize={
-                  breakpointsForMarkup?.isNothing || breakpointsForMarkup?.isMobile ? 20 : 24
-                }
-                ariaLabel='Google account binding'
-                classNameButton='bg-accentBase dark:border-whiteBase py-2'
-                classNameIcon='fill-whiteBase'
-              />
-              <PrimaryButton
-                variant='Small'
-                hasIcon={true}
-                svgName='icon-facebook'
-                svgSize={
-                  breakpointsForMarkup?.isNothing || breakpointsForMarkup?.isMobile ? 20 : 24
-                }
-                ariaLabel='Facebook account binding'
-                classNameButton='bg-accentBase dark:border-whiteBase py-2'
-                classNameIcon='fill-whiteBase'
-              />
-              <PrimaryButton
-                variant='Small'
-                hasIcon={true}
-                svgName='icon-apple'
-                svgSize={
-                  breakpointsForMarkup?.isNothing || breakpointsForMarkup?.isMobile ? 20 : 24
-                }
-                ariaLabel='Apple account binding'
-                classNameButton='bg-accentBase dark:border-whiteBase py-2'
-                classNameIcon='fill-whiteBase'
-              />
+            </h3>
+            <div className='flex items-center justify-end gap-x-4 md:gap-x-6'>
+              <div className='border border-solid rounded-[10px] bg-accentBase dark:border-whiteBase p-2'>
+                <SvgIcon
+                  svgName='icon-google'
+                  size={breakpointsForMarkup?.isNothing || breakpointsForMarkup?.isMobile ? 20 : 24}
+                  className='fill-whiteBase'
+                />
+              </div>
+              <div className='border border-solid rounded-[10px] bg-accentBase dark:border-whiteBase p-2'>
+                <SvgIcon
+                  svgName='icon-facebook'
+                  size={breakpointsForMarkup?.isNothing || breakpointsForMarkup?.isMobile ? 20 : 24}
+                  className='fill-whiteBase'
+                />
+              </div>
+              <div className='border border-solid rounded-[10px] bg-accentBase dark:border-whiteBase p-2'>
+                <SvgIcon
+                  svgName='icon-apple'
+                  size={breakpointsForMarkup?.isNothing || breakpointsForMarkup?.isMobile ? 20 : 24}
+                  className='fill-whiteBase'
+                />
+              </div>
             </div>
           </div>
         </div>

@@ -4,11 +4,11 @@ import { useLocation } from 'react-router-dom';
 import { MATERIALS_TYPES } from 'constants';
 import { useActiveLinks, useFilterNews, useWindowWidth } from 'hooks';
 
-import { Dropdown, Input, PrimaryButton } from 'ui';
+import { Dropdown, PrimaryButton, UnverifiableInput } from 'ui';
 
 import Calendar from './Calendar';
 
-const FiltersBlock: FC = () => {
+const FiltersBlock: FC<{}> = () => {
   const { breakpointsForMarkup } = useWindowWidth() ?? {
     breakpointsForMarkup: null,
   };
@@ -29,7 +29,7 @@ const FiltersBlock: FC = () => {
     <>
       <form className='p-3.5 max-md:space-y-4 md:grid md:grid-cols-9 md:grid-rows-3 md:gap-3.5 lg:grid-cols-16 lg:grid-rows-2'>
         <div className='md:col-span-3 lg:col-span-4'>
-          <Input
+          <UnverifiableInput
             inputData={{
               name: 'keyword',
               type: 'text',
@@ -43,7 +43,7 @@ const FiltersBlock: FC = () => {
           />
         </div>
         <div className='md:col-span-3 lg:col-span-4'>
-          <Input
+          <UnverifiableInput
             inputData={{
               name: 'author',
               type: 'text',
@@ -57,7 +57,7 @@ const FiltersBlock: FC = () => {
           />
         </div>
         <div className='md:col-span-3 lg:col-span-4'>
-          <Input
+          <UnverifiableInput
             inputData={{
               name: 'title',
               type: 'text',
@@ -71,13 +71,14 @@ const FiltersBlock: FC = () => {
           />
         </div>
         <div className='md:col-span-3 lg:col-span-4'>
-          <Input
+          <UnverifiableInput
             inputData={{
               name: 'publisher',
               type: 'text',
               value: filters.publisher,
               placeholder: 'Publisher',
             }}
+            svgName='icon-search'
             hasIcon={true}
             variant='filterServiceBlock'
             onChange={(event: React.ChangeEvent<HTMLInputElement>) => handleChangeFilter(event)}

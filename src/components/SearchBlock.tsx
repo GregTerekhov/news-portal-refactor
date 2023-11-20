@@ -2,11 +2,11 @@ import React, { FC } from 'react';
 
 import { useAdditionalRequest, useWindowWidth } from 'hooks';
 
-import { Dropdown, Input, PrimaryButton } from 'ui';
+import { Dropdown, PrimaryButton, UnverifiableInput } from 'ui';
 
 import Calendar from './Calendar';
 
-const SearchBlock: FC = () => {
+const SearchBlock: FC<{}> = () => {
   const { breakpointsForMarkup } = useWindowWidth() ?? {
     breakpointsForMarkup: null,
   };
@@ -31,7 +31,7 @@ const SearchBlock: FC = () => {
           onSubmit={(e) => onHandleSearch(e)}
           className='max-md:overflow-hidden md:col-span-2 lg:col-span-3'
         >
-          <Input
+          <UnverifiableInput
             inputData={{
               name: 'query',
               type: 'text',

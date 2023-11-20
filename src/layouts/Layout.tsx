@@ -12,12 +12,13 @@ const Layout: FC = () => {
     breakpointsForMarkup: null,
   };
   const { fetchCategoriesList } = useNewsAPICollector();
-  const { isLoggedIn } = useAuthCollector();
-
+  const { isAuthenticated } = useAuthCollector();
+  // const isAuthenticated = true;
   const location = useLocation();
   const activeLinks = useActiveLinks(location);
 
   useEffect(() => {
+    // fetchCurrentAuthUser()
     fetchCategoriesList();
   }, [fetchCategoriesList]);
 
@@ -42,12 +43,13 @@ const Layout: FC = () => {
           } pb-[60px] md:pb-[100px] lg:pb-[150px]`}
         >
           <div className='container mx-auto px-4 hg:px-[65px]'>
-            {isLoggedIn ? (
+            {isAuthenticated && !isAccountPages ? (
               <div className='mb-10 md:mb-12 lg:mb-[60px]'>
                 <NewsFilterManager />
               </div>
             ) : null}
-            {(!isLoggedIn && breakpointsForMarkup?.isNothing) || breakpointsForMarkup?.isMobile ? (
+            {(!isAuthenticated && breakpointsForMarkup?.isNothing) ||
+            breakpointsForMarkup?.isMobile ? (
               <div
                 className={`flex items-start ${
                   !isAccountPages ? 'justify-end mb-10' : 'justify-between mb-2'
@@ -72,7 +74,10 @@ const Layout: FC = () => {
                 />
               </>
             ) : null}
+            {/* {isRefreshingUser ?
+              <Loader variant='page' /> : */}
             <Outlet />
+            {/* } */}
           </div>
         </section>
       </main>
