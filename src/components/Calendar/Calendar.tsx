@@ -10,10 +10,10 @@ import {
   // useNewsAPICollector,
   usePopUp,
 } from 'hooks';
-import { convertLinesForCalendar } from 'helpers';
 
 import { SvgIcon } from 'ui';
 
+import { convertLinesForCalendar } from './assistants';
 import { CalendarContent } from './subcomponents';
 
 // import { useAppDispatch } from 'redux/hooks';

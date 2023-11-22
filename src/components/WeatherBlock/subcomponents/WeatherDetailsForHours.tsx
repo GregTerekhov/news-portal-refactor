@@ -2,10 +2,12 @@ import React, { FC, useState } from 'react';
 
 import { HourlyWeatherData } from 'types';
 
-import { convertUnixTimestampToHHMM, hPaToMmHg } from 'helpers';
-import { useWeatherCollector, useWindowWidth } from 'hooks';
+import { useWindowWidth } from 'hooks';
 
 import { SvgIcon } from 'ui';
+
+import { convertUnixTimestampToHHMM, hPaToMmHg } from '../assistants';
+import { useWeatherCollector } from '../hooks';
 
 const WeatherDetailsForHours: FC<{}> = () => {
   const [showTooltip, setShowTooltip] = useState<boolean>(false);
