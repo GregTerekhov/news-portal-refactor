@@ -6,7 +6,7 @@ import { useAuthCollector, usePopUp, useWindowWidth } from 'hooks';
 import { Modal, PrimaryButton } from 'ui';
 import { ClickHandler } from 'ui/PrimaryButton';
 
-import AuthModal from './AuthModal';
+import AuthModal from './AuthModal/AuthModal';
 
 const Auth: FC<{}> = () => {
   const { breakpointsForMarkup } = useWindowWidth() ?? {
