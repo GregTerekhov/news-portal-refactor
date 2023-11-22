@@ -49,7 +49,7 @@ const Pagination: FC<PaginationProps> = ({ pageNumbers, currentPage, setCurrentP
         variant='Small'
         dataTooltipTarget={`tooltip-pagination-pages-${pageNumber.toString()}`}
         dataTooltipPlacement='bottom'
-        tooltipText={`Paginate news to ${pageNumber.toString()} page`}
+        tooltipText={`Paginate news to page ${pageNumber.toString()}`}
       >
         {pageNumber}
       </PrimaryButton>

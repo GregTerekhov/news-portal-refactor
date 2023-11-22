@@ -1,11 +1,10 @@
 import React, { FC } from 'react';
 import { useLocation } from 'react-router-dom';
-import { format } from 'date-fns';
+import { format, startOfToday } from 'date-fns';
 
 import {
   useActiveLinks,
   useAdditionalRequest,
-  useCalendar,
   // useChooseRenderingNews,
   useFilterNews,
   // useNewsAPICollector,
@@ -27,26 +26,16 @@ interface CalendarProps {
 }
 
 const Calendar: FC<CalendarProps> = ({ variant }) => {
-  const { isOpenCalendar, popUpRef, setIsOpenCalendar, toggleCalendar } = usePopUp();
-  const { selectedRequestDate, handleDateRequest } = useAdditionalRequest();
-
-  const {
-    today,
-    currMonth,
-    firstDayOfMonth,
-    daysInMonth,
-    getPrevMonth,
-    getNextMonth,
-    getPrevYear,
-    getNextYear,
-  } = useCalendar();
-
   // const [beginDate, setBeginDate] = useState<Date | null>(null);
+
+  const { isOpenCalendar, popUpRef, setIsOpenCalendar, toggleCalendar } = usePopUp();
+  const { selectedRequestDate } = useAdditionalRequest();
 
   const location = useLocation();
   const activeLinks = useActiveLinks(location);
   const { filters, handleFilterDate } = useFilterNews({ activeLinks, setIsOpenCalendar });
 
+  const today = startOfToday();
   const showToday = selectedRequestDate.beginDate === null && selectedRequestDate.endDate === null;
 
   // const handleDateClick = async (date: Date) => {
@@ -124,21 +113,7 @@ const Calendar: FC<CalendarProps> = ({ variant }) => {
           }`}
         />
       </button>
-      {isOpenCalendar && (
-        <CalendarContent
-          variant={variant}
-          firstDayOfMonth={firstDayOfMonth}
-          daysInMonth={daysInMonth}
-          currMonth={currMonth}
-          selectedDate={selectedRequestDate}
-          getPrevYear={getPrevYear}
-          getNextYear={getNextYear}
-          getPrevMonth={getPrevMonth}
-          getNextMonth={getNextMonth}
-          handleDateRequest={handleDateRequest}
-          handleDateFilter={handleFilterDate}
-        />
-      )}
+      {isOpenCalendar && <CalendarContent variant={variant} handleDateFilter={handleFilterDate} />}
     </div>
   );
 };

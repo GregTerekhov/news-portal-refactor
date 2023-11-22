@@ -14,6 +14,7 @@ const Auth: FC<{}> = () => {
   };
   const { isAuthenticated, logout } = useAuthCollector();
   const { isOpenModal, popUpRef, toggleModal } = usePopUp();
+
   const navigate = useNavigate();
 
   const onSignOut = async () => {

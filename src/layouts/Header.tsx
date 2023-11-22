@@ -20,13 +20,13 @@ const Header: FC = () => {
   const { breakpointsForMarkup } = useWindowWidth() ?? {
     breakpointsForMarkup: null,
   };
-  const { user, isAuthenticated } = useAuthCollector();
+  const { user } = useAuthCollector();
   const { resetAllFilters } = useFilterCollector();
   const [touched, setTouched] = useState<boolean>(false);
 
   const location = useLocation();
   const activeLinks = useActiveLinks(location);
-  // const isAuthenticated = true;
+  const isAuthenticated = true;
   const { headerClass, textClass, burgerMenuButtonClass } = useHeaderStyles(
     activeLinks.isHomeActive,
   );
@@ -41,7 +41,7 @@ const Header: FC = () => {
 
   return (
     <>
-      <div
+      <header
         className={`fixed w-full top-0 left-0 min-h-[81px] md:min-h-[106px] lg:min-h-[113px] flex items-center justify-center ${
           activeLinks.isHomeActive
             ? headerClass
@@ -140,7 +140,7 @@ const Header: FC = () => {
             </div>
           )}
         </div>
-      </div>
+      </header>
       {isOpenModal && (
         <Modal closeModal={toggleModal} modalRef={popUpRef} variant='auth'>
           <AuthModal />

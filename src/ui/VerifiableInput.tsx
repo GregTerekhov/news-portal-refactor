@@ -14,7 +14,7 @@ import SvgIcon from './SvgIcon';
 interface InputCollectedData {
   type?: string;
   placeholder?: string;
-  value?: string;
+  fieldValue?: string | string[] | undefined;
   children?: ReactNode;
 }
 
@@ -23,7 +23,7 @@ enum VariantInputs {
   Account = 'accountPage',
 }
 
-export type IValues =
+export type Values =
   | IUpdateEmail
   | IUpdatePassword
   | SignUpCredentials
@@ -37,7 +37,7 @@ interface InputProps {
   svgName?: string;
   variant: string;
   ariaInvalid: boolean | 'false' | 'true' | 'grammar' | 'spelling' | undefined;
-  label: Path<IValues>;
+  label: Path<Values>;
   errors?: string | undefined;
   register: UseFormRegister<any>;
   handleSubmitRecovery?: React.MouseEventHandler<HTMLButtonElement> | undefined;
@@ -58,7 +58,7 @@ const VerifiableInput: FC<InputProps> = (props) => {
     handleSubmitRecovery,
     errors,
   } = props;
-  const { type, value, placeholder, children } = inputData;
+  const { type, fieldValue, placeholder, children } = inputData;
 
   const togglePasswordVisibility = () => {
     setPasswordVisibility(!isPasswordVisibility);
@@ -129,13 +129,15 @@ const VerifiableInput: FC<InputProps> = (props) => {
           id={label}
           {...register(label)}
           type={isPasswordVisibility ? 'text' : type}
-          value={value}
+          value={fieldValue}
           placeholder={placeholder}
           autoComplete='off'
           aria-invalid={ariaInvalid}
         />
       </div>
-      {errors && <p className='text-darkBase dark:text-whiteBase'>{errors}</p>}
+      {fieldValue?.length !== 0 && errors && (
+        <p className='text-darkBase dark:text-whiteBase'>{errors}</p>
+      )}
     </label>
   );
 };

@@ -3,37 +3,27 @@ import { format, getDay, isSameDay, isSameMonth, isToday, parse } from 'date-fns
 
 import { DAYS, COL_START_CLASSES } from 'constants';
 import { capitalizeFirstLetter } from 'helpers';
-import { SelectedDate } from 'hooks/useAdditionalRequest';
+import { useCalendar, useAdditionalRequest } from 'hooks';
 
 import { SvgIcon } from 'ui';
 
 interface CalendarContentProps {
   variant: string;
-  currMonth: string;
-  firstDayOfMonth: number | Date;
-  daysInMonth: Date[];
-  selectedDate: SelectedDate;
-  getPrevYear: (event: React.MouseEvent<HTMLButtonElement>) => void;
-  getNextYear: (event: React.MouseEvent<HTMLButtonElement>) => void;
-  getPrevMonth: (event: React.MouseEvent<HTMLButtonElement>) => void;
-  getNextMonth: (event: React.MouseEvent<HTMLButtonElement>) => void;
-  handleDateRequest: (date: Date) => void;
   handleDateFilter: (date: Date) => void;
 }
 
-const CalendarContent: FC<CalendarContentProps> = ({
-  variant,
-  getPrevYear,
-  firstDayOfMonth,
-  getNextYear,
-  getPrevMonth,
-  getNextMonth,
-  daysInMonth,
-  currMonth,
-  selectedDate,
-  handleDateRequest,
-  handleDateFilter,
-}) => {
+const CalendarContent: FC<CalendarContentProps> = ({ variant, handleDateFilter }) => {
+  const { selectedRequestDate, handleDateRequest } = useAdditionalRequest();
+
+  const {
+    currMonth,
+    firstDayOfMonth,
+    daysInMonth,
+    getPrevMonth,
+    getNextMonth,
+    getPrevYear,
+    getNextYear,
+  } = useCalendar();
   return (
     <div className='w-[250px] bg-dropdownBase absolute z-40 rounded-[20px] pt-4 px-4 pb-5 shadow-card dark:shadow-darkCard'>
       <div className='flex items-center justify-between py-[7px] mb-0.5'>
@@ -86,10 +76,10 @@ const CalendarContent: FC<CalendarContentProps> = ({
             const isCurrentMonth = isSameMonth(day, parse(currMonth, 'MMM-yyyy', new Date()));
             const isTodayDate = isToday(day);
             const isSelectedDate =
-              (selectedDate?.beginDate !== null &&
-                isSameDay(day, parse(selectedDate?.beginDate, 'yyyyMMdd', new Date()))) ||
-              (selectedDate?.endDate !== null &&
-                isSameDay(day, parse(selectedDate?.endDate, 'yyyyMMdd', new Date())));
+              (selectedRequestDate?.beginDate !== null &&
+                isSameDay(day, parse(selectedRequestDate?.beginDate, 'yyyyMMdd', new Date()))) ||
+              (selectedRequestDate?.endDate !== null &&
+                isSameDay(day, parse(selectedRequestDate?.endDate, 'yyyyMMdd', new Date())));
             const isSelectedStyle = isSelectedDate ? 'text-whiteBase bg-accentBase' : '';
             return (
               <div key={idx} className={COL_START_CLASSES[getDay(day)]}>
@@ -98,7 +88,7 @@ const CalendarContent: FC<CalendarContentProps> = ({
                     isCurrentMonth ? 'text-fullDark' : 'text-calendarTextLight'
                   } ${isSelectedStyle} 
                       ${
-                        selectedDate && isTodayDate && !isSelectedDate
+                        selectedRequestDate && isTodayDate && !isSelectedDate
                           ? 'text-whiteBase bg-accentBase'
                           : ''
                       }

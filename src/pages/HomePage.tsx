@@ -54,6 +54,7 @@ const HomePage: FC = () => {
             <PlugImage variant='page' />
           ) : (
             <>
+              <h2 className='dark:text-whiteBase text-giant font-bold mb-6'>Popular News</h2>
               <NewsList
                 currentItems={currentItems}
                 currentPage={currentPage}

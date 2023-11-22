@@ -1,3 +1,4 @@
+export { default as CommonMenu } from './CommonMenu';
 export { default as Dropdown } from './Dropdown';
 export { default as Modal } from './Modal';
 export { default as PrimaryButton } from './PrimaryButton';

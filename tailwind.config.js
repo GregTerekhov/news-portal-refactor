@@ -100,9 +100,9 @@ export default {
         mostRelaxed: '1.79',
       },
       maxHeight: {
-        sectionSmall: 'calc(100vh - 81px)',
-        sectionMedium: 'calc(100vh - 106px)',
-        sectionLarge: 'calc(100vh - 113px)',
+        sectionSmall: 'calc(100vh - 82px)',
+        sectionMedium: 'calc(100vh - 107px)',
+        sectionLarge: 'calc(100vh - 114px)',
       },
       spacing: {
         '676px': '676px',
