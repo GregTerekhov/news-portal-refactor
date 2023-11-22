@@ -33,7 +33,7 @@ const Modal: FC<ModalProps> = ({ children, closeModal, modalRef, variant }) => {
           <div className='fixed top-0 left-0 z-[60] bg-whiteBase/[.4] dark:bg-darkBackground/[.4] w-screen h-screen flex justify-center items-center transition-colors duration-500 backdrop-blur-sm'>
             <div
               ref={modalRef}
-              className={`relative bg-whiteBase dark:bg-darkBackground ${modalWidth} p-4 border border-solid border-accentBase dark:border-whiteBase rounded-xl shadow-modal dark:shadow-darkCard md:px-8 md:pb-8 transition-colors duration-500`}
+              className={`relative bg-whiteBase dark:bg-darkBackground ${modalWidth} py-4 px-6 border border-solid border-accentBase dark:border-whiteBase rounded-xl shadow-modal dark:shadow-darkCard md:px-8 md:pb-8 transition-colors duration-500`}
             >
               <button
                 aria-label='Modal close button'

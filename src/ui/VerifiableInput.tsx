@@ -98,7 +98,7 @@ const VerifiableInput: FC<InputProps> = (props) => {
           <span className='mb-1.5 block text-accentBase font-medium'>{children}</span>
         </>
       )}
-      <div className='relative mb-4'>
+      <div className={`relative ${variant === VariantInputs.Auth ? '' : 'mb-4'}`}>
         {type === 'password' ? (
           <button
             aria-label='Password visibility button'

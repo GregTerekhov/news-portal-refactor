@@ -66,8 +66,8 @@ const SignUpPanel: FC<{}> = () => {
   };
 
   return (
-    <form className='' onSubmit={handleSignUpSubmit(handleSignUpSubmitHandler)}>
-      <div className='flex flex-col gap-3.5 mb-8'>
+    <form onSubmit={handleSignUpSubmit(handleSignUpSubmitHandler)}>
+      <div className='flex flex-col gap-2 md:gap-3.5 mb-6'>
         <VerifiableInput
           inputData={{
             type: 'text',
@@ -107,18 +107,45 @@ const SignUpPanel: FC<{}> = () => {
           ariaInvalid={signUpErrors?.password ? 'true' : 'false'}
         />
       </div>
+      <p className='text-darkBase dark:text-whiteBase text-end mb-4 transition-colors duration-500'>
+        Click if you have accounts in:
+      </p>
       {breakpointsForMarkup?.isNothing || breakpointsForMarkup?.isMobile ? (
-        <PrimaryButton
-          id='Google authentication button'
-          svgName='icon-google'
-          svgSize={16}
-          classNameIcon='fill-whiteBase'
-          variant='Primary'
-          hasIcon={true}
-          classNameButton='mb-6'
-        >
-          Authentication
-        </PrimaryButton>
+        <ul className='flex justify-evenly gap-6 mb-8'>
+          <li>
+            <PrimaryButton
+              variant='Small'
+              hasIcon={true}
+              svgName='icon-google'
+              svgSize={breakpointsForMarkup?.isNothing || breakpointsForMarkup?.isMobile ? 20 : 24}
+              ariaLabel='Google account binding'
+              classNameButton='bg-accentBase hover:bg-accentAlt dark:border-whiteBase py-2'
+              classNameIcon='fill-whiteBase'
+            />
+          </li>
+          <li>
+            <PrimaryButton
+              variant='Small'
+              hasIcon={true}
+              svgName='icon-facebook'
+              svgSize={breakpointsForMarkup?.isNothing || breakpointsForMarkup?.isMobile ? 20 : 24}
+              ariaLabel='Facebook account binding'
+              classNameButton='bg-accentBase hover:bg-accentAlt dark:border-whiteBase py-2'
+              classNameIcon='fill-whiteBase'
+            />
+          </li>
+          <li>
+            <PrimaryButton
+              variant='Small'
+              hasIcon={true}
+              svgName='icon-apple'
+              svgSize={breakpointsForMarkup?.isNothing || breakpointsForMarkup?.isMobile ? 20 : 24}
+              ariaLabel='Apple account binding'
+              classNameButton='bg-accentBase hover:bg-accentAlt dark:border-whiteBase py-2'
+              classNameIcon='fill-whiteBase'
+            />
+          </li>
+        </ul>
       ) : null}
       <div className='flex justify-between items-center'>
         <PrimaryButton
@@ -130,17 +157,47 @@ const SignUpPanel: FC<{}> = () => {
           Register
         </PrimaryButton>
         {breakpointsForMarkup?.isTablet || breakpointsForMarkup?.isDesktop ? (
-          <PrimaryButton
-            id='Google authentication button'
-            svgName='icon-google'
-            svgSize={18}
-            classNameIcon='fill-whiteBase'
-            variant='OtherButton'
-            hasIcon={true}
-            width='w-44'
-          >
-            Authentication
-          </PrimaryButton>
+          <ul className='flex gap-6'>
+            <li>
+              <PrimaryButton
+                variant='Small'
+                hasIcon={true}
+                svgName='icon-google'
+                svgSize={
+                  breakpointsForMarkup?.isNothing || breakpointsForMarkup?.isMobile ? 20 : 24
+                }
+                ariaLabel='Google account binding'
+                classNameButton='bg-accentBase hover:bg-accentAlt dark:border-whiteBase py-2'
+                classNameIcon='fill-whiteBase'
+              />
+            </li>
+            <li>
+              <PrimaryButton
+                variant='Small'
+                hasIcon={true}
+                svgName='icon-facebook'
+                svgSize={
+                  breakpointsForMarkup?.isNothing || breakpointsForMarkup?.isMobile ? 20 : 24
+                }
+                ariaLabel='Facebook account binding'
+                classNameButton='bg-accentBase hover:bg-accentAlt dark:border-whiteBase py-2'
+                classNameIcon='fill-whiteBase'
+              />
+            </li>
+            <li>
+              <PrimaryButton
+                variant='Small'
+                hasIcon={true}
+                svgName='icon-apple'
+                svgSize={
+                  breakpointsForMarkup?.isNothing || breakpointsForMarkup?.isMobile ? 20 : 24
+                }
+                ariaLabel='Apple account binding'
+                classNameButton='bg-accentBase hover:bg-accentAlt dark:border-whiteBase py-2'
+                classNameIcon='fill-whiteBase'
+              />
+            </li>
+          </ul>
         ) : null}
         {breakpointsForMarkup?.isNothing || breakpointsForMarkup?.isMobile ? (
           <ThemeSwitcher variant='modal' />
