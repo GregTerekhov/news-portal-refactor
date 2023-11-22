@@ -1,3 +1,19 @@
+export function convertUnixTimestampToHHMM(unixTimestamp: number) {
+  // Створюємо новий об'єкт Date, використовуючи переданий Unix Timestamp (у мілісекундах)
+  const date = new Date(unixTimestamp * 1000);
+
+  // Отримуємо години та хвилини з цього об'єкта Date
+  const hours = date.getHours();
+  const minutes = date.getMinutes();
+
+  // Форматуємо години та хвилини до двозначного формату
+  const formattedHours = String(hours).padStart(2, '0');
+  const formattedMinutes = String(minutes).padStart(2, '0');
+
+  // Повертаємо рядок у форматі HH:MM
+  return `${formattedHours}:${formattedMinutes}`;
+}
+
 export function convertTimezone(data: any) {
   const zoneList: any = {
     '-43200': '-12:00',
@@ -82,4 +98,32 @@ export function getWindStrengthScale(windSpeed: number) {
 
   // Повертаємо відповідну іконку або значення за замовчуванням
   return interval ? interval?.scale : '';
+}
+
+function receiveCurrentTime() {
+  const currentTime = new Date();
+
+  const hours = currentTime.getHours();
+  const minutes = currentTime.getMinutes();
+
+  const formatTimeUnit = (timeUnit: number) => {
+    return timeUnit < 10 ? `0${timeUnit}` : timeUnit.toString();
+  };
+
+  const formattedHours = formatTimeUnit(hours);
+  const formattedMinutes = formatTimeUnit(minutes);
+
+  return `${formattedHours}:${formattedMinutes}`;
+}
+
+export function receiveCurrentDate() {
+  const today = new Date();
+  const currentTime = receiveCurrentTime();
+  const days = today.toDateString().slice(0, 3);
+  const month = today.toDateString().slice(4).slice(0, 4);
+  const number = today.toDateString().slice(8).slice(0, 2);
+  const year = today.toDateString().slice(11);
+  const formattedDate = `${currentTime} | ${number} ${month} ${year}`;
+
+  return { days, dateNow: formattedDate };
 }

@@ -16,6 +16,4 @@ export { default as PlugImage } from './PlugImage';
 export { default as SearchBlock } from './SearchBlock';
 export { default as ThemeSwitcher } from './ThemeSwitcher';
 export { default as VoteButton } from './VoteButton';
-export { default as WeatherBlock } from './WeatherBlock';
-export { default as WeatherDetailsForHours } from './WeatherDetailsForHours';
-export { default as WeatherDetailsForToday } from './WeatherDetailsForToday';
+export { default as WeatherBlock } from './WeatherBlock/WeatherBlock';

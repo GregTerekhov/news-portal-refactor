@@ -1,12 +1,12 @@
 import React, { FC } from 'react';
 
-import { useWeather, useWeatherCollector, useWindowWidth } from 'hooks';
+import { useWindowWidth } from 'hooks';
 
+import { Loader } from 'components';
 import { PrimaryButton, SvgIcon } from 'ui';
 
-import Loader from './Loader';
-import WeatherDetailsForHours from './WeatherDetailsForHours';
-import WeatherDetailsForToday from './WeatherDetailsForToday';
+import { useWeather, useWeatherCollector } from './hooks';
+import { WeatherDetailsForHours, WeatherDetailsForToday } from './subcomponents';
 
 const WeatherBlock: FC<{}> = () => {
   const {

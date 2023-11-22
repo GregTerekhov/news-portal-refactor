@@ -1,16 +1,19 @@
 import React, { FC } from 'react';
 
+import { useWindowWidth } from 'hooks';
+
+import { SvgIcon } from 'ui';
+
 import {
-  convertTimezone,
-  receiveCurrentDate,
   convertUnixTimestampToHHMM,
   hPaToMmHg,
   formatKmToMetre,
+  convertTimezone,
   getWindStrengthScale,
-} from 'helpers';
-import { useWeatherCollector, useWindowWidth } from 'hooks';
+  receiveCurrentDate,
+} from '../assistants';
 
-import { SvgIcon } from 'ui';
+import { useWeatherCollector } from '../hooks';
 
 const WeatherDetailsForToday: FC<{}> = () => {
   const { currentWeather } = useWeatherCollector();
