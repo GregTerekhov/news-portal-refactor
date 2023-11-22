@@ -10,12 +10,14 @@ export interface SignInCredentials {
 }
 
 export interface IUpdateEmail {
-  updateEmail: string;
+  updatedEmail: string;
+  currentPassword: string;
 }
 
 export interface IUpdatePassword {
   newPassword: string;
   confirmPassword: string;
+  oldPassword: string;
 }
 
 export interface IRecoveryPassword {

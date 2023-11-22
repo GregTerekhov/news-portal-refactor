@@ -6,6 +6,7 @@ import { useActiveLinks, useAuthCollector, useNewsAPICollector, useWindowWidth }
 import { Hero, NewsFilterManager, PageScrollController, ThemeSwitcher } from 'components';
 
 import Header from './Header';
+import Footer from './Footer';
 
 const Layout: FC = () => {
   const { breakpointsForMarkup } = useWindowWidth() ?? {
@@ -23,20 +24,20 @@ const Layout: FC = () => {
   }, [fetchCategoriesList]);
 
   const shouldShowPageScrollController =
-    (activeLinks.isHomeActive && breakpointsForMarkup?.isTablet) ||
-    (activeLinks.isHomeActive && breakpointsForMarkup?.isDesktop) ||
-    (activeLinks.isArchiveActive && breakpointsForMarkup?.isTablet) ||
-    (activeLinks.isArchiveActive && breakpointsForMarkup?.isDesktop);
+    (activeLinks?.isHomeActive && breakpointsForMarkup?.isTablet) ||
+    (activeLinks?.isHomeActive && breakpointsForMarkup?.isDesktop) ||
+    (activeLinks?.isArchiveActive && breakpointsForMarkup?.isTablet) ||
+    (activeLinks?.isArchiveActive && breakpointsForMarkup?.isDesktop);
 
   const isAccountPages = activeLinks.isAccountPage || activeLinks.isManageAccountPage;
 
   return (
-    <>
+    <div className='max-h-sectionSmall md:max-h-sectionMedium lg:max-h-sectionLarge h-screen w-full flex flex-col justify-between'>
       <Header />
       <main>
         {activeLinks.isHomeActive && <Hero />}
         <section
-          className={`w-full bg-whiteBase dark:bg-darkBackground transition-colors duration-500 h-full ${
+          className={`w-screen bg-whiteBase dark:bg-darkBackground transition-colors duration-500 max-h-screen ${
             activeLinks.isArchiveActive || activeLinks.isFavoriteActive || activeLinks.isReadActive
               ? 'pt-10 md:pt-12 lg:pt-[60px]'
               : 'pt-6 md:pt-7'
@@ -81,7 +82,8 @@ const Layout: FC = () => {
           </div>
         </section>
       </main>
-    </>
+      <Footer />
+    </div>
   );
 };
 

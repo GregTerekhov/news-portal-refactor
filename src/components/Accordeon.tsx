@@ -16,35 +16,32 @@ const Accordeon: FC<AccordeonProps> = ({ children, dateSeparator, position, filt
   const handleClick = () => {
     setIsOpen(!isOpen);
   };
+
+  const showAccordeonPages = position === 'readPage' || position === 'archivePage';
+
   return (
     <Accordion.Root type='single' collapsible className='w-full'>
       <Accordion.Item
-        value={
-          position === 'readPage' || position === 'archivePage'
-            ? dateSeparator || ''
-            : filtersBlock || ''
-        }
+        value={showAccordeonPages ? dateSeparator || '' : filtersBlock || ''}
         className={`${position === 'accountManagePage' ? 'lg:text-2xl' : ''}`}
       >
         <Accordion.Header
           className={`border-b border-solid border-lineAlt ${
-            position === 'readPage' || position === 'archivePage'
-              ? 'mb-7 md:mb-[30px] lg:mb-10'
-              : ''
+            showAccordeonPages ? 'mb-7 md:mb-[30px] lg:mb-10' : ''
           }`}
         >
           <Accordion.Trigger
             className='w-full flex py-3 items-center gap-1.5 md:gap-2 text-darkBase dark:text-whiteBase leading-moreRelaxed tracking-wider'
             onClick={handleClick}
           >
-            {position === 'readPage' || position === 'archivePage' ? dateSeparator : filtersBlock}
+            {showAccordeonPages ? dateSeparator : filtersBlock}
             <SvgIcon
               svgName='icon-arrow-down'
               size={18}
               className={`fill-darkBase dark:fill-whiteBase ${
                 isOpen ? 'rotate-180' : 'rotate-0'
               } transition-transform`}
-            ></SvgIcon>
+            />
           </Accordion.Trigger>
         </Accordion.Header>
         <Accordion.Content>{children}</Accordion.Content>

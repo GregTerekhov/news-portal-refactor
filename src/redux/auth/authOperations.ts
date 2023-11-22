@@ -1,4 +1,3 @@
-import axios from 'axios';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 
 import {
@@ -26,8 +25,10 @@ import { setTokens } from './authSlice';
 export const signUp = createAsyncThunk(
   'auth/signUp',
   async (credentials: SignUpCredentials, { rejectWithValue }) => {
+    console.log('credentials', credentials);
     try {
-      const response = await axios.post('/auth/sign-up', credentials);
+      const response = await axiosInstance.post('/auth/sign-up', credentials);
+      console.log(response.data);
       return response.data;
     } catch (error: any) {
       return rejectWithValue(error.message);
@@ -38,10 +39,11 @@ export const signUp = createAsyncThunk(
 export const signIn = createAsyncThunk(
   'auth/signIn',
   async (credentials: SignInCredentials, { rejectWithValue }) => {
+    console.log('credentials', credentials);
     try {
-      const response = await axios.post('/auth/sign-in', credentials);
+      const response = await axiosInstance.post('/auth/sign-in', credentials);
       setTokens(response.data);
-
+      console.log(response.data);
       return response.data;
     } catch (error: any) {
       return rejectWithValue(error.message);
