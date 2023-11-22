@@ -1,12 +1,14 @@
 import React, { FC } from 'react';
 import { useLocation } from 'react-router-dom';
 
-import { MATERIALS_TYPES } from 'constants';
-import { useActiveLinks, useFilterNews, useWindowWidth } from 'hooks';
+import { useActiveLinks, useWindowWidth } from 'hooks';
 
 import { Dropdown, PrimaryButton, UnverifiableInput } from 'ui';
 
 import Calendar from './Calendar/Calendar';
+
+import { materialTypes } from '../assistants';
+import { useFilterNews } from '../hooks';
 
 const FiltersBlock: FC<{}> = () => {
   const { breakpointsForMarkup } = useWindowWidth() ?? {
@@ -85,7 +87,7 @@ const FiltersBlock: FC<{}> = () => {
           />
         </div>
         <div className='md:col-span-3 lg:col-span-4'>
-          <Dropdown labels={MATERIALS_TYPES} getResults={handleMaterialTypeChange}>
+          <Dropdown labels={materialTypes} getResults={handleMaterialTypeChange}>
             Type
           </Dropdown>
         </div>
