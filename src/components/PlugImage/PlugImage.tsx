@@ -1,7 +1,6 @@
 import React, { FC } from 'react';
 
-import { IMAGES } from 'constants';
-import { generateContentImages } from 'helpers';
+import { generateContentImages, IMAGES } from './assistants';
 
 const enum VariantImage {
   Page = 'page',
