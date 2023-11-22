@@ -3,11 +3,9 @@ import { format, isAfter, startOfToday } from 'date-fns';
 
 import { Filters, PartialVotedNewsArray } from 'types';
 
-import { applyCrossFilters } from 'helpers';
+import { useChooseRenderingNews, useFilterCollector, useNewsDBCollector } from 'hooks';
 
-import useChooseRenderingNews from './useChooseRenderingNews';
-import useFilterCollector from './useFilterCollector';
-import useNewsDBCollector from './useNewsDBCollector';
+import { applyCrossFilters } from '../assistants';
 
 type FilterHookProps = {
   activeLinks: {

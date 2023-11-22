@@ -4,8 +4,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 
 import { IUpdateEmail } from 'types';
 
-import { Accordeon } from 'components';
-import { PrimaryButton, VerifiableInput } from 'ui';
+import { Accordeon, PrimaryButton, VerifiableInput } from 'ui';
 
 import { updateEmailSchema } from '../assistants';
 

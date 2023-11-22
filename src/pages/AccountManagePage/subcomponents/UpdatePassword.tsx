@@ -4,8 +4,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 
 import { IUpdatePassword } from 'types';
 
-import { Accordeon } from 'components';
-import { PrimaryButton, VerifiableInput } from 'ui';
+import { Accordeon, PrimaryButton, VerifiableInput } from 'ui';
 
 import { updatePasswordSchema } from '../assistants';
 

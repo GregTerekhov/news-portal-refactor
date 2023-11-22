@@ -6,7 +6,6 @@ import {
   useActiveLinks,
   useAdditionalRequest,
   // useChooseRenderingNews,
-  useFilterNews,
   // useNewsAPICollector,
   usePopUp,
 } from 'hooks';
@@ -14,6 +13,7 @@ import {
 import { SvgIcon } from 'ui';
 
 import { convertLinesForCalendar } from './assistants';
+import { useFilterNews } from '../../hooks';
 import { CalendarContent } from './subcomponents';
 
 // import { useAppDispatch } from 'redux/hooks';

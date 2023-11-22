@@ -7,10 +7,11 @@ import {
   useChooseRenderingNews,
   useNewsAPICollector,
   useNewsDBCollector,
-  usePagination,
 } from 'hooks';
 
 import { Loader, NewsList, Pagination, PlugImage } from 'components';
+
+import { usePagination } from './hooks';
 
 const HomePage: FC = () => {
   const { isLoadingAPIData, fetchPopular } = useNewsAPICollector();

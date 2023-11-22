@@ -3,11 +3,9 @@ import { useLocation } from 'react-router-dom';
 
 import { useActiveLinks, useNewsDBCollector } from 'hooks';
 
-import { SvgIcon } from 'ui';
+import { Accordeon, SvgIcon } from 'ui';
 
-import Accordeon from './Accordeon';
-import FiltersBlock from './FiltersBlock';
-import SearchBlock from './SearchBlock';
+import { FiltersBlock, SearchBlock } from './subcomponents';
 
 const NewsFilterManager: FC<{}> = () => {
   const { allFavourites, allReads } = useNewsDBCollector();

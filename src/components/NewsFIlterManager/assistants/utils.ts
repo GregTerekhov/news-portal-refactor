@@ -1,6 +1,6 @@
 import { Filters, PartialVotedNewsArray } from 'types';
 
-function applyCrossFilters(newsArray: PartialVotedNewsArray | undefined, filters: Filters) {
+export function applyCrossFilters(newsArray: PartialVotedNewsArray | undefined, filters: Filters) {
   const { keyword, title, author, publisher, materialType, selectedFilterDate } = filters;
 
   if (newsArray && newsArray.length > 0) {
@@ -35,5 +35,3 @@ function applyCrossFilters(newsArray: PartialVotedNewsArray | undefined, filters
   }
   return [];
 }
-
-export default applyCrossFilters;
