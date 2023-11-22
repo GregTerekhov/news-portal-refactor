@@ -4,6 +4,4 @@ export { default as organiseNewsByMonth } from './organiseNewsByMonth';
 export { default as rebuildNewsArray } from './rebuildNewsArray';
 export { default as updateLocaleStorage } from './updateLocaleStorage';
 export * from './dateTimeHelpers';
-export * from './textHelpers';
-export * from './validationSchemas';
 export * from './weatherHelpers';

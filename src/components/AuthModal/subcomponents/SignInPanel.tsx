@@ -3,13 +3,12 @@ import { useForm, SubmitHandler } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 
 import { SignInCredentials, IRecoveryPassword } from 'types';
-
-import { signInSchema, recoveryPasswordSchema } from 'helpers';
 import { useAuthCollector, usePopUp, useWindowWidth } from 'hooks';
 
+import { ThemeSwitcher } from 'components';
 import { PrimaryButton, UnverifiableInput, VerifiableInput } from 'ui';
 
-import ThemeSwitcher from './ThemeSwitcher';
+import { signInSchema, recoveryPasswordSchema } from '../assistants';
 
 interface SignInProps {
   handleShowRecoveryInput: () => void;
@@ -17,12 +16,6 @@ interface SignInProps {
 }
 
 const SignInPanel: FC<SignInProps> = ({ handleShowRecoveryInput, isShowRecoveryInput }) => {
-  // const [initialEmail, setInitialEmail] = useState<string>(() =>
-  //   localStorage.rememberMe ? localStorage.userEmail : '',
-  // );
-  // const [initialPassword, setInitialPassword] = useState<string>(() =>
-  //   localStorage.rememberMe ? localStorage.userPassword : '',
-  // );
   const [isChecked, setIsChecked] = useState<boolean>(() => !!localStorage.rememberMe);
   const { breakpointsForMarkup } = useWindowWidth() ?? {
     breakpointsForMarkup: null,
@@ -34,9 +27,16 @@ const SignInPanel: FC<SignInProps> = ({ handleShowRecoveryInput, isShowRecoveryI
     handleSubmit: handleSignInSubmit,
     register: registerSignIn,
     reset,
+    watch,
     getValues,
     formState: { errors: signInErrors },
-  } = useForm<SignInCredentials>({ resolver: yupResolver(signInSchema) });
+  } = useForm<SignInCredentials>({
+    resolver: yupResolver(signInSchema),
+    defaultValues: {
+      email: localStorage.rememberMe ? localStorage.userEmail : '',
+      password: localStorage.rememberMe ? localStorage.userPassword : '',
+    },
+  });
 
   const {
     handleSubmit: handleRecoveryPasswordSubmit,
@@ -51,12 +51,12 @@ const SignInPanel: FC<SignInProps> = ({ handleShowRecoveryInput, isShowRecoveryI
     console.log('isRememberMe', isRememberMe, typeof isRememberMe);
   };
 
+  const [email, password] = watch(['email', 'password']);
+
   const handleSignInSubmitHandler: SubmitHandler<SignInCredentials> = async (data, e) => {
     e?.preventDefault();
     const { email, password } = data;
     console.log('SignIn data', data);
-    // setInitialEmail(email);
-    // setInitialPassword(password);
 
     if (isChecked && email !== '') {
       localStorage.setItem('userEmail', email);
@@ -100,7 +100,7 @@ const SignInPanel: FC<SignInProps> = ({ handleShowRecoveryInput, isShowRecoveryI
         inputData={{
           placeholder: 'Enter your email',
           children: 'Email',
-          // value: initialEmail,
+          fieldValue: email,
         }}
         errors={signInErrors?.email?.message}
         register={registerSignIn}
@@ -114,7 +114,7 @@ const SignInPanel: FC<SignInProps> = ({ handleShowRecoveryInput, isShowRecoveryI
           type: 'password',
           placeholder: 'Enter your password',
           children: 'Password',
-          // value: initialPassword,
+          fieldValue: password,
         }}
         errors={signInErrors?.password?.message}
         register={registerSignIn}

@@ -1,11 +1,12 @@
 import React, { FC } from 'react';
 import { format, getDay, isSameDay, isSameMonth, isToday, parse } from 'date-fns';
 
-import { DAYS, COL_START_CLASSES } from 'constants';
-import { capitalizeFirstLetter } from 'helpers';
-import { useCalendar, useAdditionalRequest } from 'hooks';
+import { useAdditionalRequest } from 'hooks';
 
 import { SvgIcon } from 'ui';
+
+import { DAYS, COL_START_CLASSES, capitalizeFirstLetter } from '../assistants';
+import { useCalendar } from '../hooks';
 
 interface CalendarContentProps {
   variant: string;

@@ -3,13 +3,12 @@ import { useForm, SubmitHandler } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 
 import { SignUpCredentials } from 'types';
-
-import { signUpSchema } from 'helpers';
 import { useAuthCollector, usePopUp, useWindowWidth } from 'hooks';
 
+import { ThemeSwitcher } from 'components';
 import { PrimaryButton, VerifiableInput } from 'ui';
 
-import ThemeSwitcher from './ThemeSwitcher';
+import { signUpSchema } from '../assistants';
 
 const SignUpPanel: FC<{}> = () => {
   const { breakpointsForMarkup } = useWindowWidth() ?? {

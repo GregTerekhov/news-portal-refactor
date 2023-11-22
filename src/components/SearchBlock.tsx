@@ -4,7 +4,7 @@ import { useAdditionalRequest, useWindowWidth } from 'hooks';
 
 import { Dropdown, PrimaryButton, UnverifiableInput } from 'ui';
 
-import Calendar from './Calendar';
+import Calendar from './Calendar/Calendar';
 
 const SearchBlock: FC<{}> = () => {
   const { breakpointsForMarkup } = useWindowWidth() ?? {

@@ -3,9 +3,9 @@ import { Tab } from '@headlessui/react';
 
 import { useWindowWidth } from 'hooks';
 
-import ThemeSwitcher from './ThemeSwitcher';
-import SignUpPanel from './SignUpPanel';
-import SignInPanel from './SignInPanel';
+import { ThemeSwitcher } from 'components';
+
+import { SignUpPanel, SignInPanel } from './subcomponents';
 
 const AuthModal: FC<{}> = () => {
   const { breakpointsForMarkup } = useWindowWidth() ?? {
