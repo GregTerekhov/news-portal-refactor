@@ -10,7 +10,7 @@ import { useActiveLinks, useAuthCollector, useNewsDBCollector } from 'hooks';
 
 import { PrimaryButton, SvgIcon } from 'ui';
 
-import PlugImage from './PlugImage';
+import PlugImage from './PlugImage/PlugImage';
 import VoteButton from './VoteButton';
 
 interface NewsItemProps {

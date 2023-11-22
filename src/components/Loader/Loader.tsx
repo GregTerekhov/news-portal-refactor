@@ -3,7 +3,7 @@ import { useLocation } from 'react-router-dom';
 
 import { useActiveLinks, useWindowWidth } from 'hooks';
 
-import { SkeletonEl } from 'ui';
+import { SkeletonEl } from './subcomponents';
 
 interface LoaderProps {
   variant: string;
