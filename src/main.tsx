@@ -12,6 +12,7 @@ import { WindowWidthProvider } from './contexts';
 import App from './App';
 
 import './input.css';
+import { Loader } from 'components';
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   // <React.StrictMode>
@@ -19,7 +20,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
     <WindowWidthProvider>
       <PersistGate persistor={persistor}>
         <BrowserRouter>
-          <Suspense>
+          <Suspense fallback={<Loader variant='page' />}>
             <App />
           </Suspense>
         </BrowserRouter>

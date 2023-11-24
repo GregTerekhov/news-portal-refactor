@@ -3,6 +3,7 @@ import { format, isAfter, startOfToday } from 'date-fns';
 
 import useNewsAPICollector from './useNewsAPICollector';
 import usePopUp from './usePopUp';
+import { useFilterCollector } from '.';
 
 export interface SelectedDate {
   beginDate: string | null;
@@ -30,6 +31,7 @@ const useAdditionalRequest = () => {
     resetPreviousRequest,
   } = useNewsAPICollector();
   const { setIsOpenCalendar } = usePopUp();
+  const { filteredNews } = useFilterCollector();
 
   const today = startOfToday();
 
@@ -58,28 +60,48 @@ const useAdditionalRequest = () => {
     e.preventDefault();
 
     if (query) {
-      resetPreviousRequest();
-      fetchByKeyword(query);
-      setQuery('');
+      if (filteredNews && filteredNews.length > 0) {
+        resetPreviousRequest();
+        fetchByKeyword(query);
+        setQuery('');
+      } else {
+        fetchByKeyword(query);
+        setQuery('');
+      }
     }
   };
 
   const getNewsByCategory = async (section: string) => {
     if (section) {
-      resetPreviousRequest();
-      await fetchByCategory(section);
+      if (filteredNews && filteredNews.length > 0) {
+        resetPreviousRequest();
+        await fetchByCategory(section);
+      } else await fetchByCategory(section);
     }
   };
 
   const getNewsByPeriod = async (period: string) => {
-    resetPreviousRequest();
-
     if (period === 'Today') {
-      await fetchPopular('1');
+      if (filteredNews && filteredNews.length > 0) {
+        resetPreviousRequest();
+        await fetchPopular('1');
+      } else {
+        fetchPopular('1');
+      }
     } else if (period === 'Week') {
-      await fetchPopular('7');
+      if (filteredNews && filteredNews.length > 0) {
+        resetPreviousRequest();
+        await fetchPopular('7');
+      } else {
+        fetchPopular('7');
+      }
     } else if (period === 'Month') {
-      await fetchPopular('30');
+      if (filteredNews && filteredNews.length > 0) {
+        resetPreviousRequest();
+        await fetchPopular('30');
+      } else {
+        fetchPopular('30');
+      }
     }
   };
 
@@ -102,10 +124,17 @@ const useAdditionalRequest = () => {
         }
 
         setSelectedRequestDate(newSelectedDate);
-        resetPreviousRequest();
-        await fetchByDate(newSelectedDate);
-        setBeginDate(null);
-        setIsOpenCalendar(false);
+
+        if (filteredNews && filteredNews.length > 0) {
+          resetPreviousRequest();
+          await fetchByDate(newSelectedDate);
+          setBeginDate(null);
+          setIsOpenCalendar(false);
+        } else {
+          await fetchByDate(newSelectedDate);
+          setBeginDate(null);
+          setIsOpenCalendar(false);
+        }
       }
     }
   };
