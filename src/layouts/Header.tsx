@@ -26,8 +26,9 @@ const Header: FC = () => {
 
   const location = useLocation();
   const activeLinks = useActiveLinks(location);
+
   // const isAuthenticated = true;
-  const { headerClass, textClass, burgerMenuButtonClass } = useHeaderStyles(
+  const { headerClass, textClass, burgerMenuButtonClass, accountIconStyles } = useHeaderStyles(
     activeLinks.isHomeActive,
   );
 
@@ -58,11 +59,18 @@ const Header: FC = () => {
           {isNotMobile && !isAccountPages && isAuthenticated ? (
             <Link
               to='/account'
-              className={`absolute top-1.5 right-40 lg:right-60 hg:text-xl ${
+              className={`absolute top-1.5 right-40 lg:right-60 hg:text-xl flex items-center gap-3 ${
                 activeLinks.isHomeActive ? textClass : 'text-darkBase dark:text-whiteBase'
               } hover:text-accentBase hover:underline hover:decoration-accentBase transition-colors duration-500`}
             >
-              Account {user.name}
+              {user.name}
+              <SvgIcon
+                svgName='icon-account'
+                size={18}
+                className={`${
+                  activeLinks.isHomeActive ? accountIconStyles : 'fill-darkBase dark:fill-whiteBase'
+                }`}
+              />
             </Link>
           ) : null}
           <a

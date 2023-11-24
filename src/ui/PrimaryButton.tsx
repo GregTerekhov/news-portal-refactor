@@ -1,4 +1,4 @@
-import React, { FC, ReactNode } from 'react';
+import React, { FC, ReactNode, RefObject } from 'react';
 
 import SvgIcon from './SvgIcon';
 
@@ -34,6 +34,7 @@ interface PBProps {
   dataTooltipTarget?: string;
   dataTooltipPlacement?: string;
   tooltipText?: string;
+  ref?: RefObject<HTMLButtonElement>;
 }
 
 const PrimaryButton: FC<PBProps> = (props) => {
@@ -75,6 +76,7 @@ const PrimaryButton: FC<PBProps> = (props) => {
         onClick={onHandleClick}
         data-tooltip-target={dataTooltipTarget}
         data-tooltip-placement={dataTooltipPlacement}
+        // ref={forwardRef}
       >
         {children}
         {hasIcon && <SvgIcon svgName={svgName} size={svgSize} className={classNameIcon} />}

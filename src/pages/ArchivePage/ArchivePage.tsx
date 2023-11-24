@@ -1,25 +1,41 @@
-import React, { FC } from 'react';
+import React, { FC, useEffect } from 'react';
 
-import { useNewsDBCollector } from 'hooks';
+import { useAuthCollector, useNewsDBCollector } from 'hooks';
 
-import { NewsList } from 'components';
+import { Loader, NewsList, PlugImage } from 'components';
 import { Accordeon } from 'ui';
 
 import { organiseNewsByMonth } from './assistants';
 
 const ArchivePage: FC<{}> = () => {
-  const { savedNews } = useNewsDBCollector();
+  const { isLoadingDBData, allArchive, getArchives } = useNewsDBCollector();
+  const { isAuthenticated } = useAuthCollector();
 
-  const organisedNews = organiseNewsByMonth(savedNews);
+  useEffect(() => {
+    getArchives();
+  }, [getArchives]);
+
+  const organisedNews = organiseNewsByMonth(allArchive);
+
+  const shouldShowLoader = isLoadingDBData;
+  const shouldShowContent = !isLoadingDBData && allArchive.length !== 0;
 
   return (
-    <>
-      {Object.entries(organisedNews).map(([monthYear, newsList]) => (
-        <Accordeon key={monthYear} dateSeparator={monthYear} position='archivePage'>
-          <NewsList currentItems={newsList} />
-        </Accordeon>
-      ))}
-    </>
+    isAuthenticated && (
+      <>
+        {shouldShowLoader && <Loader variant='page' />}
+        {shouldShowContent && (
+          <>
+            {Object.entries(organisedNews).map(([monthYear, newsList]) => (
+              <Accordeon key={monthYear} dateSeparator={monthYear} position='archivePage'>
+                <NewsList currentItems={newsList} />
+              </Accordeon>
+            ))}
+          </>
+        )}
+        {!shouldShowLoader && !shouldShowContent && <PlugImage variant='page' />}
+      </>
+    )
   );
 };
 

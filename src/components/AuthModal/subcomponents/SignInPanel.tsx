@@ -93,7 +93,7 @@ const SignInPanel: FC<SignInProps> = ({ handleShowRecoveryInput, isShowRecoveryI
 
   return (
     <form
-      className='flex flex-col gap-3.5'
+      className='flex flex-col gap-y-3.5'
       onSubmit={handleSignInSubmit(handleSignInSubmitHandler)}
     >
       <VerifiableInput
@@ -127,7 +127,9 @@ const SignInPanel: FC<SignInProps> = ({ handleShowRecoveryInput, isShowRecoveryI
         <button
           id='Show password recovery input'
           type='button'
-          className='text-small md:text-medium text-darkBase dark:text-whiteBase'
+          className={`text-small md:text-medium text-darkBase dark:text-whiteBase py-2 ${
+            isShowRecoveryInput && 'mb-3'
+          }`}
           onClick={handleShowRecoveryInput}
         >
           Forgot password?

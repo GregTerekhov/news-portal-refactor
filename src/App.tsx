@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Route, Routes } from 'react-router-dom';
 
 // import { ProtectedRoute } from 'routes';
 
-// import { useAuthCollector } from './hooks';
+import { useAuthCollector } from './hooks';
 
 import {
   HomePage,
@@ -15,16 +15,25 @@ import {
   AccountManagePage,
 } from './pages';
 import { AccountLayout, Layout } from './layouts';
+import { Loader } from './components';
+// import { useAppDispatch } from 'reduxStore/hooks';
+// import { fetchCurrentUser } from 'reduxStore/auth';
 // import { Loader } from './components';
 
 function App() {
-  // const { isRefreshingUser } = useAuthCollector();
+  const { isAuthenticated, isRefreshingUser, user, fetchCurrentAuthUser } = useAuthCollector();
+  // const dispatch = useAppDispatch();
 
-  // useEffect(() => {
-  //   fetchCurrentAuthUser();
-  // }, []);
+  useEffect(() => {
+    if (isAuthenticated) {
+      console.log('user', user);
+      fetchCurrentAuthUser();
+    }
+  }, [isAuthenticated, fetchCurrentAuthUser]);
 
-  return (
+  return isRefreshingUser ? (
+    <Loader variant='page' />
+  ) : (
     <Routes>
       <Route path='/' element={<Layout />}>
         <Route index element={<HomePage />} />

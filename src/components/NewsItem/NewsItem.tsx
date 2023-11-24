@@ -10,8 +10,9 @@ import { useActiveLinks, useAuthCollector, useNewsDBCollector } from 'hooks';
 
 import { PrimaryButton, SvgIcon } from 'ui';
 
-import PlugImage from './PlugImage/PlugImage';
-import VoteButton from './VoteButton';
+import PlugImage from '../PlugImage/PlugImage';
+
+import { VoteButton } from './subcomponents';
 
 interface NewsItemProps {
   liveNews: Partial<VotedItem>;
@@ -28,8 +29,10 @@ const NewsItem: FC<Partial<NewsItemProps>> = ({
   const { isAuthenticated } = useAuthCollector();
   const [isFavourite, setIsFavourite] = useState<boolean>(() => getIsFavourite());
   const [hasRead, setHasRead] = useState<boolean>(() => getHasRead());
-  const dispatch = useAppDispatch();
+
   // const isAuthenticated = true;
+
+  const dispatch = useAppDispatch();
   const location = useLocation();
   const activeLinks = useActiveLinks(location);
 

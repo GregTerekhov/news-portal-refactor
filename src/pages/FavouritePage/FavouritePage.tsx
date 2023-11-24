@@ -1,14 +1,19 @@
 import React, { FC, useEffect, useLayoutEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 
-import { useActiveLinks, useChooseRenderingNews, useNewsDBCollector } from 'hooks';
+import {
+  useActiveLinks,
+  useAuthCollector,
+  useChooseRenderingNews,
+  useNewsDBCollector,
+} from 'hooks';
 
 import { Loader, NewsList, PlugImage } from 'components';
 
 const FavouritePage: FC<{}> = () => {
   const [changesHappened, setChangesHappened] = useState<boolean>(false);
   // const [deletedNewsIndex, setDeletedNewsIndex] = useState<number | null>(null);
-
+  const { isAuthenticated } = useAuthCollector();
   const { allFavourites, savedNews, isLoadingDBData, getFavourites, getSavedNews, addVotedNews } =
     useNewsDBCollector();
   const location = useLocation();
@@ -40,17 +45,19 @@ const FavouritePage: FC<{}> = () => {
   const shouldShowContent = !isLoadingDBData && allFavourites.length !== 0;
 
   return (
-    <>
-      {shouldShowLoader && <Loader variant='page' />}
-      {shouldShowContent && (
-        <NewsList
-          currentItems={rebuildedNews}
-          onChange={handleChangeVotes}
-          // onDeleteNews={handleDeleteNews}
-        />
-      )}
-      {!shouldShowLoader && !shouldShowContent && <PlugImage variant='page' />}
-    </>
+    isAuthenticated && (
+      <>
+        {shouldShowLoader && <Loader variant='page' />}
+        {shouldShowContent && (
+          <NewsList
+            currentItems={rebuildedNews}
+            onChange={handleChangeVotes}
+            // onDeleteNews={handleDeleteNews}
+          />
+        )}
+        {!shouldShowLoader && !shouldShowContent && <PlugImage variant='page' />}
+      </>
+    )
   );
 };
 

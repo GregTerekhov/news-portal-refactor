@@ -10,8 +10,9 @@ import {
 
 import axiosInstance from './authServices';
 import { setTokens } from './authSlice';
+import axios from 'axios';
 
-// axios.defaults.baseURL = 'https://news-webapp-express.onrender.com/api';
+const BASE_URL = 'https://news-webapp-express.onrender.com/api';
 
 // const token = {
 //   set(token: string) {
@@ -27,7 +28,7 @@ export const signUp = createAsyncThunk(
   async (credentials: SignUpCredentials, { rejectWithValue }) => {
     console.log('credentials', credentials);
     try {
-      const response = await axiosInstance.post('/auth/sign-up', credentials);
+      const response = await axios.post(`${BASE_URL}/auth/sign-up`, credentials);
       console.log(response.data);
       return response.data;
     } catch (error: any) {
@@ -41,7 +42,7 @@ export const signIn = createAsyncThunk(
   async (credentials: SignInCredentials, { rejectWithValue }) => {
     console.log('credentials', credentials);
     try {
-      const response = await axiosInstance.post('/auth/sign-in', credentials);
+      const response = await axios.post(`${BASE_URL}/auth/sign-in`, credentials);
       setTokens(response.data);
       console.log(response.data);
       return response.data;
@@ -72,6 +73,7 @@ export const fetchCurrentUser = createAsyncThunk('auth/current', async (_, thunk
 
   try {
     const response = await axiosInstance.get('/auth/current-user');
+    console.log(response.data.user);
     return response.data;
   } catch (error: any) {
     return thunkAPI.rejectWithValue(error.message);

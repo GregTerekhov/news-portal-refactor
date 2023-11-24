@@ -48,7 +48,7 @@ const useHeaderStyles = (isHomePage: boolean) => {
     : 'bg-transparent border-0 backdrop-blur-lg';
 
   const textClass = isScrolled ? 'text-darkBase dark:text-whiteBase' : 'text-whiteBase';
-
+  const accountIconStyles = isScrolled ? 'fill-darkBase dark:fill-whiteBase' : 'fill-whiteBase';
   const inputHomePage = {
     inputBorder: isScrolled ? 'border-darkBase dark:border-whiteBase' : 'border-whiteBase',
     svgFill: isScrolled ? 'fill-darkBase dark:fill-whiteBase' : 'fill-whiteBase',
@@ -78,6 +78,7 @@ const useHeaderStyles = (isHomePage: boolean) => {
     textClass,
     inputClass,
     burgerMenuButtonClass,
+    accountIconStyles,
   };
 };
 

@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 
-import SvgIcon from '../ui/SvgIcon';
+import SvgIcon from '../../../ui/SvgIcon';
 
 interface VBProps {
   buttonData: {

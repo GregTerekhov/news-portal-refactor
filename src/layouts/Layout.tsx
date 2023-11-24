@@ -1,25 +1,25 @@
-import React, { FC, useEffect } from 'react';
+import React, { FC, Suspense, useEffect } from 'react';
 import { Outlet, useLocation } from 'react-router-dom';
 
 import { useActiveLinks, useAuthCollector, useNewsAPICollector, useWindowWidth } from 'hooks';
 
-import { Hero, NewsFilterManager, PageScrollController, ThemeSwitcher } from 'components';
+import { Hero, Loader, NewsFilterManager, PageScrollController, ThemeSwitcher } from 'components';
 
 import Header from './Header';
-import Footer from './Footer';
+// import Footer from './Footer';
 
 const Layout: FC = () => {
   const { breakpointsForMarkup } = useWindowWidth() ?? {
     breakpointsForMarkup: null,
   };
   const { fetchCategoriesList } = useNewsAPICollector();
-  const { isAuthenticated } = useAuthCollector();
+  const { isAuthenticated, isRefreshingUser, fetchCurrentAuthUser } = useAuthCollector();
   // const isAuthenticated = true;
   const location = useLocation();
   const activeLinks = useActiveLinks(location);
 
   useEffect(() => {
-    // fetchCurrentAuthUser()
+    // fetchCurrentAuthUser();
     fetchCategoriesList();
   }, [fetchCategoriesList]);
 
@@ -44,19 +44,11 @@ const Layout: FC = () => {
           } pb-[60px] md:pb-[100px] lg:pb-[150px]`}
         >
           <div className='container mx-auto px-4 hg:px-[65px]'>
-            {isAuthenticated && !isAccountPages ? (
-              <div className='mb-10 md:mb-12 lg:mb-[60px]'>
-                <NewsFilterManager />
-              </div>
-            ) : null}
+            {isAuthenticated && !isAccountPages ? <NewsFilterManager /> : null}
             {(!isAuthenticated && breakpointsForMarkup?.isNothing) ||
             breakpointsForMarkup?.isMobile ? (
-              <div
-                className={`flex items-start ${
-                  !isAccountPages ? 'justify-end mb-10' : 'justify-between mb-2'
-                }`}
-              >
-                {!isAccountPages ? <ThemeSwitcher /> : null}
+              <div className='flex justify-end mb-10'>
+                <ThemeSwitcher />
               </div>
             ) : null}
             {shouldShowPageScrollController ? (
@@ -75,14 +67,13 @@ const Layout: FC = () => {
                 />
               </>
             ) : null}
-            {/* {isRefreshingUser ?
-              <Loader variant='page' /> : */}
+            {/* <Suspense fallback={null}> */}
             <Outlet />
-            {/* } */}
+            {/* </Suspense> */}
           </div>
         </section>
       </main>
-      <Footer />
+      {/* <Footer /> */}
     </div>
   );
 };

@@ -110,7 +110,7 @@ const UnverifiableInput: FC<InputProps> = (props) => {
           ${
             variant === VariantInputs.FilterServiceBlock ||
             (variant === VariantInputs.Header && 'gap-x-4') ||
-            (variant === VariantInputs.Checkbox && 'mb-3 cursor-pointer gap-x-4')
+            (variant === VariantInputs.Checkbox && 'items-center cursor-pointer gap-x-4')
           } ${className}`}
         >
           {variant === VariantInputs.FilterServiceBlock && (
