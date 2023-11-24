@@ -12,36 +12,32 @@ const AccountPage: FC<{}> = () => {
 
   return (
     <div>
-      <p className='text-darkBase dark:text-whiteBase text-3xl leading-tighter text-end mb-14'>
+      <h2 className='text-darkBase dark:text-whiteBase text-3xl leading-tighter text-end mb-14'>
         Your account
-      </p>
-      <div className='flex items-center justify-end mb-6 md:mb-10'>
-        <div className='space-y-6 md:space-y-10 w-52 md:w-80'>
-          <div>
+      </h2>
+      <div className='flex items-center justify-end'>
+        <ul className='space-y-6 md:space-y-10 w-52 md:w-80 lg:w-[600px]'>
+          <li>
             <h3 className='text-darkBase dark:text-whiteBase mb-2 text-end md:text-2xl'>
               Account ID:
             </h3>
-            <p className='text-accentBase dark:text-greyAlt text-end md:text-medium'>
-              3453451236246{user.id}
-            </p>
-          </div>
-          <div>
+            <p className='text-accentBase dark:text-greyAlt text-end md:text-medium'>{user.id}</p>
+          </li>
+          <li>
             <h3 className='text-darkBase dark:text-whiteBase mb-2 text-end md:text-2xl'>
               Your name:
             </h3>
-            <p className='text-accentBase dark:text-greyAlt text-end md:text-medium'>
-              {user.name} Example Name
-            </p>
-          </div>
-          <div>
+            <p className='text-accentBase dark:text-greyAlt text-end md:text-medium'>{user.name}</p>
+          </li>
+          <li>
             <h3 className='text-darkBase dark:text-whiteBase mb-2 text-end md:text-2xl'>
               Your email:
             </h3>
             <p className='text-accentBase dark:text-greyAlt text-end md:text-medium'>
-              {user.email} example@mail.com
+              {user.email}
             </p>
-          </div>
-          <div>
+          </li>
+          <li>
             <h3 className='text-darkBase dark:text-whiteBase mb-4 md:text-2xl text-end'>
               Connected accounts
             </h3>
@@ -68,8 +64,8 @@ const AccountPage: FC<{}> = () => {
                 />
               </div>
             </div>
-          </div>
-        </div>
+          </li>
+        </ul>
       </div>
     </div>
   );

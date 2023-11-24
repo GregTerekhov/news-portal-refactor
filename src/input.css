@@ -75,6 +75,7 @@ body {
   height: 100vh;
   padding-top: 81px;
   background-color: var(--background-color);
+  transition-property: color, background-color;
   transition-duration: var(--duration);
 }
 

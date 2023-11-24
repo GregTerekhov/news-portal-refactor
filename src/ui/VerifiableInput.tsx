@@ -1,5 +1,5 @@
 import React, { ReactNode, FC, useState } from 'react';
-import { Path, UseFormRegister } from 'react-hook-form';
+import { UseFormRegister } from 'react-hook-form';
 
 import {
   SignUpCredentials,
@@ -37,7 +37,7 @@ interface InputProps {
   svgName?: string;
   variant: string;
   ariaInvalid: boolean | 'false' | 'true' | 'grammar' | 'spelling' | undefined;
-  label: Path<Values>;
+  label: string; // було змінено на string з Path<Values> Може виникнути проблема з react-hook-form, тому треба буде змінити навпаки і переробити компонент UpdatePassword - розкоментувати розмітку під компонентом і замінити мап на неї
   errors?: string | undefined;
   register: UseFormRegister<any>;
   handleSubmitRecovery?: React.MouseEventHandler<HTMLButtonElement> | undefined;
@@ -90,10 +90,10 @@ const VerifiableInput: FC<InputProps> = (props) => {
     <label
       htmlFor={label}
       className={`
-       ${variant === VariantInputs.Auth && 'w-full'} 
+       ${variant === VariantInputs.Auth && 'w-full space-y-2 text-medium md:text-xl'} 
       ${className}`}
     >
-      {variant === VariantInputs.Auth && (
+      {variant === VariantInputs.Auth && label !== 'recoveryEmail' && (
         <>
           <span className='mb-1.5 block text-accentBase font-medium'>{children}</span>
         </>
@@ -118,7 +118,7 @@ const VerifiableInput: FC<InputProps> = (props) => {
           </span>
         )}
         {label === 'recoveryEmail' ? (
-          <div className='absolute right-2 top-1.5 rounded-full bg-accentBase w-8 h-8 flex items-center justify-center hover:bg-accentAlt cursor-pointer'>
+          <div className='absolute right-2 top-1/2 -translate-y-1/2 rounded-full bg-accentBase w-8 h-8 flex items-center justify-center hover:bg-accentAlt cursor-pointer'>
             <button type='submit' onClick={handleSubmitRecovery}>
               <SvgIcon svgName='icon-arrow-right-filled' size={20} className='fill-whiteBase' />
             </button>
@@ -136,7 +136,7 @@ const VerifiableInput: FC<InputProps> = (props) => {
         />
       </div>
       {fieldValue?.length !== 0 && errors && (
-        <p className='text-darkBase dark:text-whiteBase'>{errors}</p>
+        <p className='text-darkBase dark:text-whiteBase text-small md:text-medium'>{errors}</p>
       )}
     </label>
   );

@@ -6,6 +6,7 @@ import {
   useAuthCollector,
   useFilterCollector,
   useHeaderStyles,
+  // usePopUp,
   useWindowWidth,
 } from 'hooks';
 
@@ -19,11 +20,6 @@ interface MenuItem {
   activeLink: boolean;
 }
 
-enum NavIDVariants {
-  AccountNav = 'account-navigation',
-  SiteNav = 'main-navigation',
-}
-
 interface CommonMenuProps {
   isOpen: boolean | undefined;
   links: MenuItem[];
@@ -35,7 +31,7 @@ const CommonMenu: FC<CommonMenuProps> = ({ isOpen, links, navId, closeMenu }) =>
   const { breakpointsForMarkup } = useWindowWidth() ?? {
     breakpointsForMarkup: null,
   };
-  const { resetAllFilters } = useFilterCollector();
+  const { resetAllFilters, filteredNews } = useFilterCollector();
   const { user, logout } = useAuthCollector();
 
   const location = useLocation();
@@ -48,7 +44,7 @@ const CommonMenu: FC<CommonMenuProps> = ({ isOpen, links, navId, closeMenu }) =>
       closeMenu();
     }
 
-    if (navId === 'main-navigation') {
+    if (navId === 'main-navigation' && filteredNews && filteredNews?.length > 0) {
       resetAllFilters();
     }
   };
@@ -66,16 +62,15 @@ const CommonMenu: FC<CommonMenuProps> = ({ isOpen, links, navId, closeMenu }) =>
             isOpen ? 'left-0' : '-left-full'
           }`}
         >
-          <div className='container mx-auto px-4'>
-            <nav
-              id={navId}
-              className={`${
-                NavIDVariants.SiteNav ? 'flex flex-col justify-between h-full' : 'space-y-6'
-              }`}
-            >
+          <div
+            className={`container mx-auto px-4 ${
+              navId === 'main-navigation' ? 'flex flex-col justify-between h-full' : 'space-y-6'
+            }`}
+          >
+            <nav id={navId}>
               <ul
                 className={`space-y-3 ${
-                  NavIDVariants.AccountNav &&
+                  navId === 'account-navigation' &&
                   'after:content-[""] after:w-full after:h-px after:bg-accentBase after:block after:mt-3'
                 }`}
               >
@@ -100,7 +95,7 @@ const CommonMenu: FC<CommonMenuProps> = ({ isOpen, links, navId, closeMenu }) =>
                             svgName={link.icon}
                             size={18}
                             className={`${
-                              NavIDVariants.SiteNav
+                              navId === 'main-navigation'
                                 ? 'stroke-whiteBase fill-transparent'
                                 : 'fill-whiteBase'
                             }`}
@@ -120,8 +115,8 @@ const CommonMenu: FC<CommonMenuProps> = ({ isOpen, links, navId, closeMenu }) =>
                 ))}
               </ul>
             </nav>
-            {NavIDVariants.AccountNav ? (
-              <>
+            {navId === 'account-navigation' ? (
+              <div className='flex justify-between'>
                 <PrimaryButton
                   id='Sign out button'
                   classNameButton='border border-solid border-transparent dark:border-whiteBase'
@@ -135,7 +130,21 @@ const CommonMenu: FC<CommonMenuProps> = ({ isOpen, links, navId, closeMenu }) =>
                 >
                   Sign Out
                 </PrimaryButton>
-              </>
+                {breakpointsForMarkup.isNothing || breakpointsForMarkup.isMobile ? (
+                  <PrimaryButton
+                    id='Go home'
+                    classNameButton='border border-solid border-transparent dark:border-whiteBase'
+                    hasIcon={true}
+                    variant='OtherButton'
+                    width='w-32'
+                    svgName='icon-home'
+                    svgSize={20}
+                    classNameIcon='stroke-whiteBase fill-transparent'
+                  >
+                    <Link to='/'>Home</Link>
+                  </PrimaryButton>
+                ) : null}
+              </div>
             ) : (
               <>
                 <Link to='/account' className='text-darkBase dark:text-whiteBase text-end'>

@@ -41,7 +41,7 @@ const useNewsDBCollector = () => {
     (updatedNews: PartialVotedNewsArray) => dispatch(addNews(updatedNews)),
     [dispatch],
   );
-  const removeNews = useCallback((newsUrl: string) => dispatch(deleteNews(newsUrl)), [dispatch]);
+  const removeNews = useCallback((id: string) => dispatch(deleteNews(id)), [dispatch]);
 
   return {
     isLoadingDBData,

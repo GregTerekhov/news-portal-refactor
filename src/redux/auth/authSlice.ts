@@ -13,13 +13,13 @@ interface AuthState {
     name: string;
     email: string;
     id: string;
-    rememberMe: boolean;
+    // rememberMe: boolean;
   };
-  haveAccounts: {
-    google: boolean;
-    facebook: boolean;
-    apple: boolean;
-  };
+  // haveAccounts: {
+  //   google: boolean;
+  //   facebook: boolean;
+  //   apple: boolean;
+  // };
 }
 
 interface SetTokensPayload {
@@ -38,13 +38,13 @@ const initialState: AuthState = {
     name: '',
     email: '',
     id: '',
-    rememberMe: false,
+    // rememberMe: false,
   },
-  haveAccounts: {
-    google: false,
-    facebook: false,
-    apple: false,
-  },
+  // haveAccounts: {
+  //   google: false,
+  //   facebook: false,
+  //   apple: false,
+  // },
 };
 
 const authSlice = createSlice({
@@ -59,26 +59,26 @@ const authSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(signUp.pending, (state) => {
-        state.isCurrentUser = true;
+        // state.isCurrentUser = true;
         state.hasError = null;
       })
       .addCase(signUp.fulfilled, (state, action) => {
         state.isLoggedIn = false;
-        state.isCurrentUser = false;
+        // state.isCurrentUser = false;
         state.user = action.payload.user;
         state.hasError = null;
       })
       .addCase(signUp.rejected, (state, action) => {
-        state.isCurrentUser = false;
+        // state.isCurrentUser = false;
         state.hasError = action.error;
       })
       .addCase(signIn.pending, (state) => {
-        state.isCurrentUser = true;
+        // state.isCurrentUser = true;
         state.hasError = null;
       })
       .addCase(signIn.fulfilled, (state, action) => {
         state.isLoggedIn = true;
-        state.isCurrentUser = false;
+        // state.isCurrentUser = false;
         state.user = action.payload.user;
         state.accessToken = action.payload.accessToken;
         state.refreshToken = action.payload.refreshToken;
@@ -86,18 +86,18 @@ const authSlice = createSlice({
         state.hasError = null;
       })
       .addCase(signIn.rejected, (state, action) => {
-        state.isCurrentUser = false;
+        // state.isCurrentUser = false;
         state.hasError = action.error;
       })
       .addCase(signOut.pending, (state) => {
-        state.isCurrentUser = true;
+        // state.isCurrentUser = true;
         state.hasError = null;
       })
       .addCase(signOut.fulfilled, () => {
         return { ...initialState };
       })
       .addCase(signOut.rejected, (state, action) => {
-        state.isCurrentUser = false;
+        // state.isCurrentUser = false;
         state.hasError = action.error;
       })
       .addCase(fetchCurrentUser.pending, (state) => {
@@ -110,7 +110,11 @@ const authSlice = createSlice({
         state.isCurrentUser = false;
         state.isLoggedIn = true;
         state.user = action.payload.user;
+        state.userTheme = action.payload.userTheme;
         state.hasError = null;
+        if (action.payload) {
+          console.log('action.payload.user', action.payload.user);
+        }
       })
       .addCase(fetchCurrentUser.rejected, (state, action) => {
         state.isCurrentUser = false;

@@ -1,5 +1,6 @@
 import React, { FC } from 'react';
 import { useLocation } from 'react-router-dom';
+import * as Tooltip from '@radix-ui/react-tooltip';
 
 import { useActiveLinks, useWindowWidth } from 'hooks';
 
@@ -9,6 +10,15 @@ import Calendar from './Calendar/Calendar';
 
 import { materialTypes } from '../assistants';
 import { useFilterNews } from '../hooks';
+
+// interface ITooltipTRiggerProps {
+//   children: ReactNode;
+//   ref: React.RefObject<HTMLDivElement>;
+// }
+
+//   const TooltipTrigger: FC<ITooltipTRiggerProps> = forwardRef((props, ref) => {
+//     return <Tooltip.Trigger ref={ref}>{props.children}</Tooltip.Trigger>;
+//   });
 
 const FiltersBlock: FC<{}> = () => {
   const { breakpointsForMarkup } = useWindowWidth() ?? {
@@ -28,8 +38,8 @@ const FiltersBlock: FC<{}> = () => {
   } = useFilterNews({ activeLinks });
 
   return (
-    <>
-      <form className='p-3.5 max-md:space-y-4 md:grid md:grid-cols-9 md:grid-rows-3 md:gap-3.5 lg:grid-cols-16 lg:grid-rows-2'>
+    <form className='p-3.5 max-md:space-y-4 md:grid md:grid-cols-9 md:grid-rows-3 md:gap-3.5 lg:grid-cols-16 lg:grid-rows-2'>
+      <Tooltip.Provider>
         <div className='md:col-span-3 lg:col-span-4'>
           <UnverifiableInput
             inputData={{
@@ -105,19 +115,26 @@ const FiltersBlock: FC<{}> = () => {
               >
                 Apply
               </PrimaryButton>
-              <PrimaryButton
-                aria-label='Ascending sort button'
-                classNameButton='border-whiteBase bg-accentBase dark:bg-transparent hover:bg-accentAlt transition-colors duration-500 p-2'
-                onHandleClick={() => handleSort('asc')}
-                variant='Small'
-                dataTooltipTarget='tooltip-sort-asc'
-                dataTooltipPlacement='bottom'
-                tooltipText='Sort news by ascending'
-                hasIcon={true}
-                svgName='icon-dateSort-asc'
-                svgSize={20}
-                classNameIcon='fill-whiteBase'
-              />
+              <Tooltip.Root>
+                <Tooltip.Trigger asChild>
+                  <PrimaryButton
+                    aria-label='Ascending sort button'
+                    classNameButton='border-whiteBase bg-accentBase dark:bg-transparent hover:bg-accentAlt transition-colors duration-500 p-2'
+                    onHandleClick={() => handleSort('asc')}
+                    variant='Small'
+                    dataTooltipTarget='tooltip-sort-asc'
+                    dataTooltipPlacement='bottom'
+                    tooltipText='Sort news by ascending'
+                    hasIcon={true}
+                    svgName='icon-dateSort-asc'
+                    svgSize={20}
+                    classNameIcon='fill-whiteBase'
+                  />
+                </Tooltip.Trigger>
+                <Tooltip.Portal>
+                  <Tooltip.Content>Sort by ascending</Tooltip.Content>
+                </Tooltip.Portal>
+              </Tooltip.Root>
             </div>
             <div className='flex gap-3.5'>
               <PrimaryButton
@@ -210,8 +227,8 @@ const FiltersBlock: FC<{}> = () => {
             </div>
           </>
         )}
-      </form>
-    </>
+      </Tooltip.Provider>
+    </form>
   );
 };
 

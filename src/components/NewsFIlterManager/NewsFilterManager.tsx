@@ -8,7 +8,7 @@ import { Accordeon, SvgIcon } from 'ui';
 import { FiltersBlock, SearchBlock } from './subcomponents';
 
 const NewsFilterManager: FC<{}> = () => {
-  const { allFavourites, allReads } = useNewsDBCollector();
+  const { allFavourites, allReads, allArchive } = useNewsDBCollector();
   const [showDropdown, setShowDropdown] = useState<boolean>(false);
 
   const location = useLocation();
@@ -20,10 +20,11 @@ const NewsFilterManager: FC<{}> = () => {
 
   const shouldNotShowFilters =
     (activeLinks.isFavoriteActive && allFavourites && allFavourites?.length === 0) ||
-    (activeLinks.isReadActive && allReads && allReads?.length === 0);
+    (activeLinks.isReadActive && allReads && allReads?.length === 0) ||
+    (activeLinks.isArchiveActive && allArchive && allArchive?.length === 0);
 
-  return (
-    <div className={`w-full ${shouldNotShowFilters && 'hidden'}`}>
+  return !shouldNotShowFilters ? (
+    <div className='w-full mb-10 md:mb-12 lg:mb-[60px]'>
       <button
         id='Open filter service button'
         className={`flex items-center gap-2 w-full py-1.5 px-6 justify-end text-darkBase dark:text-whiteBase font-medium text-medium md:text-2xl`}
@@ -58,7 +59,7 @@ const NewsFilterManager: FC<{}> = () => {
         </div>
       )}
     </div>
-  );
+  ) : null;
 };
 
 export default NewsFilterManager;

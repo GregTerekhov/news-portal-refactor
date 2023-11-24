@@ -24,7 +24,11 @@ const UpdatePassword: FC<{}> = ({}) => {
     },
   });
 
-  const [newPassword, confirmPassword] = watch(['newPassword', 'confirmPassword']);
+  const [newPassword, confirmPassword, oldPassword] = watch([
+    'newPassword',
+    'confirmPassword',
+    'oldPassword',
+  ]);
 
   const handlePasswordSubmitHandler: SubmitHandler<IUpdatePassword> = (data) => {
     console.log('Password data:', data);
@@ -36,13 +40,91 @@ const UpdatePassword: FC<{}> = ({}) => {
     });
   };
 
+  const passwordInputs = [
+    {
+      placeholder: 'Enter new password',
+      fieldValue: newPassword,
+      errors: errors?.newPassword?.message,
+      label: 'newPassword',
+      ariaInvalid: errors?.newPassword ? true : false,
+    },
+    {
+      placeholder: 'Confirm new password',
+      fieldValue: confirmPassword,
+      errors: errors?.confirmPassword?.message,
+      label: 'confirmPassword',
+      ariaInvalid: errors?.confirmPassword ? true : false,
+    },
+  ];
+
+  const showCurrentPasswordInput =
+    newPassword &&
+    confirmPassword &&
+    !errors?.newPassword?.message &&
+    !errors?.confirmPassword?.message &&
+    newPassword.length !== 0 &&
+    confirmPassword.length !== 0;
+
+  if (showCurrentPasswordInput) {
+    passwordInputs.push({
+      placeholder: 'Enter your current password',
+      fieldValue: oldPassword,
+      errors: errors?.oldPassword?.message,
+      label: 'oldPassword',
+      ariaInvalid: errors && errors?.oldPassword ? true : false,
+    });
+  } else null;
+
   return (
     <Accordeon position='accountManagePage' filtersBlock='Change your password'>
       <form
         className='pt-4 space-y-4 lg:space-y-8'
         onSubmit={handleSubmit(handlePasswordSubmitHandler)}
       >
-        <VerifiableInput
+        <ul className='space-y-4 lg:space-y-8'>
+          {Array.isArray(passwordInputs) &&
+            passwordInputs.map(({ placeholder, fieldValue, errors, label, ariaInvalid }) => (
+              <li key={label}>
+                <VerifiableInput
+                  inputData={{
+                    type: 'password',
+                    placeholder: placeholder,
+                    fieldValue: fieldValue,
+                  }}
+                  errors={errors}
+                  register={register}
+                  label={label}
+                  svgName='icon-password'
+                  hasIcon={true}
+                  variant='accountPage'
+                  ariaInvalid={ariaInvalid}
+                />
+              </li>
+            ))}
+        </ul>
+        <p className=' text-darkBase text-small lg:text-medium dark:text-whiteBase'>
+          To change your current password, enter the new password in the first field and repeat the
+          entry in the second field. In the third field, confirm the change by inputting your
+          current password. If all information is entered correctly, you will receive a notification
+          confirming the successful update of your password.
+        </p>
+        <PrimaryButton
+          buttonData={{ type: 'submit' }}
+          width='w-28 lg:w-40'
+          id='Button for applying change and confirm your new password'
+          variant='OtherButton'
+        >
+          Apply
+        </PrimaryButton>
+      </form>
+    </Accordeon>
+  );
+};
+
+export default UpdatePassword;
+
+{
+  /* <VerifiableInput
           inputData={{
             type: 'password',
             placeholder: 'Enter new password',
@@ -52,7 +134,7 @@ const UpdatePassword: FC<{}> = ({}) => {
           register={register}
           label='newPassword'
           svgName='icon-password'
-          className='fill-accentBase'
+          className='block'
           hasIcon={true}
           variant='accountPage'
           ariaInvalid={errors?.newPassword ? 'true' : 'false'}
@@ -67,7 +149,7 @@ const UpdatePassword: FC<{}> = ({}) => {
           register={register}
           label='confirmPassword'
           svgName='icon-password'
-          className='fill-accentBase'
+          className='block'
           hasIcon={true}
           variant='accountPage'
           ariaInvalid={errors?.confirmPassword ? 'true' : 'false'}
@@ -92,24 +174,5 @@ const UpdatePassword: FC<{}> = ({}) => {
             variant='accountPage'
             ariaInvalid={errors?.oldPassword ? 'true' : 'false'}
           />
-        ) : null}
-        <p className=' text-darkBase text-small lg:text-medium dark:text-whiteBase'>
-          To change your current password, enter the new password in the first field and repeat the
-          entry in the second field. In the third field, confirm the change by inputting your
-          current password. If all information is entered correctly, you will receive a notification
-          confirming the successful update of your password.
-        </p>
-        <PrimaryButton
-          buttonData={{ type: 'submit' }}
-          width='w-28 lg:w-40'
-          id='Button for applying change and confirm your new password'
-          variant='OtherButton'
-        >
-          Apply
-        </PrimaryButton>
-      </form>
-    </Accordeon>
-  );
-};
-
-export default UpdatePassword;
+        ) : null} */
+}
