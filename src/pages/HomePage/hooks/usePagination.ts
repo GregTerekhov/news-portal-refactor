@@ -31,19 +31,50 @@ const usePagination = (rebuildedNews: PartialVotedNewsArray) => {
     otherDesktopCardsPerPage,
   );
 
+  console.log('mobilePages', mobilePages);
+  console.log('last', mobilePages[mobilePages.length - 1]);
+  console.log('tabletPages', tabletPages);
+  console.log('desktopPages', desktopPages);
+
   const currentCardsPerPage = getCurrentCardsPerPage();
+  const calculatedFirstIndexes = calculateFirstIndexes();
+
+  console.log('currentCardsPerPage', currentCardsPerPage);
 
   useEffect(() => {
     if (rebuildedNews && rebuildedNews?.length > 0) {
-      const indexOfLastItem =
-        currentPage === 1
-          ? currentPage * currentCardsPerPage
-          : currentPage * currentCardsPerPage - 1;
-      const indexOfFirstItem = indexOfLastItem - currentCardsPerPage;
+      console.log('rebuildedNews', rebuildedNews);
+
+      const calculationOfLastElements = currentPage * currentCardsPerPage - 1 >= totalPages;
+      let indexOfLastItem: number;
+      let indexOfFirstItem: number;
+
+      if (currentPage === 1) {
+        indexOfLastItem = currentPage * currentCardsPerPage;
+        indexOfFirstItem = indexOfLastItem - currentCardsPerPage;
+      } else if (currentPage > 1 && calculationOfLastElements && calculatedFirstIndexes) {
+        indexOfLastItem = totalPages;
+        if (breakpointsForMarkup?.isNothing || breakpointsForMarkup?.isMobile) {
+          indexOfFirstItem = totalPages - calculatedFirstIndexes.firstIndexForLastMobilePage;
+        } else if (breakpointsForMarkup?.isTablet) {
+          indexOfFirstItem = totalPages - calculatedFirstIndexes.firstIndexForLastTabletPage;
+        } else {
+          indexOfFirstItem = totalPages - calculatedFirstIndexes.firstIndexForLastDesktopPage;
+        }
+      } else {
+        indexOfLastItem = currentPage * currentCardsPerPage - 1;
+        indexOfFirstItem = indexOfLastItem - currentCardsPerPage;
+      }
+      //   const indexOfLastItem =
+      //     currentPage === 1
+      //       ? currentPage * currentCardsPerPage
+      //       : currentPage * currentCardsPerPage - 1;
+      // const indexOfFirstItem = indexOfLastItem - currentCardsPerPage;
 
       const items = rebuildedNews.slice(indexOfFirstItem, indexOfLastItem);
       setCurrentItems(items);
     }
+    console.log('currentItems', currentItems);
   }, [popularNews, newsByKeyword, newsByCategory, newsByDate, filteredNews, currentPage]);
 
   // Розрахунок кількості сторінок для кожного типу пристрою
@@ -55,7 +86,6 @@ const usePagination = (rebuildedNews: PartialVotedNewsArray) => {
       pages.push(otherPageCount);
       remainingItems -= otherPageCount;
     }
-
     return pages;
   }
 
@@ -70,19 +100,44 @@ const usePagination = (rebuildedNews: PartialVotedNewsArray) => {
     }
   }
 
-  // // Визначення кількості об'єктів новин на сторінці в залежності від типу пристрою
-  // function setStartIdx() {
-  //   if (breakpointsForMarkup?.isMobile || breakpointsForMarkup?.isNothing) {
-  //     return 4;
-  //   } else if (breakpointsForMarkup?.isTablet) {
-  //     return 7;
-  //   } else {
-  //     return 8;
-  //   }
-  // }
+  function calculateRemainingCards(cards: number[], totalCards: number): number {
+    // Вираховуємо суму всіх чисел, окрім останнього елемента
+    const sum = cards && cards.slice(0, -1).reduce((acc, num) => acc + num, 0);
 
-  const pageNumbers = [];
-  for (let i = 1; i <= Math.ceil(totalPages / currentCardsPerPage); i++) {
+    // Віднімаємо вираховану суму від загальної кількості карток
+    const remainingCards = totalCards - sum;
+
+    return remainingCards;
+  }
+
+  function calculateFirstIndexes() {
+    try {
+      let firstIndexForLastMobilePage = calculateRemainingCards(mobilePages, totalPages);
+      let firstIndexForLastTabletPage = calculateRemainingCards(tabletPages, totalPages);
+      let firstIndexForLastDesktopPage = calculateRemainingCards(desktopPages, totalPages);
+
+      const firstIndexes = {
+        firstIndexForLastMobilePage,
+        firstIndexForLastTabletPage,
+        firstIndexForLastDesktopPage,
+      };
+
+      return firstIndexes;
+    } catch (error: any) {
+      return console.error(error.message);
+    }
+  }
+
+  const pageNumbers: number[] = [];
+
+  let pageQuantity: number;
+  if (currentPage > 1) {
+    pageQuantity = Math.ceil(totalPages / currentCardsPerPage + 1);
+  } else {
+    pageQuantity = Math.ceil(totalPages / currentCardsPerPage);
+  }
+
+  for (let i = 1; i <= pageQuantity; i++) {
     pageNumbers.push(i);
   }
 

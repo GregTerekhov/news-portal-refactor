@@ -9,8 +9,9 @@ import {
   useNewsDBCollector,
 } from 'hooks';
 
-import { Loader, NewsList, Pagination, PlugImage } from 'components';
+import { Loader, NewsList, PlugImage } from 'components';
 
+import { Pagination } from './subcomponents';
 import { usePagination } from './hooks';
 
 const HomePage: FC = () => {

@@ -1,4 +1,4 @@
-import React, { useEffect, lazy } from 'react';
+import React, { lazy } from 'react';
 import { Route, Routes } from 'react-router-dom';
 
 import { ProtectedRoute } from 'routes';
@@ -20,14 +20,15 @@ const AccountManagePage = lazy(() => import('./pages/AccountManagePage/AccountMa
 const ErrorPage = lazy(() => import('./pages/ErrorPage/ErrorPage'));
 
 function App() {
-  const { isAuthenticated, isRefreshingUser, fetchCurrentAuthUser } = useAuthCollector();
+  // const { isAuthenticated, isRefreshingUser, fetchCurrentAuthUser } = useAuthCollector();
+  const { isRefreshingUser } = useAuthCollector();
   // const dispatch = useAppDispatch();
 
-  useEffect(() => {
-    // if (user && user.id) {
-    fetchCurrentAuthUser();
-    // }
-  }, [isAuthenticated, fetchCurrentAuthUser]);
+  // useEffect(() => {
+  //   // if (user && user.id) {
+  //   fetchCurrentAuthUser();
+  //   // }
+  // }, [isAuthenticated, fetchCurrentAuthUser]);
 
   return isRefreshingUser ? (
     <Loader variant='page' />
