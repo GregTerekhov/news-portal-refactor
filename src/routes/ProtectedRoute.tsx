@@ -1,13 +1,13 @@
 import React, { FC, ReactElement } from 'react';
 
 import { useAuthCollector } from 'hooks';
-import { Navigate, useLocation } from 'react-router-dom';
+import { Navigate, Outlet, useLocation } from 'react-router-dom';
 
 export type ProtectedRouteProps = {
-  Component?: ReactElement;
+  children?: ReactElement;
 } & { redirectPath?: string };
 
-const ProtectedRoute: FC<ProtectedRouteProps> = ({ Component, redirectPath = '/' }) => {
+const ProtectedRoute: FC<ProtectedRouteProps> = ({ children, redirectPath = '/' }) => {
   const { isAuthenticated } = useAuthCollector();
   const location = useLocation();
 
@@ -15,7 +15,7 @@ const ProtectedRoute: FC<ProtectedRouteProps> = ({ Component, redirectPath = '/'
     return <Navigate to={redirectPath} state={{ from: location }} replace />;
   }
 
-  return Component;
+  return children ?? <Outlet />;
 };
 
 export default ProtectedRoute;

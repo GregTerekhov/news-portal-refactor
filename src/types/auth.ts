@@ -1,3 +1,14 @@
+export interface ICurrentUser {
+  userTheme: string;
+  accessToken: string;
+  refreshToken: string;
+  user: {
+    name: string;
+    email: string;
+    id: string;
+  };
+}
+
 export interface SignUpCredentials {
   name: string;
   email: string;

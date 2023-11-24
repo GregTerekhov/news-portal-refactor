@@ -6,11 +6,13 @@ import {
   IUpdateEmail,
   IUpdatePassword,
   IRecoveryPassword,
+  ICurrentUser,
 } from 'types';
 
 import axiosInstance from './authServices';
 import { setTokens } from './authSlice';
 import axios from 'axios';
+// import { RootState } from 'reduxStore/store';
 
 const BASE_URL = 'https://news-webapp-express.onrender.com/api';
 
@@ -42,8 +44,12 @@ export const signIn = createAsyncThunk(
   async (credentials: SignInCredentials, { rejectWithValue }) => {
     console.log('credentials', credentials);
     try {
-      const response = await axios.post(`${BASE_URL}/auth/sign-in`, credentials);
-      setTokens(response.data);
+      const response = await axios.post<ICurrentUser>(`${BASE_URL}/auth/sign-in`, credentials);
+      setTokens({
+        accessToken: response.data.accessToken,
+        refreshToken: response.data.refreshToken,
+      });
+      // token.set(response.data.accessToken);
       console.log(response.data);
       return response.data;
     } catch (error: any) {
@@ -55,6 +61,7 @@ export const signIn = createAsyncThunk(
 export const signOut = createAsyncThunk('/auth/signOut', async (_, { rejectWithValue }) => {
   try {
     const response = await axiosInstance.post('auth/sign-out');
+    // token.unset();
     setTokens({ accessToken: null, refreshToken: null });
     return response.data;
   } catch (error: any) {
@@ -64,14 +71,14 @@ export const signOut = createAsyncThunk('/auth/signOut', async (_, { rejectWithV
 
 export const fetchCurrentUser = createAsyncThunk('auth/current', async (_, thunkAPI) => {
   // const state = thunkAPI.getState() as RootState;
-  // const persistedToken = state.auth.refreshToken;
+  // const persistedToken = state.auth.accessToken;
 
   // if (persistedToken === null) {
   //   return thunkAPI.rejectWithValue('No token found');
   // }
-  // token.set(persistedToken);
 
   try {
+    // token.set(persistedToken);
     const response = await axiosInstance.get('/auth/current-user');
     console.log(response.data.user);
     return response.data;
