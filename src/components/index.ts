@@ -9,7 +9,6 @@ export { default as NewsFilterManager } from './NewsFIlterManager/NewsFilterMana
 export { default as NewsItem } from './NewsItem/NewsItem';
 export { default as NewsList } from './NewsList';
 export { default as PageScrollController } from './PageScrollController/PageScrollController';
-export { default as Pagination } from './Pagination';
 export { default as PlugImage } from './PlugImage/PlugImage';
 export { default as ThemeSwitcher } from './ThemeSwitcher';
 export { default as VoteButton } from './NewsItem/subcomponents/VoteButton';
