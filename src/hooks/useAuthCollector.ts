@@ -12,7 +12,7 @@ import {
   updateUserEmail,
   updateUserPassword,
   sendPasswordRecoveryEmail,
-  selectBoundAccounts,
+  // selectBoundAccounts,
 } from 'reduxStore/auth';
 import { useAppDispatch, useAppSelector } from 'reduxStore/hooks';
 import {
@@ -29,7 +29,7 @@ const useAuthCollector = () => {
   const isRefreshingUser = useAppSelector(selectCurrentUser);
   const userTheme = useAppSelector(selectUserTheme);
   const authError = useAppSelector(selectHasAuthError);
-  const haveAccounts = useAppSelector(selectBoundAccounts);
+  // const haveAccounts = useAppSelector(selectBoundAccounts);
 
   const dispatch = useAppDispatch();
 
@@ -59,7 +59,7 @@ const useAuthCollector = () => {
   );
 
   return {
-    haveAccounts,
+    // haveAccounts,
     isAuthenticated,
     user,
     isRefreshingUser,
