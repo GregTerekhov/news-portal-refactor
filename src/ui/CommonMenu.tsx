@@ -6,7 +6,7 @@ import {
   useAuthCollector,
   useFilterCollector,
   useHeaderStyles,
-  usePopUp,
+  // usePopUp,
   useWindowWidth,
 } from 'hooks';
 

@@ -1,9 +1,9 @@
-import React, { FC, Suspense, useEffect } from 'react';
+import React, { FC, useEffect } from 'react';
 import { Outlet, useLocation } from 'react-router-dom';
 
 import { useActiveLinks, useAuthCollector, useNewsAPICollector, useWindowWidth } from 'hooks';
 
-import { Hero, Loader, NewsFilterManager, PageScrollController, ThemeSwitcher } from 'components';
+import { Hero, NewsFilterManager, PageScrollController, ThemeSwitcher } from 'components';
 
 import Header from './Header';
 // import Footer from './Footer';
@@ -13,7 +13,7 @@ const Layout: FC = () => {
     breakpointsForMarkup: null,
   };
   const { fetchCategoriesList } = useNewsAPICollector();
-  const { isAuthenticated, isRefreshingUser, fetchCurrentAuthUser } = useAuthCollector();
+  const { isAuthenticated } = useAuthCollector();
   // const isAuthenticated = true;
   const location = useLocation();
   const activeLinks = useActiveLinks(location);
