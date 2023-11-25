@@ -19,9 +19,10 @@ const Layout: FC = () => {
   const activeLinks = useActiveLinks(location);
 
   useEffect(() => {
-    // fetchCurrentAuthUser();
-    fetchCategoriesList();
-  }, [fetchCategoriesList]);
+    if (isAuthenticated) {
+      fetchCategoriesList();
+    }
+  }, [isAuthenticated, fetchCategoriesList]);
 
   const shouldShowPageScrollController =
     (activeLinks?.isHomeActive && breakpointsForMarkup?.isTablet) ||

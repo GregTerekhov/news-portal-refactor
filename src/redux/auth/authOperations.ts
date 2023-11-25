@@ -5,8 +5,10 @@ import {
   SignInCredentials,
   IUpdateEmail,
   IUpdatePassword,
-  IRecoveryPassword,
   ICurrentUser,
+  IRecoveryPasswordChange,
+  IRecoveryPasswordRequest,
+  IThirdPartyAuth,
 } from 'types';
 
 import axiosInstance from './authServices';
@@ -109,11 +111,68 @@ export const updateUserPassword = createAsyncThunk(
     }
   },
 );
-export const sendPasswordRecoveryEmail = createAsyncThunk(
-  'auth/recoveryPassword',
-  async (email: IRecoveryPassword, { rejectWithValue }) => {
+export const recoveryPasswordRequest = createAsyncThunk(
+  'auth/recoveryPasswordRequest',
+  async (email: IRecoveryPasswordRequest, { rejectWithValue }) => {
     try {
-      const response = await axiosInstance.patch('auth/recovery-password', email);
+      const response = await axios.patch(`${BASE_URL}/auth/forgot-password-request`, email);
+      // додати в header accessToken
+      return response.data;
+    } catch (error: any) {
+      return rejectWithValue(error.message);
+    }
+  },
+);
+
+export const recoveryPasswordChange = createAsyncThunk(
+  'auth/recoveryPasswordChange',
+  async (changedPassword: IRecoveryPasswordChange, { rejectWithValue }) => {
+    try {
+      const response = await axiosInstance.patch('auth/forgot-password-change', changedPassword);
+
+      return response.data;
+    } catch (error: any) {
+      return rejectWithValue(error.message);
+    }
+  },
+);
+
+export const googleAuth = createAsyncThunk(
+  'auth/google',
+  async (tokenAuth: IThirdPartyAuth, { rejectWithValue }) => {
+    try {
+      // token.set(tokenAuth); // set accessToken in Header
+      const response = await axiosInstance.get('/auth/current');
+      response.data.accessToken = tokenAuth;
+      console.log(response.data);
+      return response.data;
+    } catch (error: any) {
+      return rejectWithValue(error.message);
+    }
+  },
+);
+export const facebookAuth = createAsyncThunk(
+  'auth/facebook',
+  async (tokenAuth: IThirdPartyAuth, { rejectWithValue }) => {
+    try {
+      // token.set(tokenAuth); // set accessToken in Header
+      const response = await axiosInstance.get('/auth/current');
+      response.data.accessToken = tokenAuth;
+      console.log(response.data);
+      return response.data;
+    } catch (error: any) {
+      return rejectWithValue(error.message);
+    }
+  },
+);
+export const appleAuth = createAsyncThunk(
+  'auth/apple',
+  async (tokenAuth: IThirdPartyAuth, { rejectWithValue }) => {
+    try {
+      // token.set(tokenAuth); // set accessToken in Header
+      const response = await axiosInstance.get('/auth/current');
+      response.data.accessToken = tokenAuth;
+      console.log(response.data);
       return response.data;
     } catch (error: any) {
       return rejectWithValue(error.message);

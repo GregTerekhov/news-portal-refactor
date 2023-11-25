@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useLayoutEffect, useState } from 'react';
+import React, { FC, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 
 import {
@@ -16,8 +16,8 @@ import { usePagination } from './hooks';
 
 const HomePage: FC = () => {
   const { isLoadingAPIData, fetchPopular } = useNewsAPICollector();
-  const { savedNews, isLoadingDBData, getSavedNews, addVotedNews } = useNewsDBCollector();
-  const [changesHappened, setChangesHappened] = useState<boolean>(false);
+  const { isLoadingDBData, getSavedNews } = useNewsDBCollector();
+  // const [changesHappened, setChangesHappened] = useState<boolean>(false);
 
   const location = useLocation();
   const activeLinks = useActiveLinks(location);
@@ -35,16 +35,16 @@ const HomePage: FC = () => {
     }
   }, [fetchPopular, getSavedNews, isAuthenticated]);
 
-  useLayoutEffect(() => {
-    if (changesHappened) {
-      addVotedNews(savedNews);
-      setChangesHappened(false);
-    }
-  }, [changesHappened, addVotedNews]);
+  // useLayoutEffect(() => {
+  //   if (changesHappened) {
+  //     addVotedNews(savedNews);
+  //     setChangesHappened(false);
+  //   }
+  // }, [changesHappened, addVotedNews]);
 
-  const handleChangeVotes = () => {
-    setChangesHappened(true);
-  };
+  // const handleChangeVotes = () => {
+  //   setChangesHappened(true);
+  // };
 
   return (
     <div>
@@ -60,7 +60,7 @@ const HomePage: FC = () => {
               <NewsList
                 currentItems={currentItems}
                 currentPage={currentPage}
-                onChange={handleChangeVotes}
+                // onChange={handleChangeVotes}
               />
               <Pagination
                 pageNumbers={pageNumbers}

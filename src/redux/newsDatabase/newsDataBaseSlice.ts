@@ -1,4 +1,4 @@
-import { PayloadAction, SerializedError, createSlice } from '@reduxjs/toolkit';
+import { PayloadAction, SerializedError, createAction, createSlice } from '@reduxjs/toolkit';
 
 import { PartialVotedNewsArray, VotedItem } from 'types';
 
@@ -62,6 +62,10 @@ const initialState: NewsDBState = {
 //   }
 // };
 
+export const removeFromFavourites = createAction<{ newsUrl: string }>(
+  'newsDB/removeFromFavourites',
+);
+
 const newsDBSlice = createSlice({
   name: 'newsDB',
   initialState,
@@ -81,10 +85,6 @@ const newsDBSlice = createSlice({
       } else {
         state.savedNews.unshift(updatedVotedNews);
       }
-    },
-    removeFromFavourites: (state, action) => {
-      const { newsUrl } = action.payload;
-      state.favourites = state.favourites.filter((fav) => fav.newsUrl !== newsUrl);
     },
     clearVotedNews: (state) => {
       state.savedNews = [];
@@ -157,9 +157,13 @@ const newsDBSlice = createSlice({
       .addCase(deleteNews.rejected, (state, action) => {
         state.isLoading = false;
         state.hasError = action.error;
+      })
+      .addCase(removeFromFavourites, (state, action) => {
+        const { newsUrl } = action.payload;
+        state.favourites = state.favourites.filter((fav) => fav.newsUrl !== newsUrl);
       });
   },
 });
 
-export const { addOrUpdateVotedNews, removeFromFavourites, clearVotedNews } = newsDBSlice.actions;
+export const { addOrUpdateVotedNews, clearVotedNews } = newsDBSlice.actions;
 export const newsDBReducer = newsDBSlice.reducer;

@@ -1,198 +1,33 @@
-import React, { FC, useEffect, useState } from 'react';
+import React, { FC } from 'react';
 import { useLocation } from 'react-router-dom';
 
 import { VotedItem } from 'types';
 
-import { useAppDispatch } from 'reduxStore/hooks';
-import { removeFromFavourites } from 'reduxStore/newsDatabase';
-
-import { useActiveLinks, useAuthCollector, useNewsDBCollector } from 'hooks';
+import { useActiveLinks, useAuthCollector } from 'hooks';
 
 import { PrimaryButton, SvgIcon } from 'ui';
 
 import PlugImage from '../PlugImage/PlugImage';
 
+import { useNews } from './hooks';
 import { VoteButton } from './subcomponents';
 
 interface NewsItemProps {
   liveNews: Partial<VotedItem>;
-  onChange?: (() => void) | undefined;
-  // onDelete: () => void;
+  // onChange: (() => void) | undefined;
 }
 
 const NewsItem: FC<Partial<NewsItemProps>> = ({
   liveNews = {},
-  onChange = () => {},
-  // onDelete = () => {},
+  // onChange = () => {},
 }) => {
-  const { savedNews, updateSavedNews } = useNewsDBCollector();
+  const { isFavourite, hasRead, handleChangeFavourites, handleReadNews, handleDeleteNews } =
+    useNews({ liveNews });
   const { isAuthenticated } = useAuthCollector();
-  const [isFavourite, setIsFavourite] = useState<boolean>(() => getIsFavourite());
-  const [hasRead, setHasRead] = useState<boolean>(() => getHasRead());
 
   // const isAuthenticated = true;
-
-  const dispatch = useAppDispatch();
   const location = useLocation();
   const activeLinks = useActiveLinks(location);
-
-  useEffect(() => {
-    if (isAuthenticated && savedNews && liveNews?.newsUrl !== undefined) {
-      if (savedNews?.length !== 0) {
-        const existingNews = savedNews.find((news) => news.newsUrl === liveNews?.newsUrl);
-        const savedFavourite = existingNews?.isFavourite;
-        const savedRead = existingNews?.hasRead;
-
-        if (savedFavourite === true && savedRead === true) {
-          setIsFavourite(true);
-          setHasRead(true);
-        }
-        if (savedFavourite === true && savedRead === false) {
-          setIsFavourite(true);
-        }
-        if (savedRead === true && savedFavourite === false) {
-          setHasRead(true);
-        }
-      } else {
-        return;
-      }
-    }
-  }, [savedNews, isAuthenticated, liveNews]);
-
-  function getIsFavourite(): boolean {
-    const existingNews = savedNews?.find((news) => news.newsUrl === liveNews?.newsUrl);
-    return existingNews?.isFavourite ?? false;
-  }
-
-  function getHasRead(): boolean {
-    const existingNews = savedNews?.find((news) => news.newsUrl === liveNews?.newsUrl);
-    return existingNews?.hasRead ?? false;
-  }
-
-  const handleChangeFavourites = async (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.stopPropagation();
-    e.preventDefault();
-    onChange();
-
-    if (savedNews && liveNews && liveNews?.newsUrl !== undefined) {
-      const currentTime = new Date();
-      const clickDate = currentTime.getTime();
-
-      if (savedNews.length === 0) {
-        setIsFavourite(true);
-
-        const updatedData = {
-          ...liveNews,
-          isFavourite: true,
-          hasRead: false,
-          additionDate: clickDate,
-        };
-        await updateSavedNews(updatedData);
-      } else {
-        const existingNews = savedNews?.find((news) => news.newsUrl === liveNews.newsUrl);
-        const savedFavourite = existingNews?.isFavourite;
-        const savedRead = existingNews?.hasRead;
-
-        if (!existingNews) {
-          setIsFavourite(true);
-
-          const updatedData = {
-            ...liveNews,
-            isFavourite: true,
-            hasRead: false,
-            additionDate: clickDate,
-          };
-          await updateSavedNews(updatedData);
-        } else {
-          if (savedFavourite === false && savedRead === true) {
-            setIsFavourite(true);
-
-            const updatedData = { ...liveNews, isFavourite: true };
-            await updateSavedNews(updatedData);
-          } else if (savedFavourite === true && savedRead === false) {
-            setIsFavourite(false);
-
-            const updatedData = {
-              ...liveNews,
-              isFavourite: false,
-              hasRead: savedRead,
-              additionDate: null,
-            };
-            dispatch(removeFromFavourites(liveNews.newsUrl));
-            await updateSavedNews(updatedData);
-
-            // onDelete();
-          } else if (savedFavourite === true && savedRead === true) {
-            setIsFavourite(false);
-
-            const updatedData = {
-              ...liveNews,
-              isFavourite: false,
-              hasRead: savedRead,
-            };
-            dispatch(removeFromFavourites(liveNews.newsUrl));
-            await updateSavedNews(updatedData);
-            // onDelete();
-          }
-        }
-      }
-    }
-  };
-
-  const handleReadNews = async () => {
-    if (savedNews && liveNews && liveNews?.newsUrl !== undefined) {
-      const currentTime = new Date();
-      const clickDate = currentTime.getTime();
-
-      if (savedNews.length === 0) {
-        setHasRead(true);
-        onChange();
-
-        const updatedData = {
-          ...liveNews,
-          hasRead: true,
-          isFavourite: false,
-          additionDate: clickDate,
-        };
-        await updateSavedNews(updatedData);
-      } else {
-        const existingNews = savedNews?.find((news) => news.newsUrl === liveNews.newsUrl);
-        const savedFavourite = existingNews?.isFavourite;
-        const savedRead = existingNews?.hasRead;
-
-        if (!existingNews) {
-          setHasRead(true);
-          onChange();
-
-          const updatedData = {
-            ...liveNews,
-            hasRead: true,
-            additionDate: clickDate,
-          };
-          await updateSavedNews(updatedData);
-        } else {
-          if (savedRead === false && savedFavourite === true) {
-            setHasRead(true);
-            onChange();
-
-            const updatedData = {
-              ...liveNews,
-              hasRead: true,
-            };
-            await updateSavedNews(updatedData);
-          } else if (savedRead === true) {
-            return;
-          }
-        }
-      }
-    }
-  };
-
-  const handleDeleteNews = (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.stopPropagation();
-    e.preventDefault();
-    console.log('Delete news');
-  };
 
   return (
     <>

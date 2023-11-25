@@ -1,6 +1,15 @@
 import { PayloadAction, SerializedError, createSlice } from '@reduxjs/toolkit';
 
-import { fetchCurrentUser, signIn, signOut, signUp } from './authOperations';
+import {
+  appleAuth,
+  facebookAuth,
+  fetchCurrentUser,
+  googleAuth,
+  signIn,
+  signOut,
+  signUp,
+  updateUserEmail,
+} from './authOperations';
 
 interface AuthState {
   isLoggedIn: boolean;
@@ -119,6 +128,59 @@ const authSlice = createSlice({
       .addCase(fetchCurrentUser.rejected, (state, action) => {
         state.isCurrentUser = false;
         state.hasError = action.error;
+      })
+      .addCase(updateUserEmail.pending, (state) => {
+        state.isCurrentUser = true;
+      })
+      .addCase(updateUserEmail.fulfilled, (state, action) => {
+        state.isCurrentUser = false;
+        state.user.email = action.payload;
+      })
+      .addCase(updateUserEmail.rejected, (state, action) => {
+        state.hasError = action.error;
+        state.isCurrentUser = false;
+      })
+      .addCase(googleAuth.pending, (state) => {
+        state.isCurrentUser = true;
+      })
+      .addCase(googleAuth.fulfilled, (state, action) => {
+        state.isCurrentUser = false;
+        state.user = action.payload.user;
+        state.accessToken = action.payload.accessToken;
+        state.refreshToken = action.payload.refreshToken;
+        state.isLoggedIn = true;
+      })
+      .addCase(googleAuth.rejected, (state, action) => {
+        state.hasError = action.error;
+        state.isCurrentUser = false;
+      })
+      .addCase(facebookAuth.pending, (state) => {
+        state.isCurrentUser = true;
+      })
+      .addCase(facebookAuth.fulfilled, (state, action) => {
+        state.isCurrentUser = false;
+        state.user = action.payload.user;
+        state.accessToken = action.payload.accessToken;
+        state.refreshToken = action.payload.refreshToken;
+        state.isLoggedIn = true;
+      })
+      .addCase(facebookAuth.rejected, (state, action) => {
+        state.hasError = action.error;
+        state.isCurrentUser = false;
+      })
+      .addCase(appleAuth.pending, (state) => {
+        state.isCurrentUser = true;
+      })
+      .addCase(appleAuth.fulfilled, (state, action) => {
+        state.isCurrentUser = false;
+        state.user = action.payload.user;
+        state.accessToken = action.payload.accessToken;
+        state.refreshToken = action.payload.refreshToken;
+        state.isLoggedIn = true;
+      })
+      .addCase(appleAuth.rejected, (state, action) => {
+        state.hasError = action.error;
+        state.isCurrentUser = false;
       });
   },
 });

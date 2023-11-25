@@ -11,7 +11,11 @@ import {
   signUp,
   updateUserEmail,
   updateUserPassword,
-  sendPasswordRecoveryEmail,
+  recoveryPasswordRequest,
+  recoveryPasswordChange,
+  googleAuth,
+  facebookAuth,
+  appleAuth,
   // selectBoundAccounts,
 } from 'reduxStore/auth';
 import { useAppDispatch, useAppSelector } from 'reduxStore/hooks';
@@ -20,7 +24,9 @@ import {
   SignInCredentials,
   IUpdateEmail,
   IUpdatePassword,
-  IRecoveryPassword,
+  IRecoveryPasswordRequest,
+  IRecoveryPasswordChange,
+  IThirdPartyAuth,
 } from 'types';
 
 const useAuthCollector = () => {
@@ -54,7 +60,27 @@ const useAuthCollector = () => {
   );
 
   const sendEmailForRecovery = useCallback(
-    (email: IRecoveryPassword) => dispatch(sendPasswordRecoveryEmail(email)),
+    (email: IRecoveryPasswordRequest) => dispatch(recoveryPasswordRequest(email)),
+    [dispatch],
+  );
+
+  const changePassword = useCallback(
+    (changedPassword: IRecoveryPasswordChange) => dispatch(recoveryPasswordChange(changedPassword)),
+    [dispatch],
+  );
+
+  const enterWithGoogle = useCallback(
+    (tokenAuth: IThirdPartyAuth) => dispatch(googleAuth(tokenAuth)),
+    [dispatch],
+  );
+
+  const enterWithFacebook = useCallback(
+    (tokenAuth: IThirdPartyAuth) => dispatch(facebookAuth(tokenAuth)),
+    [dispatch],
+  );
+
+  const enterWithApple = useCallback(
+    (tokenAuth: IThirdPartyAuth) => dispatch(appleAuth(tokenAuth)),
     [dispatch],
   );
 
@@ -72,6 +98,10 @@ const useAuthCollector = () => {
     updateEmail,
     updatePassword,
     sendEmailForRecovery,
+    changePassword,
+    enterWithGoogle,
+    enterWithFacebook,
+    enterWithApple,
   };
 };
 
