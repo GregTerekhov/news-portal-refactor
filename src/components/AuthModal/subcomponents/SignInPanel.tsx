@@ -2,7 +2,7 @@ import React, { FC, useState } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 
-import { SignInCredentials, IRecoveryPassword } from 'types';
+import { SignInCredentials, IRecoveryPasswordRequest } from 'types';
 import { useAuthCollector, usePopUp, useWindowWidth } from 'hooks';
 
 import { ThemeSwitcher } from 'components';
@@ -43,7 +43,7 @@ const SignInPanel: FC<SignInProps> = ({ handleShowRecoveryInput, isShowRecoveryI
     register: registerRecovery,
     resetField,
     formState: { errors: recoveryPasswordErrors },
-  } = useForm<IRecoveryPassword>({ resolver: yupResolver(recoveryPasswordSchema) });
+  } = useForm<IRecoveryPasswordRequest>({ resolver: yupResolver(recoveryPasswordSchema) });
 
   const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const isRememberMe = event.target.checked;
@@ -84,7 +84,7 @@ const SignInPanel: FC<SignInProps> = ({ handleShowRecoveryInput, isShowRecoveryI
     toggleModal();
   };
 
-  const handleRecoverySubmitHandler: SubmitHandler<IRecoveryPassword> = async (data, e) => {
+  const handleRecoverySubmitHandler: SubmitHandler<IRecoveryPasswordRequest> = async (data, e) => {
     e?.stopPropagation();
     e?.preventDefault();
     console.log('Recovery email', data);

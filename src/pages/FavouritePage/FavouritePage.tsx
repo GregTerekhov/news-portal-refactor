@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useLayoutEffect, useState } from 'react';
+import React, { FC, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 
 import {
@@ -11,11 +11,10 @@ import {
 import { Loader, NewsList, PlugImage } from 'components';
 
 const FavouritePage: FC<{}> = () => {
-  const [changesHappened, setChangesHappened] = useState<boolean>(false);
+  // const [changesHappened, setChangesHappened] = useState<boolean>(false);
   // const [deletedNewsIndex, setDeletedNewsIndex] = useState<number | null>(null);
   const { isAuthenticated } = useAuthCollector();
-  const { allFavourites, savedNews, isLoadingDBData, getFavourites, getSavedNews, addVotedNews } =
-    useNewsDBCollector();
+  const { allFavourites, isLoadingDBData, getFavourites, getSavedNews } = useNewsDBCollector();
   const location = useLocation();
   const activeLinks = useActiveLinks(location);
   const { rebuildedNews } = useChooseRenderingNews({ activeLinks });
@@ -29,17 +28,17 @@ const FavouritePage: FC<{}> = () => {
   //   setDeletedNewsIndex(index);
   // };
 
-  useLayoutEffect(() => {
-    if (changesHappened && savedNews) {
-      addVotedNews(savedNews);
-      setChangesHappened(false);
-      // setDeletedNewsIndex(null);
-    }
-  }, [changesHappened, addVotedNews]);
+  // useLayoutEffect(() => {
+  //   if (changesHappened && savedNews) {
+  //     addVotedNews(savedNews);
+  //     setChangesHappened(false);
+  //     // setDeletedNewsIndex(null);
+  //   }
+  // }, [changesHappened, addVotedNews]);
 
-  const handleChangeVotes = () => {
-    setChangesHappened(true);
-  };
+  // const handleChangeVotes = () => {
+  //   setChangesHappened(true);
+  // };
 
   const shouldShowLoader = isLoadingDBData;
   const shouldShowContent = !isLoadingDBData && allFavourites.length !== 0;
@@ -51,7 +50,7 @@ const FavouritePage: FC<{}> = () => {
         {shouldShowContent && (
           <NewsList
             currentItems={rebuildedNews}
-            onChange={handleChangeVotes}
+            // onChange={handleChangeVotes}
             // onDeleteNews={handleDeleteNews}
           />
         )}

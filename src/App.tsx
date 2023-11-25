@@ -7,8 +7,6 @@ import { useAuthCollector } from './hooks';
 
 import { AccountLayout, Layout } from './layouts';
 import { Loader } from './components';
-// import { useAppDispatch } from 'reduxStore/hooks';
-// import { fetchCurrentUser } from 'reduxStore/auth';
 // import { Loader } from './components';
 
 const HomePage = lazy(() => import('./pages/HomePage/HomePage'));
@@ -22,7 +20,6 @@ const ErrorPage = lazy(() => import('./pages/ErrorPage/ErrorPage'));
 function App() {
   // const { isAuthenticated, isRefreshingUser, fetchCurrentAuthUser } = useAuthCollector();
   const { isRefreshingUser } = useAuthCollector();
-  // const dispatch = useAppDispatch();
 
   // useEffect(() => {
   //   // if (user && user.id) {

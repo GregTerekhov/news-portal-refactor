@@ -6,7 +6,7 @@ import {
   SignInCredentials,
   IUpdateEmail,
   IUpdatePassword,
-  IRecoveryPassword,
+  IRecoveryPasswordRequest,
 } from 'types';
 
 import SvgIcon from './SvgIcon';
@@ -28,7 +28,7 @@ export type Values =
   | IUpdatePassword
   | SignUpCredentials
   | SignInCredentials
-  | IRecoveryPassword;
+  | IRecoveryPasswordRequest;
 
 interface InputProps {
   inputData: InputCollectedData;

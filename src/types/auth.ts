@@ -31,6 +31,14 @@ export interface IUpdatePassword {
   oldPassword: string;
 }
 
-export interface IRecoveryPassword {
+export interface IRecoveryPasswordRequest {
   recoveryEmail: string;
+}
+
+export interface IRecoveryPasswordChange {
+  changedPassword: string;
+}
+
+export interface IThirdPartyAuth {
+  tokenAuth: string;
 }

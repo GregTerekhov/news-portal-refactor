@@ -31,20 +31,11 @@ const usePagination = (rebuildedNews: PartialVotedNewsArray) => {
     otherDesktopCardsPerPage,
   );
 
-  console.log('mobilePages', mobilePages);
-  console.log('last', mobilePages[mobilePages.length - 1]);
-  console.log('tabletPages', tabletPages);
-  console.log('desktopPages', desktopPages);
-
   const currentCardsPerPage = getCurrentCardsPerPage();
   const calculatedFirstIndexes = calculateFirstIndexes();
 
-  console.log('currentCardsPerPage', currentCardsPerPage);
-
   useEffect(() => {
     if (rebuildedNews && rebuildedNews?.length > 0) {
-      console.log('rebuildedNews', rebuildedNews);
-
       const calculationOfLastElements = currentPage * currentCardsPerPage - 1 >= totalPages;
       let indexOfLastItem: number;
       let indexOfFirstItem: number;
@@ -74,7 +65,6 @@ const usePagination = (rebuildedNews: PartialVotedNewsArray) => {
       const items = rebuildedNews.slice(indexOfFirstItem, indexOfLastItem);
       setCurrentItems(items);
     }
-    console.log('currentItems', currentItems);
   }, [popularNews, newsByKeyword, newsByCategory, newsByDate, filteredNews, currentPage]);
 
   // Розрахунок кількості сторінок для кожного типу пристрою
@@ -100,6 +90,7 @@ const usePagination = (rebuildedNews: PartialVotedNewsArray) => {
     }
   }
 
+  //Вирахування залишку карток на останній сторінці
   function calculateRemainingCards(cards: number[], totalCards: number): number {
     // Вираховуємо суму всіх чисел, окрім останнього елемента
     const sum = cards && cards.slice(0, -1).reduce((acc, num) => acc + num, 0);
@@ -110,11 +101,12 @@ const usePagination = (rebuildedNews: PartialVotedNewsArray) => {
     return remainingCards;
   }
 
+  //Калькуляція першого індексу для останніх сторінок
   function calculateFirstIndexes() {
     try {
-      let firstIndexForLastMobilePage = calculateRemainingCards(mobilePages, totalPages);
-      let firstIndexForLastTabletPage = calculateRemainingCards(tabletPages, totalPages);
-      let firstIndexForLastDesktopPage = calculateRemainingCards(desktopPages, totalPages);
+      const firstIndexForLastMobilePage = calculateRemainingCards(mobilePages, totalPages);
+      const firstIndexForLastTabletPage = calculateRemainingCards(tabletPages, totalPages);
+      const firstIndexForLastDesktopPage = calculateRemainingCards(desktopPages, totalPages);
 
       const firstIndexes = {
         firstIndexForLastMobilePage,
@@ -128,11 +120,36 @@ const usePagination = (rebuildedNews: PartialVotedNewsArray) => {
     }
   }
 
+  // function getFirstPageCount() {
+  //   if (breakpointsForMarkup?.isNothing || breakpointsForMarkup?.isMobile) {
+  //     return 4;
+  //   } else if (breakpointsForMarkup?.isTablet) {
+  //     return 7;
+  //   } else {
+  //     return 8;
+  //   }
+  // }
+
+  // function getOtherPageCount() {
+  //   if (breakpointsForMarkup?.isNothing || breakpointsForMarkup?.isMobile) {
+  //     return 5;
+  //   } else if (breakpointsForMarkup?.isTablet) {
+  //     return 8;
+  //   } else {
+  //     return 9;
+  //   }
+  // }
+
+  //Розрахунок необхідної кількості кнопок пагінації
   const pageNumbers: number[] = [];
 
   let pageQuantity: number;
-  if (currentPage > 1) {
-    pageQuantity = Math.ceil(totalPages / currentCardsPerPage + 1);
+  if (currentPage !== 1) {
+    if (breakpointsForMarkup?.isNothing || breakpointsForMarkup?.isMobile) {
+      pageQuantity = Math.ceil(totalPages / currentCardsPerPage + 1);
+    } else {
+      pageQuantity = Math.ceil(totalPages / currentCardsPerPage);
+    }
   } else {
     pageQuantity = Math.ceil(totalPages / currentCardsPerPage);
   }

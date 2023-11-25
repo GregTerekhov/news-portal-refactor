@@ -8,18 +8,16 @@ import WeatherBlock from './WeatherBlock/WeatherBlock';
 interface NewsListProps {
   currentItems: PartialVotedNewsArray;
   currentPage?: number;
-  onChange: () => void;
+  // onChange: () => void;
   // onDeleteNews: (index: number) => void;
 }
 
 const NewsList: FC<Partial<NewsListProps>> = ({
   currentItems,
   currentPage,
-  onChange,
+  // onChange,
   // onDeleteNews = () => {},
 }) => {
-  // console.log('CURR_ITEMS', currentItems);
-
   return (
     <ul className='max-md:space-y-7 md:grid md:grid-cols-2 md:gap-[30px] lg:grid-cols-3 lg:gap-x-8 lg:gap-y-10 hg:gap-10 mb-10 md:mb-12 lg:mb-[60px]'>
       {currentPage && currentPage === 1 && (
@@ -39,7 +37,7 @@ const NewsList: FC<Partial<NewsListProps>> = ({
           >
             <NewsItem
               liveNews={newsItem}
-              onChange={onChange}
+              // onChange={onChange}
               // onDelete={() => onDeleteNews(index)}
             />
           </li>

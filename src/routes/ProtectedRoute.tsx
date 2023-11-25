@@ -1,7 +1,7 @@
 import React, { FC, ReactElement } from 'react';
+import { Navigate, Outlet, useLocation } from 'react-router-dom';
 
 import { useAuthCollector } from 'hooks';
-import { Navigate, Outlet, useLocation } from 'react-router-dom';
 
 export type ProtectedRouteProps = {
   children?: ReactElement;
