@@ -12,7 +12,7 @@ import {
 import { Hero, NewsFilterManager, PageScrollController, ThemeSwitcher } from 'components';
 
 import Header from './Header';
-import Footer from './Footer';
+import Footer from './Footer/Footer';
 
 const Layout: FC = () => {
   const { breakpointsForMarkup } = useWindowWidth() ?? {
