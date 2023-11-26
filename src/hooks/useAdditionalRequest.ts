@@ -215,6 +215,7 @@ const useAdditionalRequest = () => {
   };
 
   return {
+    query,
     headline,
     selectedRequestDate,
     categoriesForDropdown,
