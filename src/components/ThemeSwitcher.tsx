@@ -8,6 +8,7 @@ import { SvgIcon } from 'ui';
 enum VariantSwitcher {
   Modal = 'modal',
   Header = 'header',
+  Footer = 'footer',
 }
 
 interface ThemeSwitcherProps {
@@ -21,9 +22,21 @@ const ThemeSwitcher: FC<ThemeSwitcherProps> = ({ variant }) => {
   };
 
   let spacing: string = '';
+  let colorLeftLabel: string = '';
+  let strokeLeftIcon: string = '';
 
   if (variant === VariantSwitcher.Header) {
     spacing = 'justify-end';
+  }
+
+  if (variant === 'footer') {
+    colorLeftLabel = enabled ? 'text-greyAlt' : 'text-whiteBase';
+    strokeLeftIcon = enabled ? 'stroke-greyAlt' : 'stroke-whiteBase';
+  }
+
+  if (variant !== VariantSwitcher.Footer) {
+    colorLeftLabel = enabled ? 'text-greyBase' : 'text-accentAlt';
+    strokeLeftIcon = enabled ? 'stroke-greyBase' : 'stroke-accentAlt';
   }
 
   useEffect(() => {
@@ -47,19 +60,9 @@ const ThemeSwitcher: FC<ThemeSwitcherProps> = ({ variant }) => {
   return (
     <div className={`flex items-center gap-2 ${spacing}`}>
       {breakpointsForMarkup?.isDesktop ? (
-        <p
-          className={`font-header text-xl leading-tighter ${
-            enabled ? 'text-whiteBase' : 'text-accentAlt'
-          }`}
-        >
-          Light
-        </p>
+        <p className={`font-header text-xl leading-tighter ${colorLeftLabel}`}>Light</p>
       ) : (
-        <SvgIcon
-          svgName='icon-sun'
-          size={21}
-          className={`fill-transparent ${enabled ? 'stroke-greyBase' : 'stroke-accentAlt'}`}
-        />
+        <SvgIcon svgName='icon-sun' size={21} className={`fill-transparent ${strokeLeftIcon}`} />
       )}
       <Switch
         checked={enabled}
@@ -82,7 +85,7 @@ const ThemeSwitcher: FC<ThemeSwitcherProps> = ({ variant }) => {
       {breakpointsForMarkup?.isDesktop ? (
         <p
           className={`font-header text-xl leading-tighter ${
-            enabled ? 'text-accentAlt' : 'text-greyBase'
+            enabled ? 'text-whiteBase' : 'text-greyAlt'
           }`}
         >
           Dark
@@ -91,7 +94,7 @@ const ThemeSwitcher: FC<ThemeSwitcherProps> = ({ variant }) => {
         <SvgIcon
           svgName='icon-moon'
           size={21}
-          className={`fill-transparent ${enabled ? 'stroke-accentAlt' : 'stroke-greyBase'}`}
+          className={`fill-transparent ${enabled ? 'stroke-whiteBase' : 'stroke-greyAlt'}`}
         />
       )}
     </div>

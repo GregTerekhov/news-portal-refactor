@@ -116,7 +116,7 @@ export const recoveryPasswordRequest = createAsyncThunk(
   async (email: IRecoveryPasswordRequest, { rejectWithValue }) => {
     try {
       const response = await axios.patch(`${BASE_URL}/auth/forgot-password-request`, email);
-      // додати в header accessToken
+      // додати в header accessToken витягнути з URLSearchParams
       return response.data;
     } catch (error: any) {
       return rejectWithValue(error.message);
@@ -129,7 +129,6 @@ export const recoveryPasswordChange = createAsyncThunk(
   async (changedPassword: IRecoveryPasswordChange, { rejectWithValue }) => {
     try {
       const response = await axiosInstance.patch('auth/forgot-password-change', changedPassword);
-
       return response.data;
     } catch (error: any) {
       return rejectWithValue(error.message);
@@ -142,7 +141,7 @@ export const googleAuth = createAsyncThunk(
   async (tokenAuth: IThirdPartyAuth, { rejectWithValue }) => {
     try {
       // token.set(tokenAuth); // set accessToken in Header
-      const response = await axiosInstance.get('/auth/current');
+      const response = await axios.get(`${BASE_URL}/auth/google`);
       response.data.accessToken = tokenAuth;
       console.log(response.data);
       return response.data;
@@ -156,7 +155,7 @@ export const facebookAuth = createAsyncThunk(
   async (tokenAuth: IThirdPartyAuth, { rejectWithValue }) => {
     try {
       // token.set(tokenAuth); // set accessToken in Header
-      const response = await axiosInstance.get('/auth/current');
+      const response = await axiosInstance.get('/auth/facebook');
       response.data.accessToken = tokenAuth;
       console.log(response.data);
       return response.data;
@@ -170,7 +169,7 @@ export const appleAuth = createAsyncThunk(
   async (tokenAuth: IThirdPartyAuth, { rejectWithValue }) => {
     try {
       // token.set(tokenAuth); // set accessToken in Header
-      const response = await axiosInstance.get('/auth/current');
+      const response = await axiosInstance.get('/auth/apple');
       response.data.accessToken = tokenAuth;
       console.log(response.data);
       return response.data;

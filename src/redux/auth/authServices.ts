@@ -15,14 +15,14 @@ const axiosInstance = axios.create({
 axiosInstance.interceptors.request.use(
   (config) => {
     const state = store.getState() as RootState;
-    console.log('state', state);
+    // console.log('state', state);
     const accessToken = state.auth.accessToken;
-    console.log('accessToken', accessToken);
+    // console.log('accessToken', accessToken);
 
     if (accessToken) {
       config.headers.Authorization = `Bearer ${accessToken}`;
     }
-    console.log('config', config);
+    // console.log('config', config);
     return config;
   },
   (error) => {
@@ -34,7 +34,7 @@ axiosInstance.interceptors.response.use(
   async (response) => response,
   async (error) => {
     const originalRequest = error.config;
-    console.log('originalRequest', originalRequest);
+    // console.log('originalRequest', originalRequest);
 
     if (originalRequest.url !== '/auth/sign-in' && error.response) {
       if (error.response.status === 401 && !originalRequest._retry) {
@@ -51,10 +51,10 @@ axiosInstance.interceptors.response.use(
 
           setTokens(response.data);
           originalRequest.headers['Authorization'] = `Bearer ${response.data.accessToken}`;
-          console.log(
-            ' originalRequest.headers["Authorization"]',
-            originalRequest.headers['Authorization'],
-          );
+          // console.log(
+          // ' originalRequest.headers["Authorization"]',
+          // originalRequest.headers['Authorization'],
+          // );
           return axiosInstance(originalRequest);
         } catch (error) {
           console.error('Error refreshing tokens: ', error);

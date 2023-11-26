@@ -16,8 +16,14 @@ import plugImgLgx2 from 'assets/images/desktopPlug@2x.png';
 import plugImgLgWebpx2 from 'assets/images/desktopPlug@2x.webp';
 import plugImgLgx3 from 'assets/images/desktopPlug@3x.png';
 import plugImgLgWebpx3 from 'assets/images/desktopPlug@3x.webp';
+import member1 from 'assets/images/member1.jpg';
+import member1Webp from 'assets/images/member1.webp';
+import member1x2 from 'assets/images/member1@2x.jpg';
+import member1Webpx2 from 'assets/images/member1@2x.webp';
+import member1x3 from 'assets/images/member1@3x.jpg';
+import member1Webpx3 from 'assets/images/member1@3x.webp';
 
-const plugImages = [
+export const plugImages = [
   { src: plugImgLgWebpx3, type: 'image/webp', dpi: 3, screenSize: 1280 },
   { src: plugImgLgx3, type: 'image/png', dpi: 3, screenSize: 1280 },
   { src: plugImgLgWebpx2, type: 'image/webp', dpi: 2, screenSize: 768 },
@@ -38,4 +44,23 @@ const plugImages = [
   { src: plugImgSm, type: 'image/png', dpi: 1, screenSize: 320 },
 ];
 
-export default plugImages;
+export const memberImages = [
+  { src: member1Webpx3, type: 'image/webp', dpi: 3, screenSize: 1280 },
+  { src: member1x3, type: 'image/webp', dpi: 3, screenSize: 1280 },
+  { src: member1Webpx2, type: 'image/webp', dpi: 2, screenSize: 768 },
+  { src: member1x2, type: 'image/webp', dpi: 2, screenSize: 768 },
+  { src: member1Webp, type: 'image/webp', dpi: 1, screenSize: 320 },
+  { src: member1, type: 'image/webp', dpi: 1, screenSize: 320 },
+  { src: member1Webpx3, type: 'image/webp', dpi: 3, screenSize: 1280 },
+  { src: member1x3, type: 'image/webp', dpi: 3, screenSize: 1280 },
+  { src: member1Webpx2, type: 'image/webp', dpi: 2, screenSize: 768 },
+  { src: member1x2, type: 'image/webp', dpi: 2, screenSize: 768 },
+  { src: member1Webp, type: 'image/webp', dpi: 1, screenSize: 320 },
+  { src: member1, type: 'image/webp', dpi: 1, screenSize: 320 },
+  { src: member1Webpx3, type: 'image/webp', dpi: 3, screenSize: 1280 },
+  { src: member1x3, type: 'image/webp', dpi: 3, screenSize: 1280 },
+  { src: member1Webpx2, type: 'image/webp', dpi: 2, screenSize: 768 },
+  { src: member1x2, type: 'image/webp', dpi: 2, screenSize: 768 },
+  { src: member1Webp, type: 'image/webp', dpi: 1, screenSize: 320 },
+  { src: member1, type: 'image/webp', dpi: 1, screenSize: 320 },
+];
