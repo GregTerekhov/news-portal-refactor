@@ -3,6 +3,7 @@ import { useLocation } from 'react-router-dom';
 
 import {
   useActiveLinks,
+  useAdditionalRequest,
   useAuthCollector,
   useChooseRenderingNews,
   useNewsAPICollector,
@@ -26,6 +27,7 @@ const HomePage: FC = () => {
     rebuildedNews ?? [],
   );
   const { isAuthenticated } = useAuthCollector();
+  const { headline } = useAdditionalRequest();
 
   useEffect(() => {
     fetchPopular('1');
@@ -56,7 +58,9 @@ const HomePage: FC = () => {
             <PlugImage variant='page' />
           ) : (
             <>
-              <h2 className='dark:text-whiteBase text-giant font-bold mb-6'>Popular News</h2>
+              <h2 className='dark:text-whiteBase text-giant font-bold mb-6'>
+                {headline && headline}
+              </h2>
               <NewsList
                 currentItems={currentItems}
                 currentPage={currentPage}
