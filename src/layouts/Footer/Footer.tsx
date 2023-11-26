@@ -13,7 +13,7 @@ const Footer: FC<{}> = () => {
       <div className='container relative mx-auto px-4'>
         <div className={`${isAuthenticated ? 'flex justify-between' : ''}`}>
           <FooterMenu />
-          <div className={`${isAuthenticated ? 'flex items-end' : 'justify-end'}`}>
+          <div className={`flex ${isAuthenticated ? 'items-end' : 'justify-end'}`}>
             <ThemeSwitcher variant='footer' />
           </div>
         </div>

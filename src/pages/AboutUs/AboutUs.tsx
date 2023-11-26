@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 
-import { memberImages } from 'constants';
+import { memberFirstImages, memberThirdImages } from 'constants';
 import { generateContentImages } from 'helpers';
 
 import { MembersLink } from './subcomponents';
@@ -21,7 +21,14 @@ const AboutUs: FC<{}> = () => {
   const devicePixelRatio = window.devicePixelRatio || 1;
 
   const matchedFirstMemberImage = generateContentImages(
-    memberImages,
+    memberFirstImages,
+    devicePixelRatio,
+    'image/webp',
+    window.innerWidth,
+  );
+
+  const matchedThirdMemberImage = generateContentImages(
+    memberThirdImages,
     devicePixelRatio,
     'image/webp',
     window.innerWidth,
@@ -49,7 +56,7 @@ const AboutUs: FC<{}> = () => {
           memberName: 'Max Mordovcev',
           memberRole: 'Developer',
           memberCV: '',
-          githubLink: '',
+          githubLink: 'https://github.com/Max3281',
           linkedinLink: '',
           emailLink: '',
           telegramLink: '',
@@ -60,15 +67,16 @@ const AboutUs: FC<{}> = () => {
       groupTitle: 'Back-end',
       groupMembers: [
         {
-          memberImage: '',
+          memberImage: matchedThirdMemberImage?.src,
           imageDescription: 'Dmytro Pavlenko',
           memberName: 'Dmytro Pavlenko',
           memberRole: 'Developer',
-          memberCV: '',
-          githubLink: '',
+          memberCV:
+            'https://drive.google.com/file/d/15pBheHpJaq_u8UyXg0W31FrZEey5Z3vC/view?usp=sharing',
+          githubLink: 'https://github.com/PavlenkoDm',
           linkedinLink: '',
-          emailLink: '',
-          telegramLink: '',
+          emailLink: 'mailto:dmpavlenko07@gmail.com',
+          telegramLink: 'http://t.me/Pavlenko_Dm',
         },
       ],
     },
