@@ -1,1 +1,3 @@
-export { default as SkeletonEl } from './SkeletonEl';
+export { default as SkeletonPage } from './SkeletonPage';
+export { default as SkeletonPagination } from './SkeletonPagination';
+export { default as SkeletonWeather } from './SkeletonWeather';

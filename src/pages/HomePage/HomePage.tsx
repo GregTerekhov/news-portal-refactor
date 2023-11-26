@@ -18,16 +18,18 @@ import { usePagination } from './hooks';
 const HomePage: FC = () => {
   const { isLoadingAPIData, fetchPopular } = useNewsAPICollector();
   const { isLoadingDBData, getSavedNews } = useNewsDBCollector();
+  const { isAuthenticated } = useAuthCollector();
+  const { headline } = useAdditionalRequest();
   // const [changesHappened, setChangesHappened] = useState<boolean>(false);
-
+  // const isLoadingDBData = true;
+  // const isLoadingAPIData = true;
   const location = useLocation();
   const activeLinks = useActiveLinks(location);
+
   const { rebuildedNews } = useChooseRenderingNews({ activeLinks });
   const { currentItems, currentPage, pageNumbers, setCurrentPage } = usePagination(
     rebuildedNews ?? [],
   );
-  const { isAuthenticated } = useAuthCollector();
-  const { headline } = useAdditionalRequest();
 
   useEffect(() => {
     fetchPopular('1');
