@@ -12,7 +12,7 @@ const SvgIcon: FC<SvgIncomingData> = (svgData) => {
   const { svgName, size, className } = svgData;
 
   return (
-    <svg width={size} height={size} className={`${className}`}>
+    <svg width={size} height={size} className={`transition-colors duration-500 ${className}`}>
       <use href={icons + `#${svgName}`}></use>
     </svg>
   );

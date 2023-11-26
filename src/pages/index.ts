@@ -1,3 +1,4 @@
+export { default as AboutUs } from './AboutUs/AboutUs';
 export { default as AccountPage } from './AccountPage/AccountPage';
 export { default as AccountManagePage } from './AccountManagePage/AccountManagePage';
 export { default as ArchivePage } from './ArchivePage/ArchivePage';

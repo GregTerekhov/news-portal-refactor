@@ -1,6 +1,7 @@
 import React, { FC } from 'react';
 
-import { generateContentImages, IMAGES } from './assistants';
+import { plugImages } from 'constants';
+import { generateContentImages } from 'helpers';
 
 const enum VariantImage {
   Page = 'page',
@@ -15,7 +16,7 @@ const PlugImage: FC<PlugImageProps> = ({ variant }) => {
   const devicePixelRatio = window.devicePixelRatio || 1;
 
   const matchedPlugImage = generateContentImages(
-    IMAGES,
+    plugImages,
     devicePixelRatio,
     'image/webp',
     window.innerWidth,

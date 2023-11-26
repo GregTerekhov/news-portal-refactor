@@ -30,8 +30,10 @@ const persistConfig = {
 const authPersistConfig = {
   key: 'auth',
   storage,
-  whitelist: ['userTheme', 'accessToken'],
+  whitelist: ['userTheme', 'accessToken', 'refreshToken'],
 };
+
+// ('isLoggedIn');
 
 const NewsDBPersistConfig = {
   key: 'newsDB',

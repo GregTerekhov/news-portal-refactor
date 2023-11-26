@@ -10,6 +10,7 @@ const useActiveLinks = (location: Location) => {
       isArchiveActive: location.pathname === '/archive',
       isAccountPage: location.pathname === '/account',
       isManageAccountPage: location.pathname === '/account-manage',
+      isAboutUs: location.pathname === '/about-us',
     }),
     [location.pathname],
   );

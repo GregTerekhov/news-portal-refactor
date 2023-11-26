@@ -15,6 +15,7 @@ interface ModalProps {
 enum S {
   Auth = 'auth',
   Weather = 'weather',
+  CV = 'CV',
 }
 
 const Modal: FC<ModalProps> = ({ children, closeModal, modalRef, variant }) => {

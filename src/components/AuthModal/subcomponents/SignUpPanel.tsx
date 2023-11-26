@@ -110,7 +110,7 @@ const SignUpPanel: FC<{}> = () => {
             </li>
           ))}
       </ul>
-      <p className='text-darkBase dark:text-whiteBase text-end mb-4 transition-colors duration-500'>
+      <p className='text-darkBase dark:text-whiteBase mb-4 transition-colors duration-500'>
         Click if you have accounts in:
       </p>
       {breakpointsForMarkup?.isNothing || breakpointsForMarkup?.isMobile ? (

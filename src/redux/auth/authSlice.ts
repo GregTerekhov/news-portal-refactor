@@ -134,7 +134,7 @@ const authSlice = createSlice({
       })
       .addCase(updateUserEmail.fulfilled, (state, action) => {
         state.isCurrentUser = false;
-        state.user.email = action.payload;
+        state.user.email = action.payload.newEmail;
       })
       .addCase(updateUserEmail.rejected, (state, action) => {
         state.hasError = action.error;
@@ -146,8 +146,8 @@ const authSlice = createSlice({
       .addCase(googleAuth.fulfilled, (state, action) => {
         state.isCurrentUser = false;
         state.user = action.payload.user;
-        state.accessToken = action.payload.accessToken;
-        state.refreshToken = action.payload.refreshToken;
+        state.accessToken = action.payload.access;
+        state.refreshToken = action.payload.refresh;
         state.isLoggedIn = true;
       })
       .addCase(googleAuth.rejected, (state, action) => {

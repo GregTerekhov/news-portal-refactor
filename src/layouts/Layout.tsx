@@ -1,12 +1,18 @@
 import React, { FC, useEffect } from 'react';
 import { Outlet, useLocation } from 'react-router-dom';
 
-import { useActiveLinks, useAuthCollector, useNewsAPICollector, useWindowWidth } from 'hooks';
+import {
+  useActiveLinks,
+  useAuthCollector,
+  useChooseRenderingNews,
+  useNewsAPICollector,
+  useWindowWidth,
+} from 'hooks';
 
 import { Hero, NewsFilterManager, PageScrollController, ThemeSwitcher } from 'components';
 
 import Header from './Header';
-// import Footer from './Footer';
+import Footer from './Footer';
 
 const Layout: FC = () => {
   const { breakpointsForMarkup } = useWindowWidth() ?? {
@@ -18,6 +24,8 @@ const Layout: FC = () => {
   const location = useLocation();
   const activeLinks = useActiveLinks(location);
 
+  const { rebuildedNews } = useChooseRenderingNews({ activeLinks });
+
   useEffect(() => {
     if (isAuthenticated) {
       fetchCategoriesList();
@@ -25,27 +33,28 @@ const Layout: FC = () => {
   }, [isAuthenticated, fetchCategoriesList]);
 
   const shouldShowPageScrollController =
-    (activeLinks?.isHomeActive && breakpointsForMarkup?.isTablet) ||
-    (activeLinks?.isHomeActive && breakpointsForMarkup?.isDesktop) ||
-    (activeLinks?.isArchiveActive && breakpointsForMarkup?.isTablet) ||
-    (activeLinks?.isArchiveActive && breakpointsForMarkup?.isDesktop);
+    (activeLinks?.isHomeActive && breakpointsForMarkup?.isTablet && rebuildedNews?.length > 0) ||
+    (activeLinks?.isHomeActive && breakpointsForMarkup?.isDesktop && rebuildedNews?.length > 0) ||
+    (activeLinks?.isArchiveActive && breakpointsForMarkup?.isTablet && rebuildedNews?.length > 0) ||
+    (activeLinks?.isArchiveActive && breakpointsForMarkup?.isDesktop && rebuildedNews?.length > 0);
 
   const isAccountPages = activeLinks.isAccountPage || activeLinks.isManageAccountPage;
+  const shouldShowFiltersManager = isAccountPages || activeLinks?.isAboutUs;
 
   return (
-    <div className='max-h-sectionSmall md:max-h-sectionMedium lg:max-h-sectionLarge h-screen w-full flex flex-col justify-between'>
+    <div className='max-h-sectionSmall md:max-h-sectionMedium lg:max-h-sectionLarge h-full w-full flex flex-col justify-between'>
       <Header />
       <main>
         {activeLinks.isHomeActive && <Hero />}
         <section
-          className={`w-screen bg-whiteBase dark:bg-darkBackground transition-colors duration-500 max-h-screen ${
+          className={`w-screen bg-whiteBase dark:bg-darkBackground transition-colors duration-500 h-full ${
             activeLinks.isArchiveActive || activeLinks.isFavoriteActive || activeLinks.isReadActive
               ? 'pt-10 md:pt-12 lg:pt-[60px]'
               : 'pt-6 md:pt-7'
           } pb-[60px] md:pb-[100px] lg:pb-[150px]`}
         >
           <div className='container mx-auto px-4 hg:px-[65px]'>
-            {isAuthenticated && !isAccountPages ? <NewsFilterManager /> : null}
+            {isAuthenticated && !shouldShowFiltersManager ? <NewsFilterManager /> : null}
             {(!isAuthenticated && breakpointsForMarkup?.isNothing) ||
             breakpointsForMarkup?.isMobile ? (
               <div className='flex justify-end mb-10'>
@@ -68,13 +77,11 @@ const Layout: FC = () => {
                 />
               </>
             ) : null}
-            {/* <Suspense fallback={null}> */}
             <Outlet />
-            {/* </Suspense> */}
           </div>
         </section>
       </main>
-      {/* <Footer /> */}
+      <Footer />
     </div>
   );
 };

@@ -24,7 +24,7 @@ const Auth: FC<{}> = () => {
 
   return (
     <>
-      <div className='flex items-center justify-center'>
+      <div className='max-lg:flex max-lg:items-center max-lg:justify-center'>
         <PrimaryButton
           id={breakpointsForMarkup?.isDesktop ? 'Auth button for signin and signout' : ''}
           ariaLabel={!breakpointsForMarkup?.isDesktop ? 'Auth button for signin and signout' : ''}
@@ -36,10 +36,8 @@ const Auth: FC<{}> = () => {
           svgName={`${isAuthenticated ? 'icon-signout' : 'icon-auth'}`}
           svgSize={breakpointsForMarkup?.isDesktop ? 28 : 24}
           classNameIcon='fill-whiteBase'
-          classNameButton={`${
-            breakpointsForMarkup?.isDesktop
-              ? ''
-              : 'border-transparent dark:border-whiteBase bg-accentBase hover:bg-accentAlt transition-colors duration-500 p-1.5'
+          classNameButton={`border border-solid border-transparent dark:border-whiteBase bg-accentBase hover:bg-accentAlt transition-colors duration-500 ${
+            breakpointsForMarkup?.isDesktop ? '' : 'border-transparent p-1.5'
           }`}
         >
           {breakpointsForMarkup?.isDesktop ? (isAuthenticated ? 'Sign Out' : 'Auth') : null}

@@ -127,7 +127,7 @@ const SignInPanel: FC<SignInProps> = ({ handleShowRecoveryInput, isShowRecoveryI
         <button
           id='Show password recovery input'
           type='button'
-          className={`text-small md:text-medium text-darkBase dark:text-whiteBase py-2 ${
+          className={`text-medium text-darkBase dark:text-whiteBase py-2 ${
             isShowRecoveryInput && 'mb-3'
           }`}
           onClick={handleShowRecoveryInput}

@@ -22,7 +22,7 @@ const NewsList: FC<Partial<NewsListProps>> = ({
     <ul className='max-md:space-y-7 md:grid md:grid-cols-2 md:gap-[30px] lg:grid-cols-3 lg:gap-x-8 lg:gap-y-10 hg:gap-10 mb-10 md:mb-12 lg:mb-[60px]'>
       {currentPage && currentPage === 1 && (
         <li
-          className={`max-md:h-[515px] shadow-card overflow-hidden rounded-[10px] dark:shadow-darkCard  duration-500 md:col-start-2 lg:col-start-3`}
+          className={`max-md:h-[515px] shadow-card overflow-hidden rounded-[10px] dark:shadow-darkCard duration-500 md:col-start-2 lg:col-start-3`}
         >
           <WeatherBlock />
         </li>
