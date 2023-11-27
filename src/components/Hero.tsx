@@ -3,14 +3,14 @@ import React, { FC } from 'react';
 import LiteYouTubeEmbed from 'react-lite-youtube-embed';
 import 'react-lite-youtube-embed/dist/LiteYouTubeEmbed.css';
 
-import desktopPlug from 'assets/images/desktopPlug.png';
+// import desktopPlug from 'assets/images/desktopPlug.png';
 
-interface IHardYouTube {
-  id: string;
-  title: string;
-  params: string;
-  activeClass: string;
-}
+// interface IHardYouTube {
+//   id: string;
+//   title: string;
+//   params: string;
+//   activeClass: string;
+// }
 
 const Hero: FC<{}> = () => {
   // const HardYouTube: IHardYouTube = new LiteYouTubeEmbed();
