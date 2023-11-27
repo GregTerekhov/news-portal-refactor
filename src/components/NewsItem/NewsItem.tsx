@@ -21,14 +21,18 @@ const NewsItem: FC<Partial<NewsItemProps>> = ({
   liveNews = {},
   // onChange = () => {},
 }) => {
-  const { isFavourite, hasRead, handleChangeFavourites, handleReadNews, handleDeleteNews } =
-    useNews({ liveNews });
   const { isAuthenticated } = useAuthCollector();
 
   // const isAuthenticated = true;
   const location = useLocation();
   const activeLinks = useActiveLinks(location);
+  const { isFavourite, hasRead, handleChangeFavourites, handleReadNews, handleDeleteNews } =
+    useNews({ liveNews, activeLinks });
 
+  const locationShowHasReadStatus = activeLinks.isHomeActive || activeLinks.isArchiveActive;
+  if (liveNews) {
+    console.log(liveNews);
+  }
   return (
     <>
       {liveNews && liveNews?.newsUrl && (
@@ -40,8 +44,7 @@ const NewsItem: FC<Partial<NewsItemProps>> = ({
         >
           <div
             className={`${
-              (isAuthenticated && hasRead && activeLinks.isHomeActive) ||
-              activeLinks.isArchiveActive
+              isAuthenticated && hasRead && locationShowHasReadStatus
                 ? 'absolute z-20 w-full h-full bg-whiteBase/[.4]'
                 : 'hidden'
             }`}
@@ -49,7 +52,9 @@ const NewsItem: FC<Partial<NewsItemProps>> = ({
           {activeLinks.isArchiveActive ? (
             <div>
               <PrimaryButton
-                onHandleClick={handleDeleteNews}
+                onHandleClick={(e: React.MouseEvent<HTMLButtonElement>) =>
+                  handleDeleteNews(e, liveNews?._id || '')
+                }
                 variant='Small'
                 dataTooltipTarget={`tooltip-delete-${liveNews.newsUrl} news`}
                 dataTooltipPlacement='left'

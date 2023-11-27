@@ -56,6 +56,7 @@ export interface C {
 }
 
 export interface VotedItem {
+  _id?: string;
   title: string;
   description?: string;
   isFavourite: boolean | undefined; // тимчасово для уникнення помилки типів в синхронній дії addOrUpdateVotedNews

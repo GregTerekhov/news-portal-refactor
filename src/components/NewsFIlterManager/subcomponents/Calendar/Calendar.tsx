@@ -12,8 +12,8 @@ import {
 
 import { SvgIcon } from 'ui';
 
+import { useFilterNews } from '../FiltersBlock/hooks';
 import { convertLinesForCalendar } from './assistants';
-import { useFilterNews } from '../../hooks';
 import { CalendarContent } from './subcomponents';
 
 // import { useAppDispatch } from 'redux/hooks';

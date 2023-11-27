@@ -149,9 +149,9 @@ const newsDBSlice = createSlice({
         state.hasError = null;
       })
       .addCase(deleteNews.fulfilled, (state, action) => {
-        const { id } = action.payload;
         state.isLoading = false;
-        state.archivedNews = state.archivedNews.filter((news) => news.newsUrl !== id);
+        const { _id: id } = action.payload;
+        state.archivedNews = state.archivedNews.filter((news) => news._id !== id);
         state.hasError = null;
       })
       .addCase(deleteNews.rejected, (state, action) => {

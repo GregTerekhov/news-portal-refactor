@@ -79,7 +79,7 @@ const CommonMenu: FC<CommonMenuProps> = ({ isOpen, links, navId, closeMenu }) =>
                     <NavLink
                       to={link.path}
                       onClick={handleLinkClick}
-                      className={`flex items-center py-1.5 font-medium md:font-bold text-medium lg:text-xl transition-colors duration-500 ${
+                      className={`flex items-center p-1.5 font-medium md:font-bold text-medium lg:text-xl transition-colors duration-500 ${
                         link.activeLink
                           ? 'bg-accentBase text-whiteBase justify-between [clip-path:inset(0 -100vmax)]'
                           : 'text-darkBase dark:text-whiteBase'
@@ -203,7 +203,9 @@ const CommonMenu: FC<CommonMenuProps> = ({ isOpen, links, navId, closeMenu }) =>
                     }   `}
                   >
                     <div
-                      className={`${navId === 'account-navigation' && 'flex items-center gap-3.5'}`}
+                      className={`${
+                        navId === 'account-navigation' && 'flex items-center gap-3.5 px-2'
+                      }`}
                     >
                       {link.label}
                     </div>

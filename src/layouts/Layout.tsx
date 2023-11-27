@@ -11,7 +11,7 @@ import {
 
 import { Hero, NewsFilterManager, PageScrollController, ThemeSwitcher } from 'components';
 
-import Header from './Header';
+import Header from './Header/Header';
 import Footer from './Footer/Footer';
 
 const Layout: FC = () => {
@@ -39,7 +39,8 @@ const Layout: FC = () => {
     (activeLinks?.isArchiveActive && breakpointsForMarkup?.isDesktop && rebuildedNews?.length > 0);
 
   const isAccountPages = activeLinks.isAccountPage || activeLinks.isManageAccountPage;
-  const shouldShowFiltersManager = isAccountPages || activeLinks?.isAboutUs;
+  const shouldNotShowFiltersManager =
+    isAccountPages || activeLinks?.isAboutUs || activeLinks?.isArchiveActive;
 
   return (
     <div className='max-h-sectionSmall md:max-h-sectionMedium lg:max-h-sectionLarge h-full w-full flex flex-col justify-between'>
@@ -54,7 +55,7 @@ const Layout: FC = () => {
           } pb-[60px] md:pb-[100px] lg:pb-[150px]`}
         >
           <div className='container mx-auto px-4 hg:px-[65px]'>
-            {isAuthenticated && !shouldShowFiltersManager ? <NewsFilterManager /> : null}
+            {isAuthenticated && !shouldNotShowFiltersManager ? <NewsFilterManager /> : null}
             {(!isAuthenticated && breakpointsForMarkup?.isNothing) ||
             breakpointsForMarkup?.isMobile ? (
               <div className='flex justify-end mb-10'>

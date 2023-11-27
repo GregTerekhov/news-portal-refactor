@@ -30,9 +30,10 @@ export const addNews = createAsyncThunk(
 
 export const deleteNews = createAsyncThunk(
   'newsDB/delete',
-  async (newsUrl: string, { rejectWithValue }) => {
+  async (id: string, { rejectWithValue }) => {
+    console.log('deletedId: ', id);
     try {
-      const response = await axiosInstance.post('/news', newsUrl);
+      const response = await axiosInstance.delete(`/news/${id}`);
       console.log('responseDelete', response.data);
       return response.data.data;
     } catch (error: any) {

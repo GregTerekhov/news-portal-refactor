@@ -3,10 +3,9 @@ import { useNavigate } from 'react-router-dom';
 
 import { useAuthCollector, usePopUp, useWindowWidth } from 'hooks';
 
+import { AuthModal } from 'components';
 import { Modal, PrimaryButton } from 'ui';
 import { ClickHandler } from 'ui/PrimaryButton';
-
-import AuthModal from './AuthModal/AuthModal';
 
 const Auth: FC<{}> = () => {
   const { breakpointsForMarkup } = useWindowWidth() ?? {

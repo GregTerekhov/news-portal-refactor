@@ -2,10 +2,12 @@ import React, { FC, useEffect } from 'react';
 
 import { useAuthCollector, useNewsDBCollector } from 'hooks';
 
-import { Loader, NewsList, PlugImage } from 'components';
+import { NewsList } from 'layouts';
+import { Loader, PlugImage } from 'components';
 import { Accordeon } from 'ui';
 
 import { organiseNewsByMonth } from './assistants';
+import { ArchiveHistoryLog } from './subcomponents';
 
 const ArchivePage: FC<{}> = () => {
   const { isLoadingDBData, allArchive, getArchives } = useNewsDBCollector();
@@ -26,6 +28,7 @@ const ArchivePage: FC<{}> = () => {
         {shouldShowLoader && <Loader variant='page' />}
         {shouldShowContent && (
           <>
+            <ArchiveHistoryLog />
             {Object.entries(organisedNews).map(([monthYear, newsList]) => (
               <Accordeon key={monthYear} dateSeparator={monthYear} position='archivePage'>
                 <NewsList currentItems={newsList} />
