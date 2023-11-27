@@ -2,7 +2,7 @@ import React, { FC, ReactNode, RefObject } from 'react';
 
 import SvgIcon from './SvgIcon';
 
-type PrimaryButtonType = {
+export type PrimaryButtonType = {
   type: 'button' | 'submit' | 'reset';
 };
 
@@ -24,13 +24,13 @@ interface PBProps {
   variant: string;
   children?: ReactNode;
   hasIcon?: boolean;
-  svgName?: string;
+  svgName?: string | undefined;
   svgSize?: number;
-  classNameIcon?: string;
+  classNameIcon?: string | undefined;
   width?: string;
-  classNameButton?: string;
-  id?: string;
-  ariaLabel?: string;
+  classNameButton?: string | undefined;
+  id?: string | undefined;
+  ariaLabel?: string | undefined;
   dataTooltipTarget?: string;
   dataTooltipPlacement?: string;
   tooltipText?: string;

@@ -15,7 +15,7 @@ type RenderHookProps = {
 
 const useChooseRenderingNews = ({ activeLinks }: RenderHookProps) => {
   const { popularNews, newsByKeyword, newsByCategory, newsByDate } = useNewsAPICollector();
-  const { allFavourites, allReads } = useNewsDBCollector();
+  const { allFavourites, allReads, allArchive } = useNewsDBCollector();
   const { filteredNews } = useFilterCollector();
 
   const chooseRenderingNews = () => {
@@ -41,6 +41,8 @@ const useChooseRenderingNews = ({ activeLinks }: RenderHookProps) => {
       return allFavourites || [];
     } else if (allReads && allReads?.length > 0 && activeLinks?.isReadActive) {
       return allReads || [];
+    } else if (allArchive && allArchive?.length > 0 && activeLinks?.isArchiveActive) {
+      return allArchive || [];
     }
     return [];
   };

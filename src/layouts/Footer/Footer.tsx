@@ -2,7 +2,7 @@ import React, { FC } from 'react';
 
 import { useAuthCollector } from 'hooks';
 
-import ThemeSwitcher from 'components/ThemeSwitcher';
+import ThemeSwitcher from 'components/ThemeSwitcher/ThemeSwitcher';
 import { FooterMenu } from './subcomponents';
 
 const Footer: FC<{}> = () => {

@@ -1,9 +1,11 @@
 import React, { FC } from 'react';
+import { useLocation } from 'react-router-dom';
 
 import { useActiveLinks, useWindowWidth } from 'hooks';
 
 import { PrimaryButton } from 'ui';
-import { useLocation } from 'react-router-dom';
+
+import { accountButtons } from './assistants';
 
 const LinkedAccounts: FC = () => {
   const { breakpointsForMarkup } = useWindowWidth() ?? {
@@ -13,24 +15,6 @@ const LinkedAccounts: FC = () => {
   const activeLinks = useActiveLinks(location);
 
   const hasConnectedAccount = false;
-
-  const accountButtons = [
-    {
-      svgName: 'icon-google',
-      account: 'Google',
-      dataTooltipTarget: 'tooltip-Google',
-    },
-    {
-      svgName: 'icon-facebook',
-      account: 'Facebook',
-      dataTooltipTarget: 'tooltip-Facebook',
-    },
-    {
-      svgName: 'icon-apple',
-      account: 'Apple',
-      dataTooltipTarget: 'tooltip-Apple',
-    },
-  ];
 
   return (
     <>

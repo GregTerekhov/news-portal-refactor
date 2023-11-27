@@ -11,8 +11,10 @@ import {
   useWindowWidth,
 } from 'hooks';
 
-import { Menu, ThemeSwitcher, Auth, AuthModal, AccountMenu } from 'components';
+import { ThemeSwitcher, AuthModal, AccountMenu } from 'components';
 import { Modal, SvgIcon, UnverifiableInput } from 'ui';
+
+import { AuthButton, Menu } from './subcomponents';
 
 const Header: FC = () => {
   const { query, onChangeInput, onHandleSearch } = useAdditionalRequest();
@@ -135,7 +137,7 @@ const Header: FC = () => {
                   </>
                 ) : (
                   <div className='flex flex-col gap-3'>
-                    <Auth />
+                    <AuthButton />
                     <ThemeSwitcher variant='header' />
                   </div>
                 )}
@@ -143,7 +145,7 @@ const Header: FC = () => {
             </>
           ) : (
             <div className={`${isNotMobile ? 'flex flex-col gap-3' : ''}`}>
-              <Auth />
+              <AuthButton />
               {isNotMobile ? <ThemeSwitcher variant='header' /> : null}
             </div>
           )}

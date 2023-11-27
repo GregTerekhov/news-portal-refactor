@@ -8,11 +8,17 @@ import { useAppDispatch } from 'reduxStore/hooks';
 
 interface NewsItemProps {
   liveNews: Partial<VotedItem>;
+  activeLinks: {
+    isHomeActive: boolean;
+    isFavoriteActive: boolean;
+    isReadActive: boolean;
+    isArchiveActive: boolean;
+  };
 }
 
-const useNews = ({ liveNews }: NewsItemProps) => {
+const useNews = ({ liveNews, activeLinks }: NewsItemProps) => {
   const [changesHappened, setChangesHappened] = useState<boolean>(false);
-  const { savedNews, updateSavedNews, addVotedNews } = useNewsDBCollector();
+  const { savedNews, allArchive, updateSavedNews, addVotedNews, removeNews } = useNewsDBCollector();
 
   const [isFavourite, setIsFavourite] = useState<boolean>(() => getIsFavourite());
   const [hasRead, setHasRead] = useState<boolean>(() => getHasRead());
@@ -21,11 +27,33 @@ const useNews = ({ liveNews }: NewsItemProps) => {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    if (isAuthenticated && savedNews && liveNews?.newsUrl !== undefined) {
-      if (savedNews?.length !== 0) {
-        const existingNews = savedNews.find((news) => news.newsUrl === liveNews?.newsUrl);
-        const savedFavourite = existingNews?.isFavourite;
-        const savedRead = existingNews?.hasRead;
+    if (isAuthenticated) {
+      if (!activeLinks.isArchiveActive) {
+        if (savedNews && liveNews?.newsUrl !== undefined) {
+          if (savedNews?.length !== 0) {
+            const existingNews = savedNews.find((news) => news.newsUrl === liveNews?.newsUrl);
+            const savedFavourite = existingNews?.isFavourite;
+            const savedRead = existingNews?.hasRead;
+
+            if (savedFavourite === true && savedRead === true) {
+              setIsFavourite(true);
+              setHasRead(true);
+            }
+            if (savedFavourite === true && savedRead === false) {
+              setIsFavourite(true);
+            }
+            if (savedRead === true && savedFavourite === false) {
+              setHasRead(true);
+            }
+          } else {
+            return;
+          }
+        }
+      } else if (activeLinks.isArchiveActive && allArchive && allArchive.length !== 0) {
+        const existingFavourite = allArchive.find((news) => news.isFavourite);
+        const existingRead = allArchive.find((news) => news.hasRead);
+        const savedFavourite = existingFavourite?.isFavourite;
+        const savedRead = existingRead?.hasRead;
 
         if (savedFavourite === true && savedRead === true) {
           setIsFavourite(true);
@@ -37,11 +65,9 @@ const useNews = ({ liveNews }: NewsItemProps) => {
         if (savedRead === true && savedFavourite === false) {
           setHasRead(true);
         }
-      } else {
-        return;
       }
     }
-  }, [savedNews, isAuthenticated, liveNews]);
+  }, [savedNews, allArchive, isAuthenticated, liveNews]);
 
   useEffect(() => {
     if (changesHappened && savedNews) {
@@ -186,10 +212,11 @@ const useNews = ({ liveNews }: NewsItemProps) => {
     }
   };
 
-  const handleDeleteNews = (e: React.MouseEvent<HTMLButtonElement>) => {
+  const handleDeleteNews = async (e: React.MouseEvent<HTMLButtonElement>, id: string) => {
     e.stopPropagation();
     e.preventDefault();
     console.log('Delete news');
+    await removeNews(id);
   };
 
   return {
