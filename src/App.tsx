@@ -25,7 +25,7 @@ function App() {
     if (isAuthenticated) {
       fetchCurrentAuthUser();
     }
-  }, []);
+  }, [fetchCurrentAuthUser]);
 
   return (
     <Routes>

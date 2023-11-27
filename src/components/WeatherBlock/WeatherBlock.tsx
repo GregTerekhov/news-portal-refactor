@@ -3,17 +3,16 @@ import React, { FC } from 'react';
 import { useWindowWidth } from 'hooks';
 
 import { Loader } from 'components';
-import { PrimaryButton, SvgIcon } from 'ui';
+import { SvgIcon } from 'ui';
 
 import { useWeather, useWeatherCollector } from './hooks';
-import { WeatherDetailsForHours, WeatherDetailsForToday } from './subcomponents';
+import { NoWeather, WeatherDetailsForHours, WeatherDetailsForToday } from './subcomponents';
 
 const WeatherBlock: FC<{}> = () => {
   const {
     hasGeolocationPermission,
     isCelsius,
     flippingCard,
-    requestGeolocationPermission,
     toggleTemperatureScale,
     flipWeatherDetails,
   } = useWeather();
@@ -26,6 +25,7 @@ const WeatherBlock: FC<{}> = () => {
   const emptyWeather = currentWeather && Object.keys(currentWeather).length === 0;
   const showLoader = isWeatherLoading && hasGeolocationPermission;
   // lg:px-[53px] забрано звідси 'py-8 px-5 md:pt-10 md:px-8'
+
   return (
     <div
       className={`${
@@ -35,24 +35,7 @@ const WeatherBlock: FC<{}> = () => {
       }  bg-accentBase w-full hg:w-[442px] h-full`}
     >
       {!isWeatherLoading && emptyWeather ? (
-        <>
-          <h2 className='text-whiteBase text-medium md:text-2xl lg:text-4xl'>
-            What a pity, this could be your weather
-          </h2>
-          <span className='mt-20 mb-28'>
-            <SvgIcon svgName='icon-moon' size={156} className='fill-transparent stroke-greyBase' />
-          </span>
-          <PrimaryButton
-            id='Geolocation permission button'
-            variant='Primary'
-            onHandleClick={requestGeolocationPermission}
-            classNameButton='border border-solid border-whiteBase'
-          >
-            {!hasGeolocationPermission
-              ? 'Give permission for your geolocation'
-              : 'Get the weather for your region'}
-          </PrimaryButton>
-        </>
+        <NoWeather />
       ) : showLoader ? (
         <Loader variant='element' />
       ) : (
@@ -97,15 +80,11 @@ const WeatherBlock: FC<{}> = () => {
               </div>
             </div>
             {currentWeather?.weather && currentWeather?.weather[0]['icon'] && (
-              <>
-                <img
-                  className='m-auto w-32 h-32 md:w-[165px] md:h-[165px]'
-                  src={`https://openweathermap.org/img/wn/${currentWeather?.weather[0]['icon']}@2x.png`}
-                  alt={currentWeather?.weather?.[0]?.description}
-                />
-
-                {currentWeather?.weather?.[0]?.description}
-              </>
+              <img
+                className='m-auto w-32 h-32 md:w-[165px] md:h-[165px]'
+                src={`https://openweathermap.org/img/wn/${currentWeather?.weather[0]['icon']}@2x.png`}
+                alt={currentWeather?.weather?.[0]?.description}
+              />
             )}
             <div className='w-full h-56 perspective-10 cursor-pointer' onClick={flipWeatherDetails}>
               <div
