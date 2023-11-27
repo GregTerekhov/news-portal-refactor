@@ -2,28 +2,24 @@ import React, { FC } from 'react';
 
 import { PartialVotedNewsArray, VotedItem } from 'types';
 
-import { NewsItem, WeatherBlock } from 'components';
+import { Loader, NewsItem, WeatherBlock } from 'components';
+import { useWeatherCollector } from 'components/WeatherBlock/hooks';
 
 interface NewsListProps {
   currentItems: PartialVotedNewsArray;
   currentPage?: number;
-  // onChange: () => void;
-  // onDeleteNews: (index: number) => void;
 }
 
-const NewsList: FC<Partial<NewsListProps>> = ({
-  currentItems,
-  currentPage,
-  // onChange,
-  // onDeleteNews = () => {},
-}) => {
+const NewsList: FC<Partial<NewsListProps>> = ({ currentItems, currentPage }) => {
+  const { isWeatherLoading } = useWeatherCollector();
+
   return (
     <ul className='max-md:space-y-7 md:grid md:grid-cols-2 md:gap-[30px] lg:grid-cols-3 lg:gap-x-8 lg:gap-y-10 hg:gap-10 mb-10 md:mb-12 lg:mb-[60px]'>
       {currentPage && currentPage === 1 && (
         <li
           className={`max-md:h-[515px] shadow-card overflow-hidden rounded-[10px] dark:shadow-darkCard duration-500 md:col-start-2 lg:col-start-3`}
         >
-          <WeatherBlock />
+          {isWeatherLoading ? <Loader variant='element' /> : <WeatherBlock />}
         </li>
       )}
       {currentItems &&
@@ -34,11 +30,7 @@ const NewsList: FC<Partial<NewsListProps>> = ({
               index === 0 && 'md:col-start-1 md:row-start-1 lg:col-start-1'
             } ${index === 1 && 'lg:col-start-2 lg:row-start-1'}`}
           >
-            <NewsItem
-              liveNews={newsItem}
-              // onChange={onChange}
-              // onDelete={() => onDeleteNews(index)}
-            />
+            <NewsItem liveNews={newsItem} />
           </li>
         ))}
     </ul>
