@@ -52,14 +52,15 @@ const AboutUs: FC<{}> = () => {
         },
         {
           memberImage: '',
-          imageDescription: 'Max Mordovcev',
-          memberName: 'Max Mordovcev',
+          imageDescription: 'Max Mordovtsev',
+          memberName: 'Max Mordovtsev',
           memberRole: 'Developer',
-          memberCV: '',
+          memberCV:
+            'https://drive.google.com/file/d/1JGiyIpvcbVInuIxQj67O7OB7CDPbbDC7/view?usp=sharing',
           githubLink: 'https://github.com/Max3281',
-          linkedinLink: '',
-          emailLink: '',
-          telegramLink: '',
+          linkedinLink: 'https://www.linkedin.com/in/maxim-mordovtsev/',
+          emailLink: 'mailto:9.crover@gmail.com',
+          telegramLink: 'http://t.me/ZCrover',
         },
       ],
     },
@@ -82,15 +83,17 @@ const AboutUs: FC<{}> = () => {
     },
   ];
 
+  const commonTextMemberClass = 'text-darkBase dark:text-whiteBase transition-colors duration-500';
+
   return (
     <>
-      <h1 className='text-giant font-bold text-darkBase dark:text-whiteBase mb-10 transition-colors duration-500'>
-        About Us
-      </h1>
+      <h1 className={`${commonTextMemberClass} text-giant font-bold mb-10`}>About Us</h1>
       {members &&
         members.map((group) => (
           <div key={group.groupTitle}>
-            <h2 className='text-darkBase dark:text-whiteBase text-3.5xl mb-2 md:mb-6 after:content-[""] after:block after:w-full after:h-px after:bg-greyAlt after:mt-2 transition-colors duration-500'>
+            <h2
+              className={`${commonTextMemberClass} text-3.5xl mb-2 md:mb-6 after:content-[""] after:block after:w-full after:h-px after:bg-greyAlt after:mt-2`}
+            >
               {group.groupTitle}
             </h2>
             <ul className='max-lg:space-y-10 mb-12 md:mb-20 lg:grid lg:grid-cols-2 lg:grid-rows-1 lg:gap-x-10'>
@@ -116,13 +119,13 @@ const AboutUs: FC<{}> = () => {
                     </div>
                     <div className='max-md:space-y-4 md:grow md:flex md:flex-col md:justify-around'>
                       <div className='space-y-4'>
-                        <p className='text-darkBase dark:text-whiteBase text-2xl md:text-4xl transition-colors duration-500'>
+                        <p className={`${commonTextMemberClass} text-2xl md:text-4xl`}>
                           {memberName}
                         </p>
-                        <p className='text-darkBase dark:text-whiteBase transition-colors duration-500 md:text-xl lg:text-medium'>
+                        <p className={`${commonTextMemberClass} md:text-xl lg:text-medium`}>
                           Role: {memberRole}
                         </p>
-                        <p className='text-darkBase dark:text-whiteBase transition-colors duration-500 md:text-xl lg:text-medium'>
+                        <p className={`${commonTextMemberClass} md:text-xl lg:text-medium`}>
                           Resume:{' '}
                           <a
                             href={memberCV}

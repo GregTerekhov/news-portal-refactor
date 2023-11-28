@@ -122,10 +122,8 @@ const UnverifiableInput: FC<InputProps> = (props) => {
           <div
             className={`${variant === VariantInputs.FilterServiceBlock ? 'relative' : ''} ${
               variant === VariantInputs.Checkbox
-                ? `flex items-center justify-center w-4 h-4 md:w-6 md:h-6 rounded-sm cursor-pointer ${
-                    isChecked
-                      ? 'bg-accentBase'
-                      : 'bg-whiteBase border border-solid border-accentBase dark:border-0'
+                ? `flex items-center justify-center w-4 h-4 md:w-6 md:h-6 rounded-sm cursor-pointer border border-solid ${
+                    isChecked ? 'bg-accentBase border-whiteBase' : 'bg-whiteBase border-accentBase'
                   }`
                 : ''
             }`}

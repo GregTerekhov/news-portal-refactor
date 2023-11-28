@@ -40,5 +40,5 @@ export interface IRecoveryPasswordChange {
 }
 
 export interface IThirdPartyAuth {
-  tokenAuth: string;
+  tokenAuth: string | null;
 }

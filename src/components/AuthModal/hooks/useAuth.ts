@@ -1,0 +1,196 @@
+import { useState } from 'react';
+import { useForm, SubmitHandler } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+
+import { SignInCredentials, SignUpCredentials, IRecoveryPasswordRequest } from 'types';
+import { useAuthCollector, usePopUp } from 'hooks';
+
+import { signUpSchema, signInSchema, recoveryPasswordSchema } from '../assistants';
+
+const useAuth = () => {
+  const [isChecked, setIsChecked] = useState<boolean>(() => !!localStorage.rememberMe);
+  const { toggleModal } = usePopUp();
+  const { register, login } = useAuthCollector();
+
+  const {
+    handleSubmit: handleSignUpSubmit,
+    register: registerSignUp,
+    reset: resetSignUpValues,
+    getValues: getSignUpCredentials,
+    formState: { errors: signUpErrors },
+  } = useForm<SignUpCredentials>({ resolver: yupResolver(signUpSchema) });
+
+  const {
+    handleSubmit: handleSignInSubmit,
+    register: registerSignIn,
+    reset: resetSignInValues,
+    watch,
+    getValues: getSignInCredentials,
+    formState: { errors: signInErrors },
+  } = useForm<SignInCredentials>({
+    resolver: yupResolver(signInSchema),
+    defaultValues: {
+      email: localStorage.rememberMe ? localStorage.userEmail : '',
+      password: localStorage.rememberMe ? localStorage.userPassword : '',
+    },
+  });
+
+  const {
+    handleSubmit: handleRecoveryPasswordSubmit,
+    register: registerRecovery,
+    resetField,
+    formState: { errors: recoveryPasswordErrors },
+  } = useForm<IRecoveryPasswordRequest>({ resolver: yupResolver(recoveryPasswordSchema) });
+
+  const handleSignUpSubmitHandler: SubmitHandler<SignUpCredentials> = async (data) => {
+    console.log('SignUp data', data);
+    const { name, email, password } = data;
+
+    const signUpCredentials = {
+      name,
+      email,
+      password,
+    };
+
+    const signInCredentials = {
+      email,
+      password,
+    };
+
+    const response = await register(signUpCredentials);
+
+    if (
+      response.payload === 'Email already in use' ||
+      response.payload === 'All sign-up fields are required'
+    ) {
+      return;
+    } else {
+      const response = await login(signInCredentials);
+
+      if (response.payload === 'User is not authentified') {
+        console.log('Email or password are wrong');
+        return;
+      }
+    }
+    resetSignUpValues({
+      ...getSignUpCredentials,
+      name: '',
+      email: '',
+      password: '',
+    });
+    toggleModal();
+  };
+
+  const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const isRememberMe = event.target.checked;
+    setIsChecked(isRememberMe);
+    console.log('isRememberMe', isRememberMe, typeof isRememberMe);
+  };
+
+  const [email, password] = watch(['email', 'password']);
+
+  const handleSignInSubmitHandler: SubmitHandler<SignInCredentials> = async (data, e) => {
+    e?.preventDefault();
+    const { email, password } = data;
+    console.log('SignIn data', data);
+
+    if (isChecked && email !== '') {
+      localStorage.setItem('userEmail', email);
+      localStorage.setItem('userPassword', password);
+      localStorage.setItem('rememberMe', isChecked.toString());
+    }
+
+    const signInCredentials = {
+      email,
+      password,
+    };
+
+    const response = await login(signInCredentials);
+
+    if (response.payload === 'User is not authentified') {
+      console.log('Email or password are wrong');
+      return;
+    }
+    resetSignInValues({
+      ...getSignInCredentials,
+      email: '',
+      password: '',
+    });
+
+    toggleModal();
+  };
+
+  const handleRecoverySubmitHandler: SubmitHandler<IRecoveryPasswordRequest> = async (data, e) => {
+    e?.stopPropagation();
+    e?.preventDefault();
+    console.log('Recovery email', data);
+    resetField('recoveryEmail');
+  };
+
+  const signUpInputs = [
+    {
+      type: 'text',
+      placeholder: 'Enter your name',
+      children: 'Name',
+      errors: signUpErrors?.name?.message,
+      label: 'name',
+      ariaInvalid: signUpErrors?.name ? true : false,
+    },
+    {
+      type: '',
+      placeholder: 'Enter your email',
+      children: 'Email',
+      errors: signUpErrors?.email?.message,
+      label: 'email',
+      ariaInvalid: signUpErrors?.email ? true : false,
+    },
+    {
+      type: 'password',
+      placeholder: 'Enter your password',
+      children: 'Password',
+      errors: signUpErrors?.password?.message,
+      label: 'password',
+      ariaInvalid: signUpErrors?.password ? true : false,
+    },
+  ];
+
+  const signInInputs = [
+    {
+      type: '',
+      placeholder: 'Enter your email',
+      children: 'Email',
+      fieldValue: email,
+      errors: signInErrors?.email?.message,
+      label: 'email',
+      ariaInvalid: signInErrors?.email ? true : false,
+    },
+    {
+      type: 'password',
+      placeholder: 'Enter your password',
+      children: 'Password',
+      fieldValue: password,
+      errors: signInErrors?.password?.message,
+      label: 'email',
+      ariaInvalid: signInErrors?.password ? true : false,
+    },
+  ];
+
+  return {
+    isChecked,
+    handleSignUpSubmit,
+    registerSignUp,
+    handleSignInSubmit,
+    registerSignIn,
+    handleRecoveryPasswordSubmit,
+    registerRecovery,
+    recoveryPasswordErrors,
+    handleSignUpSubmitHandler,
+    handleCheckboxChange,
+    handleSignInSubmitHandler,
+    handleRecoverySubmitHandler,
+    signUpInputs,
+    signInInputs,
+  };
+};
+
+export default useAuth;

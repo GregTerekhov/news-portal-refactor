@@ -1,4 +1,4 @@
-import { PayloadAction, SerializedError, createSlice } from '@reduxjs/toolkit';
+import { SerializedError, createAction, createSlice } from '@reduxjs/toolkit';
 
 import {
   appleAuth,
@@ -56,14 +56,16 @@ const initialState: AuthState = {
   // },
 };
 
+export const setTokens = createAction<SetTokensPayload>('auth/setTokens');
+
 const authSlice = createSlice({
   name: 'auth',
   initialState,
   reducers: {
-    setTokens: (state: AuthState, action: PayloadAction<SetTokensPayload>) => {
-      state.accessToken = action.payload.accessToken;
-      state.refreshToken = action.payload.refreshToken;
-    },
+    // setTokens: (state: AuthState, action: PayloadAction<SetTokensPayload>) => {
+    //   state.accessToken = action.payload.accessToken;
+    //   state.refreshToken = action.payload.refreshToken;
+    // },
   },
   extraReducers: (builder) => {
     builder
@@ -181,9 +183,14 @@ const authSlice = createSlice({
       .addCase(appleAuth.rejected, (state, action) => {
         state.hasError = action.error;
         state.isCurrentUser = false;
+      })
+      .addCase(setTokens, (state, action) => {
+        const { accessToken, refreshToken }: SetTokensPayload = action.payload;
+        state.accessToken = accessToken;
+        state.refreshToken = refreshToken;
       });
   },
 });
 
-export const { setTokens } = authSlice.actions;
+// export const { setTokens } = authSlice.actions;
 export const authSliceReducer = authSlice.reducer;

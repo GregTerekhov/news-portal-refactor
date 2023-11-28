@@ -10,7 +10,7 @@ const Footer: FC<{}> = () => {
 
   return (
     <footer className='bg-accentBase py-8'>
-      <div className='container relative mx-auto px-4'>
+      <div className='container relative mx-auto px-4 hg:px-[65px]'>
         <div className={`${isAuthenticated ? 'flex justify-between' : ''}`}>
           <FooterMenu />
           <div className={`flex ${isAuthenticated ? 'items-end' : 'justify-end'}`}>

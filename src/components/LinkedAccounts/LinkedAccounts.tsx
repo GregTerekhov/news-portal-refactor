@@ -43,11 +43,26 @@ const LinkedAccounts: FC = () => {
               activeLinks.isManageAccountPage ? 'flex items-center gap-3 lg:gap-6' : ''
             }`}
           >
-            <div className='w-10'>
+            <div
+              className={`${
+                activeLinks.isManageAccountPage
+                  ? 'w-10'
+                  : breakpointsForMarkup?.isNothing || breakpointsForMarkup?.isMobile
+                  ? 'w-10'
+                  : 'w-28'
+              }`}
+            >
               <PrimaryButton
-                variant='Small'
+                variant={`${
+                  activeLinks.isManageAccountPage
+                    ? 'Small'
+                    : breakpointsForMarkup?.isNothing || breakpointsForMarkup?.isMobile
+                    ? 'Small'
+                    : 'OtherButton'
+                }`}
                 hasIcon={true}
                 svgName={svgName}
+                width='w-28'
                 svgSize={
                   breakpointsForMarkup?.isNothing || breakpointsForMarkup?.isMobile ? 20 : 24
                 }
