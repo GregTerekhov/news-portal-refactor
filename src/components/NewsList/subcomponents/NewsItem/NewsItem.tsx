@@ -7,7 +7,7 @@ import { useActiveLinks, useAuthCollector } from 'hooks';
 
 import { PrimaryButton, SvgIcon } from 'ui';
 
-import PlugImage from '../PlugImage/PlugImage';
+import PlugImage from '../../../PlugImage/PlugImage';
 
 import { useNews } from './hooks';
 import { VoteButton } from './subcomponents';

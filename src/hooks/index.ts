@@ -8,3 +8,4 @@ export { default as useNewsAPICollector } from './useNewsAPICollector';
 export { default as useNewsDBCollector } from './useNewsDBCollector';
 export { default as usePopUp } from './usePopUp';
 export { default as useWindowWidth } from './useWindowWidth';
+export { default as useWeatherCollector } from './useWeatherCollector';

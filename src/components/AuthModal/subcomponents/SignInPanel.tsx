@@ -1,7 +1,8 @@
 import React, { FC } from 'react';
 
-import { LinkedAccounts, ThemeSwitcher } from 'components';
 import { PrimaryButton, UnverifiableInput, VerifiableInput } from 'ui';
+import LinkedAccounts from '../../LinkedAccounts/LinkedAccounts';
+import ThemeSwitcher from '../../ThemeSwitcher/ThemeSwitcher';
 
 import { useAuth } from '../hooks';
 

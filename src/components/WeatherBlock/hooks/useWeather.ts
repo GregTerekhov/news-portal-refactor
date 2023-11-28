@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 
-import useWeatherCollector from './useWeatherCollector';
+import { useWeatherCollector } from 'hooks';
 
 const useWeather = () => {
   const [isCelsius, setIsCelsius] = useState<boolean>(true);
