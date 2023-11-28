@@ -1,30 +1,12 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { useSearchParams } from 'react-router-dom';
-
-import { setTokens } from 'reduxStore/auth';
 
 const usePopUp = () => {
   const [isOpenMenu, setIsOpenMenu] = useState<boolean>(false);
   const [isOpenModal, setIsOpenModal] = useState<boolean>(false);
-  const [changePasswordToken, setChangePasswordToken] = useState<boolean>(false);
   const [isOpenCalendar, setIsOpenCalendar] = useState<boolean>(false);
   const [isScrollDisabled, setIsScrollDisabled] = useState<boolean>(false);
-  const [searchParams] = useSearchParams();
 
   const popUpRef = useRef<HTMLDivElement | null>(null);
-
-  const token = searchParams.get('token');
-  const openModal = searchParams.get('openModal');
-
-  useEffect(() => {
-    if (token && openModal) {
-      setChangePasswordToken(true);
-      setTokens({ accessToken: token, refreshToken: null });
-      setIsOpenModal(true);
-    }
-    setChangePasswordToken(false);
-    setIsOpenModal(false);
-  }, [searchParams]);
 
   const handleWindowClick = useCallback(
     (event: MouseEvent) => {
@@ -95,10 +77,10 @@ const usePopUp = () => {
   return {
     isOpenMenu,
     isOpenModal,
-    changePasswordToken,
     isOpenCalendar,
     isScrollDisabled,
     popUpRef,
+    setIsOpenModal,
     setIsOpenCalendar,
     toggleMenu,
     toggleModal,

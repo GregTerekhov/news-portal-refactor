@@ -6,10 +6,10 @@ import { PrimaryButton, VerifiableInput } from 'ui';
 import { useAuth } from '../hooks';
 
 const SignUpPanel: FC<{}> = () => {
-  const { handleSignUpSubmit, handleSignUpSubmitHandler, signUpInputs, registerSignUp } = useAuth();
+  const { handleSignUpSubmit, signUpSubmitHandler, signUpInputs, registerSignUp } = useAuth();
 
   return (
-    <form onSubmit={handleSignUpSubmit(handleSignUpSubmitHandler)}>
+    <form onSubmit={handleSignUpSubmit(signUpSubmitHandler)}>
       <ul className='flex flex-col gap-4 md:gap-5 mb-6'>
         {Array.isArray(signUpInputs) &&
           signUpInputs.map(({ type, placeholder, children, errors, label, ariaInvalid }) => (

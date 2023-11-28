@@ -2,13 +2,15 @@ import React, { FC } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 
-import { IUpdatePassword } from 'types';
+import { IUpdatePasswordToValidate } from 'types';
+import { useAuthCollector } from 'hooks';
 
 import { Accordeon, PrimaryButton, VerifiableInput } from 'ui';
 
 import { updatePasswordSchema } from '../assistants';
 
 const UpdatePassword: FC<{}> = ({}) => {
+  const { updatePassword } = useAuthCollector();
   const {
     handleSubmit,
     register,
@@ -16,11 +18,12 @@ const UpdatePassword: FC<{}> = ({}) => {
     reset,
     getValues,
     formState: { errors },
-  } = useForm<IUpdatePassword>({
+  } = useForm<IUpdatePasswordToValidate>({
     resolver: yupResolver(updatePasswordSchema),
     defaultValues: {
       newPassword: '',
       confirmPassword: '',
+      oldPassword: '',
     },
   });
 
@@ -30,8 +33,13 @@ const UpdatePassword: FC<{}> = ({}) => {
     'oldPassword',
   ]);
 
-  const handlePasswordSubmitHandler: SubmitHandler<IUpdatePassword> = (data) => {
+  const handlePasswordSubmitHandler: SubmitHandler<IUpdatePasswordToValidate> = async (data) => {
     console.log('Password data:', data);
+
+    const { newPassword, oldPassword } = data;
+    const dataToSend = { newPassword, oldPassword };
+
+    await updatePassword(dataToSend);
     reset({
       ...getValues,
       newPassword: '',
@@ -73,7 +81,7 @@ const UpdatePassword: FC<{}> = ({}) => {
       label: 'oldPassword',
       ariaInvalid: errors && errors?.oldPassword ? true : false,
     });
-  } else null;
+  }
 
   return (
     <Accordeon position='accountManagePage' filtersBlock='Change your password'>

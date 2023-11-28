@@ -25,9 +25,13 @@ export interface IUpdateEmail {
   currentPassword: string;
 }
 
-export interface IUpdatePassword {
+export interface IUpdatePasswordToValidate {
   newPassword: string;
   confirmPassword: string;
+  oldPassword: string;
+}
+export interface IUpdatePasswordToSend {
+  newPassword: string;
   oldPassword: string;
 }
 
@@ -35,7 +39,12 @@ export interface IRecoveryPasswordRequest {
   recoveryEmail: string;
 }
 
-export interface IRecoveryPasswordChange {
+export interface IRecoveryPasswordChangeToValidate {
+  changedPassword: string;
+  confirmPassword: string;
+}
+
+export interface IRecoveryPasswordChangeToSend {
   changedPassword: string;
 }
 

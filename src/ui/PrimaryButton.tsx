@@ -60,7 +60,7 @@ const PrimaryButton: FC<PBProps> = (props) => {
     buttonStyles =
       'w-full py-2 bg-accentBase hover:bg-accentAlt transition-colors duration-500 rounded-[20px]';
   } else if (variant === VariantButton.Other) {
-    buttonStyles = `${width} max-lg:py-2.5 lg:py-2 rounded-[20px] bg-accentBase hover:bg-accentAlt transition-colors duration-500`;
+    buttonStyles = `${width} max-lg:py-2.5 lg:py-2 border border-solid border-transparent dark:border-whiteBase rounded-[20px] bg-accentBase hover:bg-accentAlt transition-colors duration-500`;
   } else if (variant === VariantButton.Small) {
     buttonStyles = 'w-10 rounded-[10px] border border-solid';
   }

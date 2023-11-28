@@ -13,13 +13,13 @@ interface SignInProps {
 const SignInPanel: FC<SignInProps> = ({ handleShowRecoveryInput, isShowRecoveryInput }) => {
   const {
     handleSignInSubmit,
-    handleSignInSubmitHandler,
+    signInSubmitHandler,
     signInInputs,
     registerSignIn,
     recoveryPasswordErrors,
     registerRecovery,
     handleRecoveryPasswordSubmit,
-    handleRecoverySubmitHandler,
+    recoveryPasswordSubmitHandler,
     isChecked,
     handleCheckboxChange,
   } = useAuth();
@@ -28,7 +28,7 @@ const SignInPanel: FC<SignInProps> = ({ handleShowRecoveryInput, isShowRecoveryI
     <>
       <form
         className='space-y-4 md:space-y-6 mb-6'
-        onSubmit={handleSignInSubmit(handleSignInSubmitHandler)}
+        onSubmit={handleSignInSubmit(signInSubmitHandler)}
       >
         <ul className='flex flex-col gap-y-3.5'>
           {Array.isArray(signInInputs) &&
@@ -66,7 +66,7 @@ const SignInPanel: FC<SignInProps> = ({ handleShowRecoveryInput, isShowRecoveryI
               }}
               errors={recoveryPasswordErrors?.recoveryEmail?.message}
               register={registerRecovery}
-              handleSubmitRecovery={handleRecoveryPasswordSubmit(handleRecoverySubmitHandler)}
+              handleSubmitRecovery={handleRecoveryPasswordSubmit(recoveryPasswordSubmitHandler)}
               label='recoveryEmail'
               hasIcon={false}
               variant='auth'
