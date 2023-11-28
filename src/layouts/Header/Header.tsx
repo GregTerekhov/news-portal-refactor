@@ -1,5 +1,7 @@
-import React, { FC, useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import React, { FC, useEffect, useState } from 'react';
+import { Link, useLocation, useSearchParams } from 'react-router-dom';
+
+import { setTokens } from 'reduxStore/auth';
 
 import {
   useActiveLinks,
@@ -18,21 +20,35 @@ import { AuthButton, Menu } from './subcomponents';
 
 const Header: FC = () => {
   const { query, onChangeInput, onHandleSearch } = useAdditionalRequest();
-  const { isOpenMenu, isOpenModal, toggleMenu, toggleModal, popUpRef } = usePopUp();
+  const { isOpenMenu, isOpenModal, setIsOpenModal, toggleMenu, toggleModal, popUpRef } = usePopUp();
   const { breakpointsForMarkup } = useWindowWidth() ?? {
     breakpointsForMarkup: null,
   };
   const { user, isAuthenticated } = useAuthCollector();
   const { resetAllFilters } = useFilterCollector();
   const [touched, setTouched] = useState<boolean>(false);
+  const [passwordToken, setPasswordToken] = useState<boolean>(false);
+
+  const [searchParams] = useSearchParams();
 
   const location = useLocation();
   const activeLinks = useActiveLinks(location);
-
   // const isAuthenticated = true;
   const { headerClass, textClass, burgerMenuButtonClass, accountIconStyles } = useHeaderStyles(
     activeLinks.isHomeActive,
   );
+  const token = searchParams.get('passwordToken');
+  const openModal = searchParams.get('openModal');
+
+  useEffect(() => {
+    if (!user && token && openModal) {
+      setPasswordToken(true);
+      setTokens({ accessToken: token, refreshToken: null });
+      setIsOpenModal(true);
+    }
+    setPasswordToken(false);
+    setIsOpenModal(false);
+  }, [searchParams]);
 
   const isNotMobile = breakpointsForMarkup?.isTablet || breakpointsForMarkup?.isDesktop;
 
@@ -153,7 +169,7 @@ const Header: FC = () => {
       </header>
       {isOpenModal && (
         <Modal closeModal={toggleModal} modalRef={popUpRef} variant='auth'>
-          <AuthModal />
+          <AuthModal passwordToken={passwordToken} />
         </Modal>
       )}
       {isOpenMenu && !isAccountPages && <Menu isOpen={isOpenMenu} closeMenu={toggleMenu} />}

@@ -5,7 +5,7 @@ import {
   SignUpCredentials,
   SignInCredentials,
   IUpdateEmail,
-  IUpdatePassword,
+  IUpdatePasswordToValidate,
   IRecoveryPasswordRequest,
 } from 'types';
 
@@ -25,7 +25,7 @@ enum VariantInputs {
 
 export type Values =
   | IUpdateEmail
-  | IUpdatePassword
+  | IUpdatePasswordToValidate
   | SignUpCredentials
   | SignInCredentials
   | IRecoveryPasswordRequest;

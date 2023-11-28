@@ -40,3 +40,22 @@ export const recoveryPasswordSchema = yup.object({
     .matches(/^[^\s@]+@[^\s@]+\.[^\s@]+$/, 'Invalid email format')
     .trim(),
 });
+
+export const changePasswordSchema = yup.object({
+  changedPassword: yup
+    .string()
+    .required('New password is required')
+    .min(8, 'Password must be at least 8 characters')
+    .matches(
+      /^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
+      'Password must contain at least one uppercase letter, one number, and one special character',
+    )
+    .trim(),
+  confirmPassword: yup
+    .string()
+    .required('Confirm password is required')
+    .test('passwords-match', 'Passwords do not match', function (value) {
+      return value === this.parent.changedPassword;
+    })
+    .trim(),
+});

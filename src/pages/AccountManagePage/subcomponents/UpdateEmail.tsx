@@ -3,12 +3,14 @@ import { useForm, SubmitHandler } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 
 import { IUpdateEmail } from 'types';
+import { useAuthCollector } from 'hooks';
 
 import { Accordeon, PrimaryButton, VerifiableInput } from 'ui';
 
 import { updateEmailSchema } from '../assistants';
 
 const UpdateEmail: FC<{}> = ({}) => {
+  const { updateEmail } = useAuthCollector();
   const {
     handleSubmit,
     register,
@@ -25,8 +27,9 @@ const UpdateEmail: FC<{}> = ({}) => {
 
   const updatedEmail = watch('updatedEmail');
 
-  const handleEmailSubmitHandler: SubmitHandler<IUpdateEmail> = (data) => {
+  const handleEmailSubmitHandler: SubmitHandler<IUpdateEmail> = async (data) => {
     console.log('Email data:', data);
+    await updateEmail(data);
     reset({
       ...getValues,
       updatedEmail: '',

@@ -2,15 +2,25 @@ import { useState } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 
-import { SignInCredentials, SignUpCredentials, IRecoveryPasswordRequest } from 'types';
+import {
+  SignInCredentials,
+  SignUpCredentials,
+  IRecoveryPasswordRequest,
+  IRecoveryPasswordChangeToValidate,
+} from 'types';
 import { useAuthCollector, usePopUp } from 'hooks';
 
-import { signUpSchema, signInSchema, recoveryPasswordSchema } from '../assistants';
+import {
+  signUpSchema,
+  signInSchema,
+  recoveryPasswordSchema,
+  changePasswordSchema,
+} from '../assistants';
 
 const useAuth = () => {
   const [isChecked, setIsChecked] = useState<boolean>(() => !!localStorage.rememberMe);
   const { toggleModal } = usePopUp();
-  const { register, login } = useAuthCollector();
+  const { register, login, changePassword } = useAuthCollector();
 
   const {
     handleSubmit: handleSignUpSubmit,
@@ -42,7 +52,17 @@ const useAuth = () => {
     formState: { errors: recoveryPasswordErrors },
   } = useForm<IRecoveryPasswordRequest>({ resolver: yupResolver(recoveryPasswordSchema) });
 
-  const handleSignUpSubmitHandler: SubmitHandler<SignUpCredentials> = async (data) => {
+  const {
+    handleSubmit: handleChangePasswordSubmit,
+    register: registerChangePassword,
+    reset: resetChangePasswordValues,
+    getValues: getRecoveryChangeValues,
+    formState: { errors },
+  } = useForm<IRecoveryPasswordChangeToValidate>({
+    resolver: yupResolver(changePasswordSchema),
+  });
+
+  const signUpSubmitHandler: SubmitHandler<SignUpCredentials> = async (data) => {
     console.log('SignUp data', data);
     const { name, email, password } = data;
 
@@ -89,7 +109,7 @@ const useAuth = () => {
 
   const [email, password] = watch(['email', 'password']);
 
-  const handleSignInSubmitHandler: SubmitHandler<SignInCredentials> = async (data, e) => {
+  const signInSubmitHandler: SubmitHandler<SignInCredentials> = async (data, e) => {
     e?.preventDefault();
     const { email, password } = data;
     console.log('SignIn data', data);
@@ -120,11 +140,30 @@ const useAuth = () => {
     toggleModal();
   };
 
-  const handleRecoverySubmitHandler: SubmitHandler<IRecoveryPasswordRequest> = async (data, e) => {
+  const recoveryPasswordSubmitHandler: SubmitHandler<IRecoveryPasswordRequest> = async (
+    data,
+    e,
+  ) => {
     e?.stopPropagation();
     e?.preventDefault();
     console.log('Recovery email', data);
     resetField('recoveryEmail');
+  };
+
+  const changePasswordSubmitHandler: SubmitHandler<IRecoveryPasswordChangeToValidate> = async (
+    data,
+  ) => {
+    console.log('Password data:', data);
+
+    const { changedPassword } = data;
+    const dataToSend = { changedPassword };
+
+    await changePassword(dataToSend);
+    resetChangePasswordValues({
+      ...getRecoveryChangeValues,
+      changedPassword: '',
+      confirmPassword: '',
+    });
   };
 
   const signUpInputs = [
@@ -170,26 +209,49 @@ const useAuth = () => {
       children: 'Password',
       fieldValue: password,
       errors: signInErrors?.password?.message,
-      label: 'email',
+      label: 'password',
       ariaInvalid: signInErrors?.password ? true : false,
+    },
+  ];
+
+  const changeInputs = [
+    {
+      type: 'password',
+      placeholder: 'Enter your new password',
+      children: 'New Password',
+      errors: errors?.changedPassword?.message,
+      label: 'changedPassword',
+      ariaInvalid: errors?.changedPassword ? true : false,
+    },
+    {
+      type: 'password',
+      placeholder: 'Confirm your password',
+      children: 'Confirm Password',
+      errors: errors?.confirmPassword?.message,
+      label: 'confirmPassword',
+      ariaInvalid: errors?.confirmPassword ? true : false,
     },
   ];
 
   return {
     isChecked,
-    handleSignUpSubmit,
-    registerSignUp,
-    handleSignInSubmit,
-    registerSignIn,
-    handleRecoveryPasswordSubmit,
-    registerRecovery,
-    recoveryPasswordErrors,
-    handleSignUpSubmitHandler,
     handleCheckboxChange,
-    handleSignInSubmitHandler,
-    handleRecoverySubmitHandler,
+    handleSignUpSubmit,
+    handleSignInSubmit,
+    handleRecoveryPasswordSubmit,
+    handleChangePasswordSubmit,
+    registerSignUp,
+    registerSignIn,
+    registerRecovery,
+    registerChangePassword,
+    signUpSubmitHandler,
+    signInSubmitHandler,
+    recoveryPasswordSubmitHandler,
+    changePasswordSubmitHandler,
+    recoveryPasswordErrors,
     signUpInputs,
     signInInputs,
+    changeInputs,
   };
 };
 

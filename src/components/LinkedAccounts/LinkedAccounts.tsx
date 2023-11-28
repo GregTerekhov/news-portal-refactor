@@ -15,6 +15,7 @@ const LinkedAccounts: FC = () => {
   const activeLinks = useActiveLinks(location);
 
   const hasConnectedAccount = false;
+  const isMobile = breakpointsForMarkup?.isNothing || breakpointsForMarkup?.isMobile;
 
   return (
     <>
@@ -33,7 +34,7 @@ const LinkedAccounts: FC = () => {
         className={`${
           activeLinks.isManageAccountPage
             ? 'space-y-3 md:space-y-4'
-            : 'flex justify-around md:gap-8 max-md:mb-8'
+            : 'flex justify-around md:gap-8'
         }`}
       >
         {accountButtons.map(({ svgName, account, dataTooltipTarget }) => (
@@ -44,34 +45,23 @@ const LinkedAccounts: FC = () => {
             }`}
           >
             <div
-              className={`${
-                activeLinks.isManageAccountPage
-                  ? 'w-10'
-                  : breakpointsForMarkup?.isNothing || breakpointsForMarkup?.isMobile
-                  ? 'w-10'
-                  : 'w-28'
-              }`}
+              className={`${activeLinks.isManageAccountPage ? 'w-10' : isMobile ? 'w-10' : 'w-32'}`}
             >
               <PrimaryButton
                 variant={`${
-                  activeLinks.isManageAccountPage
-                    ? 'Small'
-                    : breakpointsForMarkup?.isNothing || breakpointsForMarkup?.isMobile
-                    ? 'Small'
-                    : 'OtherButton'
+                  activeLinks.isManageAccountPage ? 'Small' : isMobile ? 'Small' : 'OtherButton'
                 }`}
                 hasIcon={true}
                 svgName={svgName}
-                width='w-28'
-                svgSize={
-                  breakpointsForMarkup?.isNothing || breakpointsForMarkup?.isMobile ? 20 : 24
-                }
+                width='w-full'
+                svgSize={isMobile ? 20 : 24}
                 ariaLabel={`${account} account binding`}
                 dataTooltipPlacement='bottom'
                 dataTooltipTarget={dataTooltipTarget}
                 tooltipText={`Bind your ${account} account`}
                 classNameButton='bg-accentBase hover:bg-accentAlt dark:border-whiteBase py-2'
                 classNameIcon='fill-whiteBase'
+                children={!isMobile && !activeLinks.isManageAccountPage ? account : ''}
               />
             </div>
             {activeLinks.isManageAccountPage ? (

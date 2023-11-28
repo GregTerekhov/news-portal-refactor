@@ -4,11 +4,11 @@ import {
   SignUpCredentials,
   SignInCredentials,
   IUpdateEmail,
-  IUpdatePassword,
   ICurrentUser,
-  IRecoveryPasswordChange,
   IRecoveryPasswordRequest,
   IThirdPartyAuth,
+  IUpdatePasswordToSend,
+  IRecoveryPasswordChangeToSend,
 } from 'types';
 
 import axiosInstance from './authServices';
@@ -102,7 +102,7 @@ export const updateUserEmail = createAsyncThunk(
 );
 export const updateUserPassword = createAsyncThunk(
   'auth/updatePassword',
-  async (newPassword: IUpdatePassword, { rejectWithValue }) => {
+  async (newPassword: IUpdatePasswordToSend, { rejectWithValue }) => {
     try {
       const response = await axiosInstance.patch('auth/update-password', newPassword);
       return response.data;
@@ -126,7 +126,7 @@ export const recoveryPasswordRequest = createAsyncThunk(
 
 export const recoveryPasswordChange = createAsyncThunk(
   'auth/recoveryPasswordChange',
-  async (changedPassword: IRecoveryPasswordChange, { rejectWithValue }) => {
+  async (changedPassword: IRecoveryPasswordChangeToSend, { rejectWithValue }) => {
     try {
       const response = await axiosInstance.patch('auth/forgot-password-change', changedPassword);
       return response.data;

@@ -23,10 +23,10 @@ import {
   SignUpCredentials,
   SignInCredentials,
   IUpdateEmail,
-  IUpdatePassword,
   IRecoveryPasswordRequest,
-  IRecoveryPasswordChange,
   IThirdPartyAuth,
+  IUpdatePasswordToSend,
+  IRecoveryPasswordChangeToSend,
 } from 'types';
 
 const useAuthCollector = () => {
@@ -55,7 +55,7 @@ const useAuthCollector = () => {
   );
 
   const updatePassword = useCallback(
-    (newPassword: IUpdatePassword) => dispatch(updateUserPassword(newPassword)),
+    (newPassword: IUpdatePasswordToSend) => dispatch(updateUserPassword(newPassword)),
     [dispatch],
   );
 
@@ -65,7 +65,8 @@ const useAuthCollector = () => {
   );
 
   const changePassword = useCallback(
-    (changedPassword: IRecoveryPasswordChange) => dispatch(recoveryPasswordChange(changedPassword)),
+    (changedPassword: IRecoveryPasswordChangeToSend) =>
+      dispatch(recoveryPasswordChange(changedPassword)),
     [dispatch],
   );
 
