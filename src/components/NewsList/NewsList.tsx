@@ -2,8 +2,12 @@ import React, { FC } from 'react';
 
 import { PartialVotedNewsArray, VotedItem } from 'types';
 
-import { Loader, NewsItem, WeatherBlock } from 'components';
-import { useWeatherCollector } from 'components/WeatherBlock/hooks';
+import { useWeatherCollector } from 'hooks';
+
+import Loader from '../Loader/Loader';
+import WeatherBlock from '../WeatherBlock/WeatherBlock';
+
+import { NewsItem } from './subcomponents';
 
 interface NewsListProps {
   currentItems: PartialVotedNewsArray;

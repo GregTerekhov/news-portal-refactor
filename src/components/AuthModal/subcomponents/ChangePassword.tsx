@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
 
-import { ThemeSwitcher } from 'components';
 import { PrimaryButton, VerifiableInput } from 'ui';
+import ThemeSwitcher from '../../ThemeSwitcher/ThemeSwitcher';
 
 import { useAuth } from '../hooks';
 

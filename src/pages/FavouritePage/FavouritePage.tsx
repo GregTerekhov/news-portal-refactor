@@ -8,8 +8,7 @@ import {
   useNewsDBCollector,
 } from 'hooks';
 
-import { NewsList } from 'layouts';
-import { Loader, PlugImage } from 'components';
+import { Loader, NewsList, PlugImage } from 'components';
 
 const FavouritePage: FC<{}> = () => {
   // const [changesHappened, setChangesHappened] = useState<boolean>(false);

@@ -41,7 +41,7 @@ const Pagination: FC<PaginationProps> = ({ pageNumbers, currentPage, setCurrentP
     >
       <PrimaryButton
         aria-label={pageNumber.toString()}
-        classNameButton={`h-10 border-accentBase font-medium ${
+        classNameButton={`h-10 border-accentBase font-medium transition-colors duration-500 ${
           pageNumber === currentPage
             ? 'bg-accentBase text-contrastWhite'
             : 'text-darkBase dark:text-whiteBase dark:border-whiteBase'
