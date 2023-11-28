@@ -172,7 +172,7 @@ const Header: FC = () => {
           <AuthModal passwordToken={passwordToken} />
         </Modal>
       )}
-      {isOpenMenu && !isAccountPages && <Menu isOpen={isOpenMenu} closeMenu={toggleMenu} />}
+      {isOpenMenu && <Menu isOpen={isOpenMenu} closeMenu={toggleMenu} />}
       {isOpenMenu && isAccountPages && <AccountMenu isOpen={isOpenMenu} closeMenu={toggleMenu} />}
     </>
   );
