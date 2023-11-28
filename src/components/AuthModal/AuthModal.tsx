@@ -15,7 +15,7 @@ const AuthModal: FC<IAuthModalProps> = ({ passwordToken }) => {
 
   return (
     <>
-      {!passwordToken ? (
+      {passwordToken ? (
         <ChangePassword />
       ) : (
         <Tab.Group>
