@@ -35,8 +35,12 @@ axiosInstance.interceptors.response.use(
   async (error) => {
     const originalRequest = error.config;
     // console.log('originalRequest', originalRequest);
+    const publicRequests =
+      originalRequest.url === '/auth/sign-in' ||
+      originalRequest.url === '/auth/forgot-password-request' ||
+      originalRequest.url === '/auth/forgot-password-change';
 
-    if (originalRequest.url !== '/auth/sign-in' && error.response) {
+    if (!publicRequests && error.response) {
       if (error.response.status === 401 && !originalRequest._retry) {
         originalRequest._retry = true;
         originalRequest.url = '/auth/refresh';

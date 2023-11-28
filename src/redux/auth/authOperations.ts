@@ -46,7 +46,7 @@ export const signIn = createAsyncThunk(
   async (credentials: SignInCredentials, { rejectWithValue }) => {
     console.log('credentials', credentials);
     try {
-      const response = await axios.post<ICurrentUser>(`${BASE_URL}/auth/sign-in`, credentials);
+      const response = await axiosInstance.post<ICurrentUser>(`/auth/sign-in`, credentials);
       setTokens({
         accessToken: response.data.accessToken,
         refreshToken: response.data.refreshToken,
@@ -115,7 +115,7 @@ export const recoveryPasswordRequest = createAsyncThunk(
   'auth/recoveryPasswordRequest',
   async (email: IRecoveryPasswordRequest, { rejectWithValue }) => {
     try {
-      const response = await axios.patch(`${BASE_URL}/auth/forgot-password-request`, email);
+      const response = await axiosInstance.patch(`/auth/forgot-password-request`, email);
       // додати в header accessToken витягнути з URLSearchParams
       return response.data;
     } catch (error: any) {
@@ -141,7 +141,8 @@ export const googleAuth = createAsyncThunk(
   async (tokenAuth: IThirdPartyAuth, { rejectWithValue }) => {
     try {
       // token.set(tokenAuth); // set accessToken in Header
-      const response = await axios.get(`${BASE_URL}/auth/google`);
+      setTokens({ accessToken: tokenAuth.tokenAuth, refreshToken: null });
+      const response = await axiosInstance.get(`/auth/google`);
       response.data.accessToken = tokenAuth;
       console.log(response.data);
       return response.data;
@@ -155,6 +156,7 @@ export const facebookAuth = createAsyncThunk(
   async (tokenAuth: IThirdPartyAuth, { rejectWithValue }) => {
     try {
       // token.set(tokenAuth); // set accessToken in Header
+      setTokens({ accessToken: tokenAuth.tokenAuth, refreshToken: null });
       const response = await axiosInstance.get('/auth/facebook');
       response.data.accessToken = tokenAuth;
       console.log(response.data);
@@ -169,6 +171,7 @@ export const appleAuth = createAsyncThunk(
   async (tokenAuth: IThirdPartyAuth, { rejectWithValue }) => {
     try {
       // token.set(tokenAuth); // set accessToken in Header
+      setTokens({ accessToken: tokenAuth.tokenAuth, refreshToken: null });
       const response = await axiosInstance.get('/auth/apple');
       response.data.accessToken = tokenAuth;
       console.log(response.data);

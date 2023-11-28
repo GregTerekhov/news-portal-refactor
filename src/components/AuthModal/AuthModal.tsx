@@ -1,16 +1,9 @@
 import React, { FC, useState } from 'react';
 import { Tab } from '@headlessui/react';
 
-import { useWindowWidth } from 'hooks';
-
-import { ThemeSwitcher } from 'components';
-
 import { SignUpPanel, SignInPanel } from './subcomponents';
 
 const AuthModal: FC<{}> = () => {
-  const { breakpointsForMarkup } = useWindowWidth() ?? {
-    breakpointsForMarkup: null,
-  };
   const [isShowRecoveryInput, setIsShowRecoveryInput] = useState<boolean>(false);
 
   const handleShowRecoveryInput = () => {
@@ -32,9 +25,6 @@ const AuthModal: FC<{}> = () => {
               Log In
             </Tab>
           </div>
-          {breakpointsForMarkup?.isTablet || breakpointsForMarkup?.isDesktop ? (
-            <ThemeSwitcher variant='modal' />
-          ) : null}
         </Tab.List>
         <Tab.Panels>
           <Tab.Panel>

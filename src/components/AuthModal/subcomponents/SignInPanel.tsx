@@ -1,14 +1,9 @@
-import React, { FC, useState } from 'react';
-import { useForm, SubmitHandler } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
+import React, { FC } from 'react';
 
-import { SignInCredentials, IRecoveryPasswordRequest } from 'types';
-import { useAuthCollector, usePopUp, useWindowWidth } from 'hooks';
-
-import { ThemeSwitcher } from 'components';
+import { LinkedAccounts, ThemeSwitcher } from 'components';
 import { PrimaryButton, UnverifiableInput, VerifiableInput } from 'ui';
 
-import { signInSchema, recoveryPasswordSchema } from '../assistants';
+import { useAuth } from '../hooks';
 
 interface SignInProps {
   handleShowRecoveryInput: () => void;
@@ -16,164 +11,100 @@ interface SignInProps {
 }
 
 const SignInPanel: FC<SignInProps> = ({ handleShowRecoveryInput, isShowRecoveryInput }) => {
-  const [isChecked, setIsChecked] = useState<boolean>(() => !!localStorage.rememberMe);
-  const { breakpointsForMarkup } = useWindowWidth() ?? {
-    breakpointsForMarkup: null,
-  };
-  const { login } = useAuthCollector();
-  const { toggleModal } = usePopUp();
-
   const {
-    handleSubmit: handleSignInSubmit,
-    register: registerSignIn,
-    reset,
-    watch,
-    getValues,
-    formState: { errors: signInErrors },
-  } = useForm<SignInCredentials>({
-    resolver: yupResolver(signInSchema),
-    defaultValues: {
-      email: localStorage.rememberMe ? localStorage.userEmail : '',
-      password: localStorage.rememberMe ? localStorage.userPassword : '',
-    },
-  });
-
-  const {
-    handleSubmit: handleRecoveryPasswordSubmit,
-    register: registerRecovery,
-    resetField,
-    formState: { errors: recoveryPasswordErrors },
-  } = useForm<IRecoveryPasswordRequest>({ resolver: yupResolver(recoveryPasswordSchema) });
-
-  const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const isRememberMe = event.target.checked;
-    setIsChecked(isRememberMe);
-    console.log('isRememberMe', isRememberMe, typeof isRememberMe);
-  };
-
-  const [email, password] = watch(['email', 'password']);
-
-  const handleSignInSubmitHandler: SubmitHandler<SignInCredentials> = async (data, e) => {
-    e?.preventDefault();
-    const { email, password } = data;
-    console.log('SignIn data', data);
-
-    if (isChecked && email !== '') {
-      localStorage.setItem('userEmail', email);
-      localStorage.setItem('userPassword', password);
-      localStorage.setItem('rememberMe', isChecked.toString());
-    }
-
-    const signInCredentials = {
-      email,
-      password,
-    };
-
-    const response = await login(signInCredentials);
-
-    if (response.payload === 'User is not authentified') {
-      console.log('Email or password are wrong');
-      return;
-    }
-    reset({
-      ...getValues,
-      email: '',
-      password: '',
-    });
-
-    toggleModal();
-  };
-
-  const handleRecoverySubmitHandler: SubmitHandler<IRecoveryPasswordRequest> = async (data, e) => {
-    e?.stopPropagation();
-    e?.preventDefault();
-    console.log('Recovery email', data);
-    resetField('recoveryEmail');
-  };
+    handleSignInSubmit,
+    handleSignInSubmitHandler,
+    signInInputs,
+    registerSignIn,
+    recoveryPasswordErrors,
+    registerRecovery,
+    handleRecoveryPasswordSubmit,
+    handleRecoverySubmitHandler,
+    isChecked,
+    handleCheckboxChange,
+  } = useAuth();
 
   return (
-    <form
-      className='flex flex-col gap-y-3.5'
-      onSubmit={handleSignInSubmit(handleSignInSubmitHandler)}
-    >
-      <VerifiableInput
-        inputData={{
-          placeholder: 'Enter your email',
-          children: 'Email',
-          fieldValue: email,
-        }}
-        errors={signInErrors?.email?.message}
-        register={registerSignIn}
-        label='email'
-        hasIcon={false}
-        variant='auth'
-        ariaInvalid={signInErrors?.email ? 'true' : 'false'}
-      />
-      <VerifiableInput
-        inputData={{
-          type: 'password',
-          placeholder: 'Enter your password',
-          children: 'Password',
-          fieldValue: password,
-        }}
-        errors={signInErrors?.password?.message}
-        register={registerSignIn}
-        label='password'
-        hasIcon={false}
-        variant='auth'
-        ariaInvalid={signInErrors?.password ? 'true' : 'false'}
-      />
-      <div className='text-center'>
-        <button
-          id='Show password recovery input'
-          type='button'
-          className={`text-medium text-darkBase dark:text-whiteBase py-2 ${
-            isShowRecoveryInput && 'mb-3'
-          }`}
-          onClick={handleShowRecoveryInput}
-        >
-          Forgot password?
-        </button>
-        {isShowRecoveryInput ? (
-          <VerifiableInput
-            inputData={{
-              placeholder: 'Enter your email',
-            }}
-            errors={recoveryPasswordErrors?.recoveryEmail?.message}
-            register={registerRecovery}
-            handleSubmitRecovery={handleRecoveryPasswordSubmit(handleRecoverySubmitHandler)}
-            label='recoveryEmail'
-            hasIcon={false}
-            variant='auth'
-            ariaInvalid={recoveryPasswordErrors?.recoveryEmail ? 'true' : 'false'}
-          />
-        ) : null}
-      </div>
-      <UnverifiableInput
-        inputData={{
-          name: 'checkbox',
-          type: 'checkbox',
-          children: 'Remember me',
-        }}
-        isChecked={isChecked}
-        hasIcon={false}
-        variant='checkbox'
-        onChange={(event: React.ChangeEvent<HTMLInputElement>) => handleCheckboxChange(event)}
-      />
-      <div className='max-md:flex max-md:justify-between max-md:items-center'>
-        <PrimaryButton
-          buttonData={{ type: 'submit' }}
-          id='Login button'
-          variant='OtherButton'
-          classNameButton='w-32'
-        >
-          Log In
-        </PrimaryButton>
-        {breakpointsForMarkup?.isNothing || breakpointsForMarkup?.isMobile ? (
+    <>
+      <form
+        className='space-y-4 md:space-y-6 mb-6'
+        onSubmit={handleSignInSubmit(handleSignInSubmitHandler)}
+      >
+        <ul className='flex flex-col gap-y-3.5'>
+          {Array.isArray(signInInputs) &&
+            signInInputs.map(
+              ({ type, placeholder, children, fieldValue, errors, label, ariaInvalid }) => (
+                <li key={label}>
+                  <VerifiableInput
+                    inputData={{ type, placeholder, children, fieldValue }}
+                    errors={errors}
+                    register={registerSignIn}
+                    label={label}
+                    hasIcon={false}
+                    variant='auth'
+                    ariaInvalid={ariaInvalid}
+                  />
+                </li>
+              ),
+            )}
+        </ul>
+        <div className='text-center'>
+          <button
+            id='Show password recovery input'
+            type='button'
+            className={`text-medium text-darkBase dark:text-whiteBase py-2 ${
+              isShowRecoveryInput && 'mb-3'
+            }`}
+            onClick={handleShowRecoveryInput}
+          >
+            Forgot password?
+          </button>
+          {isShowRecoveryInput ? (
+            <VerifiableInput
+              inputData={{
+                placeholder: 'Enter your email',
+              }}
+              errors={recoveryPasswordErrors?.recoveryEmail?.message}
+              register={registerRecovery}
+              handleSubmitRecovery={handleRecoveryPasswordSubmit(handleRecoverySubmitHandler)}
+              label='recoveryEmail'
+              hasIcon={false}
+              variant='auth'
+              ariaInvalid={recoveryPasswordErrors?.recoveryEmail ? 'true' : 'false'}
+            />
+          ) : null}
+        </div>
+        <UnverifiableInput
+          inputData={{
+            name: 'checkbox',
+            type: 'checkbox',
+            children: 'Remember me',
+          }}
+          isChecked={isChecked}
+          hasIcon={false}
+          variant='checkbox'
+          onChange={(event: React.ChangeEvent<HTMLInputElement>) => handleCheckboxChange(event)}
+        />
+        <div className='flex justify-between items-center'>
+          <PrimaryButton
+            buttonData={{ type: 'submit' }}
+            id='Login button'
+            variant='OtherButton'
+            classNameButton='w-32'
+          >
+            Sign In
+          </PrimaryButton>
           <ThemeSwitcher variant='modal' />
-        ) : null}
+        </div>
+      </form>
+      <div className='relative z-20 flex items-center justify-center mb-6'>
+        <span className='relative px-2 z-30 border border-solid border-greyAlt/[.4] rounded-xl text-small text-greyAlt dark:text-whiteBase/[.8] bg-whiteBase/[.9] dark:bg-darkBackground transition-colors duration-500'>
+          or Sign in with
+        </span>
+        <hr className='absolute top-1/2 left-0 w-full block bg-greyAlt dark:bg-whiteBase/[.1]' />
       </div>
-    </form>
+      <LinkedAccounts />
+    </>
   );
 };
 
