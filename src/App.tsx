@@ -41,8 +41,8 @@ function App() {
           </Route>
         </Route>
         <Route path='/about-us' element={<AboutUs />} />
-        <Route path='*' element={<ErrorPage />} />
       </Route>
+      <Route path='*' element={<ErrorPage />} />
     </Routes>
   );
 }
