@@ -9,12 +9,16 @@ import { organiseNewsByMonth } from './assistants';
 import { ArchiveHistoryLog } from './subcomponents';
 
 const ArchivePage: FC<{}> = () => {
-  const { isLoadingDBData, allArchive, getArchives } = useNewsDBCollector();
+  const { isLoadingDBData, allArchive, archiveHistoryLog, getHistoryLog, getArchives } =
+    useNewsDBCollector();
   const { isAuthenticated } = useAuthCollector();
 
   useEffect(() => {
     getArchives();
-  }, [getArchives]);
+    if (archiveHistoryLog && archiveHistoryLog.length > 0) {
+      getHistoryLog();
+    }
+  }, [archiveHistoryLog, getArchives, getHistoryLog]);
 
   const organisedNews = organiseNewsByMonth(allArchive);
 
@@ -27,7 +31,7 @@ const ArchivePage: FC<{}> = () => {
         {shouldShowLoader && <Loader variant='page' />}
         {shouldShowContent && (
           <>
-            <ArchiveHistoryLog />
+            <ArchiveHistoryLog logData={archiveHistoryLog} />
             {Object.entries(organisedNews).map(([monthYear, newsList]) => (
               <Accordeon key={monthYear} dateSeparator={monthYear} position='archivePage'>
                 <NewsList currentItems={newsList} />

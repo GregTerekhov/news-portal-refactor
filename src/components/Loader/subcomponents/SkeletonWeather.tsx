@@ -18,7 +18,9 @@ const SkeletonWeather: FC = () => {
   const gridClass = 'grid grid-cols-2 gap-4 lg:w-full';
   const gridItemClass = `${commonClasses} w-24 lg:w-full h-2 md:h-4 lg:h-5 ${roundedFullClass}`;
 
-  const gridItems: ReactNode[] = Array(8).fill(<div className={gridItemClass}></div>);
+  const gridItems: ReactNode[] = Array(8)
+    .fill(null)
+    .map((_, index) => <div key={index} className={gridItemClass}></div>);
 
   return (
     <div className={`${containerClass}`}>

@@ -1,6 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 
-import { PartialVotedNewsArray } from 'types';
+import { IHistoryLog, PartialVotedNewsArray } from 'types';
 import { axiosInstance } from 'reduxStore/auth';
 
 export const fetchAllNews = createAsyncThunk('newsDB/all', async (_, { rejectWithValue }) => {
@@ -68,6 +68,16 @@ export const fetchArchivedNews = createAsyncThunk('archive/all', async (_, { rej
   try {
     const response = await axiosInstance.get('/news/archive');
     return response.data.data as PartialVotedNewsArray;
+  } catch (error: any) {
+    console.log(error.message);
+    return rejectWithValue(error.message);
+  }
+});
+
+export const fetchHistoryLog = createAsyncThunk('history/log', async (_, { rejectWithValue }) => {
+  try {
+    const response = await axiosInstance.get('/news/history-log');
+    return response.data.data as IHistoryLog[];
   } catch (error: any) {
     console.log(error.message);
     return rejectWithValue(error.message);

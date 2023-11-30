@@ -9,6 +9,7 @@ import {
   IThirdPartyAuth,
   IUpdatePasswordToSend,
   IRecoveryPasswordChangeToSend,
+  ITheme,
 } from 'types';
 
 import axiosInstance from './authServices';
@@ -174,6 +175,19 @@ export const appleAuth = createAsyncThunk(
       setTokens({ accessToken: tokenAuth.tokenAuth, refreshToken: null });
       const response = await axiosInstance.get('/auth/apple');
       response.data.accessToken = tokenAuth;
+      console.log(response.data);
+      return response.data;
+    } catch (error: any) {
+      return rejectWithValue(error.message);
+    }
+  },
+);
+
+export const updateTheme = createAsyncThunk(
+  'auth/updateTheme',
+  async (theme: ITheme, { rejectWithValue }) => {
+    try {
+      const response = await axiosInstance.patch('/auth/update-theme', { userTheme: theme });
       console.log(response.data);
       return response.data;
     } catch (error: any) {

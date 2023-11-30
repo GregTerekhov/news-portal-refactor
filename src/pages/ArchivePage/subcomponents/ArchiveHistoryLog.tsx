@@ -1,7 +1,15 @@
 import React, { FC } from 'react';
-import SvgIcon from 'ui/SvgIcon';
+import { format } from 'date-fns';
 
-const ArchiveHistoryLog: FC = () => {
+import { IHistoryLog } from 'types';
+
+import { SvgIcon } from 'ui';
+
+interface IHistoryLogProps {
+  logData: IHistoryLog[];
+}
+
+const ArchiveHistoryLog: FC<IHistoryLogProps> = ({ logData }) => {
   return (
     <div className='flex flex-col mb-6'>
       <div className='-m-1.5 overflow-x-auto'>
@@ -14,7 +22,7 @@ const ArchiveHistoryLog: FC = () => {
                   type='text'
                   name='hs-table-with-pagination-search'
                   id='hs-table-with-pagination-search'
-                  className='py-2 px-3 ps-9 block w-full border-greyAlt shadow-sm rounded-lg text-sm focus:z-10 focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400 dark:focus:ring-gray-600'
+                  className='py-2 px-3 ps-9 block w-full border-greyAlt shadow-sm rounded-lg text-sm focus:z-10 focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-darkBase dark:border-gray-700 dark:text-gray-400 dark:focus:ring-gray-600'
                   placeholder='Search for news'
                 />
                 <div className='absolute inset-y-0 start-0 flex items-center pointer-events-none ps-3'>
@@ -57,20 +65,23 @@ const ArchiveHistoryLog: FC = () => {
                   </tr>
                 </thead>
                 <tbody className='divide-y divide-gray-200 dark:divide-gray-700'>
-                  <tr>
-                    <td className='px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-gray-200'>
-                      ‘We Went Back to the Stone Age’
-                    </td>
-                    <td className='px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200'>
-                      World
-                    </td>
-                    <td className='px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200'>
-                      02/10/2023
-                    </td>
-                    <td className='px-6 py-4 whitespace-nowrap text-end text-sm font-medium'>
-                      23/11/2023
-                    </td>
-                  </tr>
+                  {logData &&
+                    logData.map(({ title, newsUrl, category, additionDate, deletionDate }) => (
+                      <tr key={newsUrl}>
+                        <td className='px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-gray-200'>
+                          <a href={newsUrl}>{title}</a>
+                        </td>
+                        <td className='px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-gray-200'>
+                          {category}
+                        </td>
+                        <td className='px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200'>
+                          {format(additionDate, 'dd/MM/yyyy')};
+                        </td>
+                        <td className='px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200'>
+                          {format(deletionDate, 'dd/MM/yyyy')}
+                        </td>
+                      </tr>
+                    ))}
                 </tbody>
               </table>
             </div>

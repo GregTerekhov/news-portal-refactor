@@ -10,9 +10,9 @@ import store, { persistor } from 'reduxStore/store';
 import { WindowWidthProvider } from './contexts';
 
 import App from './App';
+import { Loader } from 'components';
 
 import './input.css';
-import { Loader } from 'components';
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   // <React.StrictMode>

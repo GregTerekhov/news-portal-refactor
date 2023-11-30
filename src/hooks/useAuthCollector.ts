@@ -16,6 +16,8 @@ import {
   googleAuth,
   facebookAuth,
   appleAuth,
+  updateTheme,
+  changeNotAuthTheme,
   // selectBoundAccounts,
 } from 'reduxStore/auth';
 import { useAppDispatch, useAppSelector } from 'reduxStore/hooks';
@@ -27,6 +29,7 @@ import {
   IThirdPartyAuth,
   IUpdatePasswordToSend,
   IRecoveryPasswordChangeToSend,
+  ITheme,
 } from 'types';
 
 const useAuthCollector = () => {
@@ -84,6 +87,12 @@ const useAuthCollector = () => {
     (tokenAuth: IThirdPartyAuth) => dispatch(appleAuth(tokenAuth)),
     [dispatch],
   );
+  const unauthorisedChangeTheme = useCallback(
+    (theme: ITheme) => dispatch(changeNotAuthTheme({ theme })),
+    [dispatch],
+  );
+
+  const changeTheme = useCallback((theme: ITheme) => dispatch(updateTheme(theme)), [dispatch]);
 
   return {
     // haveAccounts,
@@ -103,6 +112,8 @@ const useAuthCollector = () => {
     enterWithGoogle,
     enterWithFacebook,
     enterWithApple,
+    changeTheme,
+    unauthorisedChangeTheme,
   };
 };
 

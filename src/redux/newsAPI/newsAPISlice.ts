@@ -30,6 +30,8 @@ const initialState: newsAPIState = {
   hasError: null,
 };
 
+// const changeHeadline = createAction<{headline: string}>('newsAPI/changeHeadline')
+
 const newsAPISlice = createSlice({
   name: 'newsAPI',
   initialState,

@@ -9,12 +9,14 @@ import {
   fetchArchivedNews,
   fetchFavourites,
   fetchRead,
+  fetchHistoryLog,
   selectAllArchives,
   selectAllFavourites,
   selectAllReads,
   selectHasDBError,
   selectLoading,
   selectSavedNews,
+  selectHistoryLog,
 } from 'reduxStore/newsDatabase';
 
 import { PartialVotedNewsArray, VotedItem } from 'types';
@@ -25,6 +27,7 @@ const useNewsDBCollector = () => {
   const allFavourites = useAppSelector(selectAllFavourites);
   const allReads = useAppSelector(selectAllReads);
   const allArchive = useAppSelector(selectAllArchives);
+  const archiveHistoryLog = useAppSelector(selectHistoryLog);
   const errorDB = useAppSelector(selectHasDBError);
 
   const dispatch = useAppDispatch();
@@ -33,6 +36,7 @@ const useNewsDBCollector = () => {
   const getFavourites = useCallback(() => dispatch(fetchFavourites()), [dispatch]);
   const getReads = useCallback(() => dispatch(fetchRead()), [dispatch]);
   const getArchives = useCallback(() => dispatch(fetchArchivedNews()), [dispatch]);
+  const getHistoryLog = useCallback(() => dispatch(fetchHistoryLog()), [dispatch]);
   const updateSavedNews = useCallback(
     (updatedNewsObject: Partial<VotedItem>) => dispatch(addOrUpdateVotedNews(updatedNewsObject)),
     [dispatch],
@@ -49,11 +53,13 @@ const useNewsDBCollector = () => {
     allFavourites,
     allReads,
     allArchive,
+    archiveHistoryLog,
     errorDB,
     getSavedNews,
     getFavourites,
     getReads,
     getArchives,
+    getHistoryLog,
     updateSavedNews,
     addVotedNews,
     removeNews,
