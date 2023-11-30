@@ -37,6 +37,7 @@ const Header: FC = () => {
   const { headerClass, textClass, burgerMenuButtonClass, accountIconStyles } = useHeaderStyles(
     activeLinks.isHomeActive,
   );
+  const { filteredNews } = useFilterCollector();
   const token = searchParams.get('passwordToken');
   const openModal = searchParams.get('openModal');
 
@@ -54,6 +55,12 @@ const Header: FC = () => {
 
   const handleVisibilityChange = () => {
     setTouched(!touched);
+  };
+
+  const resetFilters = () => {
+    if (filteredNews && filteredNews.length > 0) {
+      resetAllFilters();
+    }
   };
 
   const isAccountPages = activeLinks.isAccountPage || activeLinks.isManageAccountPage;
@@ -137,7 +144,7 @@ const Header: FC = () => {
                       className='w-6 h-6 md:hidden'
                       onClick={() => {
                         toggleMenu();
-                        resetAllFilters();
+                        resetFilters();
                       }}
                     >
                       <SvgIcon

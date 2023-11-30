@@ -1,4 +1,4 @@
-import React, { FC, ReactNode } from 'react';
+import React, { FC, ReactNode, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 
 import SvgIcon from './SvgIcon';
@@ -15,7 +15,6 @@ interface ModalProps {
 enum S {
   Auth = 'auth',
   Weather = 'weather',
-  CV = 'CV',
 }
 
 const Modal: FC<ModalProps> = ({ children, closeModal, modalRef, variant }) => {
@@ -26,6 +25,35 @@ const Modal: FC<ModalProps> = ({ children, closeModal, modalRef, variant }) => {
   } else if (variant === S.Weather) {
     modalWidth = 'w-full';
   }
+
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Tab') {
+        const focusableElements = modalRef.current?.querySelectorAll(
+          'button, [href], input, [tabindex]:not([tabindex="-1"])',
+        ) as NodeListOf<HTMLElement>;
+
+        if (focusableElements.length > 0) {
+          const firstElement = focusableElements[0];
+          const lastElement = focusableElements[focusableElements.length - 1];
+
+          if (!event.shiftKey && document.activeElement === lastElement) {
+            firstElement.focus();
+            event.preventDefault();
+          } else if (event.shiftKey && document.activeElement === firstElement) {
+            lastElement.focus();
+            event.preventDefault();
+          }
+        }
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [modalRef]);
 
   return (
     <>

@@ -51,3 +51,5 @@ export interface IRecoveryPasswordChangeToSend {
 export interface IThirdPartyAuth {
   tokenAuth: string | null;
 }
+
+export type ITheme = string;

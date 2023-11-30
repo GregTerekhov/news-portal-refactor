@@ -1,7 +1,7 @@
 import React, { FC, useEffect, useState } from 'react';
 import { Switch } from '@headlessui/react';
 
-import { useWindowWidth } from 'hooks';
+import { useAuthCollector, useWindowWidth } from 'hooks';
 
 import { SvgIcon } from 'ui';
 
@@ -17,6 +17,7 @@ interface ThemeSwitcherProps {
 
 const ThemeSwitcher: FC<ThemeSwitcherProps> = ({ variant }) => {
   const [enabled, setEnabled] = useState<boolean>(false);
+  const { isAuthenticated, unauthorisedChangeTheme, changeTheme, userTheme } = useAuthCollector();
   const { breakpointsForMarkup } = useWindowWidth() ?? {
     breakpointsForMarkup: null,
   };
@@ -40,21 +41,33 @@ const ThemeSwitcher: FC<ThemeSwitcherProps> = ({ variant }) => {
   }
 
   useEffect(() => {
-    const savedTheme = localStorage.getItem('theme');
-    if (savedTheme === 'dark') {
+    if (userTheme && userTheme === 'dark') {
       setEnabled(true);
       document.documentElement.classList.add('dark');
     } else {
       setEnabled(false);
       document.documentElement.classList.remove('dark');
     }
-  }, [enabled]);
+  }, [userTheme]);
 
-  const handleThemeChange = () => {
+  const handleThemeChange = async () => {
     const newTheme = !enabled;
     setEnabled(newTheme);
 
-    localStorage.setItem('theme', newTheme ? 'dark' : 'light');
+    if (newTheme) {
+      if (!isAuthenticated) {
+        unauthorisedChangeTheme('dark');
+      } else {
+        changeTheme('dark');
+      }
+    } else {
+      if (!isAuthenticated) {
+        unauthorisedChangeTheme('light');
+      } else {
+        changeTheme('light');
+        console.log('userTheme', userTheme);
+      }
+    }
   };
 
   return (

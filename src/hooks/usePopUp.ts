@@ -28,7 +28,7 @@ const usePopUp = () => {
       if (event.key === 'Escape') {
         if (isOpenModal) {
           setIsOpenModal(false);
-          setIsScrollDisabled(false);
+          // setIsScrollDisabled(false);
         }
         if (isOpenCalendar) {
           setIsOpenCalendar(false);
@@ -54,19 +54,15 @@ const usePopUp = () => {
     } else {
       document.body.style.overflow = 'auto';
     }
+  }, [isScrollDisabled]);
 
-    return () => {
-      document.body.style.overflow = 'auto';
-    };
-  }, [isScrollDisabled, isOpenModal]);
+  const toggleModal = useCallback(() => {
+    setIsOpenModal(!isOpenModal);
+    setIsScrollDisabled(!isScrollDisabled);
+  }, [isOpenModal, isScrollDisabled]);
 
   const toggleMenu = () => {
     setIsOpenMenu(!isOpenMenu);
-    setIsScrollDisabled(!isScrollDisabled);
-  };
-
-  const toggleModal = () => {
-    setIsOpenModal(!isOpenModal);
     setIsScrollDisabled(!isScrollDisabled);
   };
 

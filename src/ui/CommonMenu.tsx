@@ -45,13 +45,23 @@ const CommonMenu: FC<CommonMenuProps> = ({ isOpen, links, navId, closeMenu }) =>
     }
 
     if (navId === 'main-navigation' && filteredNews && filteredNews?.length > 0) {
+      console.log('reset in CommonMenu');
       resetAllFilters();
     }
   };
 
   const handleSignOut = () => {
+    if (typeof closeMenu === 'function') {
+      closeMenu();
+    }
     logout();
     localStorage.clear();
+  };
+
+  const closeMenuByClickOnLink = () => {
+    if (typeof closeMenu === 'function') {
+      closeMenu();
+    }
   };
 
   return (
@@ -139,6 +149,7 @@ const CommonMenu: FC<CommonMenuProps> = ({ isOpen, links, navId, closeMenu }) =>
                     width='w-32'
                     svgName='icon-home'
                     svgSize={20}
+                    onHandleClick={closeMenuByClickOnLink}
                     classNameIcon='stroke-whiteBase fill-transparent'
                   >
                     <Link to='/'>Home</Link>
@@ -147,7 +158,11 @@ const CommonMenu: FC<CommonMenuProps> = ({ isOpen, links, navId, closeMenu }) =>
               </div>
             ) : (
               <>
-                <Link to='/account' className='text-darkBase dark:text-whiteBase text-end'>
+                <Link
+                  to='/account'
+                  className='text-darkBase dark:text-whiteBase text-end'
+                  onClick={closeMenu}
+                >
                   Your account, {user.name}
                 </Link>
                 <div className='flex justify-between'>

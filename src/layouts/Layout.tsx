@@ -32,11 +32,11 @@ const Layout: FC = () => {
     }
   }, [isAuthenticated, fetchCategoriesList]);
 
+  const isNotMobile = breakpointsForMarkup?.isTablet || breakpointsForMarkup?.isDesktop;
+
   const shouldShowPageScrollController =
-    (activeLinks?.isHomeActive && breakpointsForMarkup?.isTablet && rebuildedNews?.length > 0) ||
-    (activeLinks?.isHomeActive && breakpointsForMarkup?.isDesktop && rebuildedNews?.length > 0) ||
-    (activeLinks?.isArchiveActive && breakpointsForMarkup?.isTablet && rebuildedNews?.length > 0) ||
-    (activeLinks?.isArchiveActive && breakpointsForMarkup?.isDesktop && rebuildedNews?.length > 0);
+    (activeLinks?.isHomeActive && isNotMobile && rebuildedNews?.length > 0) ||
+    (activeLinks?.isArchiveActive && isNotMobile && rebuildedNews?.length > 0);
 
   const isAccountPages = activeLinks.isAccountPage || activeLinks.isManageAccountPage;
   const shouldNotShowFiltersManager =

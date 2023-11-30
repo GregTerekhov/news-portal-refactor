@@ -214,7 +214,7 @@ const useAuth = () => {
     },
   ];
 
-  const changeInputs = [
+  const changePasswordInputs = [
     {
       type: 'password',
       placeholder: 'Enter your new password',
@@ -251,7 +251,7 @@ const useAuth = () => {
     recoveryPasswordErrors,
     signUpInputs,
     signInInputs,
-    changeInputs,
+    changePasswordInputs,
   };
 };
 

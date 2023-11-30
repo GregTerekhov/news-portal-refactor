@@ -44,14 +44,14 @@ const useAdditionalRequest = () => {
     (newsByDate && newsByDate?.length === 0);
 
   useEffect(() => {
-    console.log('Updating headline...');
-    console.log('filteredNews:', filteredNews);
-    console.log('newsByKeyword:', newsByKeyword);
-    console.log('query:', query);
-    console.log('newsByCategory:', newsByCategory);
-    console.log('category:', category);
-    console.log('newsByDate:', newsByDate);
-    console.log('period:', period);
+    // console.log('Updating headline...');
+    // console.log('filteredNews:', filteredNews);
+    // console.log('newsByKeyword:', newsByKeyword);
+    // console.log('query:', query);
+    // console.log('newsByCategory:', newsByCategory);
+    // console.log('category:', category);
+    // console.log('newsByDate:', newsByDate);
+    // console.log('period:', period);
 
     const updateHeadline = async () => {
       if (filteredNews && filteredNews.length > 0) {

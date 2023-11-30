@@ -1,12 +1,13 @@
 import { PayloadAction, SerializedError, createAction, createSlice } from '@reduxjs/toolkit';
 
-import { PartialVotedNewsArray, VotedItem } from 'types';
+import { IHistoryLog, PartialVotedNewsArray, VotedItem } from 'types';
 
 import {
   deleteNews,
   fetchAllNews,
   fetchArchivedNews,
   fetchFavourites,
+  fetchHistoryLog,
   fetchRead,
 } from './newsDatabaseOperations';
 
@@ -15,6 +16,7 @@ interface NewsDBState {
   favourites: PartialVotedNewsArray;
   reads: PartialVotedNewsArray;
   archivedNews: PartialVotedNewsArray;
+  historyLog: IHistoryLog[];
   isLoading: boolean;
   hasError: SerializedError | null;
 }
@@ -31,6 +33,7 @@ const initialState: NewsDBState = {
   favourites: [],
   reads: [],
   archivedNews: [],
+  historyLog: [],
   isLoading: false,
   hasError: null,
 };
@@ -155,6 +158,19 @@ const newsDBSlice = createSlice({
         state.hasError = null;
       })
       .addCase(deleteNews.rejected, (state, action) => {
+        state.isLoading = false;
+        state.hasError = action.error;
+      })
+      .addCase(fetchHistoryLog.pending, (state) => {
+        state.isLoading = true;
+        state.hasError = null;
+      })
+      .addCase(fetchHistoryLog.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.historyLog = action.payload;
+        state.hasError = null;
+      })
+      .addCase(fetchHistoryLog.rejected, (state, action) => {
         state.isLoading = false;
         state.hasError = action.error;
       })

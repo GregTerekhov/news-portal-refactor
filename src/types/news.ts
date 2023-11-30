@@ -55,6 +55,14 @@ export interface C {
   display_name: string;
 }
 
+export interface IHistoryLog {
+  title: string;
+  category: string;
+  newsUrl: string;
+  additionDate: number;
+  deletionDate: number;
+}
+
 export interface VotedItem {
   _id?: string;
   title: string;

@@ -31,7 +31,7 @@ const NewsItem: FC<Partial<NewsItemProps>> = ({
 
   const locationShowHasReadStatus = activeLinks.isHomeActive || activeLinks.isArchiveActive;
   if (liveNews) {
-    console.log(liveNews);
+    // console.log(liveNews);
   }
   return (
     <>

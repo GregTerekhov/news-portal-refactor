@@ -7,7 +7,7 @@ import { useAuth } from '../hooks';
 
 const ChangePassword: FC = () => {
   const {
-    changeInputs,
+    changePasswordInputs,
     handleChangePasswordSubmit,
     changePasswordSubmitHandler,
     registerChangePassword,
@@ -20,25 +20,27 @@ const ChangePassword: FC = () => {
       </h2>
       <form className='pt-4' onSubmit={handleChangePasswordSubmit(changePasswordSubmitHandler)}>
         <ul className='space-y-4 lg:space-y-8 mb-8'>
-          {Array.isArray(changeInputs) &&
-            changeInputs.map(({ type, placeholder, children, errors, label, ariaInvalid }) => (
-              <li key={label}>
-                <VerifiableInput
-                  inputData={{
-                    type,
-                    placeholder,
-                    children,
-                  }}
-                  errors={errors}
-                  register={registerChangePassword}
-                  label={label}
-                  svgName='icon-password'
-                  hasIcon={false}
-                  variant='auth'
-                  ariaInvalid={ariaInvalid}
-                />
-              </li>
-            ))}
+          {Array.isArray(changePasswordInputs) &&
+            changePasswordInputs.map(
+              ({ type, placeholder, children, errors, label, ariaInvalid }) => (
+                <li key={label}>
+                  <VerifiableInput
+                    inputData={{
+                      type,
+                      placeholder,
+                      children,
+                    }}
+                    errors={errors}
+                    register={registerChangePassword}
+                    label={label}
+                    svgName='icon-password'
+                    hasIcon={false}
+                    variant='auth'
+                    ariaInvalid={ariaInvalid}
+                  />
+                </li>
+              ),
+            )}
         </ul>
 
         <div className='flex justify-between items-center'>

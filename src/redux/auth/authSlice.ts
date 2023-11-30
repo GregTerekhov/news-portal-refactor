@@ -8,6 +8,7 @@ import {
   signIn,
   signOut,
   signUp,
+  updateTheme,
   updateUserEmail,
 } from './authOperations';
 
@@ -36,6 +37,8 @@ interface SetTokensPayload {
   refreshToken: string | null;
 }
 
+type Theme = { theme: string };
+
 const initialState: AuthState = {
   isLoggedIn: false,
   hasError: null,
@@ -57,6 +60,7 @@ const initialState: AuthState = {
 };
 
 export const setTokens = createAction<SetTokensPayload>('auth/setTokens');
+export const changeNotAuthTheme = createAction<Theme>('auth/changeTheme');
 
 const authSlice = createSlice({
   name: 'auth',
@@ -184,13 +188,27 @@ const authSlice = createSlice({
         state.hasError = action.error;
         state.isCurrentUser = false;
       })
+      .addCase(updateTheme.pending, (state) => {
+        state.isCurrentUser = true;
+      })
+      .addCase(updateTheme.fulfilled, (state, action) => {
+        state.isCurrentUser = false;
+        state.userTheme = action.payload;
+      })
+      .addCase(updateTheme.rejected, (state, action) => {
+        state.hasError = action.error;
+        state.isCurrentUser = false;
+      })
       .addCase(setTokens, (state, action) => {
         const { accessToken, refreshToken }: SetTokensPayload = action.payload;
         state.accessToken = accessToken;
         state.refreshToken = refreshToken;
+      })
+      .addCase(changeNotAuthTheme, (state, action) => {
+        const { theme }: Theme = action.payload;
+        state.userTheme = theme;
       });
   },
 });
 
-// export const { setTokens } = authSlice.actions;
 export const authSliceReducer = authSlice.reducer;
