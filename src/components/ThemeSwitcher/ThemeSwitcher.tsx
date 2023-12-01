@@ -1,9 +1,10 @@
 import React, { FC, useEffect, useState } from 'react';
 import { Switch } from '@headlessui/react';
 
-import { useAuthCollector, useWindowWidth } from 'hooks';
+import { useActiveLinks, useAuthCollector, useHeaderStyles, useWindowWidth } from 'hooks';
 
 import { SvgIcon } from 'ui';
+import { useLocation } from 'react-router-dom';
 
 enum VariantSwitcher {
   Modal = 'modal',
@@ -21,6 +22,10 @@ const ThemeSwitcher: FC<ThemeSwitcherProps> = ({ variant }) => {
   const { breakpointsForMarkup } = useWindowWidth() ?? {
     breakpointsForMarkup: null,
   };
+
+  const location = useLocation();
+  const activeLinks = useActiveLinks(location);
+  const { themeSwitcherClass, themeSwitcherTextClass } = useHeaderStyles(activeLinks.isHomeActive);
 
   let spacing: string = '';
   let colorLeftLabel: string = '';
@@ -75,7 +80,13 @@ const ThemeSwitcher: FC<ThemeSwitcherProps> = ({ variant }) => {
   return (
     <div className={`flex items-center gap-2 ${spacing}`}>
       {breakpointsForMarkup?.isDesktop ? (
-        <p className={`font-header text-xl leading-tighter ${colorLeftLabel}`}>Light</p>
+        <p
+          className={`${
+            activeLinks.isHomeActive && themeSwitcherTextClass
+          } font-header text-xl leading-tighter ${colorLeftLabel}`}
+        >
+          Light
+        </p>
       ) : (
         <SvgIcon svgName='icon-sun' size={21} className={`fill-transparent ${strokeLeftIcon}`} />
       )}
@@ -83,7 +94,7 @@ const ThemeSwitcher: FC<ThemeSwitcherProps> = ({ variant }) => {
         checked={enabled}
         onChange={setEnabled}
         onClick={handleThemeChange}
-        className={`${
+        className={`${activeLinks.isHomeActive && themeSwitcherClass} ${
           enabled ? 'bg-accentBase border-contrastWhite' : 'bg-contrastWhite border-accentBase'
         }
           relative inline-flex items-center h-5 w-10 shrink-0 cursor-pointer rounded-full border transition-colors duration-500 ease-in-out focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75`}
@@ -99,9 +110,9 @@ const ThemeSwitcher: FC<ThemeSwitcherProps> = ({ variant }) => {
       </Switch>
       {breakpointsForMarkup?.isDesktop ? (
         <p
-          className={`font-header text-xl leading-tighter ${
-            enabled ? 'text-whiteBase' : 'text-greyAlt'
-          }`}
+          className={`${
+            activeLinks.isHomeActive && themeSwitcherTextClass
+          } font-header text-xl leading-tighter ${enabled ? 'text-whiteBase' : 'text-greyAlt'}`}
         >
           Dark
         </p>
