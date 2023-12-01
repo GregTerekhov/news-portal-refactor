@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
-import { useAuthCollector, usePopUp, useWindowWidth } from 'hooks';
+import { useActiveLinks, useAuthCollector, useHeaderStyles, usePopUp, useWindowWidth } from 'hooks';
 
 import { AuthModal } from 'components';
 import { Modal, PrimaryButton } from 'ui';
@@ -13,6 +13,9 @@ const Auth: FC<{}> = () => {
   };
   const { isAuthenticated, logout } = useAuthCollector();
   const { isOpenModal, popUpRef, toggleModal } = usePopUp();
+  const location = useLocation();
+  const activeLinks = useActiveLinks(location);
+  const { authButtonClass } = useHeaderStyles(activeLinks.isHomeActive);
 
   const navigate = useNavigate();
 
@@ -35,7 +38,9 @@ const Auth: FC<{}> = () => {
           svgName={`${isAuthenticated ? 'icon-signout' : 'icon-auth'}`}
           svgSize={breakpointsForMarkup?.isDesktop ? 28 : 24}
           classNameIcon='fill-whiteBase'
-          classNameButton={`border border-solid border-transparent dark:border-whiteBase bg-accentBase hover:bg-accentAlt transition-colors duration-500 ${
+          classNameButton={`${
+            activeLinks.isHomeActive && authButtonClass
+          } border border-solid border-transparent dark:border-whiteBase bg-accentBase hover:bg-accentAlt transition-colors duration-500 ${
             breakpointsForMarkup?.isDesktop ? '' : 'border-transparent p-1.5'
           }`}
         >

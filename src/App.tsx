@@ -21,11 +21,8 @@ function App() {
   const { isRefreshingUser, fetchCurrentAuthUser } = useAuthCollector();
 
   useEffect(() => {
-    // if (isAuthenticated)
     fetchCurrentAuthUser();
   }, [fetchCurrentAuthUser]);
-
-  // const isRefreshingUser = true;
 
   return isRefreshingUser ? (
     <Loader variant='page' />
@@ -43,8 +40,8 @@ function App() {
           </Route>
         </Route>
         <Route path='/about-us' element={<AboutUs />} />
+        <Route path='*' element={<ErrorPage />} />
       </Route>
-      <Route path='*' element={<ErrorPage />} />
     </Routes>
   );
 }

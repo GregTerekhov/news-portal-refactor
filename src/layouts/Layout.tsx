@@ -23,7 +23,7 @@ const Layout: FC = () => {
   // const isAuthenticated = true;
   const location = useLocation();
   const activeLinks = useActiveLinks(location);
-
+  console.log('Layout isAuth: ', isAuthenticated);
   const { rebuildedNews } = useChooseRenderingNews({ activeLinks });
 
   useEffect(() => {
@@ -40,11 +40,18 @@ const Layout: FC = () => {
 
   const isAccountPages = activeLinks.isAccountPage || activeLinks.isManageAccountPage;
   const shouldNotShowFiltersManager =
-    isAccountPages || activeLinks?.isAboutUs || activeLinks?.isArchiveActive;
+    isAccountPages ||
+    activeLinks?.isAboutUs ||
+    activeLinks?.isArchiveActive ||
+    activeLinks?.isErrorPage;
 
   return (
-    <div className='max-h-sectionSmall md:max-h-sectionMedium lg:max-h-sectionLarge h-full w-full flex flex-col justify-between'>
-      <Header />
+    <div
+      className={`max-h-sectionSmall md:max-h-sectionMedium lg:max-h-sectionLarge ${
+        activeLinks?.isHomeActive ? 'h-full' : 'h-screen'
+      } w-full flex flex-col justify-between`}
+    >
+      {!activeLinks?.isErrorPage && <Header />}
       <main>
         {activeLinks.isHomeActive && <Hero />}
         <section
@@ -56,12 +63,16 @@ const Layout: FC = () => {
         >
           <div className='container mx-auto px-4 hg:px-[65px]'>
             {isAuthenticated && !shouldNotShowFiltersManager ? <NewsFilterManager /> : null}
-            {(!isAuthenticated && breakpointsForMarkup?.isNothing) ||
-            breakpointsForMarkup?.isMobile ? (
+            {!isAuthenticated && !isNotMobile && (
               <div className='flex justify-end mb-10'>
                 <ThemeSwitcher />
               </div>
-            ) : null}
+            )}
+            {activeLinks?.isErrorPage && (
+              <div className='flex justify-end mb-10'>
+                <ThemeSwitcher />
+              </div>
+            )}
             {shouldShowPageScrollController ? (
               <>
                 <PageScrollController
@@ -82,7 +93,7 @@ const Layout: FC = () => {
           </div>
         </section>
       </main>
-      <Footer />
+      {!activeLinks?.isErrorPage && <Footer />}
     </div>
   );
 };

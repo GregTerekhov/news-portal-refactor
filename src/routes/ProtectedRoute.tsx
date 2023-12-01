@@ -1,4 +1,4 @@
-import React, { FC, ReactElement } from 'react';
+import React, { FC, ReactElement, useEffect, useState } from 'react';
 import { Navigate, Outlet, useLocation } from 'react-router-dom';
 
 import { useAuthCollector } from 'hooks';
@@ -8,11 +8,19 @@ export type ProtectedRouteProps = {
 } & { redirectPath?: string };
 
 const ProtectedRoute: FC<ProtectedRouteProps> = ({ children, redirectPath = '/' }) => {
-  const { isAuthenticated } = useAuthCollector();
+  const { isAuthenticated, isRefreshingUser } = useAuthCollector();
+  const [isAuthChecked, setIsAuthChecked] = useState(false);
   const location = useLocation();
 
-  if (!isAuthenticated) {
-    return <Navigate to={redirectPath} state={{ from: location }} replace />;
+  //перевірка асинхронної isRefreshingUser, щоб була можливість повертатись на попередню сторінку з ErrorPage та оновлювати поточну сторінку без redirect на HomePage
+  useEffect(() => {
+    if (!isAuthChecked && !isRefreshingUser) {
+      setIsAuthChecked(true);
+    }
+  }, [isAuthChecked, isRefreshingUser]);
+
+  if (!isAuthenticated && isAuthChecked) {
+    return <Navigate to={redirectPath} state={{ from: location.pathname }} />;
   }
 
   return children ?? <Outlet />;

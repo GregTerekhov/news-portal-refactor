@@ -83,6 +83,7 @@ const useNews = ({ liveNews, activeLinks }: NewsItemProps) => {
 
   function getIsFavourite(): boolean {
     const existingNews = savedNews?.find((news) => news.newsUrl === liveNews?.newsUrl);
+    console.log('existingNews', existingNews);
     return existingNews?.isFavourite ?? false;
   }
 

@@ -1,51 +1,67 @@
-import { ThemeSwitcher } from 'components/index';
 import React, { FC } from 'react';
-import { redirect } from 'react-router-dom';
-// import { selectIsLoggedIn } from 'reduxStore/auth';
-// import { useAppSelector } from 'reduxStore/hooks';
-// import PrimaryButton from 'ui/PrimaryButton';
+import { useNavigate } from 'react-router-dom';
+
+import { errorImages } from 'constants';
+import { generateContentImages } from 'helpers';
+import { useAuthCollector, useCacheImage } from 'hooks';
+
+import { PrimaryButton } from 'ui';
 
 const ErrorPage: FC<{}> = () => {
-  // const isLoggedIn = useAppSelector(selectIsLoggedIn);
-  const isLoggedIn = true;
+  const devicePixelRatio = window.devicePixelRatio || 1;
+  const { isAuthenticated } = useAuthCollector();
+  const navigate = useNavigate();
 
-  const onHandleClick = () => {
-    console.log(`2`);
-    return redirect('/');
+  const matchedErrorImage = generateContentImages(
+    errorImages,
+    devicePixelRatio,
+    'image/webp',
+    window.innerWidth,
+  );
+
+  const imageUrl = useCacheImage(matchedErrorImage?.src || '');
+
+  const handleGoHome = () => {
+    navigate('/');
   };
 
-  console.log(isLoggedIn);
+  const handleGoBack = () => {
+    navigate(-1);
+  };
 
   return (
-    <section className='container mx-auto px-4 hg:px-[65px] text-center'>
-      <div className='w-[150px] ml-auto'>
-        <ThemeSwitcher />
-      </div>
-      <img className='m-auto' src='src\assets\images\ErrorPagePNG.png' alt='errorPage' />
-      <h1 className='text-7xl mt-10 mb-10'>Page not found</h1>
-      <p className='block text-3xl m-auto w-[900px]  mb-10'>
+    <div className='space-y-10 text-center lg:w-[900px] lg:mx-auto'>
+      <img className='mx-auto' src={imageUrl} alt='Error page' />
+      <h1 className='text-5xl text-darkBase dark:text-whiteBase transition-colors duration-500'>
+        Page not found
+      </h1>
+      <p className='text-xl text-justify md:text-center text-darkBase dark:text-whiteBase transition-colors duration-500'>
         Looks like you'we lost a bit. The page you requested could not be found or maybe don't even
         exist. How about to make a step back and try again?
       </p>
-      {/* <PrimaryButton variant='' /> */}
-      <div className='flex items-center justify-center gap-5'>
-        {isLoggedIn && (
-          <button
-            className='uppercase px-5 py-2 bg-accentBase rounded-full border-solid text-whiteBase'
-            type='button'
+      <div
+        className={`${
+          isAuthenticated ? 'justify-between gap-5 md:gap-x-20 lg:gap-x-36' : 'justify-center'
+        } flex items-center`}
+      >
+        {isAuthenticated && (
+          <PrimaryButton
+            variant='Primary'
+            id='redirect to previous page button'
+            onHandleClick={handleGoBack}
           >
             Go back
-          </button>
+          </PrimaryButton>
         )}
-        <button
-          className='uppercase px-5 py-2 bg-accentBase rounded-full border-solid text-whiteBase'
-          onClick={onHandleClick}
-          type='button'
+        <PrimaryButton
+          variant='Primary'
+          id='Redirect to home page button'
+          onHandleClick={handleGoHome}
         >
-          {isLoggedIn ? 'Or Go Home' : 'Just Go Home'}
-        </button>
+          {isAuthenticated ? 'or Go Home' : 'Just Go Home'}
+        </PrimaryButton>
       </div>
-    </section>
+    </div>
   );
 };
 

@@ -45,10 +45,16 @@ const useHeaderStyles = (isHomePage: boolean) => {
 
   const headerClass = isScrolled
     ? 'bg-whiteBase/[.8] dark:bg-darkBackground/[.8] border-b'
-    : 'bg-transparent border-0 backdrop-blur-lg';
+    : 'bg-transparent border-0';
 
-  const textClass = isScrolled ? 'text-darkBase dark:text-whiteBase' : 'text-whiteBase';
-  const accountIconStyles = isScrolled ? 'fill-darkBase dark:fill-whiteBase' : 'fill-whiteBase';
+  const textClass = isScrolled
+    ? 'text-darkBase dark:text-whiteBase drop-shadow-none'
+    : 'text-whiteBase [text-shadow:8px_10px_20px_rgba(17,19,33,.5)]';
+
+  const accountIconStyles = isScrolled
+    ? 'fill-darkBase dark:fill-whiteBase'
+    : 'fill-whiteBase group-hover:fill-accentBase';
+
   const inputHomePage = {
     inputBorder: isScrolled ? 'border-darkBase dark:border-whiteBase' : 'border-whiteBase',
     svgFill: isScrolled ? 'fill-darkBase dark:fill-whiteBase' : 'fill-whiteBase',
@@ -73,12 +79,20 @@ const useHeaderStyles = (isHomePage: boolean) => {
     ? 'stroke-darkBase dark:stroke-whiteBase'
     : 'stroke-whiteBase';
 
+  const authButtonClass = isScrolled ? '' : 'shadow-darkCard';
+
+  const themeSwitcherClass = isScrolled ? '' : 'shadow-darkCard';
+  const themeSwitcherTextClass = isScrolled ? '' : '[text-shadow:8px_10px_20px_rgba(17,19,33,.5)]';
+
   return {
     headerClass,
     textClass,
     inputClass,
     burgerMenuButtonClass,
     accountIconStyles,
+    authButtonClass,
+    themeSwitcherClass,
+    themeSwitcherTextClass,
   };
 };
 

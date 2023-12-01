@@ -72,7 +72,7 @@ const Header: FC = () => {
           activeLinks.isHomeActive
             ? headerClass
             : 'bg-whiteBase/[.8] dark:bg-darkBackground/[.8] border-b border-solid border-fullDark/[.2] dark:border-whiteBase/[.2]'
-        } transition-all duration-100 ${isOpenMenu && 'border-b-0 backdrop-blur-0'} ${
+        } transition-all duration-100 ${isOpenMenu && 'border-b-0'} ${
           isOpenModal ? 'z-0 pointer-events-none' : 'z-50 pointer-events-auto'
         }`}
       >
@@ -84,16 +84,18 @@ const Header: FC = () => {
           {isNotMobile && !isAccountPages && isAuthenticated ? (
             <Link
               to='/account'
-              className={`absolute top-1.5 right-40 lg:right-60 hg:text-xl flex items-center gap-3 ${
+              className={`absolute top-1.5 right-40 lg:right-60 hg:text-xl flex items-center gap-3  ${
                 activeLinks.isHomeActive ? textClass : 'text-darkBase dark:text-whiteBase'
-              } hover:text-accentBase hover:underline hover:decoration-accentBase transition-colors duration-500`}
+              } group hover:text-accentBase hover:underline hover:decoration-accentBase transition-colors duration-500`}
             >
               {user.name}
               <SvgIcon
                 svgName='icon-account'
                 size={18}
                 className={`${
-                  activeLinks.isHomeActive ? accountIconStyles : 'fill-darkBase dark:fill-whiteBase'
+                  activeLinks.isHomeActive
+                    ? accountIconStyles
+                    : 'fill-darkBase dark:fill-whiteBase group-hover:fill-accentBase dark:group-hover:fill-whiteBase'
                 }`}
               />
             </Link>
@@ -160,7 +162,7 @@ const Header: FC = () => {
                   </>
                 ) : (
                   <div className='flex flex-col gap-3'>
-                    <AuthButton />
+                    {!isAccountPages && <AuthButton />}
                     <ThemeSwitcher variant='header' />
                   </div>
                 )}
