@@ -37,7 +37,7 @@ interface SetTokensPayload {
   refreshToken: string | null;
 }
 
-type Theme = { theme: string };
+type Theme = { updatedTheme: string };
 
 const initialState: AuthState = {
   isLoggedIn: false,
@@ -193,7 +193,7 @@ const authSlice = createSlice({
       })
       .addCase(updateTheme.fulfilled, (state, action) => {
         state.isCurrentUser = false;
-        state.userTheme = action.payload;
+        state.userTheme = action.payload.userTheme;
       })
       .addCase(updateTheme.rejected, (state, action) => {
         state.hasError = action.error;
@@ -205,8 +205,8 @@ const authSlice = createSlice({
         state.refreshToken = refreshToken;
       })
       .addCase(changeNotAuthTheme, (state, action) => {
-        const { theme }: Theme = action.payload;
-        state.userTheme = theme;
+        const { updatedTheme }: Theme = action.payload;
+        state.userTheme = updatedTheme;
       });
   },
 });

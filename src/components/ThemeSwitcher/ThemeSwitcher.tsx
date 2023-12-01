@@ -55,16 +55,18 @@ const ThemeSwitcher: FC<ThemeSwitcherProps> = ({ variant }) => {
     setEnabled(newTheme);
 
     if (newTheme) {
+      document.documentElement.classList.add('dark');
       if (!isAuthenticated) {
-        unauthorisedChangeTheme('dark');
+        unauthorisedChangeTheme({ updatedTheme: 'dark' });
       } else {
-        changeTheme('dark');
+        changeTheme({ updatedTheme: 'dark' });
       }
     } else {
+      document.documentElement.classList.remove('dark');
       if (!isAuthenticated) {
-        unauthorisedChangeTheme('light');
+        unauthorisedChangeTheme({ updatedTheme: 'light' });
       } else {
-        changeTheme('light');
+        changeTheme({ updatedTheme: 'light' });
         console.log('userTheme', userTheme);
       }
     }
