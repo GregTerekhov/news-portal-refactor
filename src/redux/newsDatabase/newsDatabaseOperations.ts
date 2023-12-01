@@ -6,7 +6,7 @@ import { axiosInstance } from 'reduxStore/auth';
 export const fetchAllNews = createAsyncThunk('newsDB/all', async (_, { rejectWithValue }) => {
   try {
     const response = await axiosInstance.get('/news');
-    console.log('responseAll', response.data.data);
+    // console.log('responseAll', response.data.data);
     return response.data.data as PartialVotedNewsArray;
   } catch (error: any) {
     return rejectWithValue(error.message);
@@ -35,7 +35,7 @@ export const deleteNews = createAsyncThunk(
     try {
       const response = await axiosInstance.delete(`/news/${id}`);
       console.log('responseDelete', response.data);
-      return response.data.data;
+      return response.data;
     } catch (error: any) {
       console.log(error.message);
       return rejectWithValue(error.message);

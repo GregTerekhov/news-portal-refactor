@@ -2,6 +2,7 @@ import React, { FC } from 'react';
 
 import { plugImages } from 'constants';
 import { generateContentImages } from 'helpers';
+import { useCacheImage } from 'hooks';
 
 const enum VariantImage {
   Page = 'page',
@@ -22,6 +23,8 @@ const PlugImage: FC<PlugImageProps> = ({ variant }) => {
     window.innerWidth,
   );
 
+  const imageUrl = useCacheImage(matchedPlugImage?.src || '');
+
   return (
     <>
       {variant === VariantImage.Page ? (
@@ -29,10 +32,10 @@ const PlugImage: FC<PlugImageProps> = ({ variant }) => {
           <p className='text-darkBase dark:text-whiteBase text-2xl font-bold tracking-smallTight mb-10 text-center md:text-5xl md:tracking-tighter md:w-[548px] transition-colors duration-500'>
             We haven’t found news from this category
           </p>
-          <img src={matchedPlugImage?.src} alt='No found news' />
+          <img src={imageUrl} alt='No found news' />
         </div>
       ) : (
-        <img src={matchedPlugImage?.src} alt='No found news' />
+        <img src={imageUrl} alt='No found news' />
       )}
     </>
   );

@@ -63,7 +63,7 @@ export const signIn = createAsyncThunk(
 
 export const signOut = createAsyncThunk('/auth/signOut', async (_, { rejectWithValue }) => {
   try {
-    const response = await axiosInstance.post('auth/sign-out');
+    const response = await axiosInstance.post('/auth/sign-out');
     // token.unset();
     setTokens({ accessToken: null, refreshToken: null });
     return response.data;
@@ -83,7 +83,7 @@ export const fetchCurrentUser = createAsyncThunk('auth/current', async (_, thunk
   try {
     // token.set(persistedToken);
     const response = await axiosInstance.get('/auth/current-user');
-    console.log(response.data.user);
+    console.log(response.data);
     return response.data;
   } catch (error: any) {
     return thunkAPI.rejectWithValue(error.message);
@@ -93,10 +93,12 @@ export const fetchCurrentUser = createAsyncThunk('auth/current', async (_, thunk
 export const updateUserEmail = createAsyncThunk(
   'auth/updateEmail',
   async (newEmail: IUpdateEmail, { rejectWithValue }) => {
+    console.log('newEmail', newEmail);
     try {
-      const response = await axiosInstance.patch('auth/update-email', newEmail);
+      const response = await axiosInstance.patch('/auth/update-email', newEmail);
       return response.data;
     } catch (error: any) {
+      console.log(error.message);
       return rejectWithValue(error.message);
     }
   },
@@ -105,9 +107,11 @@ export const updateUserPassword = createAsyncThunk(
   'auth/updatePassword',
   async (newPassword: IUpdatePasswordToSend, { rejectWithValue }) => {
     try {
-      const response = await axiosInstance.patch('auth/update-password', newPassword);
+      const response = await axiosInstance.patch('/auth/update-password', newPassword);
+      console.log(response.data);
       return response.data;
     } catch (error: any) {
+      console.log(error.message);
       return rejectWithValue(error.message);
     }
   },
@@ -120,6 +124,7 @@ export const recoveryPasswordRequest = createAsyncThunk(
       // додати в header accessToken витягнути з URLSearchParams
       return response.data;
     } catch (error: any) {
+      console.log(error.message);
       return rejectWithValue(error.message);
     }
   },
@@ -129,9 +134,10 @@ export const recoveryPasswordChange = createAsyncThunk(
   'auth/recoveryPasswordChange',
   async (changedPassword: IRecoveryPasswordChangeToSend, { rejectWithValue }) => {
     try {
-      const response = await axiosInstance.patch('auth/forgot-password-change', changedPassword);
+      const response = await axiosInstance.patch('/auth/forgot-password-change', changedPassword);
       return response.data;
     } catch (error: any) {
+      console.log(error.message);
       return rejectWithValue(error.message);
     }
   },
@@ -148,6 +154,7 @@ export const googleAuth = createAsyncThunk(
       console.log(response.data);
       return response.data;
     } catch (error: any) {
+      console.log(error.message);
       return rejectWithValue(error.message);
     }
   },
@@ -163,6 +170,7 @@ export const facebookAuth = createAsyncThunk(
       console.log(response.data);
       return response.data;
     } catch (error: any) {
+      console.log(error.message);
       return rejectWithValue(error.message);
     }
   },
@@ -178,6 +186,7 @@ export const appleAuth = createAsyncThunk(
       console.log(response.data);
       return response.data;
     } catch (error: any) {
+      console.log(error.message);
       return rejectWithValue(error.message);
     }
   },
@@ -185,12 +194,14 @@ export const appleAuth = createAsyncThunk(
 
 export const updateTheme = createAsyncThunk(
   'auth/updateTheme',
-  async (theme: ITheme, { rejectWithValue }) => {
+  async (updatedTheme: ITheme, { rejectWithValue }) => {
+    console.log('theme', updatedTheme);
     try {
-      const response = await axiosInstance.patch('/auth/update-theme', { userTheme: theme });
+      const response = await axiosInstance.patch('/auth/update-theme', updatedTheme);
       console.log(response.data);
       return response.data;
     } catch (error: any) {
+      console.log(error.message);
       return rejectWithValue(error.message);
     }
   },

@@ -46,7 +46,7 @@ const FavouritePage: FC<{}> = () => {
   return (
     isAuthenticated && (
       <>
-        {shouldShowLoader && <Loader variant='page' />}
+        {shouldShowLoader && <Loader variant='generalSection' />}
         {shouldShowContent && (
           <NewsList
             currentItems={rebuildedNews}

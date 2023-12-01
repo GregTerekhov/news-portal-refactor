@@ -88,11 +88,14 @@ const useAuthCollector = () => {
     [dispatch],
   );
   const unauthorisedChangeTheme = useCallback(
-    (theme: ITheme) => dispatch(changeNotAuthTheme({ theme })),
+    (updatedTheme: ITheme) => dispatch(changeNotAuthTheme(updatedTheme)),
     [dispatch],
   );
 
-  const changeTheme = useCallback((theme: ITheme) => dispatch(updateTheme(theme)), [dispatch]);
+  const changeTheme = useCallback(
+    (updatedTheme: ITheme) => dispatch(updateTheme(updatedTheme)),
+    [dispatch],
+  );
 
   return {
     // haveAccounts,

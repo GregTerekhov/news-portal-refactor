@@ -15,13 +15,8 @@ const Pagination: FC<PaginationProps> = ({ pageNumbers, currentPage, setCurrentP
   };
   const totalPages = pageNumbers.length;
   const screenHeight = window.innerHeight;
-  let visibleButtonsCount: number = 0;
-
-  if (breakpointsForMarkup?.isNothing || breakpointsForMarkup?.isMobile) {
-    visibleButtonsCount = 3;
-  } else {
-    visibleButtonsCount = 6;
-  }
+  const visibleButtonsCount =
+    breakpointsForMarkup?.isNothing || breakpointsForMarkup?.isMobile ? 3 : 6;
 
   const paginationButtons = [];
 
@@ -88,12 +83,12 @@ const Pagination: FC<PaginationProps> = ({ pageNumbers, currentPage, setCurrentP
       paginationButtons.push(renderEllipsis('prev'));
       paginationButtons.push(renderPaginationButton(prevPage));
       paginationButtons.push(renderPaginationButton(currentPage));
+      paginationButtons.push(renderPaginationButton(nextPage));
       paginationButtons.push(renderEllipsis('next'));
-      paginationButtons.push(renderPaginationButton(lastPage));
     }
     if (currentPage + 1 === lastPage) {
-      paginationButtons.push(renderPaginationButton(firstPage));
       paginationButtons.push(renderEllipsis('prev'));
+      paginationButtons.push(renderPaginationButton(prevPage));
       paginationButtons.push(renderPaginationButton(currentPage));
       paginationButtons.push(renderPaginationButton(lastPage));
     }

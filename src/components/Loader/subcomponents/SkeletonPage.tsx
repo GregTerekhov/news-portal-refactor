@@ -1,39 +1,60 @@
-import React, { FC } from 'react';
-import { useLocation } from 'react-router-dom';
+import React, { FC, ReactNode } from 'react';
 
-import { useActiveLinks } from 'hooks';
+import { useWindowWidth } from 'hooks';
 
-import { lineClasses, absoluteLineClasses, groups } from '../assistants';
+import SkeletonSection from './SkeletonSection';
+import {
+  commonPageClass,
+  commonPageItemClass,
+  pageClass,
+  headerContainerPageClass,
+  logoPageClass,
+  mainContentPageClass,
+  menuWrapperClass,
+} from '../assistants';
 
-const SkeletonPage: FC<{}> = () => {
-  const location = useLocation();
-  const activeLinks = useActiveLinks(location);
+const SkeletonPage: FC = () => {
+  const { breakpointsForMarkup } = useWindowWidth() ?? {
+    breakpointsForMarkup: null,
+  };
+
+  const mobileSkeleton = breakpointsForMarkup?.isNothing || breakpointsForMarkup?.isMobile;
+  const tabletSkeleton = breakpointsForMarkup?.isTablet;
+
+  const menuItems: ReactNode[] = Array(4)
+    .fill(null)
+    .map((_, index) => (
+      <div key={index} className={`${commonPageClass} ${commonPageItemClass}`}></div>
+    ));
+
+  const headerRightBlockItems: ReactNode[] = Array(2)
+    .fill(null)
+    .map((_, index) => (
+      <div key={index} className={`${commonPageClass} ${commonPageItemClass}`}></div>
+    ));
 
   return (
-    <>
-      <div
-        className={`${
-          activeLinks.isHomeActive ? 'mb-10 md:mb-12 lg:mb-[60px]' : ''
-        } w-72 md:w-[353px] lg:w-[395px] hg:w-[442px] h-[630px] md:h-[675px] bg-contrastWhite/[.8] dark:bg-darkBase/[.4] overflow-hidden rounded-[10px] animate-pulse transition-colors duration-500`}
-      >
-        {groups.map(({ lines, className }, groupIndex) => (
-          <div key={groupIndex} className={className}>
-            {lines.map(({ width, height }, index) => (
-              <div
-                key={index}
-                className={`${width} ${height} ${
-                  groupIndex === 0
-                    ? index === 0
-                      ? 'top-10 left-0 rounded-r'
-                      : 'bottom-3 right-2 rounded-3xl'
-                    : ''
-                } ${groupIndex === 0 ? absoluteLineClasses : lineClasses}`}
-              ></div>
-            ))}
-          </div>
-        ))}
+    <div className={`${commonPageClass} ${pageClass}`}>
+      <div className={`${headerContainerPageClass}`}>
+        <div className={`${commonPageClass} ${logoPageClass}`}></div>
+        {!mobileSkeleton && <div className={`${menuWrapperClass}`}>{menuItems}</div>}
+        <div className='space-y-2'>{headerRightBlockItems}</div>
       </div>
-    </>
+      <div className={`${mainContentPageClass}`}>
+        {mobileSkeleton && <SkeletonSection />}
+        {tabletSkeleton && (
+          <>
+            <SkeletonSection />
+            <SkeletonSection />
+          </>
+        )}
+        {!mobileSkeleton && !tabletSkeleton && (
+          <>
+            <SkeletonSection /> <SkeletonSection /> <SkeletonSection />
+          </>
+        )}
+      </div>
+    </div>
   );
 };
 

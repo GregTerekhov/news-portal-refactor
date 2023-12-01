@@ -3,7 +3,12 @@ import { useLocation } from 'react-router-dom';
 
 import { useActiveLinks, useWindowWidth } from 'hooks';
 
-import { SkeletonPage, SkeletonPagination, SkeletonWeather } from './subcomponents';
+import {
+  SkeletonPage,
+  SkeletonPagination,
+  SkeletonSection,
+  SkeletonWeather,
+} from './subcomponents';
 
 interface LoaderProps {
   variant: string;
@@ -22,24 +27,25 @@ const Loader: FC<LoaderProps> = ({ variant }) => {
 
   return (
     <>
-      {variant === 'page' ? (
+      {variant === 'generalSection' && (
         <>
           <div className='grid md:grid-cols-2 md:gap-[30px] lg:grid-cols-3 lg:gap-x-8 hg:gap-x-10'>
-            {mobileSkeleton && <SkeletonPage />}
+            {mobileSkeleton && <SkeletonSection />}
             {tabletSkeleton && (
               <>
-                <SkeletonPage /> <SkeletonPage />
+                <SkeletonSection /> <SkeletonSection />
               </>
             )}
             {!mobileSkeleton && !tabletSkeleton && (
               <>
-                <SkeletonPage /> <SkeletonPage /> <SkeletonPage />
+                <SkeletonSection /> <SkeletonSection /> <SkeletonSection />
               </>
             )}
           </div>
           {activeLinks.isHomeActive && <SkeletonPagination />}
         </>
-      ) : (
+      )}
+      {variant === 'element' && (
         <>
           {activeLinks.isHomeActive && (
             <>
@@ -48,6 +54,7 @@ const Loader: FC<LoaderProps> = ({ variant }) => {
           )}
         </>
       )}
+      {variant === 'page' && <SkeletonPage />}
     </>
   );
 };

@@ -2,6 +2,7 @@ import React, { FC } from 'react';
 
 import { memberFirstImages, memberThirdImages } from 'constants';
 import { generateContentImages } from 'helpers';
+import { useCacheImage } from 'hooks';
 
 import { MembersLink } from './subcomponents';
 
@@ -34,12 +35,15 @@ const AboutUs: FC<{}> = () => {
     window.innerWidth,
   );
 
+  const firstMemberImageUrl = useCacheImage(matchedFirstMemberImage?.src || '');
+  const thirdMemberImageUrl = useCacheImage(matchedThirdMemberImage?.src || '');
+
   const members = [
     {
       groupTitle: 'Front-end',
       groupMembers: [
         {
-          memberImage: matchedFirstMemberImage?.src,
+          memberImage: firstMemberImageUrl,
           imageDescription: 'Greg Terekhov',
           memberName: 'Greg Terekhov',
           memberRole: 'Team leader, scrum, developer',
@@ -68,7 +72,7 @@ const AboutUs: FC<{}> = () => {
       groupTitle: 'Back-end',
       groupMembers: [
         {
-          memberImage: matchedThirdMemberImage?.src,
+          memberImage: thirdMemberImageUrl,
           imageDescription: 'Dmytro Pavlenko',
           memberName: 'Dmytro Pavlenko',
           memberRole: 'Developer',

@@ -52,4 +52,6 @@ export interface IThirdPartyAuth {
   tokenAuth: string | null;
 }
 
-export type ITheme = string;
+export type ITheme = {
+  updatedTheme: string;
+};

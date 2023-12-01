@@ -28,7 +28,7 @@ const ArchivePage: FC<{}> = () => {
   return (
     isAuthenticated && (
       <>
-        {shouldShowLoader && <Loader variant='page' />}
+        {shouldShowLoader && <Loader variant='generalSection' />}
         {shouldShowContent && (
           <>
             <ArchiveHistoryLog logData={archiveHistoryLog} />

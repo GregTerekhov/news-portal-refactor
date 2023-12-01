@@ -55,10 +55,10 @@ axiosInstance.interceptors.response.use(
 
           setTokens(response.data);
           originalRequest.headers['Authorization'] = `Bearer ${response.data.accessToken}`;
-          // console.log(
-          // ' originalRequest.headers["Authorization"]',
-          // originalRequest.headers['Authorization'],
-          // );
+          console.log(
+            ' originalRequest.headers["Authorization"]',
+            originalRequest.headers['Authorization'],
+          );
           return axiosInstance(originalRequest);
         } catch (error) {
           console.error('Error refreshing tokens: ', error);

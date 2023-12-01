@@ -12,7 +12,7 @@ const AccountLayout: FC = () => {
   };
   return (
     <>
-      <div className='flex justify-between gap-2 md:justify-around'>
+      <div className='flex justify-between gap-2'>
         <div className='md:space-y-6'>
           <SvgIcon
             svgName='icon-logo'

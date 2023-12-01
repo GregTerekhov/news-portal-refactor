@@ -98,8 +98,8 @@ const Header: FC = () => {
               />
             </Link>
           ) : null}
-          <a
-            href='/'
+          <Link
+            to='/'
             className={`sm:py-6 md:pt-8 md:pb-[30px] lg:py-7 text-3xl leading-tight lg:leading-[1.357144] md:text-4xl lg:text-giant font-bold transition-colors duration-500 ${
               !isOpenMenu && activeLinks.isHomeActive
                 ? textClass
@@ -108,7 +108,7 @@ const Header: FC = () => {
               `}
           >
             News
-          </a>
+          </Link>
           {isNotMobile && isAuthenticated ? <Menu /> : null}
 
           {isAuthenticated ? (

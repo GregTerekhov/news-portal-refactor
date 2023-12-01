@@ -40,7 +40,7 @@ const ReadPage: FC<{}> = () => {
 
   return (
     <>
-      {shouldShowLoader && <Loader variant='page' />}
+      {shouldShowLoader && <Loader variant='generalSection' />}
       {shouldShowAccordeon && (
         <div>
           {sortedDates.map((date) => (

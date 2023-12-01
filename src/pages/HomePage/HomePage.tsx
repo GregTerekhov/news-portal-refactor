@@ -53,7 +53,7 @@ const HomePage: FC = () => {
   return (
     <div>
       {isLoadingAPIData || (isLoadingDBData && rebuildedNews && currentItems?.length === 0) ? (
-        <Loader variant='page' />
+        <Loader variant='generalSection' />
       ) : (
         <>
           {rebuildedNews && rebuildedNews.length === 0 ? (
