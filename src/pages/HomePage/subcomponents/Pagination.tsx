@@ -42,9 +42,6 @@ const Pagination: FC<PaginationProps> = ({ pageNumbers, currentPage, setCurrentP
             : 'text-darkBase dark:text-whiteBase dark:border-whiteBase'
         }`}
         variant='Small'
-        dataTooltipTarget={`tooltip-pagination-pages-${pageNumber.toString()}`}
-        dataTooltipPlacement='bottom'
-        tooltipText={`Paginate news to page ${pageNumber.toString()}`}
       >
         {pageNumber}
       </PrimaryButton>
