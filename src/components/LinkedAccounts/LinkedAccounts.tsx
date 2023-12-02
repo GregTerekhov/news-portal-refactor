@@ -37,7 +37,7 @@ const LinkedAccounts: FC = () => {
             : 'flex justify-around md:gap-8'
         }`}
       >
-        {accountButtons.map(({ svgName, account, dataTooltipTarget }) => (
+        {accountButtons.map(({ svgName, account }) => (
           <li
             key={svgName}
             className={`${
@@ -56,9 +56,6 @@ const LinkedAccounts: FC = () => {
                 width='w-full'
                 svgSize={isMobile ? 20 : 24}
                 ariaLabel={`${account} account binding`}
-                dataTooltipPlacement='bottom'
-                dataTooltipTarget={dataTooltipTarget}
-                tooltipText={`Bind your ${account} account`}
                 classNameButton='bg-accentBase hover:bg-accentAlt dark:border-whiteBase py-2'
                 classNameIcon='fill-whiteBase'
                 children={!isMobile && !activeLinks.isManageAccountPage ? account : ''}

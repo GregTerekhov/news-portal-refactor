@@ -6,12 +6,12 @@ import {
   useAuthCollector,
   useFilterCollector,
   useHeaderStyles,
-  // usePopUp,
   useWindowWidth,
 } from 'hooks';
 
-import { PrimaryButton, SvgIcon } from 'ui';
 import { ThemeSwitcher } from 'components';
+import PrimaryButton from './PrimaryButton';
+import SvgIcon from './SvgIcon';
 
 interface MenuItem {
   path: string;
@@ -217,13 +217,13 @@ const CommonMenu: FC<CommonMenuProps> = ({ isOpen, links, navId, closeMenu }) =>
                           }`
                     }   `}
                   >
-                    <div
+                    <p
                       className={`${
                         navId === 'account-navigation' && 'flex items-center gap-3.5 px-2'
                       }`}
                     >
                       {link.label}
-                    </div>
+                    </p>
                     {navId === 'account-navigation' && link.activeLink ? (
                       <SvgIcon
                         svgName='icon-arrow-right'

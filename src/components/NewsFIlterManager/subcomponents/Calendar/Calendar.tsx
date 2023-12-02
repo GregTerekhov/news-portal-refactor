@@ -81,17 +81,17 @@ const Calendar: FC<CalendarProps> = ({ variant }) => {
   //     }
   //   }
   // };
-
+  console.log('selectedRequestDate.beginDate', selectedRequestDate?.beginDate);
   return (
     <div ref={popUpRef} className={`relative ${activeLinks.isReadActive ? null : 'col-span-4'}`}>
-      <p className='text-darkBase dark:text-whiteBase mb-2 text-base'>
+      <p className='text-darkBase dark:text-greyAlt mb-2 text-base'>
         {variant === 'SearchBlock' ? 'Search' : 'Filter'} by Date or Date Period:
       </p>
       <button
         id='Toggle calendar button'
         type='button'
         onClick={toggleCalendar}
-        className='w-full bg-whiteBase rounded-[20px] border border-solid border-accentBase text-accentBase flex justify-between items-center py-2 px-3 group-hover:text-whiteBase group-hover:bg-accentBase group-hover:border-whiteBase transition-colors text-small md:text-base leading-mediumRelaxed md:leading-moreRelaxed tracking-bigWide md:tracking-wider'
+        className='w-full bg-whiteBase dark:bg-darkBackground rounded-[20px] border border-solid border-accentBase dark:border-greyBase text-accentBase dark:text-greyAlt flex justify-between items-center py-2 px-3 group-hover:text-whiteBase group-hover:bg-accentBase group-hover:border-whiteBase transition-colors text-small md:text-base leading-mediumRelaxed md:leading-moreRelaxed tracking-bigWide md:tracking-wider'
       >
         <SvgIcon svgName='icon-calendar' size={20} className='fill-accentBase' />
         {variant === 'SearchBlock' &&

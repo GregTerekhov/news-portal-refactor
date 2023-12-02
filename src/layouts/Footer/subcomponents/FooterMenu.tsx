@@ -33,7 +33,7 @@ const FooterMenu = () => {
         {
           path: '/account',
           label: 'Account',
-          liClasses: 'row-start-1 col-start-2',
+          liClasses: 'row-start-1 col-start-2 text-end',
         },
       ]
     : [
@@ -49,7 +49,7 @@ const FooterMenu = () => {
       menuItems.push({
         path: '/about-us',
         label: 'About Us',
-        liClasses: 'row-start-2 col-start-2',
+        liClasses: 'row-start-2 col-start-2 text-end',
       });
     } else {
       menuItems.push({
@@ -62,7 +62,7 @@ const FooterMenu = () => {
 
   return (
     <>
-      <nav className={`${isAuthenticated ? '' : 'mb-4 md:mb-10'}`}>
+      <nav className={`${isAuthenticated ? 'w-full' : 'mb-4 md:mb-10'}`}>
         <ul
           className={`${
             isAuthenticated

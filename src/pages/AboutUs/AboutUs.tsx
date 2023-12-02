@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 
-import { memberFirstImages, memberThirdImages } from 'constants';
+import { memberFirstImages, memberThirdImages, plugImages } from 'constants';
 import { generateContentImages } from 'helpers';
 import { useCacheImage } from 'hooks';
 
@@ -28,6 +28,13 @@ const AboutUs: FC<{}> = () => {
     window.innerWidth,
   );
 
+  const matchedSecondMemberImage = generateContentImages(
+    plugImages,
+    devicePixelRatio,
+    'image/webp',
+    window.innerWidth,
+  );
+
   const matchedThirdMemberImage = generateContentImages(
     memberThirdImages,
     devicePixelRatio,
@@ -36,6 +43,7 @@ const AboutUs: FC<{}> = () => {
   );
 
   const firstMemberImageUrl = useCacheImage(matchedFirstMemberImage?.src || '');
+  const secondMemberImageUrl = useCacheImage(matchedSecondMemberImage?.src || '');
   const thirdMemberImageUrl = useCacheImage(matchedThirdMemberImage?.src || '');
 
   const members = [
@@ -55,7 +63,7 @@ const AboutUs: FC<{}> = () => {
           telegramLink: 'http://t.me/GregTerekhov',
         },
         {
-          memberImage: '',
+          memberImage: secondMemberImageUrl,
           imageDescription: 'Max Mordovtsev',
           memberName: 'Max Mordovtsev',
           memberRole: 'Developer',

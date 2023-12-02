@@ -27,20 +27,22 @@ const Dropdown: FC<DropdownProps> = ({ children, labels, getResults }) => {
     <Menu as='div' className='relative'>
       {({ open }) => (
         <>
-          <p className='text-darkBase dark:text-whiteBase mb-2 text-base'>
+          <p className='text-darkBase dark:text-greyAlt mb-2 text-base'>
             {children === 'Type' ? 'Filter' : 'Search'}{' '}
             {children === 'Time period' ? 'for popular' : ''} by{' '}
             <span className='capitalize'>{children}</span>:
           </p>
           <Menu.Button
-            className={`flex items-center justify-center gap-2.5 w-full border border-solid border-accentBase rounded-[20px] bg-whiteBase py-2.5 text-accentBase text-small font-normal group-hover:underline transition-colors `}
+            className={`flex items-center justify-center gap-2.5 w-full border border-solid border-accentBase dark:border-greyBase rounded-[20px] bg-whiteBase dark:bg-darkBackground py-2.5 text-accentBase dark:text-whiteBase text-small font-normal group-hover:underline transition-colors `}
             onClick={handleOpenClick}
           >
             {selectedItem || children}
             <SvgIcon
               svgName='icon-arrow-down'
               size={14}
-              className={`fill-accentBase transition-transform ${open ? 'rotate-180' : 'rotate-0'}`}
+              className={`fill-accentBase dark:fill-whiteBase transition-transform ${
+                open ? 'rotate-180' : 'rotate-0'
+              }`}
             />
           </Menu.Button>
           <Transition
@@ -52,7 +54,7 @@ const Dropdown: FC<DropdownProps> = ({ children, labels, getResults }) => {
             leaveFrom='transform opacity-100 scale-100'
             leaveTo='transform opacity-0 scale-95'
           ></Transition>
-          <Menu.Items className='absolute z-40 w-56 max-h-96 overflow-auto flex flex-col bg-dropdownBase rounded-[20px] py-3.5 space-y-3 shadow-card dark:shadow-darkCard'>
+          <Menu.Items className='absolute z-40 w-56 max-h-96 overflow-auto flex flex-col bg-dropdownBase dark:bg-darkDropdown rounded-[20px] py-3.5 space-y-3 shadow-card dark:shadow-darkCard'>
             {labels?.map((item, index) => (
               <Menu.Item key={index}>
                 {({ active }) => (
@@ -60,7 +62,7 @@ const Dropdown: FC<DropdownProps> = ({ children, labels, getResults }) => {
                     type='button'
                     className={`${
                       active ? 'underline' : ''
-                    } text-accentBase text-small text-left tracking-wide px-3.5`}
+                    } text-accentBase dark:text-whiteBase text-small text-left tracking-wide px-3.5`}
                     onClick={() => handleItemClick(item)}
                   >
                     {item}

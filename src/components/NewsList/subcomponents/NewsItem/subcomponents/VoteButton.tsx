@@ -1,4 +1,7 @@
 import React, { FC } from 'react';
+import { useLocation } from 'react-router-dom';
+
+import { useActiveLinks } from 'hooks';
 
 import { SvgIcon } from 'ui';
 
@@ -11,6 +14,9 @@ interface VBProps {
 }
 
 const VoteButton: FC<VBProps> = ({ onHandleClick, isFavourite, buttonData }) => {
+  const location = useLocation();
+  const activeLinks = useActiveLinks(location);
+
   const onButHover = isFavourite
     ? 'fill-accentBase stroke-accentBase'
     : 'stroke-accentBase fill-none';
@@ -19,10 +25,20 @@ const VoteButton: FC<VBProps> = ({ onHandleClick, isFavourite, buttonData }) => 
     <button
       id={buttonData?.id}
       type='button'
-      className={`absolute z-20 bottom-3 right-2 flex items-center gap-1 rounded-3xl px-3 py-1.5 bg-contrastWhite ${onButHover} hover:stroke-whiteBase hover:bg-accentBase hover:text-whiteBase text-small text-darkBase font-medium transition-colors duration-250`}
+      className={`absolute z-20 bottom-3 right-2 flex items-center gap-1 rounded-3xl px-3 py-1.5 bg-contrastWhite ${onButHover} ${
+        !activeLinks.isArchiveActive
+          ? 'hover:stroke-whiteBase hover:bg-accentBase hover:text-whiteBase'
+          : ''
+      } text-small text-darkBase font-medium transition-colors duration-250`}
       onClick={onHandleClick}
     >
-      {isFavourite ? 'Remove from favorite' : 'Add to favorite'}
+      {!activeLinks.isArchiveActive
+        ? isFavourite
+          ? 'Remove from favorite'
+          : 'Add to favorite'
+        : isFavourite
+        ? 'In favourites'
+        : ''}
       <SvgIcon svgName='icon-heart' size={16} className={`stroke-inherit fill-inherit`} />
     </button>
   );
