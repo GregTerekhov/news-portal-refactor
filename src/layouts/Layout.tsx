@@ -23,14 +23,13 @@ const Layout: FC = () => {
   // const isAuthenticated = true;
   const location = useLocation();
   const activeLinks = useActiveLinks(location);
-  console.log('Layout isAuth: ', isAuthenticated);
   const { rebuildedNews } = useChooseRenderingNews({ activeLinks });
 
   useEffect(() => {
-    if (isAuthenticated) {
+    if (isAuthenticated && activeLinks.isHomeActive) {
       fetchCategoriesList();
     }
-  }, [isAuthenticated, fetchCategoriesList]);
+  }, [isAuthenticated, fetchCategoriesList, activeLinks]);
 
   const isNotMobile = breakpointsForMarkup?.isTablet || breakpointsForMarkup?.isDesktop;
 
@@ -63,7 +62,7 @@ const Layout: FC = () => {
         >
           <div className='container mx-auto px-4 hg:px-[65px]'>
             {isAuthenticated && !shouldNotShowFiltersManager ? <NewsFilterManager /> : null}
-            {!isAuthenticated && !isNotMobile && (
+            {!isAuthenticated && !isNotMobile && !activeLinks?.isErrorPage && (
               <div className='flex justify-end mb-10'>
                 <ThemeSwitcher />
               </div>
@@ -77,12 +76,12 @@ const Layout: FC = () => {
               <>
                 <PageScrollController
                   direction='top'
-                  dataTooltipTarget='tooltip-scroll-up'
+                  label='Scroll up'
                   position='top-36'
                   icon='icon-triangle-up'
                 />
                 <PageScrollController
-                  dataTooltipTarget='tooltip-scroll-down'
+                  label='Scroll down'
                   direction='down'
                   position='bottom-12'
                   icon='icon-triangle-down'

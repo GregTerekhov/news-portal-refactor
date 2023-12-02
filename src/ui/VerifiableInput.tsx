@@ -73,14 +73,14 @@ const VerifiableInput: FC<InputProps> = (props) => {
 
   if (variant === VariantInputs.Account) {
     inputGeometry = 'w-full py-2 pl-11 pr-3';
-    inputBorder = 'border-accentBase dark:border-whiteBase';
+    inputBorder = 'border-accentBase dark:border-greyBase';
     inputBg = 'bg-whiteBase';
     caretColor = 'caret-accentBase';
     textColor = 'text-accentBase';
     placeholderColor = 'placeholder:text-darkBase/[.4]';
   } else if (variant === VariantInputs.Auth) {
     inputGeometry = 'w-full py-2 px-4 md:px-4';
-    inputBorder = 'border-accentBase dark:border-whiteBase';
+    inputBorder = 'border-accentBase dark:border-greyBase';
     inputBg = 'bg-transparent';
     caretColor = 'caret-accentBase dark:caret-whiteBase';
     textColor = 'text-darkBase dark:text-whiteBase';

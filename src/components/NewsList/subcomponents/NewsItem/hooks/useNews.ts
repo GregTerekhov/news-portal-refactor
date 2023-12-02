@@ -82,23 +82,32 @@ const useNews = ({ liveNews, activeLinks }: NewsItemProps) => {
   };
 
   function getIsFavourite(): boolean {
-    const existingNews = savedNews?.find((news) => news.newsUrl === liveNews?.newsUrl);
-    console.log('existingNews', existingNews);
-    return existingNews?.isFavourite ?? false;
+    if (!activeLinks.isArchiveActive) {
+      const existingNews = savedNews?.find((news) => news.newsUrl === liveNews?.newsUrl);
+      return existingNews?.isFavourite ?? false;
+    } else {
+      const existingNews = allArchive?.find((news) => news.newsUrl === liveNews?.newsUrl);
+      return existingNews?.isFavourite ?? false;
+    }
   }
 
   function getHasRead(): boolean {
-    const existingNews = savedNews?.find((news) => news.newsUrl === liveNews?.newsUrl);
-    return existingNews?.hasRead ?? false;
+    if (!activeLinks.isArchiveActive) {
+      const existingNews = savedNews?.find((news) => news.newsUrl === liveNews?.newsUrl);
+      return existingNews?.hasRead ?? false;
+    } else {
+      const existingNews = allArchive?.find((news) => news.newsUrl === liveNews?.newsUrl);
+      return existingNews?.hasRead ?? false;
+    }
   }
 
   const handleChangeFavourites = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation();
     e.preventDefault();
 
-    handleChangeVotes();
+    if (!activeLinks.isArchiveActive) handleChangeVotes();
 
-    if (savedNews && liveNews && liveNews?.newsUrl !== undefined) {
+    if (savedNews && liveNews && liveNews?.newsUrl !== undefined && !activeLinks.isArchiveActive) {
       const currentTime = new Date();
       const clickDate = currentTime.getTime();
 
@@ -165,7 +174,7 @@ const useNews = ({ liveNews, activeLinks }: NewsItemProps) => {
   };
 
   const handleReadNews = async () => {
-    if (savedNews && liveNews && liveNews?.newsUrl !== undefined) {
+    if (savedNews && liveNews && liveNews?.newsUrl !== undefined && !activeLinks.isArchiveActive) {
       const currentTime = new Date();
       const clickDate = currentTime.getTime();
 

@@ -1,6 +1,8 @@
-import React, { FC, ReactNode, RefObject } from 'react';
+import React, { ButtonHTMLAttributes, HTMLProps, ReactNode, forwardRef } from 'react';
 
 import SvgIcon from './SvgIcon';
+
+export type ButtonProps = HTMLProps<HTMLButtonElement>;
 
 export type PrimaryButtonType = {
   type: 'button' | 'submit' | 'reset';
@@ -18,7 +20,7 @@ enum VariantButton {
   Small = 'Small',
 }
 
-interface PBProps {
+interface PBProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   buttonData?: PrimaryButtonType;
   onHandleClick?: ClickHandler;
   variant: string;
@@ -31,13 +33,12 @@ interface PBProps {
   classNameButton?: string | undefined;
   id?: string | undefined;
   ariaLabel?: string | undefined;
-  dataTooltipTarget?: string;
-  dataTooltipPlacement?: string;
-  tooltipText?: string;
-  ref?: RefObject<HTMLButtonElement>;
 }
 
-const PrimaryButton: FC<PBProps> = (props) => {
+const PrimaryButton = forwardRef<
+  HTMLButtonElement,
+  PBProps & { ref?: React.Ref<HTMLButtonElement> }
+>((props, ref) => {
   const { type } = props.buttonData ?? { type: 'button' };
   const onHandleClick = props.onHandleClick;
   const variant = props.variant;
@@ -50,9 +51,6 @@ const PrimaryButton: FC<PBProps> = (props) => {
   const classNameButton = props.classNameButton;
   const id = props.id;
   const ariaLabel = props.ariaLabel;
-  const dataTooltipTarget = props.dataTooltipTarget;
-  const dataTooltipPlacement = props.dataTooltipPlacement;
-  const tooltipText = props.tooltipText;
 
   let buttonStyles: string = '';
 
@@ -65,35 +63,20 @@ const PrimaryButton: FC<PBProps> = (props) => {
     buttonStyles = 'w-10 rounded-[10px] border border-solid';
   }
   return (
-    <>
-      <button
-        id={id}
-        aria-label={ariaLabel}
-        className={`flex items-center justify-center ${hasIcon ? 'gap-2.5' : ''} ${
-          children ? 'text-base lg:text-medium text-contrastWhite' : ''
-        } ${buttonStyles} ${classNameButton}`}
-        type={type}
-        onClick={onHandleClick}
-        data-tooltip-target={dataTooltipTarget}
-        data-tooltip-placement={dataTooltipPlacement}
-        // ref={forwardRef}
-      >
-        {children}
-        {hasIcon && <SvgIcon svgName={svgName} size={svgSize} className={classNameIcon} />}
-      </button>
-
-      {variant === VariantButton.Small ? (
-        <div
-          id={dataTooltipTarget}
-          role='tooltip'
-          className='absolute z-40 invisible inline-block px-3 py-2 text-sm font-medium text-whiteBase bg-accentBase/[.9] rounded-lg shadow-sm opacity-0 tooltip'
-        >
-          {tooltipText}
-          <div className='tooltip-arrow' data-popper-arrow></div>
-        </div>
-      ) : null}
-    </>
+    <button
+      id={id}
+      aria-label={ariaLabel}
+      className={`flex items-center justify-center ${hasIcon ? 'gap-2.5' : ''} ${
+        children ? 'text-base lg:text-medium text-contrastWhite' : ''
+      } ${buttonStyles} ${classNameButton}`}
+      type={type}
+      onClick={onHandleClick}
+      ref={ref}
+    >
+      {children}
+      {hasIcon && <SvgIcon svgName={svgName} size={svgSize} className={classNameIcon} />}
+    </button>
   );
-};
+});
 
 export default PrimaryButton;

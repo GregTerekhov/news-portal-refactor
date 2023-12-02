@@ -88,12 +88,12 @@ const UnverifiableInput: FC<InputProps> = (props) => {
     placeholderColor = inputClass.placeholderColor;
   } else if (variant === VariantInputs.FilterServiceBlock) {
     inputGeometry = 'w-full py-2 pl-11 pr-3';
-    inputBorder = 'border-accentBase dark:border-whiteBase';
-    inputBg = 'bg-whiteBase';
+    inputBorder = 'border-accentBase dark:border-greyBase';
+    inputBg = 'bg-whiteBase dark:bg-darkBackground';
     svgFill = 'fill-accentBase';
-    caretColor = 'caret-accentBase';
-    textColor = 'text-accentBase';
-    placeholderColor = 'placeholder:text-darkBase/[.4]';
+    caretColor = 'caret-accentBase dark:caret-whiteBase';
+    textColor = 'text-accentBase dark:text-whiteBase';
+    placeholderColor = 'placeholder:text-darkBase/[.4] dark:placeholder:text-whiteBase/[.4]';
   } else if (variant === VariantInputs.Checkbox) {
     labelCheckbox = 'flex items-center cursor-pointer gap-x-4';
     checkboxStyles = 'sr-only';
@@ -114,7 +114,7 @@ const UnverifiableInput: FC<InputProps> = (props) => {
           } ${className}`}
         >
           {variant === VariantInputs.FilterServiceBlock && (
-            <p className='text-darkBase dark:text-whiteBase mb-2 text-base'>
+            <p className='text-darkBase dark:text-greyAlt mb-2 text-base'>
               {name === 'query' ? 'Search' : 'Filter'} by{' '}
               <span className='capitalize'>{name}:</span>
             </p>
@@ -141,7 +141,7 @@ const UnverifiableInput: FC<InputProps> = (props) => {
               </span>
             )}
             <input
-              className={` ${inputGeometry} transition-colors duration-500 font-header border-solid border rounded-3xl outline-0 text-small leading-mediumRelaxed tracking-bigWide md:text-base md:leading-moreRelaxed md:tracking-wide ${placeholderColor} ${inputBorder} ${inputBg} ${caretColor} ${textColor} ${checkboxStyles}`}
+              className={` ${inputGeometry} transition-colors duration-500 font-header border-solid border rounded-3xl outline-0 focus:outline-0 text-small leading-mediumRelaxed tracking-bigWide md:text-base md:leading-moreRelaxed md:tracking-wide ${placeholderColor} ${inputBorder} ${inputBg} ${caretColor} ${textColor} ${checkboxStyles}`}
               id={name}
               name={name}
               type={type}

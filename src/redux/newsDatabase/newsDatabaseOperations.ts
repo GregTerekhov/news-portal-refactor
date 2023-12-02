@@ -9,6 +9,7 @@ export const fetchAllNews = createAsyncThunk('newsDB/all', async (_, { rejectWit
     // console.log('responseAll', response.data.data);
     return response.data.data as PartialVotedNewsArray;
   } catch (error: any) {
+    console.log('Error fetchAllNews', error.message);
     return rejectWithValue(error.message);
   }
 });
@@ -23,6 +24,7 @@ export const addNews = createAsyncThunk(
       return response.data.data;
     } catch (error: any) {
       console.log(error.message);
+      console.log('Error addNews', error.message);
       return rejectWithValue(error.message);
     }
   },
@@ -37,7 +39,7 @@ export const deleteNews = createAsyncThunk(
       console.log('responseDelete', response.data);
       return response.data;
     } catch (error: any) {
-      console.log(error.message);
+      console.log('Error deleteNews', error.message);
       return rejectWithValue(error.message);
     }
   },
@@ -49,7 +51,7 @@ export const fetchFavourites = createAsyncThunk('favourite/all', async (_, { rej
     console.log('allFavourites: ', response.data.data);
     return response.data.data as PartialVotedNewsArray;
   } catch (error: any) {
-    console.log(error.message);
+    console.log('Error fetchFavourites', error.message);
     return rejectWithValue(error.message);
   }
 });
@@ -59,7 +61,7 @@ export const fetchRead = createAsyncThunk('read/all', async (_, { rejectWithValu
     const response = await axiosInstance.get('/news/read');
     return response.data.data as PartialVotedNewsArray;
   } catch (error: any) {
-    console.log(error.message);
+    console.log('Error fetchReads', error.message);
     return rejectWithValue(error.message);
   }
 });
@@ -69,7 +71,7 @@ export const fetchArchivedNews = createAsyncThunk('archive/all', async (_, { rej
     const response = await axiosInstance.get('/news/archive');
     return response.data.data as PartialVotedNewsArray;
   } catch (error: any) {
-    console.log(error.message);
+    console.log('Error fetchArchives', error.message);
     return rejectWithValue(error.message);
   }
 });
@@ -79,7 +81,7 @@ export const fetchHistoryLog = createAsyncThunk('history/log', async (_, { rejec
     const response = await axiosInstance.get('/news/history-log');
     return response.data.data as IHistoryLog[];
   } catch (error: any) {
-    console.log(error.message);
+    console.log('Error fetchHistoryLog', error.message);
     return rejectWithValue(error.message);
   }
 });

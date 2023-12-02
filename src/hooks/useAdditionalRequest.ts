@@ -91,6 +91,10 @@ const useAdditionalRequest = () => {
     filteredNews,
   ]);
 
+  useEffect(() => {
+    console.log('selectedRequestDate', selectedRequestDate);
+  }, []);
+
   const getCategoriesList = () => {
     if (categoriesList) {
       const selectedArray = categoriesList.map((item) => item.display_name);
@@ -165,31 +169,48 @@ const useAdditionalRequest = () => {
       if (!beginDate) {
         setBeginDate(date);
       } else {
-        let newSelectedDate: { beginDate: string | null; endDate: string | null };
-        if (isAfter(date, beginDate)) {
-          newSelectedDate = {
-            beginDate: format(beginDate, 'yyyyMMdd'),
-            endDate: format(date, 'yyyyMMdd'),
-          };
-        } else {
-          newSelectedDate = {
-            beginDate: format(date, 'yyyyMMdd'),
-            endDate: format(beginDate, 'yyyyMMdd'),
-          };
-        }
+        try {
+          let newSelectedDate: { beginDate: string | null; endDate: string | null };
+          if (isAfter(date, beginDate)) {
+            newSelectedDate = {
+              beginDate: format(beginDate, 'yyyyMMdd'),
+              endDate: format(date, 'yyyyMMdd'),
+            };
+          } else {
+            newSelectedDate = {
+              beginDate: format(date, 'yyyyMMdd'),
+              endDate: format(beginDate, 'yyyyMMdd'),
+            };
+          }
 
-        setSelectedRequestDate(newSelectedDate);
+          setSelectedRequestDate(newSelectedDate);
 
-        if (filteredNews && filteredNews.length > 0) {
-          resetPreviousRequest();
-          await fetchByDate(newSelectedDate);
-          setBeginDate(null);
-          setIsOpenCalendar(false);
-        } else {
-          await fetchByDate(newSelectedDate);
-          setBeginDate(null);
-          setIsOpenCalendar(false);
-        }
+          if (filteredNews && filteredNews.length > 0) {
+            resetPreviousRequest();
+            await fetchByDate(newSelectedDate);
+            setBeginDate(null);
+
+            if (
+              newSelectedDate.beginDate &&
+              newSelectedDate.beginDate !== null &&
+              newSelectedDate.endDate &&
+              newSelectedDate.endDate !== null
+            ) {
+              setIsOpenCalendar(false);
+            }
+          } else {
+            await fetchByDate(newSelectedDate);
+            setBeginDate(null);
+            if (
+              newSelectedDate.beginDate &&
+              newSelectedDate.beginDate !== null &&
+              newSelectedDate.endDate &&
+              newSelectedDate.endDate !== null
+            ) {
+              setIsOpenCalendar(false);
+            }
+          }
+        } catch (error) {}
       }
     }
   };

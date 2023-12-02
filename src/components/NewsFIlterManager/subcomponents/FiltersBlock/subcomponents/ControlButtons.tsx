@@ -133,7 +133,7 @@ const ControlButtons: FC = () => {
   );
 
   const renderHintText = () => (
-    <p className='text-darkBase dark:text-whiteBase mb-2 text-base md:max-lg:flex md:max-lg:items-center md:max-lg:justify-end'>
+    <p className='text-darkBase dark:text-greyAlt mb-2 text-base md:max-lg:flex md:max-lg:items-center md:max-lg:justify-end'>
       Sort:
     </p>
   );

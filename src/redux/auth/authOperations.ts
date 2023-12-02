@@ -56,6 +56,7 @@ export const signIn = createAsyncThunk(
       console.log(response.data);
       return response.data;
     } catch (error: any) {
+      console.log('Error signIn', error.message);
       return rejectWithValue(error.message);
     }
   },
@@ -68,6 +69,7 @@ export const signOut = createAsyncThunk('/auth/signOut', async (_, { rejectWithV
     setTokens({ accessToken: null, refreshToken: null });
     return response.data;
   } catch (error: any) {
+    console.log('Error signOut', error.message);
     return rejectWithValue(error.message);
   }
 });
@@ -86,6 +88,8 @@ export const fetchCurrentUser = createAsyncThunk('auth/current', async (_, thunk
     console.log(response.data);
     return response.data;
   } catch (error: any) {
+    console.log('Error fetchCurrent', error.message);
+
     return thunkAPI.rejectWithValue(error.message);
   }
 });
@@ -98,7 +102,7 @@ export const updateUserEmail = createAsyncThunk(
       const response = await axiosInstance.patch('/auth/update-email', newEmail);
       return response.data;
     } catch (error: any) {
-      console.log(error.message);
+      console.log('Error updateEmail', error.message);
       return rejectWithValue(error.message);
     }
   },
@@ -111,7 +115,7 @@ export const updateUserPassword = createAsyncThunk(
       console.log(response.data);
       return response.data;
     } catch (error: any) {
-      console.log(error.message);
+      console.log('Error updatePassword', error.message);
       return rejectWithValue(error.message);
     }
   },
@@ -121,10 +125,9 @@ export const recoveryPasswordRequest = createAsyncThunk(
   async (email: IRecoveryPasswordRequest, { rejectWithValue }) => {
     try {
       const response = await axiosInstance.patch(`/auth/forgot-password-request`, email);
-      // додати в header accessToken витягнути з URLSearchParams
       return response.data;
     } catch (error: any) {
-      console.log(error.message);
+      console.log('Error forgotPasswordRequest', error.message);
       return rejectWithValue(error.message);
     }
   },
@@ -137,7 +140,7 @@ export const recoveryPasswordChange = createAsyncThunk(
       const response = await axiosInstance.patch('/auth/forgot-password-change', changedPassword);
       return response.data;
     } catch (error: any) {
-      console.log(error.message);
+      console.log('Error forgotPasswordChange', error.message);
       return rejectWithValue(error.message);
     }
   },
@@ -154,7 +157,7 @@ export const googleAuth = createAsyncThunk(
       console.log(response.data);
       return response.data;
     } catch (error: any) {
-      console.log(error.message);
+      console.log('Error googleAuth', error.message);
       return rejectWithValue(error.message);
     }
   },
@@ -170,7 +173,7 @@ export const facebookAuth = createAsyncThunk(
       console.log(response.data);
       return response.data;
     } catch (error: any) {
-      console.log(error.message);
+      console.log('Error facebookAuth', error.message);
       return rejectWithValue(error.message);
     }
   },
@@ -186,7 +189,7 @@ export const appleAuth = createAsyncThunk(
       console.log(response.data);
       return response.data;
     } catch (error: any) {
-      console.log(error.message);
+      console.log('Error appleAuth', error.message);
       return rejectWithValue(error.message);
     }
   },
@@ -201,7 +204,7 @@ export const updateTheme = createAsyncThunk(
       console.log(response.data);
       return response.data;
     } catch (error: any) {
-      console.log(error.message);
+      console.log('Error updateTheme', error.message);
       return rejectWithValue(error.message);
     }
   },

@@ -52,6 +52,7 @@ export default {
         readBase: '#00dd73',
         greyBase: '#5f6775',
         darkBackground: '#2e2e2e',
+        darkDropdown: '#424242',
         accentAlt: '#4b48db',
         greyAlt: '#a8a8a8',
         lineAlt: '#929292',

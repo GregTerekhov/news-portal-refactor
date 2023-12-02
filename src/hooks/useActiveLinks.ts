@@ -2,7 +2,7 @@ import { useMemo } from 'react';
 import { Location } from 'react-router-dom';
 
 const useActiveLinks = (location: Location) => {
-  const errorPaths = [
+  const validPaths = [
     '/',
     '/favourite',
     '/read',
@@ -21,7 +21,7 @@ const useActiveLinks = (location: Location) => {
       isAccountPage: location.pathname === '/account',
       isManageAccountPage: location.pathname === '/account-manage',
       isAboutUs: location.pathname === '/about-us',
-      isErrorPage: !errorPaths.includes(location.pathname),
+      isErrorPage: !validPaths.includes(location.pathname),
     }),
     [location.pathname],
   );
