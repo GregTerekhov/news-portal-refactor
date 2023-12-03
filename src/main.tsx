@@ -4,10 +4,13 @@ import { BrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { GoogleOAuthProvider } from '@react-oauth/google';
 import * as Tooltip from '@radix-ui/react-tooltip';
 import 'flowbite';
 
 import store, { persistor } from 'reduxStore/store';
+
+import { CONFIG } from 'config';
 
 import { WindowWidthProvider } from './contexts';
 
@@ -17,6 +20,7 @@ import { Loader } from 'components';
 import './input.css';
 
 const queryClient = new QueryClient();
+const clientID: string = CONFIG.APP_GOOGLE_API_TOKEN;
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   // <React.StrictMode>
@@ -25,11 +29,13 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
       <PersistGate persistor={persistor}>
         <BrowserRouter>
           <Suspense fallback={<Loader variant='page' />}>
-            <QueryClientProvider client={queryClient}>
-              <Tooltip.Provider delayDuration={500}>
-                <App />
-              </Tooltip.Provider>
-            </QueryClientProvider>
+            <GoogleOAuthProvider clientId={clientID}>
+              <QueryClientProvider client={queryClient}>
+                <Tooltip.Provider delayDuration={500}>
+                  <App />
+                </Tooltip.Provider>
+              </QueryClientProvider>
+            </GoogleOAuthProvider>
           </Suspense>
         </BrowserRouter>
       </PersistGate>

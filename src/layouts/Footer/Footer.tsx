@@ -14,8 +14,8 @@ const Footer: FC<{}> = () => {
         <div className={`relative ${isAuthenticated ? 'flex justify-between' : ''}`}>
           <FooterMenu />
           <div
-            className={`absolute bottom-0 right-0 flex ${
-              isAuthenticated ? 'items-end' : 'justify-end'
+            className={`flex ${
+              isAuthenticated ? 'items-end absolute bottom-0 right-0' : 'justify-end'
             }`}
           >
             <ThemeSwitcher variant='footer' />

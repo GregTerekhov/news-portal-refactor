@@ -3,6 +3,8 @@ import { useEffect, useState } from 'react';
 import { PartialVotedNewsArray } from 'types';
 import { useWindowWidth, useNewsAPICollector, useFilterCollector } from 'hooks';
 
+import { calculatePagesForDevices, calculateFirstIndexes } from '../assistants';
+
 const usePagination = (rebuildedNews: PartialVotedNewsArray) => {
   const { breakpointsForMarkup } = useWindowWidth() || {
     breakpointsForMarkup: null,
@@ -13,30 +15,33 @@ const usePagination = (rebuildedNews: PartialVotedNewsArray) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [currentItems, setCurrentItems] = useState<PartialVotedNewsArray>([]);
 
-  const totalPages = (rebuildedNews && rebuildedNews?.length) || 0;
+  const totalPages: number = (rebuildedNews && rebuildedNews?.length) || 0;
 
-  const firstMobileItemsPerPage = 4; // Кількість новин для мобільного пристрою на першій сторінці
-  const firstTabletItemsPerPage = 7; // Кількість новин для мобільного пристрою на першій сторінці
-  const firstDesktopItemsPerPage = 8; // Кількість новин для мобільного пристрою на першій сторінці
-  const otherMobileCardsPerPage = 5; // Кількість новин для мобільного пристрою на послідуючих сторінках
-  const otherTabletCardsPerPage = 8; // Кількість новин для таблетки на послідуючих сторінках
-  const otherDesktopCardsPerPage = 9; // Кількість новин для десктопу на послідуючих сторінках
+  const isMobile = breakpointsForMarkup?.isNothing || breakpointsForMarkup?.isMobile;
 
-  // Розрахунок кількості сторінок для кожного типу пристрою
-  const mobilePages = calculatePages(totalPages, firstMobileItemsPerPage, otherMobileCardsPerPage);
-  const tabletPages = calculatePages(totalPages, firstTabletItemsPerPage, otherTabletCardsPerPage);
-  const desktopPages = calculatePages(
+  const itemsPerFirstPage: number = getFirstPageCount();
+  const itemsPerOtherPages: number = getOtherPageCount();
+
+  // Розрахунок масива кількості сторінок для кожного типу пристрою
+  const currentArrayPerPage: number[] = calculatePagesForDevices(
     totalPages,
-    firstDesktopItemsPerPage,
-    otherDesktopCardsPerPage,
+    itemsPerFirstPage,
+    itemsPerOtherPages,
   );
 
-  const currentCardsPerPage = getCurrentCardsPerPage();
-  const calculatedFirstIndexes = calculateFirstIndexes();
+  // Визначення кількості об'єктів новин на сторінці в залежності від типу пристрою
+  const currentCardsPerPage: number = currentArrayPerPage[currentPage - 1] || 0;
+  //Вирахування першого індекса новини для останньої сторінки
+  const calculatedFirstIndexes: number | void = calculateFirstIndexes(
+    currentArrayPerPage,
+    totalPages,
+  );
 
   useEffect(() => {
     if (rebuildedNews && rebuildedNews?.length > 0) {
-      const calculationOfLastElements = currentPage * currentCardsPerPage - 1 >= totalPages;
+      //перевірка, якщо результат множення поточної сторінки на необхідну кількість об'єктів на сторінці - 1 більше, або дорівнює загальної довжині масива об'єктів новин. Необхідна, щоб індекс останнього елемента не був більше довжини масива
+      const calculationOfLastElements: boolean =
+        currentPage * currentCardsPerPage - 1 >= totalPages;
       let indexOfLastItem: number;
       let indexOfFirstItem: number;
 
@@ -44,119 +49,49 @@ const usePagination = (rebuildedNews: PartialVotedNewsArray) => {
         indexOfLastItem = currentPage * currentCardsPerPage;
         indexOfFirstItem = indexOfLastItem - currentCardsPerPage;
       } else if (currentPage > 1 && calculationOfLastElements && calculatedFirstIndexes) {
+        //Якщо перевірка вище спрацювала і є значення першого індекса для останній сторінці. Розрахунок для останній сторінки
         indexOfLastItem = totalPages;
-        if (breakpointsForMarkup?.isNothing || breakpointsForMarkup?.isMobile) {
-          indexOfFirstItem = totalPages - calculatedFirstIndexes.firstIndexForLastMobilePage;
-        } else if (breakpointsForMarkup?.isTablet) {
-          indexOfFirstItem = totalPages - calculatedFirstIndexes.firstIndexForLastTabletPage;
-        } else {
-          indexOfFirstItem = totalPages - calculatedFirstIndexes.firstIndexForLastDesktopPage;
-        }
+        indexOfFirstItem = totalPages - calculatedFirstIndexes;
       } else {
+        //Для всіх окрім першій та останній
         indexOfLastItem = currentPage * currentCardsPerPage - 1;
         indexOfFirstItem = indexOfLastItem - currentCardsPerPage;
       }
-      //   const indexOfLastItem =
-      //     currentPage === 1
-      //       ? currentPage * currentCardsPerPage
-      //       : currentPage * currentCardsPerPage - 1;
-      // const indexOfFirstItem = indexOfLastItem - currentCardsPerPage;
 
       const items = rebuildedNews.slice(indexOfFirstItem, indexOfLastItem);
       setCurrentItems(items);
     }
   }, [popularNews, newsByKeyword, newsByCategory, newsByDate, filteredNews, currentPage]);
 
-  // Розрахунок кількості сторінок для кожного типу пристрою
-  function calculatePages(total: number, firstPageCount: number, otherPageCount: number) {
-    const pages = [firstPageCount];
-    let remainingItems = total - firstPageCount;
-
-    while (remainingItems > 0) {
-      pages.push(otherPageCount);
-      remainingItems -= otherPageCount;
-    }
-    return pages;
-  }
-
-  // Визначення кількості об'єктів новин на сторінці в залежності від типу пристрою
-  function getCurrentCardsPerPage() {
-    if (breakpointsForMarkup?.isMobile || breakpointsForMarkup?.isNothing) {
-      return mobilePages[currentPage - 1] || 0;
-    } else if (breakpointsForMarkup?.isTablet) {
-      return tabletPages[currentPage - 1] || 0;
-    } else {
-      return desktopPages[currentPage - 1] || 0;
-    }
-  }
-
-  //Вирахування залишку карток на останній сторінці
-  function calculateRemainingCards(cards: number[], totalCards: number): number {
-    // Вираховуємо суму всіх чисел, окрім останнього елемента
-    const sum = cards && cards.slice(0, -1).reduce((acc, num) => acc + num, 0);
-
-    // Віднімаємо вираховану суму від загальної кількості карток
-    const remainingCards = totalCards - sum;
-
-    return remainingCards;
-  }
-
-  //Калькуляція першого індексу для останніх сторінок
-  function calculateFirstIndexes() {
-    try {
-      const firstIndexForLastMobilePage = calculateRemainingCards(mobilePages, totalPages);
-      const firstIndexForLastTabletPage = calculateRemainingCards(tabletPages, totalPages);
-      const firstIndexForLastDesktopPage = calculateRemainingCards(desktopPages, totalPages);
-
-      const firstIndexes = {
-        firstIndexForLastMobilePage,
-        firstIndexForLastTabletPage,
-        firstIndexForLastDesktopPage,
-      };
-
-      return firstIndexes;
-    } catch (error: any) {
-      return console.error(error.message);
-    }
-  }
-
-  // function getFirstPageCount() {
-  //   if (breakpointsForMarkup?.isNothing || breakpointsForMarkup?.isMobile) {
-  //     return 4;
-  //   } else if (breakpointsForMarkup?.isTablet) {
-  //     return 7;
-  //   } else {
-  //     return 8;
-  //   }
-  // }
-
-  // function getOtherPageCount() {
-  //   if (breakpointsForMarkup?.isNothing || breakpointsForMarkup?.isMobile) {
-  //     return 5;
-  //   } else if (breakpointsForMarkup?.isTablet) {
-  //     return 8;
-  //   } else {
-  //     return 9;
-  //   }
-  // }
-
-  //Розрахунок необхідної кількості кнопок пагінації
-  const pageNumbers: number[] = [];
-
-  let pageQuantity: number;
-  if (currentPage !== 1) {
+  //Отримання кількості новин на першій сторінці для кожного пристроя
+  function getFirstPageCount(): number {
     if (breakpointsForMarkup?.isNothing || breakpointsForMarkup?.isMobile) {
-      pageQuantity = Math.ceil(totalPages / currentCardsPerPage + 1);
+      return 4;
+    } else if (breakpointsForMarkup?.isTablet) {
+      return 7;
     } else {
-      pageQuantity = Math.ceil(totalPages / currentCardsPerPage);
+      return 8;
     }
-  } else {
-    pageQuantity = Math.ceil(totalPages / currentCardsPerPage);
   }
 
-  for (let i = 1; i <= pageQuantity; i++) {
-    pageNumbers.push(i);
+  //Отримання кількості новин на інших сторінках для кожного пристроя
+  function getOtherPageCount(): number {
+    if (isMobile) {
+      return 5;
+    } else if (breakpointsForMarkup?.isTablet) {
+      return 8;
+    } else {
+      return 9;
+    }
   }
+
+  // Розрахунок необхідної кількості кнопок пагінації
+  const pageQuantity: number =
+    currentPage !== 1 && isMobile
+      ? Math.ceil(totalPages / currentCardsPerPage + 1)
+      : Math.ceil(totalPages / currentCardsPerPage);
+
+  const pageNumbers: number[] = Array.from({ length: pageQuantity }, (_, index) => index + 1);
 
   return {
     currentItems,
