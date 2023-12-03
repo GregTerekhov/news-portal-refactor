@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 
-import { memberFirstImages, memberThirdImages, plugImages } from 'constants';
+import { memberFirstImages, memberThirdImages, plugImages } from 'constants/images';
 import { generateContentImages } from 'helpers';
 import { useCacheImage } from 'hooks';
 

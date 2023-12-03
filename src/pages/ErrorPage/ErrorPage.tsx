@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import { errorImages } from 'constants';
+import { errorImages } from 'constants/images';
 import { generateContentImages } from 'helpers';
 import { useAuthCollector, useCacheImage } from 'hooks';
 
