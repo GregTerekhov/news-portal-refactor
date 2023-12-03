@@ -138,3 +138,158 @@ const Pagination: FC<PaginationProps> = ({ pageNumbers, currentPage, setCurrentP
 };
 
 export default Pagination;
+
+// import React, { FC } from 'react';
+// import { useWindowWidth } from 'hooks';
+// import { PrimaryButton, SvgIcon } from 'ui';
+
+// interface PaginationProps {
+//   pageNumbers: number[];
+//   currentPage: number;
+//   setCurrentPage: (number: number) => void;
+// }
+
+// interface Button {
+//   label: string | number;
+//   value: number;
+// }
+
+// const Pagination: FC<PaginationProps> = ({ pageNumbers, currentPage, setCurrentPage }) => {
+//   const { breakpointsForMarkup } = useWindowWidth() ?? { breakpointsForMarkup: null };
+//   const totalPages = pageNumbers.length;
+//   const screenHeight = window.innerHeight;
+//   const visibleButtonsCount =
+//     breakpointsForMarkup?.isNothing || breakpointsForMarkup?.isMobile ? 3 : 6;
+
+//   const renderPaginationButton = (pageNumber: number) => (
+//     <li
+//       key={pageNumber}
+//       className={`${pageNumber === currentPage ? 'active' : ''}`}
+//       onClick={() => {
+//         setCurrentPage(pageNumber);
+//         window.scrollTo({ top: 0 + screenHeight, left: 0 });
+//       }}
+//     >
+//       <PrimaryButton
+//         aria-label={pageNumber.toString()}
+//         classNameButton={`h-10 border-accentBase font-medium transition-colors duration-500 ${
+//           pageNumber === currentPage
+//             ? 'bg-accentBase text-contrastWhite'
+//             : 'text-darkBase dark:text-whiteBase dark:border-whiteBase'
+//         }`}
+//         variant='Small'
+//       >
+//         {pageNumber}
+//       </PrimaryButton>
+//     </li>
+//   );
+
+//   const renderEllipsis = (direction: string) => (
+//     <li key={direction} className='ellipsis'>
+//       <span className='text-darkBase dark:text-whiteBase'>...</span>
+//     </li>
+//   );
+
+//   const renderPaginationButtons = () => {
+//     const buttonsToRender =
+//       totalPages <= visibleButtonsCount
+//         ? getButtonsForRange(1, totalPages)
+//         : getPaginationButtons(currentPage, totalPages);
+
+//     return buttonsToRender.map(({ label, value }) => {
+//       if (label === 'prev' || label === 'next') {
+//         return renderEllipsis(label);
+//       } else {
+//         return renderPaginationButton(value);
+//       }
+//     });
+//   };
+
+//   const getButtonsForRange = (start: number, end: number): Button[] => {
+//     return Array.from({ length: end - start + 1 }, (_, index) => ({
+//       label: index + start,
+//       value: index + start,
+//     }));
+//   };
+
+//   const getPaginationButtons = (currentPage: number, totalPages: number): Button[] => {
+//     const buttons: Button[] = [
+//       { label: 'prev', value: currentPage - 1 },
+//       { label: currentPage.toString(), value: currentPage },
+//       { label: 'next', value: currentPage + 1 },
+//       { label: totalPages.toString(), value: totalPages },
+//     ];
+
+//     if (currentPage === 1) {
+//       return [...buttons.slice(0, 3), { label: 'next', value: totalPages }];
+//     } else if (currentPage === totalPages) {
+//       return [{ label: 'prev', value: 1 }, ...buttons.slice(2, 4)];
+//     } else if (currentPage === 2) {
+//       return [
+//         { label: 'prev', value: 1 },
+//         ...buttons.slice(1, 3),
+//         { label: 'next', value: totalPages },
+//       ];
+//     } else if (currentPage - 1 > 1 && currentPage + 1 !== totalPages) {
+//       return [
+//         { label: 'prev', value: 1 },
+//         ...buttons.slice(1, 4),
+//         { label: 'next', value: totalPages },
+//       ];
+//     } else if (currentPage + 1 === totalPages) {
+//       return [
+//         { label: 'prev', value: 1 },
+//         ...buttons.slice(1, 3),
+//         { label: 'next', value: totalPages },
+//       ];
+//     } else {
+//       return [];
+//     }
+//   };
+
+//   const handlePrevClick = () => {
+//     if (currentPage > 1) {
+//       setCurrentPage(currentPage - 1);
+//       window.scrollTo({ top: 0 + screenHeight, left: 0 });
+//     }
+//   };
+
+//   const handleNextClick = () => {
+//     if (currentPage < pageNumbers.length) {
+//       setCurrentPage(currentPage + 1);
+//       window.scrollTo({ top: 0 + screenHeight, left: 0 });
+//     }
+//   };
+
+//   return (
+//     <div className='flex justify-center items-center gap-2'>
+//       <PrimaryButton
+//         id='Previous page button'
+//         variant='OtherButton'
+//         onHandleClick={handlePrevClick}
+//         width='w-32'
+//       >
+//         <SvgIcon svgName='icon-arrow-left' size={20} className='fill-whiteBase' />
+//         {breakpointsForMarkup?.isTablet || breakpointsForMarkup?.isDesktop ? (
+//           <span className='text-base md:text-medium font-medium text-contrastWhite'>Prev</span>
+//         ) : null}
+//       </PrimaryButton>
+//       <ul id='page-numbers' className='flex gap-2'>
+//         {renderPaginationButtons()}
+//       </ul>
+//       <PrimaryButton
+//         id='Next page button'
+//         variant='OtherButton'
+//         onHandleClick={handleNextClick}
+//         width='w-32'
+//       >
+//         {breakpointsForMarkup?.isTablet || breakpointsForMarkup?.isDesktop ? (
+//           <span className='text-base md:text-medium font-medium text-contrastWhite'>Next</span>
+//         ) : null}
+//         <SvgIcon svgName='icon-arrow-right' size={20} className='stroke-whiteBase' />
+//       </PrimaryButton>
+//     </div>
+//   );
+// };
+
+// export default Pagination;

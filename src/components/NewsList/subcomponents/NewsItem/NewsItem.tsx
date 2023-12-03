@@ -38,6 +38,7 @@ const NewsItem: FC<Partial<NewsItemProps>> = ({
     <>
       {liveNews && liveNews?.newsUrl && (
         <a
+          rel='noopener noreferrer'
           className='block group transition-colors duration-500'
           href={liveNews?.newsUrl}
           target='_blank'

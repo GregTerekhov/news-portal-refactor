@@ -12,6 +12,7 @@ export default defineConfig({
     alias: {
       assets: resolve(__dirname, './src/assets/'),
       components: resolve(__dirname, './src/components'),
+      config: resolve(__dirname, './src/config'),
       constants: resolve(__dirname, './src/constants'),
       contexts: resolve(__dirname, './src/contexts'),
       helpers: resolve(__dirname, './src/helpers'),

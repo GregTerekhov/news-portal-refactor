@@ -1,11 +1,12 @@
 import React, { FC } from 'react';
 import { useLocation } from 'react-router-dom';
+import { useGoogleLogin } from '@react-oauth/google';
 
 import { useActiveLinks, useWindowWidth } from 'hooks';
 
 import { PrimaryButton } from 'ui';
 
-import { accountButtons } from './assistants';
+// import { accountButtons } from './assistants';
 
 const LinkedAccounts: FC = () => {
   const { breakpointsForMarkup } = useWindowWidth() ?? {
@@ -13,9 +14,34 @@ const LinkedAccounts: FC = () => {
   };
   const location = useLocation();
   const activeLinks = useActiveLinks(location);
+  const login = useGoogleLogin({
+    onSuccess: (codeResponse) => console.log(codeResponse),
+    flow: 'auth-code',
+  });
 
   const hasConnectedAccount = false;
   const isMobile = breakpointsForMarkup?.isNothing || breakpointsForMarkup?.isMobile;
+
+  const accountButtons = [
+    {
+      svgName: 'icon-google',
+      account: 'Google',
+      dataTooltipTarget: 'tooltip-Google',
+      onClick: () => login(),
+    },
+    {
+      svgName: 'icon-facebook',
+      account: 'Facebook',
+      dataTooltipTarget: 'tooltip-Facebook',
+      onClick: () => console.log('facebook'),
+    },
+    {
+      svgName: 'icon-apple',
+      account: 'Apple',
+      dataTooltipTarget: 'tooltip-Apple',
+      onClick: () => console.log('apple'),
+    },
+  ];
 
   return (
     <>
@@ -37,7 +63,7 @@ const LinkedAccounts: FC = () => {
             : 'flex justify-around md:gap-8'
         }`}
       >
-        {accountButtons.map(({ svgName, account }) => (
+        {accountButtons.map(({ svgName, account, onClick }) => (
           <li
             key={svgName}
             className={`${
@@ -59,6 +85,7 @@ const LinkedAccounts: FC = () => {
                 classNameButton='bg-accentBase hover:bg-accentAlt dark:border-whiteBase py-2'
                 classNameIcon='fill-whiteBase'
                 children={!isMobile && !activeLinks.isManageAccountPage ? account : ''}
+                onHandleClick={onClick}
               />
             </div>
             {activeLinks.isManageAccountPage ? (

@@ -30,9 +30,11 @@ const ThemeSwitcher: FC<ThemeSwitcherProps> = ({ variant }) => {
   let spacing: string = '';
   let colorLeftLabel: string = '';
   let strokeLeftIcon: string = '';
+  let shadow: string = '';
 
   if (variant === VariantSwitcher.Header) {
     spacing = 'justify-end';
+    shadow = activeLinks.isHomeActive ? themeSwitcherClass : '';
   }
 
   if (variant === 'footer') {
@@ -94,7 +96,7 @@ const ThemeSwitcher: FC<ThemeSwitcherProps> = ({ variant }) => {
         checked={enabled}
         onChange={setEnabled}
         onClick={handleThemeChange}
-        className={`${activeLinks.isHomeActive && themeSwitcherClass} ${
+        className={`${shadow} ${
           enabled ? 'bg-accentBase border-contrastWhite' : 'bg-contrastWhite border-accentBase'
         }
           relative inline-flex items-center h-5 w-10 shrink-0 cursor-pointer rounded-full border transition-colors duration-500 ease-in-out focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75`}

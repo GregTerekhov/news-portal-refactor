@@ -1,12 +1,14 @@
 import axios from 'axios';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 
+import { CONFIG } from 'config';
+
 import { AppDispatch, RootState } from 'reduxStore/store';
 
 import { HourlyWeatherData, WeatherData } from 'types';
 
 const BASE_URL = 'https://api.openweathermap.org';
-const API_KEY = `50fae40a64fcd40464e14d0d20ee5d02`;
+const API_KEY = CONFIG.WEATHER_API_KEY;
 
 export interface Position {
   latitude: number;
