@@ -10,7 +10,7 @@ const SignUpPanel: FC<{}> = () => {
 
   return (
     <form onSubmit={handleSignUpSubmit(signUpSubmitHandler)}>
-      <ul className='flex flex-col gap-4 md:gap-5 mb-6'>
+      <ul className='flex flex-col gap-4 md:gap-5 mb-6 hg:mb-10'>
         {Array.isArray(signUpInputs) &&
           signUpInputs.map(({ type, placeholder, children, errors, label, ariaInvalid }) => (
             <li key={label}>

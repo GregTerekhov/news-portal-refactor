@@ -81,7 +81,7 @@ const WeatherBlock: FC<{}> = () => {
             </div>
             {currentWeather?.weather && currentWeather?.weather[0]['icon'] && (
               <img
-                className='m-auto w-32 h-32 md:w-[165px] md:h-[165px]'
+                className='m-auto w-32 h-32 md:w-[165px] md:h-[165px] hg:w-[180px] hg:h-[180px]'
                 src={`https://openweathermap.org/img/wn/${currentWeather?.weather[0]['icon']}@2x.png`}
                 alt={currentWeather?.weather?.[0]?.description}
               />

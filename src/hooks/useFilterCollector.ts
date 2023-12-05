@@ -1,11 +1,19 @@
 import { useCallback } from 'react';
 
-import { filterNews, resetFilters, selectFilters } from 'reduxStore/filterSlice';
+import {
+  FilterResults,
+  filterNews,
+  resetFilters,
+  results,
+  selectFilters,
+  selectResults,
+} from 'reduxStore/filterSlice';
 import { useAppDispatch, useAppSelector } from 'reduxStore/hooks';
 import { PartialVotedNewsArray } from 'types/news';
 
 const useFilterCollector = () => {
   const filteredNews = useAppSelector(selectFilters);
+  const hasResults = useAppSelector(selectResults);
 
   const dispatch = useAppDispatch();
 
@@ -13,11 +21,17 @@ const useFilterCollector = () => {
     (filteredData: PartialVotedNewsArray) => dispatch(filterNews(filteredData)),
     [dispatch],
   );
+  const showResultsState = useCallback(
+    (state: FilterResults) => dispatch(results(state)),
+    [dispatch],
+  );
   const resetAllFilters = useCallback(() => dispatch(resetFilters()), [dispatch]);
   return {
     filteredNews,
+    hasResults,
     getFilteredNews,
     resetAllFilters,
+    showResultsState,
   };
 };
 

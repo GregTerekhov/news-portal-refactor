@@ -6,24 +6,11 @@ import { Loader, NewsList, PlugImage } from 'components';
 import { Accordeon } from 'ui';
 
 const ReadPage: FC<{}> = () => {
-  // const [changesHappened, setChangesHappened] = useState<boolean>(false);
-
   const { allReads, isLoadingDBData, getReads } = useNewsDBCollector();
 
   useEffect(() => {
     getReads();
   }, [getReads]);
-
-  // useLayoutEffect(() => {
-  //   if (changesHappened && savedNews) {
-  //     addVotedNews(savedNews);
-  //     setChangesHappened(false);
-  //   }
-  // }, [changesHappened, addVotedNews]);
-
-  // const handleChangeVotes = () => {
-  //   setChangesHappened(true);
-  // };
 
   const publishedDate = allReads
     ?.map((news) => news.publishDate)
@@ -46,7 +33,6 @@ const ReadPage: FC<{}> = () => {
           {sortedDates.map((date) => (
             <Accordeon key={date} dateSeparator={date} position='readPage'>
               <NewsList
-                // onChange={handleChangeVotes}
                 currentItems={allReads?.filter(
                   (news) => news?.publishDate !== undefined && news?.publishDate === date,
                 )}

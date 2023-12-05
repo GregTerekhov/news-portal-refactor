@@ -3,7 +3,7 @@ import { useLocation } from 'react-router-dom';
 
 import { VotedItem } from 'types';
 
-import { useActiveLinks, useAuthCollector } from 'hooks';
+import { useActiveLinks } from 'hooks';
 
 import { Hint, PrimaryButton, SvgIcon } from 'ui';
 
@@ -21,19 +21,17 @@ const NewsItem: FC<Partial<NewsItemProps>> = ({
   liveNews = {},
   // onChange = () => {},
 }) => {
-  const { isAuthenticated } = useAuthCollector();
+  // const { isAuthenticated } = useAuthCollector();
   const myButtonRef = React.createRef<HTMLButtonElement>();
 
-  // const isAuthenticated = true;
+  const isAuthenticated = true;
   const location = useLocation();
   const activeLinks = useActiveLinks(location);
   const { isFavourite, hasRead, handleChangeFavourites, handleReadNews, handleDeleteNews } =
     useNews({ liveNews, activeLinks });
 
   const locationShowHasReadStatus = activeLinks.isHomeActive || activeLinks.isArchiveActive;
-  if (liveNews) {
-    // console.log(liveNews);
-  }
+
   return (
     <>
       {liveNews && liveNews?.newsUrl && (

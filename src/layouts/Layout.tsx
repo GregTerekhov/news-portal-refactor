@@ -3,7 +3,7 @@ import { Outlet, useLocation } from 'react-router-dom';
 
 import {
   useActiveLinks,
-  useAuthCollector,
+  // useAuthCollector,
   useChooseRenderingNews,
   useNewsAPICollector,
   useWindowWidth,
@@ -19,8 +19,8 @@ const Layout: FC = () => {
     breakpointsForMarkup: null,
   };
   const { fetchCategoriesList } = useNewsAPICollector();
-  const { isAuthenticated } = useAuthCollector();
-  // const isAuthenticated = true;
+  // const { isAuthenticated } = useAuthCollector();
+  const isAuthenticated = true;
   const location = useLocation();
   const activeLinks = useActiveLinks(location);
   const { rebuildedNews } = useChooseRenderingNews({ activeLinks });

@@ -22,13 +22,13 @@ import {
 } from 'reduxStore/auth';
 import { useAppDispatch, useAppSelector } from 'reduxStore/hooks';
 import {
-  SignUpCredentials,
-  SignInCredentials,
+  SignUpRequiredFields,
+  SignInRequiredFields,
   IUpdateEmail,
-  IRecoveryPasswordRequest,
   IThirdPartyAuth,
-  IUpdatePasswordToSend,
-  IRecoveryPasswordChangeToSend,
+  UpdatePasswordRequiredToSend,
+  RecoveryPasswordRequestRequired,
+  RecoveryPasswordChangeRequiredToSend,
   ITheme,
 } from 'types';
 
@@ -43,11 +43,11 @@ const useAuthCollector = () => {
   const dispatch = useAppDispatch();
 
   const register = useCallback(
-    (credentials: SignUpCredentials) => dispatch(signUp(credentials)),
+    (credentials: SignUpRequiredFields) => dispatch(signUp(credentials)),
     [dispatch],
   );
   const login = useCallback(
-    (credentials: SignInCredentials) => dispatch(signIn(credentials)),
+    (credentials: SignInRequiredFields) => dispatch(signIn(credentials)),
     [dispatch],
   );
   const logout = useCallback(() => dispatch(signOut()), [dispatch]);
@@ -58,17 +58,17 @@ const useAuthCollector = () => {
   );
 
   const updatePassword = useCallback(
-    (newPassword: IUpdatePasswordToSend) => dispatch(updateUserPassword(newPassword)),
+    (newPassword: UpdatePasswordRequiredToSend) => dispatch(updateUserPassword(newPassword)),
     [dispatch],
   );
 
   const sendEmailForRecovery = useCallback(
-    (email: IRecoveryPasswordRequest) => dispatch(recoveryPasswordRequest(email)),
+    (email: RecoveryPasswordRequestRequired) => dispatch(recoveryPasswordRequest(email)),
     [dispatch],
   );
 
   const changePassword = useCallback(
-    (changedPassword: IRecoveryPasswordChangeToSend) =>
+    (changedPassword: RecoveryPasswordChangeRequiredToSend) =>
       dispatch(recoveryPasswordChange(changedPassword)),
     [dispatch],
   );

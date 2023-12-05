@@ -4,7 +4,7 @@ import { removeFromFavourites } from 'reduxStore/newsDatabase';
 import { useAppDispatch } from 'reduxStore/hooks';
 
 import { VotedItem } from 'types';
-import { useAuthCollector, useNewsDBCollector } from 'hooks';
+import { useNewsDBCollector } from 'hooks';
 
 interface NewsItemProps {
   liveNews: Partial<VotedItem>;
@@ -22,8 +22,8 @@ const useNews = ({ liveNews, activeLinks }: NewsItemProps) => {
 
   const [isFavourite, setIsFavourite] = useState<boolean>(() => getIsFavourite());
   const [hasRead, setHasRead] = useState<boolean>(() => getHasRead());
-  const { isAuthenticated } = useAuthCollector();
-
+  // const { isAuthenticated } = useAuthCollector();
+  const isAuthenticated = true;
   const dispatch = useAppDispatch();
 
   useEffect(() => {

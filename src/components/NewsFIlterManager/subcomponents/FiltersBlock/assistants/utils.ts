@@ -5,7 +5,8 @@ export function applyCrossFilters(newsArray: PartialVotedNewsArray | undefined, 
 
   if (newsArray && newsArray.length > 0) {
     return newsArray.filter((news) => {
-      console.log('newsArray', newsArray);
+      // console.log('newsArray', newsArray);
+      // console.log('filters', filters);
       const keywordMatch = keyword
         ? news?.title?.includes(keyword) || news?.description?.includes(keyword)
         : false;
@@ -20,9 +21,10 @@ export function applyCrossFilters(newsArray: PartialVotedNewsArray | undefined, 
         selectedFilterDate !== '' && selectedFilterDate
           ? news?.publishDate?.includes(selectedFilterDate)
           : false;
-      console.log('matchPublishedDate', matchPublishedDate);
-      console.log('selectedFilterDate', selectedFilterDate);
-
+      // console.log('matchPublishedDate', matchPublishedDate);
+      // // console.log('selectedFilterDate', selectedFilterDate);
+      // console.log('matchesTitle', matchesTitle);
+      // console.log('matchesAuthor', matchesAuthor);
       return (
         keywordMatch ||
         matchesAuthor ||

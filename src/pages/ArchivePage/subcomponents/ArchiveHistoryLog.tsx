@@ -10,9 +10,11 @@ interface IHistoryLogProps {
 }
 
 const ArchiveHistoryLog: FC<IHistoryLogProps> = ({ logData }) => {
+  console.log('logData', logData);
   const handleSearchNews = (event: React.ChangeEvent<HTMLInputElement>) => {
     console.log(event.target.value);
   };
+
   return (
     <div className='flex flex-col mb-6'>
       <div className='-m-1.5 overflow-x-auto'>
@@ -83,15 +85,18 @@ const ArchiveHistoryLog: FC<IHistoryLogProps> = ({ logData }) => {
                     logData.map(({ title, newsUrl, category, additionDate, deletionDate }) => (
                       <tr key={newsUrl}>
                         <td className='px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-gray-200'>
-                          <a href={newsUrl}>
-                            {title}hjhdshfksdhkfjhskjhdkjfhkjh jhfskjdhfks shfdjkshfk shdjfhk{' '}
+                          <a
+                            href={newsUrl}
+                            className=' hover:text-accentBase transition-colors duration-500'
+                          >
+                            {title}{' '}
                           </a>
                         </td>
                         <td className='px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-gray-200'>
                           {category}
                         </td>
                         <td className='px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200'>
-                          {format(additionDate, 'dd/MM/yyyy')};
+                          {format(additionDate, 'dd/MM/yyyy')}
                         </td>
                         <td className='px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200'>
                           {format(deletionDate, 'dd/MM/yyyy')}

@@ -1,10 +1,9 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { format, isAfter, startOfToday } from 'date-fns';
 
+import useFilterCollector from './useFilterCollector';
 import useNewsAPICollector from './useNewsAPICollector';
 import usePopUp from './usePopUp';
-import { useFilterCollector } from '.';
-
 export interface SelectedDate {
   beginDate: string | null;
   endDate: string | null;
@@ -13,7 +12,6 @@ export interface SelectedDate {
 const useAdditionalRequest = () => {
   const [query, setQuery] = useState<string>('');
   const [period, setPeriod] = useState<string>('');
-  const [headline, setHeadline] = useState<string>('');
   const [category, setCategory] = useState<string>('');
   const [beginDate, setBeginDate] = useState<Date | null>(null);
   const [selectedRequestDate, setSelectedRequestDate] = useState<SelectedDate>({
@@ -32,6 +30,7 @@ const useAdditionalRequest = () => {
     fetchByKeyword,
     fetchPopular,
     resetPreviousRequest,
+    updateHeadline,
   } = useNewsAPICollector();
   const { setIsOpenCalendar } = usePopUp();
   const { filteredNews } = useFilterCollector();
@@ -42,58 +41,6 @@ const useAdditionalRequest = () => {
     (newsByKeyword && newsByKeyword?.length === 0) ||
     (newsByCategory && newsByCategory?.length === 0) ||
     (newsByDate && newsByDate?.length === 0);
-
-  useEffect(() => {
-    // console.log('Updating headline...');
-    // console.log('filteredNews:', filteredNews);
-    // console.log('newsByKeyword:', newsByKeyword);
-    // console.log('query:', query);
-    // console.log('newsByCategory:', newsByCategory);
-    // console.log('category:', category);
-    // console.log('newsByDate:', newsByDate);
-    // console.log('period:', period);
-
-    const updateHeadline = async () => {
-      if (filteredNews && filteredNews.length > 0) {
-        await setHeadline('Filtered News');
-      } else if (query) {
-        if (newsByKeyword && newsByKeyword.length > 0) {
-          await setHeadline(`News by Keyword: ${query}`);
-        }
-      } else if (category) {
-        if (newsByCategory && newsByCategory.length > 0) {
-          await setHeadline(`Categorical Reviews by ${category}`);
-        }
-      } else if (newsByDate && newsByDate.length > 0) {
-        await setHeadline('News by Date');
-      } else if (popularNews && popularNews.length > 0) {
-        await setHeadline("Today's Hot News");
-        if (period) {
-          if (period === 'Today') {
-            await setHeadline("Today's Hot News");
-          } else if (period === 'Week') {
-            await setHeadline('Weekly News');
-          } else if (period === 'Month') {
-            await setHeadline('Monthly News');
-          }
-        }
-      }
-    };
-    updateHeadline();
-  }, [
-    popularNews,
-    period,
-    newsByKeyword,
-    query,
-    newsByCategory,
-    category,
-    newsByDate,
-    filteredNews,
-  ]);
-
-  useEffect(() => {
-    console.log('selectedRequestDate', selectedRequestDate);
-  }, []);
 
   const getCategoriesList = () => {
     if (categoriesList) {
@@ -113,14 +60,15 @@ const useAdditionalRequest = () => {
 
   const onHandleSearch = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
     if (query) {
       if (filteredNews && filteredNews.length > 0) {
         resetPreviousRequest();
         await fetchByKeyword(query);
+        updateHeadline(`News by Keyword: ${query}`);
         setQuery('');
       } else {
         await fetchByKeyword(query);
+        updateHeadline(`News by Keyword: ${query}`);
         setQuery('');
       }
     }
@@ -129,16 +77,22 @@ const useAdditionalRequest = () => {
   const getNewsByCategory = async (section: string) => {
     if (section) {
       setCategory(section);
+
       if (filteredNews && filteredNews.length > 0) {
         resetPreviousRequest();
         await fetchByCategory(section);
-      } else await fetchByCategory(section);
+        updateHeadline(`Categorical Reviews by ${section}`);
+      } else {
+        await fetchByCategory(section);
+        updateHeadline(`Categorical Reviews by ${section}`);
+      }
     }
   };
 
   const getNewsByPeriod = async (period: string) => {
     if (period === 'Today') {
       setPeriod('Today');
+      updateHeadline("Today's Hot News");
       if (filteredNews && filteredNews.length > 0) {
         resetPreviousRequest();
         await fetchPopular('1');
@@ -147,6 +101,7 @@ const useAdditionalRequest = () => {
       }
     } else if (period === 'Week') {
       setPeriod('Week');
+      updateHeadline('Weekly News');
       if (filteredNews && filteredNews.length > 0) {
         resetPreviousRequest();
         await fetchPopular('7');
@@ -155,6 +110,7 @@ const useAdditionalRequest = () => {
       }
     } else if (period === 'Month') {
       setPeriod('Month');
+      updateHeadline('Monthly News');
       if (filteredNews && filteredNews.length > 0) {
         resetPreviousRequest();
         await fetchPopular('30');
@@ -184,6 +140,9 @@ const useAdditionalRequest = () => {
           }
 
           setSelectedRequestDate(newSelectedDate);
+          updateHeadline(
+            `News by Date: from ${newSelectedDate.beginDate} to ${newSelectedDate.endDate}`,
+          );
 
           if (filteredNews && filteredNews.length > 0) {
             resetPreviousRequest();
@@ -223,6 +182,7 @@ const useAdditionalRequest = () => {
       (newsByDate && newsByDate?.length > 0)
     ) {
       resetPreviousRequest();
+      updateHeadline('Today`s Hot News');
       setQuery('');
       setPeriod('');
       setCategory('');
@@ -237,7 +197,8 @@ const useAdditionalRequest = () => {
 
   return {
     query,
-    headline,
+    period,
+    category,
     selectedRequestDate,
     categoriesForDropdown,
     showPopular,

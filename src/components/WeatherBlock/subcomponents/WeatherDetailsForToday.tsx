@@ -2,7 +2,7 @@ import React, { FC } from 'react';
 
 import { useWindowWidth } from 'hooks';
 
-import { SvgIcon } from 'ui';
+import { Hint, SvgIcon } from 'ui';
 
 import {
   convertUnixTimestampToHHMM,
@@ -15,12 +15,100 @@ import {
 
 import { useWeatherCollector } from '../hooks';
 
+type DetailsRows = {
+  icon: string;
+  iconSize: number;
+  value: string;
+  label: string;
+  hint: string;
+  justifyItemClass: string;
+  subTextValue: string;
+};
+
 const WeatherDetailsForToday: FC<{}> = () => {
   const { currentWeather } = useWeatherCollector();
   const { breakpointsForMarkup } = useWindowWidth() ?? {
     breakpointsForMarkup: null,
   };
   const { days, dateNow } = receiveCurrentDate();
+  const isMobile = breakpointsForMarkup?.isNothing || breakpointsForMarkup?.isMobile;
+
+  const weatherDetails: DetailsRows[] = [
+    {
+      icon: 'icon-earth',
+      iconSize: isMobile ? 16 : 24,
+      value: `${convertTimezone(currentWeather?.timezone)}`,
+      label: 'Greenwich mean time',
+      hint: 'GMT time',
+      justifyItemClass: 'justify-start',
+      subTextValue: 'UTC',
+    },
+    {
+      icon: 'icon-humidity',
+      iconSize: isMobile ? 18 : 30,
+      value: `${currentWeather?.main?.humidity}`,
+      label: 'Humidity in percent',
+      hint: 'Humidity (%)',
+      justifyItemClass: 'justify-end',
+      subTextValue: '%',
+    },
+    {
+      icon: 'icon-pressure',
+      iconSize: isMobile ? 18 : 30,
+      value: `${hPaToMmHg(currentWeather?.main?.pressure)}`,
+      label: 'Atmospheric pressure in mm Hg',
+      hint: 'Atmospheric pressure (mm.Hg)',
+      justifyItemClass: 'justify-start',
+      subTextValue: 'mm.Hg',
+    },
+    {
+      icon: 'icon-pressure',
+      iconSize: isMobile ? 18 : 30,
+      value: `${currentWeather?.main?.pressure}`,
+      label: 'Atmospheric pressure in hPa',
+      hint: 'Atmospheric pressure (HPa)',
+      justifyItemClass: 'justify-end',
+      subTextValue: 'hPa',
+    },
+    {
+      icon: 'icon-sunrise',
+      iconSize: isMobile ? 20 : 30,
+      value: `${convertUnixTimestampToHHMM(currentWeather?.sys?.sunrise)}`,
+      label: 'Sunrise time',
+      hint: 'Sunrise time',
+      justifyItemClass: 'justify-start',
+      subTextValue: 'AM',
+    },
+    {
+      icon: 'icon-sunset',
+      iconSize: isMobile ? 20 : 30,
+      value: `${convertUnixTimestampToHHMM(currentWeather?.sys?.sunset)}`,
+      label: 'Sunset time',
+      hint: 'Sunset time',
+      justifyItemClass: 'justify-end',
+      subTextValue: 'PM',
+    },
+    {
+      icon: 'icon-eye-opened',
+      iconSize: isMobile ? 20 : 30,
+      value: `${formatKmToMetre(currentWeather?.visibility)}`,
+      label: 'Road visibility',
+      hint: 'Road visibility',
+      justifyItemClass: 'justify-start',
+      subTextValue: 'km',
+    },
+    {
+      icon: 'icon-weather-wind',
+      iconSize: isMobile ? 20 : 30,
+      value: `${currentWeather?.wind?.speed}`,
+      label: 'Wind speed in metre per seconds',
+      hint: `Wind speed (m/s). (${getWindStrengthScale(
+        currentWeather?.wind?.speed,
+      )} on the Beaufort scale)`,
+      justifyItemClass: 'justify-end',
+      subTextValue: 'm/s',
+    },
+  ];
 
   return (
     <div className='w-full h-full backface-hidden col-[1/1] rows-[1/1] flex flex-col gap-3 justify-between'>
@@ -28,181 +116,37 @@ const WeatherDetailsForToday: FC<{}> = () => {
         <p className='font-weather text-3.5xl md:text-4.5xl text-contrastWhite'>{days}</p>
         <p className='font-weather text-2.5xl md:text-3.5xl text-contrastWhite'>{dateNow}</p>
       </div>
-      <div className='grid grid-cols-2 grid-rows-2 gap-y-3.5'>
-        <p
-          className='text-contrastWhite text-base md:text-medium flex gap-3 items-center'
-          data-tooltip-target='tooltip-timezone'
-          data-tooltip-placement='right'
-        >
-          <SvgIcon
-            svgName='icon-earth'
-            size={breakpointsForMarkup?.isNothing || breakpointsForMarkup?.isMobile ? 16 : 24}
-            className='fill-whiteBase'
-          />
-          {convertTimezone(currentWeather?.timezone)} UTC
-        </p>
-        <div
-          id='tooltip-timezone'
-          role='tooltip'
-          className='absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700'
-        >
-          Timezone
-          <div className='tooltip-arrow' data-popper-arrow></div>
-        </div>
-
-        <p
-          className='text-contrastWhite text-base md:text-medium flex gap-3 items-center justify-end'
-          data-tooltip-target='tooltip-humidity'
-          data-tooltip-placement='left'
-        >
-          {currentWeather?.main?.humidity} &#37;
-          <SvgIcon
-            svgName='icon-humidity'
-            size={breakpointsForMarkup?.isNothing || breakpointsForMarkup?.isMobile ? 18 : 30}
-            className='fill-whiteBase'
-          />
-        </p>
-        <div
-          id='tooltip-humidity'
-          role='tooltip'
-          className='absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700'
-        >
-          Humidity
-          <div className='tooltip-arrow' data-popper-arrow></div>
-        </div>
-
-        <p
-          className='text-contrastWhite text-base md:text-medium flex gap-3 items-center'
-          data-tooltip-target='tooltip-pressure-mmHg'
-          data-tooltip-placement='right'
-        >
-          <SvgIcon
-            svgName='icon-pressure'
-            size={breakpointsForMarkup?.isNothing || breakpointsForMarkup?.isMobile ? 18 : 30}
-            className='fill-whiteBase'
-          />
-          {hPaToMmHg(currentWeather?.main?.pressure)} mm.Hg
-        </p>
-        <div
-          id='tooltip-pressure-mmHg'
-          role='tooltip'
-          className='absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700'
-        >
-          Pressure
-          <div className='tooltip-arrow' data-popper-arrow></div>
-        </div>
-
-        <p
-          className='text-contrastWhite text-base md:text-medium flex gap-3 items-center justify-end'
-          data-tooltip-target='tooltip-pressure-hpa'
-          data-tooltip-placement='left'
-        >
-          {currentWeather?.main?.pressure} &#13169;
-          <SvgIcon
-            svgName='icon-pressure'
-            size={breakpointsForMarkup?.isNothing || breakpointsForMarkup?.isMobile ? 18 : 30}
-            className='fill-whiteBase'
-          />
-        </p>
-        <div
-          id='tooltip-pressure-hpa'
-          role='tooltip'
-          className='absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700'
-        >
-          Pressure
-          <div className='tooltip-arrow' data-popper-arrow></div>
-        </div>
-
-        <p
-          className='text-contrastWhite text-base md:text-medium flex gap-3 items-center'
-          data-tooltip-target='tooltip-sunrise'
-          data-tooltip-placement='right'
-        >
-          <SvgIcon
-            svgName='icon-sunrise'
-            size={breakpointsForMarkup?.isNothing || breakpointsForMarkup?.isMobile ? 20 : 30}
-            className='fill-whiteBase'
-          />
-          {convertUnixTimestampToHHMM(currentWeather?.sys?.sunrise)} AM
-        </p>
-        <div
-          id='tooltip-sunrise'
-          role='tooltip'
-          className='absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700'
-        >
-          Sunrise
-          <div className='tooltip-arrow' data-popper-arrow></div>
-        </div>
-
-        <p
-          className='text-contrastWhite text-base md:text-medium flex gap-3 items-center justify-end'
-          data-tooltip-target='tooltip-sunset'
-          data-tooltip-placement='left'
-        >
-          {convertUnixTimestampToHHMM(currentWeather?.sys?.sunset)} PM
-          <SvgIcon
-            svgName='icon-sunset'
-            size={breakpointsForMarkup?.isNothing || breakpointsForMarkup?.isMobile ? 20 : 30}
-            className='fill-whiteBase'
-          />
-        </p>
-        <div
-          id='tooltip-sunset'
-          role='tooltip'
-          className='absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700'
-        >
-          Sunset
-          <div className='tooltip-arrow' data-popper-arrow></div>
-        </div>
-
-        <p
-          className='text-contrastWhite text-base md:text-medium flex gap-3 items-center'
-          data-tooltip-target='tooltip-visibility'
-          data-tooltip-placement='right'
-        >
-          <SvgIcon
-            svgName='icon-eye-opened'
-            size={breakpointsForMarkup?.isNothing || breakpointsForMarkup?.isMobile ? 20 : 30}
-            className='fill-whiteBase'
-          />
-          {formatKmToMetre(currentWeather?.visibility)} km
-        </p>
-        <div
-          id='tooltip-visibility'
-          role='tooltip'
-          className='absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700'
-        >
-          Visibility
-          <div className='tooltip-arrow' data-popper-arrow></div>
-        </div>
-
-        <div className='flex gap-3 items-center justify-end'>
-          <p
-            className='text-contrastWhite flex flex-col text-base lg:text-medium text-end'
-            data-tooltip-target='tooltip-windSpeed'
-            data-tooltip-placement='left'
-          >
-            {currentWeather?.wind?.speed} m/s{' '}
-            <span className='text-[8px]'>
-              ({getWindStrengthScale(currentWeather?.wind?.speed)} on the Beaufort scale)
-            </span>
-          </p>
-          <div
-            id='tooltip-windSpeed'
-            role='tooltip'
-            className='absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700'
-          >
-            Wind speed
-            <div className='tooltip-arrow' data-popper-arrow></div>
-          </div>
-
-          <SvgIcon
-            svgName='icon-weather-wind'
-            size={breakpointsForMarkup?.isNothing || breakpointsForMarkup?.isMobile ? 20 : 30}
-            className='fill-whiteBase'
-          />
-        </div>
-      </div>
+      <ul className='grid grid-cols-2 grid-rows-2 gap-y-3.5'>
+        {Array.isArray(weatherDetails) &&
+          weatherDetails.map(
+            ({ icon, iconSize, value, label, hint, justifyItemClass, subTextValue }) => (
+              <li key={label}>
+                <Hint
+                  label={hint}
+                  side='top'
+                  align={justifyItemClass === 'justify-end' ? 'end' : 'start'}
+                  sideOffset={4}
+                  ariaLabel={`Info about ${label} for current time`}
+                  contentClass='border border-solid border-whiteBase rounded-xl text-small md:text-medium px-2 text-whiteBase bg-accentAlt/[.8]'
+                >
+                  <div
+                    className={` text-contrastWhite text-base md:text-medium flex gap-3 items-center ${justifyItemClass}`}
+                  >
+                    <div
+                      className={`${justifyItemClass === 'justify-end' ? 'order-last' : 'order-1'}`}
+                    >
+                      <SvgIcon svgName={icon} size={iconSize} className='fill-whiteBase' />
+                    </div>
+                    <p className='even:order-1 flex items-baseline gap-x-1'>
+                      {value}
+                      <span className='text-xs'>{subTextValue}</span>
+                    </p>
+                  </div>
+                </Hint>
+              </li>
+            ),
+          )}
+      </ul>
     </div>
   );
 };

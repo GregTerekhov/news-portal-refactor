@@ -117,9 +117,20 @@ function receiveCurrentTime() {
 }
 
 export function receiveCurrentDate() {
+  // Визначаємо повну назву дня за допомогою мапи
+  const daysMap = {
+    Sun: 'Sunday',
+    Mon: 'Monday',
+    Tue: 'Tuesday',
+    Wed: 'Wednesday',
+    Thu: 'Thursday',
+    Fri: 'Friday',
+    Sat: 'Saturday',
+  };
+
   const today = new Date();
+  const days = daysMap[today.toDateString().slice(0, 3) as keyof typeof daysMap];
   const currentTime = receiveCurrentTime();
-  const days = today.toDateString().slice(0, 3);
   const month = today.toDateString().slice(4).slice(0, 4);
   const number = today.toDateString().slice(8).slice(0, 2);
   const year = today.toDateString().slice(11);

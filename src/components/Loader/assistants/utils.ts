@@ -69,16 +69,16 @@ const weatherRoundedFullClass = 'rounded-full';
 const weatherRounded20Class = 'rounded-[20px]';
 
 export const weatherWrapperClass =
-  'h-full flex flex-col justify-between items-center animate-pulse';
-export const weatherCurrentTemperatureClass = `${commonWeatherClasses} relative w-20 h-20 md:w-28 md:h-28 ${weatherRoundedFullClass} after:content-[""] after:h-full after:absolute after:w-px after:-right-2 after:top-0 after:bg-greyAlt/[.4] after:dark:bg-whiteBase/[.1]`;
+  'py-5 md:py-8 h-full flex flex-col justify-between items-center animate-pulse';
+export const weatherCurrentTemperatureClass = `${commonWeatherClasses} relative w-20 h-20 md:w-24 md:h-24 lg:w-28 lg:h-28 ${weatherRoundedFullClass} after:content-[""] after:h-full after:absolute after:w-px lg:after:w-1 after:-right-2 lg:after:-right-4 after:top-0 after:bg-greyAlt/[.4] after:dark:bg-whiteBase/[.1]`;
 export const weatherInfoWrapperClass =
   'py-[9px] px-2 md:pt-[10px] md:pr-[17px] md:pb-[9px] md:pl-[7px] space-y-2';
 export const currentWeatherInfoClass = `${commonWeatherClasses} w-28 h-2 md:h-4 lg:h-5 ${weatherRounded20Class}`;
 export const weatherFeelsLikeClass = `${commonWeatherClasses} w-10 h-2 md:h-3 lg:h-5 ${weatherRoundedFullClass}`;
 export const weatherCurrentLocationClass = `${commonWeatherClasses} w-28 h-10 md:h-16 lg:h-20 py-[9px] px-2 md:pt-[10px] md:pr-[17px] md:pb-[9px] md:pl-[7px] rounded-lg`;
 export const weatherIconClass = `${commonWeatherClasses} m-auto w-32 h-32 md:w-[165px] md:h-[165px] ${weatherRoundedFullClass}`;
-export const weatherDetailsBlockClass = 'flex flex-col items-center gap-4 md:gap-y-6 lg:w-full';
+export const weatherDetailsBlockClass = 'flex flex-col items-center gap-4 md:gap-y-6 lg:w-4/5';
 export const weatherDayTextClass = `${commonWeatherClasses} w-28 h-8 md:h-10 ${weatherRounded20Class}`;
-export const weatherCurrentDateTextClass = `${commonWeatherClasses} w-56 lg:w-full h-6 md:h-8 lg:h-10 ${weatherRounded20Class}`;
+export const weatherCurrentDateTextClass = `${commonWeatherClasses} w-56 lg:w-full h-6 md:h-8 ${weatherRounded20Class}`;
 export const gridWeatherClass = 'grid grid-cols-2 gap-4 lg:w-full';
 export const gridWeatherItemClass = `${commonWeatherClasses} w-24 lg:w-full h-2 md:h-4 lg:h-5 ${weatherRoundedFullClass}`;

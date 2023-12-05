@@ -9,44 +9,51 @@ export interface ICurrentUser {
   };
 }
 
-export interface SignUpCredentials {
+interface SignUpCredentials {
   name: string;
   email: string;
   password: string;
 }
 
-export interface SignInCredentials {
-  email: string;
-  password: string;
-}
+export type SignUpRequiredFields = Required<SignUpCredentials>;
+
+type SignInCredentials = Omit<SignUpCredentials, 'name'>;
+
+export type SignInRequiredFields = Required<SignInCredentials>;
 
 export interface IUpdateEmail {
   updatedEmail: string;
   currentPassword: string;
 }
 
-export interface IUpdatePasswordToValidate {
+interface IUpdatePassword {
   newPassword: string;
   confirmPassword: string;
   oldPassword: string;
 }
-export interface IUpdatePasswordToSend {
-  newPassword: string;
-  oldPassword: string;
-}
 
-export interface IRecoveryPasswordRequest {
+export type UpdatePasswordRequiredToValidate = Required<IUpdatePassword>;
+
+type UpdatePasswordToSend = Omit<IUpdatePassword, 'confirmPassword'>;
+
+export type UpdatePasswordRequiredToSend = Required<UpdatePasswordToSend>;
+
+interface IRecoveryPasswordRequest {
   recoveryEmail: string;
 }
 
-export interface IRecoveryPasswordChangeToValidate {
+export type RecoveryPasswordRequestRequired = Required<IRecoveryPasswordRequest>;
+
+interface IRecoveryPasswordChange {
   changedPassword: string;
   confirmPassword: string;
 }
 
-export interface IRecoveryPasswordChangeToSend {
-  changedPassword: string;
-}
+export type RecoveryPasswordChangeRequiredToValidate = Required<IRecoveryPasswordChange>;
+
+type RecoveryPasswordChangeToSend = Omit<IRecoveryPasswordChange, 'confirmPassword'>;
+
+export type RecoveryPasswordChangeRequiredToSend = Required<RecoveryPasswordChangeToSend>;
 
 export interface IThirdPartyAuth {
   tokenAuth: string | null;

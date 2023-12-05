@@ -8,22 +8,29 @@ interface ITooltipProps {
   ariaLabel: string;
   side: 'top' | 'right' | 'bottom' | 'left';
   sideOffset: number;
+  align?: 'start' | 'center' | 'end';
 }
 
 const Hint: FC<ITooltipProps> = forwardRef<HTMLDivElement, ITooltipProps>(
-  ({ children, label, contentClass, ariaLabel, side, sideOffset }, forwardedRef) => {
+  (
+    { children, label, contentClass, ariaLabel, side, sideOffset, align = 'center' },
+    forwardedRef,
+  ) => {
     return (
       <Tooltip.Root>
         <Tooltip.Trigger asChild>{children}</Tooltip.Trigger>
-        <Tooltip.Content
-          className={`z-40 ${contentClass}`}
-          side={side}
-          aria-label={ariaLabel}
-          sideOffset={sideOffset}
-          ref={forwardedRef as React.RefObject<HTMLDivElement>}
-        >
-          {label}
-        </Tooltip.Content>
+        <Tooltip.Portal>
+          <Tooltip.Content
+            className={`z-40 ${contentClass}`}
+            side={side}
+            aria-label={ariaLabel}
+            sideOffset={sideOffset}
+            align={align}
+            ref={forwardedRef as React.RefObject<HTMLDivElement>}
+          >
+            {label}
+          </Tooltip.Content>
+        </Tooltip.Portal>
       </Tooltip.Root>
     );
   },

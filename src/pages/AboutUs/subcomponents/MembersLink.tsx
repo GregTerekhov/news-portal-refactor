@@ -50,7 +50,7 @@ const MembersLink: FC<IMembersLinkProps> = ({
   ];
 
   return (
-    <ul className='flex items-center justify-around'>
+    <ul className='flex items-center justify-around hg:justify-between'>
       {Array.isArray(links) &&
         links.map(({ link, icon, iconSize }) => (
           <li key={link}>

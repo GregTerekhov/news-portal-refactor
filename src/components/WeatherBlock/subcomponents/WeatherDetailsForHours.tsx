@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FC, ReactElement } from 'react';
 
 import { HourlyWeatherData } from 'types';
 import { useWindowWidth } from 'hooks';
@@ -15,13 +15,21 @@ import {
   RenderWindSpeedCell,
 } from './RenderCells';
 
+type TableRows = {
+  label: string;
+  icon: string;
+  iconSize: number;
+  iconColorStyles: string;
+  renderCell: (item: HourlyWeatherData) => ReactElement;
+};
+
 const WeatherDetailsForHours: FC<{}> = () => {
   const { hourlyWeather } = useWeatherCollector();
   const { breakpointsForMarkup } = useWindowWidth() ?? {
     breakpointsForMarkup: null,
   };
 
-  const rows = [
+  const rows: TableRows[] = [
     {
       label: 'Temperature in °C',
       icon: 'icon-thermometer',

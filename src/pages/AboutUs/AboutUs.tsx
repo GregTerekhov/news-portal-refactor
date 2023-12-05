@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 
-import { memberFirstImages, memberThirdImages, plugImages } from 'constants/images';
+import { memberFirstImages, memberSecondImages, memberThirdImages } from 'constants/images';
 import { generateContentImages } from 'helpers';
 import { useCacheImage } from 'hooks';
 
@@ -29,7 +29,7 @@ const AboutUs: FC<{}> = () => {
   );
 
   const matchedSecondMemberImage = generateContentImages(
-    plugImages,
+    memberSecondImages,
     devicePixelRatio,
     'image/webp',
     window.innerWidth,
@@ -122,7 +122,7 @@ const AboutUs: FC<{}> = () => {
                   telegramLink,
                 }: Member) => (
                   <li key={memberName} className='max-md:space-y-4 md:flex md:gap-x-12'>
-                    <div className='rounded-xl md:w-96 shadow-card dark:shadow-darkCard duration-500 lg:w-72 overflow-hidden'>
+                    <div className='rounded-xl md:w-96 hg:w-[320px] shadow-card dark:shadow-darkCard duration-500 lg:w-72 overflow-hidden'>
                       <img
                         src={memberImage}
                         alt={imageDescription}
@@ -131,14 +131,18 @@ const AboutUs: FC<{}> = () => {
                     </div>
                     <div className='max-md:space-y-4 md:grow md:flex md:flex-col md:justify-around'>
                       <div className='space-y-4'>
-                        <p className={`${commonTextMemberClass} text-2xl md:text-4xl`}>
+                        <h3 className={`${commonTextMemberClass} text-2xl md:text-4xl hg:text-5xl`}>
                           {memberName}
+                        </h3>
+                        <p
+                          className={`${commonTextMemberClass} md:text-xl lg:text-medium hg:text-lg`}
+                        >
+                          <span className='font-bold'>Role:</span> {memberRole}
                         </p>
-                        <p className={`${commonTextMemberClass} md:text-xl lg:text-medium`}>
-                          Role: {memberRole}
-                        </p>
-                        <p className={`${commonTextMemberClass} md:text-xl lg:text-medium`}>
-                          Resume:{' '}
+                        <p
+                          className={`${commonTextMemberClass} md:text-xl lg:text-medium hg:text-lg`}
+                        >
+                          <span className='font-bold'>Resume: </span>
                           <a
                             href={memberCV}
                             target='_blank'

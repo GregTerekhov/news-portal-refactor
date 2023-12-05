@@ -18,10 +18,12 @@ interface ThemeSwitcherProps {
 
 const ThemeSwitcher: FC<ThemeSwitcherProps> = ({ variant }) => {
   const [enabled, setEnabled] = useState<boolean>(false);
-  const { isAuthenticated, unauthorisedChangeTheme, changeTheme, userTheme } = useAuthCollector();
+  const { unauthorisedChangeTheme, changeTheme, userTheme } = useAuthCollector();
   const { breakpointsForMarkup } = useWindowWidth() ?? {
     breakpointsForMarkup: null,
   };
+
+  const isAuthenticated = true;
 
   const location = useLocation();
   const activeLinks = useActiveLinks(location);
