@@ -11,14 +11,14 @@ import { ArchiveHistoryLog } from './subcomponents';
 const ArchivePage: FC<{}> = () => {
   const { isLoadingDBData, allArchive, archiveHistoryLog, getHistoryLog, getArchives } =
     useNewsDBCollector();
-  const { isAuthenticated } = useAuthCollector();
+  // const { isAuthenticated } = useAuthCollector();
 
   useEffect(() => {
     getArchives();
-    if (archiveHistoryLog && archiveHistoryLog.length > 0) {
-      getHistoryLog();
-    }
-  }, [archiveHistoryLog, getArchives, getHistoryLog]);
+    getHistoryLog();
+  }, [getArchives, getHistoryLog]);
+
+  const isAuthenticated = true;
 
   const organisedNews = organiseNewsByMonth(allArchive);
 

@@ -4,6 +4,7 @@ import {
   PAUSE,
   PERSIST,
   PURGE,
+  Persistor,
   REGISTER,
   REHYDRATE,
   persistReducer,
@@ -33,8 +34,6 @@ const authPersistConfig = {
   whitelist: ['userTheme', 'accessToken', 'refreshToken'],
 };
 
-// ('isLoggedIn');
-
 const NewsDBPersistConfig = {
   key: 'newsDB',
   storage,
@@ -56,7 +55,7 @@ const store = configureStore({
   middleware,
 });
 
-export const persistor = persistStore(store);
+export const persistor: Persistor = persistStore(store);
 
 export type RootState = ReturnType<typeof store.getState>;
 export type TypedDispatch<T> = ThunkDispatch<T, any, AnyAction>;

@@ -3,10 +3,10 @@ import { useForm, SubmitHandler } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 
 import {
-  SignInCredentials,
-  SignUpCredentials,
-  IRecoveryPasswordRequest,
-  IRecoveryPasswordChangeToValidate,
+  SignInRequiredFields,
+  SignUpRequiredFields,
+  RecoveryPasswordRequestRequired,
+  RecoveryPasswordChangeRequiredToValidate,
 } from 'types';
 import { useAuthCollector, usePopUp } from 'hooks';
 
@@ -28,7 +28,7 @@ const useAuth = () => {
     reset: resetSignUpValues,
     getValues: getSignUpCredentials,
     formState: { errors: signUpErrors },
-  } = useForm<SignUpCredentials>({ resolver: yupResolver(signUpSchema) });
+  } = useForm<SignUpRequiredFields>({ resolver: yupResolver(signUpSchema) });
 
   const {
     handleSubmit: handleSignInSubmit,
@@ -37,7 +37,7 @@ const useAuth = () => {
     watch,
     getValues: getSignInCredentials,
     formState: { errors: signInErrors },
-  } = useForm<SignInCredentials>({
+  } = useForm<SignInRequiredFields>({
     resolver: yupResolver(signInSchema),
     defaultValues: {
       email: localStorage.rememberMe ? localStorage.userEmail : '',
@@ -50,7 +50,7 @@ const useAuth = () => {
     register: registerRecovery,
     resetField,
     formState: { errors: recoveryPasswordErrors },
-  } = useForm<IRecoveryPasswordRequest>({ resolver: yupResolver(recoveryPasswordSchema) });
+  } = useForm<RecoveryPasswordRequestRequired>({ resolver: yupResolver(recoveryPasswordSchema) });
 
   const {
     handleSubmit: handleChangePasswordSubmit,
@@ -58,11 +58,11 @@ const useAuth = () => {
     reset: resetChangePasswordValues,
     getValues: getRecoveryChangeValues,
     formState: { errors },
-  } = useForm<IRecoveryPasswordChangeToValidate>({
+  } = useForm<RecoveryPasswordChangeRequiredToValidate>({
     resolver: yupResolver(changePasswordSchema),
   });
 
-  const signUpSubmitHandler: SubmitHandler<SignUpCredentials> = async (data) => {
+  const signUpSubmitHandler: SubmitHandler<SignUpRequiredFields> = async (data) => {
     console.log('SignUp data', data);
     const { name, email, password } = data;
 
@@ -109,7 +109,7 @@ const useAuth = () => {
 
   const [email, password] = watch(['email', 'password']);
 
-  const signInSubmitHandler: SubmitHandler<SignInCredentials> = async (data, e) => {
+  const signInSubmitHandler: SubmitHandler<SignInRequiredFields> = async (data, e) => {
     e?.preventDefault();
     const { email, password } = data;
     console.log('SignIn data', data);
@@ -140,7 +140,7 @@ const useAuth = () => {
     toggleModal();
   };
 
-  const recoveryPasswordSubmitHandler: SubmitHandler<IRecoveryPasswordRequest> = async (
+  const recoveryPasswordSubmitHandler: SubmitHandler<RecoveryPasswordRequestRequired> = async (
     data,
     e,
   ) => {
@@ -150,9 +150,9 @@ const useAuth = () => {
     resetField('recoveryEmail');
   };
 
-  const changePasswordSubmitHandler: SubmitHandler<IRecoveryPasswordChangeToValidate> = async (
-    data,
-  ) => {
+  const changePasswordSubmitHandler: SubmitHandler<
+    RecoveryPasswordChangeRequiredToValidate
+  > = async (data) => {
     console.log('Password data:', data);
 
     const { changedPassword } = data;
@@ -176,7 +176,7 @@ const useAuth = () => {
       ariaInvalid: signUpErrors?.name ? true : false,
     },
     {
-      type: '',
+      type: 'email',
       placeholder: 'Enter your email',
       children: 'Email',
       errors: signUpErrors?.email?.message,
@@ -195,7 +195,7 @@ const useAuth = () => {
 
   const signInInputs = [
     {
-      type: '',
+      type: 'email',
       placeholder: 'Enter your email',
       children: 'Email',
       fieldValue: email,

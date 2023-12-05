@@ -1,14 +1,14 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 
 import {
-  SignUpCredentials,
-  SignInCredentials,
+  SignUpRequiredFields,
+  SignInRequiredFields,
   IUpdateEmail,
   ICurrentUser,
-  IRecoveryPasswordRequest,
   IThirdPartyAuth,
-  IUpdatePasswordToSend,
-  IRecoveryPasswordChangeToSend,
+  UpdatePasswordRequiredToSend,
+  RecoveryPasswordRequestRequired,
+  RecoveryPasswordChangeRequiredToSend,
   ITheme,
 } from 'types';
 
@@ -30,7 +30,7 @@ const BASE_URL = 'https://news-webapp-express.onrender.com/api';
 
 export const signUp = createAsyncThunk(
   'auth/signUp',
-  async (credentials: SignUpCredentials, { rejectWithValue }) => {
+  async (credentials: SignUpRequiredFields, { rejectWithValue }) => {
     console.log('credentials', credentials);
     try {
       const response = await axios.post(`${BASE_URL}/auth/sign-up`, credentials);
@@ -44,10 +44,10 @@ export const signUp = createAsyncThunk(
 
 export const signIn = createAsyncThunk(
   'auth/signIn',
-  async (credentials: SignInCredentials, { rejectWithValue }) => {
+  async (credentials: SignInRequiredFields, { rejectWithValue }) => {
     console.log('credentials', credentials);
     try {
-      const response = await axiosInstance.post<ICurrentUser>(`/auth/sign-in`, credentials);
+      const response = await axios.post<ICurrentUser>(`${BASE_URL}/auth/sign-in`, credentials);
       setTokens({
         accessToken: response.data.accessToken,
         refreshToken: response.data.refreshToken,
@@ -109,7 +109,7 @@ export const updateUserEmail = createAsyncThunk(
 );
 export const updateUserPassword = createAsyncThunk(
   'auth/updatePassword',
-  async (newPassword: IUpdatePasswordToSend, { rejectWithValue }) => {
+  async (newPassword: UpdatePasswordRequiredToSend, { rejectWithValue }) => {
     try {
       const response = await axiosInstance.patch('/auth/update-password', newPassword);
       console.log(response.data);
@@ -122,7 +122,7 @@ export const updateUserPassword = createAsyncThunk(
 );
 export const recoveryPasswordRequest = createAsyncThunk(
   'auth/recoveryPasswordRequest',
-  async (email: IRecoveryPasswordRequest, { rejectWithValue }) => {
+  async (email: RecoveryPasswordRequestRequired, { rejectWithValue }) => {
     try {
       const response = await axiosInstance.patch(`/auth/forgot-password-request`, email);
       return response.data;
@@ -135,7 +135,7 @@ export const recoveryPasswordRequest = createAsyncThunk(
 
 export const recoveryPasswordChange = createAsyncThunk(
   'auth/recoveryPasswordChange',
-  async (changedPassword: IRecoveryPasswordChangeToSend, { rejectWithValue }) => {
+  async (changedPassword: RecoveryPasswordChangeRequiredToSend, { rejectWithValue }) => {
     try {
       const response = await axiosInstance.patch('/auth/forgot-password-change', changedPassword);
       return response.data;

@@ -81,7 +81,7 @@ const Calendar: FC<CalendarProps> = ({ variant }) => {
   //     }
   //   }
   // };
-  console.log('selectedRequestDate.beginDate', selectedRequestDate?.beginDate);
+  // console.log('selectedRequestDate.beginDate', selectedRequestDate?.beginDate);
   return (
     <div ref={popUpRef} className={`relative ${activeLinks.isReadActive ? null : 'col-span-4'}`}>
       <p className='text-darkBase dark:text-greyAlt mb-2 text-base'>

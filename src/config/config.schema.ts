@@ -4,6 +4,7 @@ const configSchema = z.object({
   APP_GOOGLE_API_TOKEN: z.coerce.string(),
   NEWS_API_KEY: z.string(),
   WEATHER_API_KEY: z.string(),
+  APP_FACEBOOK_APP_ID: z.coerce.number(),
 });
 
 export const parseConfig = (configObj: Record<string, unknown>) => {

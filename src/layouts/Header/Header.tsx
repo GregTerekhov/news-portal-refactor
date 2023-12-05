@@ -24,7 +24,7 @@ const Header: FC = () => {
   const { breakpointsForMarkup } = useWindowWidth() ?? {
     breakpointsForMarkup: null,
   };
-  const { user, isAuthenticated } = useAuthCollector();
+  const { user } = useAuthCollector();
   const { resetAllFilters } = useFilterCollector();
   const [touched, setTouched] = useState<boolean>(false);
   const [passwordToken, setPasswordToken] = useState<boolean>(false);
@@ -33,7 +33,7 @@ const Header: FC = () => {
 
   const location = useLocation();
   const activeLinks = useActiveLinks(location);
-  // const isAuthenticated = true;
+  const isAuthenticated = true;
   const { headerClass, textClass, burgerMenuButtonClass, accountIconStyles } = useHeaderStyles(
     activeLinks.isHomeActive,
   );
@@ -119,24 +119,29 @@ const Header: FC = () => {
                 {breakpointsForMarkup?.isNothing || breakpointsForMarkup?.isMobile ? (
                   <>
                     {!isOpenMenu && activeLinks.isHomeActive ? (
-                      <form onSubmit={(e) => onHandleSearch(e)} className='max-md:overflow-hidden'>
-                        <UnverifiableInput
-                          inputData={{
-                            name: 'query',
-                            type: 'text',
-                            value: query,
-                            placeholder: 'Search |',
-                          }}
-                          svgName='icon-search'
-                          hasIcon={true}
-                          variant='header'
-                          hideInput={handleVisibilityChange}
-                          onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-                            onChangeInput(event)
-                          }
-                          touched={touched}
-                        />
-                      </form>
+                      <search>
+                        <form
+                          onSubmit={(e) => onHandleSearch(e)}
+                          className='max-md:overflow-hidden'
+                        >
+                          <UnverifiableInput
+                            inputData={{
+                              name: 'query',
+                              type: 'text',
+                              value: query,
+                              placeholder: 'Search |',
+                            }}
+                            svgName='icon-search'
+                            hasIcon={true}
+                            variant='header'
+                            hideInput={handleVisibilityChange}
+                            onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
+                              onChangeInput(event)
+                            }
+                            touched={touched}
+                          />
+                        </form>
+                      </search>
                     ) : null}
                     <button
                       aria-label={`${!isOpenMenu ? 'Open' : 'Close'} ${

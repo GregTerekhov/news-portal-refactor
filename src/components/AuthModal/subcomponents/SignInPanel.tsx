@@ -63,6 +63,7 @@ const SignInPanel: FC<SignInProps> = ({ handleShowRecoveryInput, isShowRecoveryI
           {isShowRecoveryInput ? (
             <VerifiableInput
               inputData={{
+                type: 'email',
                 placeholder: 'Enter your email',
               }}
               errors={recoveryPasswordErrors?.recoveryEmail?.message}
@@ -102,7 +103,7 @@ const SignInPanel: FC<SignInProps> = ({ handleShowRecoveryInput, isShowRecoveryI
         <span className='relative px-2 z-30 border border-solid border-greyAlt/[.4] rounded-xl text-small text-greyAlt dark:text-whiteBase/[.8] bg-whiteBase/[.9] dark:bg-darkBackground transition-colors duration-500'>
           or Sign in with
         </span>
-        <hr className='absolute top-1/2 left-0 w-full block bg-greyAlt dark:bg-whiteBase/[.1]' />
+        <hr className='absolute top-1/2 left-0 w-full h-px bg-greyAlt dark:bg-whiteBase/[.1] opacity-60 dark:opacity-20' />
       </div>
       <LinkedAccounts />
     </>

@@ -2,7 +2,7 @@ import React, { FC } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 
-import { IUpdatePasswordToValidate } from 'types';
+import { UpdatePasswordRequiredToValidate } from 'types';
 import { useAuthCollector } from 'hooks';
 
 import { Accordeon, PrimaryButton, VerifiableInput } from 'ui';
@@ -18,7 +18,7 @@ const UpdatePassword: FC<{}> = ({}) => {
     reset,
     getValues,
     formState: { errors },
-  } = useForm<IUpdatePasswordToValidate>({
+  } = useForm<UpdatePasswordRequiredToValidate>({
     resolver: yupResolver(updatePasswordSchema),
     defaultValues: {
       newPassword: '',
@@ -33,7 +33,9 @@ const UpdatePassword: FC<{}> = ({}) => {
     'oldPassword',
   ]);
 
-  const handlePasswordSubmitHandler: SubmitHandler<IUpdatePasswordToValidate> = async (data) => {
+  const handlePasswordSubmitHandler: SubmitHandler<UpdatePasswordRequiredToValidate> = async (
+    data,
+  ) => {
     console.log('Password data:', data);
 
     const { newPassword, oldPassword } = data;

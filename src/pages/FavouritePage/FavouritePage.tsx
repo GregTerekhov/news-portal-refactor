@@ -11,34 +11,17 @@ import {
 import { Loader, NewsList, PlugImage } from 'components';
 
 const FavouritePage: FC<{}> = () => {
-  // const [changesHappened, setChangesHappened] = useState<boolean>(false);
-  // const [deletedNewsIndex, setDeletedNewsIndex] = useState<number | null>(null);
-  const { isAuthenticated } = useAuthCollector();
+  // const { isAuthenticated } = useAuthCollector();
   const { allFavourites, isLoadingDBData, getFavourites, getSavedNews } = useNewsDBCollector();
+
   const location = useLocation();
   const activeLinks = useActiveLinks(location);
   const { rebuildedNews } = useChooseRenderingNews({ activeLinks });
-
+  const isAuthenticated = true;
   useEffect(() => {
     getFavourites();
     getSavedNews();
   }, [getFavourites, getSavedNews]);
-
-  // const handleDeleteNews = (index: number) => {
-  //   setDeletedNewsIndex(index);
-  // };
-
-  // useLayoutEffect(() => {
-  //   if (changesHappened && savedNews) {
-  //     addVotedNews(savedNews);
-  //     setChangesHappened(false);
-  //     // setDeletedNewsIndex(null);
-  //   }
-  // }, [changesHappened, addVotedNews]);
-
-  // const handleChangeVotes = () => {
-  //   setChangesHappened(true);
-  // };
 
   const shouldShowLoader = isLoadingDBData;
   const shouldShowContent = !isLoadingDBData && allFavourites.length !== 0;
@@ -47,13 +30,7 @@ const FavouritePage: FC<{}> = () => {
     isAuthenticated && (
       <>
         {shouldShowLoader && <Loader variant='generalSection' />}
-        {shouldShowContent && (
-          <NewsList
-            currentItems={rebuildedNews}
-            // onChange={handleChangeVotes}
-            // onDeleteNews={handleDeleteNews}
-          />
-        )}
+        {shouldShowContent && <NewsList currentItems={rebuildedNews} />}
         {!shouldShowLoader && !shouldShowContent && <PlugImage variant='page' />}
       </>
     )

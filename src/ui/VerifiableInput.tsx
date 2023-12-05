@@ -2,11 +2,11 @@ import React, { ReactNode, FC, useState } from 'react';
 import { UseFormRegister } from 'react-hook-form';
 
 import {
-  SignUpCredentials,
-  SignInCredentials,
+  SignUpRequiredFields,
+  SignInRequiredFields,
   IUpdateEmail,
-  IUpdatePasswordToValidate,
-  IRecoveryPasswordRequest,
+  UpdatePasswordRequiredToValidate,
+  RecoveryPasswordRequestRequired,
 } from 'types';
 
 import SvgIcon from './SvgIcon';
@@ -25,10 +25,10 @@ enum VariantInputs {
 
 export type Values =
   | IUpdateEmail
-  | IUpdatePasswordToValidate
-  | SignUpCredentials
-  | SignInCredentials
-  | IRecoveryPasswordRequest;
+  | UpdatePasswordRequiredToValidate
+  | SignUpRequiredFields
+  | SignInRequiredFields
+  | RecoveryPasswordRequestRequired;
 
 interface InputProps {
   inputData: InputCollectedData;

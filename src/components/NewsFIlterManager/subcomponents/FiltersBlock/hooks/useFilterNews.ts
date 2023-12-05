@@ -1,9 +1,14 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { format, isAfter, startOfToday } from 'date-fns';
 
 import { Filters, PartialVotedNewsArray } from 'types';
 
-import { useChooseRenderingNews, useFilterCollector, useNewsDBCollector } from 'hooks';
+import {
+  useChooseRenderingNews,
+  useFilterCollector,
+  useNewsAPICollector,
+  useNewsDBCollector,
+} from 'hooks';
 
 import { applyCrossFilters } from '../assistants';
 
@@ -26,15 +31,12 @@ const useFilterNews = ({ activeLinks, setIsOpenCalendar }: FilterHookProps) => {
     materialType: '',
     selectedFilterDate: '',
   });
-  const { getFilteredNews, resetAllFilters } = useFilterCollector();
+  const { showResultsState, getFilteredNews, resetAllFilters } = useFilterCollector();
+  const { updateHeadline } = useNewsAPICollector();
   const { allFavourites, allReads } = useNewsDBCollector();
   const { rebuildedNews } = useChooseRenderingNews({ activeLinks });
 
   const today = startOfToday();
-
-  useEffect(() => {
-    console.log('Date changed', filters.selectedFilterDate);
-  }, [filters.selectedFilterDate]);
 
   const handleChangeFilter = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
@@ -62,10 +64,11 @@ const useFilterNews = ({ activeLinks, setIsOpenCalendar }: FilterHookProps) => {
     }
   };
 
-  const handleFiltration = (event: React.FormEvent) => {
+  const handleFiltration = async (event: React.FormEvent) => {
     event.preventDefault();
-    console.log('Selected filter date in filtration: ', filters.selectedFilterDate); // Виводимо значення дати фільтрації
 
+    showResultsState('loading');
+    updateHeadline('Filtered News');
     if (
       rebuildedNews &&
       typeof rebuildedNews !== undefined &&
@@ -74,9 +77,12 @@ const useFilterNews = ({ activeLinks, setIsOpenCalendar }: FilterHookProps) => {
     ) {
       if (activeLinks.isHomeActive) {
         const filteredNews = applyCrossFilters(rebuildedNews, filters);
-        console.log('filters', filters);
-        if (filteredNews) {
+
+        if (filteredNews && filteredNews.length > 0) {
           getFilteredNews(filteredNews);
+          showResultsState('full');
+        } else {
+          showResultsState('empty');
         }
       } else if (activeLinks.isFavoriteActive) {
         const filteredNews = applyCrossFilters(allFavourites, filters);

@@ -1,7 +1,9 @@
-import React, { FC, ReactNode, useEffect } from 'react';
+import React, { FC, ReactNode } from 'react';
 import { createPortal } from 'react-dom';
+// import FocusLock from 'react-focus-lock';
 
 import SvgIcon from './SvgIcon';
+// import usePopUp from 'hooks/usePopUp';
 
 const modalRoot = document.querySelector('#modalRoot');
 
@@ -18,6 +20,7 @@ enum S {
 }
 
 const Modal: FC<ModalProps> = ({ children, closeModal, modalRef, variant }) => {
+  // const { isOpenModal } = usePopUp();
   let modalWidth: string = '';
 
   if (variant === S.Auth) {
@@ -26,39 +29,46 @@ const Modal: FC<ModalProps> = ({ children, closeModal, modalRef, variant }) => {
     modalWidth = 'w-full';
   }
 
-  useEffect(() => {
-    const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === 'Tab') {
-        const focusableElements = modalRef.current?.querySelectorAll(
-          'button, [href], input, [tabindex]:not([tabindex="-1"])',
-        ) as NodeListOf<HTMLElement>;
+  // useEffect(() => {
+  //   const handleKeyDown = (event: KeyboardEvent) => {
+  //     if (event.key === 'Tab') {
+  //       const focusableElements = modalRef.current?.querySelectorAll(
+  //         'button, [href], input, [tabindex]:not([tabindex="-1"])',
+  //       ) as NodeListOf<HTMLElement>;
+  //       console.log('focusableElements', focusableElements);
 
-        if (focusableElements.length > 0) {
-          const firstElement = focusableElements[0];
-          const lastElement = focusableElements[focusableElements.length - 1];
+  //       if (focusableElements.length > 0) {
+  //         const firstElement = focusableElements[0];
+  //         const lastElement = focusableElements[focusableElements.length - 1];
+  //         console.log('document.activeElement', document.activeElement);
 
-          if (!event.shiftKey && document.activeElement === lastElement) {
-            firstElement.focus();
-            event.preventDefault();
-          } else if (event.shiftKey && document.activeElement === firstElement) {
-            lastElement.focus();
-            event.preventDefault();
-          }
-        }
-      }
-    };
+  //         if (!event.shiftKey && document.activeElement === lastElement) {
+  //           firstElement.focus();
+  //           event.preventDefault();
+  //         } else if (event.shiftKey && document.activeElement === firstElement) {
+  //           lastElement.focus();
+  //           event.preventDefault();
+  //         }
+  //       }
+  //     }
+  //   };
 
-    window.addEventListener('keydown', handleKeyDown);
+  //   window.addEventListener('keydown', handleKeyDown);
 
-    return () => {
-      window.removeEventListener('keydown', handleKeyDown);
-    };
-  }, [modalRef]);
+  //   return () => {
+  //     window.removeEventListener('keydown', handleKeyDown);
+  //   };
+  // }, [modalRef]);
 
   return (
     <>
       {modalRoot &&
         createPortal(
+          // <FocusLock
+          //   disabled={!isOpenModal}
+          //   autoFocus={true}
+          //   returnFocus={{ preventScroll: false }} // не буде працювати в Safari i Edge
+          // >
           <div className='fixed top-0 left-0 z-[60] bg-whiteBase/[.4] dark:bg-darkBackground/[.4] w-screen h-screen flex justify-center items-center transition-colors duration-500 backdrop-blur-sm'>
             <div
               ref={modalRef}
@@ -79,6 +89,7 @@ const Modal: FC<ModalProps> = ({ children, closeModal, modalRef, variant }) => {
               {children}
             </div>
           </div>,
+          // </FocusLock>,
           modalRoot,
         )}
     </>

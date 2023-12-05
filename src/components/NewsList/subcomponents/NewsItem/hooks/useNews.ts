@@ -22,8 +22,8 @@ const useNews = ({ liveNews, activeLinks }: NewsItemProps) => {
 
   const [isFavourite, setIsFavourite] = useState<boolean>(() => getIsFavourite());
   const [hasRead, setHasRead] = useState<boolean>(() => getHasRead());
-  const { isAuthenticated } = useAuthCollector();
-
+  // const { isAuthenticated } = useAuthCollector();
+  const isAuthenticated = true;
   const dispatch = useAppDispatch();
 
   useEffect(() => {

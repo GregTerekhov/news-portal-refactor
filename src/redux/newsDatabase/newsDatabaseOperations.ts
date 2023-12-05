@@ -35,7 +35,7 @@ export const deleteNews = createAsyncThunk(
   async (id: string, { rejectWithValue }) => {
     console.log('deletedId: ', id);
     try {
-      const response = await axiosInstance.delete(`/news/${id}`);
+      const response = await axiosInstance.delete(`/news/archive/${id}`);
       console.log('responseDelete', response.data);
       return response.data;
     } catch (error: any) {
@@ -79,6 +79,7 @@ export const fetchArchivedNews = createAsyncThunk('archive/all', async (_, { rej
 export const fetchHistoryLog = createAsyncThunk('history/log', async (_, { rejectWithValue }) => {
   try {
     const response = await axiosInstance.get('/news/history-log');
+    console.log(response.data);
     return response.data.data as IHistoryLog[];
   } catch (error: any) {
     console.log('Error fetchHistoryLog', error.message);

@@ -1,4 +1,4 @@
-import { SerializedError, createSlice } from '@reduxjs/toolkit';
+import { SerializedError, createAction, createSlice } from '@reduxjs/toolkit';
 
 import { ArticleNewsArray, NewsWireArray, PopularNewsArray, C } from 'types';
 
@@ -18,6 +18,7 @@ type newsAPIState = {
   searchByDate: ArticleNewsArray;
   isLoading: boolean;
   hasError: SerializedError | null;
+  headline: string;
 };
 
 const initialState: newsAPIState = {
@@ -28,9 +29,10 @@ const initialState: newsAPIState = {
   searchByDate: [],
   isLoading: false,
   hasError: null,
+  headline: 'Today`s Hot News',
 };
 
-// const changeHeadline = createAction<{headline: string}>('newsAPI/changeHeadline')
+export const changeHeadline = createAction<string>('newsAPI/changeHeadline');
 
 const newsAPISlice = createSlice({
   name: 'newsAPI',
@@ -117,6 +119,10 @@ const newsAPISlice = createSlice({
       .addCase(fetchNewsByDate.rejected, (state, action) => {
         state.isLoading = false;
         state.hasError = action.error;
+      })
+      .addCase(changeHeadline, (state, action) => {
+        state.headline = action.payload;
+        console.log('action.payload', action.payload);
       });
   },
 });

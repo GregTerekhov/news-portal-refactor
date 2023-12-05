@@ -9,7 +9,7 @@ import { PrimaryButton } from 'ui';
 
 const ErrorPage: FC<{}> = () => {
   const devicePixelRatio = window.devicePixelRatio || 1;
-  const { isAuthenticated } = useAuthCollector();
+  // const { isAuthenticated } = useAuthCollector();
   const navigate = useNavigate();
 
   const matchedErrorImage = generateContentImages(
@@ -18,7 +18,7 @@ const ErrorPage: FC<{}> = () => {
     'image/webp',
     window.innerWidth,
   );
-
+  const isAuthenticated = true;
   const imageUrl = useCacheImage(matchedErrorImage?.src || '');
 
   const handleGoHome = () => {

@@ -6,17 +6,16 @@ import { useActiveLinks, useWindowWidth } from 'hooks';
 
 import { PrimaryButton } from 'ui';
 
-// import { accountButtons } from './assistants';
-
 const LinkedAccounts: FC = () => {
   const { breakpointsForMarkup } = useWindowWidth() ?? {
     breakpointsForMarkup: null,
   };
   const location = useLocation();
   const activeLinks = useActiveLinks(location);
+
   const login = useGoogleLogin({
-    onSuccess: (codeResponse) => console.log(codeResponse),
-    flow: 'auth-code',
+    onSuccess: (codeResponse) => console.log('codeResponse', codeResponse),
+    // flow: 'auth-code',
   });
 
   const hasConnectedAccount = false;
@@ -27,7 +26,9 @@ const LinkedAccounts: FC = () => {
       svgName: 'icon-google',
       account: 'Google',
       dataTooltipTarget: 'tooltip-Google',
-      onClick: () => login(),
+      onClick: () => {
+        login();
+      },
     },
     {
       svgName: 'icon-facebook',
@@ -56,7 +57,7 @@ const LinkedAccounts: FC = () => {
           </p>
         </>
       ) : null}
-      <ul
+      <menu
         className={`${
           activeLinks.isManageAccountPage
             ? 'space-y-3 md:space-y-4'
@@ -99,7 +100,7 @@ const LinkedAccounts: FC = () => {
             ) : null}
           </li>
         ))}
-      </ul>
+      </menu>
     </>
   );
 };

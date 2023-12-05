@@ -1,11 +1,11 @@
 import React, { lazy, useEffect } from 'react';
 import { Route, Routes } from 'react-router-dom';
 
+import { AccountLayout, Layout } from './layouts';
 import { ProtectedRoute } from 'routes';
 
 import { useAuthCollector } from './hooks';
 
-import { AccountLayout, Layout } from './layouts';
 import { Loader } from './components';
 
 const HomePage = lazy(() => import('./pages/HomePage/HomePage'));
@@ -19,10 +19,11 @@ const AboutUs = lazy(() => import('./pages/AboutUs/AboutUs'));
 
 function App() {
   const { isRefreshingUser, fetchCurrentAuthUser } = useAuthCollector();
+  // const { isRefreshingUser } = useAuthCollector();
 
-  useEffect(() => {
-    fetchCurrentAuthUser();
-  }, [fetchCurrentAuthUser]);
+  // useEffect(() => {
+  //   fetchCurrentAuthUser();
+  // }, [fetchCurrentAuthUser]);
 
   return isRefreshingUser ? (
     <Loader variant='page' />
