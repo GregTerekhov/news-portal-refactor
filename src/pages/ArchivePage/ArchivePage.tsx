@@ -1,6 +1,6 @@
 import React, { FC, useEffect } from 'react';
 
-import { useAuthCollector, useNewsDBCollector } from 'hooks';
+import { useNewsDBCollector } from 'hooks';
 
 import { Loader, NewsList, PlugImage } from 'components';
 import { Accordeon } from 'ui';

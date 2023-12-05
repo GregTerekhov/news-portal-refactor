@@ -1,7 +1,7 @@
 import React from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
 
-import { useActiveLinks, useAuthCollector } from 'hooks';
+import { useActiveLinks } from 'hooks';
 
 const FooterMenu = () => {
   // const { isAuthenticated } = useAuthCollector();

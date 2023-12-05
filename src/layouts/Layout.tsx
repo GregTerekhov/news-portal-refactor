@@ -3,7 +3,7 @@ import { Outlet, useLocation } from 'react-router-dom';
 
 import {
   useActiveLinks,
-  useAuthCollector,
+  // useAuthCollector,
   useChooseRenderingNews,
   useNewsAPICollector,
   useWindowWidth,

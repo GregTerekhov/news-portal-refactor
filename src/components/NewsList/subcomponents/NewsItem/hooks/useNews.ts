@@ -4,7 +4,7 @@ import { removeFromFavourites } from 'reduxStore/newsDatabase';
 import { useAppDispatch } from 'reduxStore/hooks';
 
 import { VotedItem } from 'types';
-import { useAuthCollector, useNewsDBCollector } from 'hooks';
+import { useNewsDBCollector } from 'hooks';
 
 interface NewsItemProps {
   liveNews: Partial<VotedItem>;

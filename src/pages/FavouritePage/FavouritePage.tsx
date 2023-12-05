@@ -3,7 +3,7 @@ import { useLocation } from 'react-router-dom';
 
 import {
   useActiveLinks,
-  useAuthCollector,
+  // useAuthCollector,
   useChooseRenderingNews,
   useNewsDBCollector,
 } from 'hooks';

@@ -1,6 +1,6 @@
 import axios, { AxiosInstance } from 'axios';
-import dayjs from 'dayjs';
-import { jwtDecode, JwtPayload } from 'jwt-decode';
+// import dayjs from 'dayjs';
+// import { jwtDecode, JwtPayload } from 'jwt-decode';
 
 import store, { RootState } from 'reduxStore/store';
 import { setTokens } from './authSlice';

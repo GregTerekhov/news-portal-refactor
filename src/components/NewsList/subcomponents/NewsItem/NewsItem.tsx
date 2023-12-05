@@ -3,7 +3,7 @@ import { useLocation } from 'react-router-dom';
 
 import { VotedItem } from 'types';
 
-import { useActiveLinks, useAuthCollector } from 'hooks';
+import { useActiveLinks } from 'hooks';
 
 import { Hint, PrimaryButton, SvgIcon } from 'ui';
 

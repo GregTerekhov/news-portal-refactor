@@ -1,4 +1,4 @@
-import React, { lazy, useEffect } from 'react';
+import React, { lazy } from 'react';
 import { Route, Routes } from 'react-router-dom';
 
 import { AccountLayout, Layout } from './layouts';
@@ -18,8 +18,8 @@ const ErrorPage = lazy(() => import('./pages/ErrorPage/ErrorPage'));
 const AboutUs = lazy(() => import('./pages/AboutUs/AboutUs'));
 
 function App() {
-  const { isRefreshingUser, fetchCurrentAuthUser } = useAuthCollector();
-  // const { isRefreshingUser } = useAuthCollector();
+  // const { isRefreshingUser, fetchCurrentAuthUser } = useAuthCollector();
+  const { isRefreshingUser } = useAuthCollector();
 
   // useEffect(() => {
   //   fetchCurrentAuthUser();

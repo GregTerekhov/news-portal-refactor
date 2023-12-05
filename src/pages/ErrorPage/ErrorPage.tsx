@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 
 import { errorImages } from 'constants/images';
 import { generateContentImages } from 'helpers';
-import { useAuthCollector, useCacheImage } from 'hooks';
+import { useCacheImage } from 'hooks';
 
 import { PrimaryButton } from 'ui';
 
