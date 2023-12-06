@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
 import { format, getDay, isSameDay, isSameMonth, isToday, parse } from 'date-fns';
 
-import { useAdditionalRequest } from 'hooks';
+import { useSelectedDate } from 'contexts';
 
 import ArrowButton from './ArrowButton';
 import WeekDays from './WeekDays';
@@ -15,7 +15,7 @@ interface CalendarContentProps {
 }
 
 const CalendarContent: FC<CalendarContentProps> = ({ variant, handleDateFilter }) => {
-  const { selectedRequestDate, handleDateRequest } = useAdditionalRequest();
+  const { selectedRequestDate, handleDateRequest } = useSelectedDate();
 
   const {
     currMonth,

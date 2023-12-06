@@ -8,6 +8,10 @@ const usePopUp = () => {
 
   const popUpRef = useRef<HTMLDivElement | null>(null);
 
+  useEffect(() => {
+    console.log('isOpenCalendar', isOpenCalendar);
+  }, [isOpenCalendar]);
+
   const handleWindowClick = useCallback(
     (event: MouseEvent) => {
       if (popUpRef.current && !popUpRef.current.contains(event.target as Node)) {

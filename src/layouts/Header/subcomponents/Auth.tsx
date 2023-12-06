@@ -11,7 +11,7 @@ const Auth: FC<{}> = () => {
   const { breakpointsForMarkup } = useWindowWidth() ?? {
     breakpointsForMarkup: null,
   };
-  const { isAuthenticated, logout } = useAuthCollector();
+  const { logout, isAuthenticated } = useAuthCollector();
   const { isOpenModal, popUpRef, toggleModal } = usePopUp();
   const location = useLocation();
   const activeLinks = useActiveLinks(location);

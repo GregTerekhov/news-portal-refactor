@@ -7,6 +7,7 @@ import {
 } from '@reduxjs/toolkit';
 
 import * as authOperations from './authOperations';
+import { SetTokensPayload } from 'types';
 
 interface AuthState {
   isLoggedIn: boolean;
@@ -26,11 +27,6 @@ interface AuthState {
     facebook: boolean;
     apple: boolean;
   };
-}
-
-interface SetTokensPayload {
-  accessToken: string | null;
-  refreshToken: string | null;
 }
 
 type Theme = { updatedTheme: string };
@@ -84,10 +80,10 @@ const authSlice = createSlice({
         state.hasError = null;
       })
       .addCase(authOperations.signUp.fulfilled, (state, action) => {
-        state.isLoggedIn = false;
         const { name, email } = action.payload;
         state.user.name = name;
         state.user.email = email;
+        state.isCurrentUser = false;
       })
       .addCase(authOperations.signUp.rejected, (state, action) => {
         state.isCurrentUser = false;
@@ -95,14 +91,15 @@ const authSlice = createSlice({
       })
       .addCase(authOperations.signIn.pending, (state) => {
         state.isCurrentUser = true;
-        state.isLoggedIn = false;
         state.hasError = null;
       })
       .addCase(authOperations.signIn.fulfilled, (state, action) => {
-        state.isCurrentUser = false;
         state.isLoggedIn = true;
         state.user = action.payload.user;
         state.userTheme = action.payload.userTheme;
+        state.accessToken = action.payload.accessToken;
+        state.refreshToken = action.payload.refreshToken;
+        state.isCurrentUser = false;
       })
       .addCase(authOperations.signIn.rejected, (state, action) => {
         state.isCurrentUser = false;
@@ -125,10 +122,10 @@ const authSlice = createSlice({
         state.hasError = null;
       })
       .addCase(authOperations.fetchCurrentUser.fulfilled, (state, action) => {
-        state.isCurrentUser = false;
         state.isLoggedIn = true;
         state.user = action.payload.user;
         state.userTheme = action.payload.userTheme;
+        state.isCurrentUser = false;
         state.hasError = null;
         if (action.payload) {
           console.log('action.payload.user', action.payload.user);
@@ -156,11 +153,11 @@ const authSlice = createSlice({
         state.hasError = null;
       })
       .addCase(authOperations.googleAuth.fulfilled, (state, action) => {
+        state.isLoggedIn = true;
+        state.haveAccounts.google = true;
         state.user = action.payload.user;
         state.accessToken = action.payload.access;
         state.refreshToken = action.payload.refresh;
-        state.isLoggedIn = true;
-        state.haveAccounts.google = true;
         state.isCurrentUser = false;
         state.hasError = null;
       })
@@ -173,11 +170,11 @@ const authSlice = createSlice({
         state.hasError = null;
       })
       .addCase(authOperations.facebookAuth.fulfilled, (state, action) => {
+        state.isLoggedIn = true;
+        state.haveAccounts.facebook = true;
         state.user = action.payload.user;
         state.accessToken = action.payload.accessToken;
         state.refreshToken = action.payload.refreshToken;
-        state.isLoggedIn = true;
-        state.haveAccounts.facebook = true;
         state.isCurrentUser = false;
         state.hasError = null;
       })
@@ -190,11 +187,11 @@ const authSlice = createSlice({
         state.hasError = null;
       })
       .addCase(authOperations.appleAuth.fulfilled, (state, action) => {
+        state.isLoggedIn = true;
+        state.haveAccounts.apple = true;
         state.user = action.payload.user;
         state.accessToken = action.payload.accessToken;
         state.refreshToken = action.payload.refreshToken;
-        state.isLoggedIn = true;
-        state.haveAccounts.apple = true;
         state.isCurrentUser = false;
         state.hasError = null;
       })

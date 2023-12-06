@@ -56,10 +56,10 @@ export const signIn = createAsyncThunk<ICurrentUser, SignInRequiredFields>(
     console.log('credentials', credentials);
     try {
       const response = await axios.post<ICurrentUser>(`${BASE_URL}/auth/sign-in`, credentials);
-      setTokens({
-        accessToken: response.data.accessToken,
-        refreshToken: response.data.refreshToken,
-      });
+      // setTokens({
+      //   accessToken: response.data.accessToken,
+      //   refreshToken: response.data.refreshToken,
+      // });
       console.log(response.data);
       return response.data;
     } catch (error: any) {

@@ -2,13 +2,8 @@ import React, { FC } from 'react';
 import { useLocation } from 'react-router-dom';
 import { format, startOfToday } from 'date-fns';
 
-import {
-  useActiveLinks,
-  useAdditionalRequest,
-  // useChooseRenderingNews,
-  // useNewsAPICollector,
-  usePopUp,
-} from 'hooks';
+import { useSelectedDate } from 'contexts';
+import { useActiveLinks, usePopUp } from 'hooks';
 
 import { SvgIcon } from 'ui';
 
@@ -16,24 +11,17 @@ import { useFilterNews } from '../FiltersBlock/hooks';
 import { convertLinesForCalendar } from './assistants';
 import { CalendarContent } from './subcomponents';
 
-// import { useAppDispatch } from 'redux/hooks';
-// import { fetchNewsByDate } from 'redux/newsAPI';
-// import { filterNews } from 'redux/filterSlice';
-// import { PartialVotedNewsArray } from 'types';
-
 interface CalendarProps {
   variant: string;
 }
 
 const Calendar: FC<CalendarProps> = ({ variant }) => {
-  // const [beginDate, setBeginDate] = useState<Date | null>(null);
-
   const { isOpenCalendar, popUpRef, setIsOpenCalendar, toggleCalendar } = usePopUp();
-  const { selectedRequestDate } = useAdditionalRequest();
 
   const location = useLocation();
   const activeLinks = useActiveLinks(location);
   const { filters, handleFilterDate } = useFilterNews({ activeLinks, setIsOpenCalendar });
+  const { selectedRequestDate } = useSelectedDate();
 
   const today = startOfToday();
   const showToday = selectedRequestDate.beginDate === null && selectedRequestDate.endDate === null;
@@ -94,7 +82,6 @@ const Calendar: FC<CalendarProps> = ({ variant }) => {
       >
         <SvgIcon svgName='icon-calendar' size={20} className='fill-accentBase' />
         {variant === 'SearchBlock' &&
-        selectedRequestDate &&
         selectedRequestDate.beginDate !== null &&
         selectedRequestDate.endDate !== null &&
         !showToday

@@ -12,7 +12,7 @@ import store, { persistor } from 'reduxStore/store';
 
 import { CONFIG } from 'config';
 
-import { WindowWidthProvider } from './contexts';
+import { SelectedDateProvider, WindowWidthProvider } from 'contexts';
 
 import App from './App';
 // import { Loader } from 'components';
@@ -32,7 +32,9 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
             <GoogleOAuthProvider clientId={clientID}>
               <QueryClientProvider client={queryClient}>
                 <Tooltip.Provider delayDuration={500}>
-                  <App />
+                  <SelectedDateProvider>
+                    <App />
+                  </SelectedDateProvider>
                 </Tooltip.Provider>
               </QueryClientProvider>
             </GoogleOAuthProvider>
