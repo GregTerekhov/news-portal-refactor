@@ -1,6 +1,6 @@
 import React, { FC, useEffect } from 'react';
 
-import { useNewsDBCollector } from 'hooks';
+import { useAuthCollector, useNewsDBCollector } from 'hooks';
 
 import { Loader, NewsList, PlugImage } from 'components';
 import { Accordeon } from 'ui';
@@ -11,15 +11,15 @@ import { ArchiveHistoryLog } from './subcomponents';
 const ArchivePage: FC<{}> = () => {
   const { isLoadingDBData, allArchive, archiveHistoryLog, getHistoryLog, getArchives } =
     useNewsDBCollector();
-  // const { isAuthenticated } = useAuthCollector();
+  const { isAuthenticated } = useAuthCollector();
 
   useEffect(() => {
     getArchives();
     getHistoryLog();
   }, [getArchives, getHistoryLog]);
 
-  const isAuthenticated = true;
-
+  // const isAuthenticated = true;
+  console.log('allArchive', allArchive);
   const organisedNews = organiseNewsByMonth(allArchive);
 
   const shouldShowLoader = isLoadingDBData;

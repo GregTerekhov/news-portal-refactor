@@ -8,11 +8,12 @@ interface ScrollDirection {
   direction: string;
   position: string;
   icon: string;
+  classIcon?: string;
   label: string;
 }
 
 const PageScrollController: FC<ScrollDirection> = (value) => {
-  const { direction, position, icon, label } = value;
+  const { direction, position, icon, label, classIcon } = value;
 
   const { upButtonVisibility, downButtonVisibility, onHandleClick } = useScrollController({
     direction,
@@ -25,7 +26,7 @@ const PageScrollController: FC<ScrollDirection> = (value) => {
         side='right'
         sideOffset={16}
         ariaLabel={`Scroll ${position} button`}
-        contentClass='border border-solid border-whiteBase rounded-xl text-small md:text-medium px-2 text-whiteBase bg-accentAlt/[.8]'
+        contentClass='border border-solid border-whiteBase rounded-xl text-small md:text-medium px-2 text-whiteBase bg-accentAlt/[.8] transition-colors duration-500'
       >
         <button
           id='top'
@@ -37,7 +38,7 @@ const PageScrollController: FC<ScrollDirection> = (value) => {
           <SvgIcon
             svgName={icon}
             size={30}
-            className='fill-accentBase group-hover:fill-whiteBase'
+            className={`${classIcon} fill-accentBase group-hover:fill-whiteBase`}
           />
         </button>
       </Hint>

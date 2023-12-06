@@ -1,4 +1,8 @@
+import axios from 'axios';
 import { createAsyncThunk } from '@reduxjs/toolkit';
+
+import axiosInstance from './authServices';
+import { setTokens } from './authSlice';
 
 import {
   SignUpRequiredFields,
@@ -12,28 +16,32 @@ import {
   ITheme,
 } from 'types';
 
-import axiosInstance from './authServices';
-import { setTokens } from './authSlice';
-import axios from 'axios';
-// import { RootState } from 'reduxStore/store';
+type SignUpResponse = {
+  name: string;
+  email: string;
+};
+
+type FetchCurrentResponse = {
+  user: {
+    name: string;
+    email: string;
+    id: string;
+  };
+  userTheme: string;
+};
+
+type UpdateEmailResponse = {
+  newEmail: string;
+};
 
 const BASE_URL = 'https://news-webapp-express.onrender.com/api';
 
-// const token = {
-//   set(token: string) {
-//     axios.defaults.headers.common.Authorization = `Bearer ${token}`;
-//   },
-//   unset() {
-//     axios.defaults.headers.common.Authorization = '';
-//   },
-// };
-
-export const signUp = createAsyncThunk(
+export const signUp = createAsyncThunk<SignUpResponse, SignUpRequiredFields>(
   'auth/signUp',
-  async (credentials: SignUpRequiredFields, { rejectWithValue }) => {
+  async (credentials, { rejectWithValue }) => {
     console.log('credentials', credentials);
     try {
-      const response = await axios.post(`${BASE_URL}/auth/sign-up`, credentials);
+      const response = await axios.post<SignUpResponse>(`${BASE_URL}/auth/sign-up`, credentials);
       console.log(response.data);
       return response.data;
     } catch (error: any) {
@@ -42,9 +50,9 @@ export const signUp = createAsyncThunk(
   },
 );
 
-export const signIn = createAsyncThunk(
+export const signIn = createAsyncThunk<ICurrentUser, SignInRequiredFields>(
   'auth/signIn',
-  async (credentials: SignInRequiredFields, { rejectWithValue }) => {
+  async (credentials, { rejectWithValue }) => {
     console.log('credentials', credentials);
     try {
       const response = await axios.post<ICurrentUser>(`${BASE_URL}/auth/sign-in`, credentials);
@@ -52,7 +60,6 @@ export const signIn = createAsyncThunk(
         accessToken: response.data.accessToken,
         refreshToken: response.data.refreshToken,
       });
-      // token.set(response.data.accessToken);
       console.log(response.data);
       return response.data;
     } catch (error: any) {
@@ -65,7 +72,6 @@ export const signIn = createAsyncThunk(
 export const signOut = createAsyncThunk('/auth/signOut', async (_, { rejectWithValue }) => {
   try {
     const response = await axiosInstance.post('/auth/sign-out');
-    // token.unset();
     setTokens({ accessToken: null, refreshToken: null });
     return response.data;
   } catch (error: any) {
@@ -74,32 +80,30 @@ export const signOut = createAsyncThunk('/auth/signOut', async (_, { rejectWithV
   }
 });
 
-export const fetchCurrentUser = createAsyncThunk('auth/current', async (_, thunkAPI) => {
-  // const state = thunkAPI.getState() as RootState;
-  // const persistedToken = state.auth.accessToken;
+export const fetchCurrentUser = createAsyncThunk<FetchCurrentResponse>(
+  'auth/current',
+  async (_, thunkAPI) => {
+    try {
+      const response = await axiosInstance.get<FetchCurrentResponse>('/auth/current-user');
+      console.log(response.data);
+      return response.data;
+    } catch (error: any) {
+      console.log('Error fetchCurrent', error.message);
 
-  // if (persistedToken === null) {
-  //   return thunkAPI.rejectWithValue('No token found');
-  // }
+      return thunkAPI.rejectWithValue(error.message);
+    }
+  },
+);
 
-  try {
-    // token.set(persistedToken);
-    const response = await axiosInstance.get('/auth/current-user');
-    console.log(response.data);
-    return response.data;
-  } catch (error: any) {
-    console.log('Error fetchCurrent', error.message);
-
-    return thunkAPI.rejectWithValue(error.message);
-  }
-});
-
-export const updateUserEmail = createAsyncThunk(
+export const updateUserEmail = createAsyncThunk<UpdateEmailResponse, IUpdateEmail>(
   'auth/updateEmail',
-  async (newEmail: IUpdateEmail, { rejectWithValue }) => {
+  async (newEmail, { rejectWithValue }) => {
     console.log('newEmail', newEmail);
     try {
-      const response = await axiosInstance.patch('/auth/update-email', newEmail);
+      const response = await axiosInstance.patch<UpdateEmailResponse>(
+        '/auth/update-email',
+        newEmail,
+      );
       return response.data;
     } catch (error: any) {
       console.log('Error updateEmail', error.message);
@@ -150,7 +154,6 @@ export const googleAuth = createAsyncThunk(
   'auth/google',
   async (tokenAuth: IThirdPartyAuth, { rejectWithValue }) => {
     try {
-      // token.set(tokenAuth); // set accessToken in Header
       setTokens({ accessToken: tokenAuth.tokenAuth, refreshToken: null });
       const response = await axiosInstance.get(`/auth/google`);
       response.data.accessToken = tokenAuth;
@@ -166,7 +169,6 @@ export const facebookAuth = createAsyncThunk(
   'auth/facebook',
   async (tokenAuth: IThirdPartyAuth, { rejectWithValue }) => {
     try {
-      // token.set(tokenAuth); // set accessToken in Header
       setTokens({ accessToken: tokenAuth.tokenAuth, refreshToken: null });
       const response = await axiosInstance.get('/auth/facebook');
       response.data.accessToken = tokenAuth;
@@ -182,7 +184,6 @@ export const appleAuth = createAsyncThunk(
   'auth/apple',
   async (tokenAuth: IThirdPartyAuth, { rejectWithValue }) => {
     try {
-      // token.set(tokenAuth); // set accessToken in Header
       setTokens({ accessToken: tokenAuth.tokenAuth, refreshToken: null });
       const response = await axiosInstance.get('/auth/apple');
       response.data.accessToken = tokenAuth;

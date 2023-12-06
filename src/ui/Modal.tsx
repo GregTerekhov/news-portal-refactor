@@ -1,9 +1,10 @@
 import React, { FC, ReactNode } from 'react';
 import { createPortal } from 'react-dom';
-// import FocusLock from 'react-focus-lock';
+import FocusLock, { AutoFocusInside } from 'react-focus-lock';
+import { RemoveScroll } from 'react-remove-scroll';
 
 import SvgIcon from './SvgIcon';
-// import usePopUp from 'hooks/usePopUp';
+import usePopUp from 'hooks/usePopUp';
 
 const modalRoot = document.querySelector('#modalRoot');
 
@@ -16,17 +17,14 @@ interface ModalProps {
 
 enum S {
   Auth = 'auth',
-  Weather = 'weather',
 }
 
 const Modal: FC<ModalProps> = ({ children, closeModal, modalRef, variant }) => {
-  // const { isOpenModal } = usePopUp();
+  const { isOpenModal } = usePopUp();
   let modalWidth: string = '';
 
   if (variant === S.Auth) {
     modalWidth = 'w-full max-md:max-w-[288px] md:w-[600px]';
-  } else if (variant === S.Weather) {
-    modalWidth = 'w-full';
   }
 
   // useEffect(() => {
@@ -62,36 +60,39 @@ const Modal: FC<ModalProps> = ({ children, closeModal, modalRef, variant }) => {
 
   return (
     <>
-      {modalRoot &&
-        createPortal(
-          // <FocusLock
-          //   disabled={!isOpenModal}
-          //   autoFocus={true}
-          //   returnFocus={{ preventScroll: false }} // не буде працювати в Safari i Edge
-          // >
-          <div className='fixed top-0 left-0 z-[60] bg-whiteBase/[.4] dark:bg-darkBackground/[.4] w-screen h-screen flex justify-center items-center transition-colors duration-500 backdrop-blur-sm'>
-            <div
-              ref={modalRef}
-              className={`relative bg-whiteBase dark:bg-darkBackground ${modalWidth} py-4 px-6 border border-solid border-accentBase dark:border-whiteBase rounded-xl shadow-modal dark:shadow-darkCard md:px-8 md:pb-8 transition-colors duration-500`}
-            >
-              <button
-                aria-label='Modal close button'
-                className='absolute top-4 right-4 flex justify-center items-center'
-                onClick={closeModal}
-              >
-                <SvgIcon
-                  svgName='icon-close'
-                  size={20}
-                  className='stroke-darkBase dark:stroke-whiteBase hover:rotate-90 transition-transform'
-                />
-              </button>
-
-              {children}
-            </div>
-          </div>,
-          // </FocusLock>,
-          modalRoot,
-        )}
+      <FocusLock
+        disabled={!isOpenModal}
+        autoFocus={true}
+        returnFocus={{ preventScroll: false }} // не буде працювати в Safari i Edge
+      >
+        <RemoveScroll>
+          {modalRoot &&
+            createPortal(
+              <div className='fixed top-0 left-0 z-[60] bg-whiteBase/[.4] dark:bg-darkBackground/[.4] w-screen h-screen flex justify-center items-center transition-colors duration-500 backdrop-blur-sm'>
+                <div
+                  ref={modalRef}
+                  className={`relative bg-whiteBase dark:bg-darkBackground ${modalWidth} py-4 px-6 border border-solid border-accentBase dark:border-whiteBase rounded-xl shadow-modal dark:shadow-darkCard md:px-8 md:pb-8 transition-colors duration-500`}
+                >
+                  <AutoFocusInside>
+                    <button
+                      aria-label='Modal close button'
+                      className='absolute top-4 right-4 flex justify-center items-center'
+                      onClick={closeModal}
+                    >
+                      <SvgIcon
+                        svgName='icon-close'
+                        size={20}
+                        className='stroke-darkBase dark:stroke-whiteBase hover:rotate-90 transition-transform'
+                      />
+                    </button>
+                  </AutoFocusInside>
+                  {children}
+                </div>
+              </div>,
+              modalRoot,
+            )}
+        </RemoveScroll>
+      </FocusLock>
     </>
   );
 };

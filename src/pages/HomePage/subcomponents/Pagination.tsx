@@ -113,7 +113,7 @@ const Pagination: FC<PaginationProps> = ({ pageNumbers, currentPage, setCurrentP
         onHandleClick={handlePrevClick}
         width='w-32'
       >
-        <SvgIcon svgName='icon-arrow-left' size={20} className='fill-whiteBase' />
+        <SvgIcon svgName='icon-arrow-left' size={24} className='fill-whiteBase' />
         {breakpointsForMarkup?.isTablet || breakpointsForMarkup?.isDesktop ? (
           <span className='text-base md:text-medium font-medium text-contrastWhite'>Prev</span>
         ) : null}
@@ -131,7 +131,7 @@ const Pagination: FC<PaginationProps> = ({ pageNumbers, currentPage, setCurrentP
           <span className='text-base md:text-medium font-medium text-contrastWhite'>Next</span>
         ) : null}
 
-        <SvgIcon svgName='icon-arrow-right' size={20} className='stroke-whiteBase' />
+        <SvgIcon svgName='icon-arrow-left' size={24} className='fill-whiteBase rotate-180' />
       </PrimaryButton>
     </div>
   );
@@ -286,7 +286,7 @@ export default Pagination;
 //         {breakpointsForMarkup?.isTablet || breakpointsForMarkup?.isDesktop ? (
 //           <span className='text-base md:text-medium font-medium text-contrastWhite'>Next</span>
 //         ) : null}
-//         <SvgIcon svgName='icon-arrow-right' size={20} className='stroke-whiteBase' />
+//         <SvgIcon svgName='icon-arrow-left' size={20} className='fill-whiteBase rotate-180' />
 //       </PrimaryButton>
 //     </div>
 //   );

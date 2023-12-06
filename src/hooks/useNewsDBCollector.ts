@@ -17,6 +17,7 @@ import {
   selectLoading,
   selectSavedNews,
   selectHistoryLog,
+  removeFromFavourites,
 } from 'reduxStore/newsDatabase';
 
 import { PartialVotedNewsArray, VotedItem } from 'types';
@@ -41,6 +42,10 @@ const useNewsDBCollector = () => {
     (updatedNewsObject: Partial<VotedItem>) => dispatch(addOrUpdateVotedNews(updatedNewsObject)),
     [dispatch],
   );
+  const removeFavouriteNews = useCallback(
+    (newsUrl: string) => dispatch(removeFromFavourites(newsUrl)),
+    [dispatch],
+  );
   const addVotedNews = useCallback(
     (updatedNews: PartialVotedNewsArray) => dispatch(addNews(updatedNews)),
     [dispatch],
@@ -63,6 +68,7 @@ const useNewsDBCollector = () => {
     updateSavedNews,
     addVotedNews,
     removeNews,
+    removeFavouriteNews,
   };
 };
 

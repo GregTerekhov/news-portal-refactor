@@ -24,7 +24,7 @@ const Header: FC = () => {
   const { breakpointsForMarkup } = useWindowWidth() ?? {
     breakpointsForMarkup: null,
   };
-  const { user } = useAuthCollector();
+  const { user, isAuthenticated } = useAuthCollector();
   const { resetAllFilters } = useFilterCollector();
   const [touched, setTouched] = useState<boolean>(false);
   const [passwordToken, setPasswordToken] = useState<boolean>(false);
@@ -33,7 +33,7 @@ const Header: FC = () => {
 
   const location = useLocation();
   const activeLinks = useActiveLinks(location);
-  const isAuthenticated = true;
+  // const isAuthenticated = true;
   const { headerClass, textClass, burgerMenuButtonClass, accountIconStyles } = useHeaderStyles(
     activeLinks.isHomeActive,
   );

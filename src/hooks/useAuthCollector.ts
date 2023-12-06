@@ -1,25 +1,6 @@
 import { useCallback } from 'react';
-import {
-  fetchCurrentUser,
-  selectCurrentUser,
-  selectHasAuthError,
-  selectIsLoggedIn,
-  selectUser,
-  selectUserTheme,
-  signIn,
-  signOut,
-  signUp,
-  updateUserEmail,
-  updateUserPassword,
-  recoveryPasswordRequest,
-  recoveryPasswordChange,
-  googleAuth,
-  facebookAuth,
-  appleAuth,
-  updateTheme,
-  changeNotAuthTheme,
-  // selectBoundAccounts,
-} from 'reduxStore/auth';
+
+import * as auth from 'reduxStore/auth';
 import { useAppDispatch, useAppSelector } from 'reduxStore/hooks';
 import {
   SignUpRequiredFields,
@@ -33,67 +14,67 @@ import {
 } from 'types';
 
 const useAuthCollector = () => {
-  const isAuthenticated = useAppSelector(selectIsLoggedIn);
-  const user = useAppSelector(selectUser);
-  const isRefreshingUser = useAppSelector(selectCurrentUser);
-  const userTheme = useAppSelector(selectUserTheme);
-  const authError = useAppSelector(selectHasAuthError);
+  const isAuthenticated = useAppSelector(auth.selectIsLoggedIn);
+  const user = useAppSelector(auth.selectUser);
+  const isRefreshingUser = useAppSelector(auth.selectCurrentUser);
+  const userTheme = useAppSelector(auth.selectUserTheme);
+  const authError = useAppSelector(auth.selectHasAuthError);
   // const haveAccounts = useAppSelector(selectBoundAccounts);
 
   const dispatch = useAppDispatch();
 
   const register = useCallback(
-    (credentials: SignUpRequiredFields) => dispatch(signUp(credentials)),
+    (credentials: SignUpRequiredFields) => dispatch(auth.signUp(credentials)),
     [dispatch],
   );
   const login = useCallback(
-    (credentials: SignInRequiredFields) => dispatch(signIn(credentials)),
+    (credentials: SignInRequiredFields) => dispatch(auth.signIn(credentials)),
     [dispatch],
   );
-  const logout = useCallback(() => dispatch(signOut()), [dispatch]);
-  const fetchCurrentAuthUser = useCallback(() => dispatch(fetchCurrentUser()), [dispatch]);
+  const logout = useCallback(() => dispatch(auth.signOut()), [dispatch]);
+  const fetchCurrentAuthUser = useCallback(() => dispatch(auth.fetchCurrentUser()), [dispatch]);
   const updateEmail = useCallback(
-    (newEmail: IUpdateEmail) => dispatch(updateUserEmail(newEmail)),
+    (newEmail: IUpdateEmail) => dispatch(auth.updateUserEmail(newEmail)),
     [dispatch],
   );
 
   const updatePassword = useCallback(
-    (newPassword: UpdatePasswordRequiredToSend) => dispatch(updateUserPassword(newPassword)),
+    (newPassword: UpdatePasswordRequiredToSend) => dispatch(auth.updateUserPassword(newPassword)),
     [dispatch],
   );
 
   const sendEmailForRecovery = useCallback(
-    (email: RecoveryPasswordRequestRequired) => dispatch(recoveryPasswordRequest(email)),
+    (email: RecoveryPasswordRequestRequired) => dispatch(auth.recoveryPasswordRequest(email)),
     [dispatch],
   );
 
   const changePassword = useCallback(
     (changedPassword: RecoveryPasswordChangeRequiredToSend) =>
-      dispatch(recoveryPasswordChange(changedPassword)),
+      dispatch(auth.recoveryPasswordChange(changedPassword)),
     [dispatch],
   );
 
   const enterWithGoogle = useCallback(
-    (tokenAuth: IThirdPartyAuth) => dispatch(googleAuth(tokenAuth)),
+    (tokenAuth: IThirdPartyAuth) => dispatch(auth.googleAuth(tokenAuth)),
     [dispatch],
   );
 
   const enterWithFacebook = useCallback(
-    (tokenAuth: IThirdPartyAuth) => dispatch(facebookAuth(tokenAuth)),
+    (tokenAuth: IThirdPartyAuth) => dispatch(auth.facebookAuth(tokenAuth)),
     [dispatch],
   );
 
   const enterWithApple = useCallback(
-    (tokenAuth: IThirdPartyAuth) => dispatch(appleAuth(tokenAuth)),
+    (tokenAuth: IThirdPartyAuth) => dispatch(auth.appleAuth(tokenAuth)),
     [dispatch],
   );
   const unauthorisedChangeTheme = useCallback(
-    (updatedTheme: ITheme) => dispatch(changeNotAuthTheme(updatedTheme)),
+    (updatedTheme: ITheme) => dispatch(auth.changeNotAuthTheme(updatedTheme)),
     [dispatch],
   );
 
   const changeTheme = useCallback(
-    (updatedTheme: ITheme) => dispatch(updateTheme(updatedTheme)),
+    (updatedTheme: ITheme) => dispatch(auth.updateTheme(updatedTheme)),
     [dispatch],
   );
 

@@ -1,14 +1,14 @@
 import React from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
 
-import { useActiveLinks } from 'hooks';
+import { useActiveLinks, useAuthCollector } from 'hooks';
 
 const FooterMenu = () => {
-  // const { isAuthenticated } = useAuthCollector();
+  const { isAuthenticated } = useAuthCollector();
   const location = useLocation();
   const activeLinks = useActiveLinks(location);
 
-  const isAuthenticated = true;
+  // const isAuthenticated = true;
 
   const menuItems: { path: string; label: string; liClasses: string }[] = isAuthenticated
     ? [

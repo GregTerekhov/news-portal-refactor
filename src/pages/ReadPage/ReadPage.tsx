@@ -1,12 +1,13 @@
 import React, { FC, useEffect } from 'react';
 
-import { useNewsDBCollector } from 'hooks';
+import { useFilterCollector, useNewsDBCollector } from 'hooks';
 
 import { Loader, NewsList, PlugImage } from 'components';
 import { Accordeon } from 'ui';
 
 const ReadPage: FC<{}> = () => {
   const { allReads, isLoadingDBData, getReads } = useNewsDBCollector();
+  const { hasResults } = useFilterCollector();
 
   useEffect(() => {
     getReads();
@@ -22,8 +23,9 @@ const ReadPage: FC<{}> = () => {
   // Перетворення і сортування дат
   const sortedDates = Array.from(uniqueDatesSet).sort().reverse();
 
-  const shouldShowLoader = isLoadingDBData;
-  const shouldShowAccordeon = !isLoadingDBData && allReads && allReads?.length !== 0;
+  const shouldShowLoader = isLoadingDBData || hasResults === 'loading';
+  const shouldShowPlug = allReads.length === 0 || hasResults === 'empty';
+  const shouldShowAccordeon = !shouldShowLoader && !shouldShowPlug;
 
   return (
     <>
@@ -41,9 +43,7 @@ const ReadPage: FC<{}> = () => {
           ))}
         </div>
       )}
-      {!shouldShowLoader && !shouldShowAccordeon && allReads?.length === 0 && (
-        <PlugImage variant='page' />
-      )}
+      {shouldShowPlug && <PlugImage variant='page' />}
     </>
   );
 };

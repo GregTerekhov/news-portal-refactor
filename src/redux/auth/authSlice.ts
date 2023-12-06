@@ -1,16 +1,12 @@
-import { SerializedError, createAction, createSlice } from '@reduxjs/toolkit';
-
 import {
-  appleAuth,
-  facebookAuth,
-  fetchCurrentUser,
-  googleAuth,
-  signIn,
-  signOut,
-  signUp,
-  updateTheme,
-  updateUserEmail,
-} from './authOperations';
+  // PayloadAction,
+  SerializedError,
+  createAction,
+  createSlice,
+  // isAnyOf,
+} from '@reduxjs/toolkit';
+
+import * as authOperations from './authOperations';
 
 interface AuthState {
   isLoggedIn: boolean;
@@ -25,11 +21,11 @@ interface AuthState {
     id: string;
     // rememberMe: boolean;
   };
-  // haveAccounts: {
-  //   google: boolean;
-  //   facebook: boolean;
-  //   apple: boolean;
-  // };
+  haveAccounts: {
+    google: boolean;
+    facebook: boolean;
+    apple: boolean;
+  };
 }
 
 interface SetTokensPayload {
@@ -52,12 +48,27 @@ const initialState: AuthState = {
     id: '',
     // rememberMe: false,
   },
-  // haveAccounts: {
-  //   google: false,
-  //   facebook: false,
-  //   apple: false,
-  // },
+  haveAccounts: {
+    google: false,
+    facebook: false,
+    apple: false,
+  },
 };
+
+// const handlePending = (state: AuthState) => {
+//   state.isCurrentUser = true;
+//   state.hasError = null;
+// };
+
+// const handleFulfilled = (state: AuthState) => {
+//   state.isCurrentUser = false;
+//   state.hasError = null;
+// };
+
+// const handleRejected = (state: AuthState, action: PayloadAction<unknown, string, any>) => {
+//   state.isCurrentUser = false;
+//   state.hasError = action.payload ?? null;
+// };
 
 export const setTokens = createAction<SetTokensPayload>('auth/setTokens');
 export const changeNotAuthTheme = createAction<Theme>('auth/changeTheme');
@@ -65,63 +76,55 @@ export const changeNotAuthTheme = createAction<Theme>('auth/changeTheme');
 const authSlice = createSlice({
   name: 'auth',
   initialState,
-  reducers: {
-    // setTokens: (state: AuthState, action: PayloadAction<SetTokensPayload>) => {
-    //   state.accessToken = action.payload.accessToken;
-    //   state.refreshToken = action.payload.refreshToken;
-    // },
-  },
+  reducers: {},
   extraReducers: (builder) => {
     builder
-      .addCase(signUp.pending, (state) => {
-        // state.isCurrentUser = true;
-        state.hasError = null;
-      })
-      .addCase(signUp.fulfilled, (state, action) => {
-        state.isLoggedIn = false;
-        // state.isCurrentUser = false;
-        state.user = action.payload.user;
-        state.hasError = null;
-      })
-      .addCase(signUp.rejected, (state, action) => {
-        // state.isCurrentUser = false;
-        state.hasError = action.error;
-      })
-      .addCase(signIn.pending, (state) => {
-        // state.isCurrentUser = true;
-        state.hasError = null;
-      })
-      .addCase(signIn.fulfilled, (state, action) => {
-        state.isLoggedIn = true;
-        // state.isCurrentUser = false;
-        state.user = action.payload.user;
-        state.accessToken = action.payload.accessToken;
-        state.refreshToken = action.payload.refreshToken;
-        state.userTheme = action.payload.userTheme;
-        state.hasError = null;
-      })
-      .addCase(signIn.rejected, (state, action) => {
-        // state.isCurrentUser = false;
-        state.hasError = action.error;
-      })
-      .addCase(signOut.pending, (state) => {
-        // state.isCurrentUser = true;
-        state.hasError = null;
-      })
-      .addCase(signOut.fulfilled, () => {
-        return { ...initialState };
-      })
-      .addCase(signOut.rejected, (state, action) => {
-        // state.isCurrentUser = false;
-        state.hasError = action.error;
-      })
-      .addCase(fetchCurrentUser.pending, (state) => {
+      .addCase(authOperations.signUp.pending, (state) => {
         state.isCurrentUser = true;
         state.hasError = null;
-        // console.log('CYR', state.refreshToken);
-        // console.log('ACT', action);
       })
-      .addCase(fetchCurrentUser.fulfilled, (state, action) => {
+      .addCase(authOperations.signUp.fulfilled, (state, action) => {
+        state.isLoggedIn = false;
+        const { name, email } = action.payload;
+        state.user.name = name;
+        state.user.email = email;
+      })
+      .addCase(authOperations.signUp.rejected, (state, action) => {
+        state.isCurrentUser = false;
+        state.hasError = action.error;
+      })
+      .addCase(authOperations.signIn.pending, (state) => {
+        state.isCurrentUser = true;
+        state.isLoggedIn = false;
+        state.hasError = null;
+      })
+      .addCase(authOperations.signIn.fulfilled, (state, action) => {
+        state.isCurrentUser = false;
+        state.isLoggedIn = true;
+        state.user = action.payload.user;
+        state.userTheme = action.payload.userTheme;
+      })
+      .addCase(authOperations.signIn.rejected, (state, action) => {
+        state.isCurrentUser = false;
+        state.isLoggedIn = false;
+        state.hasError = action.error;
+      })
+      .addCase(authOperations.signOut.pending, (state) => {
+        state.isCurrentUser = true;
+        state.hasError = null;
+      })
+      .addCase(authOperations.signOut.fulfilled, () => {
+        return { ...initialState };
+      })
+      .addCase(authOperations.signOut.rejected, (state, action) => {
+        state.isCurrentUser = false;
+        state.hasError = action.error;
+      })
+      .addCase(authOperations.fetchCurrentUser.pending, (state) => {
+        state.isCurrentUser = true;
+        state.hasError = null;
+      })
+      .addCase(authOperations.fetchCurrentUser.fulfilled, (state, action) => {
         state.isCurrentUser = false;
         state.isLoggedIn = true;
         state.user = action.payload.user;
@@ -131,73 +134,86 @@ const authSlice = createSlice({
           console.log('action.payload.user', action.payload.user);
         }
       })
-      .addCase(fetchCurrentUser.rejected, (state, action) => {
+      .addCase(authOperations.fetchCurrentUser.rejected, (state, action) => {
         state.isCurrentUser = false;
         state.hasError = action.error;
       })
-      .addCase(updateUserEmail.pending, (state) => {
+      .addCase(authOperations.updateUserEmail.pending, (state) => {
         state.isCurrentUser = true;
+        state.hasError = null;
       })
-      .addCase(updateUserEmail.fulfilled, (state, action) => {
-        state.isCurrentUser = false;
+      .addCase(authOperations.updateUserEmail.fulfilled, (state, action) => {
         state.user.email = action.payload.newEmail;
+        state.isCurrentUser = false;
+        state.hasError = null;
       })
-      .addCase(updateUserEmail.rejected, (state, action) => {
+      .addCase(authOperations.updateUserEmail.rejected, (state, action) => {
+        state.isCurrentUser = false;
         state.hasError = action.error;
-        state.isCurrentUser = false;
       })
-      .addCase(googleAuth.pending, (state) => {
+      .addCase(authOperations.googleAuth.pending, (state) => {
         state.isCurrentUser = true;
+        state.hasError = null;
       })
-      .addCase(googleAuth.fulfilled, (state, action) => {
-        state.isCurrentUser = false;
+      .addCase(authOperations.googleAuth.fulfilled, (state, action) => {
         state.user = action.payload.user;
         state.accessToken = action.payload.access;
         state.refreshToken = action.payload.refresh;
         state.isLoggedIn = true;
+        state.haveAccounts.google = true;
+        state.isCurrentUser = false;
+        state.hasError = null;
       })
-      .addCase(googleAuth.rejected, (state, action) => {
+      .addCase(authOperations.googleAuth.rejected, (state, action) => {
+        state.isCurrentUser = false;
         state.hasError = action.error;
-        state.isCurrentUser = false;
       })
-      .addCase(facebookAuth.pending, (state) => {
+      .addCase(authOperations.facebookAuth.pending, (state) => {
         state.isCurrentUser = true;
+        state.hasError = null;
       })
-      .addCase(facebookAuth.fulfilled, (state, action) => {
-        state.isCurrentUser = false;
+      .addCase(authOperations.facebookAuth.fulfilled, (state, action) => {
         state.user = action.payload.user;
         state.accessToken = action.payload.accessToken;
         state.refreshToken = action.payload.refreshToken;
         state.isLoggedIn = true;
+        state.haveAccounts.facebook = true;
+        state.isCurrentUser = false;
+        state.hasError = null;
       })
-      .addCase(facebookAuth.rejected, (state, action) => {
+      .addCase(authOperations.facebookAuth.rejected, (state, action) => {
+        state.isCurrentUser = false;
         state.hasError = action.error;
-        state.isCurrentUser = false;
       })
-      .addCase(appleAuth.pending, (state) => {
+      .addCase(authOperations.appleAuth.pending, (state) => {
         state.isCurrentUser = true;
+        state.hasError = null;
       })
-      .addCase(appleAuth.fulfilled, (state, action) => {
-        state.isCurrentUser = false;
+      .addCase(authOperations.appleAuth.fulfilled, (state, action) => {
         state.user = action.payload.user;
         state.accessToken = action.payload.accessToken;
         state.refreshToken = action.payload.refreshToken;
         state.isLoggedIn = true;
+        state.haveAccounts.apple = true;
+        state.isCurrentUser = false;
+        state.hasError = null;
       })
-      .addCase(appleAuth.rejected, (state, action) => {
+      .addCase(authOperations.appleAuth.rejected, (state, action) => {
+        state.isCurrentUser = false;
         state.hasError = action.error;
-        state.isCurrentUser = false;
       })
-      .addCase(updateTheme.pending, (state) => {
+      .addCase(authOperations.updateTheme.pending, (state) => {
         state.isCurrentUser = true;
+        state.hasError = null;
       })
-      .addCase(updateTheme.fulfilled, (state, action) => {
-        state.isCurrentUser = false;
+      .addCase(authOperations.updateTheme.fulfilled, (state, action) => {
         state.userTheme = action.payload.userTheme;
-      })
-      .addCase(updateTheme.rejected, (state, action) => {
-        state.hasError = action.error;
         state.isCurrentUser = false;
+        state.hasError = null;
+      })
+      .addCase(authOperations.updateTheme.rejected, (state, action) => {
+        state.isCurrentUser = false;
+        state.hasError = action.error;
       })
       .addCase(setTokens, (state, action) => {
         const { accessToken, refreshToken }: SetTokensPayload = action.payload;
@@ -208,7 +224,25 @@ const authSlice = createSlice({
         const { updatedTheme }: Theme = action.payload;
         state.userTheme = updatedTheme;
       });
+    // .addMatcher(isAnyOf(...getActions('pending')), handlePending)
+    // .addMatcher(isAnyOf(...getActions('fulfilled')), handleFulfilled)
+    // .addMatcher(isAnyOf(...getActions('rejected')), handleRejected);
   },
 });
+
+// const extraActions = [
+//   authOperations.signUp,
+//   authOperations.signIn,
+//   authOperations.signOut,
+//   authOperations.fetchCurrentUser,
+//   authOperations.updateUserEmail,
+//   authOperations.googleAuth,
+//   authOperations.facebookAuth,
+//   authOperations.appleAuth,
+//   authOperations.updateTheme,
+// ];
+
+// const getActions = (type: 'pending' | 'fulfilled' | 'rejected') =>
+//   extraActions ? extraActions?.map((action) => action[type]) : [];
 
 export const authSliceReducer = authSlice.reducer;

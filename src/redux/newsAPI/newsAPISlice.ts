@@ -1,4 +1,10 @@
-import { SerializedError, createAction, createSlice } from '@reduxjs/toolkit';
+import {
+  PayloadAction,
+  SerializedError,
+  createAction,
+  createSlice,
+  isAnyOf,
+} from '@reduxjs/toolkit';
 
 import { ArticleNewsArray, NewsWireArray, PopularNewsArray, C } from 'types';
 
@@ -32,6 +38,32 @@ const initialState: newsAPIState = {
   headline: 'Today`s Hot News',
 };
 
+const handlePending = (state: newsAPIState) => {
+  state.isLoading = true;
+  state.hasError = null;
+};
+
+const handleFulfilled = (state: newsAPIState) => {
+  state.isLoading = false;
+  state.hasError = null;
+};
+
+const handleRejected = (state: newsAPIState, action: PayloadAction<unknown, string, any>) => {
+  state.isLoading = false;
+  state.hasError = action.payload ?? null;
+};
+
+const extraActions = [
+  fetchAllCategories,
+  fetchNewsByCategory,
+  fetchNewsByKeyword,
+  fetchPopularNews,
+  fetchNewsByDate,
+];
+
+const getActions = (type: 'pending' | 'fulfilled' | 'rejected') =>
+  extraActions.map((action) => action[type]);
+
 export const changeHeadline = createAction<string>('newsAPI/changeHeadline');
 
 const newsAPISlice = createSlice({
@@ -55,75 +87,27 @@ const newsAPISlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(fetchPopularNews.pending, (state) => {
-        state.isLoading = true;
-        state.hasError = null;
-      })
       .addCase(fetchPopularNews.fulfilled, (state, action) => {
-        state.isLoading = false;
         state.popular = action.payload;
-        state.hasError = null;
-      })
-      .addCase(fetchPopularNews.rejected, (state, action) => {
-        state.isLoading = false;
-        state.hasError = action.error;
-      })
-      .addCase(fetchNewsByKeyword.pending, (state) => {
-        state.isLoading = true;
-        state.hasError = null;
       })
       .addCase(fetchNewsByKeyword.fulfilled, (state, action) => {
-        state.isLoading = false;
         state.searchByWord = action.payload;
-        state.hasError = null;
-      })
-      .addCase(fetchNewsByKeyword.rejected, (state, action) => {
-        state.isLoading = false;
-        state.hasError = action.error;
-      })
-      .addCase(fetchAllCategories.pending, (state) => {
-        state.isLoading = true;
-        state.hasError = null;
       })
       .addCase(fetchAllCategories.fulfilled, (state, action) => {
-        state.isLoading = false;
         state.categoriesList = action.payload;
-        state.hasError = null;
-      })
-      .addCase(fetchAllCategories.rejected, (state, action) => {
-        state.isLoading = false;
-        state.hasError = action.error;
-      })
-      .addCase(fetchNewsByCategory.pending, (state) => {
-        state.isLoading = true;
-        state.hasError = null;
       })
       .addCase(fetchNewsByCategory.fulfilled, (state, action) => {
-        state.isLoading = false;
         state.categories = action.payload;
-        state.hasError = null;
-      })
-      .addCase(fetchNewsByCategory.rejected, (state, action) => {
-        state.isLoading = false;
-        state.hasError = action.error;
-      })
-      .addCase(fetchNewsByDate.pending, (state) => {
-        state.isLoading = true;
-        state.hasError = null;
       })
       .addCase(fetchNewsByDate.fulfilled, (state, action) => {
-        state.isLoading = false;
         state.searchByDate = action.payload;
-        state.hasError = null;
-      })
-      .addCase(fetchNewsByDate.rejected, (state, action) => {
-        state.isLoading = false;
-        state.hasError = action.error;
       })
       .addCase(changeHeadline, (state, action) => {
         state.headline = action.payload;
-        console.log('action.payload', action.payload);
-      });
+      })
+      .addMatcher(isAnyOf(...getActions('pending')), handlePending)
+      .addMatcher(isAnyOf(...getActions('fulfilled')), handleFulfilled)
+      .addMatcher(isAnyOf(...getActions('rejected')), handleRejected);
   },
 });
 export const { resetOtherRequests } = newsAPISlice.actions;

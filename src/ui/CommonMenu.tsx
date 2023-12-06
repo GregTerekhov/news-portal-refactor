@@ -45,7 +45,6 @@ const CommonMenu: FC<CommonMenuProps> = ({ isOpen, links, navId, closeMenu }) =>
     }
 
     if (navId === 'main-navigation' && filteredNews && filteredNews?.length > 0) {
-      console.log('reset in CommonMenu');
       resetAllFilters();
     }
   };
@@ -115,9 +114,9 @@ const CommonMenu: FC<CommonMenuProps> = ({ isOpen, links, navId, closeMenu }) =>
                       </div>
                       {link.activeLink && (
                         <SvgIcon
-                          svgName='icon-arrow-right'
+                          svgName='icon-arrow-left'
                           size={24}
-                          className='stroke-whiteBase fill-transparent'
+                          className='fill-whiteBase rotate-180'
                         />
                       )}
                     </NavLink>
@@ -226,9 +225,9 @@ const CommonMenu: FC<CommonMenuProps> = ({ isOpen, links, navId, closeMenu }) =>
                     </p>
                     {navId === 'account-navigation' && link.activeLink ? (
                       <SvgIcon
-                        svgName='icon-arrow-right'
+                        svgName='icon-arrow-left'
                         size={24}
-                        className='stroke-darkBase dark:stroke-whiteBase group-hover:stroke-whiteBase group-hover:fill-none fill-transparent'
+                        className='fill-darkBase dark:fill-whiteBase group-hover:fill-whiteBase rotate-180'
                       />
                     ) : null}
                   </Link>

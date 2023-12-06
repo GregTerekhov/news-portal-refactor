@@ -54,7 +54,6 @@ const useFilterNews = ({ activeLinks, setIsOpenCalendar }: FilterHookProps) => {
   };
 
   const handleFilterDate = (date: Date) => {
-    console.log('date', date);
     if (!isAfter(date, today)) {
       setFilters((prevFilters) => ({
         ...prevFilters,
@@ -68,7 +67,10 @@ const useFilterNews = ({ activeLinks, setIsOpenCalendar }: FilterHookProps) => {
     event.preventDefault();
 
     showResultsState('loading');
-    updateHeadline('Filtered News');
+    if (activeLinks.isHomeActive) {
+      updateHeadline('Filtered News');
+    }
+
     if (
       rebuildedNews &&
       typeof rebuildedNews !== undefined &&
@@ -146,6 +148,7 @@ const useFilterNews = ({ activeLinks, setIsOpenCalendar }: FilterHookProps) => {
   };
 
   const handleReset = async () => {
+    updateHeadline("Today's Hot News");
     setFilters({
       keyword: '',
       title: '',

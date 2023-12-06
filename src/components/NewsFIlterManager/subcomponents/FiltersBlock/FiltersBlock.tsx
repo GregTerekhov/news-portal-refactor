@@ -116,9 +116,9 @@ const FiltersBlock: FC<{}> = () => {
       classNameButtons:
         'p-2 border-whiteBase bg-accentBase dark:bg-transparent hover:bg-accentAlt transition-colors duration-500',
       hasIcon: true,
-      svgName: 'icon-dateSort-desc',
+      svgName: 'icon-dateSort-asc',
       svgSize: 20,
-      classNameIcon: 'fill-whiteBase',
+      classNameIcon: 'fill-whiteBase rotate-180',
       children: '',
     },
   ];
