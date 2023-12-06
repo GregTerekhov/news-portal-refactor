@@ -15,7 +15,7 @@ import { CONFIG } from 'config';
 import { WindowWidthProvider } from './contexts';
 
 import App from './App';
-import { Loader } from 'components';
+// import { Loader } from 'components';
 
 import './input.css';
 
