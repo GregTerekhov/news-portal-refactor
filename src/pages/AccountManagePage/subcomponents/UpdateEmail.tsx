@@ -28,7 +28,6 @@ const UpdateEmail: FC<{}> = ({}) => {
   const updatedEmail = watch('updatedEmail');
 
   const handleEmailSubmitHandler: SubmitHandler<IUpdateEmail> = async (data) => {
-    console.log('Email data:', data);
     await updateEmail(data);
     reset({
       ...getValues,

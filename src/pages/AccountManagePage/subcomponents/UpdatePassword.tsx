@@ -36,8 +36,6 @@ const UpdatePassword: FC<{}> = ({}) => {
   const handlePasswordSubmitHandler: SubmitHandler<UpdatePasswordRequiredToValidate> = async (
     data,
   ) => {
-    console.log('Password data:', data);
-
     const { newPassword, oldPassword } = data;
     const dataToSend = { newPassword, oldPassword };
 

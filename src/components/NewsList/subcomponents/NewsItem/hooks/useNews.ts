@@ -1,10 +1,7 @@
 import { useEffect, useState } from 'react';
 
-import { removeFromFavourites } from 'reduxStore/newsDatabase';
-import { useAppDispatch } from 'reduxStore/hooks';
-
 import { VotedItem } from 'types';
-import { useNewsDBCollector } from 'hooks';
+import { useAuthCollector, useNewsDBCollector } from 'hooks';
 
 interface NewsItemProps {
   liveNews: Partial<VotedItem>;
@@ -18,13 +15,13 @@ interface NewsItemProps {
 
 const useNews = ({ liveNews, activeLinks }: NewsItemProps) => {
   const [changesHappened, setChangesHappened] = useState<boolean>(false);
-  const { savedNews, allArchive, updateSavedNews, addVotedNews, removeNews } = useNewsDBCollector();
+  const { savedNews, allArchive, updateSavedNews, addVotedNews, removeNews, removeFavouriteNews } =
+    useNewsDBCollector();
 
   const [isFavourite, setIsFavourite] = useState<boolean>(() => getIsFavourite());
   const [hasRead, setHasRead] = useState<boolean>(() => getHasRead());
-  // const { isAuthenticated } = useAuthCollector();
-  const isAuthenticated = true;
-  const dispatch = useAppDispatch();
+  const { isAuthenticated } = useAuthCollector();
+  // const isAuthenticated = true;
 
   useEffect(() => {
     if (isAuthenticated) {
@@ -50,20 +47,24 @@ const useNews = ({ liveNews, activeLinks }: NewsItemProps) => {
           }
         }
       } else if (activeLinks.isArchiveActive && allArchive && allArchive.length !== 0) {
-        const existingFavourite = allArchive.find((news) => news.isFavourite);
-        const existingRead = allArchive.find((news) => news.hasRead);
+        const existingFavourite = allArchive.find(
+          (news) => news.isFavourite === liveNews.isFavourite,
+        );
+        const existingRead = allArchive.find((news) => news.hasRead === liveNews.hasRead);
         const savedFavourite = existingFavourite?.isFavourite;
         const savedRead = existingRead?.hasRead;
 
-        if (savedFavourite === true && savedRead === true) {
+        if (savedFavourite && savedRead) {
           setIsFavourite(true);
           setHasRead(true);
         }
-        if (savedFavourite === true && savedRead === false) {
+        if (savedFavourite && !savedRead) {
           setIsFavourite(true);
+          setHasRead(false);
         }
-        if (savedRead === true && savedFavourite === false) {
+        if (savedRead && !savedFavourite) {
           setHasRead(true);
+          setIsFavourite(false);
         }
       }
     }
@@ -73,7 +74,6 @@ const useNews = ({ liveNews, activeLinks }: NewsItemProps) => {
     if (changesHappened && savedNews) {
       addVotedNews(savedNews);
       setChangesHappened(false);
-      // setDeletedNewsIndex(null);
     }
   }, [changesHappened, addVotedNews]);
 
@@ -125,7 +125,6 @@ const useNews = ({ liveNews, activeLinks }: NewsItemProps) => {
         const existingNews = savedNews?.find((news) => news.newsUrl === liveNews.newsUrl);
         const savedFavourite = existingNews?.isFavourite;
         const savedRead = existingNews?.hasRead;
-        console.log('existingNews', existingNews);
 
         if (!existingNews) {
           setIsFavourite(true);
@@ -153,9 +152,7 @@ const useNews = ({ liveNews, activeLinks }: NewsItemProps) => {
               additionDate: null,
             };
             await updateSavedNews(updatedData);
-            await dispatch(removeFromFavourites({ newsUrl: liveNews?.newsUrl || '' }));
-
-            // onDelete();
+            removeFavouriteNews(liveNews?.newsUrl || '');
           } else if (savedFavourite === true && savedRead === true) {
             setIsFavourite(false);
 
@@ -165,8 +162,7 @@ const useNews = ({ liveNews, activeLinks }: NewsItemProps) => {
               hasRead: savedRead,
             };
             await updateSavedNews(updatedData);
-            await dispatch(removeFromFavourites({ newsUrl: liveNews?.newsUrl || '' }));
-            // onDelete();
+            removeFavouriteNews(liveNews?.newsUrl || '');
           }
         }
       }
@@ -225,7 +221,6 @@ const useNews = ({ liveNews, activeLinks }: NewsItemProps) => {
   const handleDeleteNews = async (e: React.MouseEvent<HTMLButtonElement>, id: string) => {
     e.stopPropagation();
     e.preventDefault();
-    console.log('Delete news');
     await removeNews(id);
   };
 

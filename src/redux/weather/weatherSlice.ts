@@ -1,4 +1,4 @@
-import { SerializedError, createSlice } from '@reduxjs/toolkit';
+import { PayloadAction, SerializedError, createSlice, isAnyOf } from '@reduxjs/toolkit';
 
 import { HourlyWeatherData, WeatherData } from 'types';
 
@@ -18,38 +18,41 @@ const initialState = {
   hasError: null,
 } as WeatherState;
 
+const handlePending = (state: WeatherState) => {
+  state.isLoading = true;
+  state.hasError = null;
+};
+
+const handleFulfilled = (state: WeatherState) => {
+  state.isLoading = false;
+  state.hasError = null;
+};
+
+const handleRejected = (state: WeatherState, action: PayloadAction<unknown, string, any>) => {
+  state.isLoading = false;
+  state.hasError = action.payload ?? null;
+};
+
+const extraActions = [fetchWeather, fetchHourlyForecastWeather];
+
+const getActions = (type: 'pending' | 'fulfilled' | 'rejected') =>
+  extraActions.map((action) => action[type]);
+
 const weatherSlice = createSlice({
   name: 'weather',
   initialState,
   reducers: {},
   extraReducers: (builder) => {
     builder
-      .addCase(fetchWeather.pending, (state) => {
-        state.isLoading = true;
-        state.hasError = null;
-      })
       .addCase(fetchWeather.fulfilled, (state, action) => {
-        state.isLoading = false;
         state.data = action.payload;
-        state.hasError = null;
-      })
-      .addCase(fetchWeather.rejected, (state, action) => {
-        state.isLoading = false;
-        state.hasError = action.error;
-      })
-      .addCase(fetchHourlyForecastWeather.pending, (state) => {
-        state.isLoading = true;
-        state.hasError = null;
       })
       .addCase(fetchHourlyForecastWeather.fulfilled, (state, action) => {
-        state.isLoading = false;
         state.weatherByHour = action.payload;
-        state.hasError = null;
       })
-      .addCase(fetchHourlyForecastWeather.rejected, (state, action) => {
-        state.isLoading = false;
-        state.hasError = action.error;
-      });
+      .addMatcher(isAnyOf(...getActions('pending')), handlePending)
+      .addMatcher(isAnyOf(...getActions('fulfilled')), handleFulfilled)
+      .addMatcher(isAnyOf(...getActions('rejected')), handleRejected);
   },
 });
 

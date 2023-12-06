@@ -11,12 +11,12 @@ const Auth: FC<{}> = () => {
   const { breakpointsForMarkup } = useWindowWidth() ?? {
     breakpointsForMarkup: null,
   };
-  const { logout } = useAuthCollector();
+  const { isAuthenticated, logout } = useAuthCollector();
   const { isOpenModal, popUpRef, toggleModal } = usePopUp();
   const location = useLocation();
   const activeLinks = useActiveLinks(location);
   const { authButtonClass } = useHeaderStyles(activeLinks.isHomeActive);
-  const isAuthenticated = true;
+  // const isAuthenticated = true;
   const navigate = useNavigate();
 
   const onSignOut = async () => {

@@ -63,7 +63,6 @@ const useAuth = () => {
   });
 
   const signUpSubmitHandler: SubmitHandler<SignUpRequiredFields> = async (data) => {
-    console.log('SignUp data', data);
     const { name, email, password } = data;
 
     const signUpCredentials = {
@@ -104,7 +103,6 @@ const useAuth = () => {
   const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const isRememberMe = event.target.checked;
     setIsChecked(isRememberMe);
-    console.log('isRememberMe', isRememberMe, typeof isRememberMe);
   };
 
   const [email, password] = watch(['email', 'password']);
@@ -112,13 +110,12 @@ const useAuth = () => {
   const signInSubmitHandler: SubmitHandler<SignInRequiredFields> = async (data, e) => {
     e?.preventDefault();
     const { email, password } = data;
-    console.log('SignIn data', data);
 
-    if (isChecked && email !== '') {
-      localStorage.setItem('userEmail', email);
-      localStorage.setItem('userPassword', password);
-      localStorage.setItem('rememberMe', isChecked.toString());
-    }
+    // if (isChecked && email !== '') {
+    //   localStorage.setItem('userEmail', email);
+    //   localStorage.setItem('userPassword', password);
+    //   localStorage.setItem('rememberMe', isChecked.toString());
+    // }
 
     const signInCredentials = {
       email,
@@ -153,8 +150,6 @@ const useAuth = () => {
   const changePasswordSubmitHandler: SubmitHandler<
     RecoveryPasswordChangeRequiredToValidate
   > = async (data) => {
-    console.log('Password data:', data);
-
     const { changedPassword } = data;
     const dataToSend = { changedPassword };
 

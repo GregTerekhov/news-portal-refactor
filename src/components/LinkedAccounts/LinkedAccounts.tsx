@@ -83,8 +83,8 @@ const LinkedAccounts: FC = () => {
                 width='w-full'
                 svgSize={isMobile ? 20 : 24}
                 ariaLabel={`${account} account binding`}
-                classNameButton='bg-accentBase hover:bg-accentAlt dark:border-whiteBase py-2'
-                classNameIcon='fill-whiteBase'
+                classNameButton='w-14 h-14 lg:w-12 lg:h-12 rounded-xl border border-solid border-whiteBase dark:border-greyBase bg-accentBase dark:bg-transparent flex items-center justify-center group hover:border-accentBase dark:hover:border-whiteBase hover:bg-whiteBase dark:hover:bg-accentBase transition-colors duration-500 ring-whiteBase dark:ring-darkBase ring-2'
+                classNameIcon='fill-whiteBase group-hover:fill-accentAlt dark:group-hover:fill-whiteBase'
                 children={!isMobile && !activeLinks.isManageAccountPage ? account : ''}
                 onHandleClick={onClick}
               />

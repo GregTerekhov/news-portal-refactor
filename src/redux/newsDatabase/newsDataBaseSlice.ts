@@ -1,4 +1,10 @@
-import { PayloadAction, SerializedError, createAction, createSlice } from '@reduxjs/toolkit';
+import {
+  PayloadAction,
+  SerializedError,
+  createAction,
+  createSlice,
+  isAnyOf,
+} from '@reduxjs/toolkit';
 
 import { IHistoryLog, PartialVotedNewsArray, VotedItem } from 'types';
 
@@ -21,13 +27,6 @@ interface NewsDBState {
   hasError: SerializedError | null;
 }
 
-// type FavouritesAction = PayloadAction<
-//   FavouritesArray,
-//   string,
-//   { arg: void; requestId: string; requestStatus: 'fulfilled' },
-//   never
-// >;
-
 const initialState: NewsDBState = {
   savedNews: [],
   favourites: [],
@@ -38,36 +37,34 @@ const initialState: NewsDBState = {
   hasError: null,
 };
 
-// const handlePending = (state) => {
-//   state.isLoading = true;
-// };
+const handlePending = (state: NewsDBState) => {
+  state.isLoading = true;
+  state.hasError = null;
+};
 
-// const handleFulfilled = (state: RootState) => {
-//   state.isLoading = false;
-//   state.hasError = null;
-// };
+const handleFulfilled = (state: NewsDBState) => {
+  state.isLoading = false;
+  state.hasError = null;
+};
 
-// const handleRejected = (state: RootState, action: FavouritesAction) => {
-//   state.isLoading = false;
-//   state.hasError = action.payload;
-// };
+const handleRejected = (state: NewsDBState, action: PayloadAction<unknown, string, any>) => {
+  state.isLoading = false;
+  state.hasError = action.payload ?? null;
+};
 
-// const getActions = (type: string) => {
-//   switch (type) {
-//     case 'pending':
-//       return [fetchFavourites.pending, addToFavourite.pending];
-//     case 'fulfilled':
-//       return [fetchFavourites.fulfilled, addToFavourite.fulfilled];
-//     case 'rejected':
-//       return [fetchFavourites.rejected, addToFavourite.rejected];
-//     default:
-//       return [];
-//   }
-// };
+const extraActions = [
+  fetchAllNews,
+  fetchFavourites,
+  fetchRead,
+  fetchArchivedNews,
+  deleteNews,
+  fetchHistoryLog,
+];
 
-export const removeFromFavourites = createAction<{ newsUrl: string }>(
-  'newsDB/removeFromFavourites',
-);
+const getActions = (type: 'pending' | 'fulfilled' | 'rejected') =>
+  extraActions.map((action) => action[type]);
+
+export const removeFromFavourites = createAction<string>('newsDB/removeFromFavourites');
 
 const newsDBSlice = createSlice({
   name: 'newsDB',
@@ -95,89 +92,34 @@ const newsDBSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(fetchAllNews.pending, (state) => {
-        state.isLoading = true;
-        state.hasError = null;
-      })
       .addCase(fetchAllNews.fulfilled, (state, action) => {
-        state.isLoading = false;
         state.savedNews = action.payload;
-        state.hasError = null;
-      })
-      .addCase(fetchAllNews.rejected, (state, action) => {
-        state.isLoading = false;
-        state.hasError = action.error;
-      })
-      .addCase(fetchFavourites.pending, (state) => {
-        state.isLoading = true;
-        state.hasError = null;
       })
       .addCase(fetchFavourites.fulfilled, (state, action) => {
-        state.isLoading = false;
         state.favourites = action.payload;
-        state.hasError = null;
-      })
-      .addCase(fetchFavourites.rejected, (state, action) => {
-        state.isLoading = false;
-        state.hasError = action.error;
-      })
-      .addCase(fetchRead.pending, (state) => {
-        state.isLoading = true;
-        state.hasError = null;
       })
       .addCase(fetchRead.fulfilled, (state, action) => {
-        state.isLoading = false;
         state.reads = action.payload;
-        state.hasError = null;
-      })
-      .addCase(fetchRead.rejected, (state, action) => {
-        state.isLoading = false;
-        state.hasError = action.error;
-      })
-      .addCase(fetchArchivedNews.pending, (state) => {
-        state.isLoading = true;
-        state.hasError = null;
       })
       .addCase(fetchArchivedNews.fulfilled, (state, action) => {
-        state.isLoading = false;
         state.archivedNews = action.payload;
-        state.hasError = null;
-      })
-      .addCase(fetchArchivedNews.rejected, (state, action) => {
-        state.isLoading = false;
-        state.hasError = action.error;
-      })
-      .addCase(deleteNews.pending, (state) => {
-        state.isLoading = true;
-        state.hasError = null;
       })
       .addCase(deleteNews.fulfilled, (state, action) => {
-        state.isLoading = false;
         const { _id: id } = action.payload;
         state.archivedNews = state.archivedNews.filter((news) => news._id !== id);
-        state.hasError = null;
-      })
-      .addCase(deleteNews.rejected, (state, action) => {
-        state.isLoading = false;
-        state.hasError = action.error;
-      })
-      .addCase(fetchHistoryLog.pending, (state) => {
-        state.isLoading = true;
-        state.hasError = null;
       })
       .addCase(fetchHistoryLog.fulfilled, (state, action) => {
-        state.isLoading = false;
         state.historyLog = action.payload;
-        state.hasError = null;
-      })
-      .addCase(fetchHistoryLog.rejected, (state, action) => {
-        state.isLoading = false;
-        state.hasError = action.error;
       })
       .addCase(removeFromFavourites, (state, action) => {
-        const { newsUrl } = action.payload;
-        state.favourites = state.favourites.filter((fav) => fav.newsUrl !== newsUrl);
-      });
+        const newsUrl = action.payload;
+        if (newsUrl !== '') {
+          state.favourites = state.favourites.filter((fav) => fav.newsUrl !== newsUrl);
+        }
+      })
+      .addMatcher(isAnyOf(...getActions('pending')), handlePending)
+      .addMatcher(isAnyOf(...getActions('fulfilled')), handleFulfilled)
+      .addMatcher(isAnyOf(...getActions('rejected')), handleRejected);
   },
 });
 

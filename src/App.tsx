@@ -1,12 +1,12 @@
-import React, { lazy } from 'react';
+import React, { lazy, useEffect } from 'react';
 import { Route, Routes } from 'react-router-dom';
 
-import { AccountLayout, Layout } from './layouts';
 import { ProtectedRoute } from 'routes';
+import { AccountLayout, Layout } from 'layouts';
 
-import { useAuthCollector } from './hooks';
+import { useAuthCollector } from 'hooks';
 
-import { Loader } from './components';
+import { Loader } from 'components';
 
 const HomePage = lazy(() => import('./pages/HomePage/HomePage'));
 const FavouritePage = lazy(() => import('./pages/FavouritePage/FavouritePage'));
@@ -18,12 +18,12 @@ const ErrorPage = lazy(() => import('./pages/ErrorPage/ErrorPage'));
 const AboutUs = lazy(() => import('./pages/AboutUs/AboutUs'));
 
 function App() {
-  // const { isRefreshingUser, fetchCurrentAuthUser } = useAuthCollector();
-  const { isRefreshingUser } = useAuthCollector();
+  const { isRefreshingUser, fetchCurrentAuthUser } = useAuthCollector();
+  // const { isRefreshingUser } = useAuthCollector();
 
-  // useEffect(() => {
-  //   fetchCurrentAuthUser();
-  // }, [fetchCurrentAuthUser]);
+  useEffect(() => {
+    fetchCurrentAuthUser();
+  }, [fetchCurrentAuthUser]);
 
   return isRefreshingUser ? (
     <Loader variant='page' />

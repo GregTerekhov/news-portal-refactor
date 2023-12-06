@@ -18,12 +18,12 @@ interface ThemeSwitcherProps {
 
 const ThemeSwitcher: FC<ThemeSwitcherProps> = ({ variant }) => {
   const [enabled, setEnabled] = useState<boolean>(false);
-  const { unauthorisedChangeTheme, changeTheme, userTheme } = useAuthCollector();
+  const { isAuthenticated, unauthorisedChangeTheme, changeTheme, userTheme } = useAuthCollector();
   const { breakpointsForMarkup } = useWindowWidth() ?? {
     breakpointsForMarkup: null,
   };
 
-  const isAuthenticated = true;
+  // const isAuthenticated = true;
 
   const location = useLocation();
   const activeLinks = useActiveLinks(location);
@@ -76,7 +76,6 @@ const ThemeSwitcher: FC<ThemeSwitcherProps> = ({ variant }) => {
         unauthorisedChangeTheme({ updatedTheme: 'light' });
       } else {
         changeTheme({ updatedTheme: 'light' });
-        console.log('userTheme', userTheme);
       }
     }
   };

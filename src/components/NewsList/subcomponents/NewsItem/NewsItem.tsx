@@ -3,7 +3,7 @@ import { useLocation } from 'react-router-dom';
 
 import { VotedItem } from 'types';
 
-import { useActiveLinks } from 'hooks';
+import { useActiveLinks, useAuthCollector } from 'hooks';
 
 import { Hint, PrimaryButton, SvgIcon } from 'ui';
 
@@ -14,17 +14,13 @@ import { VoteButton } from './subcomponents';
 
 interface NewsItemProps {
   liveNews: Partial<VotedItem>;
-  // onChange: (() => void) | undefined;
 }
 
-const NewsItem: FC<Partial<NewsItemProps>> = ({
-  liveNews = {},
-  // onChange = () => {},
-}) => {
-  // const { isAuthenticated } = useAuthCollector();
+const NewsItem: FC<Partial<NewsItemProps>> = ({ liveNews = {} }) => {
+  const { isAuthenticated } = useAuthCollector();
   const myButtonRef = React.createRef<HTMLButtonElement>();
 
-  const isAuthenticated = true;
+  // const isAuthenticated = true;
   const location = useLocation();
   const activeLinks = useActiveLinks(location);
   const { isFavourite, hasRead, handleChangeFavourites, handleReadNews, handleDeleteNews } =
@@ -116,7 +112,7 @@ const NewsItem: FC<Partial<NewsItemProps>> = ({
             <div className='flex justify-between'>
               <p className='text-base md:text-medium text-greyAlt'>{liveNews?.publishDate}</p>
               <div className='flex pr-2 items-center gap-2 bg-accentAlt dark:bg-transparent duration-500 transition-all translate-x-full rounded-2xl group-hover:translate-x-0 group-hover:bg-accentAlt'>
-                <SvgIcon svgName='icon-arrow-direction-left' size={16} className='fill-whiteBase' />
+                <SvgIcon svgName='icon-double-arrow' size={16} className='fill-whiteBase' />
                 <p className='text-base md:text-medium text-whiteBase transition-colors duration-500'>
                   Click for read more...
                 </p>

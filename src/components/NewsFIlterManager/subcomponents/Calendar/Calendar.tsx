@@ -60,7 +60,6 @@ const Calendar: FC<CalendarProps> = ({ variant }) => {
   //         const filteredData = rebuildedNews
   //           ?.filter((news) => {
   //             if (news?.publishDate && selectedDate) {
-  //               console.log('filter');
   //               const newsDate = parse(news?.publishDate, 'dd/MM/yyyy', new Date());
   //               if (selectedDate.beginDate !== null && selectedDate.endDate !== null) {
   //                 return (
@@ -81,7 +80,7 @@ const Calendar: FC<CalendarProps> = ({ variant }) => {
   //     }
   //   }
   // };
-  // console.log('selectedRequestDate.beginDate', selectedRequestDate?.beginDate);
+
   return (
     <div ref={popUpRef} className={`relative ${activeLinks.isReadActive ? null : 'col-span-4'}`}>
       <p className='text-darkBase dark:text-greyAlt mb-2 text-base'>

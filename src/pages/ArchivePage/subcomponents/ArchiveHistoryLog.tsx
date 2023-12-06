@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FC, useState } from 'react';
 import { format } from 'date-fns';
 
 import { IHistoryLog } from 'types';
@@ -10,10 +10,17 @@ interface IHistoryLogProps {
 }
 
 const ArchiveHistoryLog: FC<IHistoryLogProps> = ({ logData }) => {
-  console.log('logData', logData);
+  const [searchValue, setSearchValue] = useState<string>('');
+
   const handleSearchNews = (event: React.ChangeEvent<HTMLInputElement>) => {
     console.log(event.target.value);
+    const query = event.target.value;
+    setSearchValue(query);
   };
+
+  const filteredLogData = searchValue
+    ? logData.filter((log) => log.title.toLowerCase().includes(searchValue.toLowerCase()))
+    : logData;
 
   return (
     <div className='flex flex-col mb-6'>
@@ -26,6 +33,7 @@ const ArchiveHistoryLog: FC<IHistoryLogProps> = ({ logData }) => {
                   inputData={{
                     name: 'Deleted news',
                     type: 'text',
+                    value: searchValue,
                     placeholder: 'Search for deleted news',
                   }}
                   hasIcon={true}
@@ -33,21 +41,6 @@ const ArchiveHistoryLog: FC<IHistoryLogProps> = ({ logData }) => {
                   onChange={(event: React.ChangeEvent<HTMLInputElement>) => handleSearchNews(event)}
                   variant='filterServiceBlock'
                 />
-                {/* <label className='sr-only'>Search</label>
-                <input
-                  type='text'
-                  name='hs-table-with-pagination-search'
-                  id='hs-table-with-pagination-search'
-                  className='py-2 px-3 ps-9 block w-full border-greyAlt shadow-sm rounded-lg text-sm focus:z-10 focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-darkBase dark:border-gray-700 dark:text-gray-400 dark:focus:ring-gray-600'
-                  placeholder='Search for news'
-                /> */}
-                {/* <div className='absolute inset-y-0 start-0 flex items-center pointer-events-none ps-3'>
-                  <SvgIcon
-                    svgName='icon-search'
-                    size={20}
-                    className='fill-accentBase dark:fill-whiteBase'
-                  />
-                </div> */}
               </div>
             </div>
             <div className='overflow-hidden'>
@@ -81,28 +74,31 @@ const ArchiveHistoryLog: FC<IHistoryLogProps> = ({ logData }) => {
                   </tr>
                 </thead>
                 <tbody className='divide-y divide-gray-200 dark:divide-gray-700'>
-                  {logData &&
-                    logData.map(({ title, newsUrl, category, additionDate, deletionDate }) => (
-                      <tr key={newsUrl}>
-                        <td className='px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-gray-200'>
-                          <a
-                            href={newsUrl}
-                            className=' hover:text-accentBase transition-colors duration-500'
-                          >
-                            {title}{' '}
-                          </a>
-                        </td>
-                        <td className='px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-gray-200'>
-                          {category}
-                        </td>
-                        <td className='px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200'>
-                          {format(additionDate, 'dd/MM/yyyy')}
-                        </td>
-                        <td className='px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200'>
-                          {format(deletionDate, 'dd/MM/yyyy')}
-                        </td>
-                      </tr>
-                    ))}
+                  {filteredLogData &&
+                    filteredLogData.map(
+                      ({ title, newsUrl, category, additionDate, deletionDate }) => (
+                        <tr key={newsUrl}>
+                          <td className='px-6 py-4 whitespace-nowrap text-sm font-medium text-darkBase dark:text-whiteBase'>
+                            <a
+                              href={newsUrl}
+                              target='_blank'
+                              className=' hover:text-accentBase transition-colors duration-500'
+                            >
+                              {title.length > 60 ? `${title.slice(0, 65)}...` : title}
+                            </a>
+                          </td>
+                          <td className='px-6 py-4 whitespace-nowrap text-sm font-medium text-darkBase dark:text-whiteBase'>
+                            {category}
+                          </td>
+                          <td className='px-6 py-4 whitespace-nowrap text-sm text-darkBase dark:text-whiteBase'>
+                            {format(additionDate, 'dd/MM/yyyy')}
+                          </td>
+                          <td className='px-6 py-4 whitespace-nowrap text-sm text-darkBase dark:text-whiteBase'>
+                            {format(deletionDate, 'dd/MM/yyyy')}
+                          </td>
+                        </tr>
+                      ),
+                    )}
                 </tbody>
               </table>
             </div>
@@ -115,8 +111,8 @@ const ArchiveHistoryLog: FC<IHistoryLogProps> = ({ logData }) => {
                   <span aria-hidden='true'>
                     <SvgIcon
                       svgName='icon-arrow-left'
-                      size={16}
-                      className='stroke-accentBase dark:stroke-whiteBase'
+                      size={20}
+                      className='fill-accentBase dark:fill-whiteBase'
                     />
                   </span>
                   <span className='sr-only'>Previous</span>
@@ -147,9 +143,9 @@ const ArchiveHistoryLog: FC<IHistoryLogProps> = ({ logData }) => {
                   <span className='sr-only'>Next</span>
                   <span aria-hidden='true'>
                     <SvgIcon
-                      svgName='icon-arrow-right'
-                      size={16}
-                      className='stroke-accentBase fill-transparent dark:stroke-whiteBase'
+                      svgName='icon-arrow-left'
+                      size={20}
+                      className='fill-accentBase dark:fill-whiteBase rotate-180'
                     />
                   </span>
                 </button>

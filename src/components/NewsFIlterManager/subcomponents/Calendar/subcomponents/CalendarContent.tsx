@@ -31,32 +31,24 @@ const CalendarContent: FC<CalendarContentProps> = ({ variant, handleDateFilter }
     <div className='w-[250px] bg-dropdownBase dark:bg-darkDropdown absolute z-40 rounded-[20px] pt-4 px-4 pb-5 shadow-card dark:shadow-darkCard'>
       <div className='flex items-center justify-between py-[7px] mb-0.5'>
         <div className='flex gap-2 items-center'>
-          <ArrowButton
-            ariaLabel='Previous year button'
-            onClick={getPrevYear}
-            iconClass='rotate-180'
-          >
+          <ArrowButton ariaLabel='Previous year button' onClick={getPrevYear}>
             Previous year button
           </ArrowButton>
           <p className='text-center text-medium font-medium leading-tight tracking-tightest text-fullDark dark:text-contrastWhite'>
             {format(firstDayOfMonth, 'yyyy')}
           </p>
-          <ArrowButton ariaLabel='Next year button' onClick={getNextYear}>
+          <ArrowButton ariaLabel='Next year button' onClick={getNextYear} iconClass='rotate-180'>
             Next year button
           </ArrowButton>
         </div>
         <div className='flex'>
-          <ArrowButton
-            ariaLabel='Previous month button'
-            onClick={getPrevMonth}
-            iconClass='rotate-180'
-          >
+          <ArrowButton ariaLabel='Previous month button' onClick={getPrevMonth}>
             Previous month button
           </ArrowButton>
           <p className='text-center text-medium font-medium leading-tight tracking-tightest text-fullDark dark:text-contrastWhite'>
             {format(firstDayOfMonth, 'MMMM')}
           </p>
-          <ArrowButton ariaLabel='Next month button' onClick={getNextMonth}>
+          <ArrowButton ariaLabel='Next month button' onClick={getNextMonth} iconClass='rotate-180'>
             Next month button
           </ArrowButton>
         </div>

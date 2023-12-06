@@ -3,7 +3,7 @@ import { useLocation } from 'react-router-dom';
 
 import {
   useActiveLinks,
-  // useAuthCollector,
+  useAuthCollector,
   useChooseRenderingNews,
   useFilterCollector,
   useNewsAPICollector,
@@ -19,8 +19,8 @@ const HomePage: FC = () => {
   const { isLoadingAPIData, headline, fetchPopular } = useNewsAPICollector();
   const { isLoadingDBData, getSavedNews } = useNewsDBCollector();
 
-  // const { isAuthenticated } = useAuthCollector();
-  const isAuthenticated = true;
+  const { isAuthenticated } = useAuthCollector();
+  // const isAuthenticated = true;
   const location = useLocation();
   const activeLinks = useActiveLinks(location);
 
@@ -40,7 +40,9 @@ const HomePage: FC = () => {
 
   return (
     <div>
-      {isLoadingAPIData || (isLoadingDBData && rebuildedNews && currentItems?.length === 0) ? (
+      {isLoadingAPIData ||
+      (isLoadingDBData && rebuildedNews && currentItems?.length === 0) ||
+      hasResults === 'loading' ? (
         <Loader variant='generalSection' />
       ) : (
         <>

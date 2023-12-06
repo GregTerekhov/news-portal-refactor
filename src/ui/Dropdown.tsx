@@ -30,7 +30,7 @@ const Dropdown: FC<DropdownProps> = ({ children, labels, getResults }) => {
           <p className='text-darkBase dark:text-greyAlt mb-2 text-base'>
             {children === 'Type' ? 'Filter' : 'Search'}{' '}
             {children === 'Time period' ? 'for popular' : ''} by{' '}
-            <span className='capitalize'>{children}</span>:
+            <span className='capitalize'>{children}</span>
           </p>
           <Menu.Button
             className={`flex items-center justify-center gap-2.5 w-full border border-solid border-accentBase dark:border-greyBase rounded-[20px] bg-whiteBase dark:bg-darkBackground py-2.5 text-accentBase dark:text-whiteBase text-small font-normal group-hover:underline transition-colors `}

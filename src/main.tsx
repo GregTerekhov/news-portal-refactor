@@ -28,7 +28,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
     <WindowWidthProvider>
       <PersistGate persistor={persistor}>
         <BrowserRouter>
-          <Suspense fallback={<Loader variant='page' />}>
+          <Suspense fallback={<p>Loading...</p>}>
             <GoogleOAuthProvider clientId={clientID}>
               <QueryClientProvider client={queryClient}>
                 <Tooltip.Provider delayDuration={500}>

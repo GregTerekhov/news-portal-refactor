@@ -1,8 +1,8 @@
-import { weatherSliceReducer } from './weather';
+import { authSliceReducer } from './auth';
+import { filtersSliceReducer } from './filterSlice';
 import { newsAPIReducer } from './newsAPI';
 import { newsDBReducer } from './newsDatabase';
-import { filtersSliceReducer } from './filterSlice';
-import { authSliceReducer } from './auth';
+import { weatherSliceReducer } from './weather';
 
 export const authReducer = authSliceReducer;
 export const filtersReducer = filtersSliceReducer;
