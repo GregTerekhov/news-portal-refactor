@@ -31,7 +31,7 @@ const persistConfig = {
 const authPersistConfig = {
   key: 'auth',
   storage,
-  whitelist: ['userTheme', 'accessToken', 'refreshToken'],
+  whitelist: ['userTheme', 'refreshToken'],
 };
 
 const NewsDBPersistConfig = {

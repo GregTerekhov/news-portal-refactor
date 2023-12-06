@@ -9,6 +9,11 @@ export interface ICurrentUser {
   };
 }
 
+export interface SetTokensPayload {
+  accessToken: string | null;
+  refreshToken: string | null;
+}
+
 interface SignUpCredentials {
   name: string;
   email: string;

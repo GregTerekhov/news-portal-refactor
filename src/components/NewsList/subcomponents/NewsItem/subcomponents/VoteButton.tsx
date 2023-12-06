@@ -38,7 +38,7 @@ const VoteButton: FC<VBProps> = ({ onHandleClick, isFavourite, buttonData }) => 
           : 'Add to favorite'
         : isFavourite
         ? 'Favourited'
-        : 'Unfavourited'}
+        : 'Not in favourites'}
       <SvgIcon svgName='icon-heart' size={16} className={`stroke-inherit fill-inherit`} />
     </button>
   );

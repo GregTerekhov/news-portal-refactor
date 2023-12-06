@@ -11,6 +11,7 @@ import {
   RecoveryPasswordRequestRequired,
   RecoveryPasswordChangeRequiredToSend,
   ITheme,
+  SetTokensPayload,
 } from 'types';
 
 const useAuthCollector = () => {
@@ -72,6 +73,10 @@ const useAuthCollector = () => {
     (updatedTheme: ITheme) => dispatch(auth.changeNotAuthTheme(updatedTheme)),
     [dispatch],
   );
+  const writeTokens = useCallback(
+    (tokens: SetTokensPayload) => dispatch(auth.setTokens(tokens)),
+    [dispatch],
+  );
 
   const changeTheme = useCallback(
     (updatedTheme: ITheme) => dispatch(auth.updateTheme(updatedTheme)),
@@ -98,6 +103,7 @@ const useAuthCollector = () => {
     enterWithApple,
     changeTheme,
     unauthorisedChangeTheme,
+    writeTokens,
   };
 };
 
