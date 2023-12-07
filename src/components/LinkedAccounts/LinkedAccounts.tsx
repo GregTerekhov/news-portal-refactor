@@ -71,9 +71,7 @@ const LinkedAccounts: FC = () => {
               activeLinks.isManageAccountPage ? 'flex items-center gap-3 lg:gap-6' : ''
             }`}
           >
-            <div
-              className={`${activeLinks.isManageAccountPage ? 'w-10' : isMobile ? 'w-10' : 'w-32'}`}
-            >
+            <div className={`${activeLinks.isManageAccountPage ? '' : isMobile ? 'w-10' : 'w-32'}`}>
               <PrimaryButton
                 variant={`${
                   activeLinks.isManageAccountPage ? 'Small' : isMobile ? 'Small' : 'OtherButton'

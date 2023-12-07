@@ -33,7 +33,7 @@ const FavouritePage: FC<{}> = () => {
       <>
         {shouldShowLoader && <Loader variant='generalSection' />}
         {shouldShowContent && <NewsList currentItems={rebuildedNews} />}
-        {shouldShowPlug && <PlugImage variant='page' />}
+        {!shouldShowLoader && shouldShowPlug && <PlugImage variant='page' />}
       </>
     )
   );

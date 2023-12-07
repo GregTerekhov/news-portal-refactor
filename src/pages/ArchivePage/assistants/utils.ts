@@ -4,7 +4,7 @@ import { enUS } from 'date-fns/locale';
 import { PartialVotedNewsArray } from 'types';
 
 // Функція для організації новин за місяцями
-const organiseNewsByMonth = (newsArray: PartialVotedNewsArray) => {
+export const organiseNewsByMonth = (newsArray: PartialVotedNewsArray) => {
   const organisedNews: Record<string, PartialVotedNewsArray> = {};
 
   if (newsArray && newsArray?.length > 0) {
@@ -13,7 +13,7 @@ const organiseNewsByMonth = (newsArray: PartialVotedNewsArray) => {
 
       if (additionDate) {
         // const parsedDate = parseISO(additionDate);
-        const key = format(additionDate, 'LLLL/yyyy', { locale: enUS });
+        const key = format(additionDate, 'LLLL yyyy', { locale: enUS });
 
         if (!organisedNews[key]) {
           organisedNews[key] = [];
@@ -26,5 +26,3 @@ const organiseNewsByMonth = (newsArray: PartialVotedNewsArray) => {
 
   return organisedNews;
 };
-
-export default organiseNewsByMonth;

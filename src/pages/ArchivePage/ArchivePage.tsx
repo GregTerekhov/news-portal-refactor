@@ -19,7 +19,6 @@ const ArchivePage: FC<{}> = () => {
   }, [getArchives, getHistoryLog]);
 
   // const isAuthenticated = true;
-  console.log('allArchive', allArchive);
   const organisedNews = organiseNewsByMonth(allArchive);
 
   const shouldShowLoader = isLoadingDBData;

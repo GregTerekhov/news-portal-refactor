@@ -1,7 +1,8 @@
 import React, { FC, ReactNode, createContext, useContext, useState } from 'react';
+import { format, isAfter, startOfToday } from 'date-fns';
 
 import { useFilterCollector, useNewsAPICollector, usePopUp } from 'hooks';
-import { format, isAfter, startOfToday } from 'date-fns';
+import { convertDateFormat } from 'helpers/dateTimeHelpers';
 
 export interface SelectedDate {
   beginDate: string | null;
@@ -51,30 +52,33 @@ export const SelectedDateProvider: FC<SelectedDateContextProps> = ({ children })
               endDate: format(beginDate, 'yyyyMMdd'),
             };
           }
+          setSelectedRequestDate(newSelectedDate);
 
-          await setSelectedRequestDate(newSelectedDate);
-          updateHeadline(
-            `News by Date: from ${newSelectedDate.beginDate} to ${newSelectedDate.endDate}`,
-          );
+          const firstDate =
+            newSelectedDate.beginDate && convertDateFormat(newSelectedDate.beginDate);
+          const lastDate = newSelectedDate.endDate && convertDateFormat(newSelectedDate.endDate);
 
-          if (Object.values(newSelectedDate) !== null) {
-            console.log(Object.values(newSelectedDate));
+          updateHeadline(`News by Date: from ${firstDate} to ${lastDate}`);
+
+          const newDateValues = Object.values(newSelectedDate);
+
+          if (newDateValues !== null) {
             if (filteredNews && filteredNews.length > 0) {
               resetPreviousRequest();
               await fetchByDate(newSelectedDate);
-              toggleCalendar();
               setBeginDate(null);
-            } else {
               toggleCalendar();
+            } else {
               await fetchByDate(newSelectedDate);
               setBeginDate(null);
+              toggleCalendar();
             }
           }
         } catch (error) {
           console.error('Помилка при зміні значень:', error);
         }
       }
-    }
+    } else return;
   };
   return (
     <SelectedDateContext.Provider

@@ -1,11 +1,9 @@
-import { useEffect, useState } from 'react';
-// import { format, isAfter, startOfToday } from 'date-fns';
+import { useState } from 'react';
 
 import { useSelectedDate } from 'contexts';
 
 import useFilterCollector from './useFilterCollector';
 import useNewsAPICollector from './useNewsAPICollector';
-// import usePopUp from './usePopUp';
 export interface SelectedDate {
   beginDate: string | null;
   endDate: string | null;
@@ -15,11 +13,6 @@ const useAdditionalRequest = () => {
   const [query, setQuery] = useState<string>('');
   const [period, setPeriod] = useState<string>('');
   const [category, setCategory] = useState<string>('');
-  // const [beginDate, setBeginDate] = useState<Date | null>(null);
-  // const [selectedRequestDate, setSelectedRequestDate] = useState<SelectedDate>({
-  //   beginDate: null,
-  //   endDate: null,
-  // });
 
   const {
     popularNews,
@@ -28,17 +21,13 @@ const useAdditionalRequest = () => {
     newsByDate,
     categoriesList,
     fetchByCategory,
-    // fetchByDate,
     fetchByKeyword,
     fetchPopular,
     resetPreviousRequest,
     updateHeadline,
   } = useNewsAPICollector();
-  // const { setIsOpenCalendar } = usePopUp();
   const { filteredNews } = useFilterCollector();
   const { selectedRequestDate, setSelectedRequestDate } = useSelectedDate();
-
-  // const today = startOfToday();
 
   const showPopular =
     (newsByKeyword && newsByKeyword?.length === 0) ||
@@ -55,10 +44,6 @@ const useAdditionalRequest = () => {
   };
 
   const categoriesForDropdown = getCategoriesList();
-
-  useEffect(() => {
-    console.log('selectedRequestDate', selectedRequestDate);
-  }, [selectedRequestDate]);
 
   const onChangeInput = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target;
@@ -127,60 +112,6 @@ const useAdditionalRequest = () => {
     }
   };
 
-  // const handleDateRequest = async (date: Date) => {
-  //   if (!isAfter(date, today)) {
-  //     if (!beginDate) {
-  //       setBeginDate(date);
-  //     } else {
-  //       try {
-  //         let newSelectedDate: { beginDate: string | null; endDate: string | null };
-  //         if (isAfter(date, beginDate)) {
-  //           newSelectedDate = {
-  //             beginDate: format(beginDate, 'yyyyMMdd'),
-  //             endDate: format(date, 'yyyyMMdd'),
-  //           };
-  //         } else {
-  //           newSelectedDate = {
-  //             beginDate: format(date, 'yyyyMMdd'),
-  //             endDate: format(beginDate, 'yyyyMMdd'),
-  //           };
-  //         }
-
-  //         await setSelectedRequestDate(newSelectedDate);
-  //         updateHeadline(
-  //           `News by Date: from ${newSelectedDate.beginDate} to ${newSelectedDate.endDate}`,
-  //         );
-
-  //         if (filteredNews && filteredNews.length > 0) {
-  //           resetPreviousRequest();
-  //           await fetchByDate(newSelectedDate);
-  //           setBeginDate(null);
-
-  //           if (
-  //             newSelectedDate.beginDate &&
-  //             newSelectedDate.beginDate !== null &&
-  //             newSelectedDate.endDate &&
-  //             newSelectedDate.endDate !== null
-  //           ) {
-  //             setIsOpenCalendar(false);
-  //           }
-  //         } else {
-  //           await fetchByDate(newSelectedDate);
-  //           setBeginDate(null);
-  //           if (
-  //             newSelectedDate.beginDate &&
-  //             newSelectedDate.beginDate !== null &&
-  //             newSelectedDate.endDate &&
-  //             newSelectedDate.endDate !== null
-  //           ) {
-  //             setIsOpenCalendar(false);
-  //           }
-  //         }
-  //       } catch (error) {}
-  //     }
-  //   }
-  // };
-
   const handleResetRequests = async () => {
     if (
       (popularNews && popularNews?.length > 0) ||
@@ -213,7 +144,6 @@ const useAdditionalRequest = () => {
     onHandleSearch,
     getNewsByCategory,
     getNewsByPeriod,
-    // handleDateRequest,
     handleResetRequests,
   };
 };

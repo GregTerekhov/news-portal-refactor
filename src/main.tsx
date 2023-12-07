@@ -15,7 +15,7 @@ import { CONFIG } from 'config';
 import { SelectedDateProvider, WindowWidthProvider } from 'contexts';
 
 import App from './App';
-// import { Loader } from 'components';
+import { Loader } from 'components';
 
 import './input.css';
 
@@ -28,7 +28,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
     <WindowWidthProvider>
       <PersistGate persistor={persistor}>
         <BrowserRouter>
-          <Suspense fallback={<p>Loading...</p>}>
+          <Suspense fallback={<Loader variant='page' />}>
             <GoogleOAuthProvider clientId={clientID}>
               <QueryClientProvider client={queryClient}>
                 <Tooltip.Provider delayDuration={500}>
