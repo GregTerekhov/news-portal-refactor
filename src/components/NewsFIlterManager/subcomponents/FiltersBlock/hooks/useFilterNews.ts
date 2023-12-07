@@ -71,11 +71,15 @@ const useFilterNews = ({ activeLinks, setIsOpenCalendar }: FilterHookProps) => {
       updateHeadline('Filtered News');
     }
 
+    const hasFilterValue = Object.values(filters).some((entry) => entry !== '');
+    console.log('rebuildedNews', rebuildedNews);
+    console.log('rebuildedNews.length', rebuildedNews.length);
+    console.log('hasFilterValue', hasFilterValue);
     if (
       rebuildedNews &&
       typeof rebuildedNews !== undefined &&
       rebuildedNews.length > 0 &&
-      filters
+      hasFilterValue
     ) {
       if (activeLinks.isHomeActive) {
         const filteredNews = applyCrossFilters(rebuildedNews, filters);
@@ -99,9 +103,6 @@ const useFilterNews = ({ activeLinks, setIsOpenCalendar }: FilterHookProps) => {
           getFilteredNews(filteredNews);
         }
       }
-    } else {
-      const defaultFilteredNews: PartialVotedNewsArray = [];
-      getFilteredNews(defaultFilteredNews);
     }
     setFilters({
       keyword: '',

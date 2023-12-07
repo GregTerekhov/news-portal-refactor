@@ -66,12 +66,14 @@ const FiltersBlock: FC<{}> = () => {
     },
   ];
 
+  const hasFilterValue = Object.values(filters).some((entry) => entry !== '');
+
   const controlButtons: IControlButtons[] = [
     {
       type: 'submit',
       id: 'Filters submit button',
       variant: 'Primary',
-      onHandleClick: handleFiltration,
+      onHandleClick: hasFilterValue ? handleFiltration : () => console.log('No content'), // Змінити - рендерити PlugImage
       ariaLabel: '',
       classNameButtons: '',
       hasIcon: false,

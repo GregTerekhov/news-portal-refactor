@@ -22,3 +22,15 @@ export function formatDateToShort(inputDate: string) {
 
   return formattedDate;
 }
+
+export function convertDateFormat(inputDate: string) {
+  // Витягаємо рік, місяць і день з рядка
+  // const year = inputDate.substring(0, 4);
+  const month = inputDate.substring(4, 6);
+  const day = inputDate.substring(6, 8);
+
+  // Об'єднуємо їх у новий формат "dd.MM"
+  const outputDate = `${day}.${month}`;
+
+  return outputDate;
+}
