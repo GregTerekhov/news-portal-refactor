@@ -1,13 +1,10 @@
 import React, { FC } from 'react';
 import { useLocation } from 'react-router-dom';
-
 import { VotedItem } from 'types';
 
 import { useActiveLinks, useAuthCollector } from 'hooks';
 
-import { Hint, PrimaryButton, SvgIcon } from 'ui';
-
-import PlugImage from '../../../PlugImage/PlugImage';
+import { Hint, PlugImage, PrimaryButton, SvgIcon } from 'ui';
 
 import { useNews } from './hooks';
 import { VoteButton } from './subcomponents';
@@ -90,11 +87,13 @@ const NewsItem: FC<Partial<NewsItemProps>> = ({ liveNews = {} }) => {
               <PlugImage variant='card' />
             )}
             {isAuthenticated && (
-              <VoteButton
-                onHandleClick={handleChangeFavourites}
-                isFavourite={isFavourite}
-                buttonData={{ id: `Add ${liveNews?.newsUrl} to favourites or remove from them` }}
-              />
+              <>
+                <VoteButton
+                  onHandleClick={handleChangeFavourites}
+                  isFavourite={isFavourite}
+                  buttonData={{ id: `Add ${liveNews?.newsUrl} to favourites or remove from them` }}
+                />
+              </>
             )}
           </div>
           <div className='px-4 mt-4'>

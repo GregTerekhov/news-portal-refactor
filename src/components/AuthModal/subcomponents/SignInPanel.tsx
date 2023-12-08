@@ -1,10 +1,9 @@
 import React, { FC } from 'react';
 
-import { PrimaryButton, UnverifiableInput, VerifiableInput } from 'ui';
+import { PrimaryButton, ThemeSwitcher, UnverifiableInput, VerifiableInput } from 'ui';
 import LinkedAccounts from '../../LinkedAccounts/LinkedAccounts';
-import ThemeSwitcher from '../../ThemeSwitcher/ThemeSwitcher';
 
-import { useAuth } from '../hooks';
+import { useForgotPassword, useSignIn } from '../hooks';
 
 interface SignInProps {
   handleShowRecoveryInput: () => void;
@@ -13,24 +12,23 @@ interface SignInProps {
 
 const SignInPanel: FC<SignInProps> = ({ handleShowRecoveryInput, isShowRecoveryInput }) => {
   const {
-    handleSignInSubmit,
+    handleSubmit,
+    registration,
+    handleCheckboxChange,
     signInSubmitHandler,
     signInInputs,
-    registerSignIn,
+    isChecked,
+  } = useSignIn();
+  const {
     recoveryPasswordErrors,
     registerRecovery,
     handleRecoveryPasswordSubmit,
     recoveryPasswordSubmitHandler,
-    isChecked,
-    handleCheckboxChange,
-  } = useAuth();
+  } = useForgotPassword();
 
   return (
     <>
-      <form
-        className='space-y-4 md:space-y-6 mb-6'
-        onSubmit={handleSignInSubmit(signInSubmitHandler)}
-      >
+      <form className='space-y-4 md:space-y-6 mb-6' onSubmit={handleSubmit(signInSubmitHandler)}>
         <ul className='flex flex-col gap-y-3.5'>
           {Array.isArray(signInInputs) &&
             signInInputs.map(
@@ -39,7 +37,7 @@ const SignInPanel: FC<SignInProps> = ({ handleShowRecoveryInput, isShowRecoveryI
                   <VerifiableInput
                     inputData={{ type, placeholder, children, fieldValue }}
                     errors={errors}
-                    register={registerSignIn}
+                    register={registration}
                     label={label}
                     hasIcon={false}
                     variant='auth'

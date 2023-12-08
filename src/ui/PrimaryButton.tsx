@@ -33,6 +33,7 @@ interface PBProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   classNameButton?: string | undefined;
   id?: string | undefined;
   ariaLabel?: string | undefined;
+  disabled?: boolean;
 }
 
 const PrimaryButton = forwardRef<
@@ -46,11 +47,12 @@ const PrimaryButton = forwardRef<
   const hasIcon = props.hasIcon;
   const svgName = props.svgName;
   const svgSize = props.svgSize;
-  const width = props.width;
+  const width = props.width ?? 'w-10';
   const classNameIcon = props.classNameIcon;
   const classNameButton = props.classNameButton;
   const id = props.id;
   const ariaLabel = props.ariaLabel;
+  const disabled = props.disabled;
 
   let buttonStyles: string = '';
 
@@ -60,7 +62,7 @@ const PrimaryButton = forwardRef<
   } else if (variant === VariantButton.Other) {
     buttonStyles = `${width} max-lg:py-2.5 lg:py-2 border border-solid border-transparent dark:border-whiteBase rounded-[20px] bg-accentBase hover:bg-accentAlt transition-colors duration-500`;
   } else if (variant === VariantButton.Small) {
-    buttonStyles = 'w-10 rounded-[10px] border border-solid';
+    buttonStyles = `${width} rounded-[10px] border border-solid`;
   }
   return (
     <button
@@ -72,6 +74,7 @@ const PrimaryButton = forwardRef<
       type={type}
       onClick={onHandleClick}
       ref={ref}
+      disabled={disabled}
     >
       {children}
       {hasIcon && <SvgIcon svgName={svgName} size={svgSize} className={classNameIcon} />}

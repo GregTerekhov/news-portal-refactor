@@ -13,8 +13,8 @@ import {
   useWindowWidth,
 } from 'hooks';
 
-import { ThemeSwitcher, AuthModal, AccountMenu } from 'components';
-import { Modal, SvgIcon, UnverifiableInput } from 'ui';
+import { AuthModal, AccountMenu } from 'components';
+import { Modal, SvgIcon, ThemeSwitcher, UnverifiableInput } from 'ui';
 
 import { AuthButton, Menu } from './subcomponents';
 

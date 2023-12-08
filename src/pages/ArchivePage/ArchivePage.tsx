@@ -2,8 +2,8 @@ import React, { FC, useEffect } from 'react';
 
 import { useAuthCollector, useNewsDBCollector } from 'hooks';
 
-import { Loader, NewsList, PlugImage } from 'components';
-import { Accordeon } from 'ui';
+import { NewsList } from 'components';
+import { Accordeon, Loader, PlugImage } from 'ui';
 
 import { organiseNewsByMonth } from './assistants';
 import { ArchiveHistoryLog } from './subcomponents';

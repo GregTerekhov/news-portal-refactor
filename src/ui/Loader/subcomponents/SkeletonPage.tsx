@@ -4,7 +4,6 @@ import { useWindowWidth } from 'hooks';
 
 import SkeletonSection from './SkeletonSection';
 import {
-  commonPageClass,
   commonPageItemClass,
   pageClass,
   headerContainerPageClass,
@@ -23,20 +22,16 @@ const SkeletonPage: FC = () => {
 
   const menuItems: ReactNode[] = Array(4)
     .fill(null)
-    .map((_, index) => (
-      <div key={index} className={`${commonPageClass} ${commonPageItemClass}`}></div>
-    ));
+    .map((_, index) => <div key={index} className={`${commonPageItemClass}`}></div>);
 
   const headerRightBlockItems: ReactNode[] = Array(2)
     .fill(null)
-    .map((_, index) => (
-      <div key={index} className={`${commonPageClass} ${commonPageItemClass}`}></div>
-    ));
+    .map((_, index) => <div key={index} className={`${commonPageItemClass}`}></div>);
 
   return (
-    <div className={`${commonPageClass} ${pageClass}`}>
+    <div className={`${pageClass}`}>
       <div className={`${headerContainerPageClass}`}>
-        <div className={`${commonPageClass} ${logoPageClass}`}></div>
+        <div className={`${logoPageClass}`}></div>
         {!mobileSkeleton && <div className={`${menuWrapperClass}`}>{menuItems}</div>}
         <div className='space-y-2'>{headerRightBlockItems}</div>
       </div>
