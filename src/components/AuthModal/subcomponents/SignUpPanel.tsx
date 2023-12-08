@@ -1,15 +1,14 @@
 import React, { FC } from 'react';
 
-import { PrimaryButton, VerifiableInput } from 'ui';
-import ThemeSwitcher from '../../ThemeSwitcher/ThemeSwitcher';
+import { PrimaryButton, ThemeSwitcher, VerifiableInput } from 'ui';
 
-import { useAuth } from '../hooks';
+import { useSignUp } from '../hooks';
 
 const SignUpPanel: FC<{}> = () => {
-  const { handleSignUpSubmit, signUpSubmitHandler, signUpInputs, registerSignUp } = useAuth();
+  const { handleSubmit, registration, signUpSubmitHandler, signUpInputs } = useSignUp();
 
   return (
-    <form onSubmit={handleSignUpSubmit(signUpSubmitHandler)}>
+    <form onSubmit={handleSubmit(signUpSubmitHandler)}>
       <ul className='flex flex-col gap-4 md:gap-5 mb-6 hg:mb-10'>
         {Array.isArray(signUpInputs) &&
           signUpInputs.map(({ type, placeholder, children, errors, label, ariaInvalid }) => (
@@ -17,7 +16,7 @@ const SignUpPanel: FC<{}> = () => {
               <VerifiableInput
                 inputData={{ type, placeholder, children }}
                 errors={errors}
-                register={registerSignUp}
+                register={registration}
                 label={label}
                 hasIcon={false}
                 variant='auth'

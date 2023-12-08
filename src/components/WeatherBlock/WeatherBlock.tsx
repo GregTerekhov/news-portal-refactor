@@ -2,8 +2,7 @@ import React, { FC } from 'react';
 
 import { useWindowWidth } from 'hooks';
 
-import { Loader } from 'components';
-import { SvgIcon } from 'ui';
+import { Loader, SvgIcon } from 'ui';
 
 import { useWeather, useWeatherCollector } from './hooks';
 import { NoWeather, WeatherDetailsForHours, WeatherDetailsForToday } from './subcomponents';

@@ -3,8 +3,9 @@ import { createPortal } from 'react-dom';
 import FocusLock, { AutoFocusInside } from 'react-focus-lock';
 import { RemoveScroll } from 'react-remove-scroll';
 
+import { usePopUp } from 'hooks';
+
 import SvgIcon from './SvgIcon';
-import usePopUp from 'hooks/usePopUp';
 
 const modalRoot = document.querySelector('#modalRoot');
 
@@ -68,10 +69,10 @@ const Modal: FC<ModalProps> = ({ children, closeModal, modalRef, variant }) => {
         <RemoveScroll>
           {modalRoot &&
             createPortal(
-              <div className='fixed top-0 left-0 z-[60] bg-whiteBase/[.4] dark:bg-darkBackground/[.4] w-screen h-screen flex justify-center items-center transition-colors duration-500 backdrop-blur-sm'>
+              <div className='fixed top-0 left-0 z-[60] bg-whiteBase/[.4] dark:bg-darkBackground/[.4] w-screen h-screen flex justify-center items-center transition-colors duration-500 backdrop-blur-sm overflow-auto'>
                 <div
                   ref={modalRef}
-                  className={`relative bg-whiteBase dark:bg-darkBackground ${modalWidth} py-4 px-6 border border-solid border-accentBase dark:border-whiteBase rounded-xl shadow-modal dark:shadow-darkCard md:px-8 md:pb-8 transition-colors duration-500`}
+                  className={`absolute top-6 left-1/2 transform -translate-x-1/2 bg-whiteBase dark:bg-darkBackground ${modalWidth} py-4 px-6 border border-solid border-accentBase dark:border-whiteBase rounded-xl shadow-modal dark:shadow-darkCard md:px-8 md:pb-8 transition-colors duration-500`}
                 >
                   <AutoFocusInside>
                     <button

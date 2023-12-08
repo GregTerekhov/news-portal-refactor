@@ -4,67 +4,41 @@ import { useAuthCollector, useWindowWidth } from 'hooks';
 
 import { SvgIcon } from 'ui';
 
+import { renderInfoItems, renderAccountIcons } from './assistants';
+
 const AccountPage: FC<{}> = () => {
   const { breakpointsForMarkup } = useWindowWidth() ?? {
     breakpointsForMarkup: null,
   };
   const { user } = useAuthCollector();
 
+  const userInfoList = renderInfoItems(user);
+  const accountIcons = renderAccountIcons();
+  const isMobile = breakpointsForMarkup?.isNothing || breakpointsForMarkup?.isMobile;
+  const commonHeadlineClass = 'text-darkBase dark:text-whiteBase text-end';
+
   return (
     <div>
-      <h2 className='text-darkBase dark:text-whiteBase text-3xl leading-tighter text-end mb-14'>
-        Your account
-      </h2>
-      <div className='flex items-center justify-end'>
-        <ul className='space-y-6 md:space-y-10 w-52 md:w-80 lg:w-[600px]'>
-          <li>
-            <h3 className='text-darkBase dark:text-whiteBase mb-2 text-end md:text-2xl'>
-              Account ID:
-            </h3>
-            <p className='text-accentBase dark:text-greyAlt text-end md:text-medium'>{user.id}</p>
-          </li>
-          <li>
-            <h3 className='text-darkBase dark:text-whiteBase mb-2 text-end md:text-2xl'>
-              Your name:
-            </h3>
-            <p className='text-accentBase dark:text-greyAlt text-end md:text-medium'>{user.name}</p>
-          </li>
-          <li>
-            <h3 className='text-darkBase dark:text-whiteBase mb-2 text-end md:text-2xl'>
-              Your email:
-            </h3>
-            <p className='text-accentBase dark:text-greyAlt text-end md:text-medium'>
-              {user.email}
-            </p>
-          </li>
-          <li>
-            <h3 className='text-darkBase dark:text-whiteBase mb-4 md:text-2xl text-end'>
-              Connected accounts
-            </h3>
-            <div className='flex items-center justify-end gap-x-4 md:gap-x-6'>
-              <div className='border border-solid rounded-[10px] bg-accentBase dark:border-whiteBase p-2'>
-                <SvgIcon
-                  svgName='icon-google'
-                  size={breakpointsForMarkup?.isNothing || breakpointsForMarkup?.isMobile ? 20 : 24}
-                  className='fill-whiteBase'
-                />
-              </div>
-              <div className='border border-solid rounded-[10px] bg-accentBase dark:border-whiteBase p-2'>
-                <SvgIcon
-                  svgName='icon-facebook'
-                  size={breakpointsForMarkup?.isNothing || breakpointsForMarkup?.isMobile ? 20 : 24}
-                  className='fill-whiteBase'
-                />
-              </div>
-              <div className='border border-solid rounded-[10px] bg-accentBase dark:border-whiteBase p-2'>
-                <SvgIcon
-                  svgName='icon-apple'
-                  size={breakpointsForMarkup?.isNothing || breakpointsForMarkup?.isMobile ? 20 : 24}
-                  className='fill-whiteBase'
-                />
-              </div>
-            </div>
-          </li>
+      <h2 className={`${commonHeadlineClass} text-3xl leading-tighter mb-14`}>Your account</h2>
+      <div className='flex flex-col items-end'>
+        <ul className='space-y-6 md:space-y-10 w-52 md:w-80 lg:w-[600px] mb-6'>
+          {userInfoList.map(({ label, value }) => (
+            <li key={label}>
+              <h3 className={`${commonHeadlineClass} mb-2 md:text-2xl`}>{label}</h3>
+              <p className='text-accentBase dark:text-greyAlt text-end md:text-medium'>{value}</p>
+            </li>
+          ))}
+        </ul>
+        <h3 className={`${commonHeadlineClass} mb-4 md:text-2xl`}>Connected accounts</h3>
+        <ul className='flex items-center justify-end gap-x-4 md:gap-x-6'>
+          {accountIcons.map(({ iconName }) => (
+            <li
+              key={iconName}
+              className='border border-solid rounded-[10px] bg-accentBase dark:border-whiteBase p-2'
+            >
+              <SvgIcon svgName={iconName} size={isMobile ? 20 : 24} className='fill-whiteBase' />
+            </li>
+          ))}
         </ul>
       </div>
     </div>

@@ -9,9 +9,11 @@ import {
   useWindowWidth,
 } from 'hooks';
 
-import { Hero, NewsFilterManager, PageScrollController, ThemeSwitcher } from 'components';
+import { NewsFilterManager, PageScrollController } from 'components';
+import { ThemeSwitcher } from 'ui';
 
 import Header from './Header/Header';
+import Hero from './Hero/Hero';
 import Footer from './Footer/Footer';
 
 const Layout: FC = () => {

@@ -1,29 +1,26 @@
 const commonTransitionClass = 'transition-colors duration-500';
+const commonContainerClass = 'container w-full flex justify-between px-4 hg:px-[65px]';
+const commonBgContentClass = 'bg-greyAlt/[.4] dark:bg-whiteBase/[.1]';
 
 // variant === 'page'
-export const commonPageClass = `${commonTransitionClass} bg-greyAlt/[.4]`;
-export const commonPageItemClass = 'w-14 h-4 md:h-6 dark:bg-whiteBase/[.1] rounded-3xl';
+export const commonPageItemClass = `${commonTransitionClass} ${commonBgContentClass} w-14 h-4 md:h-6 rounded-3xl`;
 
-export const pageClass =
-  'w-screen h-full flex flex-col justify-between items-center animate-pulse dark:bg-darkBackground/[.1]';
+export const pageClass = `${commonTransitionClass} w-screen max-h-sectionSmall md:max-h-sectionMedium lg:max-h-sectionLarge h-screen flex flex-col justify-between items-center animate-pulse bg-greyAlt/[.4] dark:bg-darkBackground/[.1]`;
 
-export const headerContainerPageClass =
-  'container w-full h-[81px] md:h-[106px] lg:h-[113px] -mt-[81px] md:-mt-[106px] lg:-mt-[113px] flex items-center justify-between px-4 hg:px-[65px]';
+export const headerContainerPageClass = `${commonContainerClass} h-[81px] md:h-[106px] lg:h-[113px] -mt-[81px] md:-mt-[106px] lg:-mt-[113px] items-center`;
 
-export const logoPageClass =
-  'w-16 h-8 md:w-20 md:h-11 lg:w-28 lg:h-14 dark:bg-whiteBase/[.1] rounded-3xl';
+export const logoPageClass = `${commonTransitionClass} ${commonBgContentClass} w-16 h-8 md:w-20 md:h-11 lg:w-28 lg:h-14 rounded-3xl`;
 
 export const menuWrapperClass = 'flex items-center justify-between gap-6';
 
-export const mainContentPageClass =
-  'w-full container px-4 hg:px-[65px] flex justify-between pt-4 md:pt-6';
+export const mainContentPageClass = `${commonContainerClass} pt-4 md:pt-6`;
 
 //variant === 'generalSection'
 const sectionGeometryTextClass = 'px-4 mb-5';
 
 export const sectionItemWrapperClass = `${commonTransitionClass} w-72 md:w-[353px] lg:w-[395px] hg:w-[442px] h-[630px] md:h-[675px] bg-contrastWhite/[.8] dark:bg-darkBase/[.4] overflow-hidden rounded-[10px] animate-pulse`;
 
-export const sectionLineClasses = `${commonTransitionClass} rounded-3xl bg-greyAlt/[.4] dark:bg-whiteBase/[.1]`;
+export const sectionLineClasses = `${commonTransitionClass} rounded-3xl ${commonBgContentClass}`;
 export const sectionAbsoluteLineClasses = `${commonTransitionClass} absolute z-20 bg-greyBase/[.4] dark:bg-darkBackground/[.8]`;
 
 const sectionLines = [
@@ -56,7 +53,7 @@ export const sectionGroups = [
 ];
 
 //pagination
-const commonPaginationClasses = `${commonTransitionClass} h-10 bg-greyAlt/[.4] dark:bg-whiteBase/[.1]`;
+const commonPaginationClasses = `${commonTransitionClass} h-10 ${commonBgContentClass}`;
 
 export const paginationItemClass = `${commonPaginationClasses} w-10 rounded-full`;
 export const paginationButtonClass = `${commonPaginationClasses} w-14 md:w-28 rounded-[20px]`;
@@ -64,7 +61,7 @@ export const paginationButtonClass = `${commonPaginationClasses} w-14 md:w-28 ro
 export const paginationWrapperClass = 'flex items-center justify-center gap-2';
 
 //variant === 'element' (weather)
-const commonWeatherClasses = `${commonTransitionClass} bg-greyAlt/[.4] dark:bg-whiteBase/[.1]`;
+const commonWeatherClasses = `${commonTransitionClass} ${commonBgContentClass}`;
 const weatherRoundedFullClass = 'rounded-full';
 const weatherRounded20Class = 'rounded-[20px]';
 

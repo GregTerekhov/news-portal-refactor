@@ -10,7 +10,8 @@ import {
   useNewsDBCollector,
 } from 'hooks';
 
-import { Loader, NewsList, PlugImage } from 'components';
+import { NewsList } from 'components';
+import { Loader, PlugImage } from 'ui';
 
 import { Pagination } from './subcomponents';
 import { usePagination } from './hooks';

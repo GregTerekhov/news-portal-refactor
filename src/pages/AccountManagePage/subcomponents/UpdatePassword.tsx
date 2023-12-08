@@ -1,87 +1,12 @@
 import React, { FC } from 'react';
-import { useForm, SubmitHandler } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
-
-import { UpdatePasswordRequiredToValidate } from 'types';
-import { useAuthCollector } from 'hooks';
 
 import { Accordeon, PrimaryButton, VerifiableInput } from 'ui';
 
-import { updatePasswordSchema } from '../assistants';
+import { useUpdatePassword } from '../hooks';
 
-const UpdatePassword: FC<{}> = ({}) => {
-  const { updatePassword } = useAuthCollector();
-  const {
-    handleSubmit,
-    register,
-    watch,
-    reset,
-    getValues,
-    formState: { errors },
-  } = useForm<UpdatePasswordRequiredToValidate>({
-    resolver: yupResolver(updatePasswordSchema),
-    defaultValues: {
-      newPassword: '',
-      confirmPassword: '',
-      oldPassword: '',
-    },
-  });
-
-  const [newPassword, confirmPassword, oldPassword] = watch([
-    'newPassword',
-    'confirmPassword',
-    'oldPassword',
-  ]);
-
-  const handlePasswordSubmitHandler: SubmitHandler<UpdatePasswordRequiredToValidate> = async (
-    data,
-  ) => {
-    const { newPassword, oldPassword } = data;
-    const dataToSend = { newPassword, oldPassword };
-
-    await updatePassword(dataToSend);
-    reset({
-      ...getValues,
-      newPassword: '',
-      confirmPassword: '',
-      oldPassword: '',
-    });
-  };
-
-  const passwordInputs = [
-    {
-      placeholder: 'Enter new password',
-      fieldValue: newPassword,
-      errors: errors?.newPassword?.message,
-      label: 'newPassword',
-      ariaInvalid: errors?.newPassword ? true : false,
-    },
-    {
-      placeholder: 'Confirm new password',
-      fieldValue: confirmPassword,
-      errors: errors?.confirmPassword?.message,
-      label: 'confirmPassword',
-      ariaInvalid: errors?.confirmPassword ? true : false,
-    },
-  ];
-
-  const showCurrentPasswordInput =
-    newPassword &&
-    confirmPassword &&
-    !errors?.newPassword?.message &&
-    !errors?.confirmPassword?.message &&
-    newPassword.length !== 0 &&
-    confirmPassword.length !== 0;
-
-  if (showCurrentPasswordInput) {
-    passwordInputs.push({
-      placeholder: 'Enter your current password',
-      fieldValue: oldPassword,
-      errors: errors?.oldPassword?.message,
-      label: 'oldPassword',
-      ariaInvalid: errors && errors?.oldPassword ? true : false,
-    });
-  }
+const UpdatePassword: FC<{}> = () => {
+  const { handleSubmit, register, handlePasswordSubmitHandler, passwordInputs } =
+    useUpdatePassword();
 
   return (
     <Accordeon position='accountManagePage' filtersBlock='Change your password'>
@@ -96,8 +21,8 @@ const UpdatePassword: FC<{}> = ({}) => {
                 <VerifiableInput
                   inputData={{
                     type: 'password',
-                    placeholder: placeholder,
-                    fieldValue: fieldValue,
+                    placeholder,
+                    fieldValue,
                   }}
                   errors={errors}
                   register={register}
@@ -130,57 +55,3 @@ const UpdatePassword: FC<{}> = ({}) => {
 };
 
 export default UpdatePassword;
-
-{
-  /* <VerifiableInput
-          inputData={{
-            type: 'password',
-            placeholder: 'Enter new password',
-            fieldValue: newPassword,
-          }}
-          errors={errors?.newPassword?.message}
-          register={register}
-          label='newPassword'
-          svgName='icon-password'
-          className='block'
-          hasIcon={true}
-          variant='accountPage'
-          ariaInvalid={errors?.newPassword ? 'true' : 'false'}
-        />
-        <VerifiableInput
-          inputData={{
-            type: 'password',
-            placeholder: 'Confirm new password',
-            fieldValue: confirmPassword,
-          }}
-          errors={errors?.confirmPassword?.message}
-          register={register}
-          label='confirmPassword'
-          svgName='icon-password'
-          className='block'
-          hasIcon={true}
-          variant='accountPage'
-          ariaInvalid={errors?.confirmPassword ? 'true' : 'false'}
-        />
-        {newPassword &&
-        confirmPassword &&
-        !errors?.newPassword?.message &&
-        !errors?.confirmPassword?.message &&
-        newPassword.length !== 0 &&
-        confirmPassword.length !== 0 ? (
-          <VerifiableInput
-            inputData={{
-              type: 'password',
-              placeholder: 'Enter your current password',
-            }}
-            errors={errors?.oldPassword?.message}
-            register={register}
-            label='oldPassword'
-            svgName='icon-password'
-            className='fill-accentBase'
-            hasIcon={true}
-            variant='accountPage'
-            ariaInvalid={errors?.oldPassword ? 'true' : 'false'}
-          />
-        ) : null} */
-}

@@ -4,7 +4,7 @@ import { PartialVotedNewsArray, VotedItem } from 'types';
 
 import { useWeatherCollector } from 'hooks';
 
-import Loader from '../Loader/Loader';
+import { Loader } from 'ui';
 import WeatherBlock from '../WeatherBlock/WeatherBlock';
 
 import { NewsItem } from './subcomponents';

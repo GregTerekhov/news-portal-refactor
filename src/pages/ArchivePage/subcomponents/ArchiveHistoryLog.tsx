@@ -39,10 +39,10 @@ const ArchiveHistoryLog: FC<IHistoryLogProps> = ({ logData }) => {
   };
 
   return (
-    <div className='flex flex-col mb-6'>
+    <div className='flex flex-col mb-6 rounded-lg shadow-modal overflow-hidden'>
       <div className='-m-1.5 overflow-x-auto'>
         <div className='p-1.5 min-w-full inline-block align-middle'>
-          <div className='border rounded-lg divide-y divide-greyAlt dark:border-greyBase/[.4] dark:divide-greyBase/[.4] shadow-darkCard'>
+          <div className='border rounded-lg divide-y divide-greyAlt/[.4] dark:border-greyBase/[.4] dark:divide-greyBase/[.4]'>
             <div className='py-3 px-4'>
               <div className='relative max-w-xs'>
                 <UnverifiableInput
@@ -60,30 +60,30 @@ const ArchiveHistoryLog: FC<IHistoryLogProps> = ({ logData }) => {
               </div>
             </div>
             <div className='overflow-hidden'>
-              <table className='min-w-full divide-y divide-gray-200 dark:divide-greyBase/[.4]'>
-                <thead className='bg-greyAlt dark:bg-greyBase/[.4]'>
+              <table className='min-w-full divide-y divide-greyAlt/[.4] dark:divide-greyBase/[.4]'>
+                <thead className='bg-accentBase/[.2] dark:bg-greyBase/[.4]'>
                   <tr>
                     <th
                       scope='col'
-                      className='px-6 py-3 text-start text-xs md:text-small font-medium text-greyAlt uppercase'
+                      className='px-6 py-3 text-start text-xs md:text-small font-medium text-greyBase dark:text-whiteBase uppercase'
                     >
                       Title
                     </th>
                     <th
                       scope='col'
-                      className='px-6 py-3 text-start text-xs md:text-small font-medium text-greyAlt uppercase'
+                      className='px-6 py-3 text-start text-xs md:text-small font-medium text-greyBase dark:text-whiteBase uppercase'
                     >
                       Category
                     </th>
                     <th
                       scope='col'
-                      className='px-6 py-3 text-start text-xs  md:text-small font-medium text-greyAlt uppercase'
+                      className='px-6 py-3 text-start text-xs  md:text-small font-medium text-greyBase dark:text-whiteBase uppercase'
                     >
                       Addition Date
                     </th>
                     <th
                       scope='col'
-                      className='px-6 py-3 text-start text-xs md:text-small font-medium text-greyAlt uppercase'
+                      className='px-6 py-3 text-start text-xs md:text-small font-medium text-greyBase dark:text-whiteBase uppercase'
                     >
                       Deletion Date
                     </th>
@@ -93,12 +93,12 @@ const ArchiveHistoryLog: FC<IHistoryLogProps> = ({ logData }) => {
                   {displayedRows &&
                     displayedRows.map(
                       ({ title, newsUrl, category, additionDate, deletionDate }) => (
-                        <tr key={newsUrl}>
+                        <tr key={newsUrl} className='even:bg-greyAlt/[.1] group'>
                           <td className='px-6 py-4 whitespace-nowrap text-sm font-medium text-darkBase dark:text-whiteBase'>
                             <a
                               href={newsUrl}
                               target='_blank'
-                              className=' hover:text-accentBase transition-colors duration-500'
+                              className=' group-hover:text-accentBase transition-colors duration-500'
                             >
                               {title.length > 60 ? `${title.slice(0, 65)}...` : title}
                             </a>
@@ -123,7 +123,7 @@ const ArchiveHistoryLog: FC<IHistoryLogProps> = ({ logData }) => {
                 <button
                   type='button'
                   onClick={() => handlePageChange(currentPage - 1)}
-                  className='p-2.5 inline-flex items-center gap-x-2 text-sm rounded-full text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none dark:text-white dark:hover:bg-white/10 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600'
+                  className='p-2.5 inline-flex items-center gap-x-2 rounded-full hover:bg-greyAlt/[.2] disabled:opacity-50 disabled:pointer-events-none dark:text-white dark:hover:bg-whiteBase/[.2] dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600'
                 >
                   <span aria-hidden='true'>
                     <SvgIcon
@@ -139,7 +139,7 @@ const ArchiveHistoryLog: FC<IHistoryLogProps> = ({ logData }) => {
                     key={index}
                     type='button'
                     aria-current='page'
-                    className='min-w-[40px] flex justify-center items-center text-gray-800 hover:bg-gray-100 py-2.5 text-sm rounded-full disabled:opacity-50 disabled:pointer-events-none dark:text-white dark:hover:bg-white/10'
+                    className='min-w-[40px] flex justify-center items-center text-gray-800 hover:bg-greyAlt/[.2] py-2.5 text-sm rounded-full dark:text-white dark:hover:bg-whiteBase/[.2]'
                     onClick={() => handlePageChange(index + 1)}
                     // Додайте клас "current" для поточної сторінки
                   >
@@ -149,7 +149,7 @@ const ArchiveHistoryLog: FC<IHistoryLogProps> = ({ logData }) => {
                 <button
                   type='button'
                   onClick={() => handlePageChange(currentPage + 1)}
-                  className='p-2.5 inline-flex items-center gap-x-2 text-sm rounded-full text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none dark:text-white dark:hover:bg-white/10 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600'
+                  className='p-2.5 inline-flex items-center gap-x-2 text-sm rounded-full text-gray-800 hover:bg-greyAlt/[.2] disabled:opacity-50 disabled:pointer-events-none  dark:hover:bg-whiteBase/[.2] dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600'
                 >
                   <span className='sr-only'>Next</span>
                   <span aria-hidden='true'>

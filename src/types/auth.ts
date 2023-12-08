@@ -31,7 +31,7 @@ export interface IUpdateEmail {
   currentPassword: string;
 }
 
-interface IUpdatePassword {
+export interface IUpdatePassword {
   newPassword: string;
   confirmPassword: string;
   oldPassword: string;

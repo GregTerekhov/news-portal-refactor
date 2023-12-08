@@ -1,8 +1,8 @@
 import React, { FC } from 'react';
 
+import { plugImages } from 'constants/images';
 import { generateContentImages } from 'helpers';
 import { useCacheImage } from 'hooks';
-import { plugImages } from 'constants/images';
 
 const enum VariantImage {
   Page = 'page',

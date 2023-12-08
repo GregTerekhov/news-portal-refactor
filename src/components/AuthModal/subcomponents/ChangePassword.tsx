@@ -1,9 +1,8 @@
 import React, { FC } from 'react';
 
-import { PrimaryButton, VerifiableInput } from 'ui';
-import ThemeSwitcher from '../../ThemeSwitcher/ThemeSwitcher';
+import { PrimaryButton, ThemeSwitcher, VerifiableInput } from 'ui';
 
-import { useAuth } from '../hooks';
+import { useForgotPassword } from '../hooks';
 
 const ChangePassword: FC = () => {
   const {
@@ -11,7 +10,7 @@ const ChangePassword: FC = () => {
     handleChangePasswordSubmit,
     changePasswordSubmitHandler,
     registerChangePassword,
-  } = useAuth();
+  } = useForgotPassword();
 
   return (
     <>

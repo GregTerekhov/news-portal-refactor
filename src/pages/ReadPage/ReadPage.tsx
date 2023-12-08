@@ -2,8 +2,8 @@ import React, { FC, useEffect } from 'react';
 
 import { useFilterCollector, useNewsDBCollector } from 'hooks';
 
-import { Loader, NewsList, PlugImage } from 'components';
-import { Accordeon } from 'ui';
+import { NewsList } from 'components';
+import { Accordeon, Loader, PlugImage } from 'ui';
 
 const ReadPage: FC<{}> = () => {
   const { allReads, isLoadingDBData, getReads } = useNewsDBCollector();
@@ -43,7 +43,7 @@ const ReadPage: FC<{}> = () => {
           ))}
         </div>
       )}
-      {shouldShowPlug && <PlugImage variant='page' />}
+      {!shouldShowLoader && shouldShowPlug && <PlugImage variant='page' />}
     </>
   );
 };

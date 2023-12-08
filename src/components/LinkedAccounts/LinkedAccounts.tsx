@@ -5,6 +5,7 @@ import { useGoogleLogin } from '@react-oauth/google';
 import { useActiveLinks, useWindowWidth } from 'hooks';
 
 import { PrimaryButton } from 'ui';
+import { useFacebookLogin } from './hooks';
 
 const LinkedAccounts: FC = () => {
   const { breakpointsForMarkup } = useWindowWidth() ?? {
@@ -12,8 +13,9 @@ const LinkedAccounts: FC = () => {
   };
   const location = useLocation();
   const activeLinks = useActiveLinks(location);
+  const { handleFacebookLogin, isLoading } = useFacebookLogin();
 
-  const login = useGoogleLogin({
+  const googleLogin = useGoogleLogin({
     onSuccess: (codeResponse) => console.log('codeResponse', codeResponse),
     // flow: 'auth-code',
   });
@@ -25,21 +27,18 @@ const LinkedAccounts: FC = () => {
     {
       svgName: 'icon-google',
       account: 'Google',
-      dataTooltipTarget: 'tooltip-Google',
       onClick: () => {
-        login();
+        googleLogin();
       },
     },
     {
       svgName: 'icon-facebook',
       account: 'Facebook',
-      dataTooltipTarget: 'tooltip-Facebook',
-      onClick: () => console.log('facebook'),
+      onClick: handleFacebookLogin,
     },
     {
       svgName: 'icon-apple',
       account: 'Apple',
-      dataTooltipTarget: 'tooltip-Apple',
       onClick: () => console.log('apple'),
     },
   ];
@@ -61,7 +60,7 @@ const LinkedAccounts: FC = () => {
         className={`${
           activeLinks.isManageAccountPage
             ? 'space-y-3 md:space-y-4'
-            : 'flex justify-around md:gap-8'
+            : 'flex justify-around gap-4 md:gap-8'
         }`}
       >
         {accountButtons.map(({ svgName, account, onClick }) => (
@@ -71,20 +70,24 @@ const LinkedAccounts: FC = () => {
               activeLinks.isManageAccountPage ? 'flex items-center gap-3 lg:gap-6' : ''
             }`}
           >
-            <div className={`${activeLinks.isManageAccountPage ? '' : isMobile ? 'w-10' : 'w-32'}`}>
+            <div
+              className={`${activeLinks.isManageAccountPage ? 'w-14' : isMobile ? 'w-14' : 'w-32'}`}
+            >
               <PrimaryButton
                 variant={`${
                   activeLinks.isManageAccountPage ? 'Small' : isMobile ? 'Small' : 'OtherButton'
                 }`}
                 hasIcon={true}
                 svgName={svgName}
-                width='w-full'
                 svgSize={isMobile ? 20 : 24}
                 ariaLabel={`${account} account binding`}
-                classNameButton='w-14 h-14 lg:w-12 lg:h-12 rounded-xl border border-solid border-whiteBase dark:border-greyBase bg-accentBase dark:bg-transparent flex items-center justify-center group hover:border-accentBase dark:hover:border-whiteBase hover:bg-whiteBase dark:hover:bg-accentBase transition-colors duration-500 ring-whiteBase dark:ring-darkBase ring-2'
+                classNameButton={` ${
+                  activeLinks.isManageAccountPage ? 'w-14 h-14 lg:w-12 lg:h-12' : 'md:w-full'
+                } rounded-xl border border-solid border-whiteBase dark:border-greyBase bg-accentBase dark:bg-transparent flex items-center justify-center group hover:border-accentBase hover:text-accentBase dark:hover:text-whiteBase dark:hover:border-whiteBase hover:bg-whiteBase dark:hover:bg-accentBase transition-colors duration-500 ring-whiteBase dark:ring-darkBase ring-2`}
                 classNameIcon='fill-whiteBase group-hover:fill-accentAlt dark:group-hover:fill-whiteBase'
                 children={!isMobile && !activeLinks.isManageAccountPage ? account : ''}
                 onHandleClick={onClick}
+                disabled={account === 'Facebook' && isLoading}
               />
             </div>
             {activeLinks.isManageAccountPage ? (

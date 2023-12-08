@@ -6,7 +6,7 @@ import { AccountLayout, Layout } from 'layouts';
 
 import { useAuthCollector } from 'hooks';
 
-import { Loader } from 'components';
+import { Loader } from 'ui';
 
 const HomePage = lazy(() => import('./pages/HomePage/HomePage'));
 const FavouritePage = lazy(() => import('./pages/FavouritePage/FavouritePage'));
@@ -18,12 +18,14 @@ const ErrorPage = lazy(() => import('./pages/ErrorPage/ErrorPage'));
 const AboutUs = lazy(() => import('./pages/AboutUs/AboutUs'));
 
 function App() {
-  const { isRefreshingUser, fetchCurrentAuthUser } = useAuthCollector();
+  const { isAuthenticated, isRefreshingUser, fetchCurrentAuthUser } = useAuthCollector();
   // const { isRefreshingUser } = useAuthCollector();
 
   useEffect(() => {
-    fetchCurrentAuthUser();
+    if (isAuthenticated) fetchCurrentAuthUser();
   }, [fetchCurrentAuthUser]);
+
+  // const isRefreshingUser = true;
 
   return isRefreshingUser ? (
     <Loader variant='page' />

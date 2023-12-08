@@ -9,9 +9,9 @@ import {
   useWindowWidth,
 } from 'hooks';
 
-import { ThemeSwitcher } from 'components';
 import PrimaryButton from './PrimaryButton';
 import SvgIcon from './SvgIcon';
+import ThemeSwitcher from './ThemeSwitcher';
 
 interface MenuItem {
   path: string;
