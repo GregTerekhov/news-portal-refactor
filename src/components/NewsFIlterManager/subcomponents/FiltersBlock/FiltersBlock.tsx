@@ -25,6 +25,7 @@ interface IControlButtons {
   svgSize: number;
   classNameIcon?: string | undefined;
   children?: string;
+  hasDisabled?: boolean | undefined;
 }
 
 const FiltersBlock: FC<{}> = () => {
@@ -36,6 +37,7 @@ const FiltersBlock: FC<{}> = () => {
 
   const {
     filters,
+    hasDisabled,
     handleChangeFilter,
     handleMaterialTypeChange,
     handleFiltration,
@@ -81,6 +83,7 @@ const FiltersBlock: FC<{}> = () => {
       svgSize: 0,
       classNameIcon: '',
       children: 'Apply',
+      hasDisabled: hasDisabled,
     },
     {
       type: 'button',
@@ -142,6 +145,7 @@ const FiltersBlock: FC<{}> = () => {
               svgSize,
               classNameIcon,
               children,
+              hasDisabled,
             },
             index,
           ) => (
@@ -157,6 +161,8 @@ const FiltersBlock: FC<{}> = () => {
                 svgName={svgName}
                 svgSize={svgSize}
                 classNameIcon={classNameIcon}
+                // disabled={hasDisabled}
+                hasDisabled={hasDisabled}
               >
                 {children}
               </PrimaryButton>

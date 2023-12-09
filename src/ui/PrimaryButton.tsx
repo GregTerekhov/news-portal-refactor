@@ -34,6 +34,7 @@ interface PBProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   id?: string | undefined;
   ariaLabel?: string | undefined;
   disabled?: boolean;
+  hasDisabled?: boolean | undefined;
 }
 
 const PrimaryButton = forwardRef<
@@ -52,7 +53,10 @@ const PrimaryButton = forwardRef<
   const classNameButton = props.classNameButton;
   const id = props.id;
   const ariaLabel = props.ariaLabel;
-  const disabled = props.disabled;
+  // const disabled = props.disabled;
+  const hasDis = props.hasDisabled;
+
+  console.log('hasDISButt', hasDis);
 
   let buttonStyles: string = '';
 
@@ -68,13 +72,13 @@ const PrimaryButton = forwardRef<
     <button
       id={id}
       aria-label={ariaLabel}
-      className={`flex items-center justify-center ${hasIcon ? 'gap-2.5' : ''} ${
+      className={`flex items-center cursor-pointer justify-center ${hasIcon ? 'gap-2.5' : ''} ${
         children ? 'text-base lg:text-medium text-contrastWhite' : ''
       } ${buttonStyles} ${classNameButton}`}
       type={type}
       onClick={onHandleClick}
       ref={ref}
-      disabled={disabled}
+      disabled={hasDis}
     >
       {children}
       {hasIcon && <SvgIcon svgName={svgName} size={svgSize} className={classNameIcon} />}

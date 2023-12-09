@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { format, isAfter, startOfToday } from 'date-fns';
 
 import { Filters, PartialVotedNewsArray } from 'types';
@@ -31,12 +31,27 @@ const useFilterNews = ({ activeLinks, setIsOpenCalendar }: FilterHookProps) => {
     materialType: '',
     selectedFilterDate: '',
   });
+  const [hasDisabled, setHasDisabled] = useState<boolean>(false);
+
   const { showResultsState, getFilteredNews, resetAllFilters } = useFilterCollector();
   const { updateHeadline } = useNewsAPICollector();
   const { allFavourites, allReads } = useNewsDBCollector();
   const { rebuildedNews } = useChooseRenderingNews({ activeLinks });
 
   const today = startOfToday();
+  const hasFilterValue = Object.values(filters).some((entry) => entry !== '');
+
+  console.log(filters.selectedFilterDate, 'hasFilVal', hasFilterValue, '|| hasDis', hasDisabled);
+
+  //useEffect следит за тем нужно ли отключать кнопку или нет.
+  useEffect(() => {
+    if (hasFilterValue) {
+      setHasDisabled(false);
+      return;
+    }
+
+    setHasDisabled(true);
+  }, [hasFilterValue]);
 
   const handleChangeFilter = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
@@ -63,6 +78,8 @@ const useFilterNews = ({ activeLinks, setIsOpenCalendar }: FilterHookProps) => {
     }
   };
 
+  // console.log(filters);
+
   const handleFiltration = async (event: React.FormEvent) => {
     event.preventDefault();
 
@@ -71,15 +88,12 @@ const useFilterNews = ({ activeLinks, setIsOpenCalendar }: FilterHookProps) => {
       updateHeadline('Filtered News');
     }
 
-    const hasFilterValue = Object.values(filters).some((entry) => entry !== '');
-    console.log('rebuildedNews', rebuildedNews);
-    console.log('rebuildedNews.length', rebuildedNews.length);
-    console.log('hasFilterValue', hasFilterValue);
     if (
       rebuildedNews &&
       typeof rebuildedNews !== undefined &&
-      rebuildedNews.length > 0 &&
-      hasFilterValue
+      rebuildedNews.length > 0
+      // &&
+      // hasFilterValue
     ) {
       if (activeLinks.isHomeActive) {
         const filteredNews = applyCrossFilters(rebuildedNews, filters);
@@ -163,6 +177,7 @@ const useFilterNews = ({ activeLinks, setIsOpenCalendar }: FilterHookProps) => {
 
   return {
     filters,
+    hasDisabled,
     handleChangeFilter,
     handleFilterDate,
     handleMaterialTypeChange,

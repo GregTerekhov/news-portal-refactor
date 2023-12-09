@@ -6,12 +6,16 @@ export function applyCrossFilters(newsArray: PartialVotedNewsArray | undefined, 
   if (newsArray && newsArray.length > 0) {
     return newsArray.filter((news) => {
       const keywordMatch = keyword
-        ? news?.title?.includes(keyword) || news?.description?.includes(keyword)
+        ? news?.title?.toLowerCase().includes(keyword.toLowerCase()) ||
+          news?.description?.toLowerCase().includes(keyword.toLowerCase())
         : false;
-
-      const matchesTitle = title ? news?.title?.includes(title) : false;
-      const matchesAuthor = author ? news?.author?.includes(author) : false;
-      const matchesPublisher = publisher ? news?.edition?.includes(publisher) : false;
+      const matchesTitle = title ? news?.title?.toLowerCase().includes(title.toLowerCase()) : false;
+      const matchesAuthor = author
+        ? news?.author?.toLowerCase().includes(author.toLowerCase())
+        : false;
+      const matchesPublisher = publisher
+        ? news?.edition?.toLowerCase().includes(publisher.toLowerCase())
+        : false;
       const matchMaterialType = materialType
         ? news?.materialType?.toLowerCase().includes(materialType.toLowerCase())
         : false;
