@@ -16,9 +16,14 @@ import { applyCrossFilters } from '../assistants';
 type FilterHookProps = {
   activeLinks: ActiveLinks;
   setIsOpenCalendar?: (value: React.SetStateAction<boolean>) => void;
+  setSelectedMaterialType?: ((item: string) => void) | undefined;
 };
 
-const useFilterNews = ({ activeLinks, setIsOpenCalendar }: FilterHookProps) => {
+const useFilterNews = ({
+  activeLinks,
+  setIsOpenCalendar,
+  setSelectedMaterialType,
+}: FilterHookProps) => {
   const [beginDate, setBeginDate] = useState<Date | null>(null);
 
   const [filters, setFilters] = useState<Filters>({
@@ -201,6 +206,7 @@ const useFilterNews = ({ activeLinks, setIsOpenCalendar }: FilterHookProps) => {
         endDate: '',
       },
     });
+    setSelectedMaterialType && setSelectedMaterialType('');
     resetAllFilters();
   };
 

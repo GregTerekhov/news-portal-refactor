@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
 
 import { useActiveLinks, useAuthCollector } from 'hooks';
@@ -9,6 +9,14 @@ const FooterMenu = () => {
   const { isAuthenticated } = useAuthCollector();
   const location = useLocation();
   const activeLinks = useActiveLinks(location);
+
+  useEffect(() => {
+    const handleScrollToTop = () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    };
+
+    handleScrollToTop();
+  }, [location]);
 
   const menuItems = renderMenuItem({ isAuthenticated, activeLinks });
 

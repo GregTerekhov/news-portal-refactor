@@ -140,6 +140,8 @@ const useAdditionalRequest = () => {
     selectedRequestDate,
     categoriesForDropdown,
     showPopular,
+    setPeriod,
+    setCategory,
     onChangeInput,
     onHandleSearch,
     getNewsByCategory,
