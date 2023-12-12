@@ -64,6 +64,15 @@ export interface IThirdPartyAuth {
   tokenAuth: string | null;
 }
 
+export type GoogleResponse = {
+  access_token: string;
+  authuser: string;
+  expires_in: number;
+  prompt: string;
+  scope: string;
+  token_type: string;
+};
+
 export type ITheme = {
   updatedTheme: string;
 };

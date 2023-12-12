@@ -58,7 +58,7 @@ export default {
         lineAlt: '#929292',
         fullDark: '#000000',
         contrastWhite: '#ffffff',
-        greyIcon: '#a2a2a2', // не використовується - залишити під колір disabled
+        disabledBase: '#a2a2a2', // не використовується - залишити під колір disabled
         weatherForeground: 'rgba(254, 254, 255, 0.30)', //fefeff 30%
         calendarTextLight: 'rgba(60, 60, 67, 0.3)', //'#3c3c343'
       },

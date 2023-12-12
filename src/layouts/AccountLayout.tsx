@@ -3,13 +3,15 @@ import { Outlet } from 'react-router-dom';
 
 import { useWindowWidth } from 'hooks';
 
-import { AccountMenu } from 'components';
 import { SvgIcon } from 'ui';
+
+import { AccountMenu } from './subcomponents';
 
 const AccountLayout: FC = () => {
   const { breakpointsForMarkup } = useWindowWidth() ?? {
     breakpointsForMarkup: null,
   };
+
   return (
     <>
       <div className='flex justify-between gap-2'>

@@ -25,13 +25,12 @@ const filterSlice = createSlice({
   initialState,
   reducers: {
     filterNews: (state, action: PayloadAction<PartialVotedNewsArray>) => {
-      state.filters.length = 0;
+      // state.filters.length = 0;
       state.filters.push(...action.payload);
       if (action.payload.length > 0) {
         state.hasResults = 'full';
         state.hasError = null;
-      }
-      if (action.payload.length === 0) {
+      } else {
         state.hasResults = 'empty';
       }
     },

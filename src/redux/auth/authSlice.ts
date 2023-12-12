@@ -200,7 +200,6 @@ const authSlice = createSlice({
         state.hasError = action.error;
       })
       .addCase(authOperations.updateTheme.pending, (state) => {
-        state.isCurrentUser = true;
         state.hasError = null;
       })
       .addCase(authOperations.updateTheme.fulfilled, (state, action) => {

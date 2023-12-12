@@ -12,8 +12,8 @@ import {
 import { NewsFilterManager, PageScrollController } from 'components';
 import { ThemeSwitcher } from 'ui';
 
+import { Hero } from './subcomponents';
 import Header from './Header/Header';
-import Hero from './Hero/Hero';
 import Footer from './Footer/Footer';
 
 const Layout: FC = () => {

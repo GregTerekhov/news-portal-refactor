@@ -112,6 +112,7 @@ const Pagination: FC<PaginationProps> = ({ pageNumbers, currentPage, setCurrentP
         variant='OtherButton'
         onHandleClick={handlePrevClick}
         width='w-32'
+        disabled={currentPage - 1 === 0 ? true : false}
       >
         <SvgIcon svgName='icon-arrow-left' size={24} className='fill-whiteBase' />
         {breakpointsForMarkup?.isTablet || breakpointsForMarkup?.isDesktop ? (
@@ -126,6 +127,7 @@ const Pagination: FC<PaginationProps> = ({ pageNumbers, currentPage, setCurrentP
         variant='OtherButton'
         onHandleClick={handleNextClick}
         width='w-32'
+        disabled={currentPage === lastPage ? true : false}
       >
         {breakpointsForMarkup?.isTablet || breakpointsForMarkup?.isDesktop ? (
           <span className='text-base md:text-medium font-medium text-contrastWhite'>Next</span>

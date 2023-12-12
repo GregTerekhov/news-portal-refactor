@@ -1,10 +1,13 @@
 import React, { FC } from 'react';
 
+import { useAuthCollector } from 'hooks';
+
 import { Accordeon, PrimaryButton, VerifiableInput } from 'ui';
 
 import { useUpdateEmail } from '../hooks';
 
 const UpdateEmail: FC<{}> = ({}) => {
+  const { isRefreshingUser } = useAuthCollector();
   const { handleSubmit, register, emailInputs, handleEmailSubmitHandler } = useUpdateEmail();
 
   return (
@@ -47,6 +50,7 @@ const UpdateEmail: FC<{}> = ({}) => {
           width='w-28 lg:w-40'
           id='Button for applying change your email '
           variant='OtherButton'
+          disabled={isRefreshingUser ? true : false}
         >
           Apply
         </PrimaryButton>

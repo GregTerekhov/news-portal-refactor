@@ -9,7 +9,7 @@ export type PrimaryButtonType = {
 };
 
 export type ClickHandler =
-  | (() => void)
+  | ((() => void) | undefined)
   | ((event: React.FormEvent) => void)
   | (() => Promise<void>)
   | ((e: React.MouseEvent<HTMLButtonElement>) => void);
@@ -33,7 +33,7 @@ interface PBProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   classNameButton?: string | undefined;
   id?: string | undefined;
   ariaLabel?: string | undefined;
-  disabled?: boolean;
+  disabled?: boolean | undefined;
 }
 
 const PrimaryButton = forwardRef<
@@ -57,10 +57,13 @@ const PrimaryButton = forwardRef<
   let buttonStyles: string = '';
 
   if (variant === VariantButton.Primary) {
-    buttonStyles =
-      'w-full py-2 bg-accentBase hover:bg-accentAlt transition-colors duration-500 rounded-[20px]';
+    buttonStyles = `w-full py-2 ${
+      disabled ? 'cursor-default bg-disabledBase' : 'bg-accentBase hover:bg-accentAlt'
+    }  rounded-[20px]`;
   } else if (variant === VariantButton.Other) {
-    buttonStyles = `${width} max-lg:py-2.5 lg:py-2 border border-solid border-transparent dark:border-whiteBase rounded-[20px] bg-accentBase hover:bg-accentAlt transition-colors duration-500`;
+    buttonStyles = `${width} max-lg:py-2.5 lg:py-2 border border-solid border-transparent dark:border-whiteBase rounded-[20px] ${
+      disabled ? 'cursor-default bg-disabledBase' : 'bg-accentBase hover:bg-accentAlt'
+    }`;
   } else if (variant === VariantButton.Small) {
     buttonStyles = `${width} rounded-[10px] border border-solid`;
   }
@@ -68,7 +71,9 @@ const PrimaryButton = forwardRef<
     <button
       id={id}
       aria-label={ariaLabel}
-      className={`flex items-center justify-center ${hasIcon ? 'gap-2.5' : ''} ${
+      className={`flex items-center justify-center transition-colors duration-500 ${
+        hasIcon ? 'gap-2.5' : ''
+      } ${
         children ? 'text-base lg:text-medium text-contrastWhite' : ''
       } ${buttonStyles} ${classNameButton}`}
       type={type}

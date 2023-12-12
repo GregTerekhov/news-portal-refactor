@@ -18,11 +18,12 @@ const ErrorPage = lazy(() => import('./pages/ErrorPage/ErrorPage'));
 const AboutUs = lazy(() => import('./pages/AboutUs/AboutUs'));
 
 function App() {
-  const { isAuthenticated, isRefreshingUser, fetchCurrentAuthUser } = useAuthCollector();
+  const { isRefreshingUser, fetchCurrentAuthUser } = useAuthCollector();
   // const { isRefreshingUser } = useAuthCollector();
 
   useEffect(() => {
-    if (isAuthenticated) fetchCurrentAuthUser();
+    // if (user && user?.id)
+    fetchCurrentAuthUser();
   }, [fetchCurrentAuthUser]);
 
   // const isRefreshingUser = true;
