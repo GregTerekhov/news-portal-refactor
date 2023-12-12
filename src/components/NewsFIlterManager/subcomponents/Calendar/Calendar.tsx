@@ -88,8 +88,11 @@ const Calendar: FC<CalendarProps> = ({ variant }) => {
           ? `${convertLinesForCalendar(selectedRequestDate.beginDate)} - ${convertLinesForCalendar(
               selectedRequestDate.endDate,
             )}`
-          : variant === 'FiltersBlock' && filters && filters.selectedFilterDate !== ''
-          ? `${filters.selectedFilterDate}`
+          : variant === 'FiltersBlock' &&
+            filters &&
+            filters.selectedFilterDate.startDate !== '' &&
+            filters.selectedFilterDate.endDate !== ''
+          ? `${filters.selectedFilterDate.startDate} - ${filters.selectedFilterDate.endDate}`
           : format(today, 'dd/MM/yyyy')}
         <SvgIcon
           svgName='icon-arrow-down'

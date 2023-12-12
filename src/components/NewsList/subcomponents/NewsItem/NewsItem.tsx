@@ -1,13 +1,14 @@
 import React, { FC } from 'react';
 import { useLocation } from 'react-router-dom';
+
 import { VotedItem } from 'types';
 
 import { useActiveLinks, useAuthCollector } from 'hooks';
 
-import { Hint, PlugImage, PrimaryButton, SvgIcon } from 'ui';
+import { PlugImage, SvgIcon } from 'ui';
 
 import { useNews } from './hooks';
-import { VoteButton } from './subcomponents';
+import { DeleteNewsButton, NewsDescription, VoteButton } from './subcomponents';
 
 interface NewsItemProps {
   liveNews: Partial<VotedItem>;
@@ -43,29 +44,11 @@ const NewsItem: FC<Partial<NewsItemProps>> = ({ liveNews = {} }) => {
             }`}
           ></div>
           {activeLinks.isArchiveActive ? (
-            <Hint
-              label='Delete news from archive'
-              side='bottom'
-              sideOffset={16}
-              ariaLabel='Delete news from archive'
-              contentClass='border border-solid border-whiteBase rounded-xl text-small md:text-medium px-2 text-whiteBase bg-accentAlt/[.8]'
-            >
-              <div>
-                <PrimaryButton
-                  ref={myButtonRef}
-                  onHandleClick={(e: React.MouseEvent<HTMLButtonElement>) =>
-                    handleDeleteNews(e, liveNews?._id || '')
-                  }
-                  variant='Small'
-                  hasIcon={true}
-                  svgName='icon-close'
-                  svgSize={24}
-                  classNameIcon='stroke-whiteBase'
-                  ariaLabel='Delete news from archive button'
-                  classNameButton='absolute z-40 top-3 right-3 bg-accentBase/[.8] py-1.5'
-                />
-              </div>
-            </Hint>
+            <DeleteNewsButton
+              myButtonRef={myButtonRef}
+              handleDeleteNews={handleDeleteNews}
+              liveNews={liveNews}
+            ></DeleteNewsButton>
           ) : null}
           <p className='absolute z-20 top-10 left-0 py-1 px-2 text-small font-medium text-contrastWhite bg-accentBase/[.7] rounded-r'>
             {liveNews?.category} / {liveNews?.materialType}
@@ -96,28 +79,7 @@ const NewsItem: FC<Partial<NewsItemProps>> = ({ liveNews = {} }) => {
               </>
             )}
           </div>
-          <div className='px-4 mt-4'>
-            <p className='text-small lg:text-base leading-tight text-darkBase dark:text-whiteBase mb-2 text-end line-clamp-1'>
-              {liveNews?.author ? `By ${liveNews?.author}` : `${liveNews?.materialType}`}
-            </p>
-            <h2
-              className={`h-[100px] md:h-[132px] mb-4 text-3xl md:text-4xl font-bold leading-tight tracking-mediumTight md:tracking-tighter line-clamp-3 dark:text-whiteBase`}
-            >
-              {liveNews?.title}
-            </h2>
-            <p className='h-[57px] md:h-[66px] text-base md:text-medium leading-tight line-clamp-3 text-darkBase dark:text-whiteBase mb-4'>
-              {liveNews?.description}
-            </p>
-            <div className='flex justify-between'>
-              <p className='text-base md:text-medium text-greyAlt'>{liveNews?.publishDate}</p>
-              <div className='flex pr-2 items-center gap-2 bg-accentAlt dark:bg-transparent duration-500 transition-all translate-x-full rounded-2xl group-hover:translate-x-0 group-hover:bg-accentAlt'>
-                <SvgIcon svgName='icon-double-arrow' size={16} className='fill-whiteBase' />
-                <p className='text-base md:text-medium text-whiteBase transition-colors duration-500'>
-                  Click for read more...
-                </p>
-              </div>
-            </div>
-          </div>
+          <NewsDescription liveNews={liveNews} />
         </a>
       )}
     </>

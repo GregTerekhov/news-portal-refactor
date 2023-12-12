@@ -7,7 +7,7 @@ import { useActiveLinks, useWindowWidth } from 'hooks';
 import { PrimaryButton } from 'ui';
 import { useFacebookLogin } from './hooks';
 
-const LinkedAccounts: FC = () => {
+const LinkedAccounts: FC<{}> = () => {
   const { breakpointsForMarkup } = useWindowWidth() ?? {
     breakpointsForMarkup: null,
   };

@@ -13,10 +13,11 @@ import {
   useWindowWidth,
 } from 'hooks';
 
-import { AuthModal, AccountMenu } from 'components';
+import { AuthModal } from 'components';
 import { Modal, SvgIcon, ThemeSwitcher, UnverifiableInput } from 'ui';
 
-import { AuthButton, Menu } from './subcomponents';
+import { AuthButton, MainMenu } from './subcomponents';
+import { AccountMenu } from '../subcomponents';
 
 const Header: FC = () => {
   const { query, onChangeInput, onHandleSearch } = useAdditionalRequest();
@@ -111,7 +112,7 @@ const Header: FC = () => {
           >
             News
           </Link>
-          {isNotMobile && isAuthenticated ? <Menu /> : null}
+          {isNotMobile && isAuthenticated ? <MainMenu /> : null}
 
           {isAuthenticated ? (
             <>
@@ -186,7 +187,7 @@ const Header: FC = () => {
           <AuthModal passwordToken={passwordToken} />
         </Modal>
       )}
-      {isOpenMenu && <Menu isOpen={isOpenMenu} closeMenu={toggleMenu} />}
+      {isOpenMenu && <MainMenu isOpen={isOpenMenu} closeMenu={toggleMenu} />}
       {isOpenMenu && isAccountPages && <AccountMenu isOpen={isOpenMenu} closeMenu={toggleMenu} />}
     </>
   );

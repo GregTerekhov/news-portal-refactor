@@ -85,7 +85,7 @@ const ThemeSwitcher: FC<ThemeSwitcherProps> = ({ variant }) => {
       {breakpointsForMarkup?.isDesktop ? (
         <p
           className={`${
-            activeLinks.isHomeActive && themeSwitcherTextClass
+            activeLinks.isHomeActive && variant !== 'modal' && themeSwitcherTextClass
           } font-header text-xl leading-tighter ${colorLeftLabel}`}
         >
           Light
@@ -114,7 +114,7 @@ const ThemeSwitcher: FC<ThemeSwitcherProps> = ({ variant }) => {
       {breakpointsForMarkup?.isDesktop ? (
         <p
           className={`${
-            activeLinks.isHomeActive && themeSwitcherTextClass
+            activeLinks.isHomeActive && variant !== 'modal' && themeSwitcherTextClass
           } font-header text-xl leading-tighter ${enabled ? 'text-whiteBase' : 'text-greyAlt'}`}
         >
           Dark

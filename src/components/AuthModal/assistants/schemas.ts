@@ -1,56 +1,22 @@
 import * as yup from 'yup';
 
+import { createEmailValidation, createPasswordValidation } from 'helpers';
+
 export const signUpSchema = yup.object({
   name: yup.string().min(3).max(20).required('Name is required'),
-  email: yup
-    .string()
-    .required('Email is required')
-    .matches(/^[^\s@]+@[^\s@]+\.[^\s@]+$/, 'Invalid email format')
-    .trim(),
-  password: yup
-    .string()
-    .required('Password is required')
-    .min(8, 'Password must be at least 8 characters')
-    .matches(
-      /^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
-      'Password must contain at least one uppercase letter, one number, and one special character',
-    )
-    .trim(),
+  email: createEmailValidation(), // мемоїзована функція схеми
+  password: createPasswordValidation(), // мемоїзована функція схеми
 });
 export const signInSchema = yup.object({
-  email: yup
-    .string()
-    .required('Email is required')
-    .matches(/^[^\s@]+@[^\s@]+\.[^\s@]+$/, 'Invalid email format')
-    .trim(),
-  password: yup
-    .string()
-    .required('Password is required')
-    .min(8, 'Password must be at least 8 characters')
-    .matches(
-      /^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
-      'Password must contain at least one uppercase letter, one number, and one special character',
-    )
-    .trim(),
+  email: createEmailValidation(), // мемоїзована функція схеми
+  password: createPasswordValidation(), // мемоїзована функція схеми
 });
 export const recoveryPasswordSchema = yup.object({
-  recoveryEmail: yup
-    .string()
-    .required('Email is required')
-    .matches(/^[^\s@]+@[^\s@]+\.[^\s@]+$/, 'Invalid email format')
-    .trim(),
+  recoveryEmail: createEmailValidation(), // мемоїзована функція схеми
 });
 
 export const changePasswordSchema = yup.object({
-  changedPassword: yup
-    .string()
-    .required('New password is required')
-    .min(8, 'Password must be at least 8 characters')
-    .matches(
-      /^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
-      'Password must contain at least one uppercase letter, one number, and one special character',
-    )
-    .trim(),
+  changedPassword: createPasswordValidation(), // мемоїзована функція схеми
   confirmPassword: yup
     .string()
     .required('Confirm password is required')

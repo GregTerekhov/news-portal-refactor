@@ -1,4 +1,3 @@
-export { default as AccountMenu } from './AccountMenu/AccountMenu';
 export { default as AuthModal } from './AuthModal/AuthModal';
 export { default as LinkedAccounts } from './LinkedAccounts/LinkedAccounts';
 export { default as NewsFilterManager } from './NewsFIlterManager/NewsFilterManager';

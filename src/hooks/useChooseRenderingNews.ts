@@ -3,14 +3,10 @@ import { rebuildNewsArray } from 'helpers';
 import useNewsAPICollector from './useNewsAPICollector';
 import useNewsDBCollector from './useNewsDBCollector';
 import useFilterCollector from './useFilterCollector';
+import { ActiveLinks } from './useActiveLinks';
 
 type RenderHookProps = {
-  activeLinks: {
-    isHomeActive: boolean;
-    isFavoriteActive: boolean;
-    isReadActive: boolean;
-    isArchiveActive: boolean;
-  };
+  activeLinks: ActiveLinks;
 };
 
 const useChooseRenderingNews = ({ activeLinks }: RenderHookProps) => {

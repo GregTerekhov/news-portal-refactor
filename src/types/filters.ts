@@ -4,5 +4,8 @@ export interface Filters {
   author: string;
   publisher: string;
   materialType: string;
-  selectedFilterDate: string;
+  selectedFilterDate: {
+    startDate: string;
+    endDate: string;
+  };
 }

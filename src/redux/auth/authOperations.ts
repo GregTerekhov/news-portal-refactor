@@ -14,6 +14,7 @@ import {
   RecoveryPasswordRequestRequired,
   RecoveryPasswordChangeRequiredToSend,
   ITheme,
+  GoogleResponse,
 } from 'types';
 
 type SignUpResponse = {
@@ -128,7 +129,7 @@ export const recoveryPasswordRequest = createAsyncThunk(
   'auth/recoveryPasswordRequest',
   async (email: RecoveryPasswordRequestRequired, { rejectWithValue }) => {
     try {
-      const response = await axiosInstance.patch(`/auth/forgot-password-request`, email);
+      const response = await axios.patch(`${BASE_URL}/auth/forgot-password-request`, email);
       return response.data;
     } catch (error: any) {
       console.log('Error forgotPasswordRequest', error.message);
@@ -152,11 +153,11 @@ export const recoveryPasswordChange = createAsyncThunk(
 
 export const googleAuth = createAsyncThunk(
   'auth/google',
-  async (tokenAuth: IThirdPartyAuth, { rejectWithValue }) => {
+  async (codeResponse: GoogleResponse, { rejectWithValue }) => {
     try {
-      setTokens({ accessToken: tokenAuth.tokenAuth, refreshToken: null });
-      const response = await axiosInstance.get(`/auth/google`);
-      response.data.accessToken = tokenAuth;
+      setTokens({ accessToken: codeResponse.access_token, refreshToken: null });
+      const response = await axiosInstance.post(`/auth/google`, { codeResponse });
+
       console.log(response.data);
       return response.data;
     } catch (error: any) {

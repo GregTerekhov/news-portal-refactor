@@ -6,8 +6,10 @@ import store, { RootState } from 'reduxStore/store';
 import { setTokens } from './authSlice';
 
 interface RefreshResponse {
-  accessToken: string;
-  refreshToken: string;
+  data: {
+    accessToken: string;
+    refreshToken: string;
+  };
 }
 
 const baseURL = 'https://news-webapp-express.onrender.com/api';
@@ -32,16 +34,19 @@ const createAxiosInstance = () => {
 
           if (isExpired) {
             const persistedToken = state.auth.refreshToken;
-
-            try {
-              const response = await axios.post<RefreshResponse>(`${baseURL}/auth/refresh`, {
-                refreshToken: persistedToken,
-              });
-
-              store.dispatch(setTokens(response.data));
-              config.headers['Authorization'] = `Bearer ${response.data.accessToken}`;
-            } catch (error) {
-              console.error('Token refreshing error', error);
+            if (persistedToken) {
+              try {
+                console.log('Try to refresh');
+                console.log(config.data);
+                const response = await axios.post<RefreshResponse>(`${baseURL}/auth/refresh`, {
+                  refreshToken: persistedToken,
+                });
+                console.log('Refresh: ', response.data);
+                store.dispatch(setTokens(response.data.data));
+                config.headers['Authorization'] = `Bearer ${response.data.data.accessToken}`;
+              } catch (error) {
+                console.error('Token refreshing error', error);
+              }
             }
           } else {
             config.headers['Authorization'] = `Bearer ${accessToken}`;
@@ -52,6 +57,17 @@ const createAxiosInstance = () => {
     },
     (error) => {
       return Promise.reject(error);
+    },
+  );
+
+  axiosInstance.interceptors.response.use(
+    async (response) => response,
+    (error) => {
+      const state = store.getState() as RootState;
+      const isLoggedIn = state.auth.isLoggedIn;
+      if (error.response.status === 401 && !isLoggedIn) {
+        return;
+      }
     },
   );
 

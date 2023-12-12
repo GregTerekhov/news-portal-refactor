@@ -35,7 +35,7 @@ const PlugImage: FC<PlugImageProps> = ({ variant }) => {
           <img src={imageUrl} alt='No found news' />
         </div>
       ) : (
-        <img src={imageUrl} alt='No found news' />
+        <img src={imageUrl} alt='No found news' width={395} height={395} />
       )}
     </>
   );

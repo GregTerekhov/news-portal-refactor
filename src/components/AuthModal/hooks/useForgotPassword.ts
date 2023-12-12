@@ -40,7 +40,7 @@ const useSignIn = () => {
   const changePasswordSubmitHandler: SubmitHandler<
     RecoveryPasswordChangeRequiredToValidate
   > = async (data) => {
-    const { changedPassword } = data;
+    const { changedPassword } = data; // обирання необхідного для відправки поля
     const dataToSend = { changedPassword };
 
     await changePassword(dataToSend);

@@ -12,6 +12,7 @@ import {
   RecoveryPasswordChangeRequiredToSend,
   ITheme,
   SetTokensPayload,
+  GoogleResponse,
 } from 'types';
 
 const useAuthCollector = () => {
@@ -56,7 +57,7 @@ const useAuthCollector = () => {
   );
 
   const enterWithGoogle = useCallback(
-    (tokenAuth: IThirdPartyAuth) => dispatch(auth.googleAuth(tokenAuth)),
+    (tokenAuth: GoogleResponse) => dispatch(auth.googleAuth(tokenAuth)),
     [dispatch],
   );
 

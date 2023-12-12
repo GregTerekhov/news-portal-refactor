@@ -10,6 +10,7 @@ import Calendar from '../Calendar/Calendar';
 import { materialTypes } from './assistants';
 import { useFilterNews } from './hooks';
 import { ClickHandler } from 'ui/PrimaryButton';
+import { Filters } from 'types/filters';
 
 type ButtonType = 'submit' | 'reset' | 'button';
 
@@ -25,6 +26,7 @@ interface IControlButtons {
   svgSize: number;
   classNameIcon?: string | undefined;
   children?: string;
+  disabled?: boolean;
 }
 
 const FiltersBlock: FC<{}> = () => {
@@ -42,6 +44,18 @@ const FiltersBlock: FC<{}> = () => {
     handleSort,
     handleReset,
   } = useFilterNews({ activeLinks });
+
+  const hasNonEmptyValue = (obj: Filters): boolean => {
+    return Object.values(obj).some((value) => {
+      if (typeof value === 'object' && value !== null) {
+        return hasNonEmptyValue(value);
+      }
+      return value !== '';
+    });
+  };
+  const hasFilterValue: boolean = hasNonEmptyValue(filters);
+  console.log('hasFilterValue', hasFilterValue);
+  // console.log(filters);
 
   const filterInputs = [
     {
@@ -66,14 +80,12 @@ const FiltersBlock: FC<{}> = () => {
     },
   ];
 
-  const hasFilterValue = Object.values(filters).some((entry) => entry !== '');
-
   const controlButtons: IControlButtons[] = [
     {
       type: 'submit',
       id: 'Filters submit button',
       variant: 'Primary',
-      onHandleClick: hasFilterValue ? handleFiltration : () => console.log('No content'), // Змінити - рендерити PlugImage
+      onHandleClick: handleFiltration,
       ariaLabel: '',
       classNameButtons: '',
       hasIcon: false,
@@ -81,6 +93,7 @@ const FiltersBlock: FC<{}> = () => {
       svgSize: 0,
       classNameIcon: '',
       children: 'Apply',
+      disabled: !hasFilterValue ? true : false,
     },
     {
       type: 'button',
@@ -95,6 +108,7 @@ const FiltersBlock: FC<{}> = () => {
       svgSize: 20,
       classNameIcon: 'fill-whiteBase',
       children: '',
+      // disabled: false,
     },
     {
       type: 'reset',
@@ -108,6 +122,7 @@ const FiltersBlock: FC<{}> = () => {
       svgSize: 16,
       classNameIcon: 'fill-whiteBase',
       children: 'Reset',
+      // disabled: false,
     },
     {
       type: 'button',
@@ -122,6 +137,7 @@ const FiltersBlock: FC<{}> = () => {
       svgSize: 20,
       classNameIcon: 'fill-whiteBase rotate-180',
       children: '',
+      // disabled: false,
     },
   ];
 
@@ -142,6 +158,7 @@ const FiltersBlock: FC<{}> = () => {
               svgSize,
               classNameIcon,
               children,
+              disabled,
             },
             index,
           ) => (
@@ -157,6 +174,7 @@ const FiltersBlock: FC<{}> = () => {
                 svgName={svgName}
                 svgSize={svgSize}
                 classNameIcon={classNameIcon}
+                disabled={disabled}
               >
                 {children}
               </PrimaryButton>
