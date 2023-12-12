@@ -7,11 +7,19 @@ interface DropdownProps {
   children: ReactNode;
   labels: string[] | undefined;
   getResults: (value: string) => void;
+  selectedItem: string;
+  onSelectItem: (item: string) => void;
 }
 
-const Dropdown: FC<DropdownProps> = ({ children, labels, getResults }) => {
+const Dropdown: FC<DropdownProps> = ({
+  children,
+  labels,
+  getResults,
+  selectedItem,
+  onSelectItem,
+}) => {
   const [isOpenDropdown, setIsOpenDropdown] = useState<boolean>(false);
-  const [selectedItem, setSelectedItem] = useState<string>('');
+  // const [selectedItem, setSelectedItem] = useState<string>('');
 
   const handleOpenClick = () => {
     setIsOpenDropdown(!isOpenDropdown);
@@ -19,7 +27,7 @@ const Dropdown: FC<DropdownProps> = ({ children, labels, getResults }) => {
 
   const handleItemClick = (item: string) => {
     if (getResults) getResults(item);
-    setSelectedItem(item);
+    onSelectItem(item);
     setIsOpenDropdown(false);
   };
 

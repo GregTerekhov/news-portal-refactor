@@ -7,6 +7,8 @@ import { Dropdown, PrimaryButton, UnverifiableInput } from 'ui';
 import Calendar from './Calendar/Calendar';
 
 const SearchBlock: FC<{}> = () => {
+  // const [selectCategory, setSelectedCategory] = useState<string>('');
+  // const [selectPeriod, setSelectedPeriod] = useState<string>('');
   const { breakpointsForMarkup } = useWindowWidth() ?? {
     breakpointsForMarkup: null,
   };
@@ -15,6 +17,10 @@ const SearchBlock: FC<{}> = () => {
     query,
     categoriesForDropdown,
     showPopular,
+    period,
+    category,
+    setPeriod,
+    setCategory,
     onChangeInput,
     onHandleSearch,
     getNewsByCategory,
@@ -46,13 +52,23 @@ const SearchBlock: FC<{}> = () => {
         </form>
       ) : null}
       <div className='md:col-span-2 lg:col-span-3'>
-        <Dropdown labels={categoriesForDropdown || []} getResults={getNewsByCategory}>
+        <Dropdown
+          labels={categoriesForDropdown || []}
+          getResults={getNewsByCategory}
+          selectedItem={category}
+          onSelectItem={setCategory}
+        >
           Categories
         </Dropdown>
       </div>
       {showPopular ? (
         <div className='md:col-span-2 lg:col-span-3'>
-          <Dropdown labels={['Today', 'Week', 'Month']} getResults={getNewsByPeriod}>
+          <Dropdown
+            labels={['Today', 'Week', 'Month']}
+            getResults={getNewsByPeriod}
+            selectedItem={period}
+            onSelectItem={setPeriod}
+          >
             Time period
           </Dropdown>
         </div>
