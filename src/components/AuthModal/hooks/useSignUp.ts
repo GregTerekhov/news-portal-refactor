@@ -1,12 +1,15 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import { SubmitHandler, useForm } from 'react-hook-form';
 
-import { SignUpRequiredFields } from 'types';
+import { CredentialSignUpResponse, SignUpRequest } from 'types';
+
+import { useNotification } from 'contexts';
 import { useAuthCollector, usePopUp } from 'hooks';
 
 import { signUpSchema } from '../assistants';
 
 const useSignUp = () => {
+  const { setOpenToast } = useNotification();
   const { register, login } = useAuthCollector();
   const { toggleModal } = usePopUp();
 
@@ -16,9 +19,9 @@ const useSignUp = () => {
     reset,
     getValues,
     formState: { errors },
-  } = useForm<SignUpRequiredFields>({ resolver: yupResolver(signUpSchema) });
+  } = useForm<SignUpRequest>({ resolver: yupResolver(signUpSchema) });
 
-  const signUpSubmitHandler: SubmitHandler<SignUpRequiredFields> = async (data) => {
+  const signUpSubmitHandler: SubmitHandler<SignUpRequest> = async (data) => {
     const { name, email, password } = data;
 
     const signUpCredentials = {
@@ -35,15 +38,32 @@ const useSignUp = () => {
     const response = await register(signUpCredentials);
 
     if (
-      response.payload === 'Email already in use' ||
-      response.payload === 'All sign-up fields are required'
+      response.meta.requestStatus &&
+      response.meta.requestStatus === 'rejected' &&
+      response.payload === 'Email already in use'
     ) {
+      setOpenToast(true);
       return;
     } else {
       const response = await login(signInCredentials);
+      const payload = response.payload as CredentialSignUpResponse;
+      const { message } = payload;
+      if (
+        payload &&
+        response.meta.requestStatus &&
+        response.meta.requestStatus === 'fulfilled' &&
+        message === 'User sign-in success'
+      ) {
+        setOpenToast(true);
+      }
 
-      if (response.payload === 'User is not authentified') {
+      if (
+        response.meta.requestStatus &&
+        response.meta.requestStatus === 'rejected' &&
+        response.payload === 'User is not authentified'
+      ) {
         console.log('Email or password are wrong');
+        setOpenToast(true);
         return;
       }
     }
@@ -53,7 +73,7 @@ const useSignUp = () => {
       email: '',
       password: '',
     });
-    toggleModal();
+    toggleModal;
   };
 
   const signUpInputs = [

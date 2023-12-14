@@ -73,14 +73,14 @@ const UnverifiableInput: FC<InputProps> = (props) => {
   let checkboxStyles: string = '';
 
   if (variant === VariantInputs.Header) {
-    inputGeometry = `md:w-48 lg:w-72 md:py-[5px] md:pl-11 md:pr-3 transition-transform transition-[width] ${
+    inputGeometry = `md:w-48 lg:w-72 md:py-[5px] md:pl-11 md:pr-3 transition-transform transition-[width] border border-solid ${
       breakpointsForMarkup?.isMobile || breakpointsForMarkup?.isNothing
         ? touched
           ? 'translate-x-0 w-[173px] py-[5px] pl-11 pr-3'
           : 'translate-x-full w-[30px] p-0'
         : ''
     }`;
-    inputBorder = inputClass.inputBorder;
+    inputBorder = `${inputClass.inputBorder} focus:ring-whiteBase focus-outline-whiteBase`;
     inputBg = 'bg-transparent';
     svgFill = inputClass.svgFill;
     caretColor = inputClass.caretColor;

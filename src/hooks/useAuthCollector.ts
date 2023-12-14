@@ -3,16 +3,16 @@ import { useCallback } from 'react';
 import * as auth from 'reduxStore/auth';
 import { useAppDispatch, useAppSelector } from 'reduxStore/hooks';
 import {
-  SignUpRequiredFields,
-  SignInRequiredFields,
+  SignUpRequest,
+  AuthRequestWithoutName,
   IUpdateEmail,
   IThirdPartyAuth,
   UpdatePasswordRequiredToSend,
   RecoveryPasswordRequestRequired,
   RecoveryPasswordChangeRequiredToSend,
-  ITheme,
-  SetTokensPayload,
+  UpdateThemeRequest,
   GoogleResponse,
+  TokensPayload,
 } from 'types';
 
 const useAuthCollector = () => {
@@ -26,11 +26,11 @@ const useAuthCollector = () => {
   const dispatch = useAppDispatch();
 
   const register = useCallback(
-    (credentials: SignUpRequiredFields) => dispatch(auth.signUp(credentials)),
+    (credentials: SignUpRequest) => dispatch(auth.signUp(credentials)),
     [dispatch],
   );
   const login = useCallback(
-    (credentials: SignInRequiredFields) => dispatch(auth.signIn(credentials)),
+    (credentials: AuthRequestWithoutName) => dispatch(auth.signIn(credentials)),
     [dispatch],
   );
   const logout = useCallback(() => dispatch(auth.signOut()), [dispatch]);
@@ -71,16 +71,16 @@ const useAuthCollector = () => {
     [dispatch],
   );
   const unauthorisedChangeTheme = useCallback(
-    (updatedTheme: ITheme) => dispatch(auth.changeNotAuthTheme(updatedTheme)),
+    (updatedTheme: UpdateThemeRequest) => dispatch(auth.changeNotAuthTheme(updatedTheme)),
     [dispatch],
   );
   const writeTokens = useCallback(
-    (tokens: SetTokensPayload) => dispatch(auth.setTokens(tokens)),
+    (tokens: TokensPayload) => dispatch(auth.setTokens(tokens)),
     [dispatch],
   );
 
   const changeTheme = useCallback(
-    (updatedTheme: ITheme) => dispatch(auth.updateTheme(updatedTheme)),
+    (updatedTheme: UpdateThemeRequest) => dispatch(auth.updateTheme(updatedTheme)),
     [dispatch],
   );
 

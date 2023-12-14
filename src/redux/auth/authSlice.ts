@@ -7,7 +7,7 @@ import {
 } from '@reduxjs/toolkit';
 
 import * as authOperations from './authOperations';
-import { SetTokensPayload } from 'types';
+import { TokensPayload } from 'types';
 
 interface AuthState {
   isLoggedIn: boolean;
@@ -20,7 +20,6 @@ interface AuthState {
     name: string;
     email: string;
     id: string;
-    // rememberMe: boolean;
   };
   haveAccounts: {
     google: boolean;
@@ -42,7 +41,6 @@ const initialState: AuthState = {
     name: '',
     email: '',
     id: '',
-    // rememberMe: false,
   },
   haveAccounts: {
     google: false,
@@ -66,7 +64,7 @@ const initialState: AuthState = {
 //   state.hasError = action.payload ?? null;
 // };
 
-export const setTokens = createAction<SetTokensPayload>('auth/setTokens');
+export const setTokens = createAction<TokensPayload>('auth/setTokens');
 export const changeNotAuthTheme = createAction<Theme>('auth/changeTheme');
 
 const authSlice = createSlice({
@@ -80,7 +78,7 @@ const authSlice = createSlice({
         state.hasError = null;
       })
       .addCase(authOperations.signUp.fulfilled, (state, action) => {
-        const { name, email } = action.payload;
+        const { name, email } = action.payload.user;
         state.user.name = name;
         state.user.email = email;
         state.isCurrentUser = false;
@@ -212,7 +210,7 @@ const authSlice = createSlice({
         state.hasError = action.error;
       })
       .addCase(setTokens, (state, action) => {
-        const { accessToken, refreshToken }: SetTokensPayload = action.payload;
+        const { accessToken, refreshToken } = action.payload;
         state.accessToken = accessToken;
         state.refreshToken = refreshToken;
       })

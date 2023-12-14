@@ -88,3 +88,21 @@ export type ArticleNewsArray = ArticleNewsItem[];
 export type PartialArticleNewsArray = Partial<ArticleNewsItem>[];
 export type NewsWireArray = NewsWireItem[];
 export type PartialNewsWireArray = Partial<NewsWireItem>[];
+
+export interface SavedNewsResponse {
+  code: number;
+  message: string;
+  data: PartialVotedNewsArray;
+}
+
+export interface HistoryLogResponse {
+  code: number;
+  message: string;
+  data: IHistoryLog[];
+}
+
+export interface DeleteNewsResponse {
+  code: number;
+  message: string;
+  _id: string;
+}

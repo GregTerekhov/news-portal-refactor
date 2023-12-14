@@ -20,11 +20,7 @@ const backfaceVisibility = plugin(function ({ addUtilities }) {
 
 export default {
   mode: 'jit',
-  content: [
-    './index.html',
-    './src/**/*.{js,jsx,ts,tsx}',
-    './node_modules/flowbite/**/*.{js,jsx,ts,tsx}',
-  ],
+  content: ['./index.html', './src/**/*.{js,jsx,ts,tsx}'],
   darkMode: 'class',
   theme: {
     fontFamily: {
@@ -142,6 +138,5 @@ export default {
     backfaceVisibility,
     require('@headlessui/tailwindcss')({ prefix: 'ui' }),
     require('@kamona/tailwindcss-perspective'),
-    require('flowbite/plugin'),
   ],
 };

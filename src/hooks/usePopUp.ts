@@ -55,10 +55,18 @@ const usePopUp = () => {
     }
   }, [isScrollDisabled]);
 
-  const toggleModal = useCallback(() => {
-    setIsOpenModal(!isOpenModal);
-    setIsScrollDisabled(!isScrollDisabled);
-  }, [isOpenModal, isScrollDisabled]);
+  const toggleModal = useCallback(
+    (e: React.MouseEvent<HTMLButtonElement>, preventDefault: boolean = true) => {
+      if (preventDefault) {
+        e.preventDefault();
+        e.stopPropagation();
+      }
+
+      setIsOpenModal(!isOpenModal);
+      setIsScrollDisabled(!isScrollDisabled);
+    },
+    [isOpenModal, isScrollDisabled],
+  );
 
   const toggleMenu = () => {
     setIsOpenMenu(!isOpenMenu);

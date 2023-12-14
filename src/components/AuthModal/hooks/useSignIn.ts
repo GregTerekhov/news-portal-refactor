@@ -2,8 +2,9 @@ import { useEffect, useState } from 'react';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { SubmitHandler, useForm } from 'react-hook-form';
 
-import { SignInRequiredFields } from 'types';
+import { AuthRequestWithoutName, CredentialSignInResponse } from 'types';
 
+import { useNotification } from 'contexts';
 import { useAuthCollector, usePopUp } from 'hooks';
 
 import { decryptData, encryptData, generateEncryptionKey, signInSchema } from '../assistants';
@@ -13,6 +14,7 @@ const useSignIn = () => {
   const [isKeyReady, setIsKeyReady] = useState<boolean>(false);
   const [key, setKey] = useState<CryptoKey | null>(null);
 
+  const { setOpenToast } = useNotification();
   const { login } = useAuthCollector();
   const { toggleModal } = usePopUp();
 
@@ -54,7 +56,7 @@ const useSignIn = () => {
     setValue,
     getValues,
     formState: { errors },
-  } = useForm<SignInRequiredFields>({
+  } = useForm<AuthRequestWithoutName>({
     resolver: yupResolver(signInSchema),
     defaultValues: {
       email: '',
@@ -69,7 +71,7 @@ const useSignIn = () => {
 
   const [email, password] = watch(['email', 'password']); // споглядання за відповідними полями, щоб зберігати введені валідні значення для RememberMe
 
-  const signInSubmitHandler: SubmitHandler<SignInRequiredFields> = async (data, e) => {
+  const signInSubmitHandler: SubmitHandler<AuthRequestWithoutName> = async (data, e) => {
     e?.preventDefault();
     const { email, password } = data;
 
@@ -91,9 +93,25 @@ const useSignIn = () => {
     };
 
     const response = await login(signInCredentials);
+    const payload = response.payload as CredentialSignInResponse;
+    const { message } = payload;
 
-    if (response.payload === 'User is not authentified') {
-      console.log('Email or password are wrong'); // додати тост
+    if (
+      payload &&
+      response.meta.requestStatus === 'fulfilled' &&
+      message === 'User sign-in success'
+    ) {
+      console.log('response.payload.message', message);
+      setOpenToast(true);
+    }
+
+    if (
+      response.meta.requestStatus &&
+      response.meta.requestStatus === 'rejected' &&
+      response.payload === 'User is not authentified'
+    ) {
+      console.log('Email or password are wrong');
+      setOpenToast(true);
       return;
     }
     reset({
@@ -102,7 +120,7 @@ const useSignIn = () => {
       password: '',
     });
 
-    toggleModal();
+    toggleModal;
   };
 
   const signInInputs = [

@@ -2,8 +2,8 @@ import React, { ReactNode, FC, useState } from 'react';
 import { UseFormRegister } from 'react-hook-form';
 
 import {
-  SignUpRequiredFields,
-  SignInRequiredFields,
+  SignUpRequest,
+  AuthRequestWithoutName,
   IUpdateEmail,
   UpdatePasswordRequiredToValidate,
   RecoveryPasswordRequestRequired,
@@ -26,8 +26,8 @@ enum VariantInputs {
 export type Values =
   | IUpdateEmail
   | UpdatePasswordRequiredToValidate
-  | SignUpRequiredFields
-  | SignInRequiredFields
+  | SignUpRequest
+  | AuthRequestWithoutName
   | RecoveryPasswordRequestRequired;
 
 interface InputProps {

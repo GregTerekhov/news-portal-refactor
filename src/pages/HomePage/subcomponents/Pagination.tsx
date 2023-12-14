@@ -9,14 +9,19 @@ interface PaginationProps {
   setCurrentPage: (number: number) => void;
 }
 
+const BUTTON_WIDTH = 'w-32';
+const ICON_SIZE = 24;
+
 const Pagination: FC<PaginationProps> = ({ pageNumbers, currentPage, setCurrentPage }) => {
   const { breakpointsForMarkup } = useWindowWidth() ?? {
     breakpointsForMarkup: null,
   };
+
+  const isTabletOrDesktop = breakpointsForMarkup?.isTablet || breakpointsForMarkup?.isDesktop;
+
   const totalPages = pageNumbers.length;
   const screenHeight = window.innerHeight;
-  const visibleButtonsCount =
-    breakpointsForMarkup?.isNothing || breakpointsForMarkup?.isMobile ? 3 : 6;
+  const visibleButtonsCount = !isTabletOrDesktop ? 3 : 6;
 
   const paginationButtons = [];
 
@@ -111,11 +116,11 @@ const Pagination: FC<PaginationProps> = ({ pageNumbers, currentPage, setCurrentP
         id='Previous page button'
         variant='OtherButton'
         onHandleClick={handlePrevClick}
-        width='w-32'
+        width={BUTTON_WIDTH}
         disabled={currentPage - 1 === 0 ? true : false}
       >
-        <SvgIcon svgName='icon-arrow-left' size={24} className='fill-whiteBase' />
-        {breakpointsForMarkup?.isTablet || breakpointsForMarkup?.isDesktop ? (
+        <SvgIcon svgName='icon-arrow-left' size={ICON_SIZE} className='fill-whiteBase' />
+        {isTabletOrDesktop ? (
           <span className='text-base md:text-medium font-medium text-contrastWhite'>Prev</span>
         ) : null}
       </PrimaryButton>
@@ -126,14 +131,14 @@ const Pagination: FC<PaginationProps> = ({ pageNumbers, currentPage, setCurrentP
         id='Next page button'
         variant='OtherButton'
         onHandleClick={handleNextClick}
-        width='w-32'
+        width={BUTTON_WIDTH}
         disabled={currentPage === lastPage ? true : false}
       >
-        {breakpointsForMarkup?.isTablet || breakpointsForMarkup?.isDesktop ? (
+        {isTabletOrDesktop ? (
           <span className='text-base md:text-medium font-medium text-contrastWhite'>Next</span>
         ) : null}
 
-        <SvgIcon svgName='icon-arrow-left' size={24} className='fill-whiteBase rotate-180' />
+        <SvgIcon svgName='icon-arrow-left' size={ICON_SIZE} className='fill-whiteBase rotate-180' />
       </PrimaryButton>
     </div>
   );

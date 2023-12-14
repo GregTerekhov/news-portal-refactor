@@ -1,19 +1,13 @@
 import React, { FC, Ref } from 'react';
 
-import { VotedItem } from 'types';
-
 import { Hint, PrimaryButton } from 'ui';
 
 interface DeleteButtonProps {
   myButtonRef: Ref<HTMLButtonElement>;
-  handleDeleteNews: (
-    e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
-    id: string,
-  ) => Promise<void>;
-  liveNews: Partial<VotedItem>;
+  handleOpenConfirm: (e: React.MouseEvent<HTMLButtonElement>) => void;
 }
 
-const DeleteNewsButton: FC<DeleteButtonProps> = ({ myButtonRef, handleDeleteNews, liveNews }) => {
+const DeleteNewsButton: FC<DeleteButtonProps> = ({ myButtonRef, handleOpenConfirm }) => {
   return (
     <Hint
       label='Delete news from archive'
@@ -25,9 +19,7 @@ const DeleteNewsButton: FC<DeleteButtonProps> = ({ myButtonRef, handleDeleteNews
       <div>
         <PrimaryButton
           ref={myButtonRef}
-          onHandleClick={(e: React.MouseEvent<HTMLButtonElement>) =>
-            handleDeleteNews(e, liveNews?._id || '')
-          }
+          onHandleClick={handleOpenConfirm}
           variant='Small'
           hasIcon={true}
           svgName='icon-close'
