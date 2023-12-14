@@ -1,31 +1,3 @@
-export interface ICurrentUser {
-  userTheme: string;
-  accessToken: string;
-  refreshToken: string;
-  user: {
-    name: string;
-    email: string;
-    id: string;
-  };
-}
-
-export interface SetTokensPayload {
-  accessToken: string | null;
-  refreshToken: string | null;
-}
-
-interface SignUpCredentials {
-  name: string;
-  email: string;
-  password: string;
-}
-
-export type SignUpRequiredFields = Required<SignUpCredentials>;
-
-type SignInCredentials = Omit<SignUpCredentials, 'name'>;
-
-export type SignInRequiredFields = Required<SignInCredentials>;
-
 export interface IUpdateEmail {
   updatedEmail: string;
   currentPassword: string;
@@ -35,6 +7,12 @@ export interface IUpdatePassword {
   newPassword: string;
   confirmPassword: string;
   oldPassword: string;
+}
+
+export interface UpdateCredentialResponse {
+  code: number;
+  message: string;
+  newEmail: string;
 }
 
 export type UpdatePasswordRequiredToValidate = Required<IUpdatePassword>;
@@ -71,8 +49,4 @@ export type GoogleResponse = {
   prompt: string;
   scope: string;
   token_type: string;
-};
-
-export type ITheme = {
-  updatedTheme: string;
 };

@@ -19,7 +19,6 @@ const Dropdown: FC<DropdownProps> = ({
   onSelectItem,
 }) => {
   const [isOpenDropdown, setIsOpenDropdown] = useState<boolean>(false);
-  // const [selectedItem, setSelectedItem] = useState<string>('');
 
   const handleOpenClick = () => {
     setIsOpenDropdown(!isOpenDropdown);

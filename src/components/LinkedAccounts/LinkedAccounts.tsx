@@ -81,8 +81,8 @@ const LinkedAccounts: FC<{}> = () => {
                 svgName={svgName}
                 svgSize={isMobile ? 20 : 24}
                 ariaLabel={`${account} account binding`}
-                classNameButton={` ${
-                  activeLinks.isManageAccountPage ? 'w-14 h-14 lg:w-12 lg:h-12' : 'md:w-full'
+                classNameButton={`w-14 h-14 ${
+                  activeLinks.isManageAccountPage ? 'lg:w-12 lg:h-12' : 'md:w-full'
                 } rounded-xl border border-solid border-whiteBase dark:border-greyBase bg-accentBase dark:bg-transparent flex items-center justify-center group hover:border-accentBase hover:text-accentBase dark:hover:text-whiteBase dark:hover:border-whiteBase hover:bg-whiteBase dark:hover:bg-accentBase transition-colors duration-500 ring-whiteBase dark:ring-darkBase ring-2`}
                 classNameIcon='fill-whiteBase group-hover:fill-accentAlt dark:group-hover:fill-whiteBase'
                 children={!isMobile && !activeLinks.isManageAccountPage ? account : ''}

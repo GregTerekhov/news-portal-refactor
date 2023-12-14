@@ -1,14 +1,16 @@
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 
-import { IUpdateEmail } from 'types';
+import { IUpdateEmail, UpdateCredentialsResponse } from 'types';
 
+import { useNotification } from 'contexts';
 import { useAuthCollector } from 'hooks';
 
 import { renderEmailInputs, updateEmailSchema } from '../assistants';
 
 const useUpdateEmail = () => {
   const { updateEmail } = useAuthCollector();
+  const { setOpenToast } = useNotification();
 
   const {
     handleSubmit,
@@ -28,7 +30,12 @@ const useUpdateEmail = () => {
   const [updatedEmail, currentPassword] = watch(['updatedEmail', 'currentPassword']);
 
   const handleEmailSubmitHandler: SubmitHandler<IUpdateEmail> = async (data) => {
-    await updateEmail(data);
+    const response = await updateEmail(data);
+    const { message } = response.payload as UpdateCredentialsResponse;
+
+    if (message && message === 'Email is successfully updated"') {
+      setOpenToast(true);
+    }
     reset({
       ...getValues,
       updatedEmail: '',

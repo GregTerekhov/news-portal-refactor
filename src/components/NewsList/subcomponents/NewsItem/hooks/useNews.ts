@@ -22,7 +22,7 @@ const useNews = ({ liveNews, activeLinks }: NewsItemProps) => {
     allArchive,
   });
 
-  const { handleChangeFavourites, handleReadNews, handleDeleteNews } = useNewsActions({
+  const { isDeleted, handleChangeFavourites, handleReadNews, handleDeleteNews } = useNewsActions({
     activeLinks,
     isAuthenticated,
     liveNews,
@@ -33,6 +33,7 @@ const useNews = ({ liveNews, activeLinks }: NewsItemProps) => {
   return {
     isFavourite,
     hasRead,
+    isDeleted,
     handleChangeFavourites,
     handleReadNews,
     handleDeleteNews,

@@ -3,12 +3,12 @@ import { useLocation } from 'react-router-dom';
 
 import { VotedItem } from 'types';
 
-import { useActiveLinks, useAuthCollector } from 'hooks';
+import { useActiveLinks, useAuthCollector, usePopUp } from 'hooks';
 
-import { PlugImage, SvgIcon } from 'ui';
+import { Modal, PlugImage, SvgIcon } from 'ui';
 
 import { useNews } from './hooks';
-import { DeleteNewsButton, NewsDescription, VoteButton } from './subcomponents';
+import { DeleteNewsButton, DeleteNewsModal, NewsDescription, VoteButton } from './subcomponents';
 
 interface NewsItemProps {
   liveNews: Partial<VotedItem>;
@@ -16,6 +16,7 @@ interface NewsItemProps {
 
 const NewsItem: FC<Partial<NewsItemProps>> = ({ liveNews = {} }) => {
   const { isAuthenticated } = useAuthCollector();
+  const { isOpenModal, toggleModal, popUpRef } = usePopUp();
   const myButtonRef = React.createRef<HTMLButtonElement>();
 
   // const isAuthenticated = true;
@@ -23,6 +24,12 @@ const NewsItem: FC<Partial<NewsItemProps>> = ({ liveNews = {} }) => {
   const activeLinks = useActiveLinks(location);
   const { isFavourite, hasRead, handleChangeFavourites, handleReadNews, handleDeleteNews } =
     useNews({ liveNews, activeLinks });
+
+  const handleDeleteNewsWrapper = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    if (liveNews._id) {
+      await handleDeleteNews(e, liveNews._id);
+    }
+  };
 
   const locationShowHasReadStatus = activeLinks.isHomeActive || activeLinks.isArchiveActive;
 
@@ -46,9 +53,8 @@ const NewsItem: FC<Partial<NewsItemProps>> = ({ liveNews = {} }) => {
           {activeLinks.isArchiveActive ? (
             <DeleteNewsButton
               myButtonRef={myButtonRef}
-              handleDeleteNews={handleDeleteNews}
-              liveNews={liveNews}
-            ></DeleteNewsButton>
+              handleOpenConfirm={(e: React.MouseEvent<HTMLButtonElement>) => toggleModal(e, true)}
+            />
           ) : null}
           <p className='absolute z-20 top-10 left-0 py-1 px-2 text-small font-medium text-contrastWhite bg-accentBase/[.7] rounded-r'>
             {liveNews?.category} / {liveNews?.materialType}
@@ -81,6 +87,15 @@ const NewsItem: FC<Partial<NewsItemProps>> = ({ liveNews = {} }) => {
           </div>
           <NewsDescription liveNews={liveNews} />
         </a>
+      )}
+      {isOpenModal && (
+        <Modal closeModal={toggleModal} modalRef={popUpRef} variant='deleteNews'>
+          <DeleteNewsModal
+            handleDeleteNews={handleDeleteNewsWrapper}
+            newsId={liveNews._id}
+            handleClose={(e: React.MouseEvent<HTMLButtonElement>) => toggleModal(e)}
+          />
+        </Modal>
       )}
     </>
   );

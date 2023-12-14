@@ -1,6 +1,7 @@
 import React, { FC, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 
+import { useNotification } from 'contexts';
 import {
   useActiveLinks,
   useAuthCollector,
@@ -11,7 +12,7 @@ import {
 } from 'hooks';
 
 import { NewsList } from 'components';
-import { Loader, PlugImage } from 'ui';
+import { Loader, Notification, PlugImage } from 'ui';
 
 import { Pagination } from './subcomponents';
 import { usePagination } from './hooks';
@@ -19,8 +20,8 @@ import { usePagination } from './hooks';
 const HomePage: FC = () => {
   const { isLoadingAPIData, headline, fetchPopular } = useNewsAPICollector();
   const { isLoadingDBData, getSavedNews } = useNewsDBCollector();
-
   const { isAuthenticated } = useAuthCollector();
+  const { openToast, setOpenToast } = useNotification();
   // const isAuthenticated = true;
   const location = useLocation();
   const activeLinks = useActiveLinks(location);
@@ -63,6 +64,15 @@ const HomePage: FC = () => {
             </>
           )}
         </>
+      )}
+      {isAuthenticated && (
+        <Notification
+          variant='non-interactive'
+          openToast={openToast}
+          setOpenToast={setOpenToast}
+          title='Welcome'
+          description='Welcome to New York Times News Viewer'
+        />
       )}
     </div>
   );
