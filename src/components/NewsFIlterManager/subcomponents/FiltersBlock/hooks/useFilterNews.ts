@@ -1,7 +1,7 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { format, isAfter, startOfToday } from 'date-fns';
 
-import { Filters, PartialVotedNewsArray } from 'types';
+import { PartialVotedNewsArray } from 'types';
 
 import {
   useChooseRenderingNews,
@@ -12,6 +12,7 @@ import {
 import { ActiveLinks } from 'hooks/useActiveLinks';
 
 import { applyCrossFilters } from '../assistants';
+import { useFiltersState } from 'contexts/FiltersProvider';
 
 type FilterHookProps = {
   activeLinks: ActiveLinks;
@@ -21,25 +22,11 @@ type FilterHookProps = {
 const useFilterNews = ({ activeLinks, setIsOpenCalendar }: FilterHookProps) => {
   const [beginDate, setBeginDate] = useState<Date | null>(null);
 
-  const [filters, setFilters] = useState<Filters>({
-    keyword: '',
-    title: '',
-    author: '',
-    publisher: '',
-    materialType: '',
-    selectedFilterDate: {
-      startDate: '',
-      endDate: '',
-    },
-  });
+  const { filters, setFilters } = useFiltersState();
   const { showResultsState, getFilteredNews, resetAllFilters } = useFilterCollector();
   const { updateHeadline } = useNewsAPICollector();
   const { allFavourites, allReads } = useNewsDBCollector();
   const { rebuildedNews } = useChooseRenderingNews({ activeLinks });
-
-  useEffect(() => {
-    console.log(filters.selectedFilterDate);
-  }, [filters]);
 
   const today = startOfToday();
 
@@ -58,14 +45,14 @@ const useFilterNews = ({ activeLinks, setIsOpenCalendar }: FilterHookProps) => {
     });
   };
 
-  const handleFilterDate = (date: Date) => {
-    console.log('handleFilterDate', date);
+  const handleFilterDate = async (date: Date) => {
     if (!isAfter(date, today)) {
       if (!beginDate) {
         setBeginDate(date);
       } else {
         try {
-          let newSelectedDate: { beginDate: string; endDate: string };
+          let newSelectedDate: { beginDate: string | null; endDate: string | null };
+
           if (isAfter(date, beginDate)) {
             newSelectedDate = {
               beginDate: format(beginDate, 'dd/MM/yyyy'),
@@ -77,7 +64,8 @@ const useFilterNews = ({ activeLinks, setIsOpenCalendar }: FilterHookProps) => {
               endDate: format(beginDate, 'dd/MM/yyyy'),
             };
           }
-          if (newSelectedDate.beginDate !== '' && newSelectedDate.endDate! == '') {
+
+          if (newSelectedDate.beginDate && newSelectedDate.endDate) {
             setFilters({
               ...filters,
               selectedFilterDate: {
@@ -85,8 +73,10 @@ const useFilterNews = ({ activeLinks, setIsOpenCalendar }: FilterHookProps) => {
                 endDate: newSelectedDate.endDate,
               },
             });
-            setIsOpenCalendar ? setIsOpenCalendar(false) : null;
           }
+
+          setIsOpenCalendar ? setIsOpenCalendar(false) : null;
+          setBeginDate(null);
         } catch (error) {
           console.log(error);
         }
@@ -94,9 +84,11 @@ const useFilterNews = ({ activeLinks, setIsOpenCalendar }: FilterHookProps) => {
     }
   };
 
-  const handleFiltration = async (event: React.FormEvent) => {
+  const handleFiltration = (event: React.FormEvent) => {
     event.preventDefault();
     event.stopPropagation();
+
+    console.log('FIL', filters);
 
     showResultsState('loading');
     if (activeLinks.isHomeActive) {
@@ -105,10 +97,6 @@ const useFilterNews = ({ activeLinks, setIsOpenCalendar }: FilterHookProps) => {
 
     if (filters) {
       const hasFilterValue = Object.values(filters).some((entry) => entry !== '');
-      // console.log('rebuildedNews', rebuildedNews);
-      // console.log('rebuildedNews.length', rebuildedNews.length);
-      console.log('hasFilterValue', hasFilterValue);
-      console.log(filters);
       if (
         rebuildedNews &&
         typeof rebuildedNews !== undefined &&
@@ -118,7 +106,6 @@ const useFilterNews = ({ activeLinks, setIsOpenCalendar }: FilterHookProps) => {
         if (activeLinks.isHomeActive) {
           console.log('rebuildedNews', rebuildedNews);
           const filteredNews = applyCrossFilters(rebuildedNews, filters);
-          // console.log('filteredNews', filteredNews);
 
           if (filteredNews && filteredNews.length > 0) {
             getFilteredNews(filteredNews);

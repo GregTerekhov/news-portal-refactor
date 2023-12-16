@@ -13,7 +13,7 @@ import store, { persistor } from 'reduxStore/store';
 
 import { CONFIG } from 'config';
 
-import { SelectedDateProvider, WindowWidthProvider } from 'contexts';
+import { SelectedDateProvider, WindowWidthProvider, FiltersProvider } from 'contexts';
 
 import App from './App';
 import { Loader } from 'ui';
@@ -36,7 +36,9 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
                 <QueryClientProvider client={queryClient}>
                   <Tooltip.Provider delayDuration={500}>
                     <SelectedDateProvider>
-                      <App />
+                      <FiltersProvider>
+                        <App />
+                      </FiltersProvider>
                     </SelectedDateProvider>
                   </Tooltip.Provider>
                 </QueryClientProvider>

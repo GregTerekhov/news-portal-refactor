@@ -6,14 +6,16 @@ import { useActiveLinks } from 'hooks';
 import { UnverifiableInput } from 'ui';
 
 import { useFilterNews } from '../hooks';
+import { useFiltersState } from 'contexts/FiltersProvider';
 
 const FilterInputs: FC = () => {
   const location = useLocation();
   const activeLinks = useActiveLinks(location);
 
-  const { filters, handleChangeFilter } = useFilterNews({
+  const { handleChangeFilter } = useFilterNews({
     activeLinks,
   });
+  const { filters } = useFiltersState();
 
   const filterInputs = [
     {

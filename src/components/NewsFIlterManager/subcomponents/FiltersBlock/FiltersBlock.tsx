@@ -6,11 +6,11 @@ import { useActiveLinks, useWindowWidth } from 'hooks';
 import { Dropdown, PrimaryButton, UnverifiableInput } from 'ui';
 
 import Calendar from '../Calendar/Calendar';
-// import { ControlButtons, FilterInputs } from './subcomponents';
 import { materialTypes } from './assistants';
 import { useFilterNews } from './hooks';
 import { ClickHandler } from 'ui/PrimaryButton';
 import { Filters } from 'types/filters';
+import { useFiltersState } from 'contexts/FiltersProvider';
 
 type ButtonType = 'submit' | 'reset' | 'button';
 
@@ -37,13 +37,13 @@ const FiltersBlock: FC<{}> = () => {
   const activeLinks = useActiveLinks(location);
 
   const {
-    filters,
     handleChangeFilter,
     handleMaterialTypeChange,
     handleFiltration,
     handleSort,
     handleReset,
   } = useFilterNews({ activeLinks });
+  const { filters } = useFiltersState();
 
   const hasNonEmptyValue = (obj: Filters): boolean => {
     return Object.values(obj).some((value) => {
@@ -55,7 +55,6 @@ const FiltersBlock: FC<{}> = () => {
   };
   const hasFilterValue: boolean = hasNonEmptyValue(filters);
   console.log('hasFilterValue', hasFilterValue);
-  // console.log(filters);
 
   const filterInputs = [
     {
@@ -108,7 +107,6 @@ const FiltersBlock: FC<{}> = () => {
       svgSize: 20,
       classNameIcon: 'fill-whiteBase',
       children: '',
-      // disabled: false,
     },
     {
       type: 'reset',
@@ -122,7 +120,6 @@ const FiltersBlock: FC<{}> = () => {
       svgSize: 16,
       classNameIcon: 'fill-whiteBase',
       children: 'Reset',
-      // disabled: false,
     },
     {
       type: 'button',
@@ -137,7 +134,6 @@ const FiltersBlock: FC<{}> = () => {
       svgSize: 20,
       classNameIcon: 'fill-whiteBase rotate-180',
       children: '',
-      // disabled: false,
     },
   ];
 
@@ -192,7 +188,6 @@ const FiltersBlock: FC<{}> = () => {
 
   return (
     <form className='p-3.5 max-md:space-y-4 md:grid md:grid-cols-9 md:grid-rows-3 md:gap-3.5 lg:grid-cols-16 lg:grid-rows-2'>
-      {/* <FilterInputs /> */}
       {Array.isArray(filterInputs) &&
         filterInputs.map(({ name, value, placeholder }) => (
           <div key={name} className='md:col-span-3 lg:col-span-4'>
@@ -243,7 +238,6 @@ const FiltersBlock: FC<{}> = () => {
           </div>
         </>
       )}
-      {/* <ControlButtons /> */}
     </form>
   );
 };
