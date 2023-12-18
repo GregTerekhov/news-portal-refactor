@@ -1,31 +1,25 @@
 import { useCallback } from 'react';
 
-import {
-  FilterResults,
-  filterNews,
-  resetFilters,
-  results,
-  selectFilters,
-  selectResults,
-} from 'reduxStore/filterSlice';
+import * as filters from 'reduxStore/filterSlice';
 import { useAppDispatch, useAppSelector } from 'reduxStore/hooks';
+
 import { PartialVotedNewsArray } from 'types/news';
 
 const useFilterCollector = () => {
-  const filteredNews = useAppSelector(selectFilters);
-  const hasResults = useAppSelector(selectResults);
+  const filteredNews = useAppSelector(filters.selectFilters);
+  const hasResults = useAppSelector(filters.selectResults);
 
   const dispatch = useAppDispatch();
 
   const getFilteredNews = useCallback(
-    (filteredData: PartialVotedNewsArray) => dispatch(filterNews(filteredData)),
+    (filteredData: PartialVotedNewsArray) => dispatch(filters.filterNews(filteredData)),
     [dispatch],
   );
   const showResultsState = useCallback(
-    (state: FilterResults) => dispatch(results(state)),
+    (state: filters.FilterResults) => dispatch(filters.results(state)),
     [dispatch],
   );
-  const resetAllFilters = useCallback(() => dispatch(resetFilters()), [dispatch]);
+  const resetAllFilters = useCallback(() => dispatch(filters.resetFilters()), [dispatch]);
   return {
     filteredNews,
     hasResults,

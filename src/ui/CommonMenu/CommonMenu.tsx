@@ -1,7 +1,8 @@
 import React, { FC } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 
-import { useActiveLinks, useAuthCollector, useFilterCollector, useWindowWidth } from 'hooks';
+import { useWindowWidth } from 'contexts';
+import { useActiveLinks, useAuthCollector, useFilterCollector } from 'hooks';
 
 import ThemeSwitcher from '../ThemeSwitcher';
 

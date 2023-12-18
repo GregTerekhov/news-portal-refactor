@@ -7,11 +7,20 @@ import { useNotification } from 'contexts';
 import { useAuthCollector, usePopUp } from 'hooks';
 
 import { signUpSchema } from '../assistants';
+import { AuthInputs } from '../types';
+import { useEffect } from 'react';
+import { useAppSelector } from 'reduxStore/hooks';
+import { selectHasAuthError } from 'reduxStore/auth';
 
 const useSignUp = () => {
   const { setOpenToast } = useNotification();
   const { register, login } = useAuthCollector();
   const { toggleModal } = usePopUp();
+  const hasError = useAppSelector(selectHasAuthError);
+
+  useEffect(() => {
+    if (hasError) console.log('hasError', hasError);
+  }, [hasError]);
 
   const {
     handleSubmit,
@@ -42,6 +51,7 @@ const useSignUp = () => {
       response.meta.requestStatus === 'rejected' &&
       response.payload === 'Email already in use'
     ) {
+      console.log('response.payload', response.payload);
       setOpenToast(true);
       return;
     } else {
@@ -76,7 +86,7 @@ const useSignUp = () => {
     toggleModal;
   };
 
-  const signUpInputs = [
+  const signUpInputs: Array<AuthInputs> = [
     {
       type: 'text',
       placeholder: 'Enter your name',

@@ -20,6 +20,7 @@ const ErrorPage: FC<{}> = () => {
   );
   // const isAuthenticated = true;
   const imageUrl = useCacheImage(matchedErrorImage?.src || '');
+  console.log('imageUrl', imageUrl);
 
   const handleGoHome = () => {
     navigate('/');
@@ -51,6 +52,10 @@ const ErrorPage: FC<{}> = () => {
             onHandleClick={handleGoBack}
           >
             Go back
+            {/* <Link to='..' relative='path'>
+              Go back
+            </Link>{' '}
+            можна записувати так */}
           </PrimaryButton>
         )}
         <PrimaryButton

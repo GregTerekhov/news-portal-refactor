@@ -1,7 +1,8 @@
 import React, { ReactNode, FC } from 'react';
 import { useLocation } from 'react-router-dom';
 
-import { useHeaderStyles, useActiveLinks, useWindowWidth } from 'hooks';
+import { useWindowWidth } from 'contexts';
+import { useHeaderStyles, useActiveLinks } from 'hooks';
 
 import SvgIcon from './SvgIcon';
 

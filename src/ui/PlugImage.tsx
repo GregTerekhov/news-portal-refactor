@@ -4,11 +4,6 @@ import { plugImages } from 'constants/images';
 import { generateContentImages } from 'helpers';
 import { useCacheImage } from 'hooks';
 
-const enum VariantImage {
-  Page = 'page',
-  Card = 'card',
-}
-
 interface PlugImageProps {
   variant: string;
 }
@@ -24,10 +19,10 @@ const PlugImage: FC<PlugImageProps> = ({ variant }) => {
   );
 
   const imageUrl = useCacheImage(matchedPlugImage?.src || '');
-
+  console.log('imageUrl', imageUrl);
   return (
     <>
-      {variant === VariantImage.Page ? (
+      {variant === 'page' ? (
         <div className='flex flex-col items-center justify-center'>
           <p className='text-darkBase dark:text-whiteBase text-2xl font-bold tracking-smallTight mb-10 text-center md:text-5xl md:tracking-tighter md:w-[548px] transition-colors duration-500'>
             We haven’t found news from this category

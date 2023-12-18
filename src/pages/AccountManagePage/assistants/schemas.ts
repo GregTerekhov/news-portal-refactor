@@ -3,8 +3,8 @@ import * as yup from 'yup';
 import { createEmailValidation, createPasswordValidation, createCurrentPassword } from 'helpers';
 
 export const updateEmailSchema = yup.object({
-  updatedEmail: createEmailValidation(),
-  currentPassword: createCurrentPassword(),
+  email: createEmailValidation(),
+  password: createCurrentPassword(),
 });
 export const updatePasswordSchema = yup.object({
   newPassword: createPasswordValidation(),
@@ -15,5 +15,5 @@ export const updatePasswordSchema = yup.object({
       return value === this.parent.newPassword;
     })
     .trim(),
-  oldPassword: createCurrentPassword(),
+  password: createCurrentPassword(),
 });

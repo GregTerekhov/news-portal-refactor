@@ -1,6 +1,6 @@
 import React, { FC, ReactNode } from 'react';
 
-import { useWindowWidth } from 'hooks';
+import { useWindowWidth } from 'contexts';
 
 import SkeletonSection from './SkeletonSection';
 import {

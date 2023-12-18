@@ -1,7 +1,8 @@
 import React, { FC, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 
-import { useActiveLinks, useWindowWidth } from 'hooks';
+import { useFiltersState, useWindowWidth } from 'contexts';
+import { useActiveLinks } from 'hooks';
 
 import { Dropdown, PrimaryButton, UnverifiableInput } from 'ui';
 
@@ -38,13 +39,13 @@ const FiltersBlock: FC<{}> = () => {
   const activeLinks = useActiveLinks(location);
 
   const {
-    filters,
     handleChangeFilter,
     handleMaterialTypeChange,
     handleFiltration,
     handleSort,
     handleReset,
   } = useFilterNews({ activeLinks, setSelectedMaterialType });
+  const { filters } = useFiltersState();
 
   const hasNonEmptyValue = (obj: Filters): boolean => {
     return Object.values(obj).some((value) => {
@@ -55,8 +56,6 @@ const FiltersBlock: FC<{}> = () => {
     });
   };
   const hasFilterValue: boolean = hasNonEmptyValue(filters);
-  console.log('hasFilterValue', hasFilterValue);
-  // console.log(filters);
 
   const filterInputs = [
     {

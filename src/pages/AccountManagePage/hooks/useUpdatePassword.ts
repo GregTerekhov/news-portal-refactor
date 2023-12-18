@@ -1,7 +1,7 @@
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 
-import { UpdateCredentialsResponse, UpdatePasswordRequiredToValidate } from 'types';
+import { UpdateCredentialsResponse, IUpdatePassword } from 'types';
 
 import { useNotification } from 'contexts';
 import { useAuthCollector } from 'hooks';
@@ -18,26 +18,24 @@ const useUpdatePassword = () => {
     reset,
     getValues,
     formState: { errors },
-  } = useForm<UpdatePasswordRequiredToValidate>({
+  } = useForm<IUpdatePassword>({
     resolver: yupResolver(updatePasswordSchema),
     defaultValues: {
       newPassword: '',
       confirmPassword: '',
-      oldPassword: '',
+      password: '',
     },
   });
 
-  const [newPassword, confirmPassword, oldPassword] = watch([
+  const [newPassword, confirmPassword, password] = watch([
     'newPassword',
     'confirmPassword',
-    'oldPassword',
+    'password',
   ]);
 
-  const handlePasswordSubmitHandler: SubmitHandler<UpdatePasswordRequiredToValidate> = async (
-    data,
-  ) => {
-    const { newPassword, oldPassword } = data;
-    const dataToSend = { newPassword, oldPassword };
+  const handlePasswordSubmitHandler: SubmitHandler<IUpdatePassword> = async (data) => {
+    const { newPassword, password } = data;
+    const dataToSend = { password, newPassword };
 
     const response = await updatePassword(dataToSend);
     const { message } = response.payload as Omit<UpdateCredentialsResponse, 'newEmail'>;
@@ -49,14 +47,14 @@ const useUpdatePassword = () => {
       ...getValues,
       newPassword: '',
       confirmPassword: '',
-      oldPassword: '',
+      password: '',
     });
   };
 
   const passwordInputs = renderPasswordInputs({
     newPassword,
     confirmPassword,
-    oldPassword,
+    password,
     errors,
   });
 

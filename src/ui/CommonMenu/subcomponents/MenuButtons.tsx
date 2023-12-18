@@ -1,7 +1,7 @@
 import React, { FC, ReactNode } from 'react';
 import { Link } from 'react-router-dom';
 
-import { useWindowWidth } from 'hooks';
+import { useWindowWidth } from 'contexts';
 
 import PrimaryButton from '../../PrimaryButton';
 

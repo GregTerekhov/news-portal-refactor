@@ -4,9 +4,8 @@ import { UseFormRegister } from 'react-hook-form';
 import {
   SignUpRequest,
   AuthRequestWithoutName,
-  IUpdateEmail,
-  UpdatePasswordRequiredToValidate,
-  RecoveryPasswordRequestRequired,
+  IUpdatePassword,
+  RecoveryPasswordRequest,
 } from 'types';
 
 import SvgIcon from './SvgIcon';
@@ -24,11 +23,10 @@ enum VariantInputs {
 }
 
 export type Values =
-  | IUpdateEmail
-  | UpdatePasswordRequiredToValidate
+  | IUpdatePassword
   | SignUpRequest
   | AuthRequestWithoutName
-  | RecoveryPasswordRequestRequired;
+  | RecoveryPasswordRequest;
 
 interface InputProps {
   inputData: InputCollectedData;

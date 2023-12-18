@@ -1,7 +1,8 @@
 import React, { FC, useEffect, useState } from 'react';
 import { Switch } from '@headlessui/react';
 
-import { useActiveLinks, useAuthCollector, useHeaderStyles, useWindowWidth } from 'hooks';
+import { useWindowWidth } from 'contexts';
+import { useActiveLinks, useAuthCollector, useHeaderStyles } from 'hooks';
 
 import { SvgIcon } from 'ui';
 import { useLocation } from 'react-router-dom';

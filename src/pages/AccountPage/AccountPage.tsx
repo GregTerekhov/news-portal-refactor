@@ -1,6 +1,7 @@
 import React, { FC } from 'react';
 
-import { useAuthCollector, useWindowWidth } from 'hooks';
+import { useWindowWidth } from 'contexts';
+import { useAuthCollector } from 'hooks';
 
 import { SvgIcon } from 'ui';
 

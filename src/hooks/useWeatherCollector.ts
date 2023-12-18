@@ -1,31 +1,23 @@
 import { useCallback } from 'react';
 
 import { useAppDispatch, useAppSelector } from 'reduxStore/hooks';
-import {
-  Position,
-  fetchHourlyForecastWeather,
-  fetchWeather,
-  selectHasWeatherError,
-  selectLoading,
-  selectPosition,
-  selectWeatherByHours,
-} from 'reduxStore/weather';
+import * as weather from 'reduxStore/weather';
 
 const useWeatherCollector = () => {
-  const isWeatherLoading = useAppSelector(selectLoading);
-  const currentWeather = useAppSelector(selectPosition);
-  const hourlyWeather = useAppSelector(selectWeatherByHours);
-  const weatherError = useAppSelector(selectHasWeatherError);
+  const isWeatherLoading = useAppSelector(weather.selectLoading);
+  const currentWeather = useAppSelector(weather.selectPosition);
+  const hourlyWeather = useAppSelector(weather.selectWeatherByHours);
+  const weatherError = useAppSelector(weather.selectHasWeatherError);
 
   const dispatch = useAppDispatch();
 
   const getCurrentWeather = useCallback(
-    (position: Position) => dispatch(fetchWeather(position)),
+    (position: weather.Position) => dispatch(weather.fetchWeather(position)),
     [dispatch],
   );
 
   const getHourlyWeather = useCallback(
-    (position: Position) => dispatch(fetchHourlyForecastWeather(position)),
+    (position: weather.Position) => dispatch(weather.fetchHourlyForecastWeather(position)),
     [dispatch],
   );
 

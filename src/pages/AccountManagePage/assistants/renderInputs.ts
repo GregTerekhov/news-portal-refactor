@@ -1,45 +1,12 @@
-import { FieldErrors } from 'react-hook-form';
-
-import { IUpdateEmail, IUpdatePassword } from 'types';
-
-type PasswordInputsValues = {
-  newPassword: string;
-  confirmPassword: string;
-  oldPassword: string;
-  errors?: FieldErrors<Required<IUpdatePassword>>;
-};
-
-type EmailInputsValues = {
-  updatedEmail: string;
-  currentPassword: string;
-  errors?: FieldErrors<Required<IUpdateEmail>>;
-};
-
-type PasswordInput = {
-  placeholder: string;
-  fieldValue: string;
-  errors?: string | undefined;
-  label: string;
-  ariaInvalid?: boolean;
-};
-
-type EmailInput = {
-  type: string;
-  placeholder: string;
-  fieldValue: string;
-  errors?: string | undefined;
-  label: string;
-  iconName: string;
-  ariaInvalid?: boolean;
-};
+import { EmailInput, EmailInputsValues, PasswordInput, PasswordInputsValues } from '../types';
 
 export const renderPasswordInputs = ({
   newPassword,
   confirmPassword,
-  oldPassword,
+  password,
   errors,
-}: PasswordInputsValues): PasswordInput[] => {
-  const passwordInputs: PasswordInput[] = [
+}: PasswordInputsValues): Array<PasswordInput> => {
+  const passwordInputs: Array<PasswordInput> = [
     {
       placeholder: 'Enter new password',
       fieldValue: newPassword,
@@ -67,10 +34,10 @@ export const renderPasswordInputs = ({
   if (showCurrentPasswordInput) {
     passwordInputs.push({
       placeholder: 'Enter your current password',
-      fieldValue: oldPassword,
-      errors: errors?.oldPassword?.message,
-      label: 'oldPassword',
-      ariaInvalid: errors && errors?.oldPassword ? true : false,
+      fieldValue: password,
+      errors: errors?.password?.message,
+      label: 'password',
+      ariaInvalid: errors && errors?.password ? true : false,
     });
   }
 
@@ -78,34 +45,33 @@ export const renderPasswordInputs = ({
 };
 
 export const renderEmailInputs = ({
-  updatedEmail,
-  currentPassword,
+  email,
+  password,
   errors,
-}: EmailInputsValues): EmailInput[] => {
-  const emailInputs: EmailInput[] = [
+}: EmailInputsValues): Array<EmailInput> => {
+  const emailInputs: Array<EmailInput> = [
     {
       type: 'email',
       placeholder: 'Enter new email',
-      fieldValue: updatedEmail,
-      errors: errors?.updatedEmail?.message,
+      fieldValue: email,
+      errors: errors?.email?.message,
       label: 'updatedEmail',
       iconName: 'icon-envelop',
-      ariaInvalid: errors?.updatedEmail ? true : false,
+      ariaInvalid: errors?.email ? true : false,
     },
   ];
 
-  const showCurrentPasswordInput =
-    updatedEmail && !errors?.updatedEmail?.message && updatedEmail.length !== 0;
+  const showCurrentPasswordInput = email && !errors?.email?.message && email.length !== 0;
 
   if (showCurrentPasswordInput) {
     emailInputs.push({
       type: 'password',
       placeholder: 'Enter your current password',
-      fieldValue: currentPassword,
-      errors: errors?.currentPassword?.message,
+      fieldValue: password,
+      errors: errors?.password?.message,
       label: 'updatedEmail',
       iconName: 'icon-envelop',
-      ariaInvalid: errors?.currentPassword ? true : false,
+      ariaInvalid: errors?.password ? true : false,
     });
   }
 

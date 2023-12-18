@@ -1,7 +1,7 @@
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 
-import { IUpdateEmail, UpdateCredentialsResponse } from 'types';
+import { AuthRequestWithoutName, UpdateCredentialsResponse } from 'types';
 
 import { useNotification } from 'contexts';
 import { useAuthCollector } from 'hooks';
@@ -19,17 +19,17 @@ const useUpdateEmail = () => {
     reset,
     getValues,
     formState: { errors },
-  } = useForm<IUpdateEmail>({
+  } = useForm<AuthRequestWithoutName>({
     resolver: yupResolver(updateEmailSchema),
     defaultValues: {
-      updatedEmail: '',
-      currentPassword: '',
+      email: '',
+      password: '',
     },
   });
 
-  const [updatedEmail, currentPassword] = watch(['updatedEmail', 'currentPassword']);
+  const [email, password] = watch(['email', 'password']);
 
-  const handleEmailSubmitHandler: SubmitHandler<IUpdateEmail> = async (data) => {
+  const handleEmailSubmitHandler: SubmitHandler<AuthRequestWithoutName> = async (data) => {
     const response = await updateEmail(data);
     const { message } = response.payload as UpdateCredentialsResponse;
 
@@ -38,18 +38,18 @@ const useUpdateEmail = () => {
     }
     reset({
       ...getValues,
-      updatedEmail: '',
-      currentPassword: '',
+      email: '',
+      password: '',
     });
   };
 
-  const emailInputs = renderEmailInputs({ updatedEmail, currentPassword, errors });
+  const emailInputs = renderEmailInputs({ email, password, errors });
 
   return {
     handleSubmit,
     register,
     errors,
-    updatedEmail,
+    email,
     handleEmailSubmitHandler,
     emailInputs,
   };
