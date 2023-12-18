@@ -1,7 +1,8 @@
 import React, { FC } from 'react';
 import { useLocation } from 'react-router-dom';
 
-import { useActiveLinks, useWindowWidth } from 'hooks';
+import { useWindowWidth } from 'contexts';
+import { useActiveLinks } from 'hooks';
 
 import {
   SkeletonPage,

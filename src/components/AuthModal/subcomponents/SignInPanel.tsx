@@ -64,13 +64,13 @@ const SignInPanel: FC<SignInProps> = ({ handleShowRecoveryInput, isShowRecoveryI
                 type: 'email',
                 placeholder: 'Enter your email',
               }}
-              errors={recoveryPasswordErrors?.recoveryEmail?.message}
+              errors={recoveryPasswordErrors?.email?.message}
               register={registerRecovery}
               handleSubmitRecovery={handleRecoveryPasswordSubmit(recoveryPasswordSubmitHandler)}
               label='recoveryEmail'
               hasIcon={false}
               variant='auth'
-              ariaInvalid={recoveryPasswordErrors?.recoveryEmail ? 'true' : 'false'}
+              ariaInvalid={recoveryPasswordErrors?.email ? 'true' : 'false'}
             />
           ) : null}
         </div>

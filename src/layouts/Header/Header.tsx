@@ -3,6 +3,7 @@ import { Link, useLocation, useSearchParams } from 'react-router-dom';
 
 import { setTokens } from 'reduxStore/auth';
 
+import { useWindowWidth } from 'contexts';
 import {
   useActiveLinks,
   useAdditionalRequest,
@@ -10,7 +11,6 @@ import {
   useFilterCollector,
   useHeaderStyles,
   usePopUp,
-  useWindowWidth,
 } from 'hooks';
 
 import { AuthModal } from 'components';
@@ -19,7 +19,7 @@ import { Modal, SvgIcon, ThemeSwitcher, UnverifiableInput } from 'ui';
 import { AuthButton, MainMenu } from './subcomponents';
 import { AccountMenu } from '../subcomponents';
 
-const Header: FC = () => {
+const Header: FC<{}> = () => {
   const { query, onChangeInput, onHandleSearch } = useAdditionalRequest();
   const { isOpenMenu, isOpenModal, setIsOpenModal, toggleMenu, toggleModal, popUpRef } = usePopUp();
   const { breakpointsForMarkup } = useWindowWidth() ?? {

@@ -18,11 +18,10 @@ function isDateWithinRange(
 
 export function applyCrossFilters(newsArray: PartialVotedNewsArray | undefined, filters: Filters) {
   const hasFilters = Object.values(filters);
-  console.log(hasFilters);
 
   if (newsArray && newsArray.length > 0 && filters && hasFilters) {
-    console.log('filters', filters);
     const { keyword, title, author, publisher, materialType, selectedFilterDate } = filters;
+
     return newsArray.filter((news) => {
       const keywordMatch = keyword
         ? news?.title?.toLowerCase().includes(keyword.toLowerCase()) ||
@@ -47,7 +46,6 @@ export function applyCrossFilters(newsArray: PartialVotedNewsArray | undefined, 
               selectedFilterDate.endDate,
             )
           : false;
-      console.log('selectedFilterDate', selectedFilterDate);
 
       return (
         keywordMatch ||

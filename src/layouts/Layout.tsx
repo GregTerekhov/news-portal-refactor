@@ -1,12 +1,12 @@
 import React, { FC, useEffect } from 'react';
 import { Outlet, useLocation } from 'react-router-dom';
 
+import { useWindowWidth } from 'contexts';
 import {
   useActiveLinks,
   useAuthCollector,
   useChooseRenderingNews,
   useNewsAPICollector,
-  useWindowWidth,
 } from 'hooks';
 
 import { NewsFilterManager, PageScrollController } from 'components';

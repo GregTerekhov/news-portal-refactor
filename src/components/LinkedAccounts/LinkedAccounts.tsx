@@ -2,7 +2,8 @@ import React, { FC } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useGoogleLogin } from '@react-oauth/google';
 
-import { useActiveLinks, useWindowWidth } from 'hooks';
+import { useWindowWidth } from 'contexts';
+import { useActiveLinks } from 'hooks';
 
 import { PrimaryButton } from 'ui';
 import { useFacebookLogin } from './hooks';

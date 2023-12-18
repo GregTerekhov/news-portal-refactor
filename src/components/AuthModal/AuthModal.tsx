@@ -5,9 +5,7 @@ import FocusLock from 'react-focus-lock';
 import { usePopUp } from 'hooks';
 
 import { SignUpPanel, SignInPanel, ChangePassword } from './subcomponents';
-interface IAuthModalProps {
-  passwordToken?: boolean;
-}
+import { IAuthModalProps } from './types';
 
 const AuthModal: FC<IAuthModalProps> = ({ passwordToken }) => {
   const [isShowRecoveryInput, setIsShowRecoveryInput] = useState<boolean>(false);

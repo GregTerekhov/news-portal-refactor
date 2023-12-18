@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 
-import { useWindowWidth } from 'hooks';
+import { useWindowWidth } from 'contexts';
 
 import { Hint, SvgIcon } from 'ui';
 

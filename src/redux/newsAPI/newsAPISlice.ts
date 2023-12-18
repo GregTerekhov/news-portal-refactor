@@ -8,13 +8,7 @@ import {
 
 import { ArticleNewsArray, NewsWireArray, PopularNewsArray, C } from 'types';
 
-import {
-  fetchAllCategories,
-  fetchNewsByCategory,
-  fetchNewsByKeyword,
-  fetchPopularNews,
-  fetchNewsByDate,
-} from './newsAPIOperations';
+import * as newsAPIOperations from './newsAPIOperations';
 
 type newsAPIState = {
   popular: PopularNewsArray;
@@ -54,11 +48,11 @@ const handleRejected = (state: newsAPIState, action: PayloadAction<unknown, stri
 };
 
 const extraActions = [
-  fetchAllCategories,
-  fetchNewsByCategory,
-  fetchNewsByKeyword,
-  fetchPopularNews,
-  fetchNewsByDate,
+  newsAPIOperations.fetchAllCategories,
+  newsAPIOperations.fetchNewsByCategory,
+  newsAPIOperations.fetchNewsByKeyword,
+  newsAPIOperations.fetchPopularNews,
+  newsAPIOperations.fetchNewsByDate,
 ];
 
 const getActions = (type: 'pending' | 'fulfilled' | 'rejected') =>
@@ -87,19 +81,19 @@ const newsAPISlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(fetchPopularNews.fulfilled, (state, action) => {
+      .addCase(newsAPIOperations.fetchPopularNews.fulfilled, (state, action) => {
         state.popular = action.payload;
       })
-      .addCase(fetchNewsByKeyword.fulfilled, (state, action) => {
+      .addCase(newsAPIOperations.fetchNewsByKeyword.fulfilled, (state, action) => {
         state.searchByWord = action.payload;
       })
-      .addCase(fetchAllCategories.fulfilled, (state, action) => {
+      .addCase(newsAPIOperations.fetchAllCategories.fulfilled, (state, action) => {
         state.categoriesList = action.payload;
       })
-      .addCase(fetchNewsByCategory.fulfilled, (state, action) => {
+      .addCase(newsAPIOperations.fetchNewsByCategory.fulfilled, (state, action) => {
         state.categories = action.payload;
       })
-      .addCase(fetchNewsByDate.fulfilled, (state, action) => {
+      .addCase(newsAPIOperations.fetchNewsByDate.fulfilled, (state, action) => {
         state.searchByDate = action.payload;
       })
       .addCase(changeHeadline, (state, action) => {

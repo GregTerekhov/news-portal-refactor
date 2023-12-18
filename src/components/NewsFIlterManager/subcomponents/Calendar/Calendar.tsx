@@ -2,7 +2,7 @@ import React, { FC } from 'react';
 import { useLocation } from 'react-router-dom';
 import { format, startOfToday } from 'date-fns';
 
-import { useSelectedDate } from 'contexts';
+import { useFiltersState, useSelectedDate } from 'contexts';
 import { useActiveLinks, usePopUp } from 'hooks';
 
 import { SvgIcon } from 'ui';
@@ -20,7 +20,8 @@ const Calendar: FC<CalendarProps> = ({ variant }) => {
 
   const location = useLocation();
   const activeLinks = useActiveLinks(location);
-  const { filters, handleFilterDate } = useFilterNews({ activeLinks, setIsOpenCalendar });
+  const { handleFilterDate } = useFilterNews({ activeLinks, setIsOpenCalendar });
+  const { filters } = useFiltersState();
   const { selectedRequestDate } = useSelectedDate();
 
   const today = startOfToday();

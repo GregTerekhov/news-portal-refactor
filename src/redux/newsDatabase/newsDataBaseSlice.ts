@@ -8,14 +8,7 @@ import {
 
 import { IHistoryLog, PartialVotedNewsArray, VotedItem } from 'types';
 
-import {
-  deleteNews,
-  fetchAllNews,
-  fetchArchivedNews,
-  fetchFavourites,
-  fetchHistoryLog,
-  fetchRead,
-} from './newsDatabaseOperations';
+import * as newsDBOperations from './newsDatabaseOperations';
 
 interface NewsDBState {
   savedNews: PartialVotedNewsArray;
@@ -53,12 +46,12 @@ const handleRejected = (state: NewsDBState, action: PayloadAction<unknown, strin
 };
 
 const extraActions = [
-  fetchAllNews,
-  fetchFavourites,
-  fetchRead,
-  fetchArchivedNews,
-  deleteNews,
-  fetchHistoryLog,
+  newsDBOperations.fetchAllNews,
+  newsDBOperations.fetchFavourites,
+  newsDBOperations.fetchRead,
+  newsDBOperations.fetchArchivedNews,
+  newsDBOperations.deleteNews,
+  newsDBOperations.fetchHistoryLog,
 ];
 
 const getActions = (type: 'pending' | 'fulfilled' | 'rejected') =>
@@ -92,23 +85,23 @@ const newsDBSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(fetchAllNews.fulfilled, (state, action) => {
+      .addCase(newsDBOperations.fetchAllNews.fulfilled, (state, action) => {
         state.savedNews = action.payload.data;
       })
-      .addCase(fetchFavourites.fulfilled, (state, action) => {
+      .addCase(newsDBOperations.fetchFavourites.fulfilled, (state, action) => {
         state.favourites = action.payload.data;
       })
-      .addCase(fetchRead.fulfilled, (state, action) => {
+      .addCase(newsDBOperations.fetchRead.fulfilled, (state, action) => {
         state.reads = action.payload.data;
       })
-      .addCase(fetchArchivedNews.fulfilled, (state, action) => {
+      .addCase(newsDBOperations.fetchArchivedNews.fulfilled, (state, action) => {
         state.archivedNews = action.payload.data;
       })
-      .addCase(deleteNews.fulfilled, (state, action) => {
+      .addCase(newsDBOperations.deleteNews.fulfilled, (state, action) => {
         const { _id: id } = action.payload;
         state.archivedNews = state.archivedNews.filter((news) => news._id !== id);
       })
-      .addCase(fetchHistoryLog.fulfilled, (state, action) => {
+      .addCase(newsDBOperations.fetchHistoryLog.fulfilled, (state, action) => {
         state.historyLog = action.payload.data;
       })
       .addCase(removeFromFavourites, (state, action) => {

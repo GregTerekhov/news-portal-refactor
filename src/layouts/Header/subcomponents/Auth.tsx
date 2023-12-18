@@ -1,7 +1,8 @@
 import React, { FC } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
-import { useActiveLinks, useAuthCollector, useHeaderStyles, usePopUp, useWindowWidth } from 'hooks';
+import { useWindowWidth } from 'contexts';
+import { useActiveLinks, useAuthCollector, useHeaderStyles, usePopUp } from 'hooks';
 
 import { AuthModal } from 'components';
 import { Modal, PrimaryButton } from 'ui';

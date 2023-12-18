@@ -7,11 +7,8 @@ import { setTokens } from './authSlice';
 import {
   SignUpRequest,
   AuthRequestWithoutName,
-  IUpdateEmail,
   IThirdPartyAuth,
-  UpdatePasswordRequiredToSend,
-  RecoveryPasswordRequestRequired,
-  RecoveryPasswordChangeRequiredToSend,
+  RecoveryPasswordRequest,
   UpdateThemeRequest,
   GoogleResponse,
   CredentialSignUpResponse,
@@ -21,6 +18,8 @@ import {
   UpdateCredentialsResponse,
   UpdatePasswordResponse,
   UpdateThemeResponse,
+  UpdatePasswordRequest,
+  RecoveryPasswordChange,
 } from 'types';
 
 const BASE_URL = 'https://news-webapp-express.onrender.com/api';
@@ -37,7 +36,8 @@ export const signUp = createAsyncThunk<CredentialSignUpResponse, SignUpRequest>(
       console.log('SignUpResponse', response.data);
       return response.data;
     } catch (error: any) {
-      return rejectWithValue(error.message);
+      console.log('error', error.response.data);
+      return rejectWithValue(error.response.data);
     }
   },
 );
@@ -90,7 +90,7 @@ export const fetchCurrentUser = createAsyncThunk<CurrentUserResponse>(
   },
 );
 
-export const updateUserEmail = createAsyncThunk<UpdateCredentialsResponse, IUpdateEmail>(
+export const updateUserEmail = createAsyncThunk<UpdateCredentialsResponse, AuthRequestWithoutName>(
   'auth/updateEmail',
   async (newEmail, { rejectWithValue }) => {
     console.log('newEmail', newEmail);
@@ -107,25 +107,25 @@ export const updateUserEmail = createAsyncThunk<UpdateCredentialsResponse, IUpda
     }
   },
 );
-export const updateUserPassword = createAsyncThunk<
-  UpdatePasswordResponse,
-  UpdatePasswordRequiredToSend
->('auth/updatePassword', async (newPassword, { rejectWithValue }) => {
-  try {
-    const response = await axiosInstance.patch<UpdatePasswordResponse>(
-      '/auth/update-password',
-      newPassword,
-    );
-    console.log('UpdatePasswordResponse', response.data);
-    return response.data;
-  } catch (error: any) {
-    console.log('Error updatePassword', error.message);
-    return rejectWithValue(error.message);
-  }
-});
+export const updateUserPassword = createAsyncThunk<UpdatePasswordResponse, UpdatePasswordRequest>(
+  'auth/updatePassword',
+  async (newPassword, { rejectWithValue }) => {
+    try {
+      const response = await axiosInstance.patch<UpdatePasswordResponse>(
+        '/auth/update-password',
+        newPassword,
+      );
+      console.log('UpdatePasswordResponse', response.data);
+      return response.data;
+    } catch (error: any) {
+      console.log('Error updatePassword', error.message);
+      return rejectWithValue(error.message);
+    }
+  },
+);
 export const recoveryPasswordRequest = createAsyncThunk<
   UpdatePasswordResponse,
-  RecoveryPasswordRequestRequired
+  RecoveryPasswordRequest
 >('auth/recoveryPasswordRequest', async (email, { rejectWithValue }) => {
   try {
     const response = await axios.patch(`${BASE_URL}/auth/forgot-password-request`, email);
@@ -139,7 +139,7 @@ export const recoveryPasswordRequest = createAsyncThunk<
 
 export const recoveryPasswordChange = createAsyncThunk<
   UpdatePasswordResponse,
-  RecoveryPasswordChangeRequiredToSend
+  RecoveryPasswordChange
 >('auth/recoveryPasswordChange', async (changedPassword, { rejectWithValue }) => {
   try {
     const response = await axiosInstance.patch<UpdatePasswordResponse>(

@@ -1,6 +1,6 @@
 import {
   // PayloadAction,
-  SerializedError,
+  // SerializedError,
   createAction,
   createSlice,
   // isAnyOf,
@@ -9,9 +9,13 @@ import {
 import * as authOperations from './authOperations';
 import { TokensPayload } from 'types';
 
+export type KnownError = {
+  message?: string;
+};
+
 interface AuthState {
   isLoggedIn: boolean;
-  hasError: SerializedError | null;
+  hasError?: KnownError | null;
   isCurrentUser: boolean;
   userTheme: string;
   accessToken: string | null;
@@ -85,7 +89,7 @@ const authSlice = createSlice({
       })
       .addCase(authOperations.signUp.rejected, (state, action) => {
         state.isCurrentUser = false;
-        state.hasError = action.error;
+        if (action.payload) state.hasError = action.payload;
       })
       .addCase(authOperations.signIn.pending, (state) => {
         state.isCurrentUser = true;

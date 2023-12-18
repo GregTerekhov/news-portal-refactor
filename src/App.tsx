@@ -17,12 +17,66 @@ const AccountManagePage = lazy(() => import('./pages/AccountManagePage/AccountMa
 const ErrorPage = lazy(() => import('./pages/ErrorPage/ErrorPage'));
 const AboutUs = lazy(() => import('./pages/AboutUs/AboutUs'));
 
+// const router = createBrowserRouter([
+//   {
+//     path: '/',
+//     element: <Layout />,
+//     errorElement: <ErrorPage />,
+
+//     children: [
+//       {
+//         index: true,
+//         element: <HomePage />,
+//       },
+//       {
+//         path: '',
+//         element: <ProtectedRoute />,
+//         children: [
+//           {
+//             path: 'favourite', // замінити всюди шляхи з косою рискою на відносні шляхи - без неї
+//             element: <FavouritePage />,
+//           },
+//           {
+//             path: 'read',
+//             element: <ReadPage />,
+//           },
+//           {
+//             path: 'archive',
+//             element: <ArchivePage />,
+//           },
+//           {
+//             path: 'account',
+//             element: <AccountLayout />,
+//             children: [
+//               {
+//                 index: true,
+//                 element: <AccountPage />,
+//               },
+//               {
+//                 path: 'account-manage',
+//                 element: <AccountManagePage />,
+//               },
+//             ],
+//           },
+//         ],
+//       },
+//       {
+//         path: 'about-us',
+//         element: <AboutUs />,
+//       },
+//     ],
+//   },
+// ]);
+
 function App() {
   const { isRefreshingUser, fetchCurrentAuthUser } = useAuthCollector();
   // const { isRefreshingUser } = useAuthCollector();
 
   useEffect(() => {
     // if (user && user?.id)
+    // console.log('isAuthenticated', isAuthenticated);
+    // console.log('isRefreshingUser', isRefreshingUser);
+    // if (isAuthenticated && !isRefreshingUser)
     fetchCurrentAuthUser();
   }, [fetchCurrentAuthUser]);
 

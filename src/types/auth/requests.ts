@@ -12,9 +12,12 @@ type AdditionalCredentials = {
 };
 
 export type UpdatePasswordRequest = {
-  password: Pick<MainCredentials, 'password'>;
-  newPassword: Pick<AdditionalCredentials, 'newPassword'>;
+  password: string;
+  newPassword: string;
 };
+
 export type SignUpRequest = Required<MainCredentials>;
 export type AuthRequestWithoutName = Required<Omit<MainCredentials, 'name'>>;
-export type UpdateThemeRequest = Required<Omit<AdditionalCredentials, 'newPassword'>>;
+export type RecoveryPasswordRequest = Required<Pick<MainCredentials, 'email'>>;
+export type RecoveryPasswordChange = Required<Pick<AdditionalCredentials, 'newPassword'>>;
+export type UpdateThemeRequest = Required<Pick<AdditionalCredentials, 'updatedTheme'>>;

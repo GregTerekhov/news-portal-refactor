@@ -12,16 +12,16 @@ export const signInSchema = yup.object({
   password: createPasswordValidation(), // мемоїзована функція схеми
 });
 export const recoveryPasswordSchema = yup.object({
-  recoveryEmail: createEmailValidation(), // мемоїзована функція схеми
+  email: createEmailValidation(), // мемоїзована функція схеми
 });
 
 export const changePasswordSchema = yup.object({
-  changedPassword: createPasswordValidation(), // мемоїзована функція схеми
+  newPassword: createPasswordValidation(), // мемоїзована функція схеми
   confirmPassword: yup
     .string()
     .required('Confirm password is required')
     .test('passwords-match', 'Passwords do not match', function (value) {
-      return value === this.parent.changedPassword;
+      return value === this.parent.newPassword;
     })
     .trim(),
 });

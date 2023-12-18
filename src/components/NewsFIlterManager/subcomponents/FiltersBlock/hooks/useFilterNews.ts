@@ -1,8 +1,9 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { format, isAfter, startOfToday } from 'date-fns';
 
-import { Filters, PartialVotedNewsArray } from 'types';
+import { PartialVotedNewsArray } from 'types';
 
+import { useFiltersState } from 'contexts';
 import {
   useChooseRenderingNews,
   useFilterCollector,
@@ -26,25 +27,11 @@ const useFilterNews = ({
 }: FilterHookProps) => {
   const [beginDate, setBeginDate] = useState<Date | null>(null);
 
-  const [filters, setFilters] = useState<Filters>({
-    keyword: '',
-    title: '',
-    author: '',
-    publisher: '',
-    materialType: '',
-    selectedFilterDate: {
-      startDate: '',
-      endDate: '',
-    },
-  });
+  const { filters, setFilters } = useFiltersState();
   const { showResultsState, getFilteredNews, resetAllFilters } = useFilterCollector();
   const { updateHeadline } = useNewsAPICollector();
   const { allFavourites, allReads } = useNewsDBCollector();
   const { rebuildedNews } = useChooseRenderingNews({ activeLinks });
-
-  useEffect(() => {
-    console.log(filters.selectedFilterDate);
-  }, [filters]);
 
   const today = startOfToday();
 
@@ -64,13 +51,12 @@ const useFilterNews = ({
   };
 
   const handleFilterDate = (date: Date) => {
-    console.log('handleFilterDate', date);
     if (!isAfter(date, today)) {
       if (!beginDate) {
         setBeginDate(date);
       } else {
         try {
-          let newSelectedDate: { beginDate: string; endDate: string };
+          let newSelectedDate: { beginDate: string | null; endDate: string | null };
           if (isAfter(date, beginDate)) {
             newSelectedDate = {
               beginDate: format(beginDate, 'dd/MM/yyyy'),
@@ -82,7 +68,7 @@ const useFilterNews = ({
               endDate: format(beginDate, 'dd/MM/yyyy'),
             };
           }
-          if (newSelectedDate.beginDate !== '' && newSelectedDate.endDate! == '') {
+          if (newSelectedDate.beginDate && newSelectedDate.endDate) {
             setFilters({
               ...filters,
               selectedFilterDate: {
@@ -90,6 +76,7 @@ const useFilterNews = ({
                 endDate: newSelectedDate.endDate,
               },
             });
+            setBeginDate(null);
             setIsOpenCalendar ? setIsOpenCalendar(false) : null;
           }
         } catch (error) {
@@ -110,10 +97,7 @@ const useFilterNews = ({
 
     if (filters) {
       const hasFilterValue = Object.values(filters).some((entry) => entry !== '');
-      // console.log('rebuildedNews', rebuildedNews);
-      // console.log('rebuildedNews.length', rebuildedNews.length);
-      console.log('hasFilterValue', hasFilterValue);
-      console.log(filters);
+
       if (
         rebuildedNews &&
         typeof rebuildedNews !== undefined &&
@@ -121,9 +105,7 @@ const useFilterNews = ({
         hasFilterValue
       ) {
         if (activeLinks.isHomeActive) {
-          console.log('rebuildedNews', rebuildedNews);
           const filteredNews = applyCrossFilters(rebuildedNews, filters);
-          // console.log('filteredNews', filteredNews);
 
           if (filteredNews && filteredNews.length > 0) {
             getFilteredNews(filteredNews);
@@ -211,7 +193,6 @@ const useFilterNews = ({
   };
 
   return {
-    filters,
     handleChangeFilter,
     handleFilterDate,
     handleMaterialTypeChange,

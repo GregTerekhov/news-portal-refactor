@@ -5,14 +5,13 @@ import { useAppDispatch, useAppSelector } from 'reduxStore/hooks';
 import {
   SignUpRequest,
   AuthRequestWithoutName,
-  IUpdateEmail,
   IThirdPartyAuth,
-  UpdatePasswordRequiredToSend,
-  RecoveryPasswordRequestRequired,
-  RecoveryPasswordChangeRequiredToSend,
   UpdateThemeRequest,
   GoogleResponse,
   TokensPayload,
+  RecoveryPasswordRequest,
+  UpdatePasswordRequest,
+  RecoveryPasswordChange,
 } from 'types';
 
 const useAuthCollector = () => {
@@ -36,23 +35,22 @@ const useAuthCollector = () => {
   const logout = useCallback(() => dispatch(auth.signOut()), [dispatch]);
   const fetchCurrentAuthUser = useCallback(() => dispatch(auth.fetchCurrentUser()), [dispatch]);
   const updateEmail = useCallback(
-    (newEmail: IUpdateEmail) => dispatch(auth.updateUserEmail(newEmail)),
+    (email: AuthRequestWithoutName) => dispatch(auth.updateUserEmail(email)),
     [dispatch],
   );
 
   const updatePassword = useCallback(
-    (newPassword: UpdatePasswordRequiredToSend) => dispatch(auth.updateUserPassword(newPassword)),
+    (newPassword: UpdatePasswordRequest) => dispatch(auth.updateUserPassword(newPassword)),
     [dispatch],
   );
 
   const sendEmailForRecovery = useCallback(
-    (email: RecoveryPasswordRequestRequired) => dispatch(auth.recoveryPasswordRequest(email)),
+    (email: RecoveryPasswordRequest) => dispatch(auth.recoveryPasswordRequest(email)),
     [dispatch],
   );
 
   const changePassword = useCallback(
-    (changedPassword: RecoveryPasswordChangeRequiredToSend) =>
-      dispatch(auth.recoveryPasswordChange(changedPassword)),
+    (newPassword: RecoveryPasswordChange) => dispatch(auth.recoveryPasswordChange(newPassword)),
     [dispatch],
   );
 

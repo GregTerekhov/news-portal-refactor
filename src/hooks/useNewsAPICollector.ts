@@ -1,57 +1,45 @@
 import { useCallback } from 'react';
 
 import { useAppDispatch, useAppSelector } from 'reduxStore/hooks';
-import {
-  fetchAllCategories,
-  fetchNewsByCategory,
-  fetchNewsByDate,
-  fetchNewsByKeyword,
-  fetchPopularNews,
-  selectAllCategories,
-  selectByCategory,
-  selectByDate,
-  selectHasAPIError,
-  selectLoading,
-  selectPopular,
-  selectSearchByKeyword,
-  selectHeadline,
-} from 'reduxStore/newsAPI';
-import { resetOtherRequests, changeHeadline } from 'reduxStore/newsAPI';
+import * as newsAPI from 'reduxStore/newsAPI';
 
 import { SelectedDate } from './useAdditionalRequest';
 
 const useNewsAPICollector = () => {
-  const isLoadingAPIData = useAppSelector(selectLoading);
-  const popularNews = useAppSelector(selectPopular);
-  const newsByKeyword = useAppSelector(selectSearchByKeyword);
-  const newsByCategory = useAppSelector(selectByCategory);
-  const newsByDate = useAppSelector(selectByDate);
-  const categoriesList = useAppSelector(selectAllCategories);
-  const headline = useAppSelector(selectHeadline);
-  const errorAPI = useAppSelector(selectHasAPIError);
+  const isLoadingAPIData = useAppSelector(newsAPI.selectLoading);
+  const popularNews = useAppSelector(newsAPI.selectPopular);
+  const newsByKeyword = useAppSelector(newsAPI.selectSearchByKeyword);
+  const newsByCategory = useAppSelector(newsAPI.selectByCategory);
+  const newsByDate = useAppSelector(newsAPI.selectByDate);
+  const categoriesList = useAppSelector(newsAPI.selectAllCategories);
+  const headline = useAppSelector(newsAPI.selectHeadline);
+  const errorAPI = useAppSelector(newsAPI.selectHasAPIError);
 
   const dispatch = useAppDispatch();
 
   const fetchPopular = useCallback(
-    (period: string) => dispatch(fetchPopularNews(period)),
+    (period: string) => dispatch(newsAPI.fetchPopularNews(period)),
     [dispatch],
   );
   const fetchByKeyword = useCallback(
-    (query: string) => dispatch(fetchNewsByKeyword(query)),
+    (query: string) => dispatch(newsAPI.fetchNewsByKeyword(query)),
     [dispatch],
   );
   const fetchByDate = useCallback(
-    (date: SelectedDate) => dispatch(fetchNewsByDate(date)),
+    (date: SelectedDate) => dispatch(newsAPI.fetchNewsByDate(date)),
     [dispatch],
   );
   const fetchByCategory = useCallback(
-    (section: string) => dispatch(fetchNewsByCategory(section)),
+    (section: string) => dispatch(newsAPI.fetchNewsByCategory(section)),
     [dispatch],
   );
-  const fetchCategoriesList = useCallback(() => dispatch(fetchAllCategories()), [dispatch]);
-  const resetPreviousRequest = useCallback(() => dispatch(resetOtherRequests()), [dispatch]);
+  const fetchCategoriesList = useCallback(() => dispatch(newsAPI.fetchAllCategories()), [dispatch]);
+  const resetPreviousRequest = useCallback(
+    () => dispatch(newsAPI.resetOtherRequests()),
+    [dispatch],
+  );
   const updateHeadline = useCallback(
-    (newHeadline: string) => dispatch(changeHeadline(newHeadline)),
+    (newHeadline: string) => dispatch(newsAPI.changeHeadline(newHeadline)),
     [dispatch],
   );
 

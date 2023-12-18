@@ -1,14 +1,13 @@
 import React, { FC } from 'react';
 
-import { useAdditionalRequest, useWindowWidth } from 'hooks';
+import { useWindowWidth } from 'contexts';
+import { useAdditionalRequest } from 'hooks';
 
 import { Dropdown, PrimaryButton, UnverifiableInput } from 'ui';
 
 import Calendar from './Calendar/Calendar';
 
 const SearchBlock: FC<{}> = () => {
-  // const [selectCategory, setSelectedCategory] = useState<string>('');
-  // const [selectPeriod, setSelectedPeriod] = useState<string>('');
   const { breakpointsForMarkup } = useWindowWidth() ?? {
     breakpointsForMarkup: null,
   };

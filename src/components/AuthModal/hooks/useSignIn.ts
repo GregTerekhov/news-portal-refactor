@@ -8,6 +8,7 @@ import { useNotification } from 'contexts';
 import { useAuthCollector, usePopUp } from 'hooks';
 
 import { decryptData, encryptData, generateEncryptionKey, signInSchema } from '../assistants';
+import { AuthInputs } from '../types';
 
 const useSignIn = () => {
   const [isChecked, setIsChecked] = useState<boolean>(() => !!localStorage.rememberMe);
@@ -123,7 +124,7 @@ const useSignIn = () => {
     toggleModal;
   };
 
-  const signInInputs = [
+  const signInInputs: Array<AuthInputs> = [
     {
       type: 'email',
       placeholder: 'Enter your email',

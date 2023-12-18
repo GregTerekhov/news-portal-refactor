@@ -13,7 +13,12 @@ import store, { persistor } from 'reduxStore/store';
 
 import { CONFIG } from 'config';
 
-import { NotificationProvider, SelectedDateProvider, WindowWidthProvider } from 'contexts';
+import {
+  FiltersProvider,
+  NotificationProvider,
+  SelectedDateProvider,
+  WindowWidthProvider,
+} from 'contexts';
 
 import App from './App';
 import { Loader } from 'ui';
@@ -38,7 +43,9 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
                     <Toast.Provider>
                       <NotificationProvider>
                         <SelectedDateProvider>
-                          <App />
+                          <FiltersProvider>
+                            <App />
+                          </FiltersProvider>
                         </SelectedDateProvider>
                       </NotificationProvider>
                     </Toast.Provider>

@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 
 import { useHeaderStyles } from 'hooks';
 import { ActiveLinks } from 'hooks/useActiveLinks';
@@ -33,7 +33,7 @@ const VersaMenu: FC<VersaMenuProps> = ({ navId, links, activeLinks, handleLinkCl
       >
         {links.map((link) => (
           <li key={link.path}>
-            <Link
+            <NavLink
               to={link.path}
               onClick={handleLinkClick}
               className={`font-medium md:font-bold text-medium lg:text-xl transition-colors duration-500 ${
@@ -60,7 +60,7 @@ const VersaMenu: FC<VersaMenuProps> = ({ navId, links, activeLinks, handleLinkCl
                   className='fill-darkBase dark:fill-whiteBase group-hover:fill-whiteBase rotate-180'
                 />
               ) : null}
-            </Link>
+            </NavLink>
           </li>
         ))}
       </ul>

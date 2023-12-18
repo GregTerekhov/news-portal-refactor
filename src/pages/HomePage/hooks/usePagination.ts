@@ -1,7 +1,9 @@
 import { useEffect, useState } from 'react';
 
 import { PartialVotedNewsArray } from 'types';
-import { useWindowWidth, useNewsAPICollector, useFilterCollector } from 'hooks';
+
+import { useWindowWidth } from 'contexts';
+import { useNewsAPICollector, useFilterCollector } from 'hooks';
 
 import { calculatePagesForDevices, calculateFirstIndexes } from '../assistants';
 

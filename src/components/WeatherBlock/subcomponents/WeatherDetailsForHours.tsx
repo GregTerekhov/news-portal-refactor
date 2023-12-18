@@ -1,7 +1,8 @@
 import React, { FC, ReactElement } from 'react';
 
 import { HourlyWeatherData } from 'types';
-import { useWindowWidth } from 'hooks';
+
+import { useWindowWidth } from 'contexts';
 
 import { Hint, SvgIcon } from 'ui';
 

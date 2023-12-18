@@ -1,7 +1,7 @@
 import { useEffect, useState, useMemo } from 'react';
 import debounce from 'lodash.debounce';
 
-import { useWindowWidth } from 'hooks';
+import { useWindowWidth } from 'contexts';
 
 interface ScrollControllerProps {
   direction: string;

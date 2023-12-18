@@ -1,21 +1,22 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import { SubmitHandler, useForm } from 'react-hook-form';
 
-import { RecoveryPasswordChangeRequiredToValidate, RecoveryPasswordRequestRequired } from 'types';
+import { RecoveryPasswordRequest } from 'types';
 
 import { useAuthCollector } from 'hooks';
 
 import { changePasswordSchema, recoveryPasswordSchema } from '../assistants';
+import { AuthInputs, RecoveryInputsValues } from '../types';
 
 const useSignIn = () => {
-  const { changePassword } = useAuthCollector();
+  const { sendEmailForRecovery, changePassword } = useAuthCollector();
 
   const {
     handleSubmit: handleRecoveryPasswordSubmit,
     register: registerRecovery,
     resetField,
     formState: { errors: recoveryPasswordErrors },
-  } = useForm<RecoveryPasswordRequestRequired>({ resolver: yupResolver(recoveryPasswordSchema) });
+  } = useForm<RecoveryPasswordRequest>({ resolver: yupResolver(recoveryPasswordSchema) });
 
   const {
     handleSubmit: handleChangePasswordSubmit,
@@ -23,42 +24,38 @@ const useSignIn = () => {
     reset,
     getValues,
     formState: { errors },
-  } = useForm<RecoveryPasswordChangeRequiredToValidate>({
+  } = useForm<RecoveryInputsValues>({
     resolver: yupResolver(changePasswordSchema),
   });
 
-  const recoveryPasswordSubmitHandler: SubmitHandler<RecoveryPasswordRequestRequired> = async (
-    data,
-    e,
-  ) => {
+  const recoveryPasswordSubmitHandler: SubmitHandler<RecoveryPasswordRequest> = async (data, e) => {
     e?.stopPropagation();
     e?.preventDefault();
     console.log('Recovery email', data);
-    resetField('recoveryEmail');
+    await sendEmailForRecovery(data);
+    resetField('email');
   };
 
-  const changePasswordSubmitHandler: SubmitHandler<
-    RecoveryPasswordChangeRequiredToValidate
-  > = async (data) => {
-    const { changedPassword } = data; // обирання необхідного для відправки поля
-    const dataToSend = { changedPassword };
+  const changePasswordSubmitHandler: SubmitHandler<RecoveryInputsValues> = async (data) => {
+    const { newPassword } = data; // обирання необхідного для відправки поля
+    const dataToSend = { newPassword };
 
     await changePassword(dataToSend);
     reset({
       ...getValues,
-      changedPassword: '',
+      newPassword: '',
       confirmPassword: '',
     });
   };
 
-  const changePasswordInputs = [
+  const changePasswordInputs: Array<AuthInputs> = [
     {
       type: 'password',
       placeholder: 'Enter your new password',
       children: 'New Password',
-      errors: errors?.changedPassword?.message,
+      errors: errors?.newPassword?.message,
       label: 'changedPassword',
-      ariaInvalid: errors?.changedPassword ? true : false,
+      ariaInvalid: errors?.newPassword ? true : false,
     },
     {
       type: 'password',

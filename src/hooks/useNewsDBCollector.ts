@@ -1,56 +1,40 @@
 import { useCallback } from 'react';
 
 import { useAppDispatch, useAppSelector } from 'reduxStore/hooks';
-import {
-  addNews,
-  addOrUpdateVotedNews,
-  deleteNews,
-  fetchAllNews,
-  fetchArchivedNews,
-  fetchFavourites,
-  fetchRead,
-  fetchHistoryLog,
-  selectAllArchives,
-  selectAllFavourites,
-  selectAllReads,
-  selectHasDBError,
-  selectLoading,
-  selectSavedNews,
-  selectHistoryLog,
-  removeFromFavourites,
-} from 'reduxStore/newsDatabase';
+import * as newsDB from 'reduxStore/newsDatabase';
 
 import { PartialVotedNewsArray, VotedItem } from 'types';
 
 const useNewsDBCollector = () => {
-  const isLoadingDBData = useAppSelector(selectLoading);
-  const savedNews = useAppSelector(selectSavedNews);
-  const allFavourites = useAppSelector(selectAllFavourites);
-  const allReads = useAppSelector(selectAllReads);
-  const allArchive = useAppSelector(selectAllArchives);
-  const archiveHistoryLog = useAppSelector(selectHistoryLog);
-  const errorDB = useAppSelector(selectHasDBError);
+  const isLoadingDBData = useAppSelector(newsDB.selectLoading);
+  const savedNews = useAppSelector(newsDB.selectSavedNews);
+  const allFavourites = useAppSelector(newsDB.selectAllFavourites);
+  const allReads = useAppSelector(newsDB.selectAllReads);
+  const allArchive = useAppSelector(newsDB.selectAllArchives);
+  const archiveHistoryLog = useAppSelector(newsDB.selectHistoryLog);
+  const errorDB = useAppSelector(newsDB.selectHasDBError);
 
   const dispatch = useAppDispatch();
 
-  const getSavedNews = useCallback(() => dispatch(fetchAllNews()), [dispatch]);
-  const getFavourites = useCallback(() => dispatch(fetchFavourites()), [dispatch]);
-  const getReads = useCallback(() => dispatch(fetchRead()), [dispatch]);
-  const getArchives = useCallback(() => dispatch(fetchArchivedNews()), [dispatch]);
-  const getHistoryLog = useCallback(() => dispatch(fetchHistoryLog()), [dispatch]);
+  const getSavedNews = useCallback(() => dispatch(newsDB.fetchAllNews()), [dispatch]);
+  const getFavourites = useCallback(() => dispatch(newsDB.fetchFavourites()), [dispatch]);
+  const getReads = useCallback(() => dispatch(newsDB.fetchRead()), [dispatch]);
+  const getArchives = useCallback(() => dispatch(newsDB.fetchArchivedNews()), [dispatch]);
+  const getHistoryLog = useCallback(() => dispatch(newsDB.fetchHistoryLog()), [dispatch]);
   const updateSavedNews = useCallback(
-    (updatedNewsObject: Partial<VotedItem>) => dispatch(addOrUpdateVotedNews(updatedNewsObject)),
+    (updatedNewsObject: Partial<VotedItem>) =>
+      dispatch(newsDB.addOrUpdateVotedNews(updatedNewsObject)),
     [dispatch],
   );
   const removeFavouriteNews = useCallback(
-    (newsUrl: string) => dispatch(removeFromFavourites(newsUrl)),
+    (newsUrl: string) => dispatch(newsDB.removeFromFavourites(newsUrl)),
     [dispatch],
   );
   const addVotedNews = useCallback(
-    (updatedNews: PartialVotedNewsArray) => dispatch(addNews(updatedNews)),
+    (updatedNews: PartialVotedNewsArray) => dispatch(newsDB.addNews(updatedNews)),
     [dispatch],
   );
-  const removeNews = useCallback((id: string) => dispatch(deleteNews(id)), [dispatch]);
+  const removeNews = useCallback((id: string) => dispatch(newsDB.deleteNews(id)), [dispatch]);
 
   return {
     isLoadingDBData,
