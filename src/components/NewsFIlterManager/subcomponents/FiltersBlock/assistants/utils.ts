@@ -8,12 +8,12 @@ function isDateWithinRange(
 ): boolean {
   if (!dateString) return false;
 
-  const currentDate = new Date(dateString);
-  const startRange = new Date(startDate);
-  const endRange = new Date(endDate);
-  console.log('currentDate', currentDate);
+  // const currentDate = new Date(dateString);
+  // const startRange = new Date(startDate);
+  // const endRange = new Date(endDate);
+  // console.log('currentDate', currentDate);
 
-  return currentDate >= startRange && currentDate <= endRange;
+  return dateString >= startDate && dateString <= endDate;
 }
 
 export function applyCrossFilters(newsArray: PartialVotedNewsArray | undefined, filters: Filters) {

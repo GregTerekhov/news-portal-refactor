@@ -128,17 +128,6 @@ const useFilterNews = ({
         }
       }
     }
-    setFilters({
-      keyword: '',
-      title: '',
-      author: '',
-      publisher: '',
-      materialType: '',
-      selectedFilterDate: {
-        startDate: '',
-        endDate: '',
-      },
-    });
   };
 
   const handleSort = (order: string) => {
