@@ -34,8 +34,8 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
   <Provider store={store}>
     <PersistGate persistor={persistor}>
       <BrowserRouter>
-        <Suspense fallback={<Loader variant='page' />}>
-          <WindowWidthProvider>
+        <WindowWidthProvider>
+          <Suspense fallback={<Loader variant='page' />}>
             <GoogleOAuthProvider clientId={clientGoogleID}>
               <FacebookProvider appId={facebookID}>
                 <QueryClientProvider client={queryClient}>
@@ -53,8 +53,8 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
                 </QueryClientProvider>
               </FacebookProvider>
             </GoogleOAuthProvider>
-          </WindowWidthProvider>
-        </Suspense>
+          </Suspense>
+        </WindowWidthProvider>
       </BrowserRouter>
     </PersistGate>
   </Provider>,
