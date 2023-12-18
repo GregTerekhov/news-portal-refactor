@@ -1,14 +1,16 @@
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 
-import { UpdatePasswordRequiredToValidate } from 'types';
+import { UpdateCredentialsResponse, UpdatePasswordRequiredToValidate } from 'types';
 
+import { useNotification } from 'contexts';
 import { useAuthCollector } from 'hooks';
 
 import { renderPasswordInputs, updatePasswordSchema } from '../assistants';
 
 const useUpdatePassword = () => {
   const { updatePassword } = useAuthCollector();
+  const { setOpenToast } = useNotification();
   const {
     handleSubmit,
     register,
@@ -37,7 +39,12 @@ const useUpdatePassword = () => {
     const { newPassword, oldPassword } = data;
     const dataToSend = { newPassword, oldPassword };
 
-    await updatePassword(dataToSend);
+    const response = await updatePassword(dataToSend);
+    const { message } = response.payload as Omit<UpdateCredentialsResponse, 'newEmail'>;
+
+    if (message && message === 'Password is successfully updated') {
+      setOpenToast(true);
+    }
     reset({
       ...getValues,
       newPassword: '',

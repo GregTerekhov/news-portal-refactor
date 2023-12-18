@@ -1,7 +1,8 @@
 import { useCallback, useEffect, useState } from 'react';
 
-import { VotedItem } from 'types';
+import { DeleteNewsResponse, VotedItem } from 'types';
 
+import { useNotification } from 'contexts';
 import { useNewsDBCollector } from 'hooks';
 import { ActiveLinks } from 'hooks/useActiveLinks';
 
@@ -20,9 +21,11 @@ const useNewsActions = ({
   setHasRead,
 }: NewsActionHookProps) => {
   const [changesHappened, setChangesHappened] = useState<boolean>(false);
+  const [isDeleted, setIsDeleted] = useState<boolean>(false);
 
   const { savedNews, updateSavedNews, addVotedNews, removeNews, removeFavouriteNews } =
     useNewsDBCollector();
+  const { setOpenToast } = useNotification();
 
   useEffect(() => {
     if (changesHappened && savedNews) {
@@ -169,10 +172,19 @@ const useNewsActions = ({
   const handleDeleteNews = async (e: React.MouseEvent<HTMLButtonElement>, id: string) => {
     e.stopPropagation();
     e.preventDefault();
-    await removeNews(id);
+    const response = await removeNews(id);
+
+    const payload = response.payload as DeleteNewsResponse;
+    const { message } = payload;
+
+    if (message && message === 'Remove news success') {
+      setOpenToast(true);
+      setIsDeleted(true);
+    }
   };
 
   return {
+    isDeleted,
     handleChangeFavourites,
     handleReadNews,
     handleDeleteNews,

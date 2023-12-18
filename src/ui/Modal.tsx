@@ -3,31 +3,40 @@ import { createPortal } from 'react-dom';
 import FocusLock, { AutoFocusInside } from 'react-focus-lock';
 import { RemoveScroll } from 'react-remove-scroll';
 
-import { usePopUp } from 'hooks';
+import { useNotification } from 'contexts';
+import { useAuthCollector, usePopUp } from 'hooks';
 
+import Notification from './Notification';
 import SvgIcon from './SvgIcon';
 
 const modalRoot = document.querySelector('#modalRoot');
 
+type CloseModalFn = ((e: React.MouseEvent<HTMLButtonElement>) => void) | (() => void);
 interface ModalProps {
   children: ReactNode;
-  closeModal: () => void;
+  closeModal: CloseModalFn;
   modalRef: React.RefObject<HTMLDivElement>;
   variant: string;
 }
 
 enum S {
   Auth = 'auth',
+  DeleteNews = 'deleteNews',
 }
 
 const Modal: FC<ModalProps> = ({ children, closeModal, modalRef, variant }) => {
+  const { authError } = useAuthCollector();
+  const { openToast, setOpenToast } = useNotification();
   const { isOpenModal } = usePopUp();
-  let modalWidth: string = '';
+
+  let topPosition: string = '';
 
   if (variant === S.Auth) {
-    modalWidth = 'w-full max-md:max-w-[288px] md:w-[600px]';
+    topPosition = 'top-6';
   }
-
+  if (variant === S.DeleteNews) {
+    topPosition = 'top-1/2 -translate-y-1/2';
+  }
   // useEffect(() => {
   //   const handleKeyDown = (event: KeyboardEvent) => {
   //     if (event.key === 'Tab') {
@@ -69,10 +78,10 @@ const Modal: FC<ModalProps> = ({ children, closeModal, modalRef, variant }) => {
         <RemoveScroll>
           {modalRoot &&
             createPortal(
-              <div className='fixed top-0 left-0 z-[60] bg-whiteBase/[.4] dark:bg-darkBackground/[.4] w-screen h-screen flex justify-center items-center transition-colors duration-500 backdrop-blur-sm overflow-auto'>
+              <div className='fixed before:fixed before:content-[""] before:w-full before:h-[81px] before:top-0 before:left-0 top-0 left-0 z-[60] bg-whiteBase/[.4] dark:bg-darkBackground/[.4] w-screen h-screen flex justify-center items-center transition-colors duration-500 backdrop-blur-sm overflow-auto'>
                 <div
                   ref={modalRef}
-                  className={`absolute top-6 left-1/2 transform -translate-x-1/2 bg-whiteBase dark:bg-darkBackground ${modalWidth} py-4 px-6 border border-solid border-accentBase dark:border-whiteBase rounded-xl shadow-modal dark:shadow-darkCard md:px-8 md:pb-8 transition-colors duration-500`}
+                  className={`absolute left-1/2 w-full max-md:max-w-[288px] md:w-[600px] transform -translate-x-1/2 bg-whiteBase dark:bg-darkBackground ${topPosition} py-4 px-6 border border-solid border-accentBase dark:border-whiteBase rounded-xl shadow-modal dark:shadow-darkCard md:px-8 md:pb-8 transition-colors duration-500`}
                 >
                   <AutoFocusInside>
                     <button
@@ -89,6 +98,20 @@ const Modal: FC<ModalProps> = ({ children, closeModal, modalRef, variant }) => {
                   </AutoFocusInside>
                   {children}
                 </div>
+                {authError && authError?.message ? (
+                  <Notification
+                    variant='non-interactive'
+                    openToast={openToast}
+                    setOpenToast={setOpenToast}
+                    title={`${authError?.message && 'Authorisation error'}`}
+                    description={`${
+                      authError?.message === 'Email already in use'
+                        ? 'Email already in use'
+                        : authError?.message === 'User is not authentified' &&
+                          'Email or password are wrong'
+                    }`}
+                  />
+                ) : null}
               </div>,
               modalRoot,
             )}

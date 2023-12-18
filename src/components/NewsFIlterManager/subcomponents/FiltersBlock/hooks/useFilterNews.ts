@@ -17,9 +17,14 @@ import { useFiltersState } from 'contexts/FiltersProvider';
 type FilterHookProps = {
   activeLinks: ActiveLinks;
   setIsOpenCalendar?: (value: React.SetStateAction<boolean>) => void;
+  setSelectedMaterialType?: ((item: string) => void) | undefined;
 };
 
-const useFilterNews = ({ activeLinks, setIsOpenCalendar }: FilterHookProps) => {
+const useFilterNews = ({
+  activeLinks,
+  setIsOpenCalendar,
+  setSelectedMaterialType,
+}: FilterHookProps) => {
   const [beginDate, setBeginDate] = useState<Date | null>(null);
 
   const { filters, setFilters } = useFiltersState();
@@ -188,6 +193,7 @@ const useFilterNews = ({ activeLinks, setIsOpenCalendar }: FilterHookProps) => {
         endDate: '',
       },
     });
+    setSelectedMaterialType && setSelectedMaterialType('');
     resetAllFilters();
   };
 

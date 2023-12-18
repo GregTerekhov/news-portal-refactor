@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FC, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 
 import { useActiveLinks, useWindowWidth } from 'hooks';
@@ -30,6 +30,7 @@ interface IControlButtons {
 }
 
 const FiltersBlock: FC<{}> = () => {
+  const [selectedMaterialType, setSelectedMaterialType] = useState<string>('');
   const { breakpointsForMarkup } = useWindowWidth() ?? {
     breakpointsForMarkup: null,
   };
@@ -44,6 +45,19 @@ const FiltersBlock: FC<{}> = () => {
     handleReset,
   } = useFilterNews({ activeLinks });
   const { filters } = useFiltersState();
+      
+<!--         const {
+    handleChangeFilter,
+    handleMaterialTypeChange,
+    handleFiltration,
+    handleSort,
+    handleReset,
+
+  } = useFilterNews({ activeLinks });
+  const { filters } = useFiltersState();
+
+  } = useFilterNews({ activeLinks, setSelectedMaterialType });
+ -->
 
   const hasNonEmptyValue = (obj: Filters): boolean => {
     return Object.values(obj).some((value) => {
@@ -206,7 +220,12 @@ const FiltersBlock: FC<{}> = () => {
           </div>
         ))}
       <div className='md:col-span-3 lg:col-span-4'>
-        <Dropdown labels={materialTypes} getResults={handleMaterialTypeChange}>
+        <Dropdown
+          labels={materialTypes}
+          getResults={handleMaterialTypeChange}
+          selectedItem={selectedMaterialType}
+          onSelectItem={setSelectedMaterialType}
+        >
           Type
         </Dropdown>
       </div>

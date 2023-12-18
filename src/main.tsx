@@ -7,13 +7,14 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import { FacebookProvider } from 'react-facebook';
 import * as Tooltip from '@radix-ui/react-tooltip';
-import 'flowbite';
+import * as Toast from '@radix-ui/react-toast';
 
 import store, { persistor } from 'reduxStore/store';
 
 import { CONFIG } from 'config';
 
-import { SelectedDateProvider, WindowWidthProvider, FiltersProvider } from 'contexts';
+import { NotificationProvider, SelectedDateProvider, WindowWidthProvider, FiltersProvider } from 'contexts';
+
 
 import App from './App';
 import { Loader } from 'ui';
@@ -35,11 +36,15 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
               <FacebookProvider appId={facebookID}>
                 <QueryClientProvider client={queryClient}>
                   <Tooltip.Provider delayDuration={500}>
+        <Toast.Provider>
+                      <NotificationProvider>
                     <SelectedDateProvider>
                       <FiltersProvider>
                         <App />
                       </FiltersProvider>
                     </SelectedDateProvider>
+                        </NotificationProvider>
+                    </Toast.Provider>
                   </Tooltip.Provider>
                 </QueryClientProvider>
               </FacebookProvider>

@@ -5,12 +5,7 @@ import dayjs from 'dayjs';
 import store, { RootState } from 'reduxStore/store';
 import { setTokens } from './authSlice';
 
-interface RefreshResponse {
-  data: {
-    accessToken: string;
-    refreshToken: string;
-  };
-}
+import { RefreshTokensResponse } from 'types';
 
 const baseURL = 'https://news-webapp-express.onrender.com/api';
 
@@ -37,10 +32,13 @@ const createAxiosInstance = () => {
             if (persistedToken) {
               try {
                 console.log('Try to refresh');
-                console.log(config.data);
-                const response = await axios.post<RefreshResponse>(`${baseURL}/auth/refresh`, {
-                  refreshToken: persistedToken,
-                });
+                console.log(config);
+                const response = await axios.post<RefreshTokensResponse>(
+                  `${baseURL}/auth/refresh`,
+                  {
+                    refreshToken: persistedToken,
+                  },
+                );
                 console.log('Refresh: ', response.data);
                 store.dispatch(setTokens(response.data.data));
                 config.headers['Authorization'] = `Bearer ${response.data.data.accessToken}`;

@@ -93,23 +93,23 @@ const newsDBSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(fetchAllNews.fulfilled, (state, action) => {
-        state.savedNews = action.payload;
+        state.savedNews = action.payload.data;
       })
       .addCase(fetchFavourites.fulfilled, (state, action) => {
-        state.favourites = action.payload;
+        state.favourites = action.payload.data;
       })
       .addCase(fetchRead.fulfilled, (state, action) => {
-        state.reads = action.payload;
+        state.reads = action.payload.data;
       })
       .addCase(fetchArchivedNews.fulfilled, (state, action) => {
-        state.archivedNews = action.payload;
+        state.archivedNews = action.payload.data;
       })
       .addCase(deleteNews.fulfilled, (state, action) => {
         const { _id: id } = action.payload;
         state.archivedNews = state.archivedNews.filter((news) => news._id !== id);
       })
       .addCase(fetchHistoryLog.fulfilled, (state, action) => {
-        state.historyLog = action.payload;
+        state.historyLog = action.payload.data;
       })
       .addCase(removeFromFavourites, (state, action) => {
         const newsUrl = action.payload;
