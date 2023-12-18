@@ -13,7 +13,7 @@ import { useLocation } from 'react-router-dom';
 
 const ReadPage: FC<{}> = () => {
   const [openToast, setOpenToast] = useState<boolean>(false);
-  const { isLoadingDBData, getReads } = useNewsDBCollector();
+  const { allReads, isLoadingDBData, getReads } = useNewsDBCollector();
   const { hasResults } = useFilterCollector();
 
   const location = useLocation();
@@ -26,11 +26,11 @@ const ReadPage: FC<{}> = () => {
   }, [getReads]);
 
   useEffect(() => {
-    if (!!rebuildedNews) {
+    if (!!allReads) {
       setOpenToast(true);
       console.log('openToast', openToast);
     }
-  }, [rebuildedNews]);
+  }, [allReads]);
 
   const publishedDate = rebuildedNews
     ?.map((news) => news.publishDate)
