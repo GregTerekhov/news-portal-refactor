@@ -3,8 +3,10 @@ import { createPortal } from 'react-dom';
 import FocusLock, { AutoFocusInside } from 'react-focus-lock';
 import { RemoveScroll } from 'react-remove-scroll';
 
+import { useAuthRedux } from 'reduxStore/hooks';
+
 import { useNotification } from 'contexts';
-import { useAuthCollector, usePopUp } from 'hooks';
+import { usePopUp } from 'hooks';
 
 import Notification from './Notification';
 import SvgIcon from './SvgIcon';
@@ -25,7 +27,7 @@ enum S {
 }
 
 const Modal: FC<ModalProps> = ({ children, closeModal, modalRef, variant }) => {
-  const { authError } = useAuthCollector();
+  const { authError } = useAuthRedux();
   const { openToast, setOpenToast } = useNotification();
   const { isOpenModal } = usePopUp();
 

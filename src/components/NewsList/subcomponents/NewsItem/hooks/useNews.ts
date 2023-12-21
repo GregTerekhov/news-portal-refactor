@@ -1,5 +1,7 @@
 import { VotedItem } from 'types';
-import { useAuthCollector, useNewsDBCollector } from 'hooks';
+
+import { useAuthRedux, useDB } from 'reduxStore/hooks';
+
 import { ActiveLinks } from 'hooks/useActiveLinks';
 
 import useNewsState from './useNewsState';
@@ -11,8 +13,8 @@ interface NewsItemProps {
 }
 
 const useNews = ({ liveNews, activeLinks }: NewsItemProps) => {
-  const { savedNews, allArchive } = useNewsDBCollector();
-  const { isAuthenticated } = useAuthCollector();
+  const { savedNews, allArchive } = useDB();
+  const { isAuthenticated } = useAuthRedux();
 
   const { isFavourite, hasRead, setIsFavourite, setHasRead } = useNewsState({
     activeLinks,

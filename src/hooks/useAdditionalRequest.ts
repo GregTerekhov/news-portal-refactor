@@ -1,9 +1,8 @@
 import { useState } from 'react';
 
-import { useSelectedDate } from 'contexts';
+import { useNewsAPI, useFiltersAction } from 'reduxStore/hooks';
 
-import useFilterCollector from './useFilterCollector';
-import useNewsAPICollector from './useNewsAPICollector';
+import { useSelectedDate } from 'contexts';
 export interface SelectedDate {
   beginDate: string | null;
   endDate: string | null;
@@ -25,8 +24,8 @@ const useAdditionalRequest = () => {
     fetchPopular,
     resetPreviousRequest,
     updateHeadline,
-  } = useNewsAPICollector();
-  const { filteredNews } = useFilterCollector();
+  } = useNewsAPI();
+  const { filteredNews } = useFiltersAction();
   const { selectedRequestDate, setSelectedRequestDate } = useSelectedDate();
 
   const showPopular =

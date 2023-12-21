@@ -1,9 +1,10 @@
 import { useCallback, useEffect, useState } from 'react';
 
+import { useDB } from 'reduxStore/hooks';
+
 import { DeleteNewsResponse, VotedItem } from 'types';
 
 import { useNotification } from 'contexts';
-import { useNewsDBCollector } from 'hooks';
 import { ActiveLinks } from 'hooks/useActiveLinks';
 
 type NewsActionHookProps = {
@@ -23,8 +24,7 @@ const useNewsActions = ({
   const [changesHappened, setChangesHappened] = useState<boolean>(false);
   const [isDeleted, setIsDeleted] = useState<boolean>(false);
 
-  const { savedNews, updateSavedNews, addVotedNews, removeNews, removeFavouriteNews } =
-    useNewsDBCollector();
+  const { savedNews, updateSavedNews, addVotedNews, removeNews, removeFavouriteNews } = useDB();
   const { setOpenToast } = useNotification();
 
   useEffect(() => {

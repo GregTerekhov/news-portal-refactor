@@ -1,13 +1,13 @@
 import { useEffect, useState } from 'react';
 
-import { useWeatherCollector } from 'hooks';
+import { useWeatherAPI } from 'reduxStore/hooks';
 
 const useWeather = () => {
   const [isCelsius, setIsCelsius] = useState<boolean>(true);
   const [isFlipped, setIsFlipped] = useState<boolean>(false);
   const [hasGeolocationPermission, setHasGeolocationPermission] = useState<boolean>(false);
 
-  const { getCurrentWeather, getHourlyWeather } = useWeatherCollector();
+  const { getCurrentWeather, getHourlyWeather } = useWeatherAPI();
 
   const geolocation: boolean = 'geolocation' in navigator;
 

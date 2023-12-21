@@ -1,12 +1,14 @@
 import React, { useEffect } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
 
-import { useActiveLinks, useAuthCollector } from 'hooks';
+import { useAuthRedux } from 'reduxStore/hooks';
+
+import { useActiveLinks } from 'hooks';
 
 import { renderMenuItem } from '../assistants';
 
 const FooterMenu = () => {
-  const { isAuthenticated } = useAuthCollector();
+  const { isAuthenticated } = useAuthRedux();
   const location = useLocation();
   const activeLinks = useActiveLinks(location);
 

@@ -1,8 +1,10 @@
 import React, { FC, useEffect, useState } from 'react';
 import { Switch } from '@headlessui/react';
 
+import { useAuthRedux } from 'reduxStore/hooks';
+
 import { useWindowWidth } from 'contexts';
-import { useActiveLinks, useAuthCollector, useHeaderStyles } from 'hooks';
+import { useActiveLinks, useHeaderStyles } from 'hooks';
 
 import { SvgIcon } from 'ui';
 import { useLocation } from 'react-router-dom';
@@ -19,7 +21,7 @@ interface ThemeSwitcherProps {
 
 const ThemeSwitcher: FC<ThemeSwitcherProps> = ({ variant }) => {
   const [enabled, setEnabled] = useState<boolean>(false);
-  const { isAuthenticated, unauthorisedChangeTheme, changeTheme, userTheme } = useAuthCollector();
+  const { isAuthenticated, unauthorisedChangeTheme, changeTheme, userTheme } = useAuthRedux();
   const { breakpointsForMarkup } = useWindowWidth() ?? {
     breakpointsForMarkup: null,
   };

@@ -67,6 +67,7 @@ const UnverifiableInput: FC<InputProps> = (props) => {
   let inputBorder: string = '';
   let inputBg: string = '';
   let svgFill: string = '';
+  let svgWrapperClass: string = '';
   let caretColor: string = '';
   let textColor: string = '';
   let placeholderColor: string = '';
@@ -74,15 +75,16 @@ const UnverifiableInput: FC<InputProps> = (props) => {
   let checkboxStyles: string = '';
 
   if (variant === VariantInputs.Header) {
-    inputGeometry = `md:w-48 lg:w-72 md:py-[5px] md:pl-11 md:pr-3 transition-transform transition-[width] border border-solid ${
+    inputGeometry = `md:w-48 lg:w-72 md:py-[5px] md:pl-11 md:pr-3 transition-transform transition-transform border border-solid w-[173px] ring-color-whiteBase outline-0 focus:border-whiteBase ${
       breakpointsForMarkup?.isMobile || breakpointsForMarkup?.isNothing
         ? touched
-          ? 'translate-x-0 w-[173px] py-[5px] pl-11 pr-3'
-          : 'translate-x-full w-[30px] p-0'
+          ? 'translate-x-0  py-[5px] pl-11 pr-3'
+          : 'translate-x-full  p-0'
         : ''
     }`;
-    inputBorder = `${inputClass.inputBorder} focus:ring-whiteBase focus-outline-whiteBase`;
+    inputBorder = `${inputClass.inputBorder} focus:ring-0 focus:outline-0`;
     inputBg = 'bg-transparent';
+    svgWrapperClass = `${touched ? 'left-3' : 'right-3'}`;
     svgFill = inputClass.svgFill;
     caretColor = inputClass.caretColor;
     textColor = inputClass.textColor;
@@ -137,9 +139,13 @@ const UnverifiableInput: FC<InputProps> = (props) => {
               />
             ) : null}
             {hasIcon && (
-              <span className='absolute w-5 h-5 left-3 top-50% transform -translate-y-1/2 flex items-center justify-center'>
+              <div
+                className={`${
+                  variant === VariantInputs.Header ? svgWrapperClass : 'left-3'
+                } absolute w-5 h-5 top-50% transform -translate-y-1/2 flex items-center justify-center`}
+              >
                 <SvgIcon svgName={svgName} size={20} className={`${svgFill}`} />
-              </span>
+              </div>
             )}
             <input
               className={` ${inputGeometry} transition-colors duration-500 font-header border-solid border rounded-3xl outline-0 focus:outline-0 text-small leading-mediumRelaxed tracking-bigWide md:text-base md:leading-moreRelaxed md:tracking-wide ${placeholderColor} ${inputBorder} ${inputBg} ${caretColor} ${textColor} ${checkboxStyles}`}

@@ -30,11 +30,6 @@ const Notification: FC<ToastProps> = ({ variant, title, description, openToast, 
             Undo
           </button>
         </Toast.Action>
-        {/* <Toast.Close aria-label='Close' asChild>
-          <button type='button'>
-            <SvgIcon svgName='icon-close' size={20} className='fill-darkBase' />
-          </button>
-        </Toast.Close> */}
       </Toast.Root>
 
       <Toast.Viewport className='[--viewport-padding:_25px] fixed top-0 right-0 flex flex-col p-[var(--viewport-padding)] gap-[10px] w-[390px] max-w-[100vw] m-0 list-none z-[2147483647] outline-none' />

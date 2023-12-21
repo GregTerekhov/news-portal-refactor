@@ -74,6 +74,7 @@ const usePopUp = () => {
   };
 
   const toggleCalendar = () => {
+    console.log('toggle', isOpenCalendar);
     setIsOpenCalendar(!isOpenCalendar);
   };
 

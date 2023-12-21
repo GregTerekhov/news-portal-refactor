@@ -1,8 +1,10 @@
 import React, { FC } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 
+import { useAuthRedux, useFiltersAction } from 'reduxStore/hooks';
+
 import { useWindowWidth } from 'contexts';
-import { useActiveLinks, useAuthCollector, useFilterCollector } from 'hooks';
+import { useActiveLinks } from 'hooks';
 
 import ThemeSwitcher from '../ThemeSwitcher';
 
@@ -21,8 +23,8 @@ const CommonMenu: FC<CommonMenuProps> = ({ isOpen, navId, closeMenu }) => {
   const { breakpointsForMarkup } = useWindowWidth() ?? {
     breakpointsForMarkup: null,
   };
-  const { resetAllFilters, filteredNews } = useFilterCollector();
-  const { user, logout } = useAuthCollector();
+  const { resetAllFilters, filteredNews } = useFiltersAction();
+  const { user, logout } = useAuthRedux();
 
   const location = useLocation();
   const activeLinks = useActiveLinks(location);

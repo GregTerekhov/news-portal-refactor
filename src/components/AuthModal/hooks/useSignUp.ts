@@ -1,26 +1,20 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import { SubmitHandler, useForm } from 'react-hook-form';
 
+import { useAuthRedux } from 'reduxStore/hooks';
+
 import { CredentialSignUpResponse, SignUpRequest } from 'types';
 
 import { useNotification } from 'contexts';
-import { useAuthCollector, usePopUp } from 'hooks';
+import { usePopUp } from 'hooks';
 
 import { signUpSchema } from '../assistants';
 import { AuthInputs } from '../types';
-import { useEffect } from 'react';
-import { useAppSelector } from 'reduxStore/hooks';
-import { selectHasAuthError } from 'reduxStore/auth';
 
 const useSignUp = () => {
   const { setOpenToast } = useNotification();
-  const { register, login } = useAuthCollector();
+  const { register, login } = useAuthRedux();
   const { toggleModal } = usePopUp();
-  const hasError = useAppSelector(selectHasAuthError);
-
-  useEffect(() => {
-    if (hasError) console.log('hasError', hasError);
-  }, [hasError]);
 
   const {
     handleSubmit,

@@ -1,22 +1,18 @@
 import React, { FC, useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 
-import {
-  useActiveLinks,
-  useAuthCollector,
-  useChooseRenderingNews,
-  useFilterCollector,
-  useNewsDBCollector,
-} from 'hooks';
+import { useAuthRedux, useDB, useFiltersAction } from 'reduxStore/hooks';
+
+import { useActiveLinks, useChooseRenderingNews } from 'hooks';
 
 import { NewsList } from 'components';
 import { Loader, Notification, PlugImage } from 'ui';
 
 const FavouritePage: FC<{}> = () => {
   const [openToast, setOpenToast] = useState<boolean>(false);
-  const { isAuthenticated } = useAuthCollector();
-  const { allFavourites, isLoadingDBData, getFavourites, getSavedNews } = useNewsDBCollector();
-  const { hasResults } = useFilterCollector();
+  const { isAuthenticated } = useAuthRedux();
+  const { allFavourites, isLoadingDBData, getFavourites, getSavedNews } = useDB();
+  const { hasResults } = useFiltersAction();
 
   const location = useLocation();
   const activeLinks = useActiveLinks(location);

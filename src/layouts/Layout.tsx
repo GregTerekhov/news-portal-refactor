@@ -1,13 +1,10 @@
 import React, { FC, useEffect } from 'react';
 import { Outlet, useLocation } from 'react-router-dom';
 
+import { useAuthRedux, useNewsAPI } from 'reduxStore/hooks';
+
 import { useWindowWidth } from 'contexts';
-import {
-  useActiveLinks,
-  useAuthCollector,
-  useChooseRenderingNews,
-  useNewsAPICollector,
-} from 'hooks';
+import { useActiveLinks, useChooseRenderingNews } from 'hooks';
 
 import { NewsFilterManager, PageScrollController } from 'components';
 import { ThemeSwitcher } from 'ui';
@@ -20,8 +17,8 @@ const Layout: FC = () => {
   const { breakpointsForMarkup } = useWindowWidth() ?? {
     breakpointsForMarkup: null,
   };
-  const { fetchCategoriesList } = useNewsAPICollector();
-  const { isAuthenticated } = useAuthCollector();
+  const { fetchCategoriesList } = useNewsAPI();
+  const { isAuthenticated } = useAuthRedux();
   // const isAuthenticated = true;
   const location = useLocation();
   const activeLinks = useActiveLinks(location);
