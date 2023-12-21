@@ -7,9 +7,12 @@ import { useActiveLinks, useChooseRenderingNews } from 'hooks';
 import { NewsList } from 'components';
 import { Accordeon, Loader, Notification, PlugImage } from 'ui';
 import { useLocation } from 'react-router-dom';
+import { useFilterNews } from 'components/NewsFIlterManager/subcomponents/FiltersBlock/hooks';
 
 const ReadPage: FC<{}> = () => {
   const [openToast, setOpenToast] = useState<boolean>(false);
+  const [readNews, setReadNews] = useState<string[]>([]);
+
   const { allReads, isLoadingDBData, getReads } = useDB();
   const { hasResults } = useFiltersAction();
 
@@ -18,9 +21,22 @@ const ReadPage: FC<{}> = () => {
 
   const { rebuildedNews } = useChooseRenderingNews({ activeLinks });
 
+  const { sortedDates } = useFilterNews({ activeLinks });
+
   useEffect(() => {
     getReads();
   }, [getReads]);
+
+  useEffect(() => {
+    setReadNews(Array.from(uniqueDatesSet).sort().reverse());
+
+    if (sortedDates.length !== 0) {
+      setReadNews(sortedDates);
+      return;
+    }
+
+    console.log('RTCON', readNews);
+  }, [sortedDates]);
 
   useEffect(() => {
     if (!!allReads) {
@@ -37,7 +53,7 @@ const ReadPage: FC<{}> = () => {
   const uniqueDatesSet = new Set(publishedDate);
 
   // Перетворення і сортування дат
-  const sortedDates = Array.from(uniqueDatesSet).sort().reverse();
+  // const readNews = sortedDates ? sortedDates : Array.from(uniqueDatesSet).sort().reverse();
 
   const shouldShowLoader = isLoadingDBData || hasResults === 'loading';
   const shouldShowPlug = rebuildedNews.length === 0 || hasResults === 'empty';
@@ -55,9 +71,9 @@ const ReadPage: FC<{}> = () => {
           description={`${rebuildedNews.length} news added to Reads`}
         />
       )}
-      {shouldShowAccordeon && (
+      {shouldShowAccordeon && readNews.length > 0 && sortedDates.length >= 0 && (
         <div>
-          {sortedDates.map((date) => (
+          {readNews.map((date) => (
             <Accordeon key={date} dateSeparator={date} position='readPage'>
               <NewsList
                 currentItems={rebuildedNews?.filter(
