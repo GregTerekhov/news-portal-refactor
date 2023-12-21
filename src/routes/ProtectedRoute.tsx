@@ -1,14 +1,14 @@
 import React, { FC, ReactElement, useEffect, useState } from 'react';
 import { Navigate, Outlet, useLocation } from 'react-router-dom';
 
-import { useAuthCollector } from 'hooks';
+import { useAuthRedux } from 'reduxStore/hooks';
 
 export type ProtectedRouteProps = {
   children?: ReactElement;
 } & { redirectPath?: string };
 
 const ProtectedRoute: FC<ProtectedRouteProps> = ({ children, redirectPath = '/' }) => {
-  const { isAuthenticated, isRefreshingUser } = useAuthCollector();
+  const { isAuthenticated, isRefreshingUser } = useAuthRedux();
   const [isAuthChecked, setIsAuthChecked] = useState(false);
   const location = useLocation();
 

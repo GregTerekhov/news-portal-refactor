@@ -1,8 +1,7 @@
 import { rebuildNewsArray } from 'helpers';
 
-import useNewsAPICollector from './useNewsAPICollector';
-import useNewsDBCollector from './useNewsDBCollector';
-import useFilterCollector from './useFilterCollector';
+import { useDB, useNewsAPI, useFiltersAction } from 'reduxStore/hooks';
+
 import { ActiveLinks } from './useActiveLinks';
 
 type RenderHookProps = {
@@ -10,9 +9,9 @@ type RenderHookProps = {
 };
 
 const useChooseRenderingNews = ({ activeLinks }: RenderHookProps) => {
-  const { popularNews, newsByKeyword, newsByCategory, newsByDate } = useNewsAPICollector();
-  const { allFavourites, allReads, allArchive } = useNewsDBCollector();
-  const { filteredNews } = useFilterCollector();
+  const { popularNews, newsByKeyword, newsByCategory, newsByDate } = useNewsAPI();
+  const { allFavourites, allReads, allArchive } = useDB();
+  const { filteredNews } = useFiltersAction();
 
   const chooseRenderingNews = () => {
     if (filteredNews && filteredNews?.length > 0) {

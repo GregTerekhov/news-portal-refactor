@@ -1,13 +1,13 @@
 import React, { FC } from 'react';
 
-import { useAuthCollector } from 'hooks';
+import { useAuthRedux } from 'reduxStore/hooks';
 
 import { Accordeon, PrimaryButton, VerifiableInput } from 'ui';
 
 import { useUpdateEmail } from '../hooks';
 
 const UpdateEmail: FC<{}> = ({}) => {
-  const { isRefreshingUser } = useAuthCollector();
+  const { isRefreshingUser } = useAuthRedux();
   const { handleSubmit, register, emailInputs, handleEmailSubmitHandler } = useUpdateEmail();
 
   return (

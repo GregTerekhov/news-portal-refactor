@@ -1,7 +1,8 @@
 import React, { FC } from 'react';
 
+import { useAuthRedux } from 'reduxStore/hooks';
+
 import { useWindowWidth } from 'contexts';
-import { useAuthCollector } from 'hooks';
 
 import { SvgIcon } from 'ui';
 
@@ -11,7 +12,7 @@ const AccountPage: FC<{}> = () => {
   const { breakpointsForMarkup } = useWindowWidth() ?? {
     breakpointsForMarkup: null,
   };
-  const { user } = useAuthCollector();
+  const { user } = useAuthRedux();
 
   const userInfoList = renderInfoItems(user);
   const accountIcons = renderAccountIcons();

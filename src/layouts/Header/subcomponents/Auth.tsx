@@ -1,8 +1,10 @@
 import React, { FC } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
+import { useAuthRedux } from 'reduxStore/hooks';
+
 import { useWindowWidth } from 'contexts';
-import { useActiveLinks, useAuthCollector, useHeaderStyles, usePopUp } from 'hooks';
+import { useActiveLinks, useHeaderStyles, usePopUp } from 'hooks';
 
 import { AuthModal } from 'components';
 import { Modal, PrimaryButton } from 'ui';
@@ -12,7 +14,7 @@ const Auth: FC<{}> = () => {
   const { breakpointsForMarkup } = useWindowWidth() ?? {
     breakpointsForMarkup: null,
   };
-  const { logout, isAuthenticated } = useAuthCollector();
+  const { logout, isAuthenticated } = useAuthRedux();
   const { isOpenModal, popUpRef, toggleModal } = usePopUp();
   const location = useLocation();
   const activeLinks = useActiveLinks(location);

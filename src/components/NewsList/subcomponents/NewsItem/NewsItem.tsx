@@ -1,9 +1,11 @@
 import React, { FC } from 'react';
 import { useLocation } from 'react-router-dom';
 
+import { useAuthRedux } from 'reduxStore/hooks';
+
 import { VotedItem } from 'types';
 
-import { useActiveLinks, useAuthCollector, usePopUp } from 'hooks';
+import { useActiveLinks, usePopUp } from 'hooks';
 
 import { Modal, PlugImage, SvgIcon } from 'ui';
 
@@ -15,7 +17,7 @@ interface NewsItemProps {
 }
 
 const NewsItem: FC<Partial<NewsItemProps>> = ({ liveNews = {} }) => {
-  const { isAuthenticated } = useAuthCollector();
+  const { isAuthenticated } = useAuthRedux();
   const { isOpenModal, toggleModal, popUpRef } = usePopUp();
   const myButtonRef = React.createRef<HTMLButtonElement>();
 

@@ -1,9 +1,9 @@
 import { useCallback } from 'react';
 
-import * as filters from 'reduxStore/filterSlice';
-import { useAppDispatch, useAppSelector } from 'reduxStore/hooks';
+import { useAppDispatch, useAppSelector } from '../hooks';
+import * as filters from '../filterSlice';
 
-import { PartialVotedNewsArray } from 'types/news';
+import { PartialVotedNewsArray } from 'types';
 
 const useFilterCollector = () => {
   const filteredNews = useAppSelector(filters.selectFilters);

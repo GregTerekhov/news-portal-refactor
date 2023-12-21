@@ -3,7 +3,7 @@ import { jwtDecode, JwtPayload } from 'jwt-decode';
 import dayjs from 'dayjs';
 
 import store, { RootState } from 'reduxStore/store';
-import { setTokens } from './authSlice';
+import { setTokens } from '../auth/authSlice';
 
 import { RefreshTokensResponse } from 'types';
 

@@ -1,5 +1,7 @@
 import React, { FC, ReactElement } from 'react';
 
+import { useWeatherAPI } from 'reduxStore/hooks';
+
 import { HourlyWeatherData } from 'types';
 
 import { useWindowWidth } from 'contexts';
@@ -7,7 +9,6 @@ import { useWindowWidth } from 'contexts';
 import { Hint, SvgIcon } from 'ui';
 
 import { convertUnixTimestampToHHMM } from '../assistants';
-import { useWeatherCollector } from '../hooks';
 import {
   RenderTemperatureCell,
   RenderWeatherIConCell,
@@ -25,7 +26,7 @@ type TableRows = {
 };
 
 const WeatherDetailsForHours: FC<{}> = () => {
-  const { hourlyWeather } = useWeatherCollector();
+  const { hourlyWeather } = useWeatherAPI();
   const { breakpointsForMarkup } = useWindowWidth() ?? {
     breakpointsForMarkup: null,
   };

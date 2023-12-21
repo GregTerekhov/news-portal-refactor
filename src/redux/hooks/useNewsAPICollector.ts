@@ -1,9 +1,9 @@
 import { useCallback } from 'react';
 
-import { useAppDispatch, useAppSelector } from 'reduxStore/hooks';
+import { useAppDispatch, useAppSelector } from 'reduxStore/hooks/hooks';
 import * as newsAPI from 'reduxStore/newsAPI';
 
-import { SelectedDate } from './useAdditionalRequest';
+import { SelectedDate } from '../../hooks/useAdditionalRequest';
 
 const useNewsAPICollector = () => {
   const isLoadingAPIData = useAppSelector(newsAPI.selectLoading);

@@ -1,15 +1,12 @@
 import { useState } from 'react';
 import { format, isAfter, startOfToday } from 'date-fns';
 
+import { useDB, useNewsAPI, useFiltersAction } from 'reduxStore/hooks';
+
 import { PartialVotedNewsArray } from 'types';
 
 import { useFiltersState } from 'contexts';
-import {
-  useChooseRenderingNews,
-  useFilterCollector,
-  useNewsAPICollector,
-  useNewsDBCollector,
-} from 'hooks';
+import { useChooseRenderingNews } from 'hooks';
 import { ActiveLinks } from 'hooks/useActiveLinks';
 
 import { applyCrossFilters } from '../assistants';
@@ -28,9 +25,9 @@ const useFilterNews = ({
   const [beginDate, setBeginDate] = useState<Date | null>(null);
 
   const { filters, setFilters } = useFiltersState();
-  const { showResultsState, getFilteredNews, resetAllFilters } = useFilterCollector();
-  const { updateHeadline } = useNewsAPICollector();
-  const { allFavourites, allReads } = useNewsDBCollector();
+  const { showResultsState, getFilteredNews, resetAllFilters } = useFiltersAction();
+  const { updateHeadline } = useNewsAPI();
+  const { allFavourites, allReads } = useDB();
   const { rebuildedNews } = useChooseRenderingNews({ activeLinks });
 
   const today = startOfToday();

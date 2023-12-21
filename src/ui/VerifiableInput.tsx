@@ -1,4 +1,4 @@
-import React, { ReactNode, FC, useState } from 'react';
+import React, { ReactNode, FC, useState, useId } from 'react';
 import { UseFormRegister } from 'react-hook-form';
 
 import {
@@ -44,6 +44,8 @@ interface InputProps {
 const VerifiableInput: FC<InputProps> = (props) => {
   const [isPasswordVisibility, setPasswordVisibility] = useState<boolean>(false);
 
+  const id = useId();
+
   const {
     inputData,
     hasIcon,
@@ -86,7 +88,7 @@ const VerifiableInput: FC<InputProps> = (props) => {
 
   return (
     <label
-      htmlFor={label}
+      htmlFor={id + label}
       className={`
        ${variant === VariantInputs.Auth && 'w-full space-y-2 text-medium md:text-xl'} 
       ${className}`}
@@ -124,7 +126,7 @@ const VerifiableInput: FC<InputProps> = (props) => {
         ) : null}
         <input
           className={` ${inputGeometry} ${inputBg} ${inputBorder} ${textColor} ${caretColor} ${placeholderColor} transition-colors duration-500 font-header border-solid border rounded-3xl outline-0 text-small leading-mediumRelaxed tracking-bigWide md:text-base md:leading-moreRelaxed md:tracking-wide $`}
-          id={label}
+          id={id + label}
           {...register(label)}
           type={isPasswordVisibility ? 'text' : type}
           value={fieldValue}

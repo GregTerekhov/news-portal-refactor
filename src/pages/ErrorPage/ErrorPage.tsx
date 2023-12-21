@@ -1,15 +1,17 @@
 import React, { FC } from 'react';
 import { useNavigate } from 'react-router-dom';
 
+import { useAuthRedux } from 'reduxStore/hooks';
+
 import { errorImages } from 'constants/images';
 import { generateContentImages } from 'helpers';
-import { useAuthCollector, useCacheImage } from 'hooks';
+import { useCacheImage } from 'hooks';
 
 import { PrimaryButton } from 'ui';
 
 const ErrorPage: FC<{}> = () => {
   const devicePixelRatio = window.devicePixelRatio || 1;
-  const { isAuthenticated } = useAuthCollector();
+  const { isAuthenticated } = useAuthRedux();
   const navigate = useNavigate();
 
   const matchedErrorImage = generateContentImages(
