@@ -68,6 +68,21 @@ const initialState: AuthState = {
 //   state.hasError = action.payload ?? null;
 // };
 
+// const extraActions = [
+//   authOperations.signUp,
+//   authOperations.signIn,
+//   authOperations.signOut,
+//   authOperations.fetchCurrentUser,
+//   authOperations.updateUserEmail,
+//   authOperations.googleAuth,
+//   authOperations.facebookAuth,
+//   authOperations.appleAuth,
+//   authOperations.updateTheme,
+// ];
+
+// const getActions = (type: 'pending' | 'fulfilled' | 'rejected') =>
+//   extraActions ? extraActions?.map((action) => action[type]) : [];
+
 export const setTokens = createAction<TokensPayload>('auth/setTokens');
 export const changeNotAuthTheme = createAction<Theme>('auth/changeTheme');
 
@@ -222,25 +237,10 @@ const authSlice = createSlice({
         const { updatedTheme }: Theme = action.payload;
         state.userTheme = updatedTheme;
       });
-    // .addMatcher(isAnyOf(...getActions('pending')), handlePending)
+    // .addMatcher(isAnyOf(...getActions('pending')), handlePending);
     // .addMatcher(isAnyOf(...getActions('fulfilled')), handleFulfilled)
     // .addMatcher(isAnyOf(...getActions('rejected')), handleRejected);
   },
 });
-
-// const extraActions = [
-//   authOperations.signUp,
-//   authOperations.signIn,
-//   authOperations.signOut,
-//   authOperations.fetchCurrentUser,
-//   authOperations.updateUserEmail,
-//   authOperations.googleAuth,
-//   authOperations.facebookAuth,
-//   authOperations.appleAuth,
-//   authOperations.updateTheme,
-// ];
-
-// const getActions = (type: 'pending' | 'fulfilled' | 'rejected') =>
-//   extraActions ? extraActions?.map((action) => action[type]) : [];
 
 export const authSliceReducer = authSlice.reducer;
