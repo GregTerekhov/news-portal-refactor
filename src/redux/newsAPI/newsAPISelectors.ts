@@ -1,4 +1,4 @@
-import type { RootState } from 'reduxStore/store';
+import type { RootState } from '../store';
 
 export const selectLoading = (state: RootState) => state.newsAPI.isLoading;
 export const selectPopular = (state: RootState) => state.newsAPI.popular;

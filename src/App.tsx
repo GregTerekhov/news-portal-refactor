@@ -4,7 +4,7 @@ import { Route, Routes } from 'react-router-dom';
 import { ProtectedRoute } from 'routes';
 import { AccountLayout, Layout } from 'layouts';
 
-import { useAuthCollector } from 'hooks';
+import { useAuthRedux } from 'reduxStore/hooks';
 
 import { Loader } from 'ui';
 
@@ -69,14 +69,9 @@ const AboutUs = lazy(() => import('./pages/AboutUs/AboutUs'));
 // ]);
 
 function App() {
-  const { isRefreshingUser, fetchCurrentAuthUser } = useAuthCollector();
-  // const { isRefreshingUser } = useAuthCollector();
+  const { isRefreshingUser, fetchCurrentAuthUser } = useAuthRedux();
 
   useEffect(() => {
-    // if (user && user?.id)
-    // console.log('isAuthenticated', isAuthenticated);
-    // console.log('isRefreshingUser', isRefreshingUser);
-    // if (isAuthenticated && !isRefreshingUser)
     fetchCurrentAuthUser();
   }, [fetchCurrentAuthUser]);
 

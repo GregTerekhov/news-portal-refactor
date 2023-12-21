@@ -1,8 +1,8 @@
 import React, { FC } from 'react';
 
-import { PartialVotedNewsArray, VotedItem } from 'types';
+import { useWeatherAPI } from 'reduxStore/hooks';
 
-import { useWeatherCollector } from 'hooks';
+import { PartialVotedNewsArray, VotedItem } from 'types';
 
 import { Loader } from 'ui';
 import WeatherBlock from '../WeatherBlock/WeatherBlock';
@@ -15,7 +15,7 @@ interface NewsListProps {
 }
 
 const NewsList: FC<Partial<NewsListProps>> = ({ currentItems, currentPage }) => {
-  const { isWeatherLoading } = useWeatherCollector();
+  const { isWeatherLoading } = useWeatherAPI();
   // const isWeatherLoading = true;
   return (
     <ul className='max-md:space-y-7 md:grid md:grid-cols-2 md:gap-[30px] lg:grid-cols-3 lg:gap-x-8 lg:gap-y-10 hg:gap-10 mb-10 md:mb-12 lg:mb-[60px]'>

@@ -6,7 +6,8 @@ import {
   PartialVotedNewsArray,
   SavedNewsResponse,
 } from 'types';
-import { axiosInstance } from 'reduxStore/auth';
+
+import { axiosInstance } from '../services';
 
 export const fetchAllNews = createAsyncThunk<SavedNewsResponse>(
   'newsDB/all',

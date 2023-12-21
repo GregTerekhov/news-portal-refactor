@@ -1,15 +1,15 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import { SubmitHandler, useForm } from 'react-hook-form';
 
-import { RecoveryPasswordRequest } from 'types';
+import { useAuthRedux } from 'reduxStore/hooks';
 
-import { useAuthCollector } from 'hooks';
+import { RecoveryPasswordRequest } from 'types';
 
 import { changePasswordSchema, recoveryPasswordSchema } from '../assistants';
 import { AuthInputs, RecoveryInputsValues } from '../types';
 
 const useSignIn = () => {
-  const { sendEmailForRecovery, changePassword } = useAuthCollector();
+  const { sendEmailForRecovery, changePassword } = useAuthRedux();
 
   const {
     handleSubmit: handleRecoveryPasswordSubmit,

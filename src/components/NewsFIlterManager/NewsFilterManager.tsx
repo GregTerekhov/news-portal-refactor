@@ -1,14 +1,16 @@
 import React, { FC, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 
-import { useActiveLinks, useNewsDBCollector } from 'hooks';
+import { useDB } from 'reduxStore/hooks';
+
+import { useActiveLinks } from 'hooks';
 
 import { Accordeon, SvgIcon } from 'ui';
 
 import { FiltersBlock, SearchBlock } from './subcomponents';
 
 const NewsFilterManager: FC<{}> = () => {
-  const { allFavourites, allReads, allArchive } = useNewsDBCollector();
+  const { allFavourites, allReads, allArchive } = useDB();
   const [showDropdown, setShowDropdown] = useState<boolean>(false);
 
   const location = useLocation();

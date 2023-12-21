@@ -1,15 +1,10 @@
 import React, { FC, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 
+import { useAuthRedux, useDB, useNewsAPI, useFiltersAction } from 'reduxStore/hooks';
+
 import { useNotification } from 'contexts';
-import {
-  useActiveLinks,
-  useAuthCollector,
-  useChooseRenderingNews,
-  useFilterCollector,
-  useNewsAPICollector,
-  useNewsDBCollector,
-} from 'hooks';
+import { useActiveLinks, useChooseRenderingNews } from 'hooks';
 
 import { NewsList } from 'components';
 import { Loader, Notification, PlugImage } from 'ui';
@@ -18,16 +13,16 @@ import { Pagination } from './subcomponents';
 import { usePagination } from './hooks';
 
 const HomePage: FC = () => {
-  const { isLoadingAPIData, headline, fetchPopular } = useNewsAPICollector();
-  const { isLoadingDBData, getSavedNews } = useNewsDBCollector();
-  const { isAuthenticated } = useAuthCollector();
+  const { isLoadingAPIData, headline, fetchPopular } = useNewsAPI();
+  const { isLoadingDBData, getSavedNews } = useDB();
+  const { isAuthenticated } = useAuthRedux();
   const { openToast, setOpenToast } = useNotification();
   // const isAuthenticated = true;
   const location = useLocation();
   const activeLinks = useActiveLinks(location);
 
   const { rebuildedNews } = useChooseRenderingNews({ activeLinks });
-  const { hasResults } = useFilterCollector();
+  const { hasResults } = useFiltersAction();
   const { currentItems, currentPage, pageNumbers, setCurrentPage } = usePagination(
     rebuildedNews ?? [],
   );

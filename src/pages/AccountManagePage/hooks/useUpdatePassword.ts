@@ -1,15 +1,16 @@
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 
+import { useAuthRedux } from 'reduxStore/hooks';
+
 import { UpdateCredentialsResponse, IUpdatePassword } from 'types';
 
 import { useNotification } from 'contexts';
-import { useAuthCollector } from 'hooks';
 
 import { renderPasswordInputs, updatePasswordSchema } from '../assistants';
 
 const useUpdatePassword = () => {
-  const { updatePassword } = useAuthCollector();
+  const { updatePassword } = useAuthRedux();
   const { setOpenToast } = useNotification();
   const {
     handleSubmit,

@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 
-import axiosInstance from './authServices';
+import { axiosInstance, BASE_URL_DB } from '../services';
 import { setTokens } from './authSlice';
 
 import {
@@ -22,15 +22,13 @@ import {
   RecoveryPasswordChange,
 } from 'types';
 
-const BASE_URL = 'https://news-webapp-express.onrender.com/api';
-
 export const signUp = createAsyncThunk<CredentialSignUpResponse, SignUpRequest>(
   'auth/signUp',
   async (credentials, { rejectWithValue }) => {
     console.log('credentials', credentials);
     try {
       const response = await axios.post<CredentialSignUpResponse>(
-        `${BASE_URL}/auth/sign-up`,
+        `${BASE_URL_DB}/auth/sign-up`,
         credentials,
       );
       console.log('SignUpResponse', response.data);
@@ -48,14 +46,14 @@ export const signIn = createAsyncThunk<CredentialSignInResponse, AuthRequestWith
     console.log('credentials', credentials);
     try {
       const response = await axios.post<CredentialSignInResponse>(
-        `${BASE_URL}/auth/sign-in`,
+        `${BASE_URL_DB}/auth/sign-in`,
         credentials,
       );
       console.log('SignInResponse', response.data);
       return response.data;
     } catch (error: any) {
-      console.log('Error signIn', error.message);
-      return rejectWithValue(error.message);
+      console.log('Error signIn', error.response.data);
+      return rejectWithValue(error.response.data);
     }
   },
 );
@@ -65,27 +63,25 @@ export const signOut = createAsyncThunk<SignOutResponse>(
   async (_, { rejectWithValue }) => {
     try {
       const response = await axiosInstance.post<SignOutResponse>('/auth/sign-out');
-      // setTokens({ accessToken: null, refreshToken: null });
       console.log('SignOutResponse', response.data);
       return response.data;
     } catch (error: any) {
-      console.log('Error signOut', error.message);
-      return rejectWithValue(error.message);
+      console.log('Error signOut', error.response.data);
+      return rejectWithValue(error.response.data);
     }
   },
 );
 
 export const fetchCurrentUser = createAsyncThunk<CurrentUserResponse>(
   'auth/current',
-  async (_, thunkAPI) => {
+  async (_, { rejectWithValue }) => {
     try {
       const response = await axiosInstance.get<CurrentUserResponse>('/auth/current-user');
       console.log('CurrentUserResponse', response.data);
       return response.data;
     } catch (error: any) {
-      console.log('Error fetchCurrent', error.message);
-
-      return thunkAPI.rejectWithValue(error.message);
+      console.log('Error fetchCurrent', error.response.data);
+      return rejectWithValue(error.response.data);
     }
   },
 );
@@ -102,8 +98,8 @@ export const updateUserEmail = createAsyncThunk<UpdateCredentialsResponse, AuthR
       console.log('UpdateCredentialsResponse', response.data);
       return response.data;
     } catch (error: any) {
-      console.log('Error updateEmail', error.message);
-      return rejectWithValue(error.message);
+      console.log('Error updateEmail', error.response.data);
+      return rejectWithValue(error.response.data);
     }
   },
 );
@@ -118,8 +114,8 @@ export const updateUserPassword = createAsyncThunk<UpdatePasswordResponse, Updat
       console.log('UpdatePasswordResponse', response.data);
       return response.data;
     } catch (error: any) {
-      console.log('Error updatePassword', error.message);
-      return rejectWithValue(error.message);
+      console.log('Error updatePassword', error.response.data);
+      return rejectWithValue(error.response.data);
     }
   },
 );
@@ -128,12 +124,12 @@ export const recoveryPasswordRequest = createAsyncThunk<
   RecoveryPasswordRequest
 >('auth/recoveryPasswordRequest', async (email, { rejectWithValue }) => {
   try {
-    const response = await axios.patch(`${BASE_URL}/auth/forgot-password-request`, email);
+    const response = await axios.patch(`${BASE_URL_DB}/auth/forgot-password-request`, email);
     console.log('recoveryPasswordRequest', response.data);
     return response.data;
   } catch (error: any) {
-    console.log('Error forgotPasswordRequest', error.message);
-    return rejectWithValue(error.message);
+    console.log('Error forgotPasswordRequest', error.response.data);
+    return rejectWithValue(error.response.data);
   }
 });
 
@@ -149,8 +145,8 @@ export const recoveryPasswordChange = createAsyncThunk<
     console.log('recoveryPasswordChange', response.data);
     return response.data;
   } catch (error: any) {
-    console.log('Error forgotPasswordChange', error.message);
-    return rejectWithValue(error.message);
+    console.log('Error forgotPasswordChange', error.response.data);
+    return rejectWithValue(error.response.data);
   }
 });
 
@@ -164,8 +160,8 @@ export const googleAuth = createAsyncThunk(
       console.log(response.data);
       return response.data;
     } catch (error: any) {
-      console.log('Error googleAuth', error.message);
-      return rejectWithValue(error.message);
+      console.log('Error googleAuth', error.response.data);
+      return rejectWithValue(error.response.data);
     }
   },
 );
@@ -179,8 +175,8 @@ export const facebookAuth = createAsyncThunk(
       console.log(response.data);
       return response.data;
     } catch (error: any) {
-      console.log('Error facebookAuth', error.message);
-      return rejectWithValue(error.message);
+      console.log('Error facebookAuth', error.response.data);
+      return rejectWithValue(error.response.data);
     }
   },
 );
@@ -194,8 +190,8 @@ export const appleAuth = createAsyncThunk(
       console.log(response.data);
       return response.data;
     } catch (error: any) {
-      console.log('Error appleAuth', error.message);
-      return rejectWithValue(error.message);
+      console.log('Error appleAuth', error.response.data);
+      return rejectWithValue(error.response.data);
     }
   },
 );
@@ -212,8 +208,8 @@ export const updateTheme = createAsyncThunk<UpdateThemeResponse, UpdateThemeRequ
       console.log('UpdateThemeResponse', response.data);
       return response.data;
     } catch (error: any) {
-      console.log('Error updateTheme', error.message);
-      return rejectWithValue(error.message);
+      console.log('Error updateTheme', error.response.data);
+      return rejectWithValue(error.response.data);
     }
   },
 );

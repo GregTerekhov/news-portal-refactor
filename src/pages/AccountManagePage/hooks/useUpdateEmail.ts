@@ -1,15 +1,16 @@
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 
+import { useAuthRedux } from 'reduxStore/hooks';
+
 import { AuthRequestWithoutName, UpdateCredentialsResponse } from 'types';
 
 import { useNotification } from 'contexts';
-import { useAuthCollector } from 'hooks';
 
 import { renderEmailInputs, updateEmailSchema } from '../assistants';
 
 const useUpdateEmail = () => {
-  const { updateEmail } = useAuthCollector();
+  const { updateEmail } = useAuthRedux();
   const { setOpenToast } = useNotification();
 
   const {

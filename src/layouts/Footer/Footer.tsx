@@ -1,13 +1,13 @@
 import React, { FC } from 'react';
 
-import { useAuthCollector } from 'hooks';
+import { useAuthRedux } from 'reduxStore/hooks';
 
 import { ThemeSwitcher } from 'ui';
 
 import { FooterMenu } from './subcomponents';
 
 const Footer: FC<{}> = () => {
-  const { isAuthenticated } = useAuthCollector();
+  const { isAuthenticated } = useAuthRedux();
   // const isAuthenticated = true;
   return (
     <footer className='bg-accentBase py-8'>

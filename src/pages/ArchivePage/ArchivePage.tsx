@@ -1,7 +1,8 @@
 import React, { FC, useEffect } from 'react';
 
+import { useAuthRedux, useDB } from 'reduxStore/hooks';
+
 import { useNotification } from 'contexts';
-import { useAuthCollector, useNewsDBCollector } from 'hooks';
 
 import { NewsList } from 'components';
 import { Accordeon, Loader, Notification, PlugImage } from 'ui';
@@ -10,9 +11,8 @@ import { organiseNewsByMonth } from './assistants';
 import { ArchiveHistoryLog } from './subcomponents';
 
 const ArchivePage: FC<{}> = () => {
-  const { isLoadingDBData, allArchive, archiveHistoryLog, getHistoryLog, getArchives } =
-    useNewsDBCollector();
-  const { isAuthenticated } = useAuthCollector();
+  const { isLoadingDBData, allArchive, archiveHistoryLog, getHistoryLog, getArchives } = useDB();
+  const { isAuthenticated } = useAuthRedux();
   const { openToast, setOpenToast } = useNotification();
 
   useEffect(() => {

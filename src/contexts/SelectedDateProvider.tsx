@@ -1,7 +1,9 @@
 import React, { FC, ReactNode, createContext, useContext, useState } from 'react';
 import { format, isAfter, startOfToday } from 'date-fns';
 
-import { useFilterCollector, useNewsAPICollector, usePopUp } from 'hooks';
+import { useNewsAPI, useFiltersAction } from 'reduxStore/hooks';
+
+import { usePopUp } from 'hooks';
 import { convertDateFormat } from 'helpers/dateTimeHelpers';
 
 export interface SelectedDate {
@@ -28,9 +30,9 @@ export const SelectedDateProvider: FC<SelectedDateContextProps> = ({ children })
   });
   const [beginDate, setBeginDate] = useState<Date | null>(null);
 
-  const { fetchByDate, resetPreviousRequest, updateHeadline } = useNewsAPICollector();
-  const { toggleCalendar } = usePopUp();
-  const { filteredNews } = useFilterCollector();
+  const { fetchByDate, resetPreviousRequest, updateHeadline } = useNewsAPI();
+  const { isOpenCalendar, setIsOpenCalendar } = usePopUp();
+  const { filteredNews } = useFiltersAction();
 
   const today = startOfToday();
 
@@ -67,11 +69,11 @@ export const SelectedDateProvider: FC<SelectedDateContextProps> = ({ children })
               resetPreviousRequest();
               await fetchByDate(newSelectedDate);
               setBeginDate(null);
-              toggleCalendar();
+              setIsOpenCalendar(!isOpenCalendar);
             } else {
               await fetchByDate(newSelectedDate);
               setBeginDate(null);
-              toggleCalendar();
+              setIsOpenCalendar(!isOpenCalendar);
             }
           }
         } catch (error) {

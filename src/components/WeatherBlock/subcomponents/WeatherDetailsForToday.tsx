@@ -1,5 +1,7 @@
 import React, { FC } from 'react';
 
+import { useWeatherAPI } from 'reduxStore/hooks';
+
 import { useWindowWidth } from 'contexts';
 
 import { Hint, SvgIcon } from 'ui';
@@ -13,8 +15,6 @@ import {
   receiveCurrentDate,
 } from '../assistants';
 
-import { useWeatherCollector } from '../hooks';
-
 type DetailsRows = {
   icon: string;
   iconSize: number;
@@ -26,7 +26,7 @@ type DetailsRows = {
 };
 
 const WeatherDetailsForToday: FC<{}> = () => {
-  const { currentWeather } = useWeatherCollector();
+  const { currentWeather } = useWeatherAPI();
   const { breakpointsForMarkup } = useWindowWidth() ?? {
     breakpointsForMarkup: null,
   };

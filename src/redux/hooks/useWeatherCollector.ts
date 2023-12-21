@@ -1,7 +1,7 @@
 import { useCallback } from 'react';
 
-import { useAppDispatch, useAppSelector } from 'reduxStore/hooks';
-import * as weather from 'reduxStore/weather';
+import { useAppDispatch, useAppSelector } from './hooks';
+import * as weather from '../weather';
 
 const useWeatherCollector = () => {
   const isWeatherLoading = useAppSelector(weather.selectLoading);

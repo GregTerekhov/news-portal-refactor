@@ -1,7 +1,7 @@
 import { useCallback } from 'react';
 
 import * as auth from 'reduxStore/auth';
-import { useAppDispatch, useAppSelector } from 'reduxStore/hooks';
+import { useAppDispatch, useAppSelector } from 'reduxStore/hooks/hooks';
 import {
   SignUpRequest,
   AuthRequestWithoutName,

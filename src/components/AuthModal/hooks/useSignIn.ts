@@ -2,10 +2,12 @@ import { useEffect, useState } from 'react';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { SubmitHandler, useForm } from 'react-hook-form';
 
+import { useAuthRedux } from 'reduxStore/hooks';
+
 import { AuthRequestWithoutName, CredentialSignInResponse } from 'types';
 
 import { useNotification } from 'contexts';
-import { useAuthCollector, usePopUp } from 'hooks';
+import { usePopUp } from 'hooks';
 
 import { decryptData, encryptData, generateEncryptionKey, signInSchema } from '../assistants';
 import { AuthInputs } from '../types';
@@ -16,7 +18,7 @@ const useSignIn = () => {
   const [key, setKey] = useState<CryptoKey | null>(null);
 
   const { setOpenToast } = useNotification();
-  const { login } = useAuthCollector();
+  const { login } = useAuthRedux();
   const { toggleModal } = usePopUp();
 
   useEffect(() => {

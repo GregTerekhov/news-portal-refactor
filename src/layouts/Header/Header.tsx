@@ -1,17 +1,10 @@
 import React, { FC, useEffect, useState } from 'react';
 import { Link, useLocation, useSearchParams } from 'react-router-dom';
 
-import { setTokens } from 'reduxStore/auth';
+import { useAuthRedux, useFiltersAction } from 'reduxStore/hooks';
 
 import { useWindowWidth } from 'contexts';
-import {
-  useActiveLinks,
-  useAdditionalRequest,
-  useAuthCollector,
-  useFilterCollector,
-  useHeaderStyles,
-  usePopUp,
-} from 'hooks';
+import { useActiveLinks, useAdditionalRequest, useHeaderStyles, usePopUp } from 'hooks';
 
 import { AuthModal } from 'components';
 import { Modal, SvgIcon, ThemeSwitcher, UnverifiableInput } from 'ui';
@@ -20,17 +13,31 @@ import { AuthButton, MainMenu } from './subcomponents';
 import { AccountMenu } from '../subcomponents';
 
 const Header: FC<{}> = () => {
-  const { query, onChangeInput, onHandleSearch } = useAdditionalRequest();
-  const { isOpenMenu, isOpenModal, setIsOpenModal, toggleMenu, toggleModal, popUpRef } = usePopUp();
-  const { breakpointsForMarkup } = useWindowWidth() ?? {
-    breakpointsForMarkup: null,
-  };
-  const { isAuthenticated, user } = useAuthCollector();
-  const { resetAllFilters } = useFilterCollector();
   const [touched, setTouched] = useState<boolean>(false);
   const [passwordToken, setPasswordToken] = useState<boolean>(false);
 
   const [searchParams] = useSearchParams();
+  const token = searchParams.get('passwordToken');
+  const openModal = searchParams.get('openModal');
+
+  const { isOpenMenu, isOpenModal, setIsOpenModal, toggleMenu, toggleModal, popUpRef } = usePopUp();
+  const { isAuthenticated, user, writeTokens } = useAuthRedux();
+
+  useEffect(() => {
+    if (!user && token && openModal) {
+      setPasswordToken(true);
+      writeTokens({ accessToken: token, refreshToken: null });
+      setIsOpenModal(true);
+    }
+    setPasswordToken(false);
+    setIsOpenModal(false);
+  }, [searchParams]);
+
+  const { query, onChangeInput, onHandleSearch } = useAdditionalRequest();
+  const { breakpointsForMarkup } = useWindowWidth() ?? {
+    breakpointsForMarkup: null,
+  };
+  const { filteredNews, resetAllFilters } = useFiltersAction();
 
   const location = useLocation();
   const activeLinks = useActiveLinks(location);
@@ -38,21 +45,6 @@ const Header: FC<{}> = () => {
   const { headerClass, textClass, burgerMenuButtonClass, accountIconStyles } = useHeaderStyles(
     activeLinks.isHomeActive,
   );
-  const { filteredNews } = useFilterCollector();
-  const token = searchParams.get('passwordToken');
-  const openModal = searchParams.get('openModal');
-
-  useEffect(() => {
-    if (!user && token && openModal) {
-      setPasswordToken(true);
-      setTokens({ accessToken: token, refreshToken: null });
-      setIsOpenModal(true);
-    }
-    setPasswordToken(false);
-    setIsOpenModal(false);
-  }, [searchParams]);
-
-  const isNotMobile = breakpointsForMarkup?.isTablet || breakpointsForMarkup?.isDesktop;
 
   const handleVisibilityChange = () => {
     setTouched(!touched);
@@ -64,6 +56,7 @@ const Header: FC<{}> = () => {
     }
   };
 
+  const isNotMobile = breakpointsForMarkup?.isTablet || breakpointsForMarkup?.isDesktop;
   const isAccountPages = activeLinks.isAccountPage || activeLinks.isManageAccountPage;
 
   return (

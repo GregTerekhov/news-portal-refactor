@@ -27,49 +27,6 @@ const Calendar: FC<CalendarProps> = ({ variant }) => {
   const today = startOfToday();
   const showToday = selectedRequestDate.beginDate === null && selectedRequestDate.endDate === null;
 
-  // const handleDateClick = async (date: Date) => {
-  //   if (!isAfter(date, today)) {
-  //     if (!beginDate) {
-  //       setBeginDate(date);
-  //     } else {
-  //       let newSelectedDate: { beginDate: string | null; endDate: string | null };
-  //       if (isAfter(date, beginDate)) {
-  //         newSelectedDate = {
-  //           beginDate: format(beginDate, 'yyyyMMdd'),
-  //           endDate: format(date, 'yyyyMMdd'),
-  //         };
-  //       } else {
-  //         newSelectedDate = {
-  //           beginDate: format(date, 'yyyyMMdd'),
-  //           endDate: format(beginDate, 'yyyyMMdd'),
-  //         };
-  //       }
-
-  //       if (rebuildedNews && rebuildedNews?.length > 0) {
-  //         const filteredData = rebuildedNews
-  //           ?.filter((news) => {
-  //             if (news?.publishDate && selectedDate) {
-  //               const newsDate = parse(news?.publishDate, 'dd/MM/yyyy', new Date());
-  //               if (selectedDate.beginDate !== null && selectedDate.endDate !== null) {
-  //                 return (
-  //                   isSameDay(newsDate, parse(selectedDate.beginDate, 'yyyyMMdd', new Date())) ||
-  //                   isSameDay(newsDate, parse(selectedDate.endDate, 'yyyyMMdd', new Date())) ||
-  //                   (isAfter(newsDate, parse(selectedDate.beginDate, 'yyyyMMdd', new Date())) &&
-  //                     isBefore(date, parse(selectedDate.endDate, 'yyyyMMdd', new Date())))
-  //                 );
-  //               }
-  //             }
-  //             return false;
-  //           })
-  //           .filter((result) => result) as PartialVotedNewsArray;
-  //         dispatch(filterNews(filteredData));
-  //       }
-  //       setBeginDate(null);
-  //       setIsOpenCalendar(false);
-  //     }
-  //   }
-  // };
-
   return (
     <div ref={popUpRef} className={`relative ${activeLinks.isReadActive ? null : 'col-span-4'}`}>
       <p className='text-darkBase dark:text-greyAlt mb-2 text-base'>
@@ -90,11 +47,11 @@ const Calendar: FC<CalendarProps> = ({ variant }) => {
               selectedRequestDate.endDate,
             )}`
           : variant === 'FiltersBlock' &&
-            filters &&
-            filters.selectedFilterDate.startDate !== '' &&
-            filters.selectedFilterDate.endDate !== ''
-          ? `${filters.selectedFilterDate.startDate} - ${filters.selectedFilterDate.endDate}`
-          : format(today, 'dd/MM/yyyy')}
+              filters &&
+              filters.selectedFilterDate.startDate !== '' &&
+              filters.selectedFilterDate.endDate !== ''
+            ? `${filters.selectedFilterDate.startDate} - ${filters.selectedFilterDate.endDate}`
+            : format(today, 'dd/MM/yyyy')}
         <SvgIcon
           svgName='icon-arrow-down'
           size={14}

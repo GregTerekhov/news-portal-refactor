@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react';
 
+import { useNewsAPI, useFiltersAction } from 'reduxStore/hooks';
+
 import { PartialVotedNewsArray } from 'types';
 
 import { useWindowWidth } from 'contexts';
-import { useNewsAPICollector, useFilterCollector } from 'hooks';
 
 import { calculatePagesForDevices, calculateFirstIndexes } from '../assistants';
 
@@ -11,8 +12,8 @@ const usePagination = (rebuildedNews: PartialVotedNewsArray) => {
   const { breakpointsForMarkup } = useWindowWidth() || {
     breakpointsForMarkup: null,
   };
-  const { popularNews, newsByKeyword, newsByCategory, newsByDate } = useNewsAPICollector();
-  const { filteredNews } = useFilterCollector();
+  const { popularNews, newsByKeyword, newsByCategory, newsByDate } = useNewsAPI();
+  const { filteredNews } = useFiltersAction();
 
   const [currentPage, setCurrentPage] = useState(1);
   const [currentItems, setCurrentItems] = useState<PartialVotedNewsArray>([]);
