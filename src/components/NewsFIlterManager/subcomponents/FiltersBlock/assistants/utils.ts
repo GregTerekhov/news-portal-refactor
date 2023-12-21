@@ -8,11 +8,6 @@ function isDateWithinRange(
 ): boolean {
   if (!dateString) return false;
 
-  // const currentDate = new Date(dateString);
-  // const startRange = new Date(startDate);
-  // const endRange = new Date(endDate);
-  // console.log('currentDate', currentDate);
-
   return dateString >= startDate && dateString <= endDate;
 }
 

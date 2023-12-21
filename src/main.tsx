@@ -18,6 +18,7 @@ import {
   NotificationProvider,
   SelectedDateProvider,
   WindowWidthProvider,
+  ReadSortProvider,
 } from 'contexts';
 
 import App from './App';
@@ -44,7 +45,9 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
                       <NotificationProvider>
                         <SelectedDateProvider>
                           <FiltersProvider>
-                            <App />
+                            <ReadSortProvider>
+                              <App />
+                            </ReadSortProvider>
                           </FiltersProvider>
                         </SelectedDateProvider>
                       </NotificationProvider>

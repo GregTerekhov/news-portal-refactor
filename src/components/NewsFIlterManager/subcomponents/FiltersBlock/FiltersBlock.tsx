@@ -2,7 +2,7 @@ import React, { FC, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 
 import { useFiltersState, useWindowWidth } from 'contexts';
-import { useActiveLinks } from 'hooks';
+import { useActiveLinks, useChooseRenderingNews } from 'hooks';
 
 import { Dropdown, PrimaryButton, UnverifiableInput } from 'ui';
 
@@ -32,11 +32,14 @@ interface IControlButtons {
 
 const FiltersBlock: FC<{}> = () => {
   const [selectedMaterialType, setSelectedMaterialType] = useState<string>('');
+
   const { breakpointsForMarkup } = useWindowWidth() ?? {
     breakpointsForMarkup: null,
   };
   const location = useLocation();
   const activeLinks = useActiveLinks(location);
+
+  const { rebuildedNews } = useChooseRenderingNews({ activeLinks });
 
   const {
     handleChangeFilter,
@@ -44,6 +47,7 @@ const FiltersBlock: FC<{}> = () => {
     handleFiltration,
     handleSort,
     handleReset,
+    handleSortRead,
   } = useFilterNews({ activeLinks, setSelectedMaterialType });
   const { filters } = useFiltersState();
 
@@ -55,6 +59,7 @@ const FiltersBlock: FC<{}> = () => {
       return value !== '';
     });
   };
+
   const hasFilterValue: boolean = hasNonEmptyValue(filters);
 
   const filterInputs = [
@@ -80,6 +85,8 @@ const FiltersBlock: FC<{}> = () => {
     },
   ];
 
+  const shouldSortAccordeon = activeLinks.isReadActive;
+
   const controlButtons: IControlButtons[] = [
     {
       type: 'submit',
@@ -99,7 +106,13 @@ const FiltersBlock: FC<{}> = () => {
       type: 'button',
       id: '',
       variant: 'Small',
-      onHandleClick: () => handleSort('asc'),
+      onHandleClick: () => {
+        if (shouldSortAccordeon) {
+          handleSortRead(rebuildedNews, 'asc');
+        } else {
+          handleSort('asc');
+        }
+      },
       ariaLabel: 'Ascending sort button',
       classNameButtons:
         'border-whiteBase bg-accentBase dark:bg-transparent hover:bg-accentAlt transition-colors duration-500 p-2',
@@ -108,7 +121,6 @@ const FiltersBlock: FC<{}> = () => {
       svgSize: 20,
       classNameIcon: 'fill-whiteBase',
       children: '',
-      // disabled: false,
     },
     {
       type: 'reset',
@@ -128,7 +140,13 @@ const FiltersBlock: FC<{}> = () => {
       type: 'button',
       id: '',
       variant: 'Small',
-      onHandleClick: () => handleSort('desc'),
+      onHandleClick: () => {
+        if (shouldSortAccordeon) {
+          handleSortRead(rebuildedNews, 'desc');
+        } else {
+          handleSort('desc');
+        }
+      },
       ariaLabel: 'Descending sort button',
       classNameButtons:
         'p-2 border-whiteBase bg-accentBase dark:bg-transparent hover:bg-accentAlt transition-colors duration-500',
@@ -137,7 +155,6 @@ const FiltersBlock: FC<{}> = () => {
       svgSize: 20,
       classNameIcon: 'fill-whiteBase rotate-180',
       children: '',
-      // disabled: false,
     },
   ];
 
@@ -192,7 +209,6 @@ const FiltersBlock: FC<{}> = () => {
 
   return (
     <form className='p-3.5 max-md:space-y-4 md:grid md:grid-cols-9 md:grid-rows-3 md:gap-3.5 lg:grid-cols-16 lg:grid-rows-2'>
-      {/* <FilterInputs /> */}
       {Array.isArray(filterInputs) &&
         filterInputs.map(({ name, value, placeholder }) => (
           <div key={name} className='md:col-span-3 lg:col-span-4'>
@@ -248,7 +264,6 @@ const FiltersBlock: FC<{}> = () => {
           </div>
         </>
       )}
-      {/* <ControlButtons /> */}
     </form>
   );
 };

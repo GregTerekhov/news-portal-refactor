@@ -3,7 +3,7 @@ import { format, isAfter, startOfToday } from 'date-fns';
 
 import { PartialVotedNewsArray } from 'types';
 
-import { useFiltersState } from 'contexts';
+import { useFiltersState, useReadSortState } from 'contexts';
 import {
   useChooseRenderingNews,
   useFilterCollector,
@@ -28,6 +28,8 @@ const useFilterNews = ({
   const [beginDate, setBeginDate] = useState<Date | null>(null);
 
   const { filters, setFilters } = useFiltersState();
+  const { sortedDates, setSortedDates } = useReadSortState();
+
   const { showResultsState, getFilteredNews, resetAllFilters } = useFilterCollector();
   const { updateHeadline } = useNewsAPICollector();
   const { allFavourites, allReads } = useNewsDBCollector();
@@ -164,6 +166,23 @@ const useFilterNews = ({
     }
   };
 
+  const handleSortRead = async (arr: PartialVotedNewsArray, order: string) => {
+    const publishedDate = arr
+      ?.map((news) => news.publishDate)
+      .filter((date) => date !== undefined) as string[];
+
+    // Використовуємо Set для визначення унікальних дат
+    const uniqueDatesSet = new Set(publishedDate);
+
+    if (order === 'asc') {
+      const sortedDates = Array.from(uniqueDatesSet).sort().reverse();
+      await setSortedDates(sortedDates);
+    } else if (order === 'desc') {
+      const sortedDates = Array.from(uniqueDatesSet).sort();
+      await setSortedDates(sortedDates);
+    }
+  };
+
   const handleReset = async () => {
     updateHeadline("Today's Hot News");
     setFilters({
@@ -188,6 +207,8 @@ const useFilterNews = ({
     handleFiltration,
     handleSort,
     handleReset,
+    handleSortRead,
+    sortedDates,
   };
 };
 
