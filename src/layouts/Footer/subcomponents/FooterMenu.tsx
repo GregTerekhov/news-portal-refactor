@@ -26,11 +26,11 @@ const FooterMenu = () => {
 
   return (
     <>
-      <nav className={`${isAuthenticated ? 'w-full lg:w-2/5' : 'mb-4 md:mb-10'}`}>
+      <nav className={`${isAuthenticated ? 'w-full md:w-96 lg:w-[600px]' : 'mb-4 md:mb-10'}`}>
         <ul
           className={`${
             isAuthenticated
-              ? 'grid grid-cols-2 grid-rows-4 gap-3 lg:grid-cols-3 lg:grid-rows-2'
+              ? 'grid max-md:grid-cols-3 md:grid-cols-2 grid-rows-3  gap-3'
               : 'flex justify-between items-center'
           }`}
         >

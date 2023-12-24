@@ -14,7 +14,6 @@ interface DeleteNewsButtonProps {
 const DeleteNewsModal: FC<DeleteNewsButtonProps> = ({ handleDeleteNews, handleClose, newsId }) => {
   const deleteNews = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     await handleDeleteNews(e, newsId);
-    handleClose(e, false);
   };
 
   const dialogButtons = [

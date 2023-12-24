@@ -27,17 +27,17 @@ export const renderMenuItem = ({ isAuthenticated, activeLinks }: MenuItemProps):
         {
           path: '/read',
           label: 'Read',
-          liClasses: 'row-start-3 col-start-1 lg:row-start-1 lg:col-start-2',
+          liClasses: 'row-start-1 col-start-2 md:col-start-1 md:row-start-3',
         },
         {
           path: '/archive',
           label: 'Archive',
-          liClasses: 'row-start-4 col-start-1 lg:row-start-2 lg:col-start-2',
+          liClasses: 'row-start-2 col-start-2 md:col-start-2 md:row-start-1 md:text-end',
         },
         {
           path: '/account',
           label: 'Account',
-          liClasses: 'row-start-1 col-start-2 text-end lg:row-start-1 lg:col-start-3',
+          liClasses: 'row-start-1 col-start-3 md:col-start-2 md:row-start-2 text-end',
         },
       ]
     : [
@@ -53,7 +53,7 @@ export const renderMenuItem = ({ isAuthenticated, activeLinks }: MenuItemProps):
       menuItems.push({
         path: '/about-us',
         label: 'About Us',
-        liClasses: 'row-start-2 col-start-2 text-end lg:row-start-2 lg:col-start-3',
+        liClasses: 'row-start-2 col-start-3 md:col-start-2 md:row-start-3 text-end',
       });
     } else {
       menuItems.push({

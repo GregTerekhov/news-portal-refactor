@@ -14,12 +14,14 @@ const PlugImage: FC<PlugImageProps> = ({ variant }) => {
   const matchedPlugImage = generateContentImages(
     plugImages,
     devicePixelRatio,
-    'image/webp',
+    // 'image/webp',
     window.innerWidth,
   );
 
+  console.log('matchedPlugImage', matchedPlugImage);
+
   const imageUrl = useCacheImage(matchedPlugImage?.src || '');
-  console.log('imageUrl', imageUrl);
+
   return (
     <>
       {variant === 'page' ? (
@@ -27,10 +29,20 @@ const PlugImage: FC<PlugImageProps> = ({ variant }) => {
           <p className='text-darkBase dark:text-whiteBase text-2xl font-bold tracking-smallTight mb-10 text-center md:text-5xl md:tracking-tighter md:w-[548px] transition-colors duration-500'>
             We haven’t found news from this category
           </p>
-          <img src={imageUrl} alt='No found news' />
+          <img
+            src={imageUrl}
+            alt='No found news'
+            width={matchedPlugImage.width}
+            height={matchedPlugImage.height}
+          />
         </div>
       ) : (
-        <img src={imageUrl} alt='No found news' width={395} height={395} />
+        <img
+          src={imageUrl}
+          alt='No found news'
+          width={matchedPlugImage.width}
+          height={matchedPlugImage.height}
+        />
       )}
     </>
   );

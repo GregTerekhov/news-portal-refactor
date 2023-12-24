@@ -8,7 +8,7 @@ import { RecoveryPasswordRequest } from 'types';
 import { changePasswordSchema, recoveryPasswordSchema } from '../assistants';
 import { AuthInputs, RecoveryInputsValues } from '../types';
 
-const useSignIn = () => {
+const useForgotPassword = () => {
   const { sendEmailForRecovery, changePassword } = useAuthRedux();
 
   const {
@@ -79,4 +79,4 @@ const useSignIn = () => {
   };
 };
 
-export default useSignIn;
+export default useForgotPassword;

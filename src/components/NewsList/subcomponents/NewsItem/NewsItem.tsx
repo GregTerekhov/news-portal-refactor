@@ -29,9 +29,12 @@ const NewsItem: FC<Partial<NewsItemProps>> = ({ liveNews = {} }) => {
 
   const handleDeleteNewsWrapper = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     if (liveNews._id) {
+      toggleModal;
       await handleDeleteNews(e, liveNews._id);
     }
   };
+
+  console.log('isOpenModal', isOpenModal);
 
   const locationShowHasReadStatus = activeLinks.isHomeActive || activeLinks.isArchiveActive;
 
