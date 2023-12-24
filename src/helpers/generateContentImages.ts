@@ -3,8 +3,8 @@ interface Image {
   dpi: number;
   src: string;
   screenSize: number;
-  width: number;
-  height: number;
+  // width: number;
+  // height: number;
 }
 
 export default function generateContentImages(
