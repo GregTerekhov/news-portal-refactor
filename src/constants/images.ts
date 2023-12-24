@@ -40,59 +40,59 @@ import errorImgSmx2 from 'assets/images/mobileError.png';
 import errorImgSmWebpx2 from 'assets/images/mobileError.png';
 import errorImgSmx3 from 'assets/images/mobileError.png';
 import errorImgSmWebpx3 from 'assets/images/mobileError.png';
-import errorImgMd from 'assets/images/mobileError.png';
-import errorImgMdWebp from 'assets/images/mobileError.png';
-import errorImgMdx2 from 'assets/images/mobileError.png';
-import errorImgMdWebpx2 from 'assets/images/mobileError.png';
-import errorImgMdx3 from 'assets/images/mobileError.png';
-import errorImgMdWebpx3 from 'assets/images/mobileError.png';
-import errorImgLg from 'assets/images/mobileError.png';
-import errorImgLgWebp from 'assets/images/mobileError.png';
-import errorImgLgx2 from 'assets/images/mobileError.png';
-import errorImgLgWebpx2 from 'assets/images/mobileError.png';
-import errorImgLgx3 from 'assets/images/mobileError.png';
-import errorImgLgWebpx3 from 'assets/images/mobileError.png';
+// import errorImgMd from 'assets/images/mobileError.png';
+// import errorImgMdWebp from 'assets/images/mobileError.png';
+// import errorImgMdx2 from 'assets/images/mobileError.png';
+// import errorImgMdWebpx2 from 'assets/images/mobileError.png';
+// import errorImgMdx3 from 'assets/images/mobileError.png';
+// import errorImgMdWebpx3 from 'assets/images/mobileError.png';
+// import errorImgLg from 'assets/images/mobileError.png';
+// import errorImgLgWebp from 'assets/images/mobileError.png';
+// import errorImgLgx2 from 'assets/images/mobileError.png';
+// import errorImgLgWebpx2 from 'assets/images/mobileError.png';
+// import errorImgLgx3 from 'assets/images/mobileError.png';
+// import errorImgLgWebpx3 from 'assets/images/mobileError.png';
 
 export const plugImages = [
-  { src: plugImgLgWebpx3, type: 'image/webp', dpi: 3, screenSize: 1280 },
-  { src: plugImgLgx3, type: 'image/png', dpi: 3, screenSize: 1280 },
-  { src: plugImgLgWebpx2, type: 'image/webp', dpi: 2, screenSize: 768 },
-  { src: plugImgLgx2, type: 'image/png', dpi: 2, screenSize: 768 },
-  { src: plugImgLgWebp, type: 'image/webp', dpi: 1, screenSize: 320 },
-  { src: plugImgLg, type: 'image/png', dpi: 1, screenSize: 320 },
-  { src: plugImgMdWebpx3, type: 'image/webp', dpi: 3, screenSize: 1280 },
-  { src: plugImgMdx3, type: 'image/png', dpi: 3, screenSize: 1280 },
-  { src: plugImgMdWebpx2, type: 'image/webp', dpi: 2, screenSize: 768 },
-  { src: plugImgMdx2, type: 'image/png', dpi: 2, screenSize: 768 },
-  { src: plugImgMdWebp, type: 'image/webp', dpi: 1, screenSize: 320 },
-  { src: plugImgMd, type: 'image/png', dpi: 1, screenSize: 320 },
-  { src: plugImgSmWebpx3, type: 'image/webp', dpi: 3, screenSize: 1280 },
-  { src: plugImgSmx3, type: 'image/png', dpi: 3, screenSize: 1280 },
-  { src: plugImgSmWebpx2, type: 'image/webp', dpi: 2, screenSize: 768 },
-  { src: plugImgSmx2, type: 'image/png', dpi: 2, screenSize: 768 },
-  { src: plugImgSmWebp, type: 'image/webp', dpi: 1, screenSize: 320 },
-  { src: plugImgSm, type: 'image/png', dpi: 1, screenSize: 320 },
+  { src: plugImgLgWebpx3, type: 'image/webp', dpi: 3, screenSize: 1280, width: 601, height: 478 },
+  { src: plugImgLgx3, type: 'image/png', dpi: 3, screenSize: 1280, width: 601, height: 478 },
+  { src: plugImgLgWebpx2, type: 'image/webp', dpi: 2, screenSize: 1280, width: 601, height: 478 },
+  { src: plugImgLgx2, type: 'image/png', dpi: 2, screenSize: 1280, width: 601, height: 478 },
+  { src: plugImgLgWebp, type: 'image/webp', dpi: 1, screenSize: 1280, width: 601, height: 478 },
+  { src: plugImgLg, type: 'image/png', dpi: 1, screenSize: 1280, width: 601, height: 478 },
+  { src: plugImgMdWebpx3, type: 'image/webp', dpi: 3, screenSize: 768, width: 560, height: 444 },
+  { src: plugImgMdx3, type: 'image/png', dpi: 3, screenSize: 768, width: 560, height: 444 },
+  { src: plugImgMdWebpx2, type: 'image/webp', dpi: 2, screenSize: 768, width: 560, height: 444 },
+  { src: plugImgMdx2, type: 'image/png', dpi: 2, screenSize: 768, width: 560, height: 444 },
+  { src: plugImgMdWebp, type: 'image/webp', dpi: 1, screenSize: 768, width: 560, height: 444 },
+  { src: plugImgMd, type: 'image/png', dpi: 1, screenSize: 768, width: 560, height: 444 },
+  { src: plugImgSmWebpx3, type: 'image/webp', dpi: 3, screenSize: 320, width: 248, height: 198 },
+  { src: plugImgSmx3, type: 'image/png', dpi: 3, screenSize: 320, width: 248, height: 198 },
+  { src: plugImgSmWebpx2, type: 'image/webp', dpi: 2, screenSize: 320, width: 248, height: 198 },
+  { src: plugImgSmx2, type: 'image/png', dpi: 2, screenSize: 320, width: 248, height: 198 },
+  { src: plugImgSmWebp, type: 'image/webp', dpi: 1, screenSize: 320, width: 248, height: 198 },
+  { src: plugImgSm, type: 'image/png', dpi: 1, screenSize: 320, width: 248, height: 198 },
 ];
 
 export const errorImages = [
-  { src: errorImgLgWebpx3, type: 'image/webp', dpi: 3, screenSize: 1280 },
-  { src: errorImgLgx3, type: 'image/png', dpi: 3, screenSize: 1280 },
-  { src: errorImgLgWebpx2, type: 'image/webp', dpi: 2, screenSize: 768 },
-  { src: errorImgLgx2, type: 'image/png', dpi: 2, screenSize: 768 },
-  { src: errorImgLgWebp, type: 'image/webp', dpi: 1, screenSize: 320 },
-  { src: errorImgLg, type: 'image/png', dpi: 1, screenSize: 320 },
-  { src: errorImgMdWebpx3, type: 'image/webp', dpi: 3, screenSize: 1280 },
-  { src: errorImgMdx3, type: 'image/png', dpi: 3, screenSize: 1280 },
-  { src: errorImgMdWebpx2, type: 'image/webp', dpi: 2, screenSize: 768 },
-  { src: errorImgMdx2, type: 'image/png', dpi: 2, screenSize: 768 },
-  { src: errorImgMdWebp, type: 'image/webp', dpi: 1, screenSize: 320 },
-  { src: errorImgMd, type: 'image/png', dpi: 1, screenSize: 320 },
-  { src: errorImgSmWebpx3, type: 'image/webp', dpi: 3, screenSize: 1280 },
-  { src: errorImgSmx3, type: 'image/png', dpi: 3, screenSize: 1280 },
-  { src: errorImgSmWebpx2, type: 'image/webp', dpi: 2, screenSize: 768 },
-  { src: errorImgSmx2, type: 'image/png', dpi: 2, screenSize: 768 },
-  { src: errorImgSmWebp, type: 'image/webp', dpi: 1, screenSize: 320 },
-  { src: errorImgSm, type: 'image/png', dpi: 1, screenSize: 320 },
+  // { src: errorImgLgWebpx3, type: 'image/webp', dpi: 3, screenSize: 1280, width:  , height: },
+  // { src: errorImgLgx3, type: 'image/png', dpi: 3, screenSize: 1280, width:  , height: },
+  // { src: errorImgLgWebpx2, type: 'image/webp', dpi: 2, screenSize: 1280, width:  , height: },
+  // { src: errorImgLgx2, type: 'image/png', dpi: 2, screenSize: 1280, width:  , height: },
+  // { src: errorImgLgWebp, type: 'image/webp', dpi: 1, screenSize: 1280, width:  , height: },
+  // { src: errorImgLg, type: 'image/png', dpi: 1, screenSize: 1280, width:  , height: },
+  // { src: errorImgMdWebpx3, type: 'image/webp', dpi: 3, screenSize: 768, width:  , height: },
+  // { src: errorImgMdx3, type: 'image/png', dpi: 3, screenSize: 768, width:  , height: },
+  // { src: errorImgMdWebpx2, type: 'image/webp', dpi: 2, screenSize: 768, width:  , height: },
+  // { src: errorImgMdx2, type: 'image/png', dpi: 2, screenSize: 768, width:  , height: },
+  // { src: errorImgMdWebp, type: 'image/webp', dpi: 1, screenSize: 768, width:  , height: },
+  // { src: errorImgMd, type: 'image/png', dpi: 1, screenSize: 768, width:  , height: },
+  { src: errorImgSmWebpx3, type: 'image/webp', dpi: 3, screenSize: 320, width: 233, height: 99 },
+  { src: errorImgSmx3, type: 'image/png', dpi: 3, screenSize: 320, width: 233, height: 99 },
+  { src: errorImgSmWebpx2, type: 'image/webp', dpi: 2, screenSize: 320, width: 233, height: 99 },
+  { src: errorImgSmx2, type: 'image/png', dpi: 2, screenSize: 320, width: 233, height: 99 },
+  { src: errorImgSmWebp, type: 'image/webp', dpi: 1, screenSize: 320, width: 233, height: 99 },
+  { src: errorImgSm, type: 'image/png', dpi: 1, screenSize: 320, width: 233, height: 99 },
 ];
 
 export const memberFirstImages = [

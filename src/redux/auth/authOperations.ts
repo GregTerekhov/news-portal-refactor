@@ -34,8 +34,8 @@ export const signUp = createAsyncThunk<CredentialSignUpResponse, SignUpRequest>(
       console.log('SignUpResponse', response.data);
       return response.data;
     } catch (error: any) {
-      console.log('error', error.response.data);
-      return rejectWithValue(error.response.data);
+      console.log('error', error.response);
+      return rejectWithValue(error.response);
     }
   },
 );

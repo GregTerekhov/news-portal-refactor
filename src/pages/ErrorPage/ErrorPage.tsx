@@ -17,7 +17,7 @@ const ErrorPage: FC<{}> = () => {
   const matchedErrorImage = generateContentImages(
     errorImages,
     devicePixelRatio,
-    'image/webp',
+    // 'image/webp',
     window.innerWidth,
   );
   // const isAuthenticated = true;

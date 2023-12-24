@@ -77,7 +77,7 @@ const Modal: FC<ModalProps> = ({ children, closeModal, modalRef, variant }) => {
         autoFocus={true}
         returnFocus={{ preventScroll: false }} // не буде працювати в Safari i Edge
       >
-        <RemoveScroll>
+        <RemoveScroll enabled={isOpenModal}>
           {modalRoot &&
             createPortal(
               <div className='fixed before:fixed before:content-[""] before:w-full before:h-[81px] before:top-0 before:left-0 top-0 left-0 z-[60] bg-whiteBase/[.4] dark:bg-darkBackground/[.4] w-screen h-screen flex justify-center items-center transition-colors duration-500 backdrop-blur-sm overflow-auto'>

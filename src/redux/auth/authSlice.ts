@@ -11,6 +11,7 @@ import { TokensPayload } from 'types';
 
 export type KnownError = {
   message?: string;
+  // status?: number;
 };
 
 interface AuthState {
@@ -104,7 +105,10 @@ const authSlice = createSlice({
       })
       .addCase(authOperations.signUp.rejected, (state, action) => {
         state.isCurrentUser = false;
-        if (action.payload) state.hasError = action.payload;
+        if (action.payload) {
+          state.hasError = action.payload;
+          console.log('authStateError', state.hasError, action.payload);
+        }
       })
       .addCase(authOperations.signIn.pending, (state) => {
         state.isCurrentUser = true;

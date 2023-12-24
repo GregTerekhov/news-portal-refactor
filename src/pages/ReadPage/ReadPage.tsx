@@ -45,7 +45,7 @@ const ReadPage: FC<{}> = () => {
     }
   }, [allReads]);
 
-  const publishedDate = rebuildedNews
+  const publishedDate = allReads
     ?.map((news) => news.publishDate)
     .filter((date) => date !== undefined) as string[];
 

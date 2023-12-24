@@ -24,21 +24,21 @@ const AboutUs: FC<{}> = () => {
   const matchedFirstMemberImage = generateContentImages(
     memberFirstImages,
     devicePixelRatio,
-    'image/webp',
+    // 'image/webp',
     window.innerWidth,
   );
 
   const matchedSecondMemberImage = generateContentImages(
     memberSecondImages,
     devicePixelRatio,
-    'image/webp',
+    // 'image/webp',
     window.innerWidth,
   );
 
   const matchedThirdMemberImage = generateContentImages(
     memberThirdImages,
     devicePixelRatio,
-    'image/webp',
+    // 'image/webp',
     window.innerWidth,
   );
 
