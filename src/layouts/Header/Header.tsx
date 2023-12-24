@@ -24,7 +24,7 @@ const Header: FC<{}> = () => {
   const { isAuthenticated, user, writeTokens } = useAuthRedux();
 
   useEffect(() => {
-    if (!user && token && openModal === 'true') {
+    if (!user && token && openModal) {
       setPasswordToken(true);
       writeTokens({ accessToken: token, refreshToken: null });
       setIsOpenModal(true);
