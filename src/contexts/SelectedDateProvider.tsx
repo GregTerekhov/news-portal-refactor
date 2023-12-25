@@ -31,7 +31,7 @@ export const SelectedDateProvider: FC<SelectedDateContextProps> = ({ children })
   const [beginDate, setBeginDate] = useState<Date | null>(null);
 
   const { fetchByDate, resetPreviousRequest, updateHeadline } = useNewsAPI();
-  const { isOpenCalendar, setIsOpenCalendar } = usePopUp();
+  const { isOpenCalendar, toggleCalendar } = usePopUp();
   const { filteredNews } = useFiltersAction();
 
   const today = startOfToday();
@@ -69,13 +69,18 @@ export const SelectedDateProvider: FC<SelectedDateContextProps> = ({ children })
               resetPreviousRequest();
               await fetchByDate(newSelectedDate);
               setBeginDate(null);
-              setIsOpenCalendar(!isOpenCalendar);
+              console.log(isOpenCalendar);
+              // setIsOpenCalendar && setIsOpenCalendar(!isOpenCalendar);
+              toggleCalendar();
             } else {
               await fetchByDate(newSelectedDate);
               setBeginDate(null);
-              setIsOpenCalendar(!isOpenCalendar);
+              // setIsOpenCalendar && setIsOpenCalendar(!isOpenCalendar);
+              toggleCalendar();
             }
           }
+
+          console.log(isOpenCalendar);
         } catch (error) {
           console.error('Помилка при зміні значень:', error);
         }

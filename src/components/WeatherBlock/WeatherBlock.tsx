@@ -23,9 +23,9 @@ const WeatherBlock: FC<{}> = () => {
   } = useWeather();
 
   const { isWeatherLoading, currentWeather } = useWeatherAPI();
-  // const isWeatherLoading = true;
   const emptyWeather = currentWeather && Object.keys(currentWeather).length === 0;
   const showLoader = isWeatherLoading && hasGeolocationPermission;
+
   // lg:px-[53px] забрано звідси 'py-8 px-5 md:pt-10 md:px-8'
 
   return (

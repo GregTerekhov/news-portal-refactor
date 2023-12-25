@@ -7,7 +7,6 @@ import { useActiveLinks, useChooseRenderingNews } from 'hooks';
 import { Dropdown, PrimaryButton, UnverifiableInput } from 'ui';
 
 import Calendar from '../Calendar/Calendar';
-// import { ControlButtons, FilterInputs } from './subcomponents';
 import { materialTypes } from './assistants';
 import { useFilterNews } from './hooks';
 import { ClickHandler } from 'ui/PrimaryButton';

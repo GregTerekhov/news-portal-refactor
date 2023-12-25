@@ -5,7 +5,9 @@ import { PrimaryButton, SvgIcon } from 'ui';
 import { useWeather } from '../hooks';
 
 const NoWeather: FC = () => {
-  const { hasGeolocationPermission, requestGeolocationPermission } = useWeather();
+  const { hasGeolocationPermission, requestGeolocationPermission, statePermission } = useWeather();
+
+  console.log('STATE', statePermission);
 
   return (
     <>
@@ -21,9 +23,11 @@ const NoWeather: FC = () => {
         onHandleClick={requestGeolocationPermission}
         classNameButton='border border-solid border-whiteBase'
       >
-        {!hasGeolocationPermission
+        {!statePermission || statePermission === 'prompt'
           ? 'Give permission for your geolocation'
-          : 'Get the weather for your region'}
+          : hasGeolocationPermission
+            ? 'Get the weather for your region'
+            : statePermission === 'denied' && 'Permission denied'}
       </PrimaryButton>
     </>
   );

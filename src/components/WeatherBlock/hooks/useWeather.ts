@@ -2,9 +2,13 @@ import { useEffect, useState } from 'react';
 
 import { useWeatherAPI } from 'reduxStore/hooks';
 
+type StatePermission = 'granted' | 'prompt' | 'denied';
+
 const useWeather = () => {
   const [isCelsius, setIsCelsius] = useState<boolean>(true);
   const [isFlipped, setIsFlipped] = useState<boolean>(false);
+  const [statePermission, setStatePermission] = useState<StatePermission | null>(null);
+
   const [hasGeolocationPermission, setHasGeolocationPermission] = useState<boolean>(false);
 
   const { getCurrentWeather, getHourlyWeather } = useWeatherAPI();
@@ -12,18 +16,19 @@ const useWeather = () => {
   const geolocation: boolean = 'geolocation' in navigator;
 
   useEffect(() => {
-    if (geolocation) {
-      const hasVisitedBefore = localStorage.getItem('geolocationPermission');
-      if (hasVisitedBefore) {
-        setHasGeolocationPermission(true);
-      }
+    const hasVisitedBefore = localStorage.getItem('geolocationPermission');
+
+    if (hasVisitedBefore) {
+      setHasGeolocationPermission(true);
+      setStatePermission('granted');
     }
-  }, []);
+  }, [statePermission]);
 
   const requestGeolocationPermission = () => {
     if (geolocation) {
       navigator.permissions.query({ name: 'geolocation' }).then((result) => {
         if (result.state === 'granted') {
+          setStatePermission('granted');
           setHasGeolocationPermission(true);
           localStorage.setItem('geolocationPermission', 'granted');
           navigator.geolocation.getCurrentPosition((position) => {
@@ -35,6 +40,8 @@ const useWeather = () => {
             getHourlyWeather(sendGeolocation);
           });
         } else if (result.state === 'prompt') {
+          setStatePermission('prompt');
+
           navigator.geolocation.getCurrentPosition(
             (position) => {
               setHasGeolocationPermission(true);
@@ -69,6 +76,10 @@ const useWeather = () => {
           );
         } else {
           setHasGeolocationPermission(false);
+          setStatePermission('denied');
+          localStorage.removeItem('geolocationPermission');
+
+          console.log(result.state);
         }
       });
     }
@@ -90,6 +101,7 @@ const useWeather = () => {
     requestGeolocationPermission,
     toggleTemperatureScale,
     flipWeatherDetails,
+    statePermission,
   };
 };
 
