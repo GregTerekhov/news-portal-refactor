@@ -5,7 +5,6 @@ import { Filters } from 'types';
 type FiltersProviderProps = {
   children: ReactNode;
 };
-
 type FiltersContextValue = {
   filters: Filters;
   setFilters: (value: Filters) => void;

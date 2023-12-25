@@ -24,6 +24,8 @@ const useFilterNews = ({
 }: FilterHookProps) => {
   const [beginDate, setBeginDate] = useState<Date | null>(null);
 
+  // const { setIsOpenCalendar } = useSelectedDate();
+
   const { filters, setFilters } = useFiltersState();
   const { sortedDates, setSortedDates } = useReadSortState();
   const { showResultsState, getFilteredNews, resetAllFilters } = useFiltersAction();

@@ -16,7 +16,7 @@ interface CalendarProps {
 }
 
 const Calendar: FC<CalendarProps> = ({ variant }) => {
-  const { isOpenCalendar, popUpRef, setIsOpenCalendar, toggleCalendar } = usePopUp();
+  const { popUpRef, toggleCalendar, isOpenCalendar, setIsOpenCalendar } = usePopUp();
 
   const location = useLocation();
   const activeLinks = useActiveLinks(location);
@@ -26,6 +26,8 @@ const Calendar: FC<CalendarProps> = ({ variant }) => {
 
   const today = startOfToday();
   const showToday = selectedRequestDate.beginDate === null && selectedRequestDate.endDate === null;
+
+  console.log('CALENDAR', isOpenCalendar);
 
   return (
     <div ref={popUpRef} className={`relative ${activeLinks.isReadActive ? null : 'col-span-4'}`}>
@@ -60,7 +62,9 @@ const Calendar: FC<CalendarProps> = ({ variant }) => {
           }`}
         />
       </button>
-      {isOpenCalendar && <CalendarContent variant={variant} handleDateFilter={handleFilterDate} />}
+      {!!isOpenCalendar && (
+        <CalendarContent variant={variant} handleDateFilter={handleFilterDate} />
+      )}
     </div>
   );
 };
