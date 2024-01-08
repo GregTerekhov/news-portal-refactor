@@ -123,7 +123,7 @@ const FiltersBlock: FC<{}> = () => {
       type: 'reset',
       id: 'Filters reset button',
       variant: 'Primary',
-      onHandleClick: () => handleReset(rebuildedNews),
+      onHandleClick: handleReset,
       ariaLabel: '',
       classNameButtons: '',
       hasIcon: true,
