@@ -25,7 +25,6 @@ const useFilterNews = ({
   const [beginDate, setBeginDate] = useState<Date | null>(null);
   const [wasSoreted, setWasSorted] = useState<boolean>(false);
 
-
   const { filters, setFilters } = useFiltersState();
   const { sortedDates, setSortedDates } = useReadSortState();
   const { showResultsState, getFilteredNews, resetAllFilters } = useFiltersAction();
@@ -170,7 +169,6 @@ const useFilterNews = ({
     }
   };
 
-
   const handleSortRead = async (order: string) => {
     if (sorDat) {
       if (order === 'asc') {
@@ -185,7 +183,7 @@ const useFilterNews = ({
     }
   };
 
-  const handleReset = async (array: PartialVotedNewsArray) => {
+  const handleReset = async () => {
     updateHeadline("Today's Hot News");
     setFilters({
       keyword: '',
