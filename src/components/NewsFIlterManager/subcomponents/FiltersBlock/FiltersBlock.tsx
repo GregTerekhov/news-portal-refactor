@@ -2,7 +2,7 @@ import React, { FC, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 
 import { useFiltersState, useWindowWidth } from 'contexts';
-import { useActiveLinks, useChooseRenderingNews } from 'hooks';
+import { useActiveLinks } from 'hooks';
 
 import { Dropdown, PrimaryButton, UnverifiableInput } from 'ui';
 
@@ -37,8 +37,6 @@ const FiltersBlock: FC<{}> = () => {
   };
   const location = useLocation();
   const activeLinks = useActiveLinks(location);
-
-  const { rebuildedNews } = useChooseRenderingNews({ activeLinks });
 
   const {
     handleChangeFilter,
@@ -107,7 +105,7 @@ const FiltersBlock: FC<{}> = () => {
       variant: 'Small',
       onHandleClick: () => {
         if (shouldSortAccordeon) {
-          handleSortRead(rebuildedNews, 'asc');
+          handleSortRead('asc');
         } else {
           handleSort('asc');
         }
@@ -140,7 +138,7 @@ const FiltersBlock: FC<{}> = () => {
       variant: 'Small',
       onHandleClick: () => {
         if (shouldSortAccordeon) {
-          handleSortRead(rebuildedNews, 'desc');
+          handleSortRead('desc');
         } else {
           handleSort('desc');
         }

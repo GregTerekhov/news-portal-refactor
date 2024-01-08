@@ -5,7 +5,7 @@ import { useDB, useNewsAPI, useFiltersAction } from 'reduxStore/hooks';
 
 import { PartialVotedNewsArray } from 'types';
 
-import { useFiltersState, useReadSortState } from 'contexts';
+import { useReadNewsContent, useFiltersState, useReadSortState } from 'contexts';
 import { useChooseRenderingNews } from 'hooks';
 import { ActiveLinks } from 'hooks/useActiveLinks';
 
@@ -23,6 +23,8 @@ const useFilterNews = ({
   setSelectedMaterialType,
 }: FilterHookProps) => {
   const [beginDate, setBeginDate] = useState<Date | null>(null);
+  const [wasSoreted, setWasSorted] = useState<boolean>(false);
+
 
   const { filters, setFilters } = useFiltersState();
   const { sortedDates, setSortedDates } = useReadSortState();
@@ -32,6 +34,7 @@ const useFilterNews = ({
   const { rebuildedNews } = useChooseRenderingNews({ activeLinks });
 
   const today = startOfToday();
+  const sorDat = useReadNewsContent();
 
   const handleChangeFilter = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
@@ -88,6 +91,10 @@ const useFilterNews = ({
     event.preventDefault();
     event.stopPropagation();
 
+    if (wasSoreted) {
+      alert(`YOU CAN'T FILTERING AFTER SORTING. RESET THE SETTINGS AND TRY AGAIN`);
+    }
+
     showResultsState('loading');
     if (activeLinks.isHomeActive) {
       updateHeadline('Filtered News');
@@ -126,6 +133,7 @@ const useFilterNews = ({
         }
       }
     }
+    setWasSorted(false);
   };
 
   const handleSort = (order: string) => {
@@ -162,25 +170,18 @@ const useFilterNews = ({
     }
   };
 
-  function getUniqueDateArray(array: PartialVotedNewsArray) {
-    const publishedDate = array
-      ?.map((news) => news.publishDate)
-      .filter((date) => date !== undefined) as string[];
 
-    // Використовуємо Set для визначення унікальних дат
-    const uniqueDatesSet = new Set(publishedDate);
-    return uniqueDatesSet;
-  }
-
-  const handleSortRead = async (arr: PartialVotedNewsArray, order: string) => {
-    const uniqueDatesSet = getUniqueDateArray(arr);
-
-    if (order === 'asc') {
-      const sortedDates = Array.from(uniqueDatesSet).sort().reverse();
-      await setSortedDates(sortedDates);
-    } else if (order === 'desc') {
-      const sortedDates = Array.from(uniqueDatesSet).sort();
-      await setSortedDates(sortedDates);
+  const handleSortRead = async (order: string) => {
+    if (sorDat) {
+      if (order === 'asc') {
+        const sortedDates = Array.from(sorDat).sort().reverse();
+        setSortedDates(sortedDates);
+        setWasSorted(true);
+      } else if (order === 'desc') {
+        const sortedDates = Array.from(sorDat).sort();
+        setSortedDates(sortedDates);
+        setWasSorted(true);
+      }
     }
   };
 
@@ -200,8 +201,8 @@ const useFilterNews = ({
     setSelectedMaterialType && setSelectedMaterialType('');
     resetAllFilters();
 
-    const initialSortState = getUniqueDateArray(array);
-    setSortedDates(Array.from(initialSortState).sort().reverse());
+    setSortedDates([]);
+    setWasSorted(false);
   };
 
   return {

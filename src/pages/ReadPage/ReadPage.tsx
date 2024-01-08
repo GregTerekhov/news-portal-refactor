@@ -8,6 +8,7 @@ import { NewsList } from 'components';
 import { Accordeon, Loader, Notification, PlugImage } from 'ui';
 import { useLocation } from 'react-router-dom';
 import { useFilterNews } from 'components/NewsFIlterManager/subcomponents/FiltersBlock/hooks';
+import { useReadNewsContent } from 'contexts/SortReadAccordeon';
 
 const ReadPage: FC<{}> = () => {
   const [openToast, setOpenToast] = useState<boolean>(false);
@@ -19,7 +20,7 @@ const ReadPage: FC<{}> = () => {
   const activeLinks = useActiveLinks(location);
 
   const { rebuildedNews } = useChooseRenderingNews({ activeLinks });
-  // const { readNews, setReadNews } = useReadSortState();
+  const waffles = useReadNewsContent();
 
   const { sortedDates } = useFilterNews({ activeLinks });
 
@@ -34,14 +35,7 @@ const ReadPage: FC<{}> = () => {
     }
   }, [allReads]);
 
-  const publishedDate = allReads
-    ?.map((news) => news.publishDate)
-    .filter((date) => date !== undefined) as string[];
-
-  // Використовуємо Set для визначення унікальних дат
-  const uniqueDatesSet = new Set(publishedDate);
-
-  const readNews = sortedDates ? sortedDates : Array.from(uniqueDatesSet).sort().reverse();
+  const readNews = sortedDates && sortedDates.length > 0 ? sortedDates : waffles;
 
   const shouldShowLoader = isLoadingDBData || hasResults === 'loading';
   const shouldShowPlug = rebuildedNews.length === 0 || hasResults === 'empty';
@@ -59,7 +53,7 @@ const ReadPage: FC<{}> = () => {
           description={`${rebuildedNews.length} news added to Reads`}
         />
       )}
-      {shouldShowAccordeon && readNews.length > 0 && (
+      {shouldShowAccordeon && readNews && readNews.length > 0 && (
         <div>
           {readNews.map((date) => (
             <Accordeon key={date} dateSeparator={date} position='readPage'>

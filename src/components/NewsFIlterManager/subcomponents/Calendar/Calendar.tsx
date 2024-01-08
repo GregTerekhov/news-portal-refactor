@@ -27,7 +27,7 @@ const Calendar: FC<CalendarProps> = ({ variant }) => {
   const today = startOfToday();
   const showToday = selectedRequestDate.beginDate === null && selectedRequestDate.endDate === null;
 
-  console.log('CALENDAR', isOpenCalendar);
+  // console.log('CALENDAR', isOpenCalendar);
 
   return (
     <div ref={popUpRef} className={`relative ${activeLinks.isReadActive ? null : 'col-span-4'}`}>
