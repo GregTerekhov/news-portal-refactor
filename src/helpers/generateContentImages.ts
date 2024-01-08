@@ -3,8 +3,8 @@ interface Image {
   dpi: number;
   src: string;
   screenSize: number;
-  // width: number;
-  // height: number;
+  width: number;
+  height: number;
 }
 
 export default function generateContentImages(
@@ -14,7 +14,11 @@ export default function generateContentImages(
   screenSize: number,
 ): Image {
   const suitableImages = images.filter((image) => {
-    return screenSize >= image.screenSize;
+    if (screenSize < 320) {
+      return image.screenSize === 320;
+    } else {
+      return screenSize >= image.screenSize;
+    }
   });
 
   for (const image of suitableImages) {

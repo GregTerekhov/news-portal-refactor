@@ -34,8 +34,6 @@ const NewsItem: FC<Partial<NewsItemProps>> = ({ liveNews = {} }) => {
     }
   };
 
-  console.log('isOpenModal', isOpenModal);
-
   const locationShowHasReadStatus = activeLinks.isHomeActive || activeLinks.isArchiveActive;
 
   return (

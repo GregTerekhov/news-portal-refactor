@@ -7,8 +7,6 @@ import { useWeather } from '../hooks';
 const NoWeather: FC = () => {
   const { hasGeolocationPermission, requestGeolocationPermission, statePermission } = useWeather();
 
-  console.log('STATE', statePermission);
-
   return (
     <>
       <h2 className='text-whiteBase text-medium md:text-2xl lg:text-4xl'>

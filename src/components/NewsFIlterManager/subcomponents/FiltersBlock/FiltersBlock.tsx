@@ -10,7 +10,7 @@ import Calendar from '../Calendar/Calendar';
 import { materialTypes } from './assistants';
 import { useFilterNews } from './hooks';
 import { ClickHandler } from 'ui/PrimaryButton';
-import { Filters } from 'types/filters';
+import { Filters } from 'types';
 
 type ButtonType = 'submit' | 'reset' | 'button';
 
@@ -123,7 +123,7 @@ const FiltersBlock: FC<{}> = () => {
       type: 'reset',
       id: 'Filters reset button',
       variant: 'Primary',
-      onHandleClick: handleReset,
+      onHandleClick: () => handleReset(rebuildedNews),
       ariaLabel: '',
       classNameButtons: '',
       hasIcon: true,
@@ -131,7 +131,6 @@ const FiltersBlock: FC<{}> = () => {
       svgSize: 16,
       classNameIcon: 'fill-whiteBase',
       children: 'Reset',
-      // disabled: false,
     },
     {
       type: 'button',

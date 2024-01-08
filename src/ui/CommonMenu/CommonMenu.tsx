@@ -3,7 +3,7 @@ import { Link, useLocation } from 'react-router-dom';
 
 import { useAuthRedux, useFiltersAction } from 'reduxStore/hooks';
 
-import { useWindowWidth } from 'contexts';
+import { useFiltersState, useWindowWidth } from 'contexts';
 import { useActiveLinks } from 'hooks';
 
 import ThemeSwitcher from '../ThemeSwitcher';
@@ -23,7 +23,8 @@ const CommonMenu: FC<CommonMenuProps> = ({ isOpen, navId, closeMenu }) => {
   const { breakpointsForMarkup } = useWindowWidth() ?? {
     breakpointsForMarkup: null,
   };
-  const { resetAllFilters, filteredNews } = useFiltersAction();
+  const { resetAllFilters } = useFiltersAction();
+  const { setFilters } = useFiltersState();
   const { user, logout } = useAuthRedux();
 
   const location = useLocation();
@@ -36,8 +37,19 @@ const CommonMenu: FC<CommonMenuProps> = ({ isOpen, navId, closeMenu }) => {
       closeMenu();
     }
 
-    if (navId === 'main-navigation' && filteredNews && filteredNews?.length > 0) {
+    if (navId === 'main-navigation') {
       resetAllFilters();
+      setFilters({
+        keyword: '',
+        title: '',
+        author: '',
+        publisher: '',
+        materialType: '',
+        selectedFilterDate: {
+          startDate: '',
+          endDate: '',
+        },
+      });
     }
   };
 

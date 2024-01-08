@@ -35,7 +35,7 @@ export const signUp = createAsyncThunk<CredentialSignUpResponse, SignUpRequest>(
       return response.data;
     } catch (error: any) {
       console.log('error', error.response);
-      return rejectWithValue(error.response);
+      return rejectWithValue(error.response.data.message);
     }
   },
 );
@@ -124,6 +124,7 @@ export const recoveryPasswordRequest = createAsyncThunk<
   RecoveryPasswordRequest
 >('auth/recoveryPasswordRequest', async (email, { rejectWithValue }) => {
   try {
+    console.log('operations forgotRequest', email);
     const response = await axios.patch(`${BASE_URL_DB}/auth/forgot-password-request`, email);
     console.log('recoveryPasswordRequest', response.data);
     return response.data;

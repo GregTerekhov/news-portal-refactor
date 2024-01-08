@@ -18,8 +18,6 @@ const PlugImage: FC<PlugImageProps> = ({ variant }) => {
     window.innerWidth,
   );
 
-  console.log('matchedPlugImage', matchedPlugImage);
-
   const imageUrl = useCacheImage(matchedPlugImage?.src || '');
 
   return (
@@ -32,16 +30,16 @@ const PlugImage: FC<PlugImageProps> = ({ variant }) => {
           <img
             src={imageUrl}
             alt='No found news'
-            // width={matchedPlugImage.width}
-            // height={matchedPlugImage.height}
+            width={matchedPlugImage.width}
+            height={matchedPlugImage.height}
           />
         </div>
       ) : (
         <img
           src={imageUrl}
           alt='No found news'
-          // width={matchedPlugImage.width}
-          // height={matchedPlugImage.height}
+          width={matchedPlugImage.width}
+          height={matchedPlugImage.height}
         />
       )}
     </>

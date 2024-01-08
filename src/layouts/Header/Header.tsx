@@ -25,13 +25,14 @@ const Header: FC<{}> = () => {
 
   useEffect(() => {
     if (!user && token && openModal) {
+      console.log('openModal', openModal);
       setPasswordToken(true);
       writeTokens({ accessToken: token, refreshToken: null });
       setIsOpenModal(true);
     }
     setPasswordToken(false);
     setIsOpenModal(false);
-  }, [searchParams]);
+  }, [searchParams, openModal]);
 
   const { query, onChangeInput, onHandleSearch } = useAdditionalRequest();
   const { breakpointsForMarkup } = useWindowWidth() ?? {

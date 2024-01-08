@@ -44,7 +44,7 @@ interface InputProps {
 const VerifiableInput: FC<InputProps> = (props) => {
   const [isPasswordVisibility, setPasswordVisibility] = useState<boolean>(false);
 
-  const id = useId();
+  const id = useId(); // додається для розрізнення однакових label в різних інпутах, які знаходяться на одній сторінці
 
   const {
     inputData,
@@ -117,7 +117,7 @@ const VerifiableInput: FC<InputProps> = (props) => {
             <SvgIcon svgName={svgName} size={20} className='fill-accentBase' />
           </span>
         )}
-        {label === 'recoveryEmail' ? (
+        {placeholder === 'Enter your current email' ? (
           <div className='absolute right-2 top-1/2 -translate-y-1/2 rounded-full bg-accentBase w-8 h-8 flex items-center justify-center hover:bg-accentAlt cursor-pointer'>
             <button type='submit' onClick={handleSubmitRecovery}>
               <SvgIcon svgName='icon-arrow-right-filled' size={20} className='fill-whiteBase' />
