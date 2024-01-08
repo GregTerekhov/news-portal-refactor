@@ -13,7 +13,7 @@ import { AuthInputs } from '../types';
 
 const useSignUp = () => {
   const { setOpenToast } = useNotification();
-  const { register, login } = useAuthRedux();
+  const { register, login, authError } = useAuthRedux();
   const { toggleModal } = usePopUp();
 
   const {
@@ -38,14 +38,9 @@ const useSignUp = () => {
       password,
     };
 
-    const response = await register(signUpCredentials);
+    await register(signUpCredentials);
 
-    if (
-      response.meta.requestStatus &&
-      response.meta.requestStatus === 'rejected' &&
-      response.payload === 'Email already in use'
-    ) {
-      console.log('response.payload', response.payload);
+    if (!!authError && authError.message === 'Email already in use') {
       setOpenToast(true);
       return;
     } else {
@@ -66,7 +61,6 @@ const useSignUp = () => {
         response.meta.requestStatus === 'rejected' &&
         response.payload === 'User is not authentified'
       ) {
-        console.log('Email or password are wrong');
         setOpenToast(true);
         return;
       }

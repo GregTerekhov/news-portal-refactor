@@ -34,7 +34,13 @@ const ErrorPage: FC<{}> = () => {
 
   return (
     <div className='space-y-10 text-center lg:w-[900px] lg:mx-auto'>
-      <img className='mx-auto' src={imageUrl} alt='Error page' />
+      <img
+        className='mx-auto'
+        src={imageUrl}
+        alt='Error page'
+        width={matchedErrorImage.width}
+        height={matchedErrorImage.height}
+      />
       <h1 className='text-5xl text-darkBase dark:text-whiteBase transition-colors duration-500'>
         Page not found
       </h1>

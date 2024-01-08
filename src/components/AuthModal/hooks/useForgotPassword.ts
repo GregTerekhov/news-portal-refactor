@@ -8,7 +8,7 @@ import { RecoveryPasswordRequest } from 'types';
 import { changePasswordSchema, recoveryPasswordSchema } from '../assistants';
 import { AuthInputs, RecoveryInputsValues } from '../types';
 
-const useForgotPassword = () => {
+const useSignIn = () => {
   const { sendEmailForRecovery, changePassword } = useAuthRedux();
 
   const {
@@ -31,7 +31,7 @@ const useForgotPassword = () => {
   const recoveryPasswordSubmitHandler: SubmitHandler<RecoveryPasswordRequest> = async (data, e) => {
     e?.stopPropagation();
     e?.preventDefault();
-    console.log('Recovery email', data);
+
     await sendEmailForRecovery(data);
     resetField('email');
   };
@@ -79,4 +79,4 @@ const useForgotPassword = () => {
   };
 };
 
-export default useForgotPassword;
+export default useSignIn;

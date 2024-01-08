@@ -1,4 +1,3 @@
-// import { useSelectedDate } from 'contexts/SelectedDateProvider';
 import { useCallback, useEffect, useRef, useState } from 'react';
 
 const usePopUp = () => {
@@ -8,8 +7,6 @@ const usePopUp = () => {
   const [isScrollDisabled, setIsScrollDisabled] = useState<boolean>(false);
 
   const popUpRef = useRef<HTMLDivElement | null>(null);
-
-  // const { isOpenCalendar, setIsOpenCalendar } = useSelectedDate();
 
   const handleWindowClick = useCallback(
     (event: MouseEvent) => {
@@ -77,7 +74,6 @@ const usePopUp = () => {
   };
 
   const toggleCalendar = () => {
-    console.log('toggle', isOpenCalendar);
     setIsOpenCalendar(!isOpenCalendar);
   };
 

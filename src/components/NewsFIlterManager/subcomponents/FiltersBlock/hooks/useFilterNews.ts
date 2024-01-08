@@ -24,8 +24,6 @@ const useFilterNews = ({
 }: FilterHookProps) => {
   const [beginDate, setBeginDate] = useState<Date | null>(null);
 
-  // const { setIsOpenCalendar } = useSelectedDate();
-
   const { filters, setFilters } = useFiltersState();
   const { sortedDates, setSortedDates } = useReadSortState();
   const { showResultsState, getFilteredNews, resetAllFilters } = useFiltersAction();
@@ -164,13 +162,18 @@ const useFilterNews = ({
     }
   };
 
-  const handleSortRead = async (arr: PartialVotedNewsArray, order: string) => {
-    const publishedDate = arr
+  function getUniqueDateArray(array: PartialVotedNewsArray) {
+    const publishedDate = array
       ?.map((news) => news.publishDate)
       .filter((date) => date !== undefined) as string[];
 
     // Використовуємо Set для визначення унікальних дат
     const uniqueDatesSet = new Set(publishedDate);
+    return uniqueDatesSet;
+  }
+
+  const handleSortRead = async (arr: PartialVotedNewsArray, order: string) => {
+    const uniqueDatesSet = getUniqueDateArray(arr);
 
     if (order === 'asc') {
       const sortedDates = Array.from(uniqueDatesSet).sort().reverse();
@@ -181,7 +184,7 @@ const useFilterNews = ({
     }
   };
 
-  const handleReset = async () => {
+  const handleReset = async (array: PartialVotedNewsArray) => {
     updateHeadline("Today's Hot News");
     setFilters({
       keyword: '',
@@ -196,6 +199,9 @@ const useFilterNews = ({
     });
     setSelectedMaterialType && setSelectedMaterialType('');
     resetAllFilters();
+
+    const initialSortState = getUniqueDateArray(array);
+    setSortedDates(Array.from(initialSortState).sort().reverse());
   };
 
   return {

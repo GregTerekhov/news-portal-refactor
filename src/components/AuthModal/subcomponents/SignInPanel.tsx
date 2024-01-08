@@ -62,12 +62,12 @@ const SignInPanel: FC<SignInProps> = ({ handleShowRecoveryInput, isShowRecoveryI
             <VerifiableInput
               inputData={{
                 type: 'email',
-                placeholder: 'Enter your email',
+                placeholder: 'Enter your current email',
               }}
               errors={recoveryPasswordErrors?.email?.message}
               register={registerRecovery}
               handleSubmitRecovery={handleRecoveryPasswordSubmit(recoveryPasswordSubmitHandler)}
-              label='recoveryEmail'
+              label='email'
               hasIcon={false}
               variant='auth'
               ariaInvalid={recoveryPasswordErrors?.email ? 'true' : 'false'}
