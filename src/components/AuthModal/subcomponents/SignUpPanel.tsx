@@ -3,6 +3,9 @@ import React, { FC } from 'react';
 import { PrimaryButton, ThemeSwitcher, VerifiableInput } from 'ui';
 
 import { useSignUp } from '../hooks';
+import { VariantSwitcher } from 'ui/ThemeSwitcher/ThemeSwitcher';
+import { VariantVerifiableInputs } from 'ui/VerifiableInput/VerifiableInput';
+import { VariantButton } from 'ui/PrimaryButton/PrimaryButton';
 
 const SignUpPanel: FC<{}> = () => {
   const { handleSubmit, registration, signUpSubmitHandler, signUpInputs } = useSignUp();
@@ -19,7 +22,7 @@ const SignUpPanel: FC<{}> = () => {
                 register={registration}
                 label={label}
                 hasIcon={false}
-                variant='auth'
+                variant={VariantVerifiableInputs.Auth}
                 ariaInvalid={ariaInvalid}
               />
             </li>
@@ -29,12 +32,12 @@ const SignUpPanel: FC<{}> = () => {
         <PrimaryButton
           buttonData={{ type: 'submit' }}
           id='Registration button'
-          variant='OtherButton'
+          variant={VariantButton.Other}
           width='w-32'
         >
           Sign Up
         </PrimaryButton>
-        <ThemeSwitcher variant='modal' />
+        <ThemeSwitcher variant={VariantSwitcher.Modal} />
       </div>
     </form>
   );

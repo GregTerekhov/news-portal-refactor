@@ -1,14 +1,19 @@
-import { PayloadAction, SerializedError, createSlice, isAnyOf } from '@reduxjs/toolkit';
+import { PayloadAction, createSlice, isAnyOf } from '@reduxjs/toolkit';
 
 import { HourlyWeatherData, WeatherData } from 'types';
 
 import { fetchWeather, fetchHourlyForecastWeather } from './weatherOperations';
 
+type WeatherError = {
+  cod?: string;
+  message?: string;
+};
+
 interface WeatherState {
   isLoading: boolean;
   data: WeatherData;
   weatherByHour: HourlyWeatherData;
-  hasError: SerializedError | null;
+  hasError: WeatherError | null;
 }
 
 const initialState = {

@@ -2,7 +2,7 @@ import { VotedItem } from 'types';
 
 import { useAuthRedux, useDB } from 'reduxStore/hooks';
 
-import { ActiveLinks } from 'hooks/useActiveLinks';
+import type { ActiveLinks } from 'hooks';
 
 import useNewsState from './useNewsState';
 import useNewsActions from './useNewsActions';

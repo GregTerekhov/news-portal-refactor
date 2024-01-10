@@ -3,11 +3,10 @@ import { useLocation } from 'react-router-dom';
 import { format, startOfToday } from 'date-fns';
 
 import { useFiltersState, useSelectedDate } from 'contexts';
-import { useActiveLinks, usePopUp } from 'hooks';
+import { useActiveLinks, useFilterNews, usePopUp } from 'hooks';
 
 import { SvgIcon } from 'ui';
 
-import { useFilterNews } from '../FiltersBlock/hooks';
 import { convertLinesForCalendar } from './assistants';
 import { CalendarContent } from './subcomponents';
 
@@ -17,17 +16,16 @@ interface CalendarProps {
 
 const Calendar: FC<CalendarProps> = ({ variant }) => {
   const { popUpRef, toggleCalendar, isOpenCalendar, setIsOpenCalendar } = usePopUp();
-
-  const location = useLocation();
-  const activeLinks = useActiveLinks(location);
-  const { handleFilterDate } = useFilterNews({ activeLinks, setIsOpenCalendar });
   const { filters } = useFiltersState();
   const { selectedRequestDate } = useSelectedDate();
 
+  const location = useLocation();
+  const activeLinks = useActiveLinks(location);
+
+  const { handleFilterDate } = useFilterNews({ activeLinks, setIsOpenCalendar });
+
   const today = startOfToday();
   const showToday = selectedRequestDate.beginDate === null && selectedRequestDate.endDate === null;
-
-  // console.log('CALENDAR', isOpenCalendar);
 
   return (
     <div ref={popUpRef} className={`relative ${activeLinks.isReadActive ? null : 'col-span-4'}`}>

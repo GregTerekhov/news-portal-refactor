@@ -3,7 +3,7 @@ export interface AuthInputs {
   placeholder: string;
   children: string;
   errors?: string | undefined;
-  label: string;
+  label: 'name' | 'email' | 'password' | 'newPassword' | 'confirmPassword' | 'recoveryEmail';
   ariaInvalid?: boolean | undefined;
   fieldValue?: string | undefined;
 }

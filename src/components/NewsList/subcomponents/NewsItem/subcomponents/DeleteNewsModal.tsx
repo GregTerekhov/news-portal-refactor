@@ -1,6 +1,7 @@
 import React, { FC } from 'react';
 
 import { PrimaryButton } from 'ui';
+import { VariantButton } from 'ui/PrimaryButton/PrimaryButton';
 
 interface DeleteNewsButtonProps {
   handleDeleteNews: (
@@ -41,7 +42,7 @@ const DeleteNewsModal: FC<DeleteNewsButtonProps> = ({ handleDeleteNews, handleCl
         {dialogButtons.map(({ onClick, id, label }) => (
           <li key={label} className='w-full'>
             <PrimaryButton
-              variant='Primary'
+              variant={VariantButton.Primary}
               onHandleClick={onClick}
               id={id}
               classNameButton='md:text-xl'

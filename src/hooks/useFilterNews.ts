@@ -5,11 +5,12 @@ import { useDB, useNewsAPI, useFiltersAction } from 'reduxStore/hooks';
 
 import { PartialVotedNewsArray } from 'types';
 
-import { useReadNewsContent, useFiltersState, useReadSortState } from 'contexts';
-import { useChooseRenderingNews } from 'hooks';
-import { ActiveLinks } from 'hooks/useActiveLinks';
+import { useFiltersState, useReadSortState } from 'contexts';
+import useChooseRenderingNews from './useChooseRenderingNews';
+import useReadNewsContent from './useReadNewsContent';
+import { ActiveLinks } from './commonTypes';
 
-import { applyCrossFilters } from '../assistants';
+import { applyCrossFilters } from '../components/NewsFIlterManager/subcomponents/FiltersBlock/assistants';
 
 type FilterHookProps = {
   activeLinks: ActiveLinks;
@@ -23,7 +24,7 @@ const useFilterNews = ({
   setSelectedMaterialType,
 }: FilterHookProps) => {
   const [beginDate, setBeginDate] = useState<Date | null>(null);
-  const [wasSoreted, setWasSorted] = useState<boolean>(false);
+  const [isSorted, setIsSorted] = useState<boolean>(false);
 
   const { filters, setFilters } = useFiltersState();
   const { sortedDates, setSortedDates } = useReadSortState();
@@ -33,7 +34,7 @@ const useFilterNews = ({
   const { rebuildedNews } = useChooseRenderingNews({ activeLinks });
 
   const today = startOfToday();
-  const sorDat = useReadNewsContent();
+  const sorDat = useReadNewsContent({ activeLinks });
 
   const handleChangeFilter = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
@@ -90,7 +91,7 @@ const useFilterNews = ({
     event.preventDefault();
     event.stopPropagation();
 
-    if (wasSoreted) {
+    if (isSorted) {
       alert(`YOU CAN'T FILTERING AFTER SORTING. RESET THE SETTINGS AND TRY AGAIN`);
     }
 
@@ -132,7 +133,7 @@ const useFilterNews = ({
         }
       }
     }
-    setWasSorted(false);
+    setIsSorted(false);
   };
 
   const handleSort = (order: string) => {
@@ -174,11 +175,11 @@ const useFilterNews = ({
       if (order === 'asc') {
         const sortedDates = Array.from(sorDat).sort().reverse();
         setSortedDates(sortedDates);
-        setWasSorted(true);
+        setIsSorted(true);
       } else if (order === 'desc') {
         const sortedDates = Array.from(sorDat).sort();
         setSortedDates(sortedDates);
-        setWasSorted(true);
+        setIsSorted(true);
       }
     }
   };
@@ -200,7 +201,7 @@ const useFilterNews = ({
     resetAllFilters();
 
     setSortedDates([]);
-    setWasSorted(false);
+    setIsSorted(false);
   };
 
   return {

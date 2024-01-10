@@ -1,4 +1,5 @@
 import { FieldErrors } from 'react-hook-form';
+import { InputLabel } from 'ui/VerifiableInput/VerifiableInput';
 
 export interface IUpdateEmail {
   email: string;
@@ -28,7 +29,7 @@ export type PasswordInput = {
   placeholder: string;
   fieldValue: string;
   errors?: string | undefined;
-  label: string;
+  label: InputLabel;
   ariaInvalid?: boolean;
 };
 
@@ -37,7 +38,7 @@ export type EmailInput = {
   placeholder: string;
   fieldValue: string;
   errors?: string | undefined;
-  label: string;
+  label: InputLabel;
   iconName: string;
   ariaInvalid?: boolean;
 };

@@ -7,13 +7,14 @@ import { useActiveLinks } from 'hooks';
 
 import { PrimaryButton } from 'ui';
 import { useFacebookLogin } from './hooks';
+import { VariantButton } from 'ui/PrimaryButton/PrimaryButton';
 
 const LinkedAccounts: FC<{}> = () => {
   const { breakpointsForMarkup } = useWindowWidth() ?? {
     breakpointsForMarkup: null,
   };
   const location = useLocation();
-  const activeLinks = useActiveLinks(location);
+  const { isManageAccountPage } = useActiveLinks(location);
   const { handleFacebookLogin, isLoading } = useFacebookLogin();
 
   const googleLogin = useGoogleLogin({
@@ -46,7 +47,7 @@ const LinkedAccounts: FC<{}> = () => {
 
   return (
     <>
-      {activeLinks.isManageAccountPage ? (
+      {isManageAccountPage ? (
         <>
           <h3 className='text-darkBase dark:text-whiteBase mb-2 lg:mb-4 md:text-2xl'>
             Connected accounts
@@ -59,39 +60,37 @@ const LinkedAccounts: FC<{}> = () => {
       ) : null}
       <menu
         className={`${
-          activeLinks.isManageAccountPage
-            ? 'space-y-3 md:space-y-4'
-            : 'flex justify-around gap-4 md:gap-8'
+          isManageAccountPage ? 'space-y-3 md:space-y-4' : 'flex justify-around gap-4 md:gap-8'
         }`}
       >
         {accountButtons.map(({ svgName, account, onClick }) => (
           <li
             key={svgName}
-            className={`${
-              activeLinks.isManageAccountPage ? 'flex items-center gap-3 lg:gap-6' : ''
-            }`}
+            className={`${isManageAccountPage ? 'flex items-center gap-3 lg:gap-6' : ''}`}
           >
-            <div
-              className={`${activeLinks.isManageAccountPage ? 'w-14' : isMobile ? 'w-14' : 'w-32'}`}
-            >
+            <div className={`${isManageAccountPage ? 'w-14' : isMobile ? 'w-14' : 'w-32'}`}>
               <PrimaryButton
-                variant={`${
-                  activeLinks.isManageAccountPage ? 'Small' : isMobile ? 'Small' : 'OtherButton'
-                }`}
+                variant={
+                  isManageAccountPage
+                    ? VariantButton.Small
+                    : isMobile
+                      ? VariantButton.Small
+                      : VariantButton.Other
+                }
                 hasIcon={true}
                 svgName={svgName}
                 svgSize={isMobile ? 20 : 24}
                 ariaLabel={`${account} account binding`}
                 classNameButton={`w-14 h-14 ${
-                  activeLinks.isManageAccountPage ? 'lg:w-12 lg:h-12' : 'md:w-full'
+                  isManageAccountPage ? 'lg:w-12 lg:h-12' : 'md:w-full'
                 } rounded-xl border border-solid border-whiteBase dark:border-greyBase bg-accentBase dark:bg-transparent flex items-center justify-center group hover:border-accentBase hover:text-accentBase dark:hover:text-whiteBase dark:hover:border-whiteBase hover:bg-whiteBase dark:hover:bg-accentBase transition-colors duration-500 ring-whiteBase dark:ring-darkBase ring-2`}
                 classNameIcon='fill-whiteBase group-hover:fill-accentAlt dark:group-hover:fill-whiteBase'
-                children={!isMobile && !activeLinks.isManageAccountPage ? account : ''}
+                children={!isMobile && !isManageAccountPage ? account : ''}
                 onHandleClick={onClick}
                 disabled={account === 'Facebook' && isLoading}
               />
             </div>
-            {activeLinks.isManageAccountPage ? (
+            {isManageAccountPage ? (
               <p className='text-darkBase text-small lg:text-medium dark:text-whiteBase leading-normal'>
                 {`${
                   hasConnectedAccount

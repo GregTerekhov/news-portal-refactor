@@ -1,4 +1,4 @@
-import { ActiveLinks } from 'hooks/useActiveLinks';
+import { ActiveLinks } from 'hooks';
 
 type MenuItemProps = {
   activeLinks: ActiveLinks;

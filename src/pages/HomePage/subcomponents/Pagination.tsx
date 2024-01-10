@@ -3,6 +3,7 @@ import React, { FC } from 'react';
 import { useWindowWidth } from 'contexts';
 
 import { PrimaryButton, SvgIcon } from 'ui';
+import { VariantButton } from 'ui/PrimaryButton/PrimaryButton';
 interface PaginationProps {
   pageNumbers: number[];
   currentPage: number;
@@ -46,7 +47,7 @@ const Pagination: FC<PaginationProps> = ({ pageNumbers, currentPage, setCurrentP
             ? 'bg-accentBase text-contrastWhite'
             : 'text-darkBase dark:text-whiteBase dark:border-whiteBase'
         }`}
-        variant='Small'
+        variant={VariantButton.Small}
       >
         {pageNumber}
       </PrimaryButton>
@@ -114,7 +115,7 @@ const Pagination: FC<PaginationProps> = ({ pageNumbers, currentPage, setCurrentP
     <div className='flex justify-center items-center gap-2'>
       <PrimaryButton
         id='Previous page button'
-        variant='OtherButton'
+        variant={VariantButton.Other}
         onHandleClick={handlePrevClick}
         width={BUTTON_WIDTH}
         disabled={currentPage - 1 === 0 ? true : false}
@@ -129,7 +130,7 @@ const Pagination: FC<PaginationProps> = ({ pageNumbers, currentPage, setCurrentP
       </ul>
       <PrimaryButton
         id='Next page button'
-        variant='OtherButton'
+        variant={VariantButton.Other}
         onHandleClick={handleNextClick}
         width={BUTTON_WIDTH}
         disabled={currentPage === lastPage ? true : false}

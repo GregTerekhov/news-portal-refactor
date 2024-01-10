@@ -1,17 +1,6 @@
 import { useMemo } from 'react';
 import { Location } from 'react-router-dom';
 
-export interface ActiveLinks {
-  isHomeActive: boolean;
-  isFavoriteActive: boolean;
-  isReadActive: boolean;
-  isArchiveActive: boolean;
-  isAccountPage: boolean;
-  isManageAccountPage: boolean;
-  isAboutUs: boolean;
-  isErrorPage: boolean;
-}
-
 const useActiveLinks = (location: Location) => {
   const validPaths = [
     '/',

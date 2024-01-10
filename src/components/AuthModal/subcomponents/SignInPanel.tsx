@@ -4,6 +4,10 @@ import { PrimaryButton, ThemeSwitcher, UnverifiableInput, VerifiableInput } from
 import LinkedAccounts from '../../LinkedAccounts/LinkedAccounts';
 
 import { useForgotPassword, useSignIn } from '../hooks';
+import { VariantSwitcher } from 'ui/ThemeSwitcher/ThemeSwitcher';
+import { VariantInputs } from 'ui/UnverifiableInput/UnverifiableInput';
+import { VariantVerifiableInputs } from 'ui/VerifiableInput/VerifiableInput';
+import { VariantButton } from 'ui/PrimaryButton/PrimaryButton';
 
 interface SignInProps {
   handleShowRecoveryInput: () => void;
@@ -40,7 +44,7 @@ const SignInPanel: FC<SignInProps> = ({ handleShowRecoveryInput, isShowRecoveryI
                     register={registration}
                     label={label}
                     hasIcon={false}
-                    variant='auth'
+                    variant={VariantVerifiableInputs.Auth}
                     ariaInvalid={ariaInvalid}
                   />
                 </li>
@@ -69,7 +73,7 @@ const SignInPanel: FC<SignInProps> = ({ handleShowRecoveryInput, isShowRecoveryI
               handleSubmitRecovery={handleRecoveryPasswordSubmit(recoveryPasswordSubmitHandler)}
               label='email'
               hasIcon={false}
-              variant='auth'
+              variant={VariantVerifiableInputs.Auth}
               ariaInvalid={recoveryPasswordErrors?.email ? 'true' : 'false'}
             />
           ) : null}
@@ -82,19 +86,19 @@ const SignInPanel: FC<SignInProps> = ({ handleShowRecoveryInput, isShowRecoveryI
           }}
           isChecked={isChecked}
           hasIcon={false}
-          variant='checkbox'
+          variant={VariantInputs.Checkbox}
           onChange={(event: React.ChangeEvent<HTMLInputElement>) => handleCheckboxChange(event)}
         />
         <div className='flex justify-between items-center'>
           <PrimaryButton
             buttonData={{ type: 'submit' }}
             id='Login button'
-            variant='OtherButton'
+            variant={VariantButton.Other}
             classNameButton='w-32'
           >
             Sign In
           </PrimaryButton>
-          <ThemeSwitcher variant='modal' />
+          <ThemeSwitcher variant={VariantSwitcher.Modal} />
         </div>
       </form>
       <div className='relative z-20 flex items-center justify-center mb-6'>

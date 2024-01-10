@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 
 import { useWindowWidth } from 'contexts';
 
-const useHeaderStyles = (isHomePage: boolean) => {
+const useHeaderStyles = (isHomePage: boolean | undefined) => {
   const [isScrolled, setIsScrolled] = useState<boolean>(false);
   const { breakpointsForMarkup } = useWindowWidth() ?? {
     breakpointsForMarkup: null,
@@ -16,7 +16,7 @@ const useHeaderStyles = (isHomePage: boolean) => {
         const currentScroll = window.scrollY;
 
         function getHeaderHeight() {
-          let headerHeight: number = 81;
+          let headerHeight = 81;
           switch (true) {
             case breakpointsForMarkup?.isTablet:
               headerHeight = 106;

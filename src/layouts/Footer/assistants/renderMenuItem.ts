@@ -1,4 +1,4 @@
-import { ActiveLinks } from 'hooks/useActiveLinks';
+import { ActiveLinks } from 'hooks';
 
 interface MenuItemProps {
   isAuthenticated: boolean;

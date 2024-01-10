@@ -3,6 +3,9 @@ import React, { FC } from 'react';
 import { PrimaryButton, ThemeSwitcher, VerifiableInput } from 'ui';
 
 import { useForgotPassword } from '../hooks';
+import { VariantSwitcher } from 'ui/ThemeSwitcher/ThemeSwitcher';
+import { VariantVerifiableInputs } from 'ui/VerifiableInput/VerifiableInput';
+import { VariantButton } from 'ui/PrimaryButton/PrimaryButton';
 
 const ChangePassword: FC = () => {
   const {
@@ -34,7 +37,7 @@ const ChangePassword: FC = () => {
                     label={label}
                     svgName='icon-password'
                     hasIcon={false}
-                    variant='auth'
+                    variant={VariantVerifiableInputs.Auth}
                     ariaInvalid={ariaInvalid}
                   />
                 </li>
@@ -46,12 +49,12 @@ const ChangePassword: FC = () => {
           <PrimaryButton
             buttonData={{ type: 'submit' }}
             id='Login button'
-            variant='OtherButton'
+            variant={VariantButton.Other}
             classNameButton='w-32'
           >
             Change
           </PrimaryButton>
-          <ThemeSwitcher variant='modal' />
+          <ThemeSwitcher variant={VariantSwitcher.Modal} />
         </div>
       </form>
     </>

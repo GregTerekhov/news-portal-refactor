@@ -30,10 +30,10 @@ export const fetchWeather = createAppAsyncThunk<WeatherData, Position>(
       const response = await axios.get(
         `${BASE_URL_WEATHER}/data/2.5/weather?lat=${latitude}&lon=${longitude}&units=metric&appid=${API_KEY}`,
       );
-      // console.log(response.data);
       return response.data as WeatherData;
     } catch (error: any) {
-      return rejectWithValue(error.message);
+      console.log('error', error.response.data);
+      return rejectWithValue(error.response.data);
     }
   },
 );

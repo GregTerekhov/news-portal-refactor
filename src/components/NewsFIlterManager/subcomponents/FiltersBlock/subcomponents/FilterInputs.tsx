@@ -2,11 +2,10 @@ import React, { FC } from 'react';
 import { useLocation } from 'react-router-dom';
 
 import { useFiltersState } from 'contexts';
-import { useActiveLinks } from 'hooks';
+import { useActiveLinks, useFilterNews } from 'hooks';
 
 import { UnverifiableInput } from 'ui';
-
-import { useFilterNews } from '../hooks';
+import { VariantInputs } from 'ui/UnverifiableInput/UnverifiableInput';
 
 const FilterInputs: FC = () => {
   const location = useLocation();
@@ -54,7 +53,7 @@ const FilterInputs: FC = () => {
               svgName='icon-search'
               hasIcon={true}
               onChange={(event: React.ChangeEvent<HTMLInputElement>) => handleChangeFilter(event)}
-              variant='filterServiceBlock'
+              variant={VariantInputs.FilterServiceBlock}
             />
           </div>
         ))}

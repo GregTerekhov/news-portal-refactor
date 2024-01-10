@@ -65,7 +65,5 @@ export async function generateEncryptionKey(): Promise<CryptoKey> {
     ['encrypt', 'decrypt'],
   );
 
-  console.log('Generated Key:', generatedKey);
-
   return generatedKey;
 }

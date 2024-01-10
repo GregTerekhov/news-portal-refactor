@@ -55,7 +55,7 @@ export const renderEmailInputs = ({
       placeholder: 'Enter new email',
       fieldValue: email,
       errors: errors?.email?.message,
-      label: 'updatedEmail',
+      label: 'email',
       iconName: 'icon-envelop',
       ariaInvalid: errors?.email ? true : false,
     },
@@ -69,7 +69,7 @@ export const renderEmailInputs = ({
       placeholder: 'Enter your current password',
       fieldValue: password,
       errors: errors?.password?.message,
-      label: 'updatedEmail',
+      label: 'password',
       iconName: 'icon-envelop',
       ariaInvalid: errors?.password ? true : false,
     });

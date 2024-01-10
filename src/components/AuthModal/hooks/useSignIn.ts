@@ -38,11 +38,9 @@ const useSignIn = () => {
   useEffect(() => {
     const fetchRememberedData = async () => {
       const encryptedData = localStorage.getItem('rememberedUserData');
-      console.log('isKeyReady', isKeyReady);
 
       if (encryptedData && isKeyReady && key) {
         const decryptedData = await decryptData(encryptedData, key);
-        console.log('decryptedData', decryptedData);
         setValue('email', decryptedData.email);
         setValue('password', decryptedData.password);
       }
@@ -113,7 +111,6 @@ const useSignIn = () => {
       response.meta.requestStatus === 'rejected' &&
       response.payload === 'User is not authentified'
     ) {
-      console.log('Email or password are wrong');
       setOpenToast(true);
       return;
     }

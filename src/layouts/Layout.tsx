@@ -12,6 +12,7 @@ import { ThemeSwitcher } from 'ui';
 import { Hero } from './subcomponents';
 import Header from './Header/Header';
 import Footer from './Footer/Footer';
+import { VariantSwitcher } from 'ui/ThemeSwitcher/ThemeSwitcher';
 
 const Layout: FC = () => {
   const { breakpointsForMarkup } = useWindowWidth() ?? {
@@ -19,7 +20,7 @@ const Layout: FC = () => {
   };
   const { fetchCategoriesList } = useNewsAPI();
   const { isAuthenticated } = useAuthRedux();
-  // const isAuthenticated = true;
+
   const location = useLocation();
   const activeLinks = useActiveLinks(location);
   const { rebuildedNews } = useChooseRenderingNews({ activeLinks });
@@ -63,12 +64,12 @@ const Layout: FC = () => {
             {isAuthenticated && !shouldNotShowFiltersManager ? <NewsFilterManager /> : null}
             {!isAuthenticated && !isNotMobile && !activeLinks?.isErrorPage && (
               <div className='flex justify-end mb-10'>
-                <ThemeSwitcher />
+                <ThemeSwitcher variant={VariantSwitcher.Header} />
               </div>
             )}
             {activeLinks?.isErrorPage && (
               <div className='flex justify-end mb-10'>
-                <ThemeSwitcher />
+                <ThemeSwitcher variant={VariantSwitcher.Header} />
               </div>
             )}
             {shouldShowPageScrollController ? (
