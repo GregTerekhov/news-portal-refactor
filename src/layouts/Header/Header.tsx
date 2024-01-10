@@ -11,6 +11,9 @@ import { Modal, SvgIcon, ThemeSwitcher, UnverifiableInput } from 'ui';
 
 import { AuthButton, MainMenu } from './subcomponents';
 import { AccountMenu } from '../subcomponents';
+import { VariantSwitcher } from 'ui/ThemeSwitcher/ThemeSwitcher';
+import { VariantInputs } from 'ui/UnverifiableInput/UnverifiableInput';
+import { VariantModals } from 'ui/Modal/Modal';
 
 const Header: FC<{}> = () => {
   const [touched, setTouched] = useState<boolean>(false);
@@ -25,7 +28,6 @@ const Header: FC<{}> = () => {
 
   useEffect(() => {
     if (!user && token && openModal) {
-      console.log('openModal', openModal);
       setPasswordToken(true);
       writeTokens({ accessToken: token, refreshToken: null });
       setIsOpenModal(true);
@@ -41,11 +43,10 @@ const Header: FC<{}> = () => {
   const { filteredNews, resetAllFilters } = useFiltersAction();
 
   const location = useLocation();
-  const activeLinks = useActiveLinks(location);
-  // const isAuthenticated = true;
-  const { headerClass, textClass, burgerMenuButtonClass, accountIconStyles } = useHeaderStyles(
-    activeLinks.isHomeActive,
-  );
+  const { isHomeActive, isAccountPage, isManageAccountPage } = useActiveLinks(location);
+
+  const { headerClass, textClass, burgerMenuButtonClass, accountIconStyles } =
+    useHeaderStyles(isHomeActive);
 
   const handleVisibilityChange = () => {
     setTouched(!touched);
@@ -58,13 +59,13 @@ const Header: FC<{}> = () => {
   };
 
   const isNotMobile = breakpointsForMarkup?.isTablet || breakpointsForMarkup?.isDesktop;
-  const isAccountPages = activeLinks.isAccountPage || activeLinks.isManageAccountPage;
+  const isAccountPages = isAccountPage || isManageAccountPage;
 
   return (
     <>
       <header
         className={`fixed w-full top-0 left-0 min-h-[81px] md:min-h-[106px] lg:min-h-[113px] flex items-center justify-center ${
-          activeLinks.isHomeActive
+          isHomeActive
             ? headerClass
             : 'bg-whiteBase/[.8] dark:bg-darkBackground/[.8] border-b border-solid border-fullDark/[.2] dark:border-whiteBase/[.2]'
         } transition-all duration-100 ${isOpenMenu && 'border-b-0'} ${
@@ -80,7 +81,7 @@ const Header: FC<{}> = () => {
             <Link
               to='/account'
               className={`absolute top-1.5 right-40 lg:right-60 hg:text-xl flex items-center gap-3  ${
-                activeLinks.isHomeActive ? textClass : 'text-darkBase dark:text-whiteBase'
+                isHomeActive ? textClass : 'text-darkBase dark:text-whiteBase'
               } group hover:text-accentBase hover:underline hover:decoration-accentBase transition-colors duration-500`}
             >
               {user.name}
@@ -88,7 +89,7 @@ const Header: FC<{}> = () => {
                 svgName='icon-account'
                 size={18}
                 className={`${
-                  activeLinks.isHomeActive
+                  isHomeActive
                     ? accountIconStyles
                     : 'fill-darkBase dark:fill-whiteBase group-hover:fill-accentBase dark:group-hover:fill-whiteBase'
                 }`}
@@ -98,9 +99,7 @@ const Header: FC<{}> = () => {
           <Link
             to='/'
             className={`sm:py-6 md:pt-8 md:pb-[30px] lg:py-7 text-3xl leading-tight lg:leading-[1.357144] md:text-4xl lg:text-giant font-bold transition-colors duration-500 ${
-              !isOpenMenu && activeLinks.isHomeActive
-                ? textClass
-                : 'text-darkBase dark:text-whiteBase'
+              !isOpenMenu && isHomeActive ? textClass : 'text-darkBase dark:text-whiteBase'
             } 
               `}
           >
@@ -113,7 +112,7 @@ const Header: FC<{}> = () => {
               <div className='flex items-center gap-3.5 lg:gap-12'>
                 {breakpointsForMarkup?.isNothing || breakpointsForMarkup?.isMobile ? (
                   <>
-                    {!isOpenMenu && activeLinks.isHomeActive ? (
+                    {!isOpenMenu && isHomeActive ? (
                       <search>
                         <form
                           onSubmit={(e) => onHandleSearch(e)}
@@ -128,7 +127,7 @@ const Header: FC<{}> = () => {
                             }}
                             svgName='icon-search'
                             hasIcon={true}
-                            variant='header'
+                            variant={VariantInputs.Header}
                             hideInput={handleVisibilityChange}
                             onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
                               onChangeInput(event)
@@ -153,7 +152,7 @@ const Header: FC<{}> = () => {
                         svgName={`${isOpenMenu ? 'icon-close' : 'icon-burger-menu'}`}
                         size={24}
                         className={`${
-                          !isOpenMenu && activeLinks.isHomeActive
+                          !isOpenMenu && isHomeActive
                             ? burgerMenuButtonClass
                             : 'stroke-darkBase dark:stroke-whiteBase'
                         }`}
@@ -163,7 +162,7 @@ const Header: FC<{}> = () => {
                 ) : (
                   <div className='flex flex-col gap-3'>
                     {!isAccountPages && <AuthButton />}
-                    <ThemeSwitcher variant='header' />
+                    <ThemeSwitcher variant={VariantSwitcher.Header} />
                   </div>
                 )}
               </div>
@@ -171,13 +170,13 @@ const Header: FC<{}> = () => {
           ) : (
             <div className={`${isNotMobile ? 'flex flex-col gap-3' : ''}`}>
               <AuthButton />
-              {isNotMobile ? <ThemeSwitcher variant='header' /> : null}
+              {isNotMobile ? <ThemeSwitcher variant={VariantSwitcher.Header} /> : null}
             </div>
           )}
         </div>
       </header>
       {isOpenModal && (
-        <Modal closeModal={toggleModal} modalRef={popUpRef} variant='auth'>
+        <Modal closeModal={toggleModal} modalRef={popUpRef} variant={VariantModals.Auth}>
           <AuthModal passwordToken={passwordToken} />
         </Modal>
       )}

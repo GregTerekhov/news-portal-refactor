@@ -17,7 +17,7 @@ const HomePage: FC = () => {
   const { isLoadingDBData, getSavedNews } = useDB();
   const { isAuthenticated } = useAuthRedux();
   const { openToast, setOpenToast } = useNotification();
-  // const isAuthenticated = true;
+
   const location = useLocation();
   const activeLinks = useActiveLinks(location);
 

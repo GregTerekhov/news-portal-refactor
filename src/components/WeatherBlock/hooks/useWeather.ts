@@ -78,8 +78,6 @@ const useWeather = () => {
           setHasGeolocationPermission(false);
           setStatePermission('denied');
           localStorage.removeItem('geolocationPermission');
-
-          console.log(result.state);
         }
       });
     }

@@ -5,8 +5,8 @@ import useCacheIcon from 'hooks/useCacheIcon';
 
 interface SvgIncomingData {
   svgName?: string | undefined;
-  size: number | undefined;
-  className: string | undefined;
+  size?: number | undefined;
+  className?: string | undefined;
 }
 
 const SvgIcon: FC<SvgIncomingData> = (svgData) => {

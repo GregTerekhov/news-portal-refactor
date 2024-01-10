@@ -5,7 +5,7 @@ import { useDB } from 'reduxStore/hooks';
 import { DeleteNewsResponse, VotedItem } from 'types';
 
 import { useNotification } from 'contexts';
-import { ActiveLinks } from 'hooks/useActiveLinks';
+import { ActiveLinks } from 'hooks';
 
 type NewsActionHookProps = {
   activeLinks: ActiveLinks;
@@ -34,136 +34,106 @@ const useNewsActions = ({
     }
   }, [changesHappened, addVotedNews]);
 
+  const { isArchiveActive } = activeLinks;
+
+  const shouldMakeChanges =
+    savedNews && liveNews && liveNews?.newsUrl !== undefined && !isArchiveActive;
+  const existingNews = savedNews?.find((news) => news.newsUrl === liveNews.newsUrl);
+  const savedFavourite = existingNews?.isFavourite;
+  const savedRead = existingNews?.hasRead;
+
+  const clickDate = new Date().getTime();
+
+  const handleAddToFavourites = async () => {
+    setIsFavourite(true);
+
+    const updatedData = {
+      ...liveNews,
+      isFavourite: true,
+      additionDate: clickDate,
+    };
+
+    await updateSavedNews(updatedData);
+  };
+
+  const handleToggleFavourites = async () => {
+    setIsFavourite(!savedFavourite);
+
+    if (!savedFavourite && savedRead) {
+      const updatedData = { ...liveNews, isFavourite: true };
+      await updateSavedNews(updatedData);
+    } else if (savedFavourite && !savedRead) {
+      const updatedData = {
+        ...liveNews,
+        isFavourite: false,
+        hasRead: savedRead,
+        additionDate: null,
+      };
+      await updateSavedNews(updatedData);
+      removeFavouriteNews(liveNews?.newsUrl || '');
+    } else if (savedFavourite && savedRead) {
+      const updatedData = {
+        ...liveNews,
+        isFavourite: false,
+        hasRead: savedRead,
+      };
+      await updateSavedNews(updatedData);
+      removeFavouriteNews(liveNews?.newsUrl || '');
+    }
+  };
+
   const handleChangeFavourites = useCallback(
     async (e: React.MouseEvent<HTMLButtonElement>) => {
       e.stopPropagation();
       e.preventDefault();
 
-      if (!activeLinks.isArchiveActive) handleChangeVotes();
-
-      if (
-        savedNews &&
-        liveNews &&
-        liveNews?.newsUrl !== undefined &&
-        !activeLinks.isArchiveActive
-      ) {
-        const currentTime = new Date();
-        const clickDate = currentTime.getTime();
-
-        if (savedNews.length === 0) {
-          setIsFavourite(true);
-
-          const updatedData = {
-            ...liveNews,
-            isFavourite: true,
-            hasRead: false,
-            additionDate: clickDate,
-          };
-          await updateSavedNews(updatedData);
+      if (shouldMakeChanges) {
+        handleChangeVotes();
+        if (savedNews.length === 0 || !existingNews) {
+          handleAddToFavourites();
         } else {
-          const existingNews = savedNews?.find((news) => news.newsUrl === liveNews.newsUrl);
-          const savedFavourite = existingNews?.isFavourite;
-          const savedRead = existingNews?.hasRead;
-
-          if (!existingNews) {
-            setIsFavourite(true);
-
-            const updatedData = {
-              ...liveNews,
-              isFavourite: true,
-              hasRead: false,
-              additionDate: clickDate,
-            };
-            await updateSavedNews(updatedData);
-          } else {
-            if (savedFavourite === false && savedRead === true) {
-              setIsFavourite(true);
-
-              const updatedData = { ...liveNews, isFavourite: true };
-              await updateSavedNews(updatedData);
-            } else if (savedFavourite === true && savedRead === false) {
-              setIsFavourite(false);
-
-              const updatedData = {
-                ...liveNews,
-                isFavourite: false,
-                hasRead: savedRead,
-                additionDate: null,
-              };
-              await updateSavedNews(updatedData);
-              removeFavouriteNews(liveNews?.newsUrl || '');
-            } else if (savedFavourite === true && savedRead === true) {
-              setIsFavourite(false);
-
-              const updatedData = {
-                ...liveNews,
-                isFavourite: false,
-                hasRead: savedRead,
-              };
-              await updateSavedNews(updatedData);
-              removeFavouriteNews(liveNews?.newsUrl || '');
-            }
-          }
+          handleToggleFavourites();
         }
       }
     },
     [
-      activeLinks.isArchiveActive,
-      handleChangeVotes,
+      shouldMakeChanges,
+      existingNews,
       savedNews,
-      updateSavedNews,
-      removeFavouriteNews,
+      handleChangeVotes,
+      handleAddToFavourites,
+      handleToggleFavourites,
     ],
   );
 
   const handleReadNews = useCallback(async () => {
-    if (savedNews && liveNews && liveNews?.newsUrl !== undefined && !activeLinks.isArchiveActive) {
-      const currentTime = new Date();
-      const clickDate = currentTime.getTime();
-
-      if (savedNews.length === 0) {
+    if (shouldMakeChanges) {
+      if (savedNews.length === 0 || !existingNews) {
         setHasRead(true);
         handleChangeVotes();
 
         const updatedData = {
           ...liveNews,
           hasRead: true,
-          isFavourite: false,
           additionDate: clickDate,
         };
         await updateSavedNews(updatedData);
       } else {
-        const existingNews = savedNews?.find((news) => news.newsUrl === liveNews.newsUrl);
-        const savedFavourite = existingNews?.isFavourite;
-        const savedRead = existingNews?.hasRead;
-
-        if (!existingNews) {
+        if (!savedRead && savedFavourite) {
           setHasRead(true);
           handleChangeVotes();
 
           const updatedData = {
             ...liveNews,
             hasRead: true,
-            additionDate: clickDate,
           };
           await updateSavedNews(updatedData);
-        } else {
-          if (savedRead === false && savedFavourite === true) {
-            setHasRead(true);
-            handleChangeVotes();
-
-            const updatedData = {
-              ...liveNews,
-              hasRead: true,
-            };
-            await updateSavedNews(updatedData);
-          } else if (savedRead === true) {
-            return;
-          }
+        } else if (savedRead === true) {
+          return;
         }
       }
     }
-  }, [activeLinks.isArchiveActive, handleChangeVotes, savedNews, updateSavedNews]);
+  }, [isArchiveActive, handleChangeVotes, savedNews, updateSavedNews]);
 
   function handleChangeVotes() {
     setChangesHappened(true);

@@ -8,7 +8,8 @@ import { useActiveLinks, useHeaderStyles, usePopUp } from 'hooks';
 
 import { AuthModal } from 'components';
 import { Modal, PrimaryButton } from 'ui';
-import { ClickHandler } from 'ui/PrimaryButton';
+import { ClickHandler, VariantButton } from 'ui/PrimaryButton/PrimaryButton';
+import { VariantModals } from 'ui/Modal/Modal';
 
 const Auth: FC<{}> = () => {
   const { breakpointsForMarkup } = useWindowWidth() ?? {
@@ -19,7 +20,7 @@ const Auth: FC<{}> = () => {
   const location = useLocation();
   const activeLinks = useActiveLinks(location);
   const { authButtonClass } = useHeaderStyles(activeLinks.isHomeActive);
-  // const isAuthenticated = true;
+
   const navigate = useNavigate();
 
   const onSignOut = async () => {
@@ -33,7 +34,7 @@ const Auth: FC<{}> = () => {
         <PrimaryButton
           id={breakpointsForMarkup?.isDesktop ? 'Auth button for signin and signout' : ''}
           ariaLabel={!breakpointsForMarkup?.isDesktop ? 'Auth button for signin and signout' : ''}
-          variant={`${breakpointsForMarkup?.isDesktop ? 'Primary' : 'Small'}`}
+          variant={breakpointsForMarkup?.isDesktop ? VariantButton.Primary : VariantButton.Small}
           onHandleClick={
             !isAuthenticated ? (toggleModal as ClickHandler) : (onSignOut as ClickHandler)
           }
@@ -51,7 +52,7 @@ const Auth: FC<{}> = () => {
         </PrimaryButton>
       </div>
       {isOpenModal && (
-        <Modal closeModal={toggleModal} modalRef={popUpRef} variant='auth'>
+        <Modal closeModal={toggleModal} modalRef={popUpRef} variant={VariantModals.Auth}>
           <AuthModal />
         </Modal>
       )}

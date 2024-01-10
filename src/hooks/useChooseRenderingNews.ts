@@ -2,7 +2,7 @@ import { rebuildNewsArray } from 'helpers';
 
 import { useDB, useNewsAPI, useFiltersAction } from 'reduxStore/hooks';
 
-import { ActiveLinks } from './useActiveLinks';
+import { ActiveLinks } from './commonTypes';
 
 type RenderHookProps = {
   activeLinks: ActiveLinks;

@@ -106,6 +106,7 @@ export const updateUserEmail = createAsyncThunk<UpdateCredentialsResponse, AuthR
 export const updateUserPassword = createAsyncThunk<UpdatePasswordResponse, UpdatePasswordRequest>(
   'auth/updatePassword',
   async (newPassword, { rejectWithValue }) => {
+    console.log('newPassword', newPassword);
     try {
       const response = await axiosInstance.patch<UpdatePasswordResponse>(
         '/auth/update-password',
@@ -124,8 +125,8 @@ export const recoveryPasswordRequest = createAsyncThunk<
   RecoveryPasswordRequest
 >('auth/recoveryPasswordRequest', async (email, { rejectWithValue }) => {
   try {
-    console.log('operations forgotRequest', email);
-    const response = await axios.patch(`${BASE_URL_DB}/auth/forgot-password-request`, email);
+    console.log('operations forgotRequest', email.email);
+    const response = await axios.post(`${BASE_URL_DB}/auth/forgot-password-request`, email);
     console.log('recoveryPasswordRequest', response.data);
     return response.data;
   } catch (error: any) {

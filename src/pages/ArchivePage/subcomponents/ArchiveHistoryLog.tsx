@@ -4,6 +4,7 @@ import { format } from 'date-fns';
 import { IHistoryLog } from 'types';
 
 import { SvgIcon, UnverifiableInput } from 'ui';
+import { VariantInputs } from 'ui/UnverifiableInput/UnverifiableInput';
 
 interface IHistoryLogProps {
   logData: IHistoryLog[];
@@ -26,7 +27,6 @@ const ArchiveHistoryLog: FC<IHistoryLogProps> = ({ logData }) => {
   const displayedRows = filteredLogData.slice(startIndex, endIndex);
 
   const handleSearchNews = (event: React.ChangeEvent<HTMLInputElement>) => {
-    console.log(event.target.value);
     const query = event.target.value;
     setSearchValue(query);
     setCurrentPage(1);
@@ -55,7 +55,7 @@ const ArchiveHistoryLog: FC<IHistoryLogProps> = ({ logData }) => {
                   hasIcon={true}
                   svgName='icon-search'
                   onChange={(event: React.ChangeEvent<HTMLInputElement>) => handleSearchNews(event)}
-                  variant='filterServiceBlock'
+                  variant={VariantInputs.FilterServiceBlock}
                 />
               </div>
             </div>

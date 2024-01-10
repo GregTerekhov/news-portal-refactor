@@ -6,6 +6,8 @@ import { useAdditionalRequest } from 'hooks';
 import { Dropdown, PrimaryButton, UnverifiableInput } from 'ui';
 
 import Calendar from './Calendar/Calendar';
+import { VariantInputs } from 'ui/UnverifiableInput/UnverifiableInput';
+import { VariantButton } from 'ui/PrimaryButton/PrimaryButton';
 
 const SearchBlock: FC<{}> = () => {
   const { breakpointsForMarkup } = useWindowWidth() ?? {
@@ -45,7 +47,7 @@ const SearchBlock: FC<{}> = () => {
             }}
             svgName='icon-search'
             hasIcon={true}
-            variant='filterServiceBlock'
+            variant={VariantInputs.FilterServiceBlock}
             onChange={(event: React.ChangeEvent<HTMLInputElement>) => onChangeInput(event)}
           />
         </form>
@@ -83,7 +85,7 @@ const SearchBlock: FC<{}> = () => {
           id='Reset all requests button'
           buttonData={{ type: 'submit' }}
           hasIcon={true}
-          variant='Primary'
+          variant={VariantButton.Primary}
           svgName='icon-reset'
           svgSize={16}
           classNameIcon='fill-whiteBase'

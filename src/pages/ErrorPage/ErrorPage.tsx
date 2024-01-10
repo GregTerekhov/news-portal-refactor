@@ -8,6 +8,7 @@ import { generateContentImages } from 'helpers';
 import { useCacheImage } from 'hooks';
 
 import { PrimaryButton } from 'ui';
+import { VariantButton } from 'ui/PrimaryButton/PrimaryButton';
 
 const ErrorPage: FC<{}> = () => {
   const devicePixelRatio = window.devicePixelRatio || 1;
@@ -22,7 +23,6 @@ const ErrorPage: FC<{}> = () => {
   );
   // const isAuthenticated = true;
   const imageUrl = useCacheImage(matchedErrorImage?.src || '');
-  console.log('imageUrl', imageUrl);
 
   const handleGoHome = () => {
     navigate('/');
@@ -55,7 +55,7 @@ const ErrorPage: FC<{}> = () => {
       >
         {isAuthenticated && (
           <PrimaryButton
-            variant='Primary'
+            variant={VariantButton.Primary}
             id='redirect to previous page button'
             onHandleClick={handleGoBack}
           >
@@ -67,7 +67,7 @@ const ErrorPage: FC<{}> = () => {
           </PrimaryButton>
         )}
         <PrimaryButton
-          variant='Primary'
+          variant={VariantButton.Primary}
           id='Redirect to home page button'
           onHandleClick={handleGoHome}
         >

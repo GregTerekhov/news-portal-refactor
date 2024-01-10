@@ -11,6 +11,7 @@ import { Modal, PlugImage, SvgIcon } from 'ui';
 
 import { useNews } from './hooks';
 import { DeleteNewsButton, DeleteNewsModal, NewsDescription, VoteButton } from './subcomponents';
+import { VariantModals } from 'ui/Modal/Modal';
 
 interface NewsItemProps {
   liveNews: Partial<VotedItem>;
@@ -92,7 +93,7 @@ const NewsItem: FC<Partial<NewsItemProps>> = ({ liveNews = {} }) => {
         </a>
       )}
       {isOpenModal && (
-        <Modal closeModal={toggleModal} modalRef={popUpRef} variant='deleteNews'>
+        <Modal closeModal={toggleModal} modalRef={popUpRef} variant={VariantModals.DeleteNews}>
           <DeleteNewsModal
             handleDeleteNews={handleDeleteNewsWrapper}
             newsId={liveNews._id}

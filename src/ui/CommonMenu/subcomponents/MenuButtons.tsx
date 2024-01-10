@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 import { useWindowWidth } from 'contexts';
 
-import PrimaryButton from '../../PrimaryButton';
+import PrimaryButton, { VariantButton } from '../../PrimaryButton/PrimaryButton';
 
 type MenuButton = {
   id: string;
@@ -62,7 +62,7 @@ const MenuButtons: FC<Partial<MenuButtonsProps>> = ({
               id={id}
               classNameButton='border border-solid border-transparent dark:border-whiteBase'
               hasIcon={true}
-              variant='OtherButton'
+              variant={VariantButton.Other}
               width='w-32'
               svgName={iconName}
               svgSize={iconSize}
@@ -80,7 +80,7 @@ const MenuButtons: FC<Partial<MenuButtonsProps>> = ({
           id={firstButton.id}
           classNameButton='border border-solid border-transparent dark:border-whiteBase'
           hasIcon={true}
-          variant='OtherButton'
+          variant={VariantButton.Other}
           width='w-32'
           svgName={firstButton.iconName}
           svgSize={firstButton.iconSize}
@@ -96,7 +96,7 @@ const MenuButtons: FC<Partial<MenuButtonsProps>> = ({
           id={firstButton.id}
           classNameButton='border border-solid border-transparent dark:border-whiteBase'
           hasIcon={true}
-          variant='OtherButton'
+          variant={VariantButton.Other}
           width='w-32'
           svgName={firstButton.iconName}
           svgSize={firstButton.iconSize}

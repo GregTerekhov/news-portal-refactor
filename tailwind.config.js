@@ -35,6 +35,9 @@ export default {
         lg: '1280px',
         hg: '1536px',
       },
+      zIndex: {
+        45: '45',
+      },
       boxShadow: {
         modal: '0 5px 15px rgba(168,168,168,.50)',
         card: '8px 10px 20px rgba(17,19,33,.5)', //darkBase 50%

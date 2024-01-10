@@ -6,7 +6,7 @@ import { useAuthRedux, useFiltersAction } from 'reduxStore/hooks';
 import { useFiltersState, useWindowWidth } from 'contexts';
 import { useActiveLinks } from 'hooks';
 
-import ThemeSwitcher from '../ThemeSwitcher';
+import ThemeSwitcher, { VariantSwitcher } from '../ThemeSwitcher/ThemeSwitcher';
 
 import { renderMenuItem } from './assistants';
 import { MenuButtons, MobileContainer, MobileMenu, VersaMenu } from './subcomponents';
@@ -92,7 +92,7 @@ const CommonMenu: FC<CommonMenuProps> = ({ isOpen, navId, closeMenu }) => {
                 Your account, {user.name}
               </Link>
               <div className='flex justify-between'>
-                <ThemeSwitcher />
+                <ThemeSwitcher variant={VariantSwitcher.Header} />
                 <MenuButtons handleSignOut={handleSignOut} navId='main-navigation' />
               </div>
             </>

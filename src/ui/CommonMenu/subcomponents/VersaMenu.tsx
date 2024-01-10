@@ -2,21 +2,13 @@ import React, { FC } from 'react';
 import { NavLink } from 'react-router-dom';
 
 import { useHeaderStyles } from 'hooks';
-import { ActiveLinks } from 'hooks/useActiveLinks';
 
 import SvgIcon from '../../SvgIcon';
 
-import { MenuItem } from '../assistants';
+import { IMenuProps } from '../types';
 
-interface VersaMenuProps {
-  navId: string;
-  links: MenuItem[];
-  handleLinkClick: () => void;
-  activeLinks: ActiveLinks;
-}
-
-const VersaMenu: FC<VersaMenuProps> = ({ navId, links, activeLinks, handleLinkClick }) => {
-  const { textClass } = useHeaderStyles(activeLinks.isHomeActive);
+const VersaMenu: FC<IMenuProps> = ({ navId, links, activeLinks, handleLinkClick }) => {
+  const { textClass } = useHeaderStyles(activeLinks?.isHomeActive);
   return (
     <nav
       id={navId}
@@ -42,9 +34,9 @@ const VersaMenu: FC<VersaMenuProps> = ({ navId, links, activeLinks, handleLinkCl
                   : `relative pt-12 pb-8 lg:pt-[55px] lg:pb-[33px] hover:text-accentBase ${
                       link.activeLink
                         ? 'text-accentBase after:content[""] after:block after:absolute after:h-px after:w-full after:bg-accentBase'
-                        : activeLinks.isHomeActive
-                        ? textClass
-                        : 'text-darkBase dark:text-whiteBase'
+                        : activeLinks?.isHomeActive
+                          ? textClass
+                          : 'text-darkBase dark:text-whiteBase'
                     }`
               }   `}
             >

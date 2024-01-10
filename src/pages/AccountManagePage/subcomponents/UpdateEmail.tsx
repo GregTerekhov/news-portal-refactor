@@ -5,6 +5,8 @@ import { useAuthRedux } from 'reduxStore/hooks';
 import { Accordeon, PrimaryButton, VerifiableInput } from 'ui';
 
 import { useUpdateEmail } from '../hooks';
+import { VariantVerifiableInputs } from 'ui/VerifiableInput/VerifiableInput';
+import { VariantButton } from 'ui/PrimaryButton/PrimaryButton';
 
 const UpdateEmail: FC<{}> = ({}) => {
   const { isRefreshingUser } = useAuthRedux();
@@ -33,7 +35,7 @@ const UpdateEmail: FC<{}> = ({}) => {
                     svgName={iconName}
                     className='fill-accentBase'
                     hasIcon={true}
-                    variant='accountPage'
+                    variant={VariantVerifiableInputs.Account}
                     ariaInvalid={ariaInvalid}
                   />
                 </li>
@@ -49,7 +51,7 @@ const UpdateEmail: FC<{}> = ({}) => {
           buttonData={{ type: 'submit' }}
           width='w-28 lg:w-40'
           id='Button for applying change your email '
-          variant='OtherButton'
+          variant={VariantButton.Other}
           disabled={isRefreshingUser ? true : false}
         >
           Apply

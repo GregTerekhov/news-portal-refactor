@@ -14,16 +14,14 @@ const NewsFilterManager: FC<{}> = () => {
   const [showDropdown, setShowDropdown] = useState<boolean>(false);
 
   const location = useLocation();
-  const activeLinks = useActiveLinks(location);
+  const { isHomeActive, isArchiveActive, isReadActive, isFavoriteActive } =
+    useActiveLinks(location);
 
-  const handleOpenManager = () => {
-    setShowDropdown(!showDropdown);
-  };
+  const noFavourites = isFavoriteActive && allFavourites && allFavourites?.length === 0;
+  const noReads = isReadActive && allReads && allReads?.length === 0;
+  const noArchives = isArchiveActive && allArchive && allArchive?.length === 0;
 
-  const shouldNotShowFilters =
-    (activeLinks.isFavoriteActive && allFavourites && allFavourites?.length === 0) ||
-    (activeLinks.isReadActive && allReads && allReads?.length === 0) ||
-    (activeLinks.isArchiveActive && allArchive && allArchive?.length === 0);
+  const shouldNotShowFilters = noFavourites || noReads || noArchives;
 
   return !shouldNotShowFilters ? (
     <div className='w-full mb-10 md:mb-12 lg:mb-[60px]'>
@@ -31,7 +29,7 @@ const NewsFilterManager: FC<{}> = () => {
         id='Open filter service button'
         className={`flex items-center gap-2 w-full py-1.5 px-6 justify-end text-darkBase dark:text-whiteBase font-medium text-medium md:text-2xl`}
         type='button'
-        onClick={handleOpenManager}
+        onClick={() => setShowDropdown(!showDropdown)}
       >
         News filter service
         <SvgIcon
@@ -44,7 +42,7 @@ const NewsFilterManager: FC<{}> = () => {
       </button>
       {showDropdown && (
         <div>
-          {activeLinks.isHomeActive ? (
+          {isHomeActive ? (
             <>
               <Accordeon position='filtersService' filtersBlock='Additional requests'>
                 <SearchBlock />

@@ -17,7 +17,7 @@ const FavouritePage: FC<{}> = () => {
   const location = useLocation();
   const activeLinks = useActiveLinks(location);
   const { rebuildedNews } = useChooseRenderingNews({ activeLinks });
-  // const isAuthenticated = true;
+
   useEffect(() => {
     getFavourites();
     getSavedNews();
@@ -26,7 +26,6 @@ const FavouritePage: FC<{}> = () => {
   useEffect(() => {
     if (!!allFavourites) {
       setOpenToast(true);
-      console.log('openToast', openToast);
     }
   }, [allFavourites]);
 

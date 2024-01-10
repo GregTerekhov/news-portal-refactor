@@ -15,7 +15,7 @@ interface VBProps {
 
 const VoteButton: FC<VBProps> = ({ onHandleClick, isFavourite, buttonData }) => {
   const location = useLocation();
-  const activeLinks = useActiveLinks(location);
+  const { isArchiveActive } = useActiveLinks(location);
 
   const onButHover = isFavourite
     ? 'fill-accentBase stroke-accentBase'
@@ -26,19 +26,17 @@ const VoteButton: FC<VBProps> = ({ onHandleClick, isFavourite, buttonData }) => 
       id={buttonData?.id}
       type='button'
       className={`absolute z-20 bottom-3 right-2 flex items-center gap-1 rounded-3xl px-3 py-1.5 bg-contrastWhite ${onButHover} ${
-        !activeLinks.isArchiveActive
-          ? 'hover:stroke-whiteBase hover:bg-accentBase hover:text-whiteBase'
-          : ''
+        !isArchiveActive ? 'hover:stroke-whiteBase hover:bg-accentBase hover:text-whiteBase' : ''
       } text-small text-darkBase font-medium transition-colors duration-250`}
       onClick={onHandleClick}
     >
-      {!activeLinks.isArchiveActive
+      {!isArchiveActive
         ? isFavourite
           ? 'Remove from favorite'
           : 'Add to favorite'
         : isFavourite
-        ? 'Favourited'
-        : 'Not in favourites'}
+          ? 'Favourited'
+          : 'Not in favourites'}
       <SvgIcon svgName='icon-heart' size={16} className={`stroke-inherit fill-inherit`} />
     </button>
   );

@@ -1,0 +1,54 @@
+import React, { FC, ReactNode } from 'react';
+import { Provider } from 'react-redux';
+import { PersistGate } from 'redux-persist/integration/react';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { GoogleOAuthProvider } from '@react-oauth/google';
+import { FacebookProvider } from 'react-facebook';
+import * as Tooltip from '@radix-ui/react-tooltip';
+import * as Toast from '@radix-ui/react-toast';
+
+import store, { persistor } from 'reduxStore/store';
+
+import {
+  ThemeProvider,
+  FiltersProvider,
+  NotificationProvider,
+  SelectedDateProvider,
+  ReadSortProvider,
+} from 'contexts';
+
+const queryClient = new QueryClient();
+const clientGoogleID = 'your-google-client-id';
+const facebookID = 'your-facebook-app-id';
+
+type AppProviderProps = {
+  children: ReactNode;
+};
+
+const AppProvider: FC<AppProviderProps> = ({ children }) => (
+  <Provider store={store}>
+    <PersistGate persistor={persistor}>
+      <ThemeProvider>
+        <GoogleOAuthProvider clientId={clientGoogleID}>
+          <FacebookProvider appId={facebookID}>
+            <QueryClientProvider client={queryClient}>
+              <Tooltip.Provider delayDuration={500}>
+                <Toast.Provider>
+                  <NotificationProvider>
+                    <SelectedDateProvider>
+                      <FiltersProvider>
+                        <ReadSortProvider>{children}</ReadSortProvider>
+                      </FiltersProvider>
+                    </SelectedDateProvider>
+                  </NotificationProvider>
+                </Toast.Provider>
+              </Tooltip.Provider>
+            </QueryClientProvider>
+          </FacebookProvider>
+        </GoogleOAuthProvider>
+      </ThemeProvider>
+    </PersistGate>
+  </Provider>
+);
+
+export default AppProvider;

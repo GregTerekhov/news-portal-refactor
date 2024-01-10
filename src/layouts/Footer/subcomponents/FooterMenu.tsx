@@ -22,8 +22,6 @@ const FooterMenu = () => {
 
   const menuItems = renderMenuItem({ isAuthenticated, activeLinks });
 
-  // const isAuthenticated = true;
-
   return (
     <>
       <nav className={`${isAuthenticated ? 'w-full md:w-96 lg:w-[600px]' : 'mb-4 md:mb-10'}`}>

@@ -8,8 +8,10 @@ import { useAuthRedux } from 'reduxStore/hooks';
 import { useNotification } from 'contexts';
 import { usePopUp } from 'hooks';
 
-import Notification from './Notification';
-import SvgIcon from './SvgIcon';
+import Notification from '../Notification';
+import SvgIcon from '../SvgIcon';
+
+import { generateModalStyles } from './assistants';
 
 const modalRoot = document.querySelector('#modalRoot');
 
@@ -21,7 +23,7 @@ interface ModalProps {
   variant: string;
 }
 
-enum S {
+export enum VariantModals {
   Auth = 'auth',
   DeleteNews = 'deleteNews',
 }
@@ -31,44 +33,8 @@ const Modal: FC<ModalProps> = ({ children, closeModal, modalRef, variant }) => {
   const { openToast, setOpenToast } = useNotification();
   const { isOpenModal } = usePopUp();
 
-  let topPosition: string = '';
-
-  if (variant === S.Auth) {
-    topPosition = 'top-6';
-  }
-  if (variant === S.DeleteNews) {
-    topPosition = 'top-1/2 -translate-y-1/2';
-  }
-  // useEffect(() => {
-  //   const handleKeyDown = (event: KeyboardEvent) => {
-  //     if (event.key === 'Tab') {
-  //       const focusableElements = modalRef.current?.querySelectorAll(
-  //         'button, [href], input, [tabindex]:not([tabindex="-1"])',
-  //       ) as NodeListOf<HTMLElement>;
-  //       console.log('focusableElements', focusableElements);
-
-  //       if (focusableElements.length > 0) {
-  //         const firstElement = focusableElements[0];
-  //         const lastElement = focusableElements[focusableElements.length - 1];
-  //         console.log('document.activeElement', document.activeElement);
-
-  //         if (!event.shiftKey && document.activeElement === lastElement) {
-  //           firstElement.focus();
-  //           event.preventDefault();
-  //         } else if (event.shiftKey && document.activeElement === firstElement) {
-  //           lastElement.focus();
-  //           event.preventDefault();
-  //         }
-  //       }
-  //     }
-  //   };
-
-  //   window.addEventListener('keydown', handleKeyDown);
-
-  //   return () => {
-  //     window.removeEventListener('keydown', handleKeyDown);
-  //   };
-  // }, [modalRef]);
+  const styles = generateModalStyles();
+  const currentStyles = styles[variant];
 
   return (
     <>
@@ -83,7 +49,7 @@ const Modal: FC<ModalProps> = ({ children, closeModal, modalRef, variant }) => {
               <div className='fixed before:fixed before:content-[""] before:w-full before:h-[81px] before:top-0 before:left-0 top-0 left-0 z-[60] bg-whiteBase/[.4] dark:bg-darkBackground/[.4] w-screen h-screen flex justify-center items-center transition-colors duration-500 backdrop-blur-sm overflow-auto'>
                 <div
                   ref={modalRef}
-                  className={`absolute left-1/2 w-full max-md:max-w-[288px] md:w-[600px] transform -translate-x-1/2 bg-whiteBase dark:bg-darkBackground ${topPosition} py-4 px-6 border border-solid border-accentBase dark:border-whiteBase rounded-xl shadow-modal dark:shadow-darkCard md:px-8 md:pb-8 transition-colors duration-500`}
+                  className={`absolute left-1/2 w-full max-md:max-w-[288px] md:w-[600px] transform -translate-x-1/2 bg-whiteBase dark:bg-darkBackground ${currentStyles.topPosition} py-4 px-6 border border-solid border-accentBase dark:border-whiteBase rounded-xl shadow-modal dark:shadow-darkCard md:px-8 md:pb-8 transition-colors duration-500`}
                 >
                   <AutoFocusInside>
                     <button

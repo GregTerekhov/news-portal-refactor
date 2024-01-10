@@ -12,13 +12,13 @@ import {
 
 const SkeletonSection: FC<{}> = () => {
   const location = useLocation();
-  const activeLinks = useActiveLinks(location);
+  const { isHomeActive } = useActiveLinks(location);
 
   return (
     <>
       <div
         className={`${
-          activeLinks.isHomeActive ? 'mb-10 md:mb-12 lg:mb-[60px]' : ''
+          isHomeActive ? 'mb-10 md:mb-12 lg:mb-[60px]' : ''
         } ${sectionItemWrapperClass}`}
       >
         {sectionGroups.map(({ lines, className }, groupIndex) => (

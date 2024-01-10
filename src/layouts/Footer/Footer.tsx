@@ -3,6 +3,7 @@ import React, { FC } from 'react';
 import { useAuthRedux } from 'reduxStore/hooks';
 
 import { ThemeSwitcher } from 'ui';
+import { VariantSwitcher } from 'ui/ThemeSwitcher/ThemeSwitcher';
 
 import { FooterMenu, SocialLinks } from './subcomponents';
 
@@ -28,7 +29,7 @@ const Footer: FC<{}> = () => {
               </div>
               <SocialLinks />
             </div>
-            <ThemeSwitcher variant='footer' />
+            <ThemeSwitcher variant={VariantSwitcher.Footer} />
           </div>
         </div>
       </div>

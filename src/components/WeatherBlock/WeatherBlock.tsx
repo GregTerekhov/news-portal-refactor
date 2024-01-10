@@ -22,22 +22,24 @@ const WeatherBlock: FC<{}> = () => {
     flipWeatherDetails,
   } = useWeather();
 
-  const { isWeatherLoading, currentWeather } = useWeatherAPI();
+  const { isWeatherLoading, currentWeather, weatherError } = useWeatherAPI();
+
   const emptyWeather = currentWeather && Object.keys(currentWeather).length === 0;
   const showLoader = isWeatherLoading && hasGeolocationPermission;
-
-  // lg:px-[53px] забрано звідси 'py-8 px-5 md:pt-10 md:px-8'
+  const showError = weatherError && weatherError?.cod?.includes('5');
 
   return (
     <div
       className={`${
-        !isWeatherLoading && emptyWeather
+        !isWeatherLoading && emptyWeather && !showError
           ? 'flex flex-col items-center justify-between text-center py-10 px-6 md:px-10'
-          : 'py-8 px-5 md:pt-10 md:px-8'
+          : showError
+            ? 'text-center py-10 px-6 md:px-10'
+            : 'py-8 px-5 md:pt-10 md:px-8'
       }  bg-accentBase w-full hg:w-[442px] h-full`}
     >
-      {!isWeatherLoading && emptyWeather ? (
-        <NoWeather />
+      {(!isWeatherLoading && emptyWeather) || showError ? (
+        <NoWeather showError={showError} />
       ) : showLoader ? (
         <Loader variant='element' />
       ) : (

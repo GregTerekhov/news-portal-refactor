@@ -75,8 +75,6 @@ function App() {
     fetchCurrentAuthUser();
   }, [fetchCurrentAuthUser]);
 
-  // const isRefreshingUser = true;
-
   return isRefreshingUser ? (
     <Loader variant='page' />
   ) : (

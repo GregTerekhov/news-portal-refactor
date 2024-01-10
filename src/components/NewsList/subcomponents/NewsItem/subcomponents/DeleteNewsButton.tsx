@@ -1,6 +1,7 @@
 import React, { FC, Ref } from 'react';
 
 import { Hint, PrimaryButton } from 'ui';
+import { VariantButton } from 'ui/PrimaryButton/PrimaryButton';
 
 interface DeleteButtonProps {
   myButtonRef: Ref<HTMLButtonElement>;
@@ -20,7 +21,7 @@ const DeleteNewsButton: FC<DeleteButtonProps> = ({ myButtonRef, handleOpenConfir
         <PrimaryButton
           ref={myButtonRef}
           onHandleClick={handleOpenConfirm}
-          variant='Small'
+          variant={VariantButton.Small}
           hasIcon={true}
           svgName='icon-close'
           svgSize={24}

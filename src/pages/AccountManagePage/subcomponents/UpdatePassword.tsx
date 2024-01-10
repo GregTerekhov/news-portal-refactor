@@ -3,6 +3,8 @@ import React, { FC } from 'react';
 import { Accordeon, PrimaryButton, VerifiableInput } from 'ui';
 
 import { useUpdatePassword } from '../hooks';
+import { VariantButton } from 'ui/PrimaryButton/PrimaryButton';
+import { VariantVerifiableInputs } from 'ui/VerifiableInput/VerifiableInput';
 
 const UpdatePassword: FC<{}> = () => {
   const { handleSubmit, register, handlePasswordSubmitHandler, passwordInputs } =
@@ -29,7 +31,7 @@ const UpdatePassword: FC<{}> = () => {
                   label={label}
                   svgName='icon-password'
                   hasIcon={true}
-                  variant='accountPage'
+                  variant={VariantVerifiableInputs.Account}
                   ariaInvalid={ariaInvalid}
                 />
               </li>
@@ -45,7 +47,7 @@ const UpdatePassword: FC<{}> = () => {
           buttonData={{ type: 'submit' }}
           width='w-28 lg:w-40'
           id='Button for applying change and confirm your new password'
-          variant='OtherButton'
+          variant={VariantButton.Other}
         >
           Apply
         </PrimaryButton>

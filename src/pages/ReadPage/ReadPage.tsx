@@ -1,14 +1,12 @@
 import React, { FC, useEffect, useState } from 'react';
+import { useLocation } from 'react-router-dom';
 
 import { useDB, useFiltersAction } from 'reduxStore/hooks';
 
-import { useActiveLinks, useChooseRenderingNews } from 'hooks';
+import { useActiveLinks, useChooseRenderingNews, useFilterNews, useReadNewsContent } from 'hooks';
 
 import { NewsList } from 'components';
 import { Accordeon, Loader, Notification, PlugImage } from 'ui';
-import { useLocation } from 'react-router-dom';
-import { useFilterNews } from 'components/NewsFIlterManager/subcomponents/FiltersBlock/hooks';
-import { useReadNewsContent } from 'contexts/SortReadAccordeon';
 
 const ReadPage: FC<{}> = () => {
   const [openToast, setOpenToast] = useState<boolean>(false);
@@ -19,9 +17,8 @@ const ReadPage: FC<{}> = () => {
   const location = useLocation();
   const activeLinks = useActiveLinks(location);
 
+  const initialReadsList = useReadNewsContent({ activeLinks });
   const { rebuildedNews } = useChooseRenderingNews({ activeLinks });
-  const waffles = useReadNewsContent();
-
   const { sortedDates } = useFilterNews({ activeLinks });
 
   useEffect(() => {
@@ -31,11 +28,10 @@ const ReadPage: FC<{}> = () => {
   useEffect(() => {
     if (!!allReads) {
       setOpenToast(true);
-      console.log('openToast', openToast);
     }
   }, [allReads]);
 
-  const readNews = sortedDates && sortedDates.length > 0 ? sortedDates : waffles;
+  const readNews = sortedDates && sortedDates.length > 0 ? sortedDates : initialReadsList;
 
   const shouldShowLoader = isLoadingDBData || hasResults === 'loading';
   const shouldShowPlug = rebuildedNews.length === 0 || hasResults === 'empty';
