@@ -9,8 +9,9 @@ import { useActiveLinks, useChooseRenderingNews } from 'hooks';
 import { NewsList } from 'components';
 import { Loader, Notification, PlugImage } from 'ui';
 
-import { Pagination } from './subcomponents';
+import { Pagination, TooManyRequests } from './subcomponents';
 import { usePagination } from './hooks';
+import useNewsAPICollector from 'reduxStore/hooks/useNewsAPICollector';
 
 const HomePage: FC = () => {
   const { isLoadingAPIData, headline, fetchPopular } = useNewsAPI();
@@ -26,14 +27,27 @@ const HomePage: FC = () => {
   const { currentItems, currentPage, pageNumbers, setCurrentPage } = usePagination(
     rebuildedNews ?? [],
   );
+  const { errorAPI, newsByDate, newsByKeyword, newsByCategory } = useNewsAPICollector();
+
+  const tooManyReq = errorAPI?.toString().includes('429');
 
   useEffect(() => {
     fetchPopular('1');
-
     if (isAuthenticated) {
       getSavedNews();
     }
   }, [fetchPopular, getSavedNews, isAuthenticated]);
+
+  //эффект для временного вывода результата поиска в консоли. Тостик временно не работает
+  useEffect(() => {
+    const byDate = newsByDate.length > 0;
+    const byKeyword = newsByKeyword.length > 0;
+    const byCategories = newsByCategory.length > 0;
+
+    if (byDate || byKeyword || byCategories) {
+      console.log(`There are ${rebuildedNews.length} news has been found`);
+    }
+  }, [newsByDate, newsByKeyword, newsByCategory]);
 
   return (
     <div>
@@ -41,6 +55,8 @@ const HomePage: FC = () => {
       (isLoadingDBData && rebuildedNews && currentItems?.length === 0) ||
       hasResults === 'loading' ? (
         <Loader variant='generalSection' />
+      ) : tooManyReq ? (
+        <TooManyRequests />
       ) : (
         <>
           {(rebuildedNews && rebuildedNews.length === 0) || hasResults === 'empty' ? (
@@ -69,6 +85,15 @@ const HomePage: FC = () => {
           description='Welcome to New York Times News Viewer'
         />
       )}
+      {/* {newsByDate.length > 0 && (
+        <Notification
+          variant='non-interactive'
+          openToast={openToast}
+          setOpenToast={setOpenToast}
+          title='Search by Date'
+          description={`There are ${newsByDate.length} news has been found`}
+        />
+      )} */}
     </div>
   );
 };

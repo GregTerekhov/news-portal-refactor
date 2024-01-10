@@ -107,7 +107,7 @@ const authSlice = createSlice({
         state.isCurrentUser = false;
         if (action.payload) {
           state.hasError = action.payload;
-          console.log('authStateError', state.hasError, action.payload);
+          console.log('authStateError', state.hasError);
         }
       })
       .addCase(authOperations.signIn.pending, (state) => {
