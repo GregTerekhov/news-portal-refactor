@@ -33,7 +33,8 @@ export const fetchPopularNews = createAsyncThunk<PopularNewsArray, string, { rej
       });
       return res.data.results as PopularNewsArray;
     } catch (error: any) {
-      return rejectWithValue(error.response.data);
+      console.log(error.response);
+      return rejectWithValue(error.response.status);
     }
   },
 );
@@ -49,7 +50,8 @@ export const fetchNewsByKeyword = createAsyncThunk<ArticleNewsArray, string, { r
       });
       return res.data.response.docs as ArticleNewsArray;
     } catch (error: any) {
-      return rejectWithValue(error.response.data);
+      console.log(error);
+      return rejectWithValue(error.response.status);
     }
   },
 );
@@ -83,7 +85,8 @@ export const fetchNewsByCategory = createAsyncThunk<NewsWireArray, string, { rej
       });
       return res.data.results as NewsWireArray;
     } catch (error: any) {
-      return rejectWithValue(error.response.data);
+      console.log(error);
+      return rejectWithValue(error.response.status);
     }
   },
 );
@@ -103,7 +106,8 @@ export const fetchNewsByDate = createAsyncThunk<ArticleNewsArray, Date, { reject
       );
       return res.data.response.docs as ArticleNewsArray;
     } catch (error: any) {
-      return rejectWithValue(error.response.data);
+      console.log(error);
+      return rejectWithValue(error.response.status);
     }
   },
 );
