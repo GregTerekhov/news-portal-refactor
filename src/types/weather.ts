@@ -42,3 +42,8 @@ export interface HourlyWeatherData {
     speed: number;
   };
 }
+
+export interface Position {
+  latitude: number;
+  longitude: number;
+}

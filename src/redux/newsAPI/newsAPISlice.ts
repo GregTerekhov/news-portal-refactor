@@ -6,7 +6,7 @@ import {
   isAnyOf,
 } from '@reduxjs/toolkit';
 
-import { ArticleNewsArray, NewsWireArray, PopularNewsArray, C } from 'types';
+import { ArticleNewsArray, NewsWireArray, PopularNewsArray, CategoriesItem } from 'types';
 
 import * as newsAPIOperations from './newsAPIOperations';
 
@@ -14,7 +14,7 @@ type newsAPIState = {
   popular: PopularNewsArray;
   searchByWord: ArticleNewsArray;
   categories: NewsWireArray;
-  categoriesList: C[];
+  categoriesList: CategoriesItem[];
   searchByDate: ArticleNewsArray;
   isLoading: boolean;
   hasError: SerializedError | null;

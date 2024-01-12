@@ -8,25 +8,43 @@ import { VotedItem } from 'types';
 import { useActiveLinks, usePopUp } from 'hooks';
 
 import { Modal, PlugImage, SvgIcon } from 'ui';
+import { VariantModals } from 'ui/Modal/Modal';
 
+// import { convertToWebP } from './assistants';
 import { useNews } from './hooks';
 import { DeleteNewsButton, DeleteNewsModal, NewsDescription, VoteButton } from './subcomponents';
-import { VariantModals } from 'ui/Modal/Modal';
 
 interface NewsItemProps {
   liveNews: Partial<VotedItem>;
 }
 
+// const QUALITY = 0.8;
+
 const NewsItem: FC<Partial<NewsItemProps>> = ({ liveNews = {} }) => {
+  // const [webpImageURL, setWebpImageURL] = useState<string | undefined>(undefined);
   const { isAuthenticated } = useAuthRedux();
   const { isOpenModal, toggleModal, popUpRef } = usePopUp();
   const myButtonRef = React.createRef<HTMLButtonElement>();
 
-  // const isAuthenticated = true;
   const location = useLocation();
   const activeLinks = useActiveLinks(location);
   const { isFavourite, hasRead, handleChangeFavourites, handleReadNews, handleDeleteNews } =
     useNews({ liveNews, activeLinks });
+
+  // useEffect(() => {
+  //   const convertImageToWebP = async () => {
+  //     try {
+  //       const url = await convertToWebP(liveNews?.imgLink, QUALITY);
+  //       setWebpImageURL(url);
+  //     } catch (error) {
+  //       console.error('Image conversion error:', error);
+  //     }
+  //   };
+
+  //   if (liveNews?.imgLink) {
+  //     convertImageToWebP();
+  //   }
+  // }, [liveNews?.imgLink]);
 
   const handleDeleteNewsWrapper = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     if (liveNews._id) {

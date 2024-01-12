@@ -1,7 +1,6 @@
 import axios from 'axios';
-import { createAsyncThunk } from '@reduxjs/toolkit';
 
-import { axiosInstance, BASE_URL_DB } from '../services';
+import { axiosInstance, BASE_URL_DB, createAppAsyncThunk } from '../services';
 import { setTokens } from './authSlice';
 
 import {
@@ -22,16 +21,16 @@ import {
   RecoveryPasswordChange,
 } from 'types';
 
-export const signUp = createAsyncThunk<CredentialSignUpResponse, SignUpRequest>(
+export const signUp = createAppAsyncThunk<CredentialSignUpResponse, SignUpRequest>(
   'auth/signUp',
   async (credentials, { rejectWithValue }) => {
-    console.log('credentials', credentials);
+    // console.log('credentials', credentials);
     try {
       const response = await axios.post<CredentialSignUpResponse>(
         `${BASE_URL_DB}/auth/sign-up`,
         credentials,
       );
-      console.log('SignUpResponse', response.data);
+      // console.log('SignUpResponse', response.data);
       return response.data;
     } catch (error: any) {
       console.log('error', error.response);
@@ -40,16 +39,16 @@ export const signUp = createAsyncThunk<CredentialSignUpResponse, SignUpRequest>(
   },
 );
 
-export const signIn = createAsyncThunk<CredentialSignInResponse, AuthRequestWithoutName>(
+export const signIn = createAppAsyncThunk<CredentialSignInResponse, AuthRequestWithoutName>(
   'auth/signIn',
   async (credentials, { rejectWithValue }) => {
-    console.log('credentials', credentials);
+    // console.log('credentials', credentials);
     try {
       const response = await axios.post<CredentialSignInResponse>(
         `${BASE_URL_DB}/auth/sign-in`,
         credentials,
       );
-      console.log('SignInResponse', response.data);
+      // console.log('SignInResponse', response.data);
       return response.data;
     } catch (error: any) {
       console.log('Error signIn', error.response);
@@ -58,7 +57,7 @@ export const signIn = createAsyncThunk<CredentialSignInResponse, AuthRequestWith
   },
 );
 
-export const signOut = createAsyncThunk<SignOutResponse>(
+export const signOut = createAppAsyncThunk<SignOutResponse>(
   '/auth/signOut',
   async (_, { rejectWithValue }) => {
     try {
@@ -72,7 +71,7 @@ export const signOut = createAsyncThunk<SignOutResponse>(
   },
 );
 
-export const fetchCurrentUser = createAsyncThunk<CurrentUserResponse>(
+export const fetchCurrentUser = createAppAsyncThunk<CurrentUserResponse>(
   'auth/current',
   async (_, { rejectWithValue }) => {
     try {
@@ -86,41 +85,41 @@ export const fetchCurrentUser = createAsyncThunk<CurrentUserResponse>(
   },
 );
 
-export const updateUserEmail = createAsyncThunk<UpdateCredentialsResponse, AuthRequestWithoutName>(
-  'auth/updateEmail',
-  async (newEmail, { rejectWithValue }) => {
-    console.log('newEmail', newEmail);
-    try {
-      const response = await axiosInstance.patch<UpdateCredentialsResponse>(
-        '/auth/update-email',
-        newEmail,
-      );
-      console.log('UpdateCredentialsResponse', response.data);
-      return response.data;
-    } catch (error: any) {
-      console.log('Error updateEmail', error);
-      return rejectWithValue(error.response);
-    }
-  },
-);
-export const updateUserPassword = createAsyncThunk<UpdatePasswordResponse, UpdatePasswordRequest>(
-  'auth/updatePassword',
-  async (newPassword, { rejectWithValue }) => {
-    console.log('newPassword', newPassword);
-    try {
-      const response = await axiosInstance.patch<UpdatePasswordResponse>(
-        '/auth/update-password',
-        newPassword,
-      );
-      console.log('UpdatePasswordResponse', response.data);
-      return response.data;
-    } catch (error: any) {
-      console.log('Error updatePassword', error.response);
-      return rejectWithValue(error.response);
-    }
-  },
-);
-export const recoveryPasswordRequest = createAsyncThunk<
+export const updateUserEmail = createAppAsyncThunk<
+  UpdateCredentialsResponse,
+  AuthRequestWithoutName
+>('auth/updateEmail', async (newEmail, { rejectWithValue }) => {
+  console.log('newEmail', newEmail);
+  try {
+    const response = await axiosInstance.patch<UpdateCredentialsResponse>(
+      '/auth/update-email',
+      newEmail,
+    );
+    console.log('UpdateCredentialsResponse', response.data);
+    return response.data;
+  } catch (error: any) {
+    console.log('Error updateEmail', error);
+    return rejectWithValue(error.response);
+  }
+});
+export const updateUserPassword = createAppAsyncThunk<
+  UpdatePasswordResponse,
+  UpdatePasswordRequest
+>('auth/updatePassword', async (newPassword, { rejectWithValue }) => {
+  console.log('newPassword', newPassword);
+  try {
+    const response = await axiosInstance.patch<UpdatePasswordResponse>(
+      '/auth/update-password',
+      newPassword,
+    );
+    console.log('UpdatePasswordResponse', response.data);
+    return response.data;
+  } catch (error: any) {
+    console.log('Error updatePassword', error.response);
+    return rejectWithValue(error.response);
+  }
+});
+export const recoveryPasswordRequest = createAppAsyncThunk<
   UpdatePasswordResponse,
   RecoveryPasswordRequest
 >('auth/recoveryPasswordRequest', async (email, { rejectWithValue }) => {
@@ -135,7 +134,7 @@ export const recoveryPasswordRequest = createAsyncThunk<
   }
 });
 
-export const recoveryPasswordChange = createAsyncThunk<
+export const recoveryPasswordChange = createAppAsyncThunk<
   UpdatePasswordResponse,
   RecoveryPasswordChange
 >('auth/recoveryPasswordChange', async (changedPassword, { rejectWithValue }) => {
@@ -152,7 +151,7 @@ export const recoveryPasswordChange = createAsyncThunk<
   }
 });
 
-export const googleAuth = createAsyncThunk(
+export const googleAuth = createAppAsyncThunk(
   'auth/google',
   async (codeResponse: GoogleResponse, { rejectWithValue }) => {
     try {
@@ -167,7 +166,7 @@ export const googleAuth = createAsyncThunk(
     }
   },
 );
-export const facebookAuth = createAsyncThunk(
+export const facebookAuth = createAppAsyncThunk(
   'auth/facebook',
   async (tokenAuth: IThirdPartyAuth, { rejectWithValue }) => {
     try {
@@ -182,7 +181,7 @@ export const facebookAuth = createAsyncThunk(
     }
   },
 );
-export const appleAuth = createAsyncThunk(
+export const appleAuth = createAppAsyncThunk(
   'auth/apple',
   async (tokenAuth: IThirdPartyAuth, { rejectWithValue }) => {
     try {
@@ -198,7 +197,7 @@ export const appleAuth = createAsyncThunk(
   },
 );
 
-export const updateTheme = createAsyncThunk<UpdateThemeResponse, UpdateThemeRequest>(
+export const updateTheme = createAppAsyncThunk<UpdateThemeResponse, UpdateThemeRequest>(
   'auth/updateTheme',
   async (updatedTheme, { rejectWithValue }) => {
     console.log('theme', updatedTheme);

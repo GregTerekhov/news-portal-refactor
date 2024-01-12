@@ -1,5 +1,7 @@
 import { useCallback } from 'react';
 
+import { Position } from 'types';
+
 import { useAppDispatch, useAppSelector } from './hooks';
 import * as weather from '../weather';
 
@@ -12,12 +14,12 @@ const useWeatherCollector = () => {
   const dispatch = useAppDispatch();
 
   const getCurrentWeather = useCallback(
-    (position: weather.Position) => dispatch(weather.fetchWeather(position)),
+    (position: Position) => dispatch(weather.fetchWeather(position)),
     [dispatch],
   );
 
   const getHourlyWeather = useCallback(
-    (position: weather.Position) => dispatch(weather.fetchHourlyForecastWeather(position)),
+    (position: Position) => dispatch(weather.fetchHourlyForecastWeather(position)),
     [dispatch],
   );
 

@@ -11,9 +11,11 @@ import { UpdateEmail, UpdatePassword } from './subcomponents';
 import { Notification } from 'ui';
 
 const AccountManagePage: FC<{}> = () => {
-  const { authError } = useAuthRedux();
+  const { authError, statusMessage } = useAuthRedux();
   const { openToast, setOpenToast } = useNotification();
   const { showErrorToast } = useToast();
+
+  console.log('statusMessage', statusMessage);
 
   return (
     <div>
@@ -31,7 +33,7 @@ const AccountManagePage: FC<{}> = () => {
         openToast={openToast}
         setOpenToast={setOpenToast}
         title={authError && authError.message ? 'Authorisation error' : 'Update credentials'}
-        description={authError && authError.message ? showErrorToast() : ''}
+        description={authError && authError.message ? showErrorToast() : statusMessage}
       />
     </div>
   );
