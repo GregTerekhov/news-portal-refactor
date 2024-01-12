@@ -43,7 +43,6 @@
       "pages/*": ["pages/*"],
       "reduxStore/*": ["redux/*"],
       "routes/*": ["routes/*"],
-      "themes/*": ["themes/*"],
       "types/*": ["types/*"],
       "ui/*": ["ui/*"]
     }

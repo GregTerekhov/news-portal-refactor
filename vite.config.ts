@@ -21,7 +21,6 @@ export default defineConfig({
       pages: resolve(__dirname, './src/pages'),
       reduxStore: resolve(__dirname, './src/redux'),
       routes: resolve(__dirname, './src/routes'),
-      themes: resolve(__dirname, './src/themes'),
       types: resolve(__dirname, './src/types'),
       ui: resolve(__dirname, './src/ui'),
     },
