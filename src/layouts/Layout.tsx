@@ -3,11 +3,11 @@ import { Outlet, useLocation } from 'react-router-dom';
 
 import { useAuthRedux, useNewsAPI } from 'reduxStore/hooks';
 
-import { useWindowWidth } from 'contexts';
+import { useNotification, useWindowWidth } from 'contexts';
 import { useActiveLinks, useChooseRenderingNews } from 'hooks';
 
 import { NewsFilterManager, PageScrollController } from 'components';
-import { ThemeSwitcher } from 'ui';
+import { Notification, ThemeSwitcher } from 'ui';
 
 import { Hero } from './subcomponents';
 import Header from './Header/Header';
@@ -20,6 +20,7 @@ const Layout: FC = () => {
   };
   const { fetchCategoriesList } = useNewsAPI();
   const { isAuthenticated } = useAuthRedux();
+  const { openToast, setOpenToast } = useNotification();
 
   const location = useLocation();
   const activeLinks = useActiveLinks(location);
@@ -94,6 +95,15 @@ const Layout: FC = () => {
         </section>
       </main>
       {!activeLinks?.isErrorPage && <Footer />}
+      {isAuthenticated && (
+        <Notification
+          variant='non-interactive'
+          openToast={openToast}
+          setOpenToast={setOpenToast}
+          title='Welcome'
+          description='Welcome to New York Times News Viewer'
+        />
+      )}
     </div>
   );
 };

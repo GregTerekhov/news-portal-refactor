@@ -20,7 +20,7 @@ const useAuthCollector = () => {
   const isRefreshingUser = useAppSelector(auth.selectCurrentUser);
   const userTheme = useAppSelector(auth.selectUserTheme);
   const authError = useAppSelector(auth.selectHasAuthError);
-  // const haveAccounts = useAppSelector(selectBoundAccounts);
+  const haveAccounts = useAppSelector(auth.selectBoundAccounts);
 
   const dispatch = useAppDispatch();
 
@@ -83,7 +83,7 @@ const useAuthCollector = () => {
   );
 
   return {
-    // haveAccounts,
+    haveAccounts,
     isAuthenticated,
     user,
     isRefreshingUser,

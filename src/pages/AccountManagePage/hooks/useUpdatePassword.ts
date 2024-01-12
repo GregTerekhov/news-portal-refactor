@@ -35,14 +35,18 @@ const useUpdatePassword = () => {
   ]);
 
   const handlePasswordSubmitHandler: SubmitHandler<IUpdatePassword> = async (data) => {
-    const { newPassword, password } = data;
-    const dataToSend = { password, newPassword };
+    try {
+      const { newPassword, password } = data;
+      const dataToSend = { password, newPassword };
 
-    const response = await updatePassword(dataToSend);
-    const { message } = response.payload as Omit<UpdateCredentialsResponse, 'newEmail'>;
+      const response = await updatePassword(dataToSend);
+      const { code, message } = response.payload as Omit<UpdateCredentialsResponse, 'newEmail'>;
 
-    if (message && message === 'Password is successfully updated') {
-      setOpenToast(true);
+      if (code && code === 200 && message && message === 'Password is successfully updated') {
+        setOpenToast(true);
+      }
+    } catch (error) {
+      console.error('Error during updatePassword:', error);
     }
     reset({
       ...getValues,

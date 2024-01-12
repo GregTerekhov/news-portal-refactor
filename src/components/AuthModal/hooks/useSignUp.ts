@@ -3,7 +3,7 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 
 import { useAuthRedux } from 'reduxStore/hooks';
 
-import { CredentialSignUpResponse, SignUpRequest } from 'types';
+import { SignUpRequest } from 'types';
 
 import { useNotification } from 'contexts';
 import { usePopUp } from 'hooks';
@@ -13,7 +13,7 @@ import { AuthInputs } from '../types';
 
 const useSignUp = () => {
   const { setOpenToast } = useNotification();
-  const { register, login, authError } = useAuthRedux();
+  const { register, login } = useAuthRedux();
   const { toggleModal } = usePopUp();
 
   const {
@@ -25,45 +25,30 @@ const useSignUp = () => {
   } = useForm<SignUpRequest>({ resolver: yupResolver(signUpSchema) });
 
   const signUpSubmitHandler: SubmitHandler<SignUpRequest> = async (data) => {
-    const { name, email, password } = data;
+    try {
+      const { name, email, password } = data;
 
-    const signUpCredentials = {
-      name,
-      email,
-      password,
-    };
+      const signUpCredentials = {
+        name,
+        email,
+        password,
+      };
 
-    const signInCredentials = {
-      email,
-      password,
-    };
+      const signInCredentials = {
+        email,
+        password,
+      };
 
-    await register(signUpCredentials);
+      const signUpResponse = await register(signUpCredentials);
 
-    if (!!authError && authError.message === 'Email already in use') {
-      setOpenToast(true);
-      return;
-    } else {
-      const response = await login(signInCredentials);
-      const payload = response.payload as CredentialSignUpResponse;
-      const { message } = payload;
-      if (
-        payload &&
-        response.meta.requestStatus &&
-        response.meta.requestStatus === 'fulfilled' &&
-        message === 'User sign-in success'
-      ) {
-        setOpenToast(true);
-      }
-
-      if (
-        response.meta.requestStatus &&
-        response.meta.requestStatus === 'rejected' &&
-        response.payload === 'User is not authentified'
-      ) {
+      if (signUpResponse.meta.requestStatus === 'rejected') {
         setOpenToast(true);
         return;
+      } else {
+        await login(signInCredentials);
       }
+    } catch (error) {
+      console.error('Error during signUp:', error);
     }
     reset({
       ...getValues,

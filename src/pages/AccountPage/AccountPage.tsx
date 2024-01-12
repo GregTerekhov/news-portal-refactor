@@ -12,12 +12,13 @@ const AccountPage: FC<{}> = () => {
   const { breakpointsForMarkup } = useWindowWidth() ?? {
     breakpointsForMarkup: null,
   };
-  const { user } = useAuthRedux();
+  const { user, haveAccounts } = useAuthRedux();
 
   const userInfoList = renderInfoItems(user);
   const accountIcons = renderAccountIcons();
   const isMobile = breakpointsForMarkup?.isNothing || breakpointsForMarkup?.isMobile;
   const commonHeadlineClass = 'text-darkBase dark:text-whiteBase text-end';
+  const haveLinkedAccount = haveAccounts.google || haveAccounts.facebook || haveAccounts.apple;
 
   return (
     <div>
@@ -31,17 +32,25 @@ const AccountPage: FC<{}> = () => {
             </li>
           ))}
         </ul>
-        <h3 className={`${commonHeadlineClass} mb-4 md:text-2xl`}>Connected accounts</h3>
-        <ul className='flex items-center justify-end gap-x-4 md:gap-x-6'>
-          {accountIcons.map(({ iconName }) => (
-            <li
-              key={iconName}
-              className='border border-solid rounded-[10px] bg-accentBase dark:border-whiteBase p-2'
-            >
-              <SvgIcon svgName={iconName} size={isMobile ? 20 : 24} className='fill-whiteBase' />
-            </li>
-          ))}
-        </ul>
+        {haveLinkedAccount && (
+          <>
+            <h3 className={`${commonHeadlineClass} mb-4 md:text-2xl`}>Connected accounts</h3>
+            <ul className='flex items-center justify-end gap-x-4 md:gap-x-6'>
+              {accountIcons.map(({ iconName }) => (
+                <li
+                  key={iconName}
+                  className='border border-solid rounded-[10px] bg-accentBase dark:border-whiteBase p-2'
+                >
+                  <SvgIcon
+                    svgName={iconName}
+                    size={isMobile ? 20 : 24}
+                    className='fill-whiteBase'
+                  />
+                </li>
+              ))}
+            </ul>
+          </>
+        )}
       </div>
     </div>
   );

@@ -3,12 +3,8 @@ import { createPortal } from 'react-dom';
 import FocusLock, { AutoFocusInside } from 'react-focus-lock';
 import { RemoveScroll } from 'react-remove-scroll';
 
-import { useAuthRedux } from 'reduxStore/hooks';
-
-import { useNotification } from 'contexts';
 import { usePopUp } from 'hooks';
 
-import Notification from '../Notification';
 import SvgIcon from '../SvgIcon';
 
 import { generateModalStyles } from './assistants';
@@ -29,8 +25,6 @@ export enum VariantModals {
 }
 
 const Modal: FC<ModalProps> = ({ children, closeModal, modalRef, variant }) => {
-  const { authError } = useAuthRedux();
-  const { openToast, setOpenToast } = useNotification();
   const { isOpenModal } = usePopUp();
 
   const styles = generateModalStyles();
@@ -66,20 +60,6 @@ const Modal: FC<ModalProps> = ({ children, closeModal, modalRef, variant }) => {
                   </AutoFocusInside>
                   {children}
                 </div>
-                {authError && authError?.message ? (
-                  <Notification
-                    variant='non-interactive'
-                    openToast={openToast}
-                    setOpenToast={setOpenToast}
-                    title={`${authError?.message && 'Authorisation error'}`}
-                    description={`${
-                      authError?.message === 'Email already in use'
-                        ? 'Email already in use'
-                        : authError?.message === 'User is not authentified' &&
-                          'Email or password are wrong'
-                    }`}
-                  />
-                ) : null}
               </div>,
               modalRoot,
             )}

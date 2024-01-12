@@ -74,46 +74,40 @@ const useSignIn = () => {
 
   const signInSubmitHandler: SubmitHandler<AuthRequestWithoutName> = async (data, e) => {
     e?.preventDefault();
-    const { email, password } = data;
+    try {
+      const { email, password } = data;
 
-    if (isChecked && email !== '' && key) {
-      const userData = { email: email, password: password };
-      const encryptedData = await encryptData(userData, key);
-      localStorage.setItem('rememberedUserData', encryptedData);
-      localStorage.rememberMe = isChecked.toString();
+      if (isChecked && email !== '' && key) {
+        const userData = { email: email, password: password };
+        const encryptedData = await encryptData(userData, key);
+        localStorage.setItem('rememberedUserData', encryptedData);
+        localStorage.rememberMe = isChecked.toString();
+      }
+
+      if (!isChecked) {
+        localStorage.removeItem('rememberedUserData');
+        localStorage.removeItem('rememberMe');
+      }
+
+      const signInCredentials = {
+        email,
+        password,
+      };
+
+      const response = await login(signInCredentials);
+      const { code, message } = response.payload as CredentialSignInResponse;
+
+      if (response.meta.requestStatus === 'rejected') {
+        setOpenToast(true);
+        return;
+      }
+      if (code && message && code === 201 && message === 'User sign-in success') {
+        setOpenToast(true); // уточнити необхідність появи цього тоста - при реєстрації нормально, при вході вже зареєстрованого user -?
+      }
+    } catch (error) {
+      console.error('Error during signIn:', error);
     }
 
-    if (!isChecked) {
-      localStorage.removeItem('rememberedUserData');
-      localStorage.removeItem('rememberMe');
-    }
-
-    const signInCredentials = {
-      email,
-      password,
-    };
-
-    const response = await login(signInCredentials);
-    const payload = response.payload as CredentialSignInResponse;
-    const { message } = payload;
-
-    if (
-      payload &&
-      response.meta.requestStatus === 'fulfilled' &&
-      message === 'User sign-in success'
-    ) {
-      console.log('response.payload.message', message);
-      setOpenToast(true);
-    }
-
-    if (
-      response.meta.requestStatus &&
-      response.meta.requestStatus === 'rejected' &&
-      response.payload === 'User is not authentified'
-    ) {
-      setOpenToast(true);
-      return;
-    }
     reset({
       ...getValues,
       email: '',
