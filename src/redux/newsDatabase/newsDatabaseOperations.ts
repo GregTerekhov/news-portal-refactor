@@ -1,5 +1,3 @@
-import { createAsyncThunk } from '@reduxjs/toolkit';
-
 import {
   DeleteNewsResponse,
   HistoryLogResponse,
@@ -7,9 +5,9 @@ import {
   SavedNewsResponse,
 } from 'types';
 
-import { axiosInstance } from '../services';
+import { axiosInstance, createAppAsyncThunk } from '../services';
 
-export const fetchAllNews = createAsyncThunk<SavedNewsResponse>(
+export const fetchAllNews = createAppAsyncThunk<SavedNewsResponse>(
   'newsDB/all',
   async (_, { rejectWithValue }: any) => {
     try {
@@ -23,7 +21,7 @@ export const fetchAllNews = createAsyncThunk<SavedNewsResponse>(
   },
 );
 
-export const addNews = createAsyncThunk<SavedNewsResponse, PartialVotedNewsArray>(
+export const addNews = createAppAsyncThunk<SavedNewsResponse, PartialVotedNewsArray>(
   'newsDB/add',
   async (updatedData, { rejectWithValue }: any) => {
     console.log('updatedData', updatedData);
@@ -39,7 +37,7 @@ export const addNews = createAsyncThunk<SavedNewsResponse, PartialVotedNewsArray
   },
 );
 
-export const deleteNews = createAsyncThunk<DeleteNewsResponse, string>(
+export const deleteNews = createAppAsyncThunk<DeleteNewsResponse, string>(
   'newsDB/delete',
   async (id, { rejectWithValue }: any) => {
     console.log('deletedId: ', id);
@@ -54,7 +52,7 @@ export const deleteNews = createAsyncThunk<DeleteNewsResponse, string>(
   },
 );
 
-export const fetchFavourites = createAsyncThunk<SavedNewsResponse>(
+export const fetchFavourites = createAppAsyncThunk<SavedNewsResponse>(
   'favourite/all',
   async (_, { rejectWithValue }: any) => {
     try {
@@ -68,7 +66,7 @@ export const fetchFavourites = createAsyncThunk<SavedNewsResponse>(
   },
 );
 
-export const fetchRead = createAsyncThunk<SavedNewsResponse>(
+export const fetchRead = createAppAsyncThunk<SavedNewsResponse>(
   'read/all',
   async (_, { rejectWithValue }: any) => {
     try {
@@ -81,7 +79,7 @@ export const fetchRead = createAsyncThunk<SavedNewsResponse>(
   },
 );
 
-export const fetchArchivedNews = createAsyncThunk<SavedNewsResponse>(
+export const fetchArchivedNews = createAppAsyncThunk<SavedNewsResponse>(
   'archive/all',
   async (_, { rejectWithValue }: any) => {
     try {
@@ -94,7 +92,7 @@ export const fetchArchivedNews = createAsyncThunk<SavedNewsResponse>(
   },
 );
 
-export const fetchHistoryLog = createAsyncThunk<HistoryLogResponse>(
+export const fetchHistoryLog = createAppAsyncThunk<HistoryLogResponse>(
   'history/log',
   async (_, { rejectWithValue }: any) => {
     try {

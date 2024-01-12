@@ -1,22 +1,22 @@
 import * as yup from 'yup';
 
-import { createEmailValidation, createPasswordValidation } from 'helpers';
+import { createEmailValidation, createPasswordValidation } from 'helpers'; // мемоїзовані функції схеми
 
 export const signUpSchema = yup.object({
   name: yup.string().min(3).max(20).required('Name is required'),
-  email: createEmailValidation(), // мемоїзована функція схеми
-  password: createPasswordValidation(), // мемоїзована функція схеми
+  email: createEmailValidation(),
+  password: createPasswordValidation(),
 });
 export const signInSchema = yup.object({
-  email: createEmailValidation(), // мемоїзована функція схеми
-  password: createPasswordValidation(), // мемоїзована функція схеми
+  email: createEmailValidation(),
+  password: createPasswordValidation(),
 });
 export const recoveryPasswordSchema = yup.object({
-  email: createEmailValidation(), // мемоїзована функція схеми
+  email: createEmailValidation(),
 });
 
 export const changePasswordSchema = yup.object({
-  newPassword: createPasswordValidation(), // мемоїзована функція схеми
+  newPassword: createPasswordValidation(),
   confirmPassword: yup
     .string()
     .required('Confirm password is required')

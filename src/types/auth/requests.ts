@@ -1,4 +1,4 @@
-type ThemeValue = 'light' | 'dark';
+export type ThemeValue = 'light' | 'dark';
 
 type MainCredentials = {
   name: string;
@@ -15,6 +15,10 @@ export type UpdatePasswordRequest = {
   password: string;
   newPassword: string;
 };
+
+export interface IThirdPartyAuth {
+  tokenAuth: string | null;
+}
 
 export type SignUpRequest = Required<MainCredentials>;
 export type AuthRequestWithoutName = Required<Omit<MainCredentials, 'name'>>;
