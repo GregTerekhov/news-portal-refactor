@@ -2,27 +2,31 @@ import React, { FC } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useGoogleLogin } from '@react-oauth/google';
 
+import { useAuthRedux } from 'reduxStore/hooks';
+
 import { useWindowWidth } from 'contexts';
 import { useActiveLinks } from 'hooks';
 
 import { PrimaryButton } from 'ui';
-import { useFacebookLogin } from './hooks';
 import { VariantButton } from 'ui/PrimaryButton/PrimaryButton';
+
+import { useFacebookLogin } from './hooks';
 
 const LinkedAccounts: FC<{}> = () => {
   const { breakpointsForMarkup } = useWindowWidth() ?? {
     breakpointsForMarkup: null,
   };
+  const { haveAccounts } = useAuthRedux();
   const location = useLocation();
   const { isManageAccountPage } = useActiveLinks(location);
+
   const { handleFacebookLogin, isLoading } = useFacebookLogin();
 
   const googleLogin = useGoogleLogin({
     onSuccess: (codeResponse) => console.log('codeResponse', codeResponse),
-    // flow: 'auth-code',
   });
 
-  const hasConnectedAccount = false;
+  const hasConnectedAccount = haveAccounts.google || haveAccounts.facebook || haveAccounts.apple;
   const isMobile = breakpointsForMarkup?.isNothing || breakpointsForMarkup?.isMobile;
 
   const accountButtons = [
@@ -53,8 +57,9 @@ const LinkedAccounts: FC<{}> = () => {
             Connected accounts
           </h3>
           <p className='text-darkBase text-small lg:text-medium leading-normal dark:text-whiteBase after:content=[""] after:block after:mt-3 after:w-full after:h-px after:bg-greyAlt after:dark:bg-whiteBase mb-2 md:mb-4'>
-            Connect your News account to Google, Facebook, or Apple to log in using this account. We
-            will never send messages to your contacts without your permission.
+            You can connect or disconnect your News account to Google, Facebook, or Apple to log in
+            using this account. We will never send messages to your contacts without your
+            permission.
           </p>
         </>
       ) : null}

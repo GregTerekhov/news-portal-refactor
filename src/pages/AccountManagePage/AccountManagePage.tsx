@@ -1,10 +1,20 @@
 import React, { FC } from 'react';
 
+import { useAuthRedux } from 'reduxStore/hooks';
+
+import { useNotification } from 'contexts';
+import { useToast } from 'hooks';
+
 import { LinkedAccounts } from 'components';
 
 import { UpdateEmail, UpdatePassword } from './subcomponents';
+import { Notification } from 'ui';
 
 const AccountManagePage: FC<{}> = () => {
+  const { authError } = useAuthRedux();
+  const { openToast, setOpenToast } = useNotification();
+  const { showErrorToast } = useToast();
+
   return (
     <div>
       <h2 className='text-darkBase dark:text-whiteBase text-3xl leading-tighter text-end mb-14'>
@@ -17,6 +27,12 @@ const AccountManagePage: FC<{}> = () => {
           <LinkedAccounts />
         </div>
       </div>
+      <Notification
+        openToast={openToast}
+        setOpenToast={setOpenToast}
+        title={authError && authError.message ? 'Authorisation error' : 'Update credentials'}
+        description={authError && authError.message ? showErrorToast() : ''}
+      />
     </div>
   );
 };

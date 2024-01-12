@@ -3,15 +3,9 @@ import { NavLink } from 'react-router-dom';
 
 import SvgIcon from '../../SvgIcon';
 
-import { MenuItem } from '../assistants';
+import { IMenuProps } from '../types';
 
-interface MobileMenuProps {
-  navId: string;
-  links: MenuItem[];
-  handleLinkClick: () => void;
-}
-
-const MobileMenu: FC<MobileMenuProps> = ({ navId, links, handleLinkClick }) => {
+const MobileMenu: FC<IMenuProps> = ({ navId, links, handleLinkClick }) => {
   return (
     <nav id={navId}>
       <ul

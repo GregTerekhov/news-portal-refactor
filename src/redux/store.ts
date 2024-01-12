@@ -4,15 +4,16 @@ import {
   PAUSE,
   PERSIST,
   PURGE,
-  Persistor,
   REGISTER,
   REHYDRATE,
+  Persistor,
   persistReducer,
   persistStore,
 } from 'redux-persist';
 import { ThunkDispatch } from 'redux-thunk';
 import storage from 'redux-persist/lib/storage';
 
+import nonSerializableMiddleware from './middleware';
 import { authReducer, filtersReducer, APIReducer, DBReducer, weatherReducer } from './reducers';
 
 const middleware = (getDefaultMiddleware: any) =>
@@ -20,7 +21,7 @@ const middleware = (getDefaultMiddleware: any) =>
     serializableCheck: {
       ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
     },
-  });
+  }).concat(nonSerializableMiddleware);
 
 const persistConfig = {
   key: 'root',

@@ -4,20 +4,28 @@ import { useLocation } from 'react-router-dom';
 import { useAuthRedux, useDB, useNewsAPI, useFiltersAction } from 'reduxStore/hooks';
 
 import { useNotification } from 'contexts';
-import { useActiveLinks, useChooseRenderingNews } from 'hooks';
+import { useActiveLinks, useChooseRenderingNews, useToast } from 'hooks';
 
 import { NewsList } from 'components';
 import { Loader, Notification, PlugImage } from 'ui';
 
-import { Pagination, TooManyRequests } from './subcomponents';
 import { usePagination } from './hooks';
-import useNewsAPICollector from 'reduxStore/hooks/useNewsAPICollector';
+import { Pagination, TooManyRequests } from './subcomponents';
 
 const HomePage: FC = () => {
-  const { isLoadingAPIData, headline, fetchPopular } = useNewsAPI();
+  const {
+    isLoadingAPIData,
+    headline,
+    errorAPI,
+    newsByCategory,
+    newsByDate,
+    newsByKeyword,
+    fetchPopular,
+  } = useNewsAPI();
   const { isLoadingDBData, getSavedNews } = useDB();
-  const { isAuthenticated } = useAuthRedux();
+  const { isAuthenticated, authError } = useAuthRedux();
   const { openToast, setOpenToast } = useNotification();
+  const { showErrorToast } = useToast();
 
   const location = useLocation();
   const activeLinks = useActiveLinks(location);
@@ -27,39 +35,37 @@ const HomePage: FC = () => {
   const { currentItems, currentPage, pageNumbers, setCurrentPage } = usePagination(
     rebuildedNews ?? [],
   );
-  const { errorAPI, newsByDate, newsByKeyword, newsByCategory } = useNewsAPICollector();
 
   const tooManyReq = errorAPI?.toString().includes('429');
 
   useEffect(() => {
     fetchPopular('1');
-    if (isAuthenticated) {
-      getSavedNews();
-    }
+    if (isAuthenticated) getSavedNews();
   }, [fetchPopular, getSavedNews, isAuthenticated]);
 
-  //эффект для временного вывода результата поиска в консоли. Тостик временно не работает
   useEffect(() => {
-    const byDate = newsByDate.length > 0;
-    const byKeyword = newsByKeyword.length > 0;
-    const byCategories = newsByCategory.length > 0;
+    if (newsByKeyword || newsByCategory || newsByDate) setOpenToast(true);
+  }, [newsByKeyword, newsByCategory, newsByDate]);
 
-    if (byDate || byKeyword || byCategories) {
-      console.log(`There are ${rebuildedNews.length} news has been found`);
-    }
-  }, [newsByDate, newsByKeyword, newsByCategory]);
-
+  const showLoader =
+    isLoadingAPIData ||
+    (isLoadingDBData && rebuildedNews && currentItems?.length === 0) ||
+    hasResults === 'loading';
+  const showPlugImage = (rebuildedNews && rebuildedNews.length === 0) || hasResults === 'empty';
+  const additionalRequests =
+    (newsByKeyword && newsByKeyword.length > 0) ||
+    (newsByCategory && newsByCategory.length > 0) ||
+    (newsByDate && newsByDate.length > 0);
+  const showToastResults = !showLoader && additionalRequests;
   return (
-    <div>
-      {isLoadingAPIData ||
-      (isLoadingDBData && rebuildedNews && currentItems?.length === 0) ||
-      hasResults === 'loading' ? (
+    <>
+      {showLoader ? (
         <Loader variant='generalSection' />
       ) : tooManyReq ? (
         <TooManyRequests />
       ) : (
         <>
-          {(rebuildedNews && rebuildedNews.length === 0) || hasResults === 'empty' ? (
+          {showPlugImage ? (
             <PlugImage variant='page' />
           ) : (
             <>
@@ -76,25 +82,24 @@ const HomePage: FC = () => {
           )}
         </>
       )}
-      {isAuthenticated && (
+      {authError && authError.message && (
         <Notification
-          variant='non-interactive'
           openToast={openToast}
           setOpenToast={setOpenToast}
-          title='Welcome'
-          description='Welcome to New York Times News Viewer'
+          title={`${authError?.message && 'Authorisation error'}`}
+          description={authError.message ? showErrorToast() : ''}
         />
       )}
-      {/* {newsByDate.length > 0 && (
+      {showToastResults && (
         <Notification
           variant='non-interactive'
           openToast={openToast}
           setOpenToast={setOpenToast}
-          title='Search by Date'
-          description={`There are ${newsByDate.length} news has been found`}
+          title='Found news'
+          description={`There are ${rebuildedNews.length} news has been found`}
         />
-      )} */}
-    </div>
+      )}
+    </>
   );
 };
 

@@ -7,4 +7,5 @@ export { default as useFilterNews } from './useFilterNews';
 export { default as useHeaderStyles } from './useHeaderStyles';
 export { default as useReadNewsContent } from './useReadNewsContent';
 export { default as usePopUp } from './usePopUp';
+export { default as useToast } from './useToast';
 export * from './commonTypes';

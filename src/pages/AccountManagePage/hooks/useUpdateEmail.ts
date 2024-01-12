@@ -31,11 +31,19 @@ const useUpdateEmail = () => {
   const [email, password] = watch(['email', 'password']);
 
   const handleEmailSubmitHandler: SubmitHandler<AuthRequestWithoutName> = async (data) => {
-    const response = await updateEmail(data);
-    const { message } = response.payload as UpdateCredentialsResponse;
+    try {
+      const response = await updateEmail(data);
+      const { code, message } = response.payload as UpdateCredentialsResponse;
 
-    if (message && message === 'Email is successfully updated"') {
-      setOpenToast(true);
+      if (response.meta.requestStatus === 'rejected') {
+        setOpenToast(true);
+      }
+
+      if (code && code === 200 && message && message === 'Email is successfully updated') {
+        setOpenToast(true);
+      }
+    } catch (error) {
+      console.error('Error during updateEmail:', error);
     }
     reset({
       ...getValues,

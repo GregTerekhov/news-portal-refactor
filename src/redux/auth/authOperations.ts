@@ -35,7 +35,7 @@ export const signUp = createAsyncThunk<CredentialSignUpResponse, SignUpRequest>(
       return response.data;
     } catch (error: any) {
       console.log('error', error.response);
-      return rejectWithValue(error.response.data.message);
+      return rejectWithValue(error.response);
     }
   },
 );
@@ -52,8 +52,8 @@ export const signIn = createAsyncThunk<CredentialSignInResponse, AuthRequestWith
       console.log('SignInResponse', response.data);
       return response.data;
     } catch (error: any) {
-      console.log('Error signIn', error.response.data);
-      return rejectWithValue(error.response.data);
+      console.log('Error signIn', error.response);
+      return rejectWithValue(error.response);
     }
   },
 );
@@ -98,8 +98,8 @@ export const updateUserEmail = createAsyncThunk<UpdateCredentialsResponse, AuthR
       console.log('UpdateCredentialsResponse', response.data);
       return response.data;
     } catch (error: any) {
-      console.log('Error updateEmail', error.response.data);
-      return rejectWithValue(error.response.data);
+      console.log('Error updateEmail', error);
+      return rejectWithValue(error.response);
     }
   },
 );
@@ -115,8 +115,8 @@ export const updateUserPassword = createAsyncThunk<UpdatePasswordResponse, Updat
       console.log('UpdatePasswordResponse', response.data);
       return response.data;
     } catch (error: any) {
-      console.log('Error updatePassword', error.response.data);
-      return rejectWithValue(error.response.data);
+      console.log('Error updatePassword', error.response);
+      return rejectWithValue(error.response);
     }
   },
 );

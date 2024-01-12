@@ -1,15 +1,9 @@
 import { ActiveLinks } from 'hooks';
+import { MenuItem } from '../types';
 
 type MenuItemProps = {
   activeLinks: ActiveLinks;
   navId: string;
-};
-
-export type MenuItem = {
-  path: string;
-  label: string;
-  icon: string;
-  activeLink: boolean;
 };
 
 export const renderMenuItem = ({ activeLinks, navId }: MenuItemProps): MenuItem[] => {
