@@ -31,6 +31,10 @@ interface AuthState {
     facebook: boolean;
     apple: boolean;
   };
+  hasUserDataChanged: {
+    code: number | null;
+    message: string;
+  };
 }
 
 type Theme = { updatedTheme: string };
@@ -51,6 +55,10 @@ const initialState: AuthState = {
     google: false,
     facebook: false,
     apple: false,
+  },
+  hasUserDataChanged: {
+    code: null,
+    message: '',
   },
 };
 
@@ -162,6 +170,8 @@ const authSlice = createSlice({
       })
       .addCase(authOperations.updateUserEmail.fulfilled, (state, action) => {
         state.user.email = action.payload.newEmail;
+        state.hasUserDataChanged.code = action.payload.code;
+        state.hasUserDataChanged.message = action.payload.message;
         state.isCurrentUser = false;
         state.hasError = null;
       })

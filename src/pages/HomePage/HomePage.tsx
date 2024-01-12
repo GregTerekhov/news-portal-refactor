@@ -1,4 +1,4 @@
-import React, { FC, useEffect } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 
 import { useAuthRedux, useDB, useNewsAPI, useFiltersAction } from 'reduxStore/hooks';
@@ -18,6 +18,8 @@ const HomePage: FC = () => {
   const { isLoadingDBData, getSavedNews } = useDB();
   const { isAuthenticated } = useAuthRedux();
   const { openToast, setOpenToast } = useNotification();
+
+  const [openSearchToast, setOpenSearchToast] = useState<boolean>(false);
 
   const location = useLocation();
   const activeLinks = useActiveLinks(location);
@@ -45,9 +47,13 @@ const HomePage: FC = () => {
     const byCategories = newsByCategory.length > 0;
 
     if (byDate || byKeyword || byCategories) {
-      console.log(`There are ${rebuildedNews.length} news has been found`);
+      setOpenSearchToast(true);
     }
   }, [newsByDate, newsByKeyword, newsByCategory]);
+
+  const byDate = newsByDate.length > 0;
+  const byKeyword = newsByKeyword.length > 0;
+  const byCategories = newsByCategory.length > 0;
 
   return (
     <div>
@@ -85,15 +91,15 @@ const HomePage: FC = () => {
           description='Welcome to New York Times News Viewer'
         />
       )}
-      {/* {newsByDate.length > 0 && (
+      {(byDate || byKeyword || byCategories) && (
         <Notification
           variant='non-interactive'
-          openToast={openToast}
-          setOpenToast={setOpenToast}
-          title='Search by Date'
-          description={`There are ${newsByDate.length} news has been found`}
+          openToast={openSearchToast}
+          setOpenToast={setOpenSearchToast}
+          title='Search'
+          description={`There are ${rebuildedNews.length} news has been found`}
         />
-      )} */}
+      )}
     </div>
   );
 };

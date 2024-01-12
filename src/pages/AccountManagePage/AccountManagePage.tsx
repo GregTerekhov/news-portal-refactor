@@ -1,10 +1,23 @@
-import React, { FC } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 
 import { LinkedAccounts } from 'components';
 
 import { UpdateEmail, UpdatePassword } from './subcomponents';
+import { useAppSelector } from 'reduxStore/hooks';
+import { selectAnyDataChange } from 'reduxStore/auth';
+import Notification from 'ui/Notification';
 
 const AccountManagePage: FC<{}> = () => {
+  const userSel = useAppSelector(selectAnyDataChange);
+
+  const [openDataChangeToast, setOpenDataChangeToast] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (userSel.code === 200) {
+      setOpenDataChangeToast(true);
+    }
+  }, [userSel]);
+
   return (
     <div>
       <h2 className='text-darkBase dark:text-whiteBase text-3xl leading-tighter text-end mb-14'>
@@ -17,6 +30,13 @@ const AccountManagePage: FC<{}> = () => {
           <LinkedAccounts />
         </div>
       </div>
+      <Notification
+        variant='interactive'
+        openToast={openDataChangeToast}
+        setOpenToast={setOpenDataChangeToast}
+        title='User data changed'
+        description={`${userSel.message}`}
+      />
     </div>
   );
 };
