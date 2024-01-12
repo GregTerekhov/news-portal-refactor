@@ -108,7 +108,7 @@ const UnverifiableInput: FC<InputProps> = ({
           </div>
         )}
         <input
-          className={` ${currentStyles.inputGeometry} transition-colors duration-500 font-header border-solid border rounded-3xl outline-0 focus:outline-0 text-small leading-mediumRelaxed tracking-bigWide md:text-base md:leading-moreRelaxed md:tracking-wide ${currentStyles.placeholderColor} ${currentStyles.inputBorder} ${currentStyles.inputBg} ${currentStyles.caretColor} ${currentStyles} ${currentStyles.checkboxStyles}`}
+          className={` ${currentStyles.inputGeometry} transition-colors duration-500 font-header border-solid border rounded-3xl outline-0 focus:outline-0 text-small leading-mediumRelaxed tracking-bigWide md:text-base md:leading-moreRelaxed md:tracking-wide ${currentStyles.placeholderColor} ${currentStyles.inputBorder} ${currentStyles.inputBg} ${currentStyles.caretColor} ${currentStyles.textColor} ${currentStyles.checkboxStyles}`}
           id={name}
           name={name}
           type={type}
