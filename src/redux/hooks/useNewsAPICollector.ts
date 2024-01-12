@@ -3,7 +3,7 @@ import { useCallback } from 'react';
 import { useAppDispatch, useAppSelector } from 'reduxStore/hooks/hooks';
 import * as newsAPI from 'reduxStore/newsAPI';
 
-import { SelectedDate } from '../../hooks/useAdditionalRequest';
+import { PopularRequest, KeywordRequest, CategoryRequest, DateRequest } from 'types';
 
 const useNewsAPICollector = () => {
   const isLoadingAPIData = useAppSelector(newsAPI.selectLoading);
@@ -18,19 +18,19 @@ const useNewsAPICollector = () => {
   const dispatch = useAppDispatch();
 
   const fetchPopular = useCallback(
-    (period: string) => dispatch(newsAPI.fetchPopularNews(period)),
+    (period: PopularRequest) => dispatch(newsAPI.fetchPopularNews(period)),
     [dispatch],
   );
   const fetchByKeyword = useCallback(
-    (query: string) => dispatch(newsAPI.fetchNewsByKeyword(query)),
+    (query: KeywordRequest) => dispatch(newsAPI.fetchNewsByKeyword(query)),
     [dispatch],
   );
   const fetchByDate = useCallback(
-    (date: SelectedDate) => dispatch(newsAPI.fetchNewsByDate(date)),
+    (date: DateRequest) => dispatch(newsAPI.fetchNewsByDate(date)),
     [dispatch],
   );
   const fetchByCategory = useCallback(
-    (section: string) => dispatch(newsAPI.fetchNewsByCategory(section)),
+    (section: CategoryRequest) => dispatch(newsAPI.fetchNewsByCategory(section)),
     [dispatch],
   );
   const fetchCategoriesList = useCallback(() => dispatch(newsAPI.fetchAllCategories()), [dispatch]);

@@ -3,10 +3,7 @@ import { useState } from 'react';
 import { useNewsAPI, useFiltersAction } from 'reduxStore/hooks';
 
 import { useSelectedDate } from 'contexts';
-export interface SelectedDate {
-  beginDate: string | null;
-  endDate: string | null;
-}
+import { CategoryRequest } from 'types';
 
 const useAdditionalRequest = () => {
   const [query, setQuery] = useState<string>('');
@@ -65,7 +62,7 @@ const useAdditionalRequest = () => {
     }
   };
 
-  const getNewsByCategory = async (section: string) => {
+  const getNewsByCategory = async (section: CategoryRequest) => {
     if (section) {
       setCategory(section);
 
