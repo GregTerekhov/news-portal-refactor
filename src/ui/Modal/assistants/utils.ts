@@ -1,4 +1,4 @@
-import { VariantModals } from '../Modal';
+import { VariantModals } from 'types';
 
 type Styles = {
   [key: string]: {

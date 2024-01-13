@@ -1,7 +1,8 @@
 import React, { FC } from 'react';
 
+import { VariantButton } from 'types';
+
 import { PrimaryButton } from 'ui';
-import { VariantButton } from 'ui/PrimaryButton/PrimaryButton';
 
 interface DeleteNewsButtonProps {
   handleDeleteNews: (

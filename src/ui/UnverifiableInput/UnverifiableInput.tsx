@@ -1,10 +1,12 @@
 import React, { ReactNode, FC } from 'react';
 import { useLocation } from 'react-router-dom';
 
+import { VariantInputs } from 'types';
 import { useWindowWidth } from 'contexts';
 import { useHeaderStyles, useActiveLinks } from 'hooks';
 
 import SvgIcon from '../SvgIcon';
+
 import { generateInputStyles } from './assistants';
 
 interface InputCollectedData {
@@ -13,12 +15,6 @@ interface InputCollectedData {
   placeholder: string;
   value: string;
   children: ReactNode;
-}
-
-export enum VariantInputs {
-  Header = 'header',
-  FilterServiceBlock = 'filterServiceBlock',
-  Checkbox = 'checkbox',
 }
 
 interface InputProps {

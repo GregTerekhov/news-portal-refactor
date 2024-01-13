@@ -1,11 +1,11 @@
 import React, { FC } from 'react';
 import { useLocation } from 'react-router-dom';
 
+import { VariantInputs } from 'types';
 import { useFiltersState } from 'contexts';
 import { useActiveLinks, useFilterNews } from 'hooks';
 
 import { UnverifiableInput } from 'ui';
-import { VariantInputs } from 'ui/UnverifiableInput/UnverifiableInput';
 
 const FilterInputs: FC = () => {
   const location = useLocation();

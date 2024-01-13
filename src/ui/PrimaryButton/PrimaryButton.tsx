@@ -1,25 +1,13 @@
-import React, { ButtonHTMLAttributes, HTMLProps, ReactNode, forwardRef } from 'react';
+import React, { ButtonHTMLAttributes, ReactNode, forwardRef } from 'react';
+
+import { ClickHandler, VariantButton } from 'types';
 
 import SvgIcon from '../SvgIcon';
 import { generateButtonStyles } from './assistants';
 
-export type ButtonProps = HTMLProps<HTMLButtonElement>;
-
-export type PrimaryButtonType = {
+type PrimaryButtonType = {
   type: 'button' | 'submit' | 'reset';
 };
-
-export type ClickHandler =
-  | ((() => void) | undefined)
-  | ((event: React.FormEvent) => void)
-  | (() => Promise<void>)
-  | ((e: React.MouseEvent<HTMLButtonElement>) => void);
-
-export enum VariantButton {
-  Primary = 'Primary',
-  Other = 'OtherButton',
-  Small = 'Small',
-}
 
 interface PBProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   buttonData?: PrimaryButtonType;
@@ -62,7 +50,6 @@ const PrimaryButton = forwardRef<
     const { type } = buttonData ?? { type: 'button' };
     const styles = generateButtonStyles({ disabled, width });
     const currentStyles = styles[variant];
-    // const width = props.width ?? 'w-10';
 
     return (
       <button

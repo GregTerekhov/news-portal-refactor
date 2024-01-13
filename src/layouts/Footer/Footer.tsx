@@ -2,8 +2,9 @@ import React, { FC } from 'react';
 
 import { useAuthRedux } from 'reduxStore/hooks';
 
+import { VariantSwitcher } from 'types';
+
 import { ThemeSwitcher } from 'ui';
-import { VariantSwitcher } from 'ui/ThemeSwitcher/ThemeSwitcher';
 
 import { FooterMenu, SocialLinks } from './subcomponents';
 

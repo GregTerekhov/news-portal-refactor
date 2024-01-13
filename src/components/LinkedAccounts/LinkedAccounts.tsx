@@ -4,11 +4,11 @@ import { useGoogleLogin } from '@react-oauth/google';
 
 import { useAuthRedux } from 'reduxStore/hooks';
 
+import { VariantButton } from 'types';
 import { useWindowWidth } from 'contexts';
 import { useActiveLinks } from 'hooks';
 
 import { PrimaryButton } from 'ui';
-import { VariantButton } from 'ui/PrimaryButton/PrimaryButton';
 
 import { useFacebookLogin } from './hooks';
 

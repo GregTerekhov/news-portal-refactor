@@ -1,4 +1,4 @@
-import { VariantSwitcher } from '../ThemeSwitcher';
+import { VariantSwitcher } from 'types';
 
 type SwitcherStylesProps = {
   isHomeActive?: boolean | undefined;

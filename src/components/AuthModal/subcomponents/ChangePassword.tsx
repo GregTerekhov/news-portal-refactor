@@ -1,11 +1,10 @@
 import React, { FC } from 'react';
 
+import { VariantButton, VariantSwitcher, VariantVerifiableInputs } from 'types';
+
 import { PrimaryButton, ThemeSwitcher, VerifiableInput } from 'ui';
 
 import { useForgotPassword } from '../hooks';
-import { VariantSwitcher } from 'ui/ThemeSwitcher/ThemeSwitcher';
-import { VariantVerifiableInputs } from 'ui/VerifiableInput/VerifiableInput';
-import { VariantButton } from 'ui/PrimaryButton/PrimaryButton';
 
 const ChangePassword: FC = () => {
   const {

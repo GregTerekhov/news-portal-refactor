@@ -2,11 +2,11 @@ import React, { FC } from 'react';
 
 import { useAuthRedux } from 'reduxStore/hooks';
 
+import { VariantButton, VariantVerifiableInputs } from 'types';
+
 import { Accordeon, PrimaryButton, VerifiableInput } from 'ui';
 
 import { useUpdateEmail } from '../hooks';
-import { VariantVerifiableInputs } from 'ui/VerifiableInput/VerifiableInput';
-import { VariantButton } from 'ui/PrimaryButton/PrimaryButton';
 
 const UpdateEmail: FC<{}> = ({}) => {
   const { isRefreshingUser } = useAuthRedux();

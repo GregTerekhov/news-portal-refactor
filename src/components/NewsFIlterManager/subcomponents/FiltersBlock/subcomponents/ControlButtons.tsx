@@ -1,11 +1,12 @@
 import React, { FC } from 'react';
 import { useLocation } from 'react-router-dom';
 
+import { ClickHandler, VariantButton } from 'types';
+
 import { useWindowWidth } from 'contexts';
 import { useActiveLinks, useFilterNews } from 'hooks';
 
 import { PrimaryButton } from 'ui';
-import { ClickHandler, VariantButton } from 'ui/PrimaryButton/PrimaryButton';
 
 type ButtonType = 'submit' | 'reset' | 'button';
 

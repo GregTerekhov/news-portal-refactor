@@ -7,6 +7,7 @@ import { UseFormRegister } from 'react-hook-form';
 //   IUpdatePassword,
 //   RecoveryPasswordRequest,
 // } from 'types';
+import { InputLabel, VariantVerifiableInputs } from 'types';
 
 import SvgIcon from '../SvgIcon';
 
@@ -20,18 +21,6 @@ interface InputCollectedData {
 }
 
 type AriaInvalid = boolean | 'false' | 'true' | 'grammar' | 'spelling' | undefined;
-export type InputLabel =
-  | 'name'
-  | 'email'
-  | 'password'
-  | 'newPassword'
-  | 'confirmPassword'
-  | 'recoveryEmail';
-
-export enum VariantVerifiableInputs {
-  Auth = 'auth',
-  Account = 'accountPage',
-}
 
 // type Values = IUpdatePassword | SignUpRequest | AuthRequestWithoutName | RecoveryPasswordRequest;
 

@@ -1,13 +1,11 @@
 import React, { FC } from 'react';
 
+import { VariantButton, VariantInputs, VariantSwitcher, VariantVerifiableInputs } from 'types';
+
 import { PrimaryButton, ThemeSwitcher, UnverifiableInput, VerifiableInput } from 'ui';
 import LinkedAccounts from '../../LinkedAccounts/LinkedAccounts';
 
 import { useForgotPassword, useSignIn } from '../hooks';
-import { VariantSwitcher } from 'ui/ThemeSwitcher/ThemeSwitcher';
-import { VariantInputs } from 'ui/UnverifiableInput/UnverifiableInput';
-import { VariantVerifiableInputs } from 'ui/VerifiableInput/VerifiableInput';
-import { VariantButton } from 'ui/PrimaryButton/PrimaryButton';
 
 interface SignInProps {
   handleShowRecoveryInput: () => void;

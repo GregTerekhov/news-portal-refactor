@@ -2,18 +2,13 @@ import React, { FC } from 'react';
 import { useLocation } from 'react-router-dom';
 import { Switch } from '@headlessui/react';
 
+import { VariantSwitcher } from 'types';
 import { useTheme, useWindowWidth } from 'contexts';
 import { useActiveLinks, useHeaderStyles } from 'hooks';
 
 import SvgIcon from '../SvgIcon';
 
 import { generateSwitcherStyles } from './assistants';
-
-export enum VariantSwitcher {
-  Modal = 'modal',
-  Header = 'header',
-  Footer = 'footer',
-}
 
 const ThemeSwitcher: FC<{ variant: VariantSwitcher }> = ({ variant }) => {
   const { breakpointsForMarkup } = useWindowWidth() ?? {

@@ -3,12 +3,12 @@ import { useNavigate } from 'react-router-dom';
 
 import { useAuthRedux } from 'reduxStore/hooks';
 
+import { VariantButton } from 'types';
 import { errorImages } from 'constants/images';
 import { generateContentImages } from 'helpers';
 import { useCacheImage } from 'hooks';
 
 import { PrimaryButton } from 'ui';
-import { VariantButton } from 'ui/PrimaryButton/PrimaryButton';
 
 const ErrorPage: FC<{}> = () => {
   const devicePixelRatio = window.devicePixelRatio || 1;

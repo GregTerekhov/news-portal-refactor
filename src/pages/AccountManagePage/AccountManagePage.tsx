@@ -15,8 +15,6 @@ const AccountManagePage: FC<{}> = () => {
   const { openToast, setOpenToast } = useNotification();
   const { showErrorToast } = useToast();
 
-  console.log('statusMessage', statusMessage);
-
   return (
     <div>
       <h2 className='text-darkBase dark:text-whiteBase text-3xl leading-tighter text-end mb-14'>
@@ -32,8 +30,8 @@ const AccountManagePage: FC<{}> = () => {
       <Notification
         openToast={openToast}
         setOpenToast={setOpenToast}
-        title={authError && authError.message ? 'Authorisation error' : 'Update credentials'}
-        description={authError && authError.message ? showErrorToast() : statusMessage}
+        title={authError?.message ? 'Authorisation error' : 'Update credentials'}
+        description={authError?.message ? showErrorToast() : statusMessage}
       />
     </div>
   );

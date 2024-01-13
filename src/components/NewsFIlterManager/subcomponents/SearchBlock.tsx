@@ -1,13 +1,12 @@
 import React, { FC } from 'react';
 
+import { VariantButton, VariantInputs } from 'types';
 import { useWindowWidth } from 'contexts';
 import { useAdditionalRequest } from 'hooks';
 
 import { Dropdown, PrimaryButton, UnverifiableInput } from 'ui';
 
 import Calendar from './Calendar/Calendar';
-import { VariantInputs } from 'ui/UnverifiableInput/UnverifiableInput';
-import { VariantButton } from 'ui/PrimaryButton/PrimaryButton';
 
 const SearchBlock: FC<{}> = () => {
   const { breakpointsForMarkup } = useWindowWidth() ?? {
@@ -20,8 +19,7 @@ const SearchBlock: FC<{}> = () => {
     showPopular,
     period,
     category,
-    setPeriod,
-    setCategory,
+    updateSearchParams,
     onChangeInput,
     onHandleSearch,
     getNewsByCategory,
@@ -57,7 +55,8 @@ const SearchBlock: FC<{}> = () => {
           labels={categoriesForDropdown || []}
           getResults={getNewsByCategory}
           selectedItem={category}
-          onSelectItem={setCategory}
+          // onSelectItem={setCategory}
+          onSelectItem={updateSearchParams}
         >
           Categories
         </Dropdown>
@@ -68,7 +67,8 @@ const SearchBlock: FC<{}> = () => {
             labels={['Today', 'Week', 'Month']}
             getResults={getNewsByPeriod}
             selectedItem={period}
-            onSelectItem={setPeriod}
+            onSelectItem={updateSearchParams}
+            // onSelectItem={setPeriod}
           >
             Time period
           </Dropdown>

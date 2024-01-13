@@ -3,6 +3,7 @@ import { createPortal } from 'react-dom';
 import FocusLock, { AutoFocusInside } from 'react-focus-lock';
 import { RemoveScroll } from 'react-remove-scroll';
 
+import { VariantModals } from 'types';
 import { usePopUp } from 'hooks';
 
 import SvgIcon from '../SvgIcon';
@@ -16,12 +17,7 @@ interface ModalProps {
   children: ReactNode;
   closeModal: CloseModalFn;
   modalRef: React.RefObject<HTMLDivElement>;
-  variant: string;
-}
-
-export enum VariantModals {
-  Auth = 'auth',
-  DeleteNews = 'deleteNews',
+  variant: VariantModals;
 }
 
 const Modal: FC<ModalProps> = ({ children, closeModal, modalRef, variant }) => {
