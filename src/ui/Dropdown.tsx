@@ -1,6 +1,8 @@
 import React, { FC, ReactNode, useState } from 'react';
 import { Menu, Transition } from '@headlessui/react';
 
+import { SearchParamsObject } from 'hooks/useAdditionalRequest';
+
 import SvgIcon from './SvgIcon';
 
 interface DropdownProps {
@@ -8,7 +10,7 @@ interface DropdownProps {
   labels: string[] | undefined;
   getResults: (value: string) => void;
   selectedItem: string;
-  onSelectItem: (item: string) => void;
+  onSelectItem: (key: keyof SearchParamsObject | 'type', value: string) => void;
 }
 
 const Dropdown: FC<DropdownProps> = ({
@@ -26,7 +28,10 @@ const Dropdown: FC<DropdownProps> = ({
 
   const handleItemClick = (item: string) => {
     if (getResults) getResults(item);
-    onSelectItem(item);
+    onSelectItem(
+      children === 'Category' ? 'category' : children === 'Time period' ? 'period' : 'type',
+      item,
+    );
     setIsOpenDropdown(false);
   };
 

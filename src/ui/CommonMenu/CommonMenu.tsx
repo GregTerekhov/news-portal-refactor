@@ -3,10 +3,11 @@ import { Link, useLocation } from 'react-router-dom';
 
 import { useAuthRedux, useFiltersAction } from 'reduxStore/hooks';
 
+import { VariantSwitcher } from 'types';
 import { useFiltersState, useWindowWidth } from 'contexts';
 import { useActiveLinks } from 'hooks';
 
-import ThemeSwitcher, { VariantSwitcher } from '../ThemeSwitcher/ThemeSwitcher';
+import ThemeSwitcher from '../ThemeSwitcher/ThemeSwitcher';
 
 import { renderMenuItem } from './assistants';
 import { MenuButtons, MobileContainer, MobileMenu, VersaMenu } from './subcomponents';

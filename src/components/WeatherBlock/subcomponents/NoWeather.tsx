@@ -1,9 +1,10 @@
 import React, { FC } from 'react';
 
+import { VariantButton } from 'types';
+
 import { PrimaryButton, SvgIcon } from 'ui';
 
 import { useWeather } from '../hooks';
-import { VariantButton } from 'ui/PrimaryButton/PrimaryButton';
 
 type NoWeatherProps = {
   showError: boolean | null | undefined;

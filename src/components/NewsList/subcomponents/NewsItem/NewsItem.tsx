@@ -3,12 +3,11 @@ import { useLocation } from 'react-router-dom';
 
 import { useAuthRedux } from 'reduxStore/hooks';
 
-import { VotedItem } from 'types';
+import { VariantModals, VotedItem } from 'types';
 
 import { useActiveLinks, usePopUp } from 'hooks';
 
 import { Modal, PlugImage, SvgIcon } from 'ui';
-import { VariantModals } from 'ui/Modal/Modal';
 
 // import { convertToWebP } from './assistants';
 import { useNews } from './hooks';

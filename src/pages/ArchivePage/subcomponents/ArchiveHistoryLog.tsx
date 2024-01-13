@@ -1,10 +1,9 @@
 import React, { FC, useState } from 'react';
 import { format } from 'date-fns';
 
-import { IHistoryLog } from 'types';
+import { IHistoryLog, VariantInputs } from 'types';
 
 import { SvgIcon, UnverifiableInput } from 'ui';
-import { VariantInputs } from 'ui/UnverifiableInput/UnverifiableInput';
 
 interface IHistoryLogProps {
   logData: IHistoryLog[];

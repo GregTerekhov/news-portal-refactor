@@ -3,6 +3,7 @@ import { Outlet, useLocation } from 'react-router-dom';
 
 import { useAuthRedux, useNewsAPI } from 'reduxStore/hooks';
 
+import { VariantSwitcher } from 'types';
 import { useNotification, useWindowWidth } from 'contexts';
 import { useActiveLinks, useChooseRenderingNews } from 'hooks';
 
@@ -12,7 +13,6 @@ import { Notification, ThemeSwitcher } from 'ui';
 import { Hero } from './subcomponents';
 import Header from './Header/Header';
 import Footer from './Footer/Footer';
-import { VariantSwitcher } from 'ui/ThemeSwitcher/ThemeSwitcher';
 
 const Layout: FC = () => {
   const { breakpointsForMarkup } = useWindowWidth() ?? {

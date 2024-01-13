@@ -1,4 +1,4 @@
-import { VariantInputs } from '../UnverifiableInput';
+import { VariantInputs } from 'types';
 
 type UnverifiableInputStylesProps = {
   isMobile?: boolean | undefined;

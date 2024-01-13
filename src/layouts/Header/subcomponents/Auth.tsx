@@ -3,13 +3,12 @@ import { useLocation, useNavigate } from 'react-router-dom';
 
 import { useAuthRedux } from 'reduxStore/hooks';
 
+import { ClickHandler, VariantButton, VariantModals } from 'types';
 import { useWindowWidth } from 'contexts';
 import { useActiveLinks, useHeaderStyles, usePopUp } from 'hooks';
 
 import { AuthModal } from 'components';
 import { Modal, PrimaryButton } from 'ui';
-import { ClickHandler, VariantButton } from 'ui/PrimaryButton/PrimaryButton';
-import { VariantModals } from 'ui/Modal/Modal';
 
 const Auth: FC<{}> = () => {
   const { breakpointsForMarkup } = useWindowWidth() ?? {

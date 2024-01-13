@@ -1,7 +1,8 @@
 import React, { FC, Ref } from 'react';
 
+import { VariantButton } from 'types';
+
 import { Hint, PrimaryButton } from 'ui';
-import { VariantButton } from 'ui/PrimaryButton/PrimaryButton';
 
 interface DeleteButtonProps {
   myButtonRef: Ref<HTMLButtonElement>;

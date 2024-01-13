@@ -5,10 +5,18 @@ import { useNewsAPI, useFiltersAction } from 'reduxStore/hooks';
 import { useSelectedDate } from 'contexts';
 import { CategoryRequest } from 'types';
 
+export type SearchParamsObject = {
+  query: string;
+  period: string;
+  category: string;
+};
+
 const useAdditionalRequest = () => {
-  const [query, setQuery] = useState<string>('');
-  const [period, setPeriod] = useState<string>('');
-  const [category, setCategory] = useState<string>('');
+  const [searchParams, setSearchParams] = useState<SearchParamsObject>({
+    query: '',
+    period: '',
+    category: '',
+  });
 
   const {
     popularNews,
@@ -30,114 +38,80 @@ const useAdditionalRequest = () => {
     (newsByCategory && newsByCategory?.length === 0) ||
     (newsByDate && newsByDate?.length === 0);
 
-  const getCategoriesList = () => {
-    if (categoriesList) {
-      const selectedArray = categoriesList.map((item) => item.display_name);
+  const getCategoriesList = () => categoriesList?.map((item) => item.display_name) || [];
 
-      return selectedArray;
-    }
-    return [];
+  const updateSearchParams = (key: keyof SearchParamsObject | 'type', value: string) => {
+    setSearchParams((prevParams) => ({ ...prevParams, [key]: value }));
   };
 
-  const categoriesForDropdown = getCategoriesList();
-
   const onChangeInput = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { value } = event.target;
-    setQuery(value.toLowerCase());
+    setSearchParams((prev) => ({ ...prev, query: event.target.value.toLowerCase() }));
   };
 
   const onHandleSearch = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (query) {
-      if (filteredNews && filteredNews.length > 0) {
+    if (searchParams.query) {
+      if (filteredNews?.length > 0) {
         resetPreviousRequest();
-        await fetchByKeyword(query);
-        updateHeadline(`News by Keyword: ${query}`);
-        setQuery('');
-      } else {
-        await fetchByKeyword(query);
-        updateHeadline(`News by Keyword: ${query}`);
-        setQuery('');
       }
+      await fetchByKeyword(searchParams.query);
+      updateHeadline(`News by Keyword: ${searchParams.query}`);
+      setSearchParams((prev) => ({ ...prev, query: '' }));
     }
   };
 
   const getNewsByCategory = async (section: CategoryRequest) => {
     if (section) {
-      setCategory(section);
-
-      if (filteredNews && filteredNews.length > 0) {
+      setSearchParams((prev) => ({ ...prev, category: section }));
+      if (filteredNews?.length > 0) {
         resetPreviousRequest();
-        await fetchByCategory(section);
-        updateHeadline(`Categorical Reviews by ${section}`);
-      } else {
-        await fetchByCategory(section);
-        updateHeadline(`Categorical Reviews by ${section}`);
       }
+      await fetchByCategory(section);
+      updateHeadline(`Categorical Reviews by ${section}`);
     }
   };
 
-  const getNewsByPeriod = async (period: string) => {
-    if (period === 'Today') {
-      setPeriod('Today');
-      updateHeadline("Today's Hot News");
-      if (filteredNews && filteredNews.length > 0) {
-        resetPreviousRequest();
-        await fetchPopular('1');
-      } else {
-        fetchPopular('1');
-      }
-    } else if (period === 'Week') {
-      setPeriod('Week');
-      updateHeadline('Weekly News');
-      if (filteredNews && filteredNews.length > 0) {
-        resetPreviousRequest();
-        await fetchPopular('7');
-      } else {
-        fetchPopular('7');
-      }
-    } else if (period === 'Month') {
-      setPeriod('Month');
-      updateHeadline('Monthly News');
-      if (filteredNews && filteredNews.length > 0) {
-        resetPreviousRequest();
-        await fetchPopular('30');
-      } else {
-        fetchPopular('30');
-      }
+  const getNewsByPeriod = async (selectedPeriod: string) => {
+    setSearchParams((prev) => ({ ...prev, period: selectedPeriod }));
+    if (filteredNews && filteredNews.length > 0) {
+      resetPreviousRequest();
+    }
+
+    if (selectedPeriod === 'Today') {
+      updateHeadline(`${selectedPeriod}'s Hot News`);
+      await fetchPopular('1');
+    } else if (selectedPeriod === 'Week') {
+      updateHeadline(`${selectedPeriod} News`);
+      await fetchPopular('7');
+    } else if (selectedPeriod === 'Month') {
+      updateHeadline(`${selectedPeriod} News`);
+      await fetchPopular('30');
     }
   };
+
+  const resetSearchParams = () => setSearchParams({ query: '', period: '', category: '' });
 
   const handleResetRequests = async () => {
-    if (
+    const hasAnotherRequestResults =
       (popularNews && popularNews?.length > 0) ||
       (newsByKeyword && newsByKeyword?.length > 0) ||
       (newsByCategory && newsByCategory?.length > 0) ||
-      (newsByDate && newsByDate?.length > 0)
-    ) {
+      (newsByDate && newsByDate?.length > 0);
+    if (hasAnotherRequestResults) {
       resetPreviousRequest();
       updateHeadline('Today`s Hot News');
-      setQuery('');
-      setPeriod('');
-      setCategory('');
-      setSelectedRequestDate({
-        beginDate: null,
-        endDate: null,
-      });
+      resetSearchParams();
       setSelectedRequestDate({ beginDate: null, endDate: null });
       await fetchPopular('1');
     }
   };
 
   return {
-    query,
-    period,
-    category,
+    ...searchParams,
     selectedRequestDate,
-    categoriesForDropdown,
+    categoriesForDropdown: getCategoriesList(),
     showPopular,
-    setPeriod,
-    setCategory,
+    updateSearchParams,
     onChangeInput,
     onHandleSearch,
     getNewsByCategory,

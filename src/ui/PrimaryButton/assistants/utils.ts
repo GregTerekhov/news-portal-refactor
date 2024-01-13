@@ -1,4 +1,4 @@
-import { VariantButton } from '../PrimaryButton';
+import { VariantButton } from 'types';
 
 type ButtonStylesProps = {
   disabled?: boolean | undefined;

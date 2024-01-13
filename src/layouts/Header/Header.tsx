@@ -3,6 +3,7 @@ import { Link, useLocation, useSearchParams } from 'react-router-dom';
 
 import { useAuthRedux, useFiltersAction } from 'reduxStore/hooks';
 
+import { VariantInputs, VariantModals, VariantSwitcher } from 'types';
 import { useWindowWidth } from 'contexts';
 import { useActiveLinks, useAdditionalRequest, useHeaderStyles, usePopUp } from 'hooks';
 
@@ -11,9 +12,6 @@ import { Modal, SvgIcon, ThemeSwitcher, UnverifiableInput } from 'ui';
 
 import { AuthButton, MainMenu } from './subcomponents';
 import { AccountMenu } from '../subcomponents';
-import { VariantSwitcher } from 'ui/ThemeSwitcher/ThemeSwitcher';
-import { VariantInputs } from 'ui/UnverifiableInput/UnverifiableInput';
-import { VariantModals } from 'ui/Modal/Modal';
 
 const Header: FC<{}> = () => {
   const [touched, setTouched] = useState<boolean>(false);

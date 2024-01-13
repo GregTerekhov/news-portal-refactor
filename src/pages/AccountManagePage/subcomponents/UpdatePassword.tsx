@@ -1,10 +1,10 @@
 import React, { FC } from 'react';
 
+import { VariantButton, VariantVerifiableInputs } from 'types';
+
 import { Accordeon, PrimaryButton, VerifiableInput } from 'ui';
 
 import { useUpdatePassword } from '../hooks';
-import { VariantButton } from 'ui/PrimaryButton/PrimaryButton';
-import { VariantVerifiableInputs } from 'ui/VerifiableInput/VerifiableInput';
 
 const UpdatePassword: FC<{}> = () => {
   const { handleSubmit, register, handlePasswordSubmitHandler, passwordInputs } =

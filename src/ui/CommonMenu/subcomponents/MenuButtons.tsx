@@ -1,9 +1,10 @@
 import React, { FC, ReactNode } from 'react';
 import { Link } from 'react-router-dom';
 
+import { VariantButton } from 'types';
 import { useWindowWidth } from 'contexts';
 
-import PrimaryButton, { VariantButton } from '../../PrimaryButton/PrimaryButton';
+import PrimaryButton from '../../PrimaryButton/PrimaryButton';
 
 type MenuButton = {
   id: string;

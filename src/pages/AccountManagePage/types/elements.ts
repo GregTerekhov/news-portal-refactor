@@ -1,5 +1,6 @@
 import { FieldErrors } from 'react-hook-form';
-import { InputLabel } from 'ui/VerifiableInput/VerifiableInput';
+
+import { InputLabel } from 'types';
 
 export interface IUpdateEmail {
   email: string;
