@@ -34,9 +34,10 @@ const useUpdateEmail = () => {
     try {
       const response = await updateEmail(data);
       const { code, message } = response.payload as UpdateCredentialsResponse;
-
+      console.log('requestStatus', response.meta.requestStatus);
       if (response.meta.requestStatus === 'rejected') {
         setOpenToast(true);
+        return;
       }
 
       if (code && code === 200 && message && message === 'Email is successfully updated') {

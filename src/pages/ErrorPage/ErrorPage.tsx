@@ -21,7 +21,6 @@ const ErrorPage: FC<{}> = () => {
     // 'image/webp',
     window.innerWidth,
   );
-  // const isAuthenticated = true;
   const imageUrl = useCacheImage(matchedErrorImage?.src || '');
 
   const handleGoHome = () => {
@@ -60,10 +59,6 @@ const ErrorPage: FC<{}> = () => {
             onHandleClick={handleGoBack}
           >
             Go back
-            {/* <Link to='..' relative='path'>
-              Go back
-            </Link>{' '}
-            можна записувати так */}
           </PrimaryButton>
         )}
         <PrimaryButton
