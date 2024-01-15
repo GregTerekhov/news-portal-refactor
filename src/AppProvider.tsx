@@ -8,6 +8,7 @@ import * as Tooltip from '@radix-ui/react-tooltip';
 import * as Toast from '@radix-ui/react-toast';
 
 import store, { persistor } from 'reduxStore/store';
+import { CONFIG } from './config';
 
 import {
   ThemeProvider,
@@ -18,8 +19,8 @@ import {
 } from 'contexts';
 
 const queryClient = new QueryClient();
-const clientGoogleID = 'your-google-client-id';
-const facebookID = 'your-facebook-app-id';
+const clientGoogleID = CONFIG.APP_GOOGLE_API_TOKEN;
+const facebookID = CONFIG.APP_FACEBOOK_APP_ID;
 
 type AppProviderProps = {
   children: ReactNode;

@@ -42,6 +42,11 @@ const useUpdatePassword = () => {
       const response = await updatePassword(dataToSend);
       const { code, message } = response.payload as Omit<UpdateCredentialsResponse, 'newEmail'>;
 
+      if (response.meta.requestStatus === 'rejected') {
+        setOpenToast(true);
+        return;
+      }
+
       if (code && code === 200 && message && message === 'Password is successfully updated') {
         setOpenToast(true);
       }

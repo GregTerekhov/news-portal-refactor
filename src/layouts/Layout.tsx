@@ -19,13 +19,14 @@ const Layout: FC = () => {
     breakpointsForMarkup: null,
   };
   const { fetchCategoriesList } = useNewsAPI();
-  const { isAuthenticated } = useAuthRedux();
+  const { isAuthenticated, statusMessage } = useAuthRedux();
   const { openToast, setOpenToast } = useNotification();
 
   const location = useLocation();
   const activeLinks = useActiveLinks(location);
   const { rebuildedNews } = useChooseRenderingNews({ activeLinks });
 
+  console.log('statusMessage', statusMessage);
   useEffect(() => {
     if (isAuthenticated && activeLinks.isHomeActive) {
       fetchCategoriesList();
@@ -95,7 +96,7 @@ const Layout: FC = () => {
         </section>
       </main>
       {!activeLinks?.isErrorPage && <Footer />}
-      {isAuthenticated && (
+      {isAuthenticated && statusMessage !== 'Get current user success' && (
         <Notification
           variant='non-interactive'
           openToast={openToast}

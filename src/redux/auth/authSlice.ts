@@ -73,7 +73,7 @@ const handleRejected = (state: AuthState, action: PayloadAction<unknown, string,
       code: payload.status,
       message: payload.data?.message,
     };
-    console.log('authSignUpError', state.hasError);
+    console.log('error', state.hasError);
   }
 };
 
@@ -83,8 +83,9 @@ const getActions = (type: 'pending' | 'fulfilled' | 'rejected') => {
     authOperations.signIn,
     authOperations.signOut,
     authOperations.fetchCurrentUser,
-    authOperations.updateUserEmail,
-    authOperations.updateUserPassword,
+    authOperations.updateUserEmail, // коли user авторизований і хоче змінити поточну пошту
+    authOperations.updateUserPassword, // коли user авторизований і хоче змінити поточний пароль
+    authOperations.recoveryPasswordChange, // при forgotPassword, коли user забув пароль і йому треба змінити його
     authOperations.googleAuth,
     authOperations.facebookAuth,
     authOperations.appleAuth,
@@ -125,12 +126,32 @@ const authSlice = createSlice({
         state.userTheme = action.payload.userTheme;
         state.isCurrentUser = false;
         state.hasError = null;
+        state.message = action.payload.message;
       })
+      // .addCase(authOperations.updateUserEmail.pending, (state) => {
+      //   state.isCurrentUser = true;
+      //   state.hasError = null;
+      // })
       .addCase(authOperations.updateUserEmail.fulfilled, (state, action) => {
+        console.log('action.payload', action.payload);
         state.user.email = action.payload.newEmail;
         state.message = action.payload.message;
       })
+      // .addCase(authOperations.updateUserEmail.rejected, (state, action) => {
+      //   state.isCurrentUser = false;
+      //   if (action.payload) {
+      //     console.log('action.payload', action.payload);
+      //     state.hasError = {
+      //       code: 409,
+      //       message: action.payload,
+      //     };
+      //     console.log('authUpdateEmailError', state.hasError);
+      //   }
+      // })
       .addCase(authOperations.updateUserPassword.fulfilled, (state, action) => {
+        state.message = action.payload.message;
+      })
+      .addCase(authOperations.recoveryPasswordChange.fulfilled, (state, action) => {
         state.message = action.payload.message;
       })
       .addCase(authOperations.googleAuth.fulfilled, (state, action) => {

@@ -30,10 +30,10 @@ export const signUp = createAppAsyncThunk<CredentialSignUpResponse, SignUpReques
         `${BASE_URL_DB}/auth/sign-up`,
         credentials,
       );
-      // console.log('SignUpResponse', response.data);
+      console.log('SignUpResponse', response.data);
       return response.data;
     } catch (error: any) {
-      console.log('error', error.response);
+      console.log('Error SignUp', error.response);
       return rejectWithValue(error.response);
     }
   },
@@ -48,7 +48,7 @@ export const signIn = createAppAsyncThunk<CredentialSignInResponse, AuthRequestW
         `${BASE_URL_DB}/auth/sign-in`,
         credentials,
       );
-      // console.log('SignInResponse', response.data);
+      console.log('SignInResponse', response.data);
       return response.data;
     } catch (error: any) {
       console.log('Error signIn', error.response);
@@ -65,8 +65,8 @@ export const signOut = createAppAsyncThunk<SignOutResponse>(
       console.log('SignOutResponse', response.data);
       return response.data;
     } catch (error: any) {
-      console.log('Error signOut', error.response.data);
-      return rejectWithValue(error.response.data);
+      console.log('Error signOut', error.response);
+      return rejectWithValue(error.response);
     }
   },
 );
@@ -79,8 +79,8 @@ export const fetchCurrentUser = createAppAsyncThunk<CurrentUserResponse>(
       console.log('CurrentUserResponse', response.data);
       return response.data;
     } catch (error: any) {
-      console.log('Error fetchCurrent', error.response.data);
-      return rejectWithValue(error.response.data);
+      console.log('Error fetchCurrent', error.response);
+      return rejectWithValue(error.response);
     }
   },
 );
@@ -92,16 +92,36 @@ export const updateUserEmail = createAppAsyncThunk<
   console.log('newEmail', newEmail);
   try {
     const response = await axiosInstance.patch<UpdateCredentialsResponse>(
-      '/auth/update-email',
+      `/auth/update-email`,
       newEmail,
     );
     console.log('UpdateCredentialsResponse', response.data);
     return response.data;
   } catch (error: any) {
-    console.log('Error updateEmail', error);
+    console.log('Error updateEmailMessage', error.response);
     return rejectWithValue(error.response);
   }
 });
+// export const updateUserEmail = createAppAsyncThunk<any, AuthRequestWithoutName>(
+//   'auth/updateEmail',
+//   async (newEmail, { rejectWithValue }) => {
+//     const state = store.getState() as RootState;
+//     const accessToken = state.auth.accessToken;
+//     console.log('newEmail', newEmail);
+//     try {
+//       const response = await axios.patch(`${BASE_URL_DB}/auth/update-email`, newEmail, {
+//         headers: {
+//           Authorization: `Bearer ${accessToken}`,
+//         },
+//       });
+//       // console.log('UpdateCredentialsResponse', response.data);
+//       return response.data;
+//     } catch (error: any) {
+//       console.log('Error updateEmailMessage', error.response);
+//       return rejectWithValue(error.response);
+//     }
+//   },
+// );
 export const updateUserPassword = createAppAsyncThunk<
   UpdatePasswordResponse,
   UpdatePasswordRequest
@@ -209,8 +229,8 @@ export const updateTheme = createAppAsyncThunk<UpdateThemeResponse, UpdateThemeR
       console.log('UpdateThemeResponse', response.data);
       return response.data;
     } catch (error: any) {
-      console.log('Error updateTheme', error.response.data);
-      return rejectWithValue(error.response.data);
+      console.log('Error updateTheme', error.response);
+      return rejectWithValue(error.response);
     }
   },
 );

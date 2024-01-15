@@ -18,7 +18,7 @@ const Header: FC<{}> = () => {
   const [passwordToken, setPasswordToken] = useState<boolean>(false);
 
   const [searchParams] = useSearchParams();
-  const token = searchParams.get('passwordToken');
+  const token = searchParams.get('token');
   const openModal = searchParams.get('openModal');
 
   const { isOpenMenu, isOpenModal, setIsOpenModal, toggleMenu, toggleModal, popUpRef } = usePopUp();
@@ -30,8 +30,8 @@ const Header: FC<{}> = () => {
       writeTokens({ accessToken: token, refreshToken: null });
       setIsOpenModal(true);
     }
-    setPasswordToken(false);
-    setIsOpenModal(false);
+    // setPasswordToken(false);
+    // setIsOpenModal(false);
   }, [searchParams, openModal]);
 
   const { query, onChangeInput, onHandleSearch } = useAdditionalRequest();

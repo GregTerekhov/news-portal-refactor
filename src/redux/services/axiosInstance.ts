@@ -49,18 +49,8 @@ const createAxiosInstance = () => {
       return config;
     },
     (error) => {
+      console.log('error in Instance', error);
       return Promise.reject(error);
-    },
-  );
-
-  axiosInstance.interceptors.response.use(
-    async (response) => response,
-    (error) => {
-      const state = store.getState() as RootState;
-      const isLoggedIn = state.auth.isLoggedIn;
-      if (error.response.status === 401 && !isLoggedIn) {
-        return;
-      }
     },
   );
 

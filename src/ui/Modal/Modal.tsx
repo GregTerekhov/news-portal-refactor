@@ -50,7 +50,7 @@ const Modal: FC<ModalProps> = ({ children, closeModal, modalRef, variant }) => {
                       <SvgIcon
                         svgName='icon-close'
                         size={20}
-                        className='stroke-darkBase dark:stroke-whiteBase hover:rotate-90 transition-transform'
+                        className='stroke-darkBase dark:stroke-whiteBase'
                       />
                     </button>
                   </AutoFocusInside>

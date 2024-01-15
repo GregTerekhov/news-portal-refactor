@@ -16,6 +16,7 @@ const LinkedAccounts: FC<{}> = () => {
   const { breakpointsForMarkup } = useWindowWidth() ?? {
     breakpointsForMarkup: null,
   };
+  // const { haveAccounts, enterWithGoogle } = useAuthRedux();
   const { haveAccounts } = useAuthRedux();
   const location = useLocation();
   const { isManageAccountPage } = useActiveLinks(location);
@@ -23,7 +24,10 @@ const LinkedAccounts: FC<{}> = () => {
   const { handleFacebookLogin, isLoading } = useFacebookLogin();
 
   const googleLogin = useGoogleLogin({
-    onSuccess: (codeResponse) => console.log('codeResponse', codeResponse),
+    onSuccess: (codeResponse) => {
+      // enterWithGoogle({ codeResponse });
+      console.log('codeResponse', codeResponse);
+    },
   });
 
   const hasConnectedAccount = haveAccounts.google || haveAccounts.facebook || haveAccounts.apple;

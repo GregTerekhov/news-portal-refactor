@@ -10,18 +10,11 @@ import { NewsList } from 'components';
 import { Loader, Notification, PlugImage } from 'ui';
 
 import { usePagination } from './hooks';
-import { Pagination, TooManyRequests } from './subcomponents';
+import { Pagination } from './subcomponents';
 
 const HomePage: FC = () => {
-  const {
-    isLoadingAPIData,
-    headline,
-    errorAPI,
-    newsByCategory,
-    newsByDate,
-    newsByKeyword,
-    fetchPopular,
-  } = useNewsAPI();
+  const { isLoadingAPIData, headline, newsByCategory, newsByDate, newsByKeyword, fetchPopular } =
+    useNewsAPI();
   const { isLoadingDBData, getSavedNews } = useDB();
   const { isAuthenticated, authError } = useAuthRedux();
   const { openToast, setOpenToast } = useNotification();
@@ -36,8 +29,6 @@ const HomePage: FC = () => {
     rebuildedNews ?? [],
   );
 
-  const tooManyReq = errorAPI?.toString().includes('429');
-
   useEffect(() => {
     fetchPopular('1');
     if (isAuthenticated) getSavedNews();
@@ -47,10 +38,7 @@ const HomePage: FC = () => {
     if (newsByKeyword || newsByCategory || newsByDate) setOpenToast(true);
   }, [newsByKeyword, newsByCategory, newsByDate]);
 
-  const showLoader =
-    isLoadingAPIData ||
-    (isLoadingDBData && rebuildedNews && currentItems?.length === 0) ||
-    hasResults === 'loading';
+  const showLoader = isLoadingAPIData || isLoadingDBData || hasResults === 'loading';
   const showPlugImage = (rebuildedNews && rebuildedNews.length === 0) || hasResults === 'empty';
   const additionalRequests =
     (newsByKeyword && newsByKeyword.length > 0) ||
@@ -61,8 +49,6 @@ const HomePage: FC = () => {
     <>
       {showLoader ? (
         <Loader variant='generalSection' />
-      ) : tooManyReq ? (
-        <TooManyRequests />
       ) : (
         <>
           {showPlugImage ? (
