@@ -55,9 +55,10 @@ const handlePending = (state: AuthState) => {
   state.hasError = null;
 };
 
-const handleFulfilled = (state: AuthState) => {
+const handleFulfilled = (state: AuthState, action: PayloadAction<any, string, any>) => {
   state.isCurrentUser = false;
   state.hasError = null;
+  state.message = action.payload.message;
 };
 
 const handleRejected = (state: AuthState, action: PayloadAction<unknown, string, any>) => {
@@ -73,7 +74,7 @@ const handleRejected = (state: AuthState, action: PayloadAction<unknown, string,
       code: payload.status,
       message: payload.data?.message,
     };
-    console.log('error', state.hasError);
+    console.log('AuthError', state.hasError);
   }
 };
 
@@ -107,7 +108,7 @@ const authSlice = createSlice({
         const { name, email } = action.payload.user;
         state.user.name = name;
         state.user.email = email;
-        state.message = action.payload.message;
+        // state.message = action.payload.message;
       })
       .addCase(authOperations.signIn.fulfilled, (state, action) => {
         state.isLoggedIn = true;
@@ -115,7 +116,7 @@ const authSlice = createSlice({
         state.userTheme = action.payload.userTheme;
         state.accessToken = action.payload.accessToken;
         state.refreshToken = action.payload.refreshToken;
-        state.message = action.payload.message;
+        // state.message = action.payload.message;
       })
       .addCase(authOperations.signOut.fulfilled, () => {
         return { ...initialState };
@@ -126,41 +127,25 @@ const authSlice = createSlice({
         state.userTheme = action.payload.userTheme;
         state.isCurrentUser = false;
         state.hasError = null;
-        state.message = action.payload.message;
+        // state.message = action.payload.message;
       })
-      // .addCase(authOperations.updateUserEmail.pending, (state) => {
-      //   state.isCurrentUser = true;
-      //   state.hasError = null;
-      // })
       .addCase(authOperations.updateUserEmail.fulfilled, (state, action) => {
-        console.log('action.payload', action.payload);
         state.user.email = action.payload.newEmail;
-        state.message = action.payload.message;
+        // state.message = action.payload.message;
       })
-      // .addCase(authOperations.updateUserEmail.rejected, (state, action) => {
-      //   state.isCurrentUser = false;
-      //   if (action.payload) {
-      //     console.log('action.payload', action.payload);
-      //     state.hasError = {
-      //       code: 409,
-      //       message: action.payload,
-      //     };
-      //     console.log('authUpdateEmailError', state.hasError);
-      //   }
+      // .addCase(authOperations.updateUserPassword.fulfilled, (state, action) => {
+      //   state.message = action.payload.message;
       // })
-      .addCase(authOperations.updateUserPassword.fulfilled, (state, action) => {
-        state.message = action.payload.message;
-      })
-      .addCase(authOperations.recoveryPasswordChange.fulfilled, (state, action) => {
-        state.message = action.payload.message;
-      })
+      // .addCase(authOperations.recoveryPasswordChange.fulfilled, (state, action) => {
+      //   state.message = action.payload.message;
+      // })
       .addCase(authOperations.googleAuth.fulfilled, (state, action) => {
         state.isLoggedIn = true;
         state.haveAccounts.google = true;
         state.user = action.payload.user;
         state.accessToken = action.payload.access;
         state.refreshToken = action.payload.refresh;
-        state.message = action.payload.message;
+        // state.message = action.payload.message;
       })
       .addCase(authOperations.facebookAuth.fulfilled, (state, action) => {
         state.isLoggedIn = true;
@@ -168,7 +153,7 @@ const authSlice = createSlice({
         state.user = action.payload.user;
         state.accessToken = action.payload.accessToken;
         state.refreshToken = action.payload.refreshToken;
-        state.message = action.payload.message;
+        // state.message = action.payload.message;
       })
       .addCase(authOperations.appleAuth.fulfilled, (state, action) => {
         state.isLoggedIn = true;
@@ -176,11 +161,11 @@ const authSlice = createSlice({
         state.user = action.payload.user;
         state.accessToken = action.payload.accessToken;
         state.refreshToken = action.payload.refreshToken;
-        state.message = action.payload.message;
+        // state.message = action.payload.message;
       })
       .addCase(authOperations.updateTheme.fulfilled, (state, action) => {
         state.userTheme = action.payload.userTheme;
-        state.message = action.payload.message;
+        // state.message = action.payload.message;
       })
       .addCase(setTokens, (state, action) => {
         const { accessToken, refreshToken } = action.payload;

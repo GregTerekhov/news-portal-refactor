@@ -71,9 +71,16 @@ const AboutUs = lazy(() => import('./pages/AboutUs/AboutUs'));
 function App() {
   const { isRefreshingUser, fetchCurrentAuthUser } = useAuthRedux();
 
+  // Отримаємо значення isLoggedIn з localStorage для запиту fetchCurrentAuthUser
+  const isLoggedInValue = localStorage.getItem('persist:auth')
+    ? JSON.parse(localStorage.getItem('persist:auth') || '')
+    : false;
+
   useEffect(() => {
-    fetchCurrentAuthUser();
-  }, [fetchCurrentAuthUser]);
+    if (isLoggedInValue?.isLoggedIn === true) {
+      fetchCurrentAuthUser();
+    }
+  }, []);
 
   return isRefreshingUser ? (
     <Loader variant='page' />

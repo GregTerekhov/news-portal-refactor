@@ -1,5 +1,5 @@
 import { AxiosHeaders } from 'axios';
-import { Middleware } from 'redux';
+import { Middleware } from '@reduxjs/toolkit';
 
 const serializeHeaders = (headers: AxiosHeaders) => {
   const headersObject: Record<string, string> = {};
@@ -22,7 +22,7 @@ const serializePayload = (payload: any) => {
   return payload;
 };
 
-const nonSerializableMiddleware: Middleware = () => (next) => (action) => {
+export const nonSerializableMiddleware: Middleware = () => (next) => (action) => {
   const serializableAction = {
     ...action,
     payload: serializePayload(action.payload),
@@ -30,8 +30,6 @@ const nonSerializableMiddleware: Middleware = () => (next) => (action) => {
 
   return next(serializableAction);
 };
-
-export default nonSerializableMiddleware;
 
 // const nonSerializableMiddleware: Middleware = () => (next) => (action) => {
 //   if (action.payload && action.payload.headers instanceof Headers) {

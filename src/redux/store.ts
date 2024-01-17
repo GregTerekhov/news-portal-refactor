@@ -13,7 +13,7 @@ import {
 import { ThunkDispatch } from 'redux-thunk';
 import storage from 'redux-persist/lib/storage';
 
-import nonSerializableMiddleware from './middleware';
+import { nonSerializableMiddleware } from './middleware';
 import { authReducer, filtersReducer, APIReducer, DBReducer, weatherReducer } from './reducers';
 
 const middleware = (getDefaultMiddleware: any) =>
@@ -32,7 +32,7 @@ const persistConfig = {
 const authPersistConfig = {
   key: 'auth',
   storage,
-  whitelist: ['userTheme', 'accessToken', 'refreshToken'],
+  whitelist: ['userTheme', 'accessToken', 'refreshToken', 'isLoggedIn'],
 };
 
 const NewsDBPersistConfig = {

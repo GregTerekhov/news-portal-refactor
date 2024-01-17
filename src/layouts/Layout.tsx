@@ -26,7 +26,6 @@ const Layout: FC = () => {
   const activeLinks = useActiveLinks(location);
   const { rebuildedNews } = useChooseRenderingNews({ activeLinks });
 
-  console.log('statusMessage', statusMessage);
   useEffect(() => {
     if (isAuthenticated && activeLinks.isHomeActive) {
       fetchCategoriesList();

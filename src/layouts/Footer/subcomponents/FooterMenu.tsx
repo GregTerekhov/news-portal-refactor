@@ -28,7 +28,7 @@ const FooterMenu = () => {
         <ul
           className={`${
             isAuthenticated
-              ? 'grid max-md:grid-cols-3 md:grid-cols-2 grid-rows-3  gap-3'
+              ? 'grid max-md:grid-cols-3 md:grid-cols-2 grid-rows-3 gap-3'
               : 'flex justify-between items-center'
           }`}
         >

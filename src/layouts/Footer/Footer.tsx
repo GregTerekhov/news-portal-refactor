@@ -14,7 +14,7 @@ const Footer: FC<{}> = () => {
   return (
     <footer className='bg-accentBase py-8'>
       <div className='container relative mx-auto px-4 hg:px-[65px]'>
-        <div className='md:flex md:justify-between'>
+        <div className={`${isAuthenticated ? 'md:flex md:justify-between' : ''}`}>
           <div className={`${isAuthenticated ? 'space-y-3' : ''}`}>
             <div className={`${isAuthenticated ? '' : 'hidden'}`}>
               <h2 className='text-medium md:text-xl text-whiteBase'>Menu</h2>
@@ -22,7 +22,11 @@ const Footer: FC<{}> = () => {
             </div>
             <FooterMenu />
           </div>
-          <div className='flex md:flex-col justify-between max-md:items-end'>
+          <div
+            className={`${
+              isAuthenticated ? 'md:flex-col' : 'flex-row'
+            } flex justify-between items-end`}
+          >
             <div className='space-y-3'>
               <div className={`${isAuthenticated ? '' : 'hidden'}`}>
                 <h2 className='text-medium md:text-xl text-whiteBase'>NYTimes social links</h2>
