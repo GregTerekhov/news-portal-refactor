@@ -4,6 +4,7 @@ import { Menu, Transition } from '@headlessui/react';
 import { SearchParamsObject } from 'hooks/useAdditionalRequest';
 
 import SvgIcon from './SvgIcon';
+import { CustomScrollBar } from '.';
 
 interface DropdownProps {
   children: ReactNode;
@@ -34,6 +35,8 @@ const Dropdown: FC<DropdownProps> = ({
     );
     setIsOpenDropdown(false);
   };
+
+  console.log(children);
 
   return (
     <Menu as='div' className='relative'>
@@ -66,23 +69,33 @@ const Dropdown: FC<DropdownProps> = ({
             leaveFrom='transform opacity-100 scale-100'
             leaveTo='transform opacity-0 scale-95'
           ></Transition>
-          <Menu.Items className='absolute z-40 w-56 max-h-96 overflow-auto flex flex-col bg-dropdownBase dark:bg-darkDropdown rounded-[20px] py-3.5 space-y-3 shadow-card dark:shadow-darkCard'>
-            {labels?.map((item, index) => (
-              <Menu.Item key={index}>
-                {({ active }) => (
-                  <button
-                    type='button'
-                    className={`${
-                      active ? 'underline' : ''
-                    } text-accentBase dark:text-whiteBase text-small text-left tracking-wide px-3.5`}
-                    onClick={() => handleItemClick(item)}
-                  >
-                    {item}
-                  </button>
-                )}
-              </Menu.Item>
-            ))}
-          </Menu.Items>
+          <CustomScrollBar
+            isOpen={open}
+            orientation='vertical'
+            className={`flex absolute ${
+              children === 'Time period' ? 'max-h-[225px]' : 'h-[225px]'
+            } overflow-hidden z-40 w-full  bg-dropdownBase dark:bg-darkDropdown rounded-[5px] py-[10px] shadow-card dark:shadow-darkCard`}
+          >
+            <Menu.Items>
+              <div className='grid gap-1.5 h-full'>
+                {labels?.map((item, index) => (
+                  <Menu.Item key={index}>
+                    {({ active }) => (
+                      <button
+                        type='button'
+                        className={`${
+                          active ? 'underline' : ''
+                        } text-accentBase dark:text-whiteBase text-small text-left tracking-wide px-3.5`}
+                        onClick={() => handleItemClick(item)}
+                      >
+                        {item}
+                      </button>
+                    )}
+                  </Menu.Item>
+                ))}
+              </div>
+            </Menu.Items>
+          </CustomScrollBar>
         </>
       )}
     </Menu>

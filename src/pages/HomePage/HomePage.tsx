@@ -1,7 +1,13 @@
 import React, { FC, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 
-import { useAuthRedux, useDB, useNewsAPI, useFiltersAction } from 'reduxStore/hooks';
+import {
+  useAuthRedux,
+  useDB,
+  useNewsAPI,
+  useFiltersAction,
+  useAppSelector,
+} from 'reduxStore/hooks';
 
 import { useNotification } from 'contexts';
 import { useActiveLinks, useChooseRenderingNews, useToast } from 'hooks';
@@ -11,6 +17,7 @@ import { Loader, Notification, PlugImage } from 'ui';
 
 import { usePagination } from './hooks';
 import { Pagination } from './subcomponents';
+import { selectHasAPIError } from 'reduxStore/newsAPI';
 
 const HomePage: FC = () => {
   const { isLoadingAPIData, headline, newsByCategory, newsByDate, newsByKeyword, fetchPopular } =
@@ -28,6 +35,9 @@ const HomePage: FC = () => {
   const { currentItems, currentPage, pageNumbers, setCurrentPage } = usePagination(
     rebuildedNews ?? [],
   );
+
+  const errorAPI = useAppSelector(selectHasAPIError);
+  const isErrorAPI = errorAPI?.toString().includes('429');
 
   useEffect(() => {
     fetchPopular('1');
@@ -51,7 +61,7 @@ const HomePage: FC = () => {
         <Loader variant='generalSection' />
       ) : (
         <>
-          {showPlugImage ? (
+          {showPlugImage || isErrorAPI ? (
             <PlugImage variant='page' />
           ) : (
             <>
@@ -73,7 +83,15 @@ const HomePage: FC = () => {
           openToast={openToast}
           setOpenToast={setOpenToast}
           title={`${authError?.message && 'Authorisation error'}`}
-          description={authError.message ? showErrorToast() : ''}
+          description={authError?.message ? showErrorToast() : ''}
+        />
+      )}
+      {isErrorAPI && (
+        <Notification
+          openToast={openToast}
+          setOpenToast={setOpenToast}
+          title={`429`}
+          description={'Too many requests'}
         />
       )}
       {showToastResults && (

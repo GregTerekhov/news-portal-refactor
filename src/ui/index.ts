@@ -11,3 +11,4 @@ export { default as SvgIcon } from './SvgIcon';
 export { default as ThemeSwitcher } from './ThemeSwitcher/ThemeSwitcher';
 export { default as UnverifiableInput } from './UnverifiableInput/UnverifiableInput';
 export { default as VerifiableInput } from './VerifiableInput/VerifiableInput';
+export { default as CustomScrollBar } from './CustomScrollBar';

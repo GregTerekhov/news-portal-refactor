@@ -74,6 +74,7 @@ const SearchBlock: FC<{}> = () => {
           </Dropdown>
         </div>
       ) : null}
+
       <div className='md:col-span-3 lg:col-span-3'>
         <Calendar variant='SearchBlock' />
       </div>
