@@ -68,7 +68,7 @@ const AboutUs: FC<{}> = () => {
           memberName: 'Max Mordovtsev',
           memberRole: 'Developer',
           memberCV:
-            'https://drive.google.com/file/d/1JGiyIpvcbVInuIxQj67O7OB7CDPbbDC7/view?usp=sharing',
+            'https://drive.google.com/file/d/19lChIbPB0JDQeeP2y7EpqPYfrK9ZyKXc/view?usp=sharing',
           githubLink: 'https://github.com/Max3281',
           linkedinLink: 'https://www.linkedin.com/in/maxim-mordovtsev/',
           emailLink: 'mailto:9.crover@gmail.com',
