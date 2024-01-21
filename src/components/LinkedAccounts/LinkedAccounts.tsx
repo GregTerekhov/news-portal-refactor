@@ -2,7 +2,7 @@ import React, { FC } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useGoogleLogin } from '@react-oauth/google';
 
-import { useAuthRedux } from 'reduxStore/hooks';
+import { useAppSelector, useAuthRedux } from 'reduxStore/hooks';
 
 import { VariantButton } from 'types';
 import { useWindowWidth } from 'contexts';
@@ -11,6 +11,7 @@ import { useActiveLinks } from 'hooks';
 import { PrimaryButton } from 'ui';
 
 import { useFacebookLogin } from './hooks';
+import { selectUser } from 'reduxStore/auth';
 
 const LinkedAccounts: FC<{}> = () => {
   const { breakpointsForMarkup } = useWindowWidth() ?? {
@@ -30,6 +31,10 @@ const LinkedAccounts: FC<{}> = () => {
     },
   });
 
+  const emailSelect = useAppSelector(selectUser);
+
+  console.log(emailSelect);
+
   const hasConnectedAccount = haveAccounts.google || haveAccounts.facebook || haveAccounts.apple;
   const isMobile = breakpointsForMarkup?.isNothing || breakpointsForMarkup?.isMobile;
 
@@ -44,7 +49,9 @@ const LinkedAccounts: FC<{}> = () => {
     {
       svgName: 'icon-facebook',
       account: 'Facebook',
-      onClick: handleFacebookLogin,
+      onClick: () => {
+        handleFacebookLogin('9.crover@gmail.com');
+      },
     },
     {
       svgName: 'icon-apple',
