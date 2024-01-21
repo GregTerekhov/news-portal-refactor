@@ -50,7 +50,7 @@ const LinkedAccounts: FC<{}> = () => {
       svgName: 'icon-facebook',
       account: 'Facebook',
       onClick: () => {
-        handleFacebookLogin('9.crover@gmail.com');
+        handleFacebookLogin();
       },
     },
     {

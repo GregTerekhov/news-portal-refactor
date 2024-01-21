@@ -5,7 +5,7 @@ const useFacebookLogin = () => {
 
   console.log(login, status, isLoading, error);
 
-  const handleFacebookLogin = async (value?: string) => {
+  const handleFacebookLogin = async () => {
     console.log('FacebookStatus', status);
     try {
       const response = await login({
