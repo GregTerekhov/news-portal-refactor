@@ -74,7 +74,7 @@ const Dropdown: FC<DropdownProps> = ({
             orientation='vertical'
             className={`flex absolute ${
               children === 'Time period' ? 'max-h-[225px]' : 'h-[225px]'
-            } overflow-hidden z-40 w-full  bg-dropdownBase dark:bg-darkDropdown rounded-[5px] py-[10px] shadow-card dark:shadow-darkCard`}
+            } overflow-hidden z-40 w-full  bg-dropdownBase dark:bg-darkDropdown rounded-[20px] py-[10px] shadow-card dark:shadow-darkCard`}
           >
             <Menu.Items>
               <div className='grid gap-1.5 h-full'>
