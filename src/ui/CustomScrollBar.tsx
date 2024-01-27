@@ -14,7 +14,7 @@ const CustomScrollBar: FC<CustomScrollProps> = ({ children, isOpen, orientation,
       <ScrollArea.Root type='auto' className={`${className}`}>
         <ScrollArea.Viewport className='w-full h-full rounded'>{children}</ScrollArea.Viewport>
         <ScrollArea.Scrollbar
-          className='h-full inline-block rounded-full bg-dropdownBase data-[orientation=vertical]:w-2.5'
+          className='inline-block max-h-customScrollHeight rounded-full bg-dropdownBase data-[orientation=vertical]:w-2.5 customScrollPosition'
           orientation={orientation}
         >
           <ScrollArea.Thumb className="flex-1 bg-accentBase rounded-[10px] relative before:content-[''] before:absolute before:top-1/2 before:left-1/2 before:-translate-x-1/2 before:-translate-y-1/2 before:w-full before:h-full before:min-w-[44px] before:min-h-[44px]" />

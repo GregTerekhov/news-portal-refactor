@@ -34,3 +34,9 @@ body {
     padding-top: 113px !important;
   }
 }
+
+@layer components {
+  .customScrollPosition {
+    @apply top-[10px] right-[5px] !important;
+  }
+}
