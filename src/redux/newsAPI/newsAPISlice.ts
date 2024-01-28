@@ -1,10 +1,4 @@
-import {
-  PayloadAction,
-  SerializedError,
-  createAction,
-  createSlice,
-  isAnyOf,
-} from '@reduxjs/toolkit';
+import { PayloadAction, createAction, createSlice, isAnyOf } from '@reduxjs/toolkit';
 
 import { ArticleNewsArray, NewsWireArray, PopularNewsArray, CategoriesItem } from 'types';
 
@@ -17,7 +11,7 @@ type newsAPIState = {
   categoriesList: CategoriesItem[];
   searchByDate: ArticleNewsArray;
   isLoading: boolean;
-  hasError: SerializedError | null;
+  hasError: number | null;
   headline: string;
 };
 
@@ -44,7 +38,9 @@ const handleFulfilled = (state: newsAPIState) => {
 
 const handleRejected = (state: newsAPIState, action: PayloadAction<unknown, string, any>) => {
   state.isLoading = false;
-  state.hasError = action.payload ?? null;
+  if (action.payload) {
+    state.hasError = action.payload;
+  }
   console.log('ERROR', action.payload, action);
 };
 

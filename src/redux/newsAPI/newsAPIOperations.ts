@@ -82,8 +82,6 @@ export const fetchNewsByCategory = createAppAsyncThunk<
   CategoryRequest,
   { rejectValue: any }
 >('categories/fetch', async (section, { rejectWithValue }) => {
-  // console.log('source', source);
-  // console.log('section: ', section);
   try {
     const res = await axios.get(`${BASE_URL_NEWS}/news/v3/content/all/${section}.json`, {
       params: {

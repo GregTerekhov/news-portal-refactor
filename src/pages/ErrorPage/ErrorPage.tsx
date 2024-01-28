@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import { useAuthRedux } from 'reduxStore/hooks';
+import { useAppSelector, useAuthRedux } from 'reduxStore/hooks';
 
 import { VariantButton } from 'types';
 import { errorImages } from 'constants/images';
@@ -9,6 +9,9 @@ import { generateContentImages } from 'helpers';
 import { useCacheImage } from 'hooks';
 
 import { PrimaryButton } from 'ui';
+import { selectHasAPIError } from 'reduxStore/newsAPI';
+
+import { serverErrorsList } from './assistants/serverErrorsList';
 
 const ErrorPage: FC<{}> = () => {
   const devicePixelRatio = window.devicePixelRatio || 1;
@@ -23,6 +26,18 @@ const ErrorPage: FC<{}> = () => {
   );
   const imageUrl = useCacheImage(matchedErrorImage?.src || '');
 
+  const errorAPI = useAppSelector(selectHasAPIError);
+  const serverError = errorAPI && errorAPI >= 500;
+
+  const renderContent = serverErrorsList.find((value: { code: number; message: string }) => {
+    if (serverError) {
+      return value.code === errorAPI;
+    }
+    return;
+  });
+
+  console.log(renderContent);
+
   const handleGoHome = () => {
     navigate('/');
   };
@@ -33,19 +48,22 @@ const ErrorPage: FC<{}> = () => {
 
   return (
     <div className='space-y-10 text-center lg:w-[900px] lg:mx-auto'>
-      <img
-        className='mx-auto'
-        src={imageUrl}
-        alt='Error page'
-        width={matchedErrorImage.width}
-        height={matchedErrorImage.height}
-      />
+      {!serverError && (
+        <img
+          className='mx-auto'
+          src={imageUrl}
+          alt='Error page'
+          width={matchedErrorImage.width}
+          height={matchedErrorImage.height}
+        />
+      )}
       <h1 className='text-5xl text-darkBase dark:text-whiteBase transition-colors duration-500'>
-        Page not found
+        {serverError ? `${renderContent?.code}` : 'Page not found'}
       </h1>
       <p className='text-xl text-justify md:text-center text-darkBase dark:text-whiteBase transition-colors duration-500'>
-        Looks like you'we lost a bit. The page you requested could not be found or maybe don't even
-        exist. How about to make a step back and try again?
+        {serverError
+          ? `${renderContent?.message}`
+          : "Looks like you'we lost a bit. The page you requested could not be found or maybe don't even exist. How about to make a step back and try again?"}
       </p>
       <div
         className={`${

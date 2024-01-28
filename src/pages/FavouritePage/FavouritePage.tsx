@@ -1,12 +1,13 @@
 import React, { FC, useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
-import { useAuthRedux, useDB, useFiltersAction } from 'reduxStore/hooks';
+import { useAppSelector, useAuthRedux, useDB, useFiltersAction } from 'reduxStore/hooks';
 
 import { useActiveLinks, useChooseRenderingNews } from 'hooks';
 
 import { NewsList } from 'components';
 import { Loader, Notification, PlugImage } from 'ui';
+import { selectHasAPIError } from 'reduxStore/newsAPI';
 
 const FavouritePage: FC<{}> = () => {
   const [openToast, setOpenToast] = useState<boolean>(false);
@@ -17,6 +18,17 @@ const FavouritePage: FC<{}> = () => {
   const location = useLocation();
   const activeLinks = useActiveLinks(location);
   const { rebuildedNews } = useChooseRenderingNews({ activeLinks });
+
+  const errorAPI = useAppSelector(selectHasAPIError);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (errorAPI) {
+      if (errorAPI >= 500) {
+        navigate('/serverError');
+      }
+    }
+  }, [errorAPI]);
 
   useEffect(() => {
     getFavourites();

@@ -1,5 +1,5 @@
 import React, { FC, useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 import {
   useAuthRedux,
@@ -38,6 +38,15 @@ const HomePage: FC = () => {
 
   const errorAPI = useAppSelector(selectHasAPIError);
   const isErrorAPI = errorAPI?.toString().includes('429');
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (errorAPI) {
+      if (errorAPI >= 500) {
+        navigate('/serverError');
+      }
+    }
+  }, [errorAPI]);
 
   useEffect(() => {
     fetchPopular('1');

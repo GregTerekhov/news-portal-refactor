@@ -1,12 +1,14 @@
-import React, { FC } from 'react';
+import React, { FC, useEffect } from 'react';
 
-import { useAuthRedux } from 'reduxStore/hooks';
+import { useAppSelector, useAuthRedux } from 'reduxStore/hooks';
 
 import { useWindowWidth } from 'contexts';
 
 import { SvgIcon } from 'ui';
 
 import { renderInfoItems, renderAccountIcons } from './assistants';
+import { selectHasAPIError } from 'reduxStore/newsAPI';
+import { useNavigate } from 'react-router-dom';
 
 const AccountPage: FC<{}> = () => {
   const { breakpointsForMarkup } = useWindowWidth() ?? {
@@ -19,6 +21,17 @@ const AccountPage: FC<{}> = () => {
   const isMobile = breakpointsForMarkup?.isNothing || breakpointsForMarkup?.isMobile;
   const commonHeadlineClass = 'text-darkBase dark:text-whiteBase text-end';
   const haveLinkedAccount = haveAccounts.google || haveAccounts.facebook || haveAccounts.apple;
+
+  const errorAPI = useAppSelector(selectHasAPIError);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (errorAPI) {
+      if (errorAPI >= 500) {
+        navigate('/serverError');
+      }
+    }
+  }, [errorAPI]);
 
   return (
     <div>

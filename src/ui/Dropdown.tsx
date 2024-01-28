@@ -36,8 +36,6 @@ const Dropdown: FC<DropdownProps> = ({
     setIsOpenDropdown(false);
   };
 
-  console.log(children);
-
   return (
     <Menu as='div' className='relative'>
       {({ open }) => (

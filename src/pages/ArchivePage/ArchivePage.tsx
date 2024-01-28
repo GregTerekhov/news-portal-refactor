@@ -1,6 +1,6 @@
 import React, { FC, useEffect } from 'react';
 
-import { useAuthRedux, useDB } from 'reduxStore/hooks';
+import { useAppSelector, useAuthRedux, useDB } from 'reduxStore/hooks';
 
 import { useNotification } from 'contexts';
 
@@ -9,11 +9,24 @@ import { Accordeon, Loader, Notification, PlugImage } from 'ui';
 
 import { organiseNewsByMonth } from './assistants';
 import { ArchiveHistoryLog } from './subcomponents';
+import { selectHasAPIError } from 'reduxStore/newsAPI';
+import { useNavigate } from 'react-router-dom';
 
 const ArchivePage: FC<{}> = () => {
   const { isLoadingDBData, allArchive, archiveHistoryLog, getHistoryLog, getArchives } = useDB();
   const { isAuthenticated } = useAuthRedux();
   const { openToast, setOpenToast } = useNotification();
+
+  const errorAPI = useAppSelector(selectHasAPIError);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (errorAPI) {
+      if (errorAPI >= 500) {
+        navigate('/serverError');
+      }
+    }
+  }, [errorAPI]);
 
   useEffect(() => {
     getArchives();

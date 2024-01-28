@@ -73,7 +73,7 @@ export const fetchRead = createAppAsyncThunk<SavedNewsResponse>(
       const response = await axiosInstance.get<SavedNewsResponse>('/news/read');
       return response.data;
     } catch (error: any) {
-      console.log('Error fetchReads', error.message);
+      console.log('Error fetchReads', error);
       return rejectWithValue(error.message);
     }
   },

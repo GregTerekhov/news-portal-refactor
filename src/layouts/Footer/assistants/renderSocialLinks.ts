@@ -8,7 +8,7 @@ export const renderSocialLinks = (): Array<SocialLinks> => {
   const links: SocialLinks[] = [
     {
       link: 'https://www.youtube.com/@nytimes',
-      iconName: 'icon-arrow-right-filled',
+      iconName: 'icon-youtube',
       label: 'YouTube',
     },
     {

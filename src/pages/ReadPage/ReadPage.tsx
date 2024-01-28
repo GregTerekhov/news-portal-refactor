@@ -1,12 +1,13 @@
 import React, { FC, useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
-import { useDB, useFiltersAction } from 'reduxStore/hooks';
+import { useAppSelector, useDB, useFiltersAction } from 'reduxStore/hooks';
 
 import { useActiveLinks, useChooseRenderingNews, useFilterNews, useReadNewsContent } from 'hooks';
 
 import { NewsList } from 'components';
 import { Accordeon, Loader, Notification, PlugImage } from 'ui';
+import { selectHasAPIError } from 'reduxStore/newsAPI';
 
 const ReadPage: FC<{}> = () => {
   const [openToast, setOpenToast] = useState<boolean>(false);
@@ -20,6 +21,17 @@ const ReadPage: FC<{}> = () => {
   const initialReadsList = useReadNewsContent({ activeLinks });
   const { rebuildedNews } = useChooseRenderingNews({ activeLinks });
   const { sortedDates } = useFilterNews({ activeLinks });
+
+  const errorAPI = useAppSelector(selectHasAPIError);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (errorAPI) {
+      if (errorAPI >= 500) {
+        navigate('/serverError');
+      }
+    }
+  }, [errorAPI]);
 
   useEffect(() => {
     getReads();
