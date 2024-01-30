@@ -17,69 +17,11 @@ const AccountManagePage = lazy(() => import('./pages/AccountManagePage/AccountMa
 const ErrorPage = lazy(() => import('./pages/ErrorPage/ErrorPage'));
 const AboutUs = lazy(() => import('./pages/AboutUs/AboutUs'));
 
-// const router = createBrowserRouter([
-//   {
-//     path: '/',
-//     element: <Layout />,
-//     errorElement: <ErrorPage />,
-
-//     children: [
-//       {
-//         index: true,
-//         element: <HomePage />,
-//       },
-//       {
-//         path: '',
-//         element: <ProtectedRoute />,
-//         children: [
-//           {
-//             path: 'favourite', // замінити всюди шляхи з косою рискою на відносні шляхи - без неї
-//             element: <FavouritePage />,
-//           },
-//           {
-//             path: 'read',
-//             element: <ReadPage />,
-//           },
-//           {
-//             path: 'archive',
-//             element: <ArchivePage />,
-//           },
-//           {
-//             path: 'account',
-//             element: <AccountLayout />,
-//             children: [
-//               {
-//                 index: true,
-//                 element: <AccountPage />,
-//               },
-//               {
-//                 path: 'account-manage',
-//                 element: <AccountManagePage />,
-//               },
-//             ],
-//           },
-//         ],
-//       },
-//       {
-//         path: 'about-us',
-//         element: <AboutUs />,
-//       },
-//     ],
-//   },
-// ]);
-
 function App() {
   const { isRefreshingUser, fetchCurrentAuthUser } = useAuthRedux();
 
-  // Отримаємо значення isLoggedIn з localStorage для запиту fetchCurrentAuthUser
-  const isLoggedInValue = localStorage.getItem('persist:auth')
-    ? JSON.parse(localStorage.getItem('persist:auth') || '')
-    : false;
-
   useEffect(() => {
-    if (isLoggedInValue?.isLoggedIn === true) {
-      fetchCurrentAuthUser();
-    }
+    fetchCurrentAuthUser();
   }, []);
 
   return isRefreshingUser ? (

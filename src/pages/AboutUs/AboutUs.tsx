@@ -87,7 +87,7 @@ const AboutUs: FC<{}> = () => {
           memberCV:
             'https://drive.google.com/file/d/15pBheHpJaq_u8UyXg0W31FrZEey5Z3vC/view?usp=sharing',
           githubLink: 'https://github.com/PavlenkoDm',
-          linkedinLink: '',
+          linkedinLink: 'https://www.linkedin.com/in/pavlenko-dmitry/',
           emailLink: 'mailto:dmpavlenko07@gmail.com',
           telegramLink: 'http://t.me/Pavlenko_Dm',
         },
@@ -99,16 +99,16 @@ const AboutUs: FC<{}> = () => {
 
   return (
     <>
-      <h1 className={`${commonTextMemberClass} text-giant font-bold mb-10`}>About Us</h1>
+      <h1 className={`${commonTextMemberClass} mb-10 text-giant font-bold`}>About Us</h1>
       {members &&
         members.map((group) => (
           <div key={group.groupTitle}>
             <h2
-              className={`${commonTextMemberClass} text-3.5xl mb-2 md:mb-6 after:content-[""] after:block after:w-full after:h-px after:bg-greyAlt after:mt-2`}
+              className={`${commonTextMemberClass} mb-2 text-3.5xl after:mt-2 after:block after:h-px after:w-full after:bg-greyAlt after:content-[""] md:mb-6`}
             >
               {group.groupTitle}
             </h2>
-            <ul className='max-lg:space-y-10 mb-12 md:mb-20 lg:grid lg:grid-cols-2 lg:grid-rows-1 lg:gap-x-10'>
+            <ul className='mb-12 max-lg:space-y-10 md:mb-20 lg:grid lg:grid-cols-2 lg:grid-rows-1 lg:gap-x-10'>
               {group.groupMembers.map(
                 ({
                   memberName,
@@ -122,14 +122,14 @@ const AboutUs: FC<{}> = () => {
                   telegramLink,
                 }: Member) => (
                   <li key={memberName} className='max-md:space-y-4 md:flex md:gap-x-12'>
-                    <div className='rounded-xl md:w-96 hg:w-[320px] shadow-card dark:shadow-darkCard duration-500 lg:w-72 overflow-hidden'>
+                    <div className='overflow-hidden rounded-xl shadow-card duration-500 dark:shadow-darkCard md:w-96 lg:w-72 hg:w-[320px]'>
                       <img
                         src={memberImage}
                         alt={imageDescription}
                         className='h-full max-md:max-w-full'
                       />
                     </div>
-                    <div className='max-md:space-y-4 md:grow md:flex md:flex-col md:justify-around'>
+                    <div className='max-md:space-y-4 md:flex md:grow md:flex-col md:justify-around'>
                       <div className='space-y-4'>
                         <h3 className={`${commonTextMemberClass} text-2xl md:text-4xl hg:text-5xl`}>
                           {memberName}
@@ -147,7 +147,7 @@ const AboutUs: FC<{}> = () => {
                             href={memberCV}
                             target='_blank'
                             rel='noopener noreferrer'
-                            className='text-accentBase font-medium dark:text-whiteBase dark:underline'
+                            className='font-medium text-accentBase dark:text-whiteBase dark:underline'
                           >
                             {memberName} CV
                           </a>

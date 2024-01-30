@@ -1,4 +1,4 @@
-import { PayloadAction, SerializedError, createAction, createSlice } from '@reduxjs/toolkit';
+import { PayloadAction, createAction, createSlice } from '@reduxjs/toolkit';
 
 import { RootState } from './store';
 
@@ -9,7 +9,7 @@ export type FilterResults = 'idle' | 'loading' | 'empty' | 'full';
 interface FiltersState {
   filters: PartialVotedNewsArray;
   hasResults: FilterResults;
-  hasError: SerializedError | null;
+  hasError: string | null;
 }
 
 const initialState: FiltersState = {
@@ -48,4 +48,4 @@ const filterSlice = createSlice({
 export const selectFilters = (state: RootState) => state.filters.filters;
 export const selectResults = (state: RootState) => state.filters.hasResults;
 export const { filterNews, resetFilters } = filterSlice.actions;
-export const filtersSliceReducer = filterSlice.reducer;
+export const filtersReducer = filterSlice.reducer;

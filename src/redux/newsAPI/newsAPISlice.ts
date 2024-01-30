@@ -1,10 +1,4 @@
-import {
-  PayloadAction,
-  SerializedError,
-  createAction,
-  createSlice,
-  isAnyOf,
-} from '@reduxjs/toolkit';
+import { PayloadAction, createAction, createSlice, isAnyOf } from '@reduxjs/toolkit';
 
 import { ArticleNewsArray, NewsWireArray, PopularNewsArray, CategoriesItem } from 'types';
 
@@ -17,7 +11,7 @@ type newsAPIState = {
   categoriesList: CategoriesItem[];
   searchByDate: ArticleNewsArray;
   isLoading: boolean;
-  hasError: SerializedError | null;
+  hasError: number | null;
   headline: string;
 };
 
@@ -44,8 +38,10 @@ const handleFulfilled = (state: newsAPIState) => {
 
 const handleRejected = (state: newsAPIState, action: PayloadAction<unknown, string, any>) => {
   state.isLoading = false;
-  state.hasError = action.payload ?? null;
-  console.log('ERROR', action.payload, action);
+  if (typeof action.payload === 'number') {
+    state.hasError = action.payload ?? null;
+    console.log('ERROR', action.payload, action);
+  }
 };
 
 const extraActions = [
@@ -87,19 +83,15 @@ const newsAPISlice = createSlice({
       })
       .addCase(newsAPIOperations.fetchNewsByKeyword.fulfilled, (state, action) => {
         state.searchByWord = action.payload;
-        console.log('fetchNewsByKeyword', action.payload);
       })
       .addCase(newsAPIOperations.fetchAllCategories.fulfilled, (state, action) => {
         state.categoriesList = action.payload;
-        console.log('fetchAllCategories', action.payload);
       })
       .addCase(newsAPIOperations.fetchNewsByCategory.fulfilled, (state, action) => {
         state.categories = action.payload;
-        console.log('fetchNewsByCategory', action.payload);
       })
       .addCase(newsAPIOperations.fetchNewsByDate.fulfilled, (state, action) => {
         state.searchByDate = action.payload;
-        console.log('fetchNewsByDate', action.payload);
       })
       .addCase(changeHeadline, (state, action) => {
         state.headline = action.payload;

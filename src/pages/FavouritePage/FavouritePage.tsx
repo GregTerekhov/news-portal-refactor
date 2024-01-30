@@ -24,7 +24,7 @@ const FavouritePage: FC<{}> = () => {
   }, [getFavourites, getSavedNews]);
 
   useEffect(() => {
-    if (!!allFavourites) {
+    if (!!allFavourites && allFavourites.length > 0) {
       setOpenToast(true);
     }
   }, [allFavourites]);

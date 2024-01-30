@@ -30,7 +30,7 @@ const SearchBlock: FC<{}> = () => {
   const isNotMobile = breakpointsForMarkup?.isTablet || breakpointsForMarkup?.isDesktop;
 
   return (
-    <div className='relative md:grid md:grid-cols-6 md:gap-4 md-grid-rows-2 lg:grid-cols-13 lg:gap-6 p-3.5 after:content-[""] after:block after:w-full after:h-px after:bg-fullDark/[.2] after:dark:bg-whiteBase/[.2] max-md:after:mt-4 md:after:col-span-full max-md:space-y-4'>
+    <div className='md-grid-rows-2 relative p-3.5 after:block after:h-px after:w-full after:bg-fullDark/[.2] after:content-[""] after:dark:bg-whiteBase/[.2] max-md:space-y-4 max-md:after:mt-4 md:grid md:grid-cols-6 md:gap-4 md:after:col-span-full lg:grid-cols-13 lg:gap-6'>
       {isNotMobile ? (
         <form
           onSubmit={(e) => onHandleSearch(e)}
@@ -52,26 +52,22 @@ const SearchBlock: FC<{}> = () => {
       ) : null}
       <div className='md:col-span-2 lg:col-span-3'>
         <Dropdown
-          labels={categoriesForDropdown || []}
+          options={categoriesForDropdown || []}
           getResults={getNewsByCategory}
           selectedItem={category}
-          // onSelectItem={setCategory}
           onSelectItem={updateSearchParams}
-        >
-          Categories
-        </Dropdown>
+          label='Categories'
+        ></Dropdown>
       </div>
       {showPopular ? (
         <div className='md:col-span-2 lg:col-span-3'>
           <Dropdown
-            labels={['Today', 'Week', 'Month']}
+            options={['Today', 'Week', 'Month']}
             getResults={getNewsByPeriod}
             selectedItem={period}
             onSelectItem={updateSearchParams}
-            // onSelectItem={setPeriod}
-          >
-            Time period
-          </Dropdown>
+            label='Time period'
+          ></Dropdown>
         </div>
       ) : null}
 
@@ -80,7 +76,7 @@ const SearchBlock: FC<{}> = () => {
       </div>
       <div className='md:col-span-3 md:mt-auto lg:col-span-1'>
         {breakpointsForMarkup?.isDesktop ? (
-          <p className='text-darkBase dark:text-whiteBase mb-2 text-base'>Reset</p>
+          <p className='mb-2 text-base text-darkBase dark:text-whiteBase'>Reset</p>
         ) : null}
         <PrimaryButton
           id='Reset all requests button'

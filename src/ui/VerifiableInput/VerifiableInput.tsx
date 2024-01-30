@@ -5,7 +5,7 @@ import { UseFormRegister } from 'react-hook-form';
 //   SignUpRequest,
 //   AuthRequestWithoutName,
 //   IUpdatePassword,
-//   RecoveryPasswordRequest,
+//   SendEmailRequest,
 // } from 'types';
 import { InputLabel, VariantVerifiableInputs } from 'types';
 
@@ -22,7 +22,7 @@ interface InputCollectedData {
 
 type AriaInvalid = boolean | 'false' | 'true' | 'grammar' | 'spelling' | undefined;
 
-// type Values = IUpdatePassword | SignUpRequest | AuthRequestWithoutName | RecoveryPasswordRequest;
+// type Values = IUpdatePassword | SignUpRequest | AuthRequestWithoutName | SendEmailRequest;
 
 interface InputProps {
   inputData: InputCollectedData;
@@ -66,7 +66,7 @@ const VerifiableInput: FC<InputProps> = ({
       ${className}`}
     >
       {variant === VariantVerifiableInputs.Auth && label !== 'recoveryEmail' && (
-        <span className='mb-1.5 block text-accentBase font-medium'>{children}</span>
+        <span className='mb-1.5 block font-medium text-accentBase'>{children}</span>
       )}
       <div className={`relative ${variant === VariantVerifiableInputs.Auth ? '' : 'mb-4'}`}>
         {type === 'password' ? (
@@ -78,26 +78,26 @@ const VerifiableInput: FC<InputProps> = ({
             <SvgIcon
               svgName={`${isPasswordVisibility ? 'icon-eye-opened' : 'icon-eye-closed'}`}
               size={20}
-              className='fill-greyBase absolute right-3 bottom-[9px] md:right-4 cursor-pointer'
+              className='absolute bottom-[9px] right-3 cursor-pointer fill-greyBase md:right-4'
             />
           </button>
         ) : null}
         {hasIcon && (
-          <span className='absolute w-5 h-5 left-3 top-50% transform -translate-y-1/2 flex items-center justify-center'>
+          <span className='absolute left-3 top-50% flex h-5 w-5 -translate-y-1/2 transform items-center justify-center'>
             <SvgIcon svgName={svgName} size={20} className='fill-accentBase' />
           </span>
         )}
         {placeholder === 'Enter your current email' ? (
           <button
             type='submit'
-            className='absolute right-2 top-1/2 -translate-y-1/2 rounded-full bg-accentBase w-8 h-8 flex items-center justify-center hover:bg-accentAlt cursor-pointer'
+            className='absolute right-2 top-1/2 flex h-8 w-8 -translate-y-1/2 cursor-pointer items-center justify-center rounded-full bg-accentBase hover:bg-accentAlt'
             onClick={handleSubmitRecovery}
           >
             <SvgIcon svgName='icon-arrow-right-filled' size={20} className='fill-whiteBase' />
           </button>
         ) : null}
         <input
-          className={` ${geometry} ${bg} ${border} ${text} ${caret} ${placeholderStyle} transition-colors duration-500 font-header border-solid border rounded-3xl outline-0 text-small leading-mediumRelaxed tracking-bigWide md:text-base md:leading-moreRelaxed md:tracking-wide $`}
+          className={` ${geometry} ${bg} ${border} ${text} ${caret} ${placeholderStyle} $ rounded-3xl border border-solid font-header text-small leading-mediumRelaxed tracking-bigWide outline-0 transition-colors duration-500 md:text-base md:leading-moreRelaxed md:tracking-wide`}
           id={id + label}
           {...register(label)}
           type={isPasswordVisibility ? 'text' : type}
@@ -108,7 +108,7 @@ const VerifiableInput: FC<InputProps> = ({
         />
       </div>
       {fieldValue?.length !== 0 && errors && (
-        <p className='text-darkBase dark:text-whiteBase text-small md:text-medium'>{errors}</p>
+        <p className='text-small text-darkBase dark:text-whiteBase md:text-medium'>{errors}</p>
       )}
     </label>
   );

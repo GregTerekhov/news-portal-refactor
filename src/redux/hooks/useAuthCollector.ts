@@ -7,9 +7,8 @@ import {
   AuthRequestWithoutName,
   IThirdPartyAuth,
   UpdateThemeRequest,
-  GoogleResponse,
   TokensPayload,
-  RecoveryPasswordRequest,
+  SendEmailRequest,
   UpdatePasswordRequest,
   RecoveryPasswordChange,
 } from 'types';
@@ -46,7 +45,7 @@ const useAuthCollector = () => {
   );
 
   const sendEmailForRecovery = useCallback(
-    (email: RecoveryPasswordRequest) => dispatch(auth.recoveryPasswordRequest(email)),
+    (email: SendEmailRequest) => dispatch(auth.recoveryPasswordRequest(email)),
     [dispatch],
   );
 
@@ -56,7 +55,7 @@ const useAuthCollector = () => {
   );
 
   const enterWithGoogle = useCallback(
-    (tokenAuth: GoogleResponse) => dispatch(auth.googleAuth(tokenAuth)),
+    (email: SendEmailRequest) => dispatch(auth.googleAuth(email)),
     [dispatch],
   );
 

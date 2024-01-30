@@ -49,13 +49,13 @@ const Layout: FC = () => {
     <div
       className={`max-h-sectionSmall md:max-h-sectionMedium lg:max-h-sectionLarge ${
         activeLinks?.isHomeActive ? 'h-full' : 'h-screen'
-      } w-full flex flex-col justify-between`}
+      }  flex flex-col justify-between`}
     >
       {!activeLinks?.isErrorPage && <Header />}
-      <main>
+      <main className='h-full'>
         {activeLinks.isHomeActive && <Hero />}
         <section
-          className={`w-screen bg-whiteBase dark:bg-darkBackground transition-colors duration-500 h-full ${
+          className={`h-full w-screen bg-whiteBase transition-colors duration-500 dark:bg-darkBackground ${
             activeLinks.isArchiveActive || activeLinks.isFavoriteActive || activeLinks.isReadActive
               ? 'pt-10 md:pt-12 lg:pt-[60px]'
               : 'pt-6 md:pt-7'
@@ -64,12 +64,12 @@ const Layout: FC = () => {
           <div className='container mx-auto px-4 hg:px-[65px]'>
             {isAuthenticated && !shouldNotShowFiltersManager ? <NewsFilterManager /> : null}
             {!isAuthenticated && !isNotMobile && !activeLinks?.isErrorPage && (
-              <div className='flex justify-end mb-10'>
+              <div className='mb-10 flex justify-end'>
                 <ThemeSwitcher variant={VariantSwitcher.Header} />
               </div>
             )}
             {activeLinks?.isErrorPage && (
-              <div className='flex justify-end mb-10'>
+              <div className='mb-10 flex justify-end'>
                 <ThemeSwitcher variant={VariantSwitcher.Header} />
               </div>
             )}

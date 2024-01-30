@@ -59,7 +59,7 @@ const CommonMenu: FC<CommonMenuProps> = ({ isOpen, navId, closeMenu }) => {
       closeMenu();
     }
     logout();
-    localStorage.clear();
+    localStorage.removeItem('_persist');
   };
 
   const closeMenuByClickOnLink = () => {

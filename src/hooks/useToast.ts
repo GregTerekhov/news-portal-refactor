@@ -1,9 +1,10 @@
-import { useAuthRedux } from 'reduxStore/hooks';
+import { useAuthRedux, useNewsAPI } from 'reduxStore/hooks';
 
 const useToast = () => {
   const { authError } = useAuthRedux();
+  const { errorAPI } = useNewsAPI();
 
-  const chooseErrorToastText = (status: string | undefined): string => {
+  const chooseErrorToastText = (status: string | number | undefined): string => {
     let toastText = '';
 
     switch (status) {
@@ -22,7 +23,9 @@ const useToast = () => {
       case 'Password incorrect':
         toastText = 'Password is wrong';
         break;
-
+      case 429:
+        toastText = 'Too many requests';
+        break;
       default:
         toastText = '';
         break;
@@ -31,8 +34,11 @@ const useToast = () => {
     return toastText;
   };
 
+  const status =
+    authError && authError.message ? authError.message : errorAPI ? errorAPI : undefined;
+
   const showErrorToast = (): string => {
-    return chooseErrorToastText(authError?.message);
+    return chooseErrorToastText(status);
   };
 
   return {

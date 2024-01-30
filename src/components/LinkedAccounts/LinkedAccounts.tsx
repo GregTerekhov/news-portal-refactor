@@ -1,8 +1,9 @@
 import React, { FC } from 'react';
+// import axios from 'axios';
 import { useLocation } from 'react-router-dom';
 import { useGoogleLogin } from '@react-oauth/google';
 
-import { useAppSelector, useAuthRedux } from 'reduxStore/hooks';
+import { useAuthRedux } from 'reduxStore/hooks';
 
 import { VariantButton } from 'types';
 import { useWindowWidth } from 'contexts';
@@ -11,13 +12,15 @@ import { useActiveLinks } from 'hooks';
 import { PrimaryButton } from 'ui';
 
 import { useFacebookLogin } from './hooks';
-import { selectUser } from 'reduxStore/auth';
+
+// type VerifiedGoogleEmail = {
+//   email: string;
+// };
 
 const LinkedAccounts: FC<{}> = () => {
   const { breakpointsForMarkup } = useWindowWidth() ?? {
     breakpointsForMarkup: null,
   };
-  // const { haveAccounts, enterWithGoogle } = useAuthRedux();
   const { haveAccounts } = useAuthRedux();
   const location = useLocation();
   const { isManageAccountPage } = useActiveLinks(location);
@@ -25,16 +28,25 @@ const LinkedAccounts: FC<{}> = () => {
   const { handleFacebookLogin, isLoading } = useFacebookLogin();
 
   const googleLogin = useGoogleLogin({
-    onSuccess: (codeResponse) => {
-      // enterWithGoogle({ codeResponse });
+    onSuccess: async (codeResponse) => {
       console.log('codeResponse', codeResponse);
+      // try {
+      //   const userInfo: VerifiedGoogleEmail = await axios
+      //     .get('https://www.googleapis.com/oauth2/v3/userinfo', {
+      //       headers: { Authorization: `Bearer ${codeResponse.access_token}` },
+      //     })
+      //     .then((res) => res.data);
+      //   console.log('userInfo', userInfo);
+      //   // enterWithGoogle({ email: userInfo.email });
+      // } catch (error) {
+      //   console.log(error);
+      //   alert('Failed to login');
+      // }
+    },
+    onError: (error) => {
+      console.log(error);
     },
   });
-
-  const emailSelect = useAppSelector(selectUser);
-
-  console.log(emailSelect);
-
   const hasConnectedAccount = haveAccounts.google || haveAccounts.facebook || haveAccounts.apple;
   const isMobile = breakpointsForMarkup?.isNothing || breakpointsForMarkup?.isMobile;
 
@@ -64,10 +76,10 @@ const LinkedAccounts: FC<{}> = () => {
     <>
       {isManageAccountPage ? (
         <>
-          <h3 className='text-darkBase dark:text-whiteBase mb-2 lg:mb-4 md:text-2xl'>
+          <h3 className='mb-2 text-darkBase dark:text-whiteBase md:text-2xl lg:mb-4'>
             Connected accounts
           </h3>
-          <p className='text-darkBase text-small lg:text-medium leading-normal dark:text-whiteBase after:content=[""] after:block after:mt-3 after:w-full after:h-px after:bg-greyAlt after:dark:bg-whiteBase mb-2 md:mb-4'>
+          <p className='after:content=[""] mb-2 text-small leading-normal text-darkBase after:mt-3 after:block after:h-px after:w-full after:bg-greyAlt dark:text-whiteBase after:dark:bg-whiteBase md:mb-4 lg:text-medium'>
             You can connect or disconnect your News account to Google, Facebook, or Apple to log in
             using this account. We will never send messages to your contacts without your
             permission.
@@ -107,7 +119,7 @@ const LinkedAccounts: FC<{}> = () => {
               />
             </div>
             {isManageAccountPage ? (
-              <p className='text-darkBase text-small lg:text-medium dark:text-whiteBase leading-normal'>
+              <p className='text-small leading-normal text-darkBase dark:text-whiteBase lg:text-medium'>
                 {`${
                   hasConnectedAccount
                     ? `Disconnect your ${account} account from News. You will no longer be able to use it to log in.`

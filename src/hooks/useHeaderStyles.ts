@@ -81,8 +81,9 @@ const useHeaderStyles = (isHomePage: boolean | undefined) => {
 
   const authButtonClass = isScrolled ? '' : 'shadow-darkCard';
 
-  const themeSwitcherClass = isScrolled ? 'shadow-none' : 'shadow-darkCard';
-  const themeSwitcherTextClass = isScrolled ? '' : '[text-shadow:8px_10px_20px_rgba(17,19,33,.5)]';
+  const themeSwitcherClass = isHomePage && isScrolled ? 'shadow-none' : 'shadow-darkCard';
+  const themeSwitcherTextClass =
+    isHomePage && isScrolled ? '' : '[text-shadow:8px_10px_20px_rgba(17,19,33,.5)]';
 
   return {
     headerClass,

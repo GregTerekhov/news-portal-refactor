@@ -61,4 +61,4 @@ const weatherSlice = createSlice({
   },
 });
 
-export const weatherSliceReducer = weatherSlice.reducer;
+export const weatherReducer = weatherSlice.reducer;

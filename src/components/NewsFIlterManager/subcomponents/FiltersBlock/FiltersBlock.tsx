@@ -36,13 +36,12 @@ const FiltersBlock: FC<{}> = () => {
       <FilterInputs />
       <div className='md:col-span-3 lg:col-span-4'>
         <Dropdown
-          labels={materialTypes}
+          options={materialTypes}
           getResults={handleMaterialTypeChange}
           selectedItem={selectedMaterialType}
           onSelectItem={setSelectedMaterialType}
-        >
-          Type
-        </Dropdown>
+          label='Type'
+        ></Dropdown>
       </div>
       <div className='md:col-span-3 lg:col-span-4'>
         <Calendar variant='FiltersBlock' />

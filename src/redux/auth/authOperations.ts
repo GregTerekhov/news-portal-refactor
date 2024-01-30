@@ -7,9 +7,8 @@ import {
   SignUpRequest,
   AuthRequestWithoutName,
   IThirdPartyAuth,
-  RecoveryPasswordRequest,
+  SendEmailRequest,
   UpdateThemeRequest,
-  GoogleResponse,
   CredentialSignUpResponse,
   CredentialSignInResponse,
   SignOutResponse,
@@ -24,7 +23,6 @@ import {
 export const signUp = createAppAsyncThunk<CredentialSignUpResponse, SignUpRequest>(
   'auth/signUp',
   async (credentials, { rejectWithValue }) => {
-    // console.log('credentials', credentials);
     try {
       const response = await axios.post<CredentialSignUpResponse>(
         `${BASE_URL_DB}/auth/sign-up`,
@@ -42,7 +40,6 @@ export const signUp = createAppAsyncThunk<CredentialSignUpResponse, SignUpReques
 export const signIn = createAppAsyncThunk<CredentialSignInResponse, AuthRequestWithoutName>(
   'auth/signIn',
   async (credentials, { rejectWithValue }) => {
-    // console.log('credentials', credentials);
     try {
       const response = await axios.post<CredentialSignInResponse>(
         `${BASE_URL_DB}/auth/sign-in`,
@@ -102,26 +99,7 @@ export const updateUserEmail = createAppAsyncThunk<
     return rejectWithValue(error.response);
   }
 });
-// export const updateUserEmail = createAppAsyncThunk<any, AuthRequestWithoutName>(
-//   'auth/updateEmail',
-//   async (newEmail, { rejectWithValue }) => {
-//     const state = store.getState() as RootState;
-//     const accessToken = state.auth.accessToken;
-//     console.log('newEmail', newEmail);
-//     try {
-//       const response = await axios.patch(`${BASE_URL_DB}/auth/update-email`, newEmail, {
-//         headers: {
-//           Authorization: `Bearer ${accessToken}`,
-//         },
-//       });
-//       // console.log('UpdateCredentialsResponse', response.data);
-//       return response.data;
-//     } catch (error: any) {
-//       console.log('Error updateEmailMessage', error.response);
-//       return rejectWithValue(error.response);
-//     }
-//   },
-// );
+
 export const updateUserPassword = createAppAsyncThunk<
   UpdatePasswordResponse,
   UpdatePasswordRequest
@@ -141,7 +119,7 @@ export const updateUserPassword = createAppAsyncThunk<
 });
 export const recoveryPasswordRequest = createAppAsyncThunk<
   UpdatePasswordResponse,
-  RecoveryPasswordRequest
+  SendEmailRequest
 >('auth/recoveryPasswordRequest', async (email, { rejectWithValue }) => {
   try {
     console.log('operations forgotRequest', email.email);
@@ -150,7 +128,7 @@ export const recoveryPasswordRequest = createAppAsyncThunk<
     return response.data;
   } catch (error: any) {
     console.log('Error forgotPasswordRequest', error.response.data);
-    return rejectWithValue(error.response.data);
+    return rejectWithValue(error.response);
   }
 });
 
@@ -167,22 +145,21 @@ export const recoveryPasswordChange = createAppAsyncThunk<
     return response.data;
   } catch (error: any) {
     console.log('Error forgotPasswordChange', error.response.data);
-    return rejectWithValue(error.response.data);
+    return rejectWithValue(error.response);
   }
 });
 
 export const googleAuth = createAppAsyncThunk(
   'auth/google',
-  async (codeResponse: GoogleResponse, { rejectWithValue }) => {
+  async (email: SendEmailRequest, { rejectWithValue }) => {
     try {
-      setTokens({ accessToken: codeResponse.access_token, refreshToken: null });
-      const response = await axiosInstance.post(`/auth/google`, { codeResponse });
+      const response = await axiosInstance.post(`/auth/google`, email);
 
       console.log(response.data);
       return response.data;
     } catch (error: any) {
       console.log('Error googleAuth', error.response.data);
-      return rejectWithValue(error.response.data);
+      return rejectWithValue(error.response);
     }
   },
 );
@@ -197,7 +174,7 @@ export const facebookAuth = createAppAsyncThunk(
       return response.data;
     } catch (error: any) {
       console.log('Error facebookAuth', error.response.data);
-      return rejectWithValue(error.response.data);
+      return rejectWithValue(error.response);
     }
   },
 );
@@ -212,7 +189,7 @@ export const appleAuth = createAppAsyncThunk(
       return response.data;
     } catch (error: any) {
       console.log('Error appleAuth', error.response.data);
-      return rejectWithValue(error.response.data);
+      return rejectWithValue(error.response);
     }
   },
 );

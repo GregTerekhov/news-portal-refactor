@@ -15,7 +15,7 @@ import {
   DateRequest,
 } from 'types';
 
-export const API_KEY = CONFIG.NEWS_API_KEY;
+const API_KEY = CONFIG.NEWS_API_KEY;
 
 export const fetchPopularNews = createAppAsyncThunk<
   PopularNewsArray,
@@ -23,20 +23,12 @@ export const fetchPopularNews = createAppAsyncThunk<
   { rejectValue: any }
 >('popular/fetch', async (period, { rejectWithValue }) => {
   try {
-    let pathParams = '1';
-
-    if (period === '30') {
-      pathParams = '30';
-    } else if (period === '7') {
-      pathParams = '7';
-    }
-
-    const res = await axios.get(`${BASE_URL_NEWS}/mostpopular/v2/viewed/${pathParams}.json?`, {
+    const { data } = await axios.get(`${BASE_URL_NEWS}/mostpopular/v2/viewed/${period}.json?`, {
       params: {
         'api-key': API_KEY,
       },
     });
-    return res.data.results;
+    return data.results;
   } catch (error: any) {
     console.log(error.response);
     return rejectWithValue(error.response.status);

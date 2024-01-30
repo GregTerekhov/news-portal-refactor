@@ -81,7 +81,7 @@ const useFilterNews = ({
             setIsOpenCalendar ? setIsOpenCalendar(false) : null;
           }
         } catch (error) {
-          console.log(error);
+          console.error(error);
         }
       }
     }

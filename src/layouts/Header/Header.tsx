@@ -25,7 +25,6 @@ const Header: FC<{}> = () => {
   const { isAuthenticated, user, writeTokens } = useAuthRedux();
 
   useEffect(() => {
-    console.log('openModal', openModal);
     if (!user && token && openModal) {
       setPasswordToken(true);
       writeTokens({ accessToken: token, refreshToken: null });
@@ -63,25 +62,25 @@ const Header: FC<{}> = () => {
   return (
     <>
       <header
-        className={`fixed w-full top-0 left-0 min-h-[81px] md:min-h-[106px] lg:min-h-[113px] flex items-center justify-center ${
+        className={`fixed left-0 top-0 flex min-h-[81px] w-full items-center justify-center md:min-h-[106px] lg:min-h-[113px] ${
           isHomeActive
             ? headerClass
-            : 'bg-whiteBase/[.8] dark:bg-darkBackground/[.8] border-b border-solid border-fullDark/[.2] dark:border-whiteBase/[.2]'
+            : 'border-b border-solid border-fullDark/[.2] bg-whiteBase/[.8] dark:border-whiteBase/[.2] dark:bg-darkBackground/[.8]'
         } transition-all duration-100 ${isOpenMenu && 'border-b-0'} ${
-          isOpenModal ? 'z-0 pointer-events-none' : 'z-50 pointer-events-auto'
+          isOpenModal ? 'pointer-events-none z-0' : 'pointer-events-auto z-50'
         }`}
       >
         <div
-          className={`container relative mx-auto px-4 hg:px-[65px] flex justify-between items-center ${
+          className={`container relative mx-auto flex items-center justify-between px-4 hg:px-[65px] ${
             isAuthenticated ? 'gap-3.5' : ''
           }`}
         >
           {isNotMobile && !isAccountPages && isAuthenticated ? (
             <Link
               to='/account'
-              className={`absolute top-1.5 right-40 lg:right-60 hg:text-xl flex items-center gap-3  ${
+              className={`absolute right-40 top-1.5 flex items-center gap-3 lg:right-60 hg:text-xl  ${
                 isHomeActive ? textClass : 'text-darkBase dark:text-whiteBase'
-              } group hover:text-accentBase hover:underline hover:decoration-accentBase transition-colors duration-500`}
+              } group transition-colors duration-500 hover:text-accentBase hover:underline hover:decoration-accentBase`}
             >
               {user.name}
               <SvgIcon
@@ -90,14 +89,14 @@ const Header: FC<{}> = () => {
                 className={`${
                   isHomeActive
                     ? accountIconStyles
-                    : 'fill-darkBase dark:fill-whiteBase group-hover:fill-accentBase dark:group-hover:fill-whiteBase'
+                    : 'fill-darkBase group-hover:fill-accentBase dark:fill-whiteBase dark:group-hover:fill-whiteBase'
                 }`}
               />
             </Link>
           ) : null}
           <Link
             to='/'
-            className={`sm:py-6 md:pt-8 md:pb-[30px] lg:py-7 text-3xl leading-tight lg:leading-[1.357144] md:text-4xl lg:text-giant font-bold transition-colors duration-500 ${
+            className={`text-3xl font-bold leading-tight transition-colors duration-500 sm:py-6 md:pb-[30px] md:pt-8 md:text-4xl lg:py-7 lg:text-giant lg:leading-[1.357144] ${
               !isOpenMenu && isHomeActive ? textClass : 'text-darkBase dark:text-whiteBase'
             } 
               `}
@@ -141,7 +140,7 @@ const Header: FC<{}> = () => {
                         !isAccountPages ? 'mobile' : 'account'
                       } menu button`}
                       type='button'
-                      className='w-6 h-6 md:hidden'
+                      className='h-6 w-6 md:hidden'
                       onClick={() => {
                         toggleMenu();
                         resetFilters();

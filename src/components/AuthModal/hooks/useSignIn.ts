@@ -9,45 +9,47 @@ import { AuthRequestWithoutName, CredentialSignInResponse } from 'types';
 import { useNotification } from 'contexts';
 import { usePopUp } from 'hooks';
 
-import { decryptData, encryptData, generateEncryptionKey, signInSchema } from '../assistants';
+import {
+  getCheckboxState,
+  loadUserDataFromLocalStorage,
+  saveUserDataToLocalStorage,
+  signInSchema,
+} from '../assistants';
 import { AuthInputs } from '../types';
 
 const useSignIn = () => {
-  const [isChecked, setIsChecked] = useState<boolean>(() => !!localStorage.rememberMe);
-  const [isKeyReady, setIsKeyReady] = useState<boolean>(false);
-  const [key, setKey] = useState<CryptoKey | null>(null);
+  const [isChecked, setIsChecked] = useState<boolean>(getCheckboxState());
 
   const { setOpenToast } = useNotification();
   const { login } = useAuthRedux();
   const { toggleModal } = usePopUp();
 
+  const hasSavedCryptoUserData = localStorage.getItem('rememberMeData');
+
   useEffect(() => {
-    const generateKey = async () => {
-      try {
-        const generatedKey = await generateEncryptionKey();
-        setKey(generatedKey);
-        setIsKeyReady(true);
-      } catch (error) {
-        console.error('Error generating key:', error);
+    const loadUserData = async () => {
+      if (hasSavedCryptoUserData) {
+        const loadedUserData = await loadUserDataFromLocalStorage();
+
+        console.log('loadedUserData', loadedUserData);
+        if (loadedUserData) {
+          console.log('loadedUserData', loadedUserData);
+          setValue('email', loadedUserData.email);
+          setValue('password', loadedUserData.password);
+        }
       }
     };
 
-    generateKey();
+    loadUserData();
   }, []);
 
   useEffect(() => {
-    const fetchRememberedData = async () => {
-      const encryptedData = localStorage.getItem('rememberedUserData');
-
-      if (encryptedData && isKeyReady && key) {
-        const decryptedData = await decryptData(encryptedData, key);
-        setValue('email', decryptedData.email);
-        setValue('password', decryptedData.password);
-      }
-    };
-
-    fetchRememberedData();
-  }, [isKeyReady]);
+    if (!isChecked) {
+      localStorage.removeItem('rememberMeData');
+      localStorage.removeItem('rememberMe');
+      localStorage.removeItem('encryptionKey');
+    }
+  }, [isChecked]);
 
   const {
     handleSubmit,
@@ -77,16 +79,15 @@ const useSignIn = () => {
     try {
       const { email, password } = data;
 
-      if (isChecked && email !== '' && key) {
-        const userData = { email: email, password: password };
-        const encryptedData = await encryptData(userData, key);
-        localStorage.setItem('rememberedUserData', encryptedData);
+      if (isChecked && email !== '' && password !== '') {
+        await saveUserDataToLocalStorage({ email, password });
         localStorage.rememberMe = isChecked.toString();
       }
 
       if (!isChecked) {
-        localStorage.removeItem('rememberedUserData');
+        localStorage.removeItem('rememberMeData');
         localStorage.removeItem('rememberMe');
+        localStorage.removeItem('encryptionKey');
       }
 
       const signInCredentials = {

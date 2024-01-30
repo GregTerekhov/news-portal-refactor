@@ -3,7 +3,7 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 
 import { useAuthRedux } from 'reduxStore/hooks';
 
-import { RecoveryPasswordRequest } from 'types';
+import { SendEmailRequest } from 'types';
 
 import { changePasswordSchema, recoveryPasswordSchema } from '../assistants';
 import { AuthInputs, RecoveryInputsValues } from '../types';
@@ -18,7 +18,7 @@ const useForgotPassword = () => {
     // watch,
     resetField,
     formState: { errors: recoveryPasswordErrors },
-  } = useForm<RecoveryPasswordRequest>({ resolver: yupResolver(recoveryPasswordSchema) });
+  } = useForm<SendEmailRequest>({ resolver: yupResolver(recoveryPasswordSchema) });
 
   const {
     handleSubmit: handleChangePasswordSubmit,
@@ -32,7 +32,7 @@ const useForgotPassword = () => {
 
   // const email = watch('email');
 
-  const recoveryPasswordSubmitHandler: SubmitHandler<RecoveryPasswordRequest> = async (data, e) => {
+  const recoveryPasswordSubmitHandler: SubmitHandler<SendEmailRequest> = async (data, e) => {
     e?.stopPropagation();
     e?.preventDefault();
 

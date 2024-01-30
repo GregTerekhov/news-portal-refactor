@@ -1,7 +1,7 @@
 import { PayloadAction, createAction, createSlice, isAnyOf } from '@reduxjs/toolkit';
 
-import * as authOperations from './authOperations';
 import { ThemeValue, TokensPayload } from 'types';
+import * as authOperations from './authOperations';
 
 export type KnownError = {
   message: string | undefined;
@@ -108,7 +108,6 @@ const authSlice = createSlice({
         const { name, email } = action.payload.user;
         state.user.name = name;
         state.user.email = email;
-        // state.message = action.payload.message;
       })
       .addCase(authOperations.signIn.fulfilled, (state, action) => {
         state.isLoggedIn = true;
@@ -116,7 +115,6 @@ const authSlice = createSlice({
         state.userTheme = action.payload.userTheme;
         state.accessToken = action.payload.accessToken;
         state.refreshToken = action.payload.refreshToken;
-        // state.message = action.payload.message;
       })
       .addCase(authOperations.signOut.fulfilled, () => {
         return { ...initialState };
@@ -127,25 +125,16 @@ const authSlice = createSlice({
         state.userTheme = action.payload.userTheme;
         state.isCurrentUser = false;
         state.hasError = null;
-        // state.message = action.payload.message;
       })
       .addCase(authOperations.updateUserEmail.fulfilled, (state, action) => {
         state.user.email = action.payload.newEmail;
-        // state.message = action.payload.message;
       })
-      // .addCase(authOperations.updateUserPassword.fulfilled, (state, action) => {
-      //   state.message = action.payload.message;
-      // })
-      // .addCase(authOperations.recoveryPasswordChange.fulfilled, (state, action) => {
-      //   state.message = action.payload.message;
-      // })
       .addCase(authOperations.googleAuth.fulfilled, (state, action) => {
         state.isLoggedIn = true;
         state.haveAccounts.google = true;
         state.user = action.payload.user;
         state.accessToken = action.payload.access;
         state.refreshToken = action.payload.refresh;
-        // state.message = action.payload.message;
       })
       .addCase(authOperations.facebookAuth.fulfilled, (state, action) => {
         state.isLoggedIn = true;
@@ -153,7 +142,6 @@ const authSlice = createSlice({
         state.user = action.payload.user;
         state.accessToken = action.payload.accessToken;
         state.refreshToken = action.payload.refreshToken;
-        // state.message = action.payload.message;
       })
       .addCase(authOperations.appleAuth.fulfilled, (state, action) => {
         state.isLoggedIn = true;
@@ -161,11 +149,9 @@ const authSlice = createSlice({
         state.user = action.payload.user;
         state.accessToken = action.payload.accessToken;
         state.refreshToken = action.payload.refreshToken;
-        // state.message = action.payload.message;
       })
       .addCase(authOperations.updateTheme.fulfilled, (state, action) => {
         state.userTheme = action.payload.userTheme;
-        // state.message = action.payload.message;
       })
       .addCase(setTokens, (state, action) => {
         const { accessToken, refreshToken } = action.payload;
@@ -182,4 +168,4 @@ const authSlice = createSlice({
   },
 });
 
-export const authSliceReducer = authSlice.reducer;
+export const authReducer = authSlice.reducer;

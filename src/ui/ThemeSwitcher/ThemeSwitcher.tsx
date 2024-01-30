@@ -45,15 +45,15 @@ const ThemeSwitcher: FC<{ variant: VariantSwitcher }> = ({ variant }) => {
         onChange={setEnabled}
         onClick={handleThemeChange}
         className={`${currentStyles.shadow} ${
-          enabled ? 'bg-accentBase border-contrastWhite' : 'bg-contrastWhite border-accentBase'
+          enabled ? 'border-contrastWhite bg-accentBase' : 'border-accentBase bg-contrastWhite'
         }
-          relative inline-flex items-center h-5 w-10 shrink-0 cursor-pointer rounded-full border transition-colors duration-500 ease-in-out focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75`}
+          relative inline-flex h-5 w-10 shrink-0 cursor-pointer items-center rounded-full border transition-colors duration-500 ease-in-out focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75`}
       >
         <span className='sr-only'>Theme switcher</span>
         <span
           aria-hidden='true'
           className={`${
-            enabled ? 'bg-contrastWhite translate-x-5' : 'bg-accentBase translate-x-[1px]'
+            enabled ? 'translate-x-5 bg-contrastWhite' : 'translate-x-[1px] bg-accentBase'
           }
             pointer-events-none inline-block h-4 w-4 transform rounded-full shadow-lg ring-0 transition duration-500 ease-in-out`}
         />

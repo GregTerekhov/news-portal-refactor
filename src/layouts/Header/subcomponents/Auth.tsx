@@ -24,6 +24,7 @@ const Auth: FC<{}> = () => {
 
   const onSignOut = async () => {
     await logout();
+    localStorage.removeItem('_persist');
     navigate('/');
   };
 

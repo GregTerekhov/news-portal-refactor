@@ -1,4 +1,4 @@
-import React, { FC, ReactNode, useState } from 'react';
+import React, { FC, useState } from 'react';
 import { Menu, Transition } from '@headlessui/react';
 
 import { SearchParamsObject } from 'hooks/useAdditionalRequest';
@@ -7,16 +7,16 @@ import SvgIcon from './SvgIcon';
 import { CustomScrollBar } from '.';
 
 interface DropdownProps {
-  children: ReactNode;
-  labels: string[] | undefined;
+  label: string;
+  options: string[] | undefined;
   getResults: (value: string) => void;
   selectedItem: string;
   onSelectItem: (key: keyof SearchParamsObject | 'type', value: string) => void;
 }
 
 const Dropdown: FC<DropdownProps> = ({
-  children,
-  labels,
+  label,
+  options,
   getResults,
   selectedItem,
   onSelectItem,
@@ -30,32 +30,29 @@ const Dropdown: FC<DropdownProps> = ({
   const handleItemClick = (item: string) => {
     if (getResults) getResults(item);
     onSelectItem(
-      children === 'Category' ? 'category' : children === 'Time period' ? 'period' : 'type',
+      label === 'Category' ? 'category' : label === 'Time period' ? 'period' : 'type',
       item,
     );
     setIsOpenDropdown(false);
   };
 
-  console.log(children);
-
   return (
     <Menu as='div' className='relative'>
       {({ open }) => (
         <>
-          <p className='text-darkBase dark:text-greyAlt mb-2 text-base'>
-            {children === 'Type' ? 'Filter' : 'Search'}{' '}
-            {children === 'Time period' ? 'for popular' : ''} by{' '}
-            <span className='capitalize'>{children}</span>
+          <p className='mb-2 text-base text-darkBase dark:text-greyAlt'>
+            {label === 'Type' ? 'Filter' : 'Search'} {label === 'Time period' ? 'for popular' : ''}{' '}
+            by <span className='capitalize'>{label}</span>
           </p>
           <Menu.Button
-            className={`flex items-center justify-center gap-2.5 w-full border border-solid border-accentBase dark:border-greyBase rounded-[20px] bg-whiteBase dark:bg-darkBackground py-2.5 text-accentBase dark:text-whiteBase text-small font-normal group-hover:underline transition-colors `}
+            className={`flex w-full items-center justify-center gap-2.5 rounded-[20px] border border-solid border-accentBase bg-whiteBase py-2.5 text-small font-normal text-accentBase transition-colors group-hover:underline dark:border-greyBase dark:bg-darkBackground dark:text-whiteBase `}
             onClick={handleOpenClick}
           >
-            {selectedItem || children}
+            {selectedItem || label}
             <SvgIcon
               svgName='icon-arrow-down'
               size={14}
-              className={`fill-accentBase dark:fill-whiteBase transition-transform ${
+              className={`fill-accentBase transition-transform dark:fill-whiteBase ${
                 open ? 'rotate-180' : 'rotate-0'
               }`}
             />
@@ -72,20 +69,20 @@ const Dropdown: FC<DropdownProps> = ({
           <CustomScrollBar
             isOpen={open}
             orientation='vertical'
-            className={`flex absolute ${
-              children === 'Time period' ? 'max-h-[225px]' : 'h-[225px]'
-            } overflow-hidden z-40 w-full  bg-dropdownBase dark:bg-darkDropdown rounded-[20px] py-[10px] shadow-card dark:shadow-darkCard`}
+            className={`absolute flex ${
+              label === 'Time period' ? 'max-h-[225px]' : 'h-[225px]'
+            } z-40 w-full overflow-hidden  rounded-[20px] bg-dropdownBase py-[10px] shadow-card dark:bg-darkDropdown dark:shadow-darkCard`}
           >
             <Menu.Items>
-              <div className='grid gap-1.5 h-full'>
-                {labels?.map((item, index) => (
+              <div className='grid h-full gap-1.5'>
+                {options?.map((item, index) => (
                   <Menu.Item key={index}>
                     {({ active }) => (
                       <button
                         type='button'
                         className={`${
                           active ? 'underline' : ''
-                        } text-accentBase dark:text-whiteBase text-small text-left tracking-wide px-3.5`}
+                        } px-3.5 text-left text-small tracking-wide text-accentBase dark:text-whiteBase`}
                         onClick={() => handleItemClick(item)}
                       >
                         {item}

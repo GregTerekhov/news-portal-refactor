@@ -26,7 +26,7 @@ const ReadPage: FC<{}> = () => {
   }, [getReads]);
 
   useEffect(() => {
-    if (!!allReads) {
+    if (!!allReads && allReads.length > 0) {
       setOpenToast(true);
     }
   }, [allReads]);
@@ -55,7 +55,8 @@ const ReadPage: FC<{}> = () => {
             <Accordeon key={date} dateSeparator={date} position='readPage'>
               <NewsList
                 currentItems={rebuildedNews?.filter(
-                  (news) => news?.publishDate !== undefined && news?.publishDate === date,
+                  (news: { publishDate: string | undefined }) =>
+                    news?.publishDate !== undefined && news?.publishDate === date,
                 )}
               />
             </Accordeon>

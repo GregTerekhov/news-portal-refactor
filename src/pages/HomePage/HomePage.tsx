@@ -1,13 +1,7 @@
 import React, { FC, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 
-import {
-  useAuthRedux,
-  useDB,
-  useNewsAPI,
-  useFiltersAction,
-  useAppSelector,
-} from 'reduxStore/hooks';
+import { useAuthRedux, useDB, useNewsAPI, useFiltersAction } from 'reduxStore/hooks';
 
 import { useNotification } from 'contexts';
 import { useActiveLinks, useChooseRenderingNews, useToast } from 'hooks';
@@ -17,11 +11,19 @@ import { Loader, Notification, PlugImage } from 'ui';
 
 import { usePagination } from './hooks';
 import { Pagination } from './subcomponents';
-import { selectHasAPIError } from 'reduxStore/newsAPI';
+
+const TODAY_HOT_NEWS = '1';
 
 const HomePage: FC = () => {
-  const { isLoadingAPIData, headline, newsByCategory, newsByDate, newsByKeyword, fetchPopular } =
-    useNewsAPI();
+  const {
+    isLoadingAPIData,
+    errorAPI,
+    headline,
+    newsByCategory,
+    newsByDate,
+    newsByKeyword,
+    fetchPopular,
+  } = useNewsAPI();
   const { isLoadingDBData, getSavedNews } = useDB();
   const { isAuthenticated, authError } = useAuthRedux();
   const { openToast, setOpenToast } = useNotification();
@@ -36,11 +38,10 @@ const HomePage: FC = () => {
     rebuildedNews ?? [],
   );
 
-  const errorAPI = useAppSelector(selectHasAPIError);
-  const isErrorAPI = errorAPI?.toString().includes('429');
+  const is429ErrorAPI = errorAPI?.toString().includes('429');
 
   useEffect(() => {
-    fetchPopular('1');
+    fetchPopular(TODAY_HOT_NEWS);
     if (isAuthenticated) getSavedNews();
   }, [fetchPopular, getSavedNews, isAuthenticated]);
 
@@ -55,18 +56,20 @@ const HomePage: FC = () => {
     (newsByCategory && newsByCategory.length > 0) ||
     (newsByDate && newsByDate.length > 0);
   const showToastResults = !showLoader && additionalRequests;
+  const showErrorToastMessage = (authError && authError.message) || errorAPI;
+
   return (
     <>
       {showLoader ? (
         <Loader variant='generalSection' />
       ) : (
         <>
-          {showPlugImage || isErrorAPI ? (
+          {showPlugImage || is429ErrorAPI ? (
             <PlugImage variant='page' />
           ) : (
             <>
               {headline && (
-                <h2 className='dark:text-whiteBase text-giant font-bold mb-6'>{headline}</h2>
+                <h2 className='mb-6 text-giant font-bold dark:text-whiteBase'>{headline}</h2>
               )}
               <NewsList currentItems={currentItems} currentPage={currentPage} />
               <Pagination
@@ -78,20 +81,12 @@ const HomePage: FC = () => {
           )}
         </>
       )}
-      {authError && authError.message && (
+      {showErrorToastMessage && (
         <Notification
           openToast={openToast}
           setOpenToast={setOpenToast}
-          title={`${authError?.message && 'Authorisation error'}`}
-          description={authError?.message ? showErrorToast() : ''}
-        />
-      )}
-      {isErrorAPI && (
-        <Notification
-          openToast={openToast}
-          setOpenToast={setOpenToast}
-          title={`429`}
-          description={'Too many requests'}
+          title={`${authError?.message ? 'Authorisation error' : 'News API Error'}`}
+          description={authError?.message || errorAPI ? showErrorToast() : ''}
         />
       )}
       {showToastResults && (
