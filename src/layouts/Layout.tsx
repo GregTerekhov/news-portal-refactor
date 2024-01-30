@@ -26,8 +26,19 @@ const Layout: FC = () => {
   const activeLinks = useActiveLinks(location);
   const { rebuildedNews } = useChooseRenderingNews({ activeLinks });
 
+  const {
+    isAboutUs,
+    isAccountPage,
+    isArchiveActive,
+    isErrorPage,
+    isFavoriteActive,
+    isHomeActive,
+    isManageAccountPage,
+    isReadActive,
+  } = activeLinks;
+
   useEffect(() => {
-    if (isAuthenticated && activeLinks.isHomeActive) {
+    if (isAuthenticated && isHomeActive) {
       fetchCategoriesList();
     }
   }, [isAuthenticated, fetchCategoriesList, activeLinks]);
@@ -35,40 +46,36 @@ const Layout: FC = () => {
   const isNotMobile = breakpointsForMarkup?.isTablet || breakpointsForMarkup?.isDesktop;
 
   const shouldShowPageScrollController =
-    (activeLinks?.isHomeActive && isNotMobile && rebuildedNews?.length > 0) ||
-    (activeLinks?.isArchiveActive && isNotMobile && rebuildedNews?.length > 0);
+    (isHomeActive && isNotMobile && rebuildedNews?.length > 0) ||
+    (isArchiveActive && isNotMobile && rebuildedNews?.length > 0);
 
-  const isAccountPages = activeLinks.isAccountPage || activeLinks.isManageAccountPage;
-  const shouldNotShowFiltersManager =
-    isAccountPages ||
-    activeLinks?.isAboutUs ||
-    activeLinks?.isArchiveActive ||
-    activeLinks?.isErrorPage;
+  const isAccountPages = isAccountPage || isManageAccountPage;
+  const shouldNotShowFiltersManager = isAccountPages || isAboutUs || isArchiveActive || isErrorPage;
 
   return (
     <div
       className={`max-h-sectionSmall md:max-h-sectionMedium lg:max-h-sectionLarge ${
-        activeLinks?.isHomeActive ? 'h-full' : 'h-screen'
+        isHomeActive ? 'h-full' : 'h-screen'
       }  flex flex-col justify-between`}
     >
-      {!activeLinks?.isErrorPage && <Header />}
+      {!isErrorPage && <Header />}
       <main className='h-full'>
-        {activeLinks.isHomeActive && <Hero />}
+        {isHomeActive && <Hero />}
         <section
           className={`h-full w-screen bg-whiteBase transition-colors duration-500 dark:bg-darkBackground ${
-            activeLinks.isArchiveActive || activeLinks.isFavoriteActive || activeLinks.isReadActive
+            isArchiveActive || isFavoriteActive || isReadActive
               ? 'pt-10 md:pt-12 lg:pt-[60px]'
               : 'pt-6 md:pt-7'
           } pb-[60px] md:pb-[100px] lg:pb-[150px]`}
         >
           <div className='container mx-auto px-4 hg:px-[65px]'>
             {isAuthenticated && !shouldNotShowFiltersManager ? <NewsFilterManager /> : null}
-            {!isAuthenticated && !isNotMobile && !activeLinks?.isErrorPage && (
+            {!isAuthenticated && !isNotMobile && !isErrorPage && (
               <div className='mb-10 flex justify-end'>
                 <ThemeSwitcher variant={VariantSwitcher.Header} />
               </div>
             )}
-            {activeLinks?.isErrorPage && (
+            {isErrorPage && (
               <div className='mb-10 flex justify-end'>
                 <ThemeSwitcher variant={VariantSwitcher.Header} />
               </div>
@@ -94,7 +101,7 @@ const Layout: FC = () => {
           </div>
         </section>
       </main>
-      {!activeLinks?.isErrorPage && <Footer />}
+      {!isErrorPage && <Footer />}
       {isAuthenticated && statusMessage !== 'Get current user success' && (
         <Notification
           variant='non-interactive'
