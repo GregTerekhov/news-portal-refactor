@@ -55,8 +55,7 @@ const ReadPage: FC<{}> = () => {
             <Accordeon key={date} dateSeparator={date} position='readPage'>
               <NewsList
                 currentItems={rebuildedNews?.filter(
-                  (news: { publishDate: string | undefined }) =>
-                    news?.publishDate !== undefined && news?.publishDate === date,
+                  (news) => news?.publishDate !== undefined && news?.publishDate === date,
                 )}
               />
             </Accordeon>
