@@ -20,8 +20,15 @@ import { Pagination } from './subcomponents';
 import { selectHasAPIError } from 'reduxStore/newsAPI';
 
 const HomePage: FC = () => {
-  const { isLoadingAPIData, headline, newsByCategory, newsByDate, newsByKeyword, fetchPopular } =
-    useNewsAPI();
+  const {
+    isLoadingAPIData,
+    headline,
+    newsByCategory,
+    newsByDate,
+    newsByKeyword,
+    // errorAPI,
+    fetchPopular,
+  } = useNewsAPI();
   const { isLoadingDBData, getSavedNews } = useDB();
   const { isAuthenticated, authError } = useAuthRedux();
   const { openToast, setOpenToast } = useNotification();
@@ -41,7 +48,7 @@ const HomePage: FC = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (errorAPI) {
+    if (errorAPI && typeof errorAPI === 'number') {
       if (errorAPI >= 500) {
         navigate('/serverError');
       }

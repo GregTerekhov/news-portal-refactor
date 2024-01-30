@@ -27,7 +27,7 @@ const ErrorPage: FC<{}> = () => {
   const imageUrl = useCacheImage(matchedErrorImage?.src || '');
 
   const errorAPI = useAppSelector(selectHasAPIError);
-  const serverError = errorAPI && errorAPI >= 500;
+  const serverError = typeof errorAPI === 'number' && errorAPI >= 500;
 
   const renderContent = serverErrorsList.find((value: { code: number; message: string }) => {
     if (serverError) {

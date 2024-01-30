@@ -11,7 +11,7 @@ type newsAPIState = {
   categoriesList: CategoriesItem[];
   searchByDate: ArticleNewsArray;
   isLoading: boolean;
-  hasError: number | null;
+  hasError: {} | number | null;
   headline: string;
 };
 

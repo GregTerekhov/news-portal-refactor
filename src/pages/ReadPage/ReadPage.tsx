@@ -26,7 +26,7 @@ const ReadPage: FC<{}> = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (errorAPI) {
+    if (errorAPI && typeof errorAPI === 'number') {
       if (errorAPI >= 500) {
         navigate('/serverError');
       }
@@ -67,7 +67,7 @@ const ReadPage: FC<{}> = () => {
             <Accordeon key={date} dateSeparator={date} position='readPage'>
               <NewsList
                 currentItems={rebuildedNews?.filter(
-                  (news) => news?.publishDate !== undefined && news?.publishDate === date,
+                  (news: any) => news?.publishDate !== undefined && news?.publishDate === date,
                 )}
               />
             </Accordeon>

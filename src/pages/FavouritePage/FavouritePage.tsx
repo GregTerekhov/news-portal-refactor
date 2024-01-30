@@ -23,7 +23,7 @@ const FavouritePage: FC<{}> = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (errorAPI) {
+    if (errorAPI && typeof errorAPI === 'number') {
       if (errorAPI >= 500) {
         navigate('/serverError');
       }
