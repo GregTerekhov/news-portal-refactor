@@ -13,7 +13,7 @@ const UpdatePassword: FC<{}> = () => {
   return (
     <Accordeon position='accountManagePage' filtersBlock='Change your password'>
       <form
-        className='pt-4 space-y-4 lg:space-y-8'
+        className='space-y-4 pt-4 lg:space-y-8'
         onSubmit={handleSubmit(handlePasswordSubmitHandler)}
       >
         <ul className='space-y-4 lg:space-y-8'>
@@ -37,14 +37,14 @@ const UpdatePassword: FC<{}> = () => {
               </li>
             ))}
         </ul>
-        <p className=' text-darkBase text-small lg:text-medium dark:text-whiteBase'>
+        <p className=' text-small text-darkBase dark:text-whiteBase lg:text-medium'>
           To change your current password, enter the new password in the first field and repeat the
           entry in the second field. In the third field, confirm the change by inputting your
           current password. If all information is entered correctly, you will receive a notification
           confirming the successful update of your password.
         </p>
         <PrimaryButton
-          buttonData={{ type: 'submit' }}
+          type='submit'
           width='w-28 lg:w-40'
           id='Button for applying change and confirm your new password'
           variant={VariantButton.Other}

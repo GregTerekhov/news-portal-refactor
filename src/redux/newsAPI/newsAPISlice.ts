@@ -1,19 +1,9 @@
-import { PayloadAction, createAction, createSlice, isAnyOf } from '@reduxjs/toolkit';
+import { createAction, createSlice, isAnyOf } from '@reduxjs/toolkit';
 
-import { ArticleNewsArray, NewsWireArray, PopularNewsArray, CategoriesItem } from 'types';
+import { newsAPIState } from 'types';
 
 import * as newsAPIOperations from './newsAPIOperations';
-
-type newsAPIState = {
-  popular: PopularNewsArray;
-  searchByWord: ArticleNewsArray;
-  categories: NewsWireArray;
-  categoriesList: CategoriesItem[];
-  searchByDate: ArticleNewsArray;
-  isLoading: boolean;
-  hasError: number | null;
-  headline: string;
-};
+import { getActions, handleFulfilled, handlePending, handleRejected } from './handleFunctions';
 
 const initialState: newsAPIState = {
   popular: [],
@@ -25,35 +15,6 @@ const initialState: newsAPIState = {
   hasError: null,
   headline: 'Today`s Hot News',
 };
-
-const handlePending = (state: newsAPIState) => {
-  state.isLoading = true;
-  state.hasError = null;
-};
-
-const handleFulfilled = (state: newsAPIState) => {
-  state.isLoading = false;
-  state.hasError = null;
-};
-
-const handleRejected = (state: newsAPIState, action: PayloadAction<unknown, string, any>) => {
-  state.isLoading = false;
-  if (typeof action.payload === 'number') {
-    state.hasError = action.payload ?? null;
-    console.log('ERROR', action.payload, action);
-  }
-};
-
-const extraActions = [
-  newsAPIOperations.fetchAllCategories,
-  newsAPIOperations.fetchNewsByCategory,
-  newsAPIOperations.fetchNewsByKeyword,
-  newsAPIOperations.fetchPopularNews,
-  newsAPIOperations.fetchNewsByDate,
-];
-
-const getActions = (type: 'pending' | 'fulfilled' | 'rejected') =>
-  extraActions.map((action) => action[type]);
 
 export const changeHeadline = createAction<string>('newsAPI/changeHeadline');
 

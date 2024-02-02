@@ -1,14 +1,14 @@
 import React, { FC, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 
+import { Filters } from 'types';
 import { useFiltersState } from 'contexts';
 import { useActiveLinks, useFilterNews } from 'hooks';
 
 import { Dropdown } from 'ui';
 
-import Calendar from '../Calendar/Calendar';
 import { materialTypes } from './assistants';
-import { Filters } from 'types';
+import Calendar from '../Calendar/Calendar';
 import { ControlButtons, FilterInputs } from './subcomponents';
 
 const FiltersBlock: FC<{}> = () => {

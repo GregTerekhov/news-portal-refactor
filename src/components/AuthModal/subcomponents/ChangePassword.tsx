@@ -16,11 +16,11 @@ const ChangePassword: FC = () => {
 
   return (
     <>
-      <h2 className='text-2xl text-darkBase dark:text-whiteBase py-4 border-solid border-fullDark/[.2] border-b-[1px] dark:border-whiteBase/[.2] transition-colors duration-500'>
+      <h2 className='border-b-[1px] border-solid border-fullDark/[.2] py-4 text-2xl text-darkBase transition-colors duration-500 dark:border-whiteBase/[.2] dark:text-whiteBase'>
         Change your password
       </h2>
       <form className='pt-4' onSubmit={handleChangePasswordSubmit(changePasswordSubmitHandler)}>
-        <ul className='space-y-4 lg:space-y-8 mb-8'>
+        <ul className='mb-8 space-y-4 lg:space-y-8'>
           {Array.isArray(changePasswordInputs) &&
             changePasswordInputs.map(
               ({ type, placeholder, children, errors, label, ariaInvalid }) => (
@@ -44,9 +44,9 @@ const ChangePassword: FC = () => {
             )}
         </ul>
 
-        <div className='flex justify-between items-center'>
+        <div className='flex items-center justify-between'>
           <PrimaryButton
-            buttonData={{ type: 'submit' }}
+            type='submit'
             id='Login button'
             variant={VariantButton.Other}
             classNameButton='w-32'

@@ -31,3 +31,4 @@ export const persistor: Persistor = persistStore(store);
 export type RootState = ReturnType<typeof store.getState>;
 export type TypedDispatch<T> = ThunkDispatch<T, any, AnyAction>;
 export type AppDispatch = typeof store.dispatch;
+export type DispatchActionType = 'pending' | 'fulfilled' | 'rejected';

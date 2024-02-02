@@ -4,6 +4,8 @@ export type ClickHandler =
   | (() => Promise<void>)
   | ((e: React.MouseEvent<HTMLButtonElement>) => void);
 
+export type PrimaryButtonType = 'button' | 'submit' | 'reset';
+
 export enum VariantButton {
   Primary = 'Primary',
   Other = 'OtherButton',

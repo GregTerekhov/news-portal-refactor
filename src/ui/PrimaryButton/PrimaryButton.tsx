@@ -1,16 +1,12 @@
 import React, { ButtonHTMLAttributes, ReactNode, forwardRef } from 'react';
 
-import { ClickHandler, VariantButton } from 'types';
+import { ClickHandler, PrimaryButtonType, VariantButton } from 'types';
 
 import SvgIcon from '../SvgIcon';
 import { generateButtonStyles } from './assistants';
 
-type PrimaryButtonType = {
-  type: 'button' | 'submit' | 'reset';
-};
-
 interface PBProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-  buttonData?: PrimaryButtonType;
+  type?: PrimaryButtonType;
   onHandleClick?: ClickHandler;
   variant: VariantButton;
   children?: ReactNode;
@@ -31,7 +27,7 @@ const PrimaryButton = forwardRef<
 >(
   (
     {
-      buttonData,
+      type = 'button',
       onHandleClick,
       variant,
       children,
@@ -47,7 +43,6 @@ const PrimaryButton = forwardRef<
     },
     ref,
   ) => {
-    const { type } = buttonData ?? { type: 'button' };
     const styles = generateButtonStyles({ disabled, width });
     const currentStyles = styles[variant];
 
@@ -57,7 +52,7 @@ const PrimaryButton = forwardRef<
         aria-label={ariaLabel}
         className={`flex items-center justify-center transition-colors duration-500 ${
           hasIcon ? 'gap-2.5' : ''
-        } ${children ? 'text-base lg:text-medium text-contrastWhite' : ''} ${
+        } ${children ? 'text-base text-contrastWhite lg:text-medium' : ''} ${
           currentStyles.buttonStyles
         } ${classNameButton}`}
         type={type}

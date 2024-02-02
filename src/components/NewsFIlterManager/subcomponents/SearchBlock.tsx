@@ -80,7 +80,7 @@ const SearchBlock: FC<{}> = () => {
         ) : null}
         <PrimaryButton
           id='Reset all requests button'
-          buttonData={{ type: 'submit' }}
+          type='submit'
           hasIcon={true}
           variant={VariantButton.Primary}
           svgName='icon-reset'

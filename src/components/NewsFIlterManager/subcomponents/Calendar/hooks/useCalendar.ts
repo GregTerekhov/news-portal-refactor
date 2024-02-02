@@ -13,7 +13,7 @@ import {
 const useCalendar = () => {
   const today = startOfToday();
 
-  const [currMonth, setCurrMonth] = useState(() => format(today, 'MMM-yyyy'));
+  const [currMonth, setCurrMonth] = useState<string>(getCurrentMonthState());
 
   const firstDayOfMonth = useMemo(() => parse(currMonth, 'MMM-yyyy', new Date()), [currMonth]);
 
@@ -59,6 +59,12 @@ const useCalendar = () => {
     },
     [firstDayOfMonth],
   );
+
+  function getCurrentMonthState(): string {
+    const currentMonth = format(today, 'MMM-yyyy');
+
+    return currentMonth;
+  }
 
   return {
     today,

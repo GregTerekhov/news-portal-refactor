@@ -47,3 +47,15 @@ export interface Position {
   latitude: number;
   longitude: number;
 }
+
+type WeatherError = {
+  cod?: string;
+  message?: string;
+};
+
+export interface WeatherState {
+  isLoading: boolean;
+  data: WeatherData;
+  weatherByHour: HourlyWeatherData;
+  hasError: WeatherError | null;
+}

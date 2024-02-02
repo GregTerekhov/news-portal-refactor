@@ -1,4 +1,4 @@
-export const materialTypes = [
+export const materialTypes: string[] = [
   'Addendum',
   'An Analysis',
   'An Appraisal',

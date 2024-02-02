@@ -22,14 +22,19 @@ const LinkedAccounts: FC<{}> = () => {
     breakpointsForMarkup: null,
   };
   const { haveAccounts } = useAuthRedux();
+
   const location = useLocation();
   const { isManageAccountPage } = useActiveLinks(location);
 
   const { handleFacebookLogin, isLoading } = useFacebookLogin();
 
+  const { google, facebook, apple } = haveAccounts;
+
   const googleLogin = useGoogleLogin({
     onSuccess: async (codeResponse) => {
       console.log('codeResponse', codeResponse);
+
+      // -------це логіка, яку треба буде розкоментувати після готовності беку НЕ ВИДАЛЯТИ!!!----------
       // try {
       //   const userInfo: VerifiedGoogleEmail = await axios
       //     .get('https://www.googleapis.com/oauth2/v3/userinfo', {
@@ -47,7 +52,7 @@ const LinkedAccounts: FC<{}> = () => {
       console.log(error);
     },
   });
-  const hasConnectedAccount = haveAccounts.google || haveAccounts.facebook || haveAccounts.apple;
+  const hasConnectedAccount = google || facebook || apple;
   const isMobile = breakpointsForMarkup?.isNothing || breakpointsForMarkup?.isMobile;
 
   const accountButtons = [
@@ -71,6 +76,10 @@ const LinkedAccounts: FC<{}> = () => {
       onClick: () => console.log('apple'),
     },
   ];
+
+  const accountButtonStyles = `w-14 h-14 ${
+    isManageAccountPage ? 'lg:w-12 lg:h-12' : 'md:w-full'
+  } rounded-xl border border-solid border-whiteBase dark:border-greyBase bg-accentBase dark:bg-transparent flex items-center justify-center group hover:border-accentBase hover:text-accentBase dark:hover:text-whiteBase dark:hover:border-whiteBase hover:bg-whiteBase dark:hover:bg-accentBase transition-colors duration-500 ring-whiteBase dark:ring-darkBase ring-2`;
 
   return (
     <>
@@ -108,10 +117,10 @@ const LinkedAccounts: FC<{}> = () => {
                 hasIcon={true}
                 svgName={svgName}
                 svgSize={isMobile ? 20 : 24}
-                ariaLabel={`${account} account binding`}
-                classNameButton={`w-14 h-14 ${
-                  isManageAccountPage ? 'lg:w-12 lg:h-12' : 'md:w-full'
-                } rounded-xl border border-solid border-whiteBase dark:border-greyBase bg-accentBase dark:bg-transparent flex items-center justify-center group hover:border-accentBase hover:text-accentBase dark:hover:text-whiteBase dark:hover:border-whiteBase hover:bg-whiteBase dark:hover:bg-accentBase transition-colors duration-500 ring-whiteBase dark:ring-darkBase ring-2`}
+                ariaLabel={`${
+                  isManageAccountPage ? account + 'account binding' : 'Enter with' + account
+                } `}
+                classNameButton={`${accountButtonStyles}`}
                 classNameIcon='fill-whiteBase group-hover:fill-accentAlt dark:group-hover:fill-whiteBase'
                 children={!isMobile && !isManageAccountPage ? account : ''}
                 onHandleClick={onClick}

@@ -1,34 +1,9 @@
-import { PayloadAction, createAction, createSlice, isAnyOf } from '@reduxjs/toolkit';
+import { createAction, createSlice, isAnyOf } from '@reduxjs/toolkit';
 
-import { ThemeValue, TokensPayload } from 'types';
+import { AuthState, TokensPayload, UpdateThemeRequest } from 'types';
+
 import * as authOperations from './authOperations';
-
-export type KnownError = {
-  message: string | undefined;
-  code: number | undefined;
-};
-
-interface AuthState {
-  message: string;
-  isLoggedIn: boolean;
-  hasError: KnownError | null;
-  isCurrentUser: boolean;
-  userTheme: string;
-  accessToken: string | null;
-  refreshToken: string | null;
-  user: {
-    name: string;
-    email: string;
-    id: string;
-  };
-  haveAccounts: {
-    google: boolean;
-    facebook: boolean;
-    apple: boolean;
-  };
-}
-
-type Theme = { updatedTheme: ThemeValue };
+import { getActions, handleFulfilled, handlePending, handleRejected } from './handleFunctions';
 
 const initialState: AuthState = {
   message: '',
@@ -50,53 +25,8 @@ const initialState: AuthState = {
   },
 };
 
-const handlePending = (state: AuthState) => {
-  state.isCurrentUser = true;
-  state.hasError = null;
-};
-
-const handleFulfilled = (state: AuthState, action: PayloadAction<any, string, any>) => {
-  state.isCurrentUser = false;
-  state.hasError = null;
-  state.message = action.payload.message;
-};
-
-const handleRejected = (state: AuthState, action: PayloadAction<unknown, string, any>) => {
-  state.isCurrentUser = false;
-  if (action.payload) {
-    const payload = action.payload as {
-      status?: number;
-      data?: {
-        message?: string;
-      };
-    };
-    state.hasError = {
-      code: payload.status,
-      message: payload.data?.message,
-    };
-    console.log('AuthError', state.hasError);
-  }
-};
-
-const getActions = (type: 'pending' | 'fulfilled' | 'rejected') => {
-  const extraActions = [
-    authOperations.signUp,
-    authOperations.signIn,
-    authOperations.signOut,
-    authOperations.fetchCurrentUser,
-    authOperations.updateUserEmail, // коли user авторизований і хоче змінити поточну пошту
-    authOperations.updateUserPassword, // коли user авторизований і хоче змінити поточний пароль
-    authOperations.recoveryPasswordChange, // при forgotPassword, коли user забув пароль і йому треба змінити його
-    authOperations.googleAuth,
-    authOperations.facebookAuth,
-    authOperations.appleAuth,
-    authOperations.updateTheme,
-  ];
-  return extraActions?.map((action) => action[type]);
-};
-
 export const setTokens = createAction<TokensPayload>('auth/setTokens');
-export const changeNotAuthTheme = createAction<Theme>('auth/changeTheme');
+export const changeNotAuthTheme = createAction<UpdateThemeRequest>('auth/changeTheme');
 
 const authSlice = createSlice({
   name: 'auth',
@@ -159,7 +89,7 @@ const authSlice = createSlice({
         state.refreshToken = refreshToken;
       })
       .addCase(changeNotAuthTheme, (state, action) => {
-        const { updatedTheme }: Theme = action.payload;
+        const { updatedTheme }: UpdateThemeRequest = action.payload;
         state.userTheme = updatedTheme;
       })
       .addMatcher(isAnyOf(...getActions('pending')), handlePending)

@@ -15,7 +15,7 @@ const UpdateEmail: FC<{}> = ({}) => {
   return (
     <Accordeon position='accountManagePage' filtersBlock='Change your email'>
       <form
-        className='pt-4 space-y-4 lg:space-y-8'
+        className='space-y-4 pt-4 lg:space-y-8'
         onSubmit={handleSubmit(handleEmailSubmitHandler)}
       >
         <ul className='space-y-4 lg:space-y-8'>
@@ -42,13 +42,13 @@ const UpdateEmail: FC<{}> = ({}) => {
               ),
             )}
         </ul>
-        <p className=' text-darkBase text-small lg:text-medium dark:text-whiteBase'>
+        <p className=' text-small text-darkBase dark:text-whiteBase lg:text-medium'>
           To change your current email, enter the new email and confirm by inputting your current
           password in the new field. If all information is entered correctly, you will receive a
           notification confirming the successful update of your email.
         </p>
         <PrimaryButton
-          buttonData={{ type: 'submit' }}
+          type='submit'
           width='w-28 lg:w-40'
           id='Button for applying change your email '
           variant={VariantButton.Other}
