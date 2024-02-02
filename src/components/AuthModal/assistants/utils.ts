@@ -1,6 +1,6 @@
 // Функція шифрування пароля для запису в localStorage, якщо чекбокс RememberMe isChecked
 
-import { AuthRequestWithoutName } from 'types';
+import type { AuthRequestWithoutName } from 'types';
 
 const encoder = new TextEncoder();
 const decoder = new TextDecoder();

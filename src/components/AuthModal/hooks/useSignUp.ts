@@ -3,7 +3,7 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 
 import { useAuthRedux } from 'reduxStore/hooks';
 
-import { SignUpRequest } from 'types';
+import type { SignUpRequest } from 'types';
 
 import { useNotification } from 'contexts';
 import { usePopUp } from 'hooks';

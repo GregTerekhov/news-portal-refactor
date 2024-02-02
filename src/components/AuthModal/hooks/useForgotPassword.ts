@@ -3,19 +3,22 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 
 import { useAuthRedux } from 'reduxStore/hooks';
 
-import { SendEmailRequest } from 'types';
+import type { SendEmailRequest } from 'types';
 
 import { changePasswordSchema, recoveryPasswordSchema } from '../assistants';
-import { AuthInputs, RecoveryInputsValues } from '../types';
+import { AuthInputs } from '../types';
+
+interface RecoveryInputsValues {
+  newPassword: string;
+  confirmPassword: string;
+}
 
 const useForgotPassword = () => {
-  // const { login } = useAuthRedux();
   const { sendEmailForRecovery, changePassword } = useAuthRedux();
 
   const {
     handleSubmit: handleRecoveryPasswordSubmit,
     register: registerRecovery,
-    // watch,
     resetField,
     formState: { errors: recoveryPasswordErrors },
   } = useForm<SendEmailRequest>({ resolver: yupResolver(recoveryPasswordSchema) });
@@ -30,8 +33,6 @@ const useForgotPassword = () => {
     resolver: yupResolver(changePasswordSchema),
   });
 
-  // const email = watch('email');
-
   const recoveryPasswordSubmitHandler: SubmitHandler<SendEmailRequest> = async (data, e) => {
     e?.stopPropagation();
     e?.preventDefault();
@@ -45,12 +46,7 @@ const useForgotPassword = () => {
     const dataToSend = { newPassword };
 
     await changePassword(dataToSend);
-    // const response = await changePassword(dataToSend);
-    // const { status } = response.payload;
-    // if (status === 201) {
-    //   login({ email, data.newPassword });
 
-    // }
     reset({
       ...getValues,
       newPassword: '',

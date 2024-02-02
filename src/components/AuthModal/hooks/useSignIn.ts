@@ -27,13 +27,13 @@ const useSignIn = () => {
   const hasSavedCryptoUserData = localStorage.getItem('rememberMeData');
 
   useEffect(() => {
-    const loadUserData = async () => {
+    const loadUserData = async (): Promise<void> => {
       if (hasSavedCryptoUserData) {
         const loadedUserData = await loadUserDataFromLocalStorage();
 
-        console.log('loadedUserData', loadedUserData);
+        // console.log('loadedUserData', loadedUserData);
         if (loadedUserData) {
-          console.log('loadedUserData', loadedUserData);
+          // console.log('loadedUserData', loadedUserData);
           setValue('email', loadedUserData.email);
           setValue('password', loadedUserData.password);
         }
@@ -84,12 +84,6 @@ const useSignIn = () => {
         localStorage.rememberMe = isChecked.toString();
       }
 
-      if (!isChecked) {
-        localStorage.removeItem('rememberMeData');
-        localStorage.removeItem('rememberMe');
-        localStorage.removeItem('encryptionKey');
-      }
-
       const signInCredentials = {
         email,
         password,
@@ -98,11 +92,14 @@ const useSignIn = () => {
       const response = await login(signInCredentials);
       const { code, message } = response.payload as CredentialSignInResponse;
 
+      const showSignInSuccessToast =
+        code && message && code === 201 && message === 'User sign-in success';
+
       if (response.meta.requestStatus === 'rejected') {
         setOpenToast(true);
         return;
       }
-      if (code && message && code === 201 && message === 'User sign-in success') {
+      if (showSignInSuccessToast) {
         setOpenToast(true); // уточнити необхідність появи цього тоста - при реєстрації нормально, при вході вже зареєстрованого user -?
       }
     } catch (error) {

@@ -5,7 +5,10 @@ import FocusLock from 'react-focus-lock';
 import { usePopUp } from 'hooks';
 
 import { SignUpPanel, SignInPanel, ChangePassword } from './subcomponents';
-import { IAuthModalProps } from './types';
+
+interface IAuthModalProps {
+  passwordToken?: boolean;
+}
 
 const AuthModal: FC<IAuthModalProps> = ({ passwordToken }) => {
   const [isShowRecoveryInput, setIsShowRecoveryInput] = useState<boolean>(false);
@@ -15,6 +18,16 @@ const AuthModal: FC<IAuthModalProps> = ({ passwordToken }) => {
   const handleShowRecoveryInput = () => {
     setIsShowRecoveryInput(!isShowRecoveryInput);
   };
+
+  const hideForgotPasswordInput = (index: number) => {
+    if (index === 0) {
+      setIsShowRecoveryInput(false);
+    }
+  };
+  const tabListStyles =
+    'mb-4 flex h-[60px] w-full gap-3.5 border-b-[1px] border-solid border-fullDark/[.2] transition-colors duration-500 dark:border-whiteBase/[.2]';
+  const tabStyles =
+    'text-xl text-darkBase transition-colors duration-500 ui-selected:font-medium ui-selected:text-accentBase dark:text-whiteBase dark:ui-selected:text-accentBase';
 
   return (
     <>
@@ -27,21 +40,14 @@ const AuthModal: FC<IAuthModalProps> = ({ passwordToken }) => {
             selectedIndex={selectedTab}
             onChange={(index) => {
               setSelectedTab(index);
-              if (index === 0) {
-                setIsShowRecoveryInput(false);
-              }
+              hideForgotPasswordInput(index);
             }}
           >
-            <Tab.List className='w-full h-[60px] flex mb-4 gap-3.5 border-solid border-fullDark/[.2] border-b-[1px] dark:border-whiteBase/[.2] transition-colors duration-500'>
-              <Tab
-                className='text-xl ui-selected:font-medium text-darkBase dark:text-whiteBase ui-selected:text-accentBase dark:ui-selected:text-accentBase transition-colors duration-500'
-                data-autofocus
-              >
+            <Tab.List className={`${tabListStyles}`}>
+              <Tab className={`${tabStyles}`} data-autofocus>
                 Register
               </Tab>
-              <Tab className='text-xl ui-selected:font-medium text-darkBase dark:text-whiteBase ui-selected:text-accentBase dark:ui-selected:text-accentBase transition-colors duration-500'>
-                Log In
-              </Tab>
+              <Tab className={`${tabStyles}`}>Log In</Tab>
             </Tab.List>
             <Tab.Panels className='pb-4'>
               <Tab.Panel>

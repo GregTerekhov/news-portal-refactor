@@ -1,20 +1,10 @@
-import { PayloadAction, createSlice, isAnyOf } from '@reduxjs/toolkit';
+import { createSlice, isAnyOf } from '@reduxjs/toolkit';
 
-import { HourlyWeatherData, WeatherData } from 'types';
+import type { WeatherState } from 'types';
 
 import { fetchWeather, fetchHourlyForecastWeather } from './weatherOperations';
 
-type WeatherError = {
-  cod?: string;
-  message?: string;
-};
-
-interface WeatherState {
-  isLoading: boolean;
-  data: WeatherData;
-  weatherByHour: HourlyWeatherData;
-  hasError: WeatherError | null;
-}
+import { getActions, handleFulfilled, handlePending, handleRejected } from './handleFunctions';
 
 const initialState = {
   data: {},
@@ -22,26 +12,6 @@ const initialState = {
   isLoading: false,
   hasError: null,
 } as WeatherState;
-
-const handlePending = (state: WeatherState) => {
-  state.isLoading = true;
-  state.hasError = null;
-};
-
-const handleFulfilled = (state: WeatherState) => {
-  state.isLoading = false;
-  state.hasError = null;
-};
-
-const handleRejected = (state: WeatherState, action: PayloadAction<unknown, string, any>) => {
-  state.isLoading = false;
-  state.hasError = action.payload ?? null;
-};
-
-const extraActions = [fetchWeather, fetchHourlyForecastWeather];
-
-const getActions = (type: 'pending' | 'fulfilled' | 'rejected') =>
-  extraActions.map((action) => action[type]);
 
 const weatherSlice = createSlice({
   name: 'weather',

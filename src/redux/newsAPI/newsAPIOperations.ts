@@ -64,7 +64,7 @@ export const fetchAllCategories = createAppAsyncThunk<CategoriesItem[], void>(
       });
       return res.data.results;
     } catch (error: any) {
-      return rejectWithValue(error.response.data);
+      return rejectWithValue(error.response.status);
     }
   },
 );

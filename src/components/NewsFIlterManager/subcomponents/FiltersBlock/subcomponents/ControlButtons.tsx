@@ -1,17 +1,15 @@
 import React, { FC } from 'react';
 import { useLocation } from 'react-router-dom';
 
-import { ClickHandler, VariantButton } from 'types';
+import { ClickHandler, PrimaryButtonType, VariantButton } from 'types';
 
 import { useWindowWidth } from 'contexts';
 import { useActiveLinks, useFilterNews } from 'hooks';
 
 import { PrimaryButton } from 'ui';
 
-type ButtonType = 'submit' | 'reset' | 'button';
-
 interface IControlButtons {
-  type: ButtonType;
+  type: PrimaryButtonType;
   id?: string | undefined;
   variant: VariantButton;
   onHandleClick: ClickHandler;
@@ -136,7 +134,7 @@ const ControlButtons: FC<ControlButtonsProps> = ({ hasFilterValue }) => {
           ) => (
             <React.Fragment key={index}>
               <PrimaryButton
-                buttonData={{ type: type }}
+                type={type}
                 id={id}
                 variant={variant}
                 onHandleClick={onHandleClick}
@@ -157,7 +155,7 @@ const ControlButtons: FC<ControlButtonsProps> = ({ hasFilterValue }) => {
   );
 
   const renderHintText = () => (
-    <p className='text-darkBase dark:text-greyAlt mb-2 text-base md:max-lg:flex md:max-lg:items-center md:max-lg:justify-end'>
+    <p className='mb-2 text-base text-darkBase dark:text-greyAlt md:max-lg:flex md:max-lg:items-center md:max-lg:justify-end'>
       Sort:
     </p>
   );
@@ -170,10 +168,10 @@ const ControlButtons: FC<ControlButtonsProps> = ({ hasFilterValue }) => {
         </>
       ) : (
         <>
-          <div className='md:col-span-3 md:flex md:items-center lg:items-end lg:col-span-4'>
+          <div className='md:col-span-3 md:flex md:items-center lg:col-span-4 lg:items-end'>
             {renderButtons(controlButtons.slice(0, 1))}
           </div>
-          <div className='md:col-span-3 md:flex md:items-center lg:items-end lg:col-span-2'>
+          <div className='md:col-span-3 md:flex md:items-center lg:col-span-2 lg:items-end'>
             {renderButtons(controlButtons.slice(2, 3))}
           </div>
           {breakpointsForMarkup?.isTablet && renderHintText()}

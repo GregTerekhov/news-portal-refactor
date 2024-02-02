@@ -1,24 +1,9 @@
-import {
-  PayloadAction,
-  SerializedError,
-  createAction,
-  createSlice,
-  isAnyOf,
-} from '@reduxjs/toolkit';
+import { PayloadAction, createAction, createSlice, isAnyOf } from '@reduxjs/toolkit';
 
-import { IHistoryLog, PartialVotedNewsArray, VotedItem } from 'types';
+import { NewsDBState, VotedItem } from 'types';
 
 import * as newsDBOperations from './newsDatabaseOperations';
-
-interface NewsDBState {
-  savedNews: PartialVotedNewsArray;
-  favourites: PartialVotedNewsArray;
-  reads: PartialVotedNewsArray;
-  archivedNews: PartialVotedNewsArray;
-  historyLog: IHistoryLog[];
-  isLoading: boolean;
-  hasError: SerializedError | null;
-}
+import { getActions, handleFulfilled, handlePending, handleRejected } from './handleFunctions';
 
 const initialState: NewsDBState = {
   savedNews: [],
@@ -29,33 +14,6 @@ const initialState: NewsDBState = {
   isLoading: false,
   hasError: null,
 };
-
-const handlePending = (state: NewsDBState) => {
-  state.isLoading = true;
-  state.hasError = null;
-};
-
-const handleFulfilled = (state: NewsDBState) => {
-  state.isLoading = false;
-  state.hasError = null;
-};
-
-const handleRejected = (state: NewsDBState, action: PayloadAction<unknown, string, any>) => {
-  state.isLoading = false;
-  state.hasError = action.payload ?? null;
-};
-
-const extraActions = [
-  newsDBOperations.fetchAllNews,
-  newsDBOperations.fetchFavourites,
-  newsDBOperations.fetchRead,
-  newsDBOperations.fetchArchivedNews,
-  newsDBOperations.deleteNews,
-  newsDBOperations.fetchHistoryLog,
-];
-
-const getActions = (type: 'pending' | 'fulfilled' | 'rejected') =>
-  extraActions.map((action) => action[type]);
 
 export const removeFromFavourites = createAction<string>('newsDB/removeFromFavourites');
 
@@ -78,9 +36,6 @@ const newsDBSlice = createSlice({
       } else {
         state.savedNews.unshift(updatedVotedNews);
       }
-    },
-    clearVotedNews: (state) => {
-      state.savedNews = [];
     },
   },
   extraReducers: (builder) => {
@@ -116,5 +71,5 @@ const newsDBSlice = createSlice({
   },
 });
 
-export const { addOrUpdateVotedNews, clearVotedNews } = newsDBSlice.actions;
+export const { addOrUpdateVotedNews } = newsDBSlice.actions;
 export const newsDBReducer = newsDBSlice.reducer;

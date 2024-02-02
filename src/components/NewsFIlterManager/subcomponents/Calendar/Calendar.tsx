@@ -24,32 +24,36 @@ const Calendar: FC<CalendarProps> = ({ variant }) => {
 
   const { handleFilterDate } = useFilterNews({ activeLinks, setIsOpenCalendar });
 
+  const { isReadActive } = activeLinks;
   const today = startOfToday();
-  const showToday = selectedRequestDate.beginDate === null && selectedRequestDate.endDate === null;
+
+  const showSelectedDateForFiltering =
+    filters &&
+    filters.selectedFilterDate.startDate !== '' &&
+    filters.selectedFilterDate.endDate !== '';
+
+  const calendarButtonStyles =
+    'w-full bg-whiteBase dark:bg-darkBackground rounded-[20px] border border-solid border-accentBase dark:border-greyBase text-accentBase dark:text-greyAlt flex justify-between items-center py-2 px-3 group-hover:text-whiteBase group-hover:bg-accentBase group-hover:border-whiteBase transition-colors text-small md:text-base leading-mediumRelaxed md:leading-moreRelaxed tracking-bigWide md:tracking-wider';
 
   return (
-    <div ref={popUpRef} className={`relative ${activeLinks.isReadActive ? null : 'col-span-4'}`}>
-      <p className='text-darkBase dark:text-greyAlt mb-2 text-base'>
+    <div ref={popUpRef} className={`relative ${isReadActive ? null : 'col-span-4'}`}>
+      <p className='mb-2 text-base text-darkBase dark:text-greyAlt'>
         {variant === 'SearchBlock' ? 'Search' : 'Filter'} by Date or Date Period:
       </p>
       <button
         id='Toggle calendar button'
         type='button'
         onClick={toggleCalendar}
-        className='w-full bg-whiteBase dark:bg-darkBackground rounded-[20px] border border-solid border-accentBase dark:border-greyBase text-accentBase dark:text-greyAlt flex justify-between items-center py-2 px-3 group-hover:text-whiteBase group-hover:bg-accentBase group-hover:border-whiteBase transition-colors text-small md:text-base leading-mediumRelaxed md:leading-moreRelaxed tracking-bigWide md:tracking-wider'
+        className={`${calendarButtonStyles}`}
       >
         <SvgIcon svgName='icon-calendar' size={20} className='fill-accentBase' />
         {variant === 'SearchBlock' &&
         selectedRequestDate.beginDate !== null &&
-        selectedRequestDate.endDate !== null &&
-        !showToday
+        selectedRequestDate.endDate !== null
           ? `${convertLinesForCalendar(selectedRequestDate.beginDate)} - ${convertLinesForCalendar(
               selectedRequestDate.endDate,
             )}`
-          : variant === 'FiltersBlock' &&
-              filters &&
-              filters.selectedFilterDate.startDate !== '' &&
-              filters.selectedFilterDate.endDate !== ''
+          : variant === 'FiltersBlock' && showSelectedDateForFiltering
             ? `${filters.selectedFilterDate.startDate} - ${filters.selectedFilterDate.endDate}`
             : format(today, 'dd/MM/yyyy')}
         <SvgIcon

@@ -11,7 +11,7 @@ const SignUpPanel: FC<{}> = () => {
 
   return (
     <form onSubmit={handleSubmit(signUpSubmitHandler)}>
-      <ul className='flex flex-col gap-4 md:gap-5 mb-6 hg:mb-10'>
+      <ul className='mb-6 flex flex-col gap-4 md:gap-5 hg:mb-10'>
         {Array.isArray(signUpInputs) &&
           signUpInputs.map(({ type, placeholder, children, errors, label, ariaInvalid }) => (
             <li key={label}>
@@ -27,9 +27,9 @@ const SignUpPanel: FC<{}> = () => {
             </li>
           ))}
       </ul>
-      <div className='flex justify-between items-center'>
+      <div className='flex items-center justify-between'>
         <PrimaryButton
-          buttonData={{ type: 'submit' }}
+          type='submit'
           id='Registration button'
           variant={VariantButton.Other}
           width='w-32'

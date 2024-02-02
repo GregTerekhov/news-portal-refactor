@@ -1,12 +1,10 @@
 import React, { FC } from 'react';
-import { format, getDay, isSameDay, isSameMonth, isToday, parse } from 'date-fns';
-
-import { useSelectedDate } from 'contexts';
+import { format } from 'date-fns';
 
 import ArrowButton from './ArrowButton';
+import GridCalendar from './GridCalendar';
 import WeekDays from './WeekDays';
 
-import { COL_START_CLASSES } from '../assistants';
 import { useCalendar } from '../hooks';
 
 interface CalendarContentProps {
@@ -15,22 +13,12 @@ interface CalendarContentProps {
 }
 
 const CalendarContent: FC<CalendarContentProps> = ({ variant, handleDateFilter }) => {
-  const { selectedRequestDate, handleDateRequest } = useSelectedDate();
-
-  const {
-    currMonth,
-    firstDayOfMonth,
-    daysInMonth,
-    getPrevMonth,
-    getNextMonth,
-    getPrevYear,
-    getNextYear,
-  } = useCalendar();
+  const { firstDayOfMonth, getPrevMonth, getNextMonth, getPrevYear, getNextYear } = useCalendar();
 
   return (
-    <div className='w-[250px] bg-dropdownBase dark:bg-darkDropdown absolute z-40 rounded-[20px] pt-4 px-4 pb-5 shadow-card dark:shadow-darkCard'>
-      <div className='flex items-center justify-between py-[7px] mb-0.5'>
-        <div className='flex gap-2 items-center'>
+    <div className='absolute z-40 w-[250px] rounded-[20px] bg-dropdownBase px-4 pb-5 pt-4 shadow-card dark:bg-darkDropdown dark:shadow-darkCard'>
+      <div className='mb-0.5 flex items-center justify-between py-[7px]'>
+        <div className='flex items-center gap-2'>
           <ArrowButton ariaLabel='Previous year button' onClick={getPrevYear}>
             Previous year button
           </ArrowButton>
@@ -54,47 +42,7 @@ const CalendarContent: FC<CalendarContentProps> = ({ variant, handleDateFilter }
         </div>
       </div>
       <WeekDays />
-      <div className='grid grid-cols-7 gap-y-3 gap-x-[18px] mt-3.5 place-items-center'>
-        {daysInMonth &&
-          daysInMonth.map((day, idx) => {
-            const isCurrentMonth = isSameMonth(day, parse(currMonth, 'MMM-yyyy', new Date()));
-            const isTodayDate = isToday(day);
-            const isSelectedDate =
-              (selectedRequestDate?.beginDate !== null &&
-                isSameDay(day, parse(selectedRequestDate?.beginDate, 'yyyyMMdd', new Date()))) ||
-              (selectedRequestDate?.endDate !== null &&
-                isSameDay(day, parse(selectedRequestDate?.endDate, 'yyyyMMdd', new Date())));
-            const isSelectedStyle = isSelectedDate ? 'text-whiteBase bg-accentBase' : '';
-            return (
-              <div key={idx} className={COL_START_CLASSES[getDay(day)]}>
-                <p
-                  className={`hover:text-contrastWhite hover:bg-accentBase cursor-pointer flex items-center justify-center text-base tracking-widest leading-mostRelaxed font-medium h-7 w-7 rounded-full ${
-                    isCurrentMonth
-                      ? 'text-fullDark dark:text-contrastWhite'
-                      : 'text-calendarTextLight dark:text-greyBase'
-                  } 
-                  ${isSelectedStyle} 
-                      ${
-                        selectedRequestDate?.beginDate === null &&
-                        selectedRequestDate?.endDate === null &&
-                        isTodayDate &&
-                        !isSelectedDate
-                          ? 'text-whiteBase bg-accentBase'
-                          : ''
-                      }
-                    `}
-                  onClick={
-                    variant === 'SearchBlock'
-                      ? () => handleDateRequest(day)
-                      : () => handleDateFilter(day)
-                  }
-                >
-                  {format(day, 'd')}
-                </p>
-              </div>
-            );
-          })}
-      </div>
+      <GridCalendar variant={variant} handleDateFilter={handleDateFilter} />
     </div>
   );
 };

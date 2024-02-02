@@ -25,6 +25,7 @@ const createAxiosInstance = () => {
       }
 
       const tokenStatus = jwtDecode<JwtPayload>(accessToken!);
+
       if (tokenStatus && tokenStatus.exp) {
         const currentTime = dayjs().unix();
         const tokenExpiryTime = tokenStatus.exp; // час смерті токена
