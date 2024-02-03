@@ -12,11 +12,10 @@ export const fetchAllNews = createAppAsyncThunk<SavedNewsResponse>(
   async (_, { rejectWithValue }: any) => {
     try {
       const response = await axiosInstance.get<SavedNewsResponse>('/news');
-      // console.log('responseAll', response.data.data);
       return response.data;
     } catch (error: any) {
-      console.log('Error fetchAllNews', error.message);
-      return rejectWithValue(error.message);
+      console.log('Error fetchAllNews', error.response.status);
+      return rejectWithValue(error.response.status);
     }
   },
 );
@@ -31,8 +30,8 @@ export const addNews = createAppAsyncThunk<SavedNewsResponse, PartialVotedNewsAr
       return response.data;
     } catch (error: any) {
       console.log(error.message);
-      console.log('Error addNews', error.message);
-      return rejectWithValue(error.message);
+      console.log('Error addNews', error.response.status);
+      return rejectWithValue(error.response.status);
     }
   },
 );
@@ -46,8 +45,8 @@ export const deleteNews = createAppAsyncThunk<DeleteNewsResponse, string>(
       console.log('responseDelete', response.data);
       return response.data;
     } catch (error: any) {
-      console.log('Error deleteNews', error.message);
-      return rejectWithValue(error.message);
+      console.log('Error deleteNews', error.response.status);
+      return rejectWithValue(error.response.status);
     }
   },
 );
@@ -60,8 +59,8 @@ export const fetchFavourites = createAppAsyncThunk<SavedNewsResponse>(
       console.log('allFavourites: ', response.data.data);
       return response.data;
     } catch (error: any) {
-      console.log('Error fetchFavourites', error.message);
-      return rejectWithValue(error.message);
+      console.log('Error fetchFavourites', error.response.status);
+      return rejectWithValue(error.response.status);
     }
   },
 );
@@ -73,8 +72,8 @@ export const fetchRead = createAppAsyncThunk<SavedNewsResponse>(
       const response = await axiosInstance.get<SavedNewsResponse>('/news/read');
       return response.data;
     } catch (error: any) {
-      console.log('Error fetchReads', error.message);
-      return rejectWithValue(error.message);
+      console.log('Error fetchReads', error.response.status);
+      return rejectWithValue(error.response.status);
     }
   },
 );
@@ -84,10 +83,11 @@ export const fetchArchivedNews = createAppAsyncThunk<SavedNewsResponse>(
   async (_, { rejectWithValue }: any) => {
     try {
       const response = await axiosInstance.get<SavedNewsResponse>('/news/archive');
+      console.log(response.data);
       return response.data;
     } catch (error: any) {
-      console.log('Error fetchArchives', error.message);
-      return rejectWithValue(error.message);
+      console.log('Error fetchArchives', error.response.status);
+      return rejectWithValue(error.response.status);
     }
   },
 );
@@ -100,8 +100,8 @@ export const fetchHistoryLog = createAppAsyncThunk<HistoryLogResponse>(
       console.log('HistoryLogResponse', response.data);
       return response.data;
     } catch (error: any) {
-      console.log('Error fetchHistoryLog', error.message);
-      return rejectWithValue(error.message);
+      console.log('Error fetchHistoryLog', error.response.status);
+      return rejectWithValue(error.response.status);
     }
   },
 );

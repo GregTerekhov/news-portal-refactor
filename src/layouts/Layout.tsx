@@ -1,7 +1,7 @@
 import React, { FC, useEffect } from 'react';
 import { Outlet, useLocation } from 'react-router-dom';
 
-import { useAuthRedux, useNewsAPI } from 'reduxStore/hooks';
+import { useAuthRedux, useDB, useNewsAPI } from 'reduxStore/hooks';
 
 import { VariantSwitcher } from 'types';
 import { useNotification, useWindowWidth } from 'contexts';
@@ -21,6 +21,7 @@ const Layout: FC = () => {
   const { fetchCategoriesList } = useNewsAPI();
   const { isAuthenticated, statusMessage } = useAuthRedux();
   const { openToast, setOpenToast } = useNotification();
+  const { allFavourites, allReads, allArchive } = useDB();
 
   const location = useLocation();
   const activeLinks = useActiveLinks(location);
@@ -51,12 +52,17 @@ const Layout: FC = () => {
 
   const isAccountPages = isAccountPage || isManageAccountPage;
   const shouldNotShowFiltersManager = isAccountPages || isAboutUs || isArchiveActive || isErrorPage;
+  const showScreenHeight =
+    (isFavoriteActive && allFavourites && allFavourites.length === 0) ||
+    (isReadActive && allReads && allReads.length === 0) ||
+    (isArchiveActive && allArchive && allArchive.length === 0) ||
+    isAccountPages;
 
   return (
     <div
-      className={`max-h-sectionSmall md:max-h-sectionMedium lg:max-h-sectionLarge ${
-        isHomeActive ? 'h-full' : 'h-screen'
-      }  flex flex-col justify-between`}
+      className={`${
+        showScreenHeight ? 'h-screen' : 'h-full'
+      } flex max-h-sectionSmall flex-col justify-between md:max-h-sectionMedium lg:max-h-sectionLarge`}
     >
       {!isErrorPage && <Header />}
       <main className='h-full'>
