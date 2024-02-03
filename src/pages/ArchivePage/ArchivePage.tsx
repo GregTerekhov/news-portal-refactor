@@ -11,7 +11,14 @@ import { organiseNewsByMonth } from './assistants';
 import { ArchiveHistoryLog } from './subcomponents';
 
 const ArchivePage: FC<{}> = () => {
-  const { isLoadingDBData, allArchive, archiveHistoryLog, getHistoryLog, getArchives } = useDB();
+  const {
+    dbSuccessMessage,
+    isLoadingDBData,
+    allArchive,
+    archiveHistoryLog,
+    getHistoryLog,
+    getArchives,
+  } = useDB();
   const { isAuthenticated } = useAuthRedux();
   const { openToast, setOpenToast } = useNotification();
 
@@ -20,7 +27,6 @@ const ArchivePage: FC<{}> = () => {
     getHistoryLog();
   }, [getArchives, getHistoryLog]);
 
-  // const isAuthenticated = true;
   const organisedNews = organiseNewsByMonth(allArchive);
 
   const shouldShowLoader = isLoadingDBData;
@@ -33,15 +39,17 @@ const ArchivePage: FC<{}> = () => {
         {shouldShowContent && (
           <>
             <ArchiveHistoryLog logData={archiveHistoryLog} />
-            {Object.entries(organisedNews).map(([monthYear, newsList]) => (
-              <Accordeon key={monthYear} dateSeparator={monthYear} position='archivePage'>
-                <NewsList currentItems={newsList} />
-              </Accordeon>
-            ))}
+            {Object.entries(organisedNews)
+              .reverse()
+              .map(([monthYear, newsList]) => (
+                <Accordeon key={monthYear} dateSeparator={monthYear} position='archivePage'>
+                  <NewsList currentItems={newsList} />
+                </Accordeon>
+              ))}
           </>
         )}
         {!shouldShowLoader && !shouldShowContent && <PlugImage variant='page' />}
-        {openToast && (
+        {openToast && dbSuccessMessage === 'Remove news success' && (
           <Notification
             variant='non-interactive'
             openToast={openToast}

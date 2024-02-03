@@ -5,18 +5,7 @@ import { generateContentImages } from 'helpers';
 import { useCacheImage } from 'hooks';
 
 import { MembersLink } from './subcomponents';
-
-interface Member {
-  memberImage: string;
-  imageDescription: string;
-  memberName: string;
-  memberRole: string;
-  memberCV: string;
-  githubLink: string;
-  linkedinLink: string;
-  emailLink: string;
-  telegramLink: string;
-}
+import { MemberItem, getMembersList } from './assistants';
 
 const AboutUs: FC<{}> = () => {
   const devicePixelRatio = window.devicePixelRatio || 1;
@@ -46,54 +35,7 @@ const AboutUs: FC<{}> = () => {
   const secondMemberImageUrl = useCacheImage(matchedSecondMemberImage?.src || '');
   const thirdMemberImageUrl = useCacheImage(matchedThirdMemberImage?.src || '');
 
-  const members = [
-    {
-      groupTitle: 'Front-end',
-      groupMembers: [
-        {
-          memberImage: firstMemberImageUrl,
-          imageDescription: 'Greg Terekhov',
-          memberName: 'Greg Terekhov',
-          memberRole: 'Team leader, scrum, developer',
-          memberCV:
-            'https://drive.google.com/file/d/1UK9RnTddIt39_VsQnd70jJe0ii3AhZFL/view?usp=sharing',
-          githubLink: 'https://github.com/GregTerekhov',
-          linkedinLink: 'https://www.linkedin.com/in/greg-terekhov/',
-          emailLink: 'mailto:gregterekhov@gmail.com',
-          telegramLink: 'http://t.me/GregTerekhov',
-        },
-        {
-          memberImage: secondMemberImageUrl,
-          imageDescription: 'Max Mordovtsev',
-          memberName: 'Max Mordovtsev',
-          memberRole: 'Developer',
-          memberCV:
-            'https://drive.google.com/file/d/19lChIbPB0JDQeeP2y7EpqPYfrK9ZyKXc/view?usp=sharing',
-          githubLink: 'https://github.com/Max3281',
-          linkedinLink: 'https://www.linkedin.com/in/maxim-mordovtsev/',
-          emailLink: 'mailto:9.crover@gmail.com',
-          telegramLink: 'http://t.me/ZCrover',
-        },
-      ],
-    },
-    {
-      groupTitle: 'Back-end',
-      groupMembers: [
-        {
-          memberImage: thirdMemberImageUrl,
-          imageDescription: 'Dmytro Pavlenko',
-          memberName: 'Dmytro Pavlenko',
-          memberRole: 'Developer',
-          memberCV:
-            'https://drive.google.com/file/d/15pBheHpJaq_u8UyXg0W31FrZEey5Z3vC/view?usp=sharing',
-          githubLink: 'https://github.com/PavlenkoDm',
-          linkedinLink: 'https://www.linkedin.com/in/pavlenko-dmitry/',
-          emailLink: 'mailto:dmpavlenko07@gmail.com',
-          telegramLink: 'http://t.me/Pavlenko_Dm',
-        },
-      ],
-    },
-  ];
+  const members = getMembersList(firstMemberImageUrl, secondMemberImageUrl, thirdMemberImageUrl);
 
   const commonTextMemberClass = 'text-darkBase dark:text-whiteBase transition-colors duration-500';
 
@@ -120,7 +62,7 @@ const AboutUs: FC<{}> = () => {
                   linkedinLink,
                   emailLink,
                   telegramLink,
-                }: Member) => (
+                }: MemberItem) => (
                   <li key={memberName} className='max-md:space-y-4 md:flex md:gap-x-12'>
                     <div className='overflow-hidden rounded-xl shadow-card duration-500 dark:shadow-darkCard md:w-96 lg:w-72 hg:w-[320px]'>
                       <img
@@ -147,7 +89,7 @@ const AboutUs: FC<{}> = () => {
                             href={memberCV}
                             target='_blank'
                             rel='noopener noreferrer'
-                            className='font-medium text-accentBase dark:text-whiteBase dark:underline'
+                            className='font-medium text-accentBase transition-colors duration-500 dark:text-whiteBase dark:underline'
                           >
                             {memberName} CV
                           </a>

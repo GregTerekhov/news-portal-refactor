@@ -1,5 +1,6 @@
 import type { RootState } from '../store';
 
+export const selectSuccessMessage = (state: RootState) => state.newsDB.message;
 export const selectSavedNews = (state: RootState) => state.newsDB.savedNews;
 export const selectAllFavourites = (state: RootState) => state.newsDB.favourites;
 export const selectAllReads = (state: RootState) => state.newsDB.reads;

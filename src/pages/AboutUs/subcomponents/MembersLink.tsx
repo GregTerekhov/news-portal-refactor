@@ -2,17 +2,13 @@ import React, { FC } from 'react';
 
 import { SvgIcon } from 'ui';
 
+import { getMembersLink } from '../assistants';
+
 interface IMembersLinkProps {
   githubLink: string;
   linkedinLink: string;
   emailLink: string;
   telegramLink: string;
-}
-
-interface ILink {
-  link: string;
-  icon: string;
-  iconSize: number;
 }
 
 const MembersLink: FC<IMembersLinkProps> = ({
@@ -26,28 +22,7 @@ const MembersLink: FC<IMembersLinkProps> = ({
   const iconClass =
     'fill-whiteBase group-hover:fill-accentAlt dark:group-hover:fill-whiteBase transition-colors duration-500';
 
-  const links: ILink[] = [
-    {
-      link: githubLink,
-      icon: 'icon-github',
-      iconSize: 28,
-    },
-    {
-      link: linkedinLink,
-      icon: 'icon-linkedin',
-      iconSize: 28,
-    },
-    {
-      link: emailLink,
-      icon: 'icon-gmail',
-      iconSize: 30,
-    },
-    {
-      link: telegramLink,
-      icon: 'icon-telegram',
-      iconSize: 28,
-    },
-  ];
+  const links = getMembersLink(githubLink, linkedinLink, emailLink, telegramLink);
 
   return (
     <ul className='flex items-center justify-around hg:justify-between'>

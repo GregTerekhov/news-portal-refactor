@@ -1,5 +1,3 @@
-import { SerializedError } from '@reduxjs/toolkit';
-
 import { IHistoryLog, PartialVotedNewsArray } from './newsDBResponse';
 import {
   ArticleNewsArray,
@@ -20,11 +18,12 @@ export interface newsAPIState {
 }
 
 export interface NewsDBState {
+  message: string;
   savedNews: PartialVotedNewsArray;
   favourites: PartialVotedNewsArray;
   reads: PartialVotedNewsArray;
   archivedNews: PartialVotedNewsArray;
   historyLog: IHistoryLog[];
   isLoading: boolean;
-  hasError: SerializedError | null;
+  hasError: number | null;
 }

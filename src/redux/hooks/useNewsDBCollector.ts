@@ -6,6 +6,7 @@ import * as newsDB from '../newsDatabase';
 import { PartialVotedNewsArray, VotedItem } from 'types';
 
 const useNewsDBCollector = () => {
+  const dbSuccessMessage = useAppSelector(newsDB.selectSuccessMessage);
   const isLoadingDBData = useAppSelector(newsDB.selectLoading);
   const savedNews = useAppSelector(newsDB.selectSavedNews);
   const allFavourites = useAppSelector(newsDB.selectAllFavourites);
@@ -37,6 +38,7 @@ const useNewsDBCollector = () => {
   const removeNews = useCallback((id: string) => dispatch(newsDB.deleteNews(id)), [dispatch]);
 
   return {
+    dbSuccessMessage,
     isLoadingDBData,
     savedNews,
     allFavourites,

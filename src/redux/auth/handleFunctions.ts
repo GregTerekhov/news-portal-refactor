@@ -45,7 +45,7 @@ export const getActions = (type: DispatchActionType) => {
     authOperations.googleAuth,
     authOperations.facebookAuth,
     authOperations.appleAuth,
-    authOperations.updateTheme,
+    // authOperations.updateTheme, // вимкнено, щоб уникнути стана pending при зміни теми
   ];
   return extraActions?.map((action) => action[type]);
 };

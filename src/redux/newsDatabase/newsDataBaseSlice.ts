@@ -6,6 +6,7 @@ import * as newsDBOperations from './newsDatabaseOperations';
 import { getActions, handleFulfilled, handlePending, handleRejected } from './handleFunctions';
 
 const initialState: NewsDBState = {
+  message: '',
   savedNews: [],
   favourites: [],
   reads: [],
@@ -41,22 +42,28 @@ const newsDBSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(newsDBOperations.fetchAllNews.fulfilled, (state, action) => {
+        state.message = action.payload.message;
         state.savedNews = action.payload.data;
       })
       .addCase(newsDBOperations.fetchFavourites.fulfilled, (state, action) => {
+        state.message = action.payload.message;
         state.favourites = action.payload.data;
       })
       .addCase(newsDBOperations.fetchRead.fulfilled, (state, action) => {
+        state.message = action.payload.message;
         state.reads = action.payload.data;
       })
       .addCase(newsDBOperations.fetchArchivedNews.fulfilled, (state, action) => {
+        state.message = action.payload.message;
         state.archivedNews = action.payload.data;
       })
       .addCase(newsDBOperations.deleteNews.fulfilled, (state, action) => {
+        state.message = action.payload.message;
         const { _id: id } = action.payload;
         state.archivedNews = state.archivedNews.filter((news) => news._id !== id);
       })
       .addCase(newsDBOperations.fetchHistoryLog.fulfilled, (state, action) => {
+        state.message = action.payload.message;
         state.historyLog = action.payload.data;
       })
       .addCase(removeFromFavourites, (state, action) => {
