@@ -23,13 +23,14 @@ const ChangePassword: FC = () => {
         <ul className='mb-8 space-y-4 lg:space-y-8'>
           {Array.isArray(changePasswordInputs) &&
             changePasswordInputs.map(
-              ({ type, placeholder, children, errors, label, ariaInvalid }) => (
+              ({ type, placeholder, children, autoFocus, errors, label, ariaInvalid }) => (
                 <li key={label}>
                   <VerifiableInput
                     inputData={{
                       type,
                       placeholder,
                       children,
+                      autoFocus,
                     }}
                     errors={errors}
                     register={registerChangePassword}

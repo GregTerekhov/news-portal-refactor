@@ -8,4 +8,5 @@ export interface AuthInputs {
   label: InputLabel;
   ariaInvalid?: boolean | undefined;
   fieldValue?: string | undefined;
+  autoFocus?: boolean;
 }

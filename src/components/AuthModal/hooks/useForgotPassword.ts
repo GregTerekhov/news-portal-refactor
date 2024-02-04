@@ -62,6 +62,7 @@ const useForgotPassword = () => {
       errors: errors?.newPassword?.message,
       label: 'newPassword',
       ariaInvalid: errors?.newPassword ? true : false,
+      autoFocus: true,
     },
     {
       type: 'password',
@@ -70,6 +71,7 @@ const useForgotPassword = () => {
       errors: errors?.confirmPassword?.message,
       label: 'confirmPassword',
       ariaInvalid: errors?.confirmPassword ? true : false,
+      autoFocus: false,
     },
   ];
 

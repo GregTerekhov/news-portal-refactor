@@ -124,6 +124,7 @@ const useSignIn = () => {
       errors: errors?.email?.message,
       label: 'email',
       ariaInvalid: errors?.email ? true : false,
+      autoFocus: true,
     },
     {
       type: 'password',
@@ -133,6 +134,7 @@ const useSignIn = () => {
       errors: errors?.password?.message,
       label: 'password',
       ariaInvalid: errors?.password ? true : false,
+      autoFocus: false,
     },
   ];
 
