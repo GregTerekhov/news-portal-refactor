@@ -9,6 +9,7 @@ import { Accordeon, Loader, Notification, PlugImage } from 'ui';
 
 import { organiseNewsByMonth } from './assistants';
 import { ArchiveHistoryLog } from './subcomponents';
+import { useNavigate } from 'react-router-dom';
 
 const ArchivePage: FC<{}> = () => {
   const {
@@ -16,11 +17,20 @@ const ArchivePage: FC<{}> = () => {
     isLoadingDBData,
     allArchive,
     archiveHistoryLog,
+    errorDB,
     getHistoryLog,
     getArchives,
   } = useDB();
   const { isAuthenticated } = useAuthRedux();
   const { openToast, setOpenToast } = useNotification();
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (errorDB && errorDB >= 500) {
+      navigate('/serverError');
+    }
+  }, [errorDB]);
 
   useEffect(() => {
     getArchives();

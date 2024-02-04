@@ -1,5 +1,5 @@
 import React, { FC, useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 import { useAuthRedux, useDB, useFiltersAction } from 'reduxStore/hooks';
 
@@ -11,12 +11,20 @@ import { Loader, Notification, PlugImage } from 'ui';
 const FavouritePage: FC<{}> = () => {
   const [openToast, setOpenToast] = useState<boolean>(false);
   const { isAuthenticated } = useAuthRedux();
-  const { allFavourites, isLoadingDBData, getFavourites, getSavedNews } = useDB();
+  const { allFavourites, isLoadingDBData, errorDB, getFavourites, getSavedNews } = useDB();
   const { hasResults } = useFiltersAction();
 
   const location = useLocation();
   const activeLinks = useActiveLinks(location);
   const { rebuildedNews } = useChooseRenderingNews({ activeLinks });
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (errorDB && errorDB >= 500) {
+      navigate('/serverError');
+    }
+  }, [errorDB]);
 
   useEffect(() => {
     getFavourites();

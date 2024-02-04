@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import { useAuthRedux } from 'reduxStore/hooks';
+import { useAuthRedux, useDB, useNewsAPI } from 'reduxStore/hooks';
 
 import { VariantButton } from 'types';
 import { errorImages } from 'constants/images';
@@ -9,11 +9,32 @@ import { generateContentImages } from 'helpers';
 import { useCacheImage } from 'hooks';
 
 import { PrimaryButton } from 'ui';
+import { serverErrorsList } from './assistants/serverErrorsList';
 
 const ErrorPage: FC<{}> = () => {
   const devicePixelRatio = window.devicePixelRatio || 1;
   const { isAuthenticated } = useAuthRedux();
   const navigate = useNavigate();
+  const { errorAPI } = useNewsAPI();
+  const { errorDB } = useDB();
+
+  const anyServerError = errorAPI || errorDB;
+  const APIServerError = errorAPI && errorAPI >= 500;
+  const DBServerError = errorDB && errorDB >= 500;
+
+  console.log(anyServerError, errorAPI, errorDB);
+
+  const renderPageContent = serverErrorsList.find(
+    (value: { code: number; warning: string; message: string }) => {
+      if (APIServerError) {
+        return value.code === errorAPI;
+      }
+      if (DBServerError) {
+        return value.code === errorDB;
+      }
+      return;
+    },
+  );
 
   const matchedErrorImage = generateContentImages(
     errorImages,
@@ -31,21 +52,30 @@ const ErrorPage: FC<{}> = () => {
     navigate(-1);
   };
 
+  console.log(renderPageContent);
+
   return (
-    <div className='space-y-10 text-center lg:w-[900px] lg:mx-auto'>
-      <img
-        className='mx-auto'
-        src={imageUrl}
-        alt='Error page'
-        width={matchedErrorImage.width}
-        height={matchedErrorImage.height}
-      />
-      <h1 className='text-5xl text-darkBase dark:text-whiteBase transition-colors duration-500'>
-        Page not found
-      </h1>
-      <p className='text-xl text-justify md:text-center text-darkBase dark:text-whiteBase transition-colors duration-500'>
-        Looks like you'we lost a bit. The page you requested could not be found or maybe don't even
-        exist. How about to make a step back and try again?
+    <div className='space-y-10 text-center lg:mx-auto lg:w-[900px]'>
+      {anyServerError ? (
+        <h1 className='m-0 p-0 text-[100px] text-darkBase transition-colors duration-500 dark:text-whiteBase'>
+          {renderPageContent?.code}
+        </h1>
+      ) : (
+        <img
+          className='mx-auto'
+          src={imageUrl}
+          alt='Error page'
+          width={matchedErrorImage.width}
+          height={matchedErrorImage.height}
+        />
+      )}
+      <h2 className='text-5xl text-darkBase transition-colors duration-500 dark:text-whiteBase'>
+        {anyServerError ? `${renderPageContent?.warning}` : 'Page not found'}
+      </h2>
+      <p className='text-justify text-xl text-darkBase transition-colors duration-500 dark:text-whiteBase md:text-center'>
+        {anyServerError
+          ? `${renderPageContent?.message}`
+          : "Looks like you'we lost a bit. The page you requested could not be found or maybe don't even exist. How about to make a step back and try again?"}
       </p>
       <div
         className={`${

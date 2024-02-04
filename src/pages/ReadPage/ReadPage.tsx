@@ -1,5 +1,5 @@
 import React, { FC, useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 import { useDB, useFiltersAction } from 'reduxStore/hooks';
 
@@ -11,7 +11,7 @@ import { Accordeon, Loader, Notification, PlugImage } from 'ui';
 const ReadPage: FC<{}> = () => {
   const [openToast, setOpenToast] = useState<boolean>(false);
 
-  const { allReads, isLoadingDBData, getReads } = useDB();
+  const { allReads, isLoadingDBData, errorDB, getReads } = useDB();
   const { hasResults } = useFiltersAction();
 
   const location = useLocation();
@@ -20,6 +20,14 @@ const ReadPage: FC<{}> = () => {
   const initialReadsList = useReadNewsContent({ activeLinks });
   const { rebuildedNews } = useChooseRenderingNews({ activeLinks });
   const { sortedDates } = useFilterNews({ activeLinks });
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (errorDB && errorDB >= 500) {
+      navigate('/serverError');
+    }
+  }, [errorDB]);
 
   useEffect(() => {
     getReads();
