@@ -1,10 +1,9 @@
-// Функція шифрування пароля для запису в localStorage, якщо чекбокс RememberMe isChecked
-
 import type { AuthRequestWithoutName } from 'types';
 
 const encoder = new TextEncoder();
 const decoder = new TextDecoder();
 
+// Функція шифрування пароля для запису в localStorage, якщо чекбокс RememberMe isChecked
 async function encryptData(userData: Record<string, string>, key: CryptoKey): Promise<string> {
   try {
     const userDataString = JSON.stringify(userData);

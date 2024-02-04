@@ -17,6 +17,7 @@ interface InputCollectedData {
   type?: string;
   placeholder?: string;
   fieldValue?: string | string[] | undefined;
+  autoFocus?: boolean | undefined;
   children?: ReactNode;
 }
 
@@ -53,7 +54,7 @@ const VerifiableInput: FC<InputProps> = ({
 
   const id = useId(); // додається для розрізнення однакових label в різних інпутах, які знаходяться на одній сторінці
 
-  const { type, fieldValue, placeholder, children } = inputData;
+  const { type, fieldValue, placeholder, children, autoFocus } = inputData;
 
   const { geometry, border, bg, caret, text, placeholderStyle } =
     inputStyles[variant === VariantVerifiableInputs.Account ? 'account' : 'auth'];
@@ -99,6 +100,7 @@ const VerifiableInput: FC<InputProps> = ({
         <input
           className={` ${geometry} ${bg} ${border} ${text} ${caret} ${placeholderStyle} $ rounded-3xl border border-solid font-header text-small leading-mediumRelaxed tracking-bigWide outline-0 transition-colors duration-500 md:text-base md:leading-moreRelaxed md:tracking-wide`}
           id={id + label}
+          autoFocus={autoFocus}
           {...register(label)}
           type={isPasswordVisibility ? 'text' : type}
           value={fieldValue}

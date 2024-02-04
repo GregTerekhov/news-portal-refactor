@@ -35,6 +35,7 @@ const ForgotPassword: FC<SignInProps> = ({ handleShowRecoveryInput, isShowRecove
           inputData={{
             type: 'email',
             placeholder: 'Enter your current email',
+            autoFocus: true,
           }}
           errors={recoveryPasswordErrors?.email?.message}
           register={registerRecovery}

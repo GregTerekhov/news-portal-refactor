@@ -29,10 +29,19 @@ const SignInPanel: FC<SignInProps> = ({ handleShowRecoveryInput, isShowRecoveryI
         <ul className='flex flex-col gap-y-3.5'>
           {Array.isArray(signInInputs) &&
             signInInputs.map(
-              ({ type, placeholder, children, fieldValue, errors, label, ariaInvalid }) => (
+              ({
+                type,
+                placeholder,
+                children,
+                autoFocus,
+                fieldValue,
+                errors,
+                label,
+                ariaInvalid,
+              }) => (
                 <li key={label}>
                   <VerifiableInput
-                    inputData={{ type, placeholder, children, fieldValue }}
+                    inputData={{ type, placeholder, autoFocus, children, fieldValue }}
                     errors={errors}
                     register={registration}
                     label={label}
