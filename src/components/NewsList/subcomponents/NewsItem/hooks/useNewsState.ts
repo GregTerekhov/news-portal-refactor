@@ -2,10 +2,8 @@ import { useEffect, useState } from 'react';
 
 import { PartialVotedNewsArray, VotedItem } from 'types';
 
-import { ActiveLinks } from 'hooks';
-
 type NewsStateHookProps = {
-  activeLinks: ActiveLinks;
+  isArchiveActive: boolean;
   isAuthenticated: boolean;
   liveNews: Partial<VotedItem>;
   savedNews: PartialVotedNewsArray;
@@ -13,14 +11,12 @@ type NewsStateHookProps = {
 };
 
 const useNewsState = ({
-  activeLinks,
+  isArchiveActive,
   isAuthenticated,
   liveNews,
   savedNews,
   allArchive,
 }: NewsStateHookProps) => {
-  const { isArchiveActive } = activeLinks;
-
   const [isFavourite, setIsFavourite] = useState<boolean>(() => getIsFavourite());
   const [hasRead, setHasRead] = useState<boolean>(() => getHasRead());
 

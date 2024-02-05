@@ -20,8 +20,8 @@ const FiltersBlock: FC<{}> = () => {
   const { handleMaterialTypeChange } = useFilterNews({ activeLinks, setSelectedMaterialType });
   const { filters } = useFiltersState();
 
-  const hasNonEmptyValue = (obj: Filters): boolean => {
-    return Object.values(obj).some((value) => {
+  const hasNonEmptyValue = (filtersObject: Filters): boolean => {
+    return Object.values(filtersObject).some((value) => {
       if (typeof value === 'object' && value !== null) {
         return hasNonEmptyValue(value);
       }

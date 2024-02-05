@@ -1,4 +1,10 @@
-export const serverErrorsList = [
+type ErrorList = {
+  code: number;
+  warning: string;
+  message: string;
+};
+
+export const serverErrorsList: ErrorList[] = [
   {
     code: 500,
     warning: 'Internal Server Error',

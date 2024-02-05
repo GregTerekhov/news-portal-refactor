@@ -4,15 +4,15 @@ import { HourlyWeatherData } from 'types';
 
 import { hPaToMmHg } from '../assistants';
 
-export const RenderTemperatureCell = (item: HourlyWeatherData) => {
+export const RenderTemperatureCell = (item: HourlyWeatherData): JSX.Element => {
   return (
-    <td className='py-1.5 md:py-4 text-small md:text-base text-whiteBase text-center'>
+    <td className='py-1.5 text-center text-small text-whiteBase md:py-4 md:text-base'>
       {Math.ceil(item?.main?.temp)}°C
     </td>
   );
 };
 
-export const RenderWeatherIConCell = (item: HourlyWeatherData) => {
+export const RenderWeatherIConCell = (item: HourlyWeatherData): JSX.Element => {
   return (
     <td className='h-[35px]'>
       <img
@@ -24,25 +24,25 @@ export const RenderWeatherIConCell = (item: HourlyWeatherData) => {
   );
 };
 
-export const RenderHumidityCell = (item: HourlyWeatherData) => {
+export const RenderHumidityCell = (item: HourlyWeatherData): JSX.Element => {
   return (
-    <td className='py-1.5 md:py-4 text-small md:text-base text-whiteBase text-center'>
+    <td className='py-1.5 text-center text-small text-whiteBase md:py-4 md:text-base'>
       {item?.main?.humidity}
     </td>
   );
 };
 
-export const RenderPressureCell = (item: HourlyWeatherData) => {
+export const RenderPressureCell = (item: HourlyWeatherData): JSX.Element => {
   return (
-    <td className='py-1.5 md:py-4 text-small md:text-base text-whiteBase text-center'>
+    <td className='py-1.5 text-center text-small text-whiteBase md:py-4 md:text-base'>
       {hPaToMmHg(item?.main?.pressure)}
     </td>
   );
 };
 
-export const RenderWindSpeedCell = (item: HourlyWeatherData) => {
+export const RenderWindSpeedCell = (item: HourlyWeatherData): JSX.Element => {
   return (
-    <td className='py-1.5 md:py-4 text-small md:text-base text-whiteBase text-center'>
+    <td className='py-1.5 text-center text-small text-whiteBase md:py-4 md:text-base'>
       {item?.wind?.speed}
     </td>
   );

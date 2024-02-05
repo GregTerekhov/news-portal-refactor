@@ -1,4 +1,37 @@
-import { EmailInput, EmailInputsValues, PasswordInput, PasswordInputsValues } from '../types';
+import type { FieldErrors } from 'react-hook-form';
+
+import { AuthRequestWithoutName, ExtendedUpdatePasswordRequest, InputLabel } from 'types';
+
+type EmailInputsValues = {
+  email: string;
+  password: string;
+  errors?: FieldErrors<AuthRequestWithoutName>;
+};
+
+type PasswordInputsValues = {
+  newPassword: string;
+  confirmPassword: string;
+  password: string;
+  errors?: FieldErrors<Required<ExtendedUpdatePasswordRequest>>;
+};
+
+type EmailInput = {
+  type: string;
+  placeholder: string;
+  fieldValue: string;
+  errors?: string | undefined;
+  label: InputLabel;
+  iconName: string;
+  ariaInvalid?: boolean;
+};
+
+type PasswordInput = {
+  placeholder: string;
+  fieldValue: string;
+  errors?: string | undefined;
+  label: InputLabel;
+  ariaInvalid?: boolean;
+};
 
 export const renderPasswordInputs = ({
   newPassword,

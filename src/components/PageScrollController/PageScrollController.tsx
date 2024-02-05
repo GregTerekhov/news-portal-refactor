@@ -1,5 +1,7 @@
 import React, { FC } from 'react';
 
+import { ICON_SIZES } from 'constants/iconSizes';
+
 import { Hint, SvgIcon } from 'ui';
 
 import { useScrollController } from './hooks';
@@ -33,11 +35,11 @@ const PageScrollController: FC<ScrollDirection> = (value) => {
           aria-label={`Page scroll controller button in direction ${direction}`}
           onClick={onHandleClick}
           type='button'
-          className={`z-30 group fixed ${upButtonVisibility} ${downButtonVisibility} ${position} left-20 items-center justify-center w-16 h-16 hover:border-solid hover:border-2 hover:border-whiteBase dark:hover:border-whiteBase rounded-full hover:bg-accentBase/[.7] transition-colors duration-500`}
+          className={`group fixed z-30 ${upButtonVisibility} ${downButtonVisibility} ${position} left-20 h-16 w-16 items-center justify-center rounded-full transition-colors duration-500 hover:border-2 hover:border-solid hover:border-whiteBase hover:bg-accentBase/[.7] dark:hover:border-whiteBase`}
         >
           <SvgIcon
             svgName={icon}
-            size={30}
+            size={ICON_SIZES.lgIcon30}
             className={`${classIcon} fill-accentBase group-hover:fill-whiteBase`}
           />
         </button>

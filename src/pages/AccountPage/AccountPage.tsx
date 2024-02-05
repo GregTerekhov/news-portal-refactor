@@ -2,6 +2,7 @@ import React, { FC } from 'react';
 
 import { useAuthRedux } from 'reduxStore/hooks';
 
+import { ICON_SIZES } from 'constants/iconSizes';
 import { useWindowWidth } from 'contexts';
 
 import { SvgIcon } from 'ui';
@@ -22,13 +23,13 @@ const AccountPage: FC<{}> = () => {
 
   return (
     <div>
-      <h2 className={`${commonHeadlineClass} text-3xl leading-tighter mb-14`}>Your account</h2>
+      <h2 className={`${commonHeadlineClass} mb-14 text-3xl leading-tighter`}>Your account</h2>
       <div className='flex flex-col items-end'>
-        <ul className='space-y-6 md:space-y-10 w-52 md:w-80 lg:w-[600px] mb-6'>
+        <ul className='mb-6 w-52 space-y-6 md:w-80 md:space-y-10 lg:w-[600px]'>
           {userInfoList.map(({ label, value }) => (
             <li key={label}>
               <h3 className={`${commonHeadlineClass} mb-2 md:text-2xl`}>{label}</h3>
-              <p className='text-accentBase dark:text-greyAlt text-end md:text-medium'>{value}</p>
+              <p className='text-end text-accentBase dark:text-greyAlt md:text-medium'>{value}</p>
             </li>
           ))}
         </ul>
@@ -39,11 +40,11 @@ const AccountPage: FC<{}> = () => {
               {accountIcons.map(({ iconName }) => (
                 <li
                   key={iconName}
-                  className='border border-solid rounded-[10px] bg-accentBase dark:border-whiteBase p-2'
+                  className='rounded-[10px] border border-solid bg-accentBase p-2 dark:border-whiteBase'
                 >
                   <SvgIcon
                     svgName={iconName}
-                    size={isMobile ? 20 : 24}
+                    size={isMobile ? ICON_SIZES.smIcon20 : ICON_SIZES.mdIcon24}
                     className='fill-whiteBase'
                   />
                 </li>

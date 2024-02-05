@@ -51,7 +51,7 @@ const useScrollController = ({ direction }: ScrollControllerProps) => {
     };
   }, [direction]);
 
-  const onHandleClick = () => {
+  const onHandleClick = (): void => {
     const topPosition = direction === 'top' ? 0 : document.documentElement.scrollHeight;
     window.scrollTo({
       top: topPosition,
@@ -59,7 +59,7 @@ const useScrollController = ({ direction }: ScrollControllerProps) => {
     });
   };
 
-  function getHeaderHeight() {
+  function getHeaderHeight(): number {
     let headerHeight: number = 81;
     switch (true) {
       case breakpointsForMarkup?.isTablet:

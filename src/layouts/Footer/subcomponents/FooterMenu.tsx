@@ -10,7 +10,7 @@ import { renderMenuItem } from '../assistants';
 const FooterMenu = () => {
   const { isAuthenticated } = useAuthRedux();
   const location = useLocation();
-  const activeLinks = useActiveLinks(location);
+  const { isAboutUs } = useActiveLinks(location);
 
   useEffect(() => {
     const handleScrollToTop = () => {
@@ -20,7 +20,7 @@ const FooterMenu = () => {
     handleScrollToTop();
   }, [location]);
 
-  const menuItems = renderMenuItem({ isAuthenticated, activeLinks });
+  const menuItems = renderMenuItem({ isAuthenticated, isAboutUs });
 
   return (
     <>
@@ -28,8 +28,8 @@ const FooterMenu = () => {
         <ul
           className={`${
             isAuthenticated
-              ? 'grid max-md:grid-cols-3 md:grid-cols-2 grid-rows-3 gap-3'
-              : 'flex justify-between items-center'
+              ? 'grid grid-rows-3 gap-3 max-md:grid-cols-3 md:grid-cols-2'
+              : 'flex items-center justify-between'
           }`}
         >
           {menuItems &&
@@ -40,7 +40,7 @@ const FooterMenu = () => {
                   className={`p-2 text-medium font-medium text-whiteBase ${
                     isAuthenticated
                       ? ''
-                      : 'block w-24 text-center border border-solid border-whiteBase rounded-xl'
+                      : 'block w-24 rounded-xl border border-solid border-whiteBase text-center'
                   }`}
                 >
                   {label}

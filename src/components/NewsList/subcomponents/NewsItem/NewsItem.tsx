@@ -5,11 +5,11 @@ import { useAuthRedux } from 'reduxStore/hooks';
 
 import { VariantModals, VotedItem } from 'types';
 
+import { ICON_SIZES } from 'constants/iconSizes';
 import { useActiveLinks, usePopUp } from 'hooks';
 
 import { Modal, PlugImage, SvgIcon } from 'ui';
 
-// import { convertToWebP } from './assistants';
 import { useNews } from './hooks';
 import { DeleteNewsButton, DeleteNewsModal, NewsDescription, VoteButton } from './subcomponents';
 
@@ -17,49 +17,34 @@ interface NewsItemProps {
   liveNews: Partial<VotedItem>;
 }
 
-// const QUALITY = 0.8;
-
 const NewsItem: FC<Partial<NewsItemProps>> = ({ liveNews = {} }) => {
-  // const [webpImageURL, setWebpImageURL] = useState<string | undefined>(undefined);
   const { isAuthenticated } = useAuthRedux();
   const { isOpenModal, toggleModal, popUpRef } = usePopUp();
   const myButtonRef = React.createRef<HTMLButtonElement>();
 
   const location = useLocation();
-  const activeLinks = useActiveLinks(location);
+  const { isHomeActive, isArchiveActive } = useActiveLinks(location);
+
   const { isFavourite, hasRead, handleChangeFavourites, handleReadNews, handleDeleteNews } =
-    useNews({ liveNews, activeLinks });
+    useNews({ liveNews, isArchiveActive });
 
-  // useEffect(() => {
-  //   const convertImageToWebP = async () => {
-  //     try {
-  //       const url = await convertToWebP(liveNews?.imgLink, QUALITY);
-  //       setWebpImageURL(url);
-  //     } catch (error) {
-  //       console.error('Image conversion error:', error);
-  //     }
-  //   };
-
-  //   if (liveNews?.imgLink) {
-  //     convertImageToWebP();
-  //   }
-  // }, [liveNews?.imgLink]);
-
-  const handleDeleteNewsWrapper = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+  const handleDeleteNewsWrapper = async (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+  ): Promise<void> => {
     if (liveNews._id) {
       toggleModal;
       await handleDeleteNews(e, liveNews._id);
     }
   };
 
-  const locationShowHasReadStatus = activeLinks.isHomeActive || activeLinks.isArchiveActive;
+  const locationShowHasReadStatus = isHomeActive || isArchiveActive;
 
   return (
     <>
       {liveNews && liveNews?.newsUrl && (
         <a
           rel='noopener noreferrer'
-          className='block group transition-colors duration-500'
+          className='group block transition-colors duration-500'
           href={liveNews?.newsUrl}
           target='_blank'
           onClick={isAuthenticated ? handleReadNews : undefined}
@@ -67,29 +52,29 @@ const NewsItem: FC<Partial<NewsItemProps>> = ({ liveNews = {} }) => {
           <div
             className={`${
               isAuthenticated && hasRead && locationShowHasReadStatus
-                ? 'absolute z-20 w-full h-full bg-whiteBase/[.4]'
+                ? 'absolute z-20 h-full w-full bg-whiteBase/[.4]'
                 : 'hidden'
             }`}
           ></div>
-          {activeLinks.isArchiveActive ? (
+          {isArchiveActive ? (
             <DeleteNewsButton
               myButtonRef={myButtonRef}
               handleOpenConfirm={(e: React.MouseEvent<HTMLButtonElement>) => toggleModal(e, true)}
             />
           ) : null}
-          <p className='absolute z-20 top-10 left-0 py-1 px-2 text-small font-medium text-contrastWhite bg-accentBase/[.7] rounded-r'>
+          <p className='absolute left-0 top-10 z-20 rounded-r bg-accentBase/[.7] px-2 py-1 text-small font-medium text-contrastWhite'>
             {liveNews?.category} / {liveNews?.materialType}
           </p>
           {isAuthenticated && hasRead && (
-            <p className='absolute z-10 top-3.5 right-14 md:top-5 text-base font-bold text-readBase flex items-center gap-1'>
+            <p className='absolute right-14 top-3.5 z-10 flex items-center gap-1 text-base font-bold text-readBase md:top-5'>
               Already read
-              <SvgIcon svgName='icon-check' size={18} className='fill-readBase' />
+              <SvgIcon svgName='icon-check' size={ICON_SIZES.smIcon18} className='fill-readBase' />
             </p>
           )}
-          <div className='relative h-[395px] flex justify-center items-center overflow-hidden rounded-[10px]'>
+          <div className='relative flex h-[395px] items-center justify-center overflow-hidden rounded-[10px]'>
             {liveNews && liveNews?.imgLink ? (
               <img
-                className='rounded-xl max-w-none h-full absolute object-cover'
+                className='absolute h-full max-w-none rounded-xl object-cover'
                 src={liveNews?.imgLink}
                 alt={liveNews?.imgAlt ? liveNews?.imgAlt : 'plug image'}
               />

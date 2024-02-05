@@ -1,5 +1,6 @@
 import React, { FC } from 'react';
 
+import { ICON_SIZES } from 'constants/iconSizes';
 import { useWindowWidth } from 'contexts';
 
 import { SvgIcon } from 'ui';
@@ -22,11 +23,11 @@ const TopWeatherBlock: FC<TopWeatherProps> = ({
 
   return (
     <div
-      className='flex justify-evenly gap-5 items-center mx-auto cursor-pointer'
+      className='mx-auto flex cursor-pointer items-center justify-evenly gap-5'
       onClick={toggleTemperatureScale}
     >
-      <div className='relative w-[83px] md:w-[96px] after:content-[""] after:h-full after:absolute after:w-px after:-right-2 after:top-0 after:bg-white text-center'>
-        <p className='w-full font-weather text-monstrous md:text-[64px] text-contrastWhite'>
+      <div className='relative w-[83px] text-center after:absolute after:-right-2 after:top-0 after:h-full after:w-px after:bg-white after:content-[""] md:w-[96px]'>
+        <p className='w-full font-weather text-monstrous text-contrastWhite md:text-[64px]'>
           {currentWeather?.main !== undefined &&
             (isCelsius
               ? Math.round(currentWeather?.main?.temp) + '\u00b0'
@@ -35,11 +36,11 @@ const TopWeatherBlock: FC<TopWeatherProps> = ({
       </div>
       <div>
         {currentWeather?.weather && currentWeather?.weather[0]?.main && (
-          <p className='font-weather text-3xl md:text-4.5xl text-contrastWhite'>
+          <p className='font-weather text-3xl text-contrastWhite md:text-4.5xl'>
             {currentWeather?.weather[0]?.main}
           </p>
         )}
-        <p className='font-weather text-base md:text-2xl text-contrastWhite mb-2.5'>
+        <p className='mb-2.5 font-weather text-base text-contrastWhite md:text-2xl'>
           Feels like{' '}
           {isCelsius
             ? currentWeather?.main?.feels_like &&
@@ -47,13 +48,17 @@ const TopWeatherBlock: FC<TopWeatherProps> = ({
             : currentWeather?.main?.feels_like &&
               Math.round((currentWeather?.main?.feels_like * 9) / 5 + 32) + '\u00b0' + 'F'}
         </p>
-        <div className='flex items-center gap-1 md:gap-2 text-contrastWhite bg-weatherForeground py-[9px] px-2 md:pt-[10px] md:pr-[17px] md:pb-[9px] md:pl-[7px] rounded-lg'>
+        <div className='flex items-center gap-1 rounded-lg bg-weatherForeground px-2 py-[9px] text-contrastWhite md:gap-2 md:pb-[9px] md:pl-[7px] md:pr-[17px] md:pt-[10px]'>
           <SvgIcon
             svgName='icon-location'
-            size={breakpointsForMarkup?.isNothing || breakpointsForMarkup?.isMobile ? 20 : 27}
+            size={
+              breakpointsForMarkup?.isNothing || breakpointsForMarkup?.isMobile
+                ? ICON_SIZES.smIcon20
+                : ICON_SIZES.mdIcon27
+            }
             className='fill-whiteBase'
           />
-          <p className='text-base md:text-2xl text-contrastWhite'>{currentWeather?.name}</p>
+          <p className='text-base text-contrastWhite md:text-2xl'>{currentWeather?.name}</p>
         </div>
       </div>
     </div>

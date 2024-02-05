@@ -16,6 +16,10 @@ export type UpdatePasswordRequest = {
   newPassword: string;
 };
 
+export type ExtendedUpdatePasswordRequest = UpdatePasswordRequest & {
+  confirmPassword: string;
+};
+
 export interface IThirdPartyAuth {
   tokenAuth: string | null;
 }

@@ -1,5 +1,7 @@
 import React, { FC, ReactNode } from 'react';
 
+import { ICON_SIZES } from 'constants/iconSizes';
+
 import { SvgIcon } from 'ui';
 
 interface IArrowButtonProps {
@@ -14,7 +16,7 @@ const ArrowButton: FC<IArrowButtonProps> = ({ ariaLabel, onClick, children, icon
     <button aria-label={ariaLabel} type='button' onClick={onClick}>
       <SvgIcon
         svgName='icon-arrow-left'
-        size={24}
+        size={ICON_SIZES.mdIcon24}
         className={`${iconClass} fill-accentBase dark:fill-disabledBase dark:hover:fill-accentBase`}
       />
       {children && <span className='sr-only'>{children}</span>}

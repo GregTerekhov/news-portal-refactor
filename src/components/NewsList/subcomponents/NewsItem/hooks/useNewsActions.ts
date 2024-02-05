@@ -5,10 +5,9 @@ import { useDB } from 'reduxStore/hooks';
 import { DeleteNewsResponse, VotedItem } from 'types';
 
 import { useNotification } from 'contexts';
-import { ActiveLinks } from 'hooks';
 
 type NewsActionHookProps = {
-  activeLinks: ActiveLinks;
+  isArchiveActive: boolean;
   isAuthenticated: boolean;
   liveNews: Partial<VotedItem>;
   setIsFavourite: (value: React.SetStateAction<boolean>) => void;
@@ -16,7 +15,7 @@ type NewsActionHookProps = {
 };
 
 const useNewsActions = ({
-  activeLinks,
+  isArchiveActive,
   liveNews,
   setIsFavourite,
   setHasRead,
@@ -34,8 +33,6 @@ const useNewsActions = ({
     }
   }, [changesHappened, addVotedNews]);
 
-  const { isArchiveActive } = activeLinks;
-
   const shouldMakeChanges =
     savedNews && liveNews && liveNews?.newsUrl !== undefined && !isArchiveActive;
   const existingNews = savedNews?.find((news) => news.newsUrl === liveNews.newsUrl);
@@ -44,7 +41,7 @@ const useNewsActions = ({
 
   const clickDate = new Date().getTime();
 
-  const handleAddToFavourites = async () => {
+  const handleAddToFavourites = async (): Promise<void> => {
     setIsFavourite(true);
 
     const updatedData = {
@@ -56,7 +53,7 @@ const useNewsActions = ({
     await updateSavedNews(updatedData);
   };
 
-  const handleToggleFavourites = async () => {
+  const handleToggleFavourites = async (): Promise<void> => {
     setIsFavourite(!savedFavourite);
 
     if (!savedFavourite && savedRead) {
@@ -83,7 +80,7 @@ const useNewsActions = ({
   };
 
   const handleChangeFavourites = useCallback(
-    async (e: React.MouseEvent<HTMLButtonElement>) => {
+    async (e: React.MouseEvent<HTMLButtonElement>): Promise<void> => {
       e.stopPropagation();
       e.preventDefault();
 
@@ -106,7 +103,7 @@ const useNewsActions = ({
     ],
   );
 
-  const handleReadNews = useCallback(async () => {
+  const handleReadNews = useCallback(async (): Promise<void> => {
     if (shouldMakeChanges) {
       if (savedNews.length === 0 || !existingNews) {
         setHasRead(true);
@@ -139,7 +136,10 @@ const useNewsActions = ({
     setChangesHappened(true);
   }
 
-  const handleDeleteNews = async (e: React.MouseEvent<HTMLButtonElement>, id: string) => {
+  const handleDeleteNews = async (
+    e: React.MouseEvent<HTMLButtonElement>,
+    id: string,
+  ): Promise<void> => {
     e.stopPropagation();
     e.preventDefault();
     const response = await removeNews(id);

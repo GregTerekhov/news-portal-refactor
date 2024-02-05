@@ -87,7 +87,7 @@ const CommonMenu: FC<CommonMenuProps> = ({ isOpen, navId, closeMenu }) => {
             <>
               <Link
                 to='/account'
-                className='text-darkBase dark:text-whiteBase text-end'
+                className='text-end text-darkBase dark:text-whiteBase'
                 onClick={closeMenu}
               >
                 Your account, {user.name}

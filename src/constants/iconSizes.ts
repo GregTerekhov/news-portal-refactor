@@ -1,0 +1,15 @@
+export const ICON_SIZES = {
+  xsIcon14: 14,
+  xsIcon15: 15,
+  xsIcon16: 16,
+  smIcon18: 18,
+  smIcon20: 20,
+  smIcon21: 21,
+  mdIcon24: 24,
+  mdIcon27: 27,
+  mdIcon28: 28,
+  lgIcon30: 30,
+  xlIcon80: 80,
+  ultraIcon156: 156,
+  ultraIcon195: 195,
+};

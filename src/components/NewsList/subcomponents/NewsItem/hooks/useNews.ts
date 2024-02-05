@@ -2,22 +2,20 @@ import { VotedItem } from 'types';
 
 import { useAuthRedux, useDB } from 'reduxStore/hooks';
 
-import type { ActiveLinks } from 'hooks';
-
 import useNewsState from './useNewsState';
 import useNewsActions from './useNewsActions';
 
 interface NewsItemProps {
   liveNews: Partial<VotedItem>;
-  activeLinks: ActiveLinks;
+  isArchiveActive: boolean;
 }
 
-const useNews = ({ liveNews, activeLinks }: NewsItemProps) => {
+const useNews = ({ liveNews, isArchiveActive }: NewsItemProps) => {
   const { savedNews, allArchive } = useDB();
   const { isAuthenticated } = useAuthRedux();
 
   const { isFavourite, hasRead, setIsFavourite, setHasRead } = useNewsState({
-    activeLinks,
+    isArchiveActive,
     isAuthenticated,
     liveNews,
     savedNews,
@@ -25,7 +23,7 @@ const useNews = ({ liveNews, activeLinks }: NewsItemProps) => {
   });
 
   const { isDeleted, handleChangeFavourites, handleReadNews, handleDeleteNews } = useNewsActions({
-    activeLinks,
+    isArchiveActive,
     isAuthenticated,
     liveNews,
     setIsFavourite,

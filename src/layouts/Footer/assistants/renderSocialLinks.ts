@@ -1,3 +1,5 @@
+import { ICON_SIZES } from 'constants/iconSizes';
+
 type SocialLinks = {
   link: string;
   iconName: string;
@@ -11,19 +13,19 @@ export const renderSocialLinks = (): Array<SocialLinks> => {
       link: 'https://www.facebook.com/nytimes',
       iconName: 'icon-facebook',
       label: 'Facebook',
-      size: 20,
+      size: ICON_SIZES.smIcon20,
     },
     {
       link: 'https://twitter.com/nytimes',
       iconName: 'icon-twitter',
       label: 'Twitter',
-      size: 20,
+      size: ICON_SIZES.smIcon20,
     },
     {
       link: 'https://www.youtube.com/@nytimes',
       iconName: 'icon-youTube',
       label: 'YouTube',
-      size: 28,
+      size: ICON_SIZES.mdIcon28,
     },
   ];
 

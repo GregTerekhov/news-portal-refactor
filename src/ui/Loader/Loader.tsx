@@ -21,7 +21,7 @@ const Loader: FC<LoaderProps> = ({ variant }) => {
   };
 
   const location = useLocation();
-  const activeLinks = useActiveLinks(location);
+  const { isHomeActive } = useActiveLinks(location);
 
   const mobileSkeleton = breakpointsForMarkup?.isNothing || breakpointsForMarkup?.isMobile;
   const tabletSkeleton = breakpointsForMarkup?.isTablet;
@@ -43,12 +43,12 @@ const Loader: FC<LoaderProps> = ({ variant }) => {
               </>
             )}
           </div>
-          {activeLinks.isHomeActive && <SkeletonPagination />}
+          {isHomeActive && <SkeletonPagination />}
         </>
       )}
       {variant === 'element' && (
         <>
-          {activeLinks.isHomeActive && (
+          {isHomeActive && (
             <>
               <SkeletonWeather />
             </>

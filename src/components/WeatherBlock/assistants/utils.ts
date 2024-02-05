@@ -1,4 +1,6 @@
-export function convertUnixTimestampToHHMM(unixTimestamp: number) {
+import { TimezoneOffset, zoneList } from './constants';
+
+export function convertUnixTimestampToHHMM(unixTimestamp: number): string {
   // Створюємо новий об'єкт Date, використовуючи переданий Unix Timestamp (у мілісекундах)
   const date = new Date(unixTimestamp * 1000);
 
@@ -14,65 +16,25 @@ export function convertUnixTimestampToHHMM(unixTimestamp: number) {
   return `${formattedHours}:${formattedMinutes}`;
 }
 
-export function convertTimezone(data: any) {
-  const zoneList: any = {
-    '-43200': '-12:00',
-    '-39600': '-11:00',
-    '-36000': '-10:00',
-    '-34200': '-09:30',
-    '-32400': '-09:00',
-    '-28800': '-08:00',
-    '-25200': '-07:00',
-    '-21600': '-06:00',
-    '-18000': '-05:00',
-    '-16200': '-04:30',
-    '-14400': '-04:00',
-    '-12600': '-03:30',
-    '-10800': '-03:00',
-    '-7200': '-02:00',
-    '-3600': '-01:00',
-    '0': '00:00',
-    '3600': '+01:00',
-    '7200': '+02:00',
-    '10800': '+03:00',
-    '12600': '+03:30',
-    '14400': '+04:00',
-    '16200': '+04:30',
-    '18000': '+05:00',
-    '19800': '+05:30',
-    '20700': '+05:45',
-    '21600': '+06:00',
-    '23400': '+06:30',
-    '25200': '+07:00',
-    '28800': '+08:00',
-    '32400': '+09:00',
-    '34200': '+09:30',
-    '36000': '+10:00',
-    '37800': '+10:30',
-    '39600': '+11:00',
-    '41400': '+11:30',
-    '43200': '+12:00',
-    '45900': '+12:45',
-    '46800': '+13:00',
-    '50400': '+14:00',
-  };
+export function convertTimezone(data: number): string | undefined {
+  const key = String(data) as TimezoneOffset;
 
-  const convert = zoneList[data];
+  const convert = zoneList[key];
   return convert;
 }
 
-export function hPaToMmHg(hPa: number) {
+export function hPaToMmHg(hPa: number): number {
   const mmHg = hPa * 0.75006;
   const formattedMmHg = Math.floor(mmHg);
 
   return formattedMmHg;
 }
 
-export function formatKmToMetre(distance: number) {
+export function formatKmToMetre(distance: number): number {
   return distance / 1000;
 }
 
-export function getWindStrengthScale(windSpeed: number) {
+export function getWindStrengthScale(windSpeed: number): string {
   let interval;
   // Шкала Бофорта з відповідними інтервалами швидкостей вітру
   const beaufortScale = [
@@ -100,7 +62,7 @@ export function getWindStrengthScale(windSpeed: number) {
   return interval ? interval?.scale : '';
 }
 
-function receiveCurrentTime() {
+function receiveCurrentTime(): string {
   const currentTime = new Date();
 
   const hours = currentTime.getHours();
