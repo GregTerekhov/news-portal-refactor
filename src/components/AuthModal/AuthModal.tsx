@@ -61,6 +61,7 @@ const AuthModal: FC<IAuthModalProps> = ({ passwordToken }) => {
               </Tab.Panel>
             </Tab.Panels>
           </Tab.Group>
+          <a href='https://news-webapp-express.onrender.com/api/auth/google'>Google Acc</a>
         </FocusLock>
       )}
     </>

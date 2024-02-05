@@ -43,6 +43,8 @@ export const getActions = (type: DispatchActionType) => {
     authOperations.updateUserPassword, // коли user авторизований і хоче змінити поточний пароль
     authOperations.recoveryPasswordChange, // при forgotPassword, коли user забув пароль і йому треба змінити його
     authOperations.googleAuth,
+    authOperations.googleBind,
+    authOperations.googleUnbind,
     authOperations.facebookAuth,
     authOperations.appleAuth,
     // authOperations.updateTheme, // вимкнено, щоб уникнути стана pending при зміни теми

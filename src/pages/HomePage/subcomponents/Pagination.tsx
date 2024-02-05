@@ -12,6 +12,9 @@ interface PaginationProps {
 }
 
 const BUTTON_WIDTH = 'w-32';
+const FIRST_PAGE = 1;
+const DESKTOP_BUTTONS_QUANTITY = 3;
+const MOBILE_BUTTONS_QUANTITY = 6;
 
 const Pagination: FC<PaginationProps> = ({ pageNumbers, currentPage, setCurrentPage }) => {
   const { breakpointsForMarkup } = useWindowWidth() ?? {
@@ -22,11 +25,12 @@ const Pagination: FC<PaginationProps> = ({ pageNumbers, currentPage, setCurrentP
 
   const totalPages = pageNumbers.length;
   const screenHeight = window.innerHeight;
-  const visibleButtonsCount = !isTabletOrDesktop ? 3 : 6;
+  const visibleButtonsCount = !isTabletOrDesktop
+    ? DESKTOP_BUTTONS_QUANTITY
+    : MOBILE_BUTTONS_QUANTITY;
 
   const paginationButtons = [];
 
-  const firstPage = 1;
   const lastPage = totalPages;
   const prevPage = currentPage - 1;
   const nextPage = currentPage + 1;
@@ -61,20 +65,20 @@ const Pagination: FC<PaginationProps> = ({ pageNumbers, currentPage, setCurrentP
   );
 
   if (totalPages <= visibleButtonsCount) {
-    for (let i = firstPage; i <= lastPage; i += 1) {
+    for (let i = FIRST_PAGE; i <= lastPage; i += 1) {
       paginationButtons.push(renderPaginationButton(i));
     }
-  } else if (currentPage === firstPage) {
+  } else if (currentPage === FIRST_PAGE) {
     paginationButtons.push(renderPaginationButton(currentPage));
     paginationButtons.push(renderPaginationButton(nextPage));
     paginationButtons.push(renderEllipsis('next'));
     paginationButtons.push(renderPaginationButton(lastPage));
   } else if (currentPage === lastPage) {
-    paginationButtons.push(renderPaginationButton(firstPage));
+    paginationButtons.push(renderPaginationButton(FIRST_PAGE));
     paginationButtons.push(renderEllipsis('prev'));
     paginationButtons.push(renderPaginationButton(prevPage));
     paginationButtons.push(renderPaginationButton(currentPage));
-  } else if (currentPage > firstPage && currentPage < lastPage) {
+  } else if (currentPage > FIRST_PAGE && currentPage < lastPage) {
     if (currentPage === 2) {
       paginationButtons.push(renderEllipsis('prev'));
       paginationButtons.push(renderPaginationButton(currentPage));
@@ -82,7 +86,7 @@ const Pagination: FC<PaginationProps> = ({ pageNumbers, currentPage, setCurrentP
       paginationButtons.push(renderEllipsis('next'));
       paginationButtons.push(renderPaginationButton(lastPage));
     }
-    if (currentPage - 1 > firstPage && currentPage + 1 !== lastPage) {
+    if (currentPage - 1 > FIRST_PAGE && currentPage + 1 !== lastPage) {
       paginationButtons.push(renderEllipsis('prev'));
       paginationButtons.push(renderPaginationButton(prevPage));
       paginationButtons.push(renderPaginationButton(currentPage));

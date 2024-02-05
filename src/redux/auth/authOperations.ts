@@ -1,6 +1,8 @@
 import axios from 'axios';
 
-import { axiosInstance, BASE_URL_DB, createAppAsyncThunk } from '../services';
+import { CONFIG } from 'config';
+
+import { axiosInstance, createAppAsyncThunk } from '../services';
 import { setTokens } from './authSlice';
 
 import {
@@ -25,7 +27,7 @@ export const signUp = createAppAsyncThunk<CredentialSignUpResponse, SignUpReques
   async (credentials, { rejectWithValue }) => {
     try {
       const response = await axios.post<CredentialSignUpResponse>(
-        `${BASE_URL_DB}/auth/sign-up`,
+        `${CONFIG.BASE_URL_DB}/auth/sign-up`,
         credentials,
       );
       console.log('SignUpResponse', response.data);
@@ -42,7 +44,7 @@ export const signIn = createAppAsyncThunk<CredentialSignInResponse, AuthRequestW
   async (credentials, { rejectWithValue }) => {
     try {
       const response = await axios.post<CredentialSignInResponse>(
-        `${BASE_URL_DB}/auth/sign-in`,
+        `${CONFIG.BASE_URL_DB}/auth/sign-in`,
         credentials,
       );
       console.log('SignInResponse', response.data);
@@ -123,11 +125,11 @@ export const recoveryPasswordRequest = createAppAsyncThunk<
 >('auth/recoveryPasswordRequest', async (email, { rejectWithValue }) => {
   try {
     console.log('operations forgotRequest', email.email);
-    const response = await axios.post(`${BASE_URL_DB}/auth/forgot-password-request`, email);
+    const response = await axios.post(`${CONFIG.BASE_URL_DB}/auth/forgot-password-request`, email);
     console.log('recoveryPasswordRequest', response.data);
     return response.data;
   } catch (error: any) {
-    console.log('Error forgotPasswordRequest', error.response.data);
+    console.log('Error forgotPasswordRequest', error.response);
     return rejectWithValue(error.response);
   }
 });
@@ -144,21 +146,50 @@ export const recoveryPasswordChange = createAppAsyncThunk<
     console.log('recoveryPasswordChange', response.data);
     return response.data;
   } catch (error: any) {
-    console.log('Error forgotPasswordChange', error.response.data);
+    console.log('Error forgotPasswordChange', error.response);
     return rejectWithValue(error.response);
   }
 });
 
 export const googleAuth = createAppAsyncThunk(
-  'auth/google',
+  'auth/googleAuth',
   async (email: SendEmailRequest, { rejectWithValue }) => {
     try {
-      const response = await axiosInstance.post(`/auth/google`, email);
+      const response = await axiosInstance.post(`/auth/google-auth`, email);
 
       console.log(response.data);
       return response.data;
     } catch (error: any) {
       console.log('Error googleAuth', error.response.data);
+      return rejectWithValue(error.response);
+    }
+  },
+);
+
+export const googleBind = createAppAsyncThunk(
+  'auth/googleBind',
+  async (email: SendEmailRequest, { rejectWithValue }) => {
+    try {
+      const response = await axiosInstance.post(`/auth/google-bind`, email);
+
+      console.log(response.data);
+      return response.data;
+    } catch (error: any) {
+      console.log('Error googleBind', error.response.data);
+      return rejectWithValue(error.response);
+    }
+  },
+);
+export const googleUnbind = createAppAsyncThunk(
+  'auth/googleUnbind',
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = await axiosInstance.delete(`/auth/google-unbind`);
+
+      console.log(response.data);
+      return response.data;
+    } catch (error: any) {
+      console.log('Error googleUnbind', error.response.data);
       return rejectWithValue(error.response);
     }
   },

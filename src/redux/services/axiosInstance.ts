@@ -3,14 +3,14 @@ import { jwtDecode, JwtPayload } from 'jwt-decode';
 import dayjs from 'dayjs';
 
 import { store, RootState } from '../store';
-import { BASE_URL_DB } from './constants';
+import { CONFIG } from 'config';
 import { setTokens } from '../auth';
 
 import { RefreshTokensResponse } from 'types';
 
 const createAxiosInstance = () => {
   const axiosInstance: AxiosInstance = axios.create({
-    baseURL: BASE_URL_DB,
+    baseURL: CONFIG.BASE_URL_DB,
   });
 
   axiosInstance.interceptors.request.use(
@@ -38,7 +38,7 @@ const createAxiosInstance = () => {
           }
           try {
             const response = await axios.post<RefreshTokensResponse>(
-              `${BASE_URL_DB}/auth/refresh`,
+              `${CONFIG.BASE_URL_DB}/auth/refresh`,
               {
                 refreshToken: persistedToken,
               },

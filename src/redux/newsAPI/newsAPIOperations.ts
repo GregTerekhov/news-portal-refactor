@@ -2,7 +2,7 @@ import axios from 'axios';
 
 import { CONFIG } from 'config';
 
-import { BASE_URL_NEWS, createAppAsyncThunk } from '../services';
+import { createAppAsyncThunk } from '../services';
 
 import {
   ArticleNewsArray,
@@ -23,11 +23,14 @@ export const fetchPopularNews = createAppAsyncThunk<
   { rejectValue: any }
 >('popular/fetch', async (period, { rejectWithValue }) => {
   try {
-    const { data } = await axios.get(`${BASE_URL_NEWS}/mostpopular/v2/viewed/${period}.json?`, {
-      params: {
-        'api-key': API_KEY,
+    const { data } = await axios.get(
+      `${CONFIG.BASE_URL_NEWS}/mostpopular/v2/viewed/${period}.json?`,
+      {
+        params: {
+          'api-key': API_KEY,
+        },
       },
-    });
+    );
     return data.results;
   } catch (error: any) {
     console.log(error.response);
@@ -41,7 +44,7 @@ export const fetchNewsByKeyword = createAppAsyncThunk<
   { rejectValue: any }
 >('article/fetch', async (query, { rejectWithValue }) => {
   try {
-    const res = await axios.get(`${BASE_URL_NEWS}/search/v2/articlesearch.json?q=${query}`, {
+    const res = await axios.get(`${CONFIG.BASE_URL_NEWS}/search/v2/articlesearch.json?q=${query}`, {
       params: {
         'api-key': API_KEY,
       },
@@ -57,7 +60,7 @@ export const fetchAllCategories = createAppAsyncThunk<CategoriesItem[], void>(
   'categories/list',
   async (_, { rejectWithValue }) => {
     try {
-      const res = await axios.get(`${BASE_URL_NEWS}/news/v3/content/section-list.json`, {
+      const res = await axios.get(`${CONFIG.BASE_URL_NEWS}/news/v3/content/section-list.json`, {
         params: {
           'api-key': API_KEY,
         },
@@ -77,7 +80,7 @@ export const fetchNewsByCategory = createAppAsyncThunk<
   // console.log('source', source);
   // console.log('section: ', section);
   try {
-    const res = await axios.get(`${BASE_URL_NEWS}/news/v3/content/all/${section}.json`, {
+    const res = await axios.get(`${CONFIG.BASE_URL_NEWS}/news/v3/content/all/${section}.json`, {
       params: {
         'api-key': API_KEY,
       },
@@ -97,7 +100,7 @@ export const fetchNewsByDate = createAppAsyncThunk<
   const { beginDate, endDate } = date;
   try {
     const res = await axios.get(
-      `${BASE_URL_NEWS}/search/v2/articlesearch.json?begin_date=${beginDate}&end_date=${endDate}`,
+      `${CONFIG.BASE_URL_NEWS}/search/v2/articlesearch.json?begin_date=${beginDate}&end_date=${endDate}`,
       {
         params: {
           'api-key': API_KEY,
