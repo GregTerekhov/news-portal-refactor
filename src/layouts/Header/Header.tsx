@@ -4,13 +4,14 @@ import { Link, useLocation, useSearchParams } from 'react-router-dom';
 import { useAuthRedux, useFiltersAction } from 'reduxStore/hooks';
 
 import { VariantInputs, VariantModals, VariantSwitcher } from 'types';
+import { ICON_SIZES } from 'constants/iconSizes';
 import { useWindowWidth } from 'contexts';
 import { useActiveLinks, useAdditionalRequest, useHeaderStyles, usePopUp } from 'hooks';
 
 import { AuthModal } from 'components';
 import { Modal, SvgIcon, ThemeSwitcher, UnverifiableInput } from 'ui';
 
-import { AuthButton, MainMenu } from './subcomponents';
+import { AuthButton, MainMenu, UserAccountLink } from './subcomponents';
 import { AccountMenu } from '../subcomponents';
 
 const Header: FC<{}> = () => {
@@ -18,8 +19,9 @@ const Header: FC<{}> = () => {
   const [passwordToken, setPasswordToken] = useState<boolean>(false);
 
   const [searchParams] = useSearchParams();
-  const token = searchParams.get('token');
-  const openModal = searchParams.get('openModal');
+
+  const token: string | null = searchParams.get('token');
+  const openModal: string | null = searchParams.get('openModal');
 
   const { isOpenMenu, isOpenModal, setIsOpenModal, toggleMenu, toggleModal, popUpRef } = usePopUp();
   const { isAuthenticated, user, writeTokens } = useAuthRedux();
@@ -43,8 +45,7 @@ const Header: FC<{}> = () => {
   const location = useLocation();
   const { isHomeActive, isAccountPage, isManageAccountPage } = useActiveLinks(location);
 
-  const { headerClass, textClass, burgerMenuButtonClass, accountIconStyles } =
-    useHeaderStyles(isHomeActive);
+  const { headerClass, textClass, burgerMenuButtonClass } = useHeaderStyles(isHomeActive);
 
   const handleVisibilityChange = () => {
     setTouched(!touched);
@@ -76,23 +77,7 @@ const Header: FC<{}> = () => {
           }`}
         >
           {isNotMobile && !isAccountPages && isAuthenticated ? (
-            <Link
-              to='/account'
-              className={`absolute right-40 top-1.5 flex items-center gap-3 lg:right-60 hg:text-xl  ${
-                isHomeActive ? textClass : 'text-darkBase dark:text-whiteBase'
-              } group transition-colors duration-500 hover:text-accentBase hover:underline hover:decoration-accentBase`}
-            >
-              {user.name}
-              <SvgIcon
-                svgName='icon-account'
-                size={18}
-                className={`${
-                  isHomeActive
-                    ? accountIconStyles
-                    : 'fill-darkBase group-hover:fill-accentBase dark:fill-whiteBase dark:group-hover:fill-whiteBase'
-                }`}
-              />
-            </Link>
+            <UserAccountLink isHomeActive={isHomeActive} />
           ) : null}
           <Link
             to='/'
@@ -148,7 +133,7 @@ const Header: FC<{}> = () => {
                     >
                       <SvgIcon
                         svgName={`${isOpenMenu ? 'icon-close' : 'icon-burger-menu'}`}
-                        size={24}
+                        size={ICON_SIZES.mdIcon24}
                         className={`${
                           !isOpenMenu && isHomeActive
                             ? burgerMenuButtonClass

@@ -4,6 +4,7 @@ import { format } from 'date-fns';
 import { IHistoryLog, VariantInputs } from 'types';
 
 import { SvgIcon, UnverifiableInput } from 'ui';
+import { ICON_SIZES } from 'constants/iconSizes';
 
 interface IHistoryLogProps {
   logData: IHistoryLog[];
@@ -38,11 +39,11 @@ const ArchiveHistoryLog: FC<IHistoryLogProps> = ({ logData }) => {
   };
 
   return (
-    <div className='flex flex-col mb-6 rounded-lg shadow-modal overflow-hidden'>
+    <div className='mb-6 flex flex-col overflow-hidden rounded-lg shadow-modal'>
       <div className='-m-1.5 overflow-x-auto'>
-        <div className='p-1.5 min-w-full inline-block align-middle'>
-          <div className='border rounded-lg divide-y divide-greyAlt/[.4] dark:border-greyBase/[.4] dark:divide-greyBase/[.4]'>
-            <div className='py-3 px-4'>
+        <div className='inline-block min-w-full p-1.5 align-middle'>
+          <div className='divide-y divide-greyAlt/[.4] rounded-lg border dark:divide-greyBase/[.4] dark:border-greyBase/[.4]'>
+            <div className='px-4 py-3'>
               <div className='relative max-w-xs'>
                 <UnverifiableInput
                   inputData={{
@@ -64,25 +65,25 @@ const ArchiveHistoryLog: FC<IHistoryLogProps> = ({ logData }) => {
                   <tr>
                     <th
                       scope='col'
-                      className='px-6 py-3 text-start text-xs md:text-small font-medium text-greyBase dark:text-whiteBase uppercase'
+                      className='px-6 py-3 text-start text-xs font-medium uppercase text-greyBase dark:text-whiteBase md:text-small'
                     >
                       Title
                     </th>
                     <th
                       scope='col'
-                      className='px-6 py-3 text-start text-xs md:text-small font-medium text-greyBase dark:text-whiteBase uppercase'
+                      className='px-6 py-3 text-start text-xs font-medium uppercase text-greyBase dark:text-whiteBase md:text-small'
                     >
                       Category
                     </th>
                     <th
                       scope='col'
-                      className='px-6 py-3 text-start text-xs  md:text-small font-medium text-greyBase dark:text-whiteBase uppercase'
+                      className='px-6 py-3 text-start text-xs  font-medium uppercase text-greyBase dark:text-whiteBase md:text-small'
                     >
                       Addition Date
                     </th>
                     <th
                       scope='col'
-                      className='px-6 py-3 text-start text-xs md:text-small font-medium text-greyBase dark:text-whiteBase uppercase'
+                      className='px-6 py-3 text-start text-xs font-medium uppercase text-greyBase dark:text-whiteBase md:text-small'
                     >
                       Deletion Date
                     </th>
@@ -92,23 +93,23 @@ const ArchiveHistoryLog: FC<IHistoryLogProps> = ({ logData }) => {
                   {displayedRows &&
                     displayedRows.map(
                       ({ title, newsUrl, category, additionDate, deletionDate }) => (
-                        <tr key={newsUrl} className='even:bg-greyAlt/[.1] group'>
-                          <td className='px-6 py-4 whitespace-nowrap text-sm font-medium text-darkBase dark:text-whiteBase'>
+                        <tr key={newsUrl} className='group even:bg-greyAlt/[.1]'>
+                          <td className='whitespace-nowrap px-6 py-4 text-sm font-medium text-darkBase dark:text-whiteBase'>
                             <a
                               href={newsUrl}
                               target='_blank'
-                              className=' group-hover:text-accentBase transition-colors duration-500'
+                              className=' transition-colors duration-500 group-hover:text-accentBase'
                             >
                               {title.length > 60 ? `${title.slice(0, 65)}...` : title}
                             </a>
                           </td>
-                          <td className='px-6 py-4 whitespace-nowrap text-sm font-medium text-darkBase dark:text-whiteBase'>
+                          <td className='whitespace-nowrap px-6 py-4 text-sm font-medium text-darkBase dark:text-whiteBase'>
                             {category}
                           </td>
-                          <td className='px-6 py-4 whitespace-nowrap text-sm text-darkBase dark:text-whiteBase'>
+                          <td className='whitespace-nowrap px-6 py-4 text-sm text-darkBase dark:text-whiteBase'>
                             {format(additionDate, 'dd/MM/yyyy')}
                           </td>
-                          <td className='px-6 py-4 whitespace-nowrap text-sm text-darkBase dark:text-whiteBase'>
+                          <td className='whitespace-nowrap px-6 py-4 text-sm text-darkBase dark:text-whiteBase'>
                             {format(deletionDate, 'dd/MM/yyyy')}
                           </td>
                         </tr>
@@ -117,17 +118,17 @@ const ArchiveHistoryLog: FC<IHistoryLogProps> = ({ logData }) => {
                 </tbody>
               </table>
             </div>
-            <div className='py-1 px-4'>
+            <div className='px-4 py-1'>
               <nav className='flex items-center space-x-1'>
                 <button
                   type='button'
                   onClick={() => handlePageChange(currentPage - 1)}
-                  className='p-2.5 inline-flex items-center gap-x-2 rounded-full hover:bg-greyAlt/[.2] disabled:opacity-50 disabled:pointer-events-none dark:text-white dark:hover:bg-whiteBase/[.2] dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600'
+                  className='inline-flex items-center gap-x-2 rounded-full p-2.5 hover:bg-greyAlt/[.2] disabled:pointer-events-none disabled:opacity-50 dark:text-white dark:hover:bg-whiteBase/[.2] dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600'
                 >
                   <span aria-hidden='true'>
                     <SvgIcon
                       svgName='icon-arrow-left'
-                      size={20}
+                      size={ICON_SIZES.smIcon20}
                       className='fill-accentBase dark:fill-whiteBase'
                     />
                   </span>
@@ -138,7 +139,7 @@ const ArchiveHistoryLog: FC<IHistoryLogProps> = ({ logData }) => {
                     key={index}
                     type='button'
                     aria-current='page'
-                    className='min-w-[40px] flex justify-center items-center text-gray-800 hover:bg-greyAlt/[.2] py-2.5 text-sm rounded-full dark:text-white dark:hover:bg-whiteBase/[.2]'
+                    className='flex min-w-[40px] items-center justify-center rounded-full py-2.5 text-sm text-gray-800 hover:bg-greyAlt/[.2] dark:text-white dark:hover:bg-whiteBase/[.2]'
                     onClick={() => handlePageChange(index + 1)}
                     // Додайте клас "current" для поточної сторінки
                   >
@@ -148,14 +149,14 @@ const ArchiveHistoryLog: FC<IHistoryLogProps> = ({ logData }) => {
                 <button
                   type='button'
                   onClick={() => handlePageChange(currentPage + 1)}
-                  className='p-2.5 inline-flex items-center gap-x-2 text-sm rounded-full text-gray-800 hover:bg-greyAlt/[.2] disabled:opacity-50 disabled:pointer-events-none  dark:hover:bg-whiteBase/[.2] dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600'
+                  className='inline-flex items-center gap-x-2 rounded-full p-2.5 text-sm text-gray-800 hover:bg-greyAlt/[.2] disabled:pointer-events-none disabled:opacity-50  dark:hover:bg-whiteBase/[.2] dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600'
                 >
                   <span className='sr-only'>Next</span>
                   <span aria-hidden='true'>
                     <SvgIcon
                       svgName='icon-arrow-left'
-                      size={20}
-                      className='fill-accentBase dark:fill-whiteBase rotate-180'
+                      size={ICON_SIZES.smIcon20}
+                      className='rotate-180 fill-accentBase dark:fill-whiteBase'
                     />
                   </span>
                 </button>

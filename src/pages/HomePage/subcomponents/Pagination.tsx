@@ -1,6 +1,7 @@
 import React, { FC } from 'react';
 
 import { VariantButton } from 'types';
+import { ICON_SIZES } from 'constants/iconSizes';
 import { useWindowWidth } from 'contexts';
 
 import { PrimaryButton, SvgIcon } from 'ui';
@@ -11,7 +12,6 @@ interface PaginationProps {
 }
 
 const BUTTON_WIDTH = 'w-32';
-const ICON_SIZE = 24;
 
 const Pagination: FC<PaginationProps> = ({ pageNumbers, currentPage, setCurrentPage }) => {
   const { breakpointsForMarkup } = useWindowWidth() ?? {
@@ -31,7 +31,7 @@ const Pagination: FC<PaginationProps> = ({ pageNumbers, currentPage, setCurrentP
   const prevPage = currentPage - 1;
   const nextPage = currentPage + 1;
 
-  const renderPaginationButton = (pageNumber: number) => (
+  const renderPaginationButton = (pageNumber: number): JSX.Element => (
     <li
       key={pageNumber}
       className={`${pageNumber === currentPage ? 'active' : ''}`}
@@ -54,7 +54,7 @@ const Pagination: FC<PaginationProps> = ({ pageNumbers, currentPage, setCurrentP
     </li>
   );
 
-  const renderEllipsis = (direction: string) => (
+  const renderEllipsis = (direction: string): JSX.Element => (
     <li key={direction} className='ellipsis'>
       <span className='text-darkBase dark:text-whiteBase'>...</span>
     </li>
@@ -97,14 +97,14 @@ const Pagination: FC<PaginationProps> = ({ pageNumbers, currentPage, setCurrentP
     }
   }
 
-  const handlePrevClick = () => {
+  const handlePrevClick = (): void => {
     if (currentPage > 1) {
       setCurrentPage(currentPage - 1);
       window.scrollTo({ top: 0 + screenHeight, left: 0 });
     }
   };
 
-  const handleNextClick = () => {
+  const handleNextClick = (): void => {
     if (currentPage < pageNumbers.length) {
       setCurrentPage(currentPage + 1);
       window.scrollTo({ top: 0 + screenHeight, left: 0 });
@@ -112,7 +112,7 @@ const Pagination: FC<PaginationProps> = ({ pageNumbers, currentPage, setCurrentP
   };
 
   return (
-    <div className='flex justify-center items-center gap-2'>
+    <div className='flex items-center justify-center gap-2'>
       <PrimaryButton
         id='Previous page button'
         variant={VariantButton.Other}
@@ -120,9 +120,9 @@ const Pagination: FC<PaginationProps> = ({ pageNumbers, currentPage, setCurrentP
         width={BUTTON_WIDTH}
         disabled={currentPage - 1 === 0 ? true : false}
       >
-        <SvgIcon svgName='icon-arrow-left' size={ICON_SIZE} className='fill-whiteBase' />
+        <SvgIcon svgName='icon-arrow-left' size={ICON_SIZES.mdIcon24} className='fill-whiteBase' />
         {isTabletOrDesktop ? (
-          <span className='text-base md:text-medium font-medium text-contrastWhite'>Prev</span>
+          <span className='text-base font-medium text-contrastWhite md:text-medium'>Prev</span>
         ) : null}
       </PrimaryButton>
       <ul id='page-numbers' className='flex gap-2'>
@@ -136,10 +136,14 @@ const Pagination: FC<PaginationProps> = ({ pageNumbers, currentPage, setCurrentP
         disabled={currentPage === lastPage ? true : false}
       >
         {isTabletOrDesktop ? (
-          <span className='text-base md:text-medium font-medium text-contrastWhite'>Next</span>
+          <span className='text-base font-medium text-contrastWhite md:text-medium'>Next</span>
         ) : null}
 
-        <SvgIcon svgName='icon-arrow-left' size={ICON_SIZE} className='fill-whiteBase rotate-180' />
+        <SvgIcon
+          svgName='icon-arrow-left'
+          size={ICON_SIZES.mdIcon24}
+          className='rotate-180 fill-whiteBase'
+        />
       </PrimaryButton>
     </div>
   );

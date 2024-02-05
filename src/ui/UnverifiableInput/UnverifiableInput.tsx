@@ -2,6 +2,7 @@ import React, { ReactNode, FC } from 'react';
 import { useLocation } from 'react-router-dom';
 
 import { VariantInputs } from 'types';
+import { ICON_SIZES } from 'constants/iconSizes';
 import { useWindowWidth } from 'contexts';
 import { useHeaderStyles, useActiveLinks } from 'hooks';
 
@@ -59,30 +60,41 @@ const UnverifiableInput: FC<InputProps> = ({
   };
 
   const styles = generateInputStyles({ isMobile, touched, inputClass });
-  const currentStyles = styles[variant];
+  const {
+    labelCheckbox,
+    svgWrapperClass,
+    svgFill,
+    inputGeometry,
+    placeholderColor,
+    inputBg,
+    inputBorder,
+    caretColor,
+    checkboxStyles,
+    textColor,
+  } = styles[variant];
 
   return (
     <label
       htmlFor={name}
       className={`relative flex ${hasIcon ? 'justify-center' : ''} ${
-        currentStyles.labelCheckbox ? 'flex-row' : 'flex-col'
+        labelCheckbox ? 'flex-row' : 'flex-col'
       }
           ${
             variant === VariantInputs.FilterServiceBlock ||
             (variant === VariantInputs.Header && 'gap-x-4') ||
-            (variant === VariantInputs.Checkbox && 'items-center cursor-pointer gap-x-4')
+            (variant === VariantInputs.Checkbox && 'cursor-pointer items-center gap-x-4')
           } ${className}`}
     >
       {variant === VariantInputs.FilterServiceBlock && (
-        <p className='text-darkBase dark:text-greyAlt mb-2 text-base'>
+        <p className='mb-2 text-base text-darkBase dark:text-greyAlt'>
           {name === 'query' ? 'Search' : 'Filter'} by <span className='capitalize'>{name}:</span>
         </p>
       )}
       <div
         className={`${variant === VariantInputs.FilterServiceBlock ? 'relative' : ''} ${
           variant === VariantInputs.Checkbox
-            ? `flex items-center justify-center w-4 h-4 md:w-6 md:h-6 rounded-sm cursor-pointer border border-solid ${
-                isChecked ? 'bg-accentBase border-whiteBase' : 'bg-whiteBase border-accentBase'
+            ? `flex h-4 w-4 cursor-pointer items-center justify-center rounded-sm border border-solid md:h-6 md:w-6 ${
+                isChecked ? 'border-whiteBase bg-accentBase' : 'border-accentBase bg-whiteBase'
               }`
             : ''
         }`}
@@ -90,21 +102,21 @@ const UnverifiableInput: FC<InputProps> = ({
         {variant === VariantInputs.Checkbox ? (
           <SvgIcon
             svgName='icon-check'
-            size={16}
+            size={ICON_SIZES.xsIcon16}
             className={`${isChecked ? 'fill-whiteBase' : 'fill-none'}`}
           />
         ) : null}
         {hasIcon && (
           <div
             className={`${
-              variant === VariantInputs.Header ? currentStyles.svgWrapperClass : 'left-3'
-            } absolute w-5 h-5 top-50% transform -translate-y-1/2 flex items-center justify-center`}
+              variant === VariantInputs.Header ? svgWrapperClass : 'left-3'
+            } absolute top-50% flex h-5 w-5 -translate-y-1/2 transform items-center justify-center`}
           >
-            <SvgIcon svgName={svgName} size={20} className={`${currentStyles.svgFill}`} />
+            <SvgIcon svgName={svgName} size={ICON_SIZES.smIcon20} className={`${svgFill}`} />
           </div>
         )}
         <input
-          className={` ${currentStyles.inputGeometry} transition-colors duration-500 font-header border-solid border rounded-3xl outline-0 focus:outline-0 text-small leading-mediumRelaxed tracking-bigWide md:text-base md:leading-moreRelaxed md:tracking-wide ${currentStyles.placeholderColor} ${currentStyles.inputBorder} ${currentStyles.inputBg} ${currentStyles.caretColor} ${currentStyles.textColor} ${currentStyles.checkboxStyles}`}
+          className={` ${inputGeometry} rounded-3xl border border-solid font-header text-small leading-mediumRelaxed tracking-bigWide outline-0 transition-colors duration-500 focus:outline-0 md:text-base md:leading-moreRelaxed md:tracking-wide ${placeholderColor} ${inputBorder} ${inputBg} ${caretColor} ${textColor} ${checkboxStyles}`}
           id={name}
           name={name}
           type={type}
@@ -119,7 +131,7 @@ const UnverifiableInput: FC<InputProps> = ({
           }}
         />
       </div>
-      <span className={`${!hasIcon && 'block'} text-accentBase font-medium`}>{children}</span>
+      <span className={`${!hasIcon && 'block'} font-medium text-accentBase`}>{children}</span>
     </label>
   );
 };

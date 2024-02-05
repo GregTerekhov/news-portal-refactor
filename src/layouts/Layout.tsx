@@ -42,7 +42,7 @@ const Layout: FC = () => {
     if (isAuthenticated && isHomeActive) {
       fetchCategoriesList();
     }
-  }, [isAuthenticated, fetchCategoriesList, activeLinks]);
+  }, [isAuthenticated, fetchCategoriesList, isHomeActive]);
 
   const isNotMobile = breakpointsForMarkup?.isTablet || breakpointsForMarkup?.isDesktop;
 

@@ -1,6 +1,7 @@
 import React, { FC } from 'react';
 import { useLocation } from 'react-router-dom';
 
+import { ICON_SIZES } from 'constants/iconSizes';
 import { useActiveLinks } from 'hooks';
 
 import { SvgIcon } from 'ui';
@@ -25,9 +26,9 @@ const VoteButton: FC<VBProps> = ({ onHandleClick, isFavourite, buttonData }) => 
     <button
       id={buttonData?.id}
       type='button'
-      className={`absolute z-20 bottom-3 right-2 flex items-center gap-1 rounded-3xl px-3 py-1.5 bg-contrastWhite ${onButHover} ${
-        !isArchiveActive ? 'hover:stroke-whiteBase hover:bg-accentBase hover:text-whiteBase' : ''
-      } text-small text-darkBase font-medium transition-colors duration-250`}
+      className={`absolute bottom-3 right-2 z-20 flex items-center gap-1 rounded-3xl bg-contrastWhite px-3 py-1.5 ${onButHover} ${
+        !isArchiveActive ? 'hover:bg-accentBase hover:stroke-whiteBase hover:text-whiteBase' : ''
+      } duration-250 text-small font-medium text-darkBase transition-colors`}
       onClick={onHandleClick}
     >
       {!isArchiveActive
@@ -37,7 +38,11 @@ const VoteButton: FC<VBProps> = ({ onHandleClick, isFavourite, buttonData }) => 
         : isFavourite
           ? 'Favourited'
           : 'Not in favourites'}
-      <SvgIcon svgName='icon-heart' size={16} className={`stroke-inherit fill-inherit`} />
+      <SvgIcon
+        svgName='icon-heart'
+        size={ICON_SIZES.xsIcon16}
+        className={`fill-inherit stroke-inherit`}
+      />
     </button>
   );
 };

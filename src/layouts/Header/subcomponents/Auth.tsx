@@ -17,8 +17,8 @@ const Auth: FC<{}> = () => {
   const { logout, isAuthenticated } = useAuthRedux();
   const { isOpenModal, popUpRef, toggleModal } = usePopUp();
   const location = useLocation();
-  const activeLinks = useActiveLinks(location);
-  const { authButtonClass } = useHeaderStyles(activeLinks.isHomeActive);
+  const { isHomeActive } = useActiveLinks(location);
+  const { authButtonClass } = useHeaderStyles(isHomeActive);
 
   const navigate = useNavigate();
 
@@ -43,7 +43,7 @@ const Auth: FC<{}> = () => {
           svgSize={breakpointsForMarkup?.isDesktop ? 28 : 24}
           classNameIcon='fill-whiteBase'
           classNameButton={`${
-            activeLinks.isHomeActive && authButtonClass
+            isHomeActive && authButtonClass
           } border border-solid border-transparent dark:border-whiteBase bg-accentBase hover:bg-accentAlt transition-colors duration-500 ${
             breakpointsForMarkup?.isDesktop ? '' : 'border-transparent p-1.5'
           }`}

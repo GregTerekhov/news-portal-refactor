@@ -3,7 +3,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 
 import { useAuthRedux } from 'reduxStore/hooks';
 
-import { UpdateCredentialsResponse, IUpdatePassword } from 'types';
+import { UpdateCredentialsResponse, ExtendedUpdatePasswordRequest } from 'types';
 
 import { useNotification } from 'contexts';
 
@@ -19,7 +19,7 @@ const useUpdatePassword = () => {
     reset,
     getValues,
     formState: { errors },
-  } = useForm<IUpdatePassword>({
+  } = useForm<ExtendedUpdatePasswordRequest>({
     resolver: yupResolver(updatePasswordSchema),
     defaultValues: {
       newPassword: '',
@@ -34,7 +34,9 @@ const useUpdatePassword = () => {
     'password',
   ]);
 
-  const handlePasswordSubmitHandler: SubmitHandler<IUpdatePassword> = async (data) => {
+  const handlePasswordSubmitHandler: SubmitHandler<ExtendedUpdatePasswordRequest> = async (
+    data,
+  ) => {
     try {
       const { newPassword, password } = data;
       const dataToSend = { password, newPassword };

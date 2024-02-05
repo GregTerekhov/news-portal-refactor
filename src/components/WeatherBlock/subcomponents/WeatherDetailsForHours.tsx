@@ -1,79 +1,29 @@
-import React, { FC, ReactElement } from 'react';
+import React, { FC } from 'react';
 
 import { useWeatherAPI } from 'reduxStore/hooks';
 
 import { HourlyWeatherData } from 'types';
 
+import { ICON_SIZES } from 'constants/iconSizes';
 import { useWindowWidth } from 'contexts';
 
 import { Hint, SvgIcon } from 'ui';
 
-import { convertUnixTimestampToHHMM } from '../assistants';
-import {
-  RenderTemperatureCell,
-  RenderWeatherIConCell,
-  RenderHumidityCell,
-  RenderPressureCell,
-  RenderWindSpeedCell,
-} from './RenderCells';
+import { convertUnixTimestampToHHMM, getWeatherTableForHours } from '../assistants';
 
-type TableRows = {
-  label: string;
-  icon: string;
-  iconSize: number;
-  iconColorStyles: string;
-  renderCell: (item: HourlyWeatherData) => ReactElement;
-};
-
-const WeatherDetailsForHours: FC<{}> = () => {
+const WeatherDetailsForHours: FC = () => {
   const { hourlyWeather } = useWeatherAPI();
   const { breakpointsForMarkup } = useWindowWidth() ?? {
     breakpointsForMarkup: null,
   };
 
-  const rows: TableRows[] = [
-    {
-      label: 'Temperature in °C',
-      icon: 'icon-thermometer',
-      iconSize: 24,
-      iconColorStyles: 'fill-whiteBase',
-      renderCell: RenderTemperatureCell,
-    },
-    {
-      label: 'Precipitation and weather',
-      icon: 'icon-sun',
-      iconSize: 24,
-      iconColorStyles: 'stroke-whiteBase fill-transparent',
-      renderCell: RenderWeatherIConCell,
-    },
-    {
-      label: 'Humidity (%)',
-      icon: 'icon-humidity',
-      iconSize: 28,
-      iconColorStyles: 'fill-whiteBase',
-      renderCell: RenderHumidityCell,
-    },
-    {
-      label: 'Pressure (mm.Hg)',
-      icon: 'icon-pressure',
-      iconSize: 24,
-      iconColorStyles: 'fill-whiteBase',
-      renderCell: RenderPressureCell,
-    },
-    {
-      label: 'Wind speed (m/s)',
-      icon: 'icon-weather-wind',
-      iconSize: 24,
-      iconColorStyles: 'fill-whiteBase',
-      renderCell: RenderWindSpeedCell,
-    },
-  ];
+  const rows = getWeatherTableForHours();
 
   return (
     <div
-      className={`w-full h-full backface-hidden flex bg-accentBase duration-500 ease-in rotate-y-180 col-[1/1] rows-[1/1]`}
+      className={`rows-[1/1] col-[1/1] flex h-full w-full bg-accentBase duration-500 ease-in backface-hidden rotate-y-180`}
     >
-      <table className='bg-accentBase min-w-full h-full border border-separate border-transparent'>
+      <table className='h-full min-w-full border-separate border border-transparent bg-accentBase'>
         <thead className='h-10'>
           <Hint
             label='Time'
@@ -86,7 +36,11 @@ const WeatherDetailsForHours: FC<{}> = () => {
               <th className='w-10 pr-2'>
                 <SvgIcon
                   svgName='icon-time'
-                  size={breakpointsForMarkup?.isNothing || breakpointsForMarkup?.isMobile ? 20 : 24}
+                  size={
+                    breakpointsForMarkup?.isNothing || breakpointsForMarkup?.isMobile
+                      ? ICON_SIZES.smIcon20
+                      : ICON_SIZES.mdIcon24
+                  }
                   className='fill-whiteBase'
                 />
               </th>
@@ -98,7 +52,7 @@ const WeatherDetailsForHours: FC<{}> = () => {
                     <th
                       key={item?.dt}
                       scope='col'
-                      className='whitespace-nowrap text-small md:text-base text-whiteBase text-center -rotate-90'
+                      className='-rotate-90 whitespace-nowrap text-center text-small text-whiteBase md:text-base'
                     >
                       {convertedTime}
                     </th>
@@ -123,7 +77,7 @@ const WeatherDetailsForHours: FC<{}> = () => {
                     svgName={icon}
                     size={
                       breakpointsForMarkup?.isNothing || breakpointsForMarkup?.isMobile
-                        ? 20
+                        ? ICON_SIZES.smIcon20
                         : iconSize
                     }
                     className={iconColorStyles}

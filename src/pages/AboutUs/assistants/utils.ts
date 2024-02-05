@@ -1,3 +1,5 @@
+import { ICON_SIZES } from 'constants/iconSizes';
+
 export type MemberItem = {
   memberImage: string;
   imageDescription: string;
@@ -25,7 +27,7 @@ export const getMembersList = (
   firstMemberImageUrl: string,
   secondMemberImageUrl: string,
   thirdMemberImageUrl: string,
-) => {
+): Members[] => {
   const members: Members[] = [
     {
       groupTitle: 'Front-end',
@@ -83,27 +85,27 @@ export const getMembersLink = (
   linkedinLink: string,
   emailLink: string,
   telegramLink: string,
-) => {
+): ILink[] => {
   const links: ILink[] = [
     {
       link: githubLink,
       icon: 'icon-github',
-      iconSize: 28,
+      iconSize: ICON_SIZES.mdIcon28,
     },
     {
       link: linkedinLink,
       icon: 'icon-linkedin',
-      iconSize: 28,
+      iconSize: ICON_SIZES.mdIcon28,
     },
     {
       link: emailLink,
       icon: 'icon-gmail',
-      iconSize: 30,
+      iconSize: ICON_SIZES.lgIcon30,
     },
     {
       link: telegramLink,
       icon: 'icon-telegram',
-      iconSize: 28,
+      iconSize: ICON_SIZES.mdIcon28,
     },
   ];
   return links;

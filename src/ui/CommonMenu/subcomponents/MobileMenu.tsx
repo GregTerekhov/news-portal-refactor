@@ -1,6 +1,8 @@
 import React, { FC } from 'react';
 import { NavLink } from 'react-router-dom';
 
+import { ICON_SIZES } from 'constants/iconSizes';
+
 import SvgIcon from '../../SvgIcon';
 
 import { IMenuProps } from '../types';
@@ -11,7 +13,7 @@ const MobileMenu: FC<IMenuProps> = ({ navId, links, handleLinkClick }) => {
       <ul
         className={`space-y-3 ${
           navId === 'account-navigation' &&
-          'after:content-[""] after:w-full after:h-px after:bg-accentBase after:block after:mt-3'
+          'after:mt-3 after:block after:h-px after:w-full after:bg-accentBase after:content-[""]'
         }`}
       >
         {links.map((link) => (
@@ -19,24 +21,24 @@ const MobileMenu: FC<IMenuProps> = ({ navId, links, handleLinkClick }) => {
             <NavLink
               to={link.path}
               onClick={handleLinkClick}
-              className={`flex items-center p-1.5 font-medium md:font-bold text-medium lg:text-xl transition-colors duration-500 ${
+              className={`flex items-center p-1.5 text-medium font-medium transition-colors duration-500 md:font-bold lg:text-xl ${
                 link.activeLink
-                  ? 'bg-accentBase text-whiteBase justify-between [clip-path:inset(0 -100vmax)]'
+                  ? '[clip-path:inset(0 -100vmax)] justify-between bg-accentBase text-whiteBase'
                   : 'text-darkBase dark:text-whiteBase'
               }`}
             >
               <div className='flex items-center gap-3.5'>
                 <div
-                  className={`bg-accentBase rounded-full w-8 h-8 flex items-center justify-center transition-colors duration-500 ${
+                  className={`flex h-8 w-8 items-center justify-center rounded-full bg-accentBase transition-colors duration-500 ${
                     link.activeLink && 'outline outline-1 outline-whiteBase'
                   }`}
                 >
                   <SvgIcon
                     svgName={link.icon}
-                    size={18}
+                    size={ICON_SIZES.smIcon18}
                     className={`${
                       navId === 'main-navigation'
-                        ? 'stroke-whiteBase fill-transparent'
+                        ? 'fill-transparent stroke-whiteBase'
                         : 'fill-whiteBase'
                     }`}
                   />
@@ -46,8 +48,8 @@ const MobileMenu: FC<IMenuProps> = ({ navId, links, handleLinkClick }) => {
               {link.activeLink && (
                 <SvgIcon
                   svgName='icon-arrow-left'
-                  size={24}
-                  className='fill-whiteBase rotate-180'
+                  size={ICON_SIZES.mdIcon24}
+                  className='rotate-180 fill-whiteBase'
                 />
               )}
             </NavLink>

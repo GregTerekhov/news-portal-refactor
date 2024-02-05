@@ -3,6 +3,7 @@ import { useLocation } from 'react-router-dom';
 import { Switch } from '@headlessui/react';
 
 import { VariantSwitcher } from 'types';
+import { ICON_SIZES } from 'constants/iconSizes';
 import { useTheme, useWindowWidth } from 'contexts';
 import { useActiveLinks, useHeaderStyles } from 'hooks';
 
@@ -36,7 +37,7 @@ const ThemeSwitcher: FC<{ variant: VariantSwitcher }> = ({ variant }) => {
       ) : (
         <SvgIcon
           svgName='icon-sun'
-          size={21}
+          size={ICON_SIZES.smIcon21}
           className={`fill-transparent ${currentStyles.strokeLeftIcon}`}
         />
       )}
@@ -65,7 +66,7 @@ const ThemeSwitcher: FC<{ variant: VariantSwitcher }> = ({ variant }) => {
       ) : (
         <SvgIcon
           svgName='icon-moon'
-          size={21}
+          size={ICON_SIZES.smIcon21}
           className={`fill-transparent ${enabled ? 'stroke-whiteBase' : 'stroke-greyAlt'}`}
         />
       )}

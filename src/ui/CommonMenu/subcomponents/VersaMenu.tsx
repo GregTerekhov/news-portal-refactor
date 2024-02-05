@@ -1,6 +1,7 @@
 import React, { FC } from 'react';
 import { NavLink } from 'react-router-dom';
 
+import { ICON_SIZES } from 'constants/iconSizes';
 import { useHeaderStyles } from 'hooks';
 
 import SvgIcon from '../../SvgIcon';
@@ -9,13 +10,14 @@ import { IMenuProps } from '../types';
 
 const VersaMenu: FC<IMenuProps> = ({ navId, links, activeLinks, handleLinkClick }) => {
   const { textClass } = useHeaderStyles(activeLinks?.isHomeActive);
+
   return (
     <nav
       id={navId}
       className={`${
         navId === 'main-navigation'
           ? ''
-          : 'after:content-[""] after:w-full after:h-px after:bg-accentBase after:block after:mt-3'
+          : 'after:mt-3 after:block after:h-px after:w-full after:bg-accentBase after:content-[""]'
       }`}
     >
       <ul
@@ -28,12 +30,12 @@ const VersaMenu: FC<IMenuProps> = ({ navId, links, activeLinks, handleLinkClick 
             <NavLink
               to={link.path}
               onClick={handleLinkClick}
-              className={`font-medium md:font-bold text-medium lg:text-xl transition-colors duration-500 ${
+              className={`text-medium font-medium transition-colors duration-500 md:font-bold lg:text-xl ${
                 navId === 'account-navigation'
-                  ? 'flex items-center group py-1.5 text-darkBase hover:text-whiteBase dark:text-whiteBase  hover:bg-accentBase'
-                  : `relative pt-12 pb-8 lg:pt-[55px] lg:pb-[33px] hover:text-accentBase ${
+                  ? 'group flex items-center py-1.5 text-darkBase hover:bg-accentBase hover:text-whiteBase  dark:text-whiteBase'
+                  : `relative pb-8 pt-12 hover:text-accentBase lg:pb-[33px] lg:pt-[55px] ${
                       link.activeLink
-                        ? 'text-accentBase after:content[""] after:block after:absolute after:h-px after:w-full after:bg-accentBase'
+                        ? 'after:content[""] text-accentBase after:absolute after:block after:h-px after:w-full after:bg-accentBase'
                         : activeLinks?.isHomeActive
                           ? textClass
                           : 'text-darkBase dark:text-whiteBase'
@@ -48,8 +50,8 @@ const VersaMenu: FC<IMenuProps> = ({ navId, links, activeLinks, handleLinkClick 
               {navId === 'account-navigation' && link.activeLink ? (
                 <SvgIcon
                   svgName='icon-arrow-left'
-                  size={24}
-                  className='fill-darkBase dark:fill-whiteBase group-hover:fill-whiteBase rotate-180'
+                  size={ICON_SIZES.mdIcon24}
+                  className='rotate-180 fill-darkBase group-hover:fill-whiteBase dark:fill-whiteBase'
                 />
               ) : null}
             </NavLink>

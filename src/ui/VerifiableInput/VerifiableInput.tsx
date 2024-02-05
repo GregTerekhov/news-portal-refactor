@@ -4,10 +4,11 @@ import { UseFormRegister } from 'react-hook-form';
 // import {
 //   SignUpRequest,
 //   AuthRequestWithoutName,
-//   IUpdatePassword,
+//   ExtendedUpdatePasswordRequest,
 //   SendEmailRequest,
 // } from 'types';
 import { InputLabel, VariantVerifiableInputs } from 'types';
+import { ICON_SIZES } from 'constants/iconSizes';
 
 import SvgIcon from '../SvgIcon';
 
@@ -23,7 +24,7 @@ interface InputCollectedData {
 
 type AriaInvalid = boolean | 'false' | 'true' | 'grammar' | 'spelling' | undefined;
 
-// type Values = IUpdatePassword | SignUpRequest | AuthRequestWithoutName | SendEmailRequest;
+// type Values = ExtendedUpdatePasswordRequest | SignUpRequest | AuthRequestWithoutName | SendEmailRequest;
 
 interface InputProps {
   inputData: InputCollectedData;
@@ -78,14 +79,14 @@ const VerifiableInput: FC<InputProps> = ({
           >
             <SvgIcon
               svgName={`${isPasswordVisibility ? 'icon-eye-opened' : 'icon-eye-closed'}`}
-              size={20}
+              size={ICON_SIZES.smIcon20}
               className='absolute bottom-[9px] right-3 cursor-pointer fill-greyBase md:right-4'
             />
           </button>
         ) : null}
         {hasIcon && (
           <span className='absolute left-3 top-50% flex h-5 w-5 -translate-y-1/2 transform items-center justify-center'>
-            <SvgIcon svgName={svgName} size={20} className='fill-accentBase' />
+            <SvgIcon svgName={svgName} size={ICON_SIZES.smIcon20} className='fill-accentBase' />
           </span>
         )}
         {placeholder === 'Enter your current email' ? (
@@ -94,7 +95,11 @@ const VerifiableInput: FC<InputProps> = ({
             className='absolute right-2 top-1/2 flex h-8 w-8 -translate-y-1/2 cursor-pointer items-center justify-center rounded-full bg-accentBase hover:bg-accentAlt'
             onClick={handleSubmitRecovery}
           >
-            <SvgIcon svgName='icon-arrow-right-filled' size={20} className='fill-whiteBase' />
+            <SvgIcon
+              svgName='icon-arrow-right-filled'
+              size={ICON_SIZES.smIcon20}
+              className='fill-whiteBase'
+            />
           </button>
         ) : null}
         <input

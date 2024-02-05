@@ -1,8 +1,6 @@
-import { ActiveLinks } from 'hooks';
-
 interface MenuItemProps {
   isAuthenticated: boolean;
-  activeLinks: ActiveLinks;
+  isAboutUs: boolean;
 }
 
 type MenuItem = {
@@ -11,7 +9,7 @@ type MenuItem = {
   liClasses: string;
 };
 
-export const renderMenuItem = ({ isAuthenticated, activeLinks }: MenuItemProps): MenuItem[] => {
+export const renderMenuItem = ({ isAuthenticated, isAboutUs }: MenuItemProps): MenuItem[] => {
   const menuItems: MenuItem[] = isAuthenticated
     ? [
         {
@@ -48,7 +46,7 @@ export const renderMenuItem = ({ isAuthenticated, activeLinks }: MenuItemProps):
         },
       ];
 
-  if (!activeLinks?.isAboutUs) {
+  if (!isAboutUs) {
     if (isAuthenticated) {
       menuItems.push({
         path: '/about-us',

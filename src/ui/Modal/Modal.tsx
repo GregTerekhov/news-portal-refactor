@@ -4,6 +4,7 @@ import FocusLock, { AutoFocusInside } from 'react-focus-lock';
 import { RemoveScroll } from 'react-remove-scroll';
 
 import { VariantModals } from 'types';
+import { ICON_SIZES } from 'constants/iconSizes';
 import { usePopUp } from 'hooks';
 
 import SvgIcon from '../SvgIcon';
@@ -36,20 +37,20 @@ const Modal: FC<ModalProps> = ({ children, closeModal, modalRef, variant }) => {
         <RemoveScroll enabled={isOpenModal}>
           {modalRoot &&
             createPortal(
-              <div className='fixed before:fixed before:content-[""] before:w-full before:h-[81px] before:top-0 before:left-0 top-0 left-0 z-[60] bg-whiteBase/[.4] dark:bg-darkBackground/[.4] w-screen h-screen flex justify-center items-center transition-colors duration-500 backdrop-blur-sm overflow-auto'>
+              <div className='fixed left-0 top-0 z-[60] flex h-screen w-screen items-center justify-center overflow-auto bg-whiteBase/[.4] backdrop-blur-sm transition-colors duration-500 before:fixed before:left-0 before:top-0 before:h-[81px] before:w-full before:content-[""] dark:bg-darkBackground/[.4]'>
                 <div
                   ref={modalRef}
-                  className={`absolute left-1/2 w-full max-md:max-w-[288px] md:w-[600px] transform -translate-x-1/2 bg-whiteBase dark:bg-darkBackground ${currentStyles.topPosition} py-4 px-6 border border-solid border-accentBase dark:border-whiteBase rounded-xl shadow-modal dark:shadow-darkCard md:px-8 md:pb-8 transition-colors duration-500`}
+                  className={`absolute left-1/2 w-full -translate-x-1/2 transform bg-whiteBase dark:bg-darkBackground max-md:max-w-[288px] md:w-[600px] ${currentStyles.topPosition} rounded-xl border border-solid border-accentBase px-6 py-4 shadow-modal transition-colors duration-500 dark:border-whiteBase dark:shadow-darkCard md:px-8 md:pb-8`}
                 >
                   <AutoFocusInside>
                     <button
                       aria-label='Modal close button'
-                      className='absolute top-4 right-4 flex justify-center items-center'
+                      className='absolute right-4 top-4 flex items-center justify-center'
                       onClick={closeModal}
                     >
                       <SvgIcon
                         svgName='icon-close'
-                        size={20}
+                        size={ICON_SIZES.smIcon20}
                         className='stroke-darkBase dark:stroke-whiteBase'
                       />
                     </button>

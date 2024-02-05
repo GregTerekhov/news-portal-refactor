@@ -2,6 +2,7 @@ import React, { FC } from 'react';
 import { useLocation } from 'react-router-dom';
 import { format, startOfToday } from 'date-fns';
 
+import { ICON_SIZES } from 'constants/iconSizes';
 import { useFiltersState, useSelectedDate } from 'contexts';
 import { useActiveLinks, useFilterNews, usePopUp } from 'hooks';
 
@@ -46,7 +47,7 @@ const Calendar: FC<CalendarProps> = ({ variant }) => {
         onClick={toggleCalendar}
         className={`${calendarButtonStyles}`}
       >
-        <SvgIcon svgName='icon-calendar' size={20} className='fill-accentBase' />
+        <SvgIcon svgName='icon-calendar' size={ICON_SIZES.smIcon20} className='fill-accentBase' />
         {variant === 'SearchBlock' &&
         selectedRequestDate.beginDate !== null &&
         selectedRequestDate.endDate !== null
@@ -58,7 +59,7 @@ const Calendar: FC<CalendarProps> = ({ variant }) => {
             : format(today, 'dd/MM/yyyy')}
         <SvgIcon
           svgName='icon-arrow-down'
-          size={14}
+          size={ICON_SIZES.xsIcon14}
           className={`fill-accentBase transition-transform ${
             isOpenCalendar ? 'rotate-180' : 'rotate-0'
           }`}

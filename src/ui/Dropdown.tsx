@@ -1,10 +1,11 @@
 import React, { FC, useState } from 'react';
 import { Menu, Transition } from '@headlessui/react';
 
+import { ICON_SIZES } from 'constants/iconSizes';
 import { SearchParamsObject } from 'hooks/useAdditionalRequest';
 
+import CustomScrollBar from './CustomScrollBar';
 import SvgIcon from './SvgIcon';
-import { CustomScrollBar } from '.';
 
 interface DropdownProps {
   label: string;
@@ -23,11 +24,11 @@ const Dropdown: FC<DropdownProps> = ({
 }) => {
   const [isOpenDropdown, setIsOpenDropdown] = useState<boolean>(false);
 
-  const handleOpenClick = () => {
+  const handleOpenClick = (): void => {
     setIsOpenDropdown(!isOpenDropdown);
   };
 
-  const handleItemClick = (item: string) => {
+  const handleItemClick = (item: string): void => {
     if (getResults) getResults(item);
     onSelectItem(
       label === 'Category' ? 'category' : label === 'Time period' ? 'period' : 'type',
@@ -51,7 +52,7 @@ const Dropdown: FC<DropdownProps> = ({
             {selectedItem || label}
             <SvgIcon
               svgName='icon-arrow-down'
-              size={14}
+              size={ICON_SIZES.xsIcon14}
               className={`fill-accentBase transition-transform dark:fill-whiteBase ${
                 open ? 'rotate-180' : 'rotate-0'
               }`}
