@@ -4,7 +4,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { useAuthRedux } from 'reduxStore/hooks';
 
 import { ClickHandler, VariantButton, VariantModals } from 'types';
-import { useWindowWidth } from 'contexts';
+import { useNotification, useWindowWidth } from 'contexts';
 import { useActiveLinks, useHeaderStyles, usePopUp } from 'hooks';
 
 import { AuthModal } from 'components';
@@ -16,14 +16,18 @@ const Auth: FC<{}> = () => {
   };
   const { logout, isAuthenticated } = useAuthRedux();
   const { isOpenModal, popUpRef, toggleModal } = usePopUp();
+
   const location = useLocation();
   const { isHomeActive } = useActiveLinks(location);
   const { authButtonClass } = useHeaderStyles(isHomeActive);
+  const { showToast } = useNotification();
 
   const navigate = useNavigate();
 
   const onSignOut = async () => {
-    await logout();
+    const response = await logout();
+
+    showToast(response.meta.requestStatus);
     localStorage.removeItem('_persist');
     navigate('/');
   };

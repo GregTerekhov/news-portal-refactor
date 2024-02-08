@@ -4,11 +4,11 @@ import { Outlet, useLocation } from 'react-router-dom';
 import { useAuthRedux, useDB, useNewsAPI } from 'reduxStore/hooks';
 
 import { VariantSwitcher } from 'types';
-import { useNotification, useWindowWidth } from 'contexts';
+import { useWindowWidth } from 'contexts';
 import { useActiveLinks, useChooseRenderingNews } from 'hooks';
 
-import { NewsFilterManager, PageScrollController } from 'components';
-import { Notification, ThemeSwitcher } from 'ui';
+import { NewsFilterManager, PageScrollController, Toast } from 'components';
+import { ThemeSwitcher } from 'ui';
 
 import { Hero } from './subcomponents';
 import Header from './Header/Header';
@@ -20,7 +20,6 @@ const Layout: FC = () => {
   };
   const { fetchCategoriesList } = useNewsAPI();
   const { isAuthenticated, statusMessage } = useAuthRedux();
-  const { openToast, setOpenToast } = useNotification();
   const { allFavourites, allReads, allArchive } = useDB();
 
   const location = useLocation();
@@ -56,8 +55,13 @@ const Layout: FC = () => {
     (isFavoriteActive && allFavourites && allFavourites.length === 0) ||
     (isReadActive && allReads && allReads.length === 0) ||
     (isArchiveActive && allArchive && allArchive.length === 0) ||
-    isAccountPages;
+    isAccountPage;
 
+  const showSuccessToast =
+    statusMessage === 'Email sent successfully' ||
+    statusMessage === 'User sign-in success' ||
+    statusMessage === 'Sign-out success';
+  console.log('statusMessage', statusMessage);
   return (
     <div
       className={`${
@@ -108,15 +112,8 @@ const Layout: FC = () => {
         </section>
       </main>
       {!isErrorPage && <Footer />}
-      {isAuthenticated && statusMessage !== 'Get current user success' && (
-        <Notification
-          variant='non-interactive'
-          openToast={openToast}
-          setOpenToast={setOpenToast}
-          title='Welcome'
-          description='Welcome to New York Times News Viewer'
-        />
-      )}
+      {/* {showSuccessToast && <ToastSuccess variant='non-interactive' />} */}
+      {showSuccessToast && <Toast variant='non-interactive' status='success' />}
     </div>
   );
 };

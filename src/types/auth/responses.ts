@@ -6,7 +6,7 @@ type User = {
 
 type ThemeValue = 'light' | 'dark';
 
-interface ServicesInfo {
+export interface ServicesInfo {
   code: number;
   message: string;
 }
@@ -43,8 +43,6 @@ interface UpdateCredentials {
 }
 
 export type UpdateCredentialsResponse = ServicesInfo & UpdateCredentials;
-
-export type UpdatePasswordResponse = Omit<UpdateCredentialsResponse, 'newEmail'>;
 
 interface UpdateTheme {
   userTheme: ThemeValue;

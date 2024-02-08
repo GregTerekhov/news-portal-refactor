@@ -8,17 +8,25 @@ async function encryptData(userData: Record<string, string>, key: CryptoKey): Pr
   try {
     const userDataString = JSON.stringify(userData);
     const iv = window.crypto.getRandomValues(new Uint8Array(12));
+
+    console.log('iv-encoded', iv);
     const encryptedData = await window.crypto.subtle.encrypt(
       { name: 'AES-GCM', iv },
       key,
       encoder.encode(userDataString),
     );
-    const combined = new Uint8Array(iv.length + encryptedData.byteLength);
+
+    const encryptedArray = new Uint8Array(encryptedData);
+
+    console.log('encryptedData', encryptedData);
+    let combined = new Uint8Array(iv.length + encryptedArray.byteLength);
 
     combined.set(iv);
-    combined.set(new Uint8Array(encryptedData), iv.length);
+    combined.set(encryptedArray, iv.length);
 
-    const base64String = btoa(String.fromCharCode(...combined));
+    const base64String = btoa(
+      new Uint8Array(combined).reduce((data, byte) => data + String.fromCharCode(byte), ''),
+    );
     console.log('base64String', base64String);
 
     return base64String;
@@ -36,7 +44,7 @@ async function decryptData(encryptedData: string, key: CryptoKey): Promise<Recor
     const iv = uint8Array.slice(0, 12);
     const encryptedBytes = uint8Array.slice(12);
 
-    console.log('iv', iv);
+    console.log('iv-decoded', iv);
     console.log('encryptedBytes', encryptedBytes);
 
     const decryptedDataBuffer = await new Promise<ArrayBuffer>((resolve, reject) => {

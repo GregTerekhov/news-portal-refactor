@@ -3,7 +3,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 
 import { useAuthRedux } from 'reduxStore/hooks';
 
-import { UpdateCredentialsResponse, ExtendedUpdatePasswordRequest } from 'types';
+import { ExtendedUpdatePasswordRequest } from 'types';
 
 import { useNotification } from 'contexts';
 
@@ -11,7 +11,7 @@ import { renderPasswordInputs, updatePasswordSchema } from '../assistants';
 
 const useUpdatePassword = () => {
   const { updatePassword } = useAuthRedux();
-  const { setOpenToast } = useNotification();
+  const { showToast } = useNotification();
   const {
     handleSubmit,
     register,
@@ -42,16 +42,8 @@ const useUpdatePassword = () => {
       const dataToSend = { password, newPassword };
 
       const response = await updatePassword(dataToSend);
-      const { code, message } = response.payload as Omit<UpdateCredentialsResponse, 'newEmail'>;
 
-      if (response.meta.requestStatus === 'rejected') {
-        setOpenToast(true);
-        return;
-      }
-
-      if (code && code === 200 && message && message === 'Password is successfully updated') {
-        setOpenToast(true);
-      }
+      showToast(response.meta.requestStatus);
     } catch (error) {
       console.error('Error during updatePassword:', error);
     }

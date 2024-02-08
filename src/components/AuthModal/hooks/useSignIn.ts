@@ -4,7 +4,7 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 
 import { useAuthRedux } from 'reduxStore/hooks';
 
-import { AuthRequestWithoutName, CredentialSignInResponse } from 'types';
+import { AuthRequestWithoutName } from 'types';
 
 import { useNotification } from 'contexts';
 import { usePopUp } from 'hooks';
@@ -20,7 +20,7 @@ import { AuthInputs } from '../types';
 const useSignIn = () => {
   const [isChecked, setIsChecked] = useState<boolean>(getCheckboxState());
 
-  const { setOpenToast } = useNotification();
+  const { showToast } = useNotification();
   const { login } = useAuthRedux();
   const { toggleModal } = usePopUp();
 
@@ -31,7 +31,7 @@ const useSignIn = () => {
       if (hasSavedCryptoUserData) {
         const loadedUserData = await loadUserDataFromLocalStorage();
 
-        // console.log('loadedUserData', loadedUserData);
+        console.log('loadedUserData', loadedUserData);
         if (loadedUserData) {
           // console.log('loadedUserData', loadedUserData);
           setValue('email', loadedUserData.email);
@@ -84,24 +84,9 @@ const useSignIn = () => {
         localStorage.rememberMe = isChecked.toString();
       }
 
-      const signInCredentials = {
-        email,
-        password,
-      };
+      const response = await login(data);
 
-      const response = await login(signInCredentials);
-      const { code, message } = response.payload as CredentialSignInResponse;
-
-      const showSignInSuccessToast =
-        code && message && code === 201 && message === 'User sign-in success';
-
-      if (response.meta.requestStatus === 'rejected') {
-        setOpenToast(true);
-        return;
-      }
-      if (showSignInSuccessToast) {
-        setOpenToast(true); // уточнити необхідність появи цього тоста - при реєстрації нормально, при вході вже зареєстрованого user -?
-      }
+      showToast(response.meta.requestStatus);
     } catch (error) {
       console.error('Error during signIn:', error);
     }

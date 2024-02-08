@@ -1,12 +1,11 @@
 import React, { FC } from 'react';
 import { NavLink } from 'react-router-dom';
 
+import { IMenuProps } from 'types';
 import { ICON_SIZES } from 'constants/iconSizes';
 import { useHeaderStyles } from 'hooks';
 
 import SvgIcon from '../../SvgIcon';
-
-import { IMenuProps } from '../types';
 
 const VersaMenu: FC<IMenuProps> = ({ navId, links, activeLinks, handleLinkClick }) => {
   const { textClass } = useHeaderStyles(activeLinks?.isHomeActive);

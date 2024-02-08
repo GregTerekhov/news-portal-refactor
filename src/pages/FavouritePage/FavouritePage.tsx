@@ -1,23 +1,23 @@
-import React, { FC, useEffect, useState } from 'react';
+import React, { FC, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 import { useAuthRedux, useDB, useFiltersAction } from 'reduxStore/hooks';
 
 import { useActiveLinks, useChooseRenderingNews } from 'hooks';
 
-import { NewsList } from 'components';
-import { Loader, Notification, PlugImage } from 'ui';
+import { NewsList, Toast } from 'components';
+import { Loader, PlugImage } from 'ui';
 
 const FavouritePage: FC<{}> = () => {
-  const [openToast, setOpenToast] = useState<boolean>(false);
   const { isAuthenticated } = useAuthRedux();
-  const { allFavourites, isLoadingDBData, errorDB, getFavourites, getSavedNews } = useDB();
+  const { allFavourites, isLoadingDBData, errorDB, dbSuccessMessage, getFavourites, getSavedNews } =
+    useDB();
   const { hasResults } = useFiltersAction();
 
   const location = useLocation();
   const activeLinks = useActiveLinks(location);
   const { rebuildedNews } = useChooseRenderingNews({ activeLinks });
-
+  console.log('dbSuccessMessage', dbSuccessMessage);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -31,29 +31,16 @@ const FavouritePage: FC<{}> = () => {
     getSavedNews();
   }, [getFavourites, getSavedNews]);
 
-  useEffect(() => {
-    if (!!allFavourites && allFavourites.length > 0) {
-      setOpenToast(true);
-    }
-  }, [allFavourites]);
-
   const shouldShowLoader = isLoadingDBData || hasResults === 'loading';
   const shouldShowPlug = allFavourites.length === 0 || hasResults === 'empty';
   const shouldShowContent = !shouldShowPlug && !shouldShowLoader;
+  const shouldShowToast = !shouldShowLoader && allFavourites && allFavourites.length > 0;
 
   return (
     isAuthenticated && (
       <>
         {shouldShowLoader && <Loader variant='generalSection' />}
-        {!shouldShowLoader && allFavourites && (
-          <Notification
-            variant='non-interactive'
-            openToast={openToast}
-            setOpenToast={setOpenToast}
-            title='Monthly statistics'
-            description={`${allFavourites.length} news added to Favourites`}
-          />
-        )}
+        {shouldShowToast && <Toast variant='non-interactive' status='info' />}
         {shouldShowContent && <NewsList currentItems={rebuildedNews} />}
         {!shouldShowLoader && shouldShowPlug && <PlugImage variant='page' />}
       </>

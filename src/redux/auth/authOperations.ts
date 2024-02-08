@@ -16,7 +16,7 @@ import {
   SignOutResponse,
   CurrentUserResponse,
   UpdateCredentialsResponse,
-  UpdatePasswordResponse,
+  ServicesInfo,
   UpdateThemeResponse,
   UpdatePasswordRequest,
   RecoveryPasswordChange,
@@ -33,7 +33,7 @@ export const signUp = createAppAsyncThunk<CredentialSignUpResponse, SignUpReques
       console.log('SignUpResponse', response.data);
       return response.data;
     } catch (error: any) {
-      console.log('Error SignUp', error.response);
+      console.log('Error SignUp', error);
       return rejectWithValue(error.response);
     }
   },
@@ -102,54 +102,57 @@ export const updateUserEmail = createAppAsyncThunk<
   }
 });
 
-export const updateUserPassword = createAppAsyncThunk<
-  UpdatePasswordResponse,
-  UpdatePasswordRequest
->('auth/updatePassword', async (newPassword, { rejectWithValue }) => {
-  console.log('newPassword', newPassword);
-  try {
-    const response = await axiosInstance.patch<UpdatePasswordResponse>(
-      '/auth/update-password',
-      newPassword,
-    );
-    console.log('UpdatePasswordResponse', response.data);
-    return response.data;
-  } catch (error: any) {
-    console.log('Error updatePassword', error.response);
-    return rejectWithValue(error.response);
-  }
-});
-export const recoveryPasswordRequest = createAppAsyncThunk<
-  UpdatePasswordResponse,
-  SendEmailRequest
->('auth/recoveryPasswordRequest', async (email, { rejectWithValue }) => {
-  try {
-    console.log('operations forgotRequest', email.email);
-    const response = await axios.post(`${CONFIG.BASE_URL_DB}/auth/forgot-password-request`, email);
-    console.log('recoveryPasswordRequest', response.data);
-    return response.data;
-  } catch (error: any) {
-    console.log('Error forgotPasswordRequest', error.response);
-    return rejectWithValue(error.response);
-  }
-});
+export const updateUserPassword = createAppAsyncThunk<ServicesInfo, UpdatePasswordRequest>(
+  'auth/updatePassword',
+  async (newPassword, { rejectWithValue }) => {
+    console.log('newPassword', newPassword);
+    try {
+      const response = await axiosInstance.patch<ServicesInfo>(
+        '/auth/update-password',
+        newPassword,
+      );
+      console.log('UpdatePasswordResponse', response.data);
+      return response.data;
+    } catch (error: any) {
+      console.log('Error updatePassword', error.response);
+      return rejectWithValue(error.response);
+    }
+  },
+);
+export const recoveryPasswordRequest = createAppAsyncThunk<ServicesInfo, SendEmailRequest>(
+  'auth/recoveryPasswordRequest',
+  async (email, { rejectWithValue }) => {
+    try {
+      console.log('operations forgotRequest', email.email);
+      const response = await axios.post(
+        `${CONFIG.BASE_URL_DB}/auth/forgot-password-request`,
+        email,
+      );
+      console.log('recoveryPasswordRequest', response.data);
+      return response.data;
+    } catch (error: any) {
+      console.log('Error forgotPasswordRequest', error.response);
+      return rejectWithValue(error.response);
+    }
+  },
+);
 
-export const recoveryPasswordChange = createAppAsyncThunk<
-  UpdatePasswordResponse,
-  RecoveryPasswordChange
->('auth/recoveryPasswordChange', async (changedPassword, { rejectWithValue }) => {
-  try {
-    const response = await axiosInstance.patch<UpdatePasswordResponse>(
-      '/auth/forgot-password-change',
-      changedPassword,
-    );
-    console.log('recoveryPasswordChange', response.data);
-    return response.data;
-  } catch (error: any) {
-    console.log('Error forgotPasswordChange', error.response);
-    return rejectWithValue(error.response);
-  }
-});
+export const recoveryPasswordChange = createAppAsyncThunk<ServicesInfo, RecoveryPasswordChange>(
+  'auth/recoveryPasswordChange',
+  async (changedPassword, { rejectWithValue }) => {
+    try {
+      const response = await axiosInstance.patch<ServicesInfo>(
+        '/auth/forgot-password-change',
+        changedPassword,
+      );
+      console.log('recoveryPasswordChange', response.data);
+      return response.data;
+    } catch (error: any) {
+      console.log('Error forgotPasswordChange', error.response);
+      return rejectWithValue(error.response);
+    }
+  },
+);
 
 export const googleAuth = createAppAsyncThunk(
   'auth/googleAuth',

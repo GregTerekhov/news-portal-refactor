@@ -4,7 +4,7 @@ import { Link, useLocation } from 'react-router-dom';
 import { useAuthRedux, useFiltersAction } from 'reduxStore/hooks';
 
 import { VariantSwitcher } from 'types';
-import { useFiltersState, useWindowWidth } from 'contexts';
+import { useFiltersState, useNotification, useWindowWidth } from 'contexts';
 import { useActiveLinks } from 'hooks';
 
 import ThemeSwitcher from '../ThemeSwitcher/ThemeSwitcher';
@@ -27,6 +27,7 @@ const CommonMenu: FC<CommonMenuProps> = ({ isOpen, navId, closeMenu }) => {
   const { resetAllFilters } = useFiltersAction();
   const { setFilters } = useFiltersState();
   const { user, logout } = useAuthRedux();
+  const { showToast } = useNotification();
 
   const location = useLocation();
   const activeLinks = useActiveLinks(location);
@@ -54,11 +55,13 @@ const CommonMenu: FC<CommonMenuProps> = ({ isOpen, navId, closeMenu }) => {
     }
   };
 
-  const handleSignOut = () => {
+  const handleSignOut = async () => {
     if (typeof closeMenu === 'function') {
       closeMenu();
     }
-    logout();
+    const response = await logout();
+
+    showToast(response.meta.requestStatus);
     localStorage.removeItem('_persist');
   };
 

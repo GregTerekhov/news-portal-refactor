@@ -2,37 +2,32 @@ import React, { FC } from 'react';
 
 import { useAuthRedux } from 'reduxStore/hooks';
 
-import { useNotification } from 'contexts';
-import { useToast } from 'hooks';
-
-import { LinkedAccounts } from 'components';
+import { LinkedAccounts, Toast } from 'components';
 
 import { UpdateEmail, UpdatePassword } from './subcomponents';
-import { Notification } from 'ui';
 
 const AccountManagePage: FC<{}> = () => {
   const { authError, statusMessage } = useAuthRedux();
-  const { openToast, setOpenToast } = useNotification();
-  const { showErrorToast } = useToast();
+
+  const showUpdatedToast =
+    statusMessage === 'Email is successfully updated' ||
+    statusMessage === 'Password is successfully updated';
+  const showErrorToast = authError && authError?.message;
 
   return (
     <div>
-      <h2 className='text-darkBase dark:text-whiteBase text-3xl leading-tighter text-end mb-14'>
+      <h2 className='mb-14 text-end text-3xl leading-tighter text-darkBase dark:text-whiteBase'>
         Account settings
       </h2>
       <div className='flex items-center justify-end'>
-        <div className='space-y-2 md:space-y-6 w-52 md:w-80 lg:w-[600px]'>
+        <div className='w-52 space-y-2 md:w-80 md:space-y-6 lg:w-[600px]'>
           <UpdateEmail />
           <UpdatePassword />
           <LinkedAccounts />
         </div>
       </div>
-      <Notification
-        openToast={openToast}
-        setOpenToast={setOpenToast}
-        title={authError?.message ? 'Authorisation error' : 'Update credentials'}
-        description={authError?.message ? showErrorToast() : statusMessage}
-      />
+      {showErrorToast && <Toast variant='interactive' status='error' />}
+      {showUpdatedToast && <Toast variant='interactive' status='success' />}
     </div>
   );
 };

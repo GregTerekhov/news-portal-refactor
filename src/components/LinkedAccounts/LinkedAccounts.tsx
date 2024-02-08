@@ -54,7 +54,7 @@ const LinkedAccounts: FC<{}> = () => {
   });
   const hasConnectedAccount = google || facebook || apple;
   const isMobile = breakpointsForMarkup?.isNothing || breakpointsForMarkup?.isMobile;
-  // 'https://news-webapp-express.onrender.com/api/auth/google',
+  // 'https://news-webapp-express.onrender.com/api/auth/google', - шлях до беку на redirect
   const accountButtons = [
     {
       svgName: 'icon-google',
