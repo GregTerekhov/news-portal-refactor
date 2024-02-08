@@ -1,5 +1,5 @@
 import React, { FC, useEffect } from 'react';
-import { Outlet, useLocation } from 'react-router-dom';
+import { Outlet } from 'react-router-dom';
 
 import { useAuthRedux, useDB, useNewsAPI } from 'reduxStore/hooks';
 
@@ -22,8 +22,7 @@ const Layout: FC = () => {
   const { isAuthenticated, statusMessage } = useAuthRedux();
   const { allFavourites, allReads, allArchive } = useDB();
 
-  const location = useLocation();
-  const activeLinks = useActiveLinks(location);
+  const activeLinks = useActiveLinks();
   const { rebuildedNews } = useChooseRenderingNews({ activeLinks });
 
   const {

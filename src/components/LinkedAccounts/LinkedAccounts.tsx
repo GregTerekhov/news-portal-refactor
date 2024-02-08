@@ -1,6 +1,5 @@
 import React, { FC } from 'react';
 import axios from 'axios';
-import { useLocation } from 'react-router-dom';
 import { useGoogleLogin } from '@react-oauth/google';
 
 import { useAuthRedux } from 'reduxStore/hooks';
@@ -23,8 +22,7 @@ const LinkedAccounts: FC<{}> = () => {
   };
   const { haveAccounts } = useAuthRedux();
 
-  const location = useLocation();
-  const { isManageAccountPage } = useActiveLinks(location);
+  const { isManageAccountPage } = useActiveLinks();
 
   const { handleFacebookLogin, isLoading } = useFacebookLogin();
 

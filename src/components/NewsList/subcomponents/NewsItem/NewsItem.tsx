@@ -1,5 +1,4 @@
 import React, { FC } from 'react';
-import { useLocation } from 'react-router-dom';
 
 import { useAuthRedux } from 'reduxStore/hooks';
 
@@ -22,8 +21,7 @@ const NewsItem: FC<Partial<NewsItemProps>> = ({ liveNews = {} }) => {
   const { isOpenModal, toggleModal, popUpRef } = usePopUp();
   const myButtonRef = React.createRef<HTMLButtonElement>();
 
-  const location = useLocation();
-  const { isHomeActive, isArchiveActive } = useActiveLinks(location);
+  const { isHomeActive, isArchiveActive } = useActiveLinks();
 
   const { isFavourite, hasRead, handleChangeFavourites, handleReadNews, handleDeleteNews } =
     useNews({ liveNews, isArchiveActive });

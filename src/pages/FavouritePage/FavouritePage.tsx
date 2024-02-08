@@ -1,5 +1,5 @@
 import React, { FC, useEffect } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 import { useAuthRedux, useDB, useFiltersAction } from 'reduxStore/hooks';
 
@@ -14,8 +14,7 @@ const FavouritePage: FC<{}> = () => {
     useDB();
   const { hasResults } = useFiltersAction();
 
-  const location = useLocation();
-  const activeLinks = useActiveLinks(location);
+  const activeLinks = useActiveLinks();
   const { rebuildedNews } = useChooseRenderingNews({ activeLinks });
   console.log('dbSuccessMessage', dbSuccessMessage);
   const navigate = useNavigate();

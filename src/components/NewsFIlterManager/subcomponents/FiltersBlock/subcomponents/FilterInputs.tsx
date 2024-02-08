@@ -1,5 +1,4 @@
 import React, { FC } from 'react';
-import { useLocation } from 'react-router-dom';
 
 import { VariantInputs } from 'types';
 import { useFiltersState } from 'contexts';
@@ -8,8 +7,7 @@ import { useActiveLinks, useFilterNews } from 'hooks';
 import { UnverifiableInput } from 'ui';
 
 const FilterInputs: FC = () => {
-  const location = useLocation();
-  const activeLinks = useActiveLinks(location);
+  const activeLinks = useActiveLinks();
 
   const { handleChangeFilter } = useFilterNews({
     activeLinks,

@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 import { useAuthRedux } from 'reduxStore/hooks';
 
@@ -17,8 +17,7 @@ const Auth: FC<{}> = () => {
   const { logout, isAuthenticated } = useAuthRedux();
   const { isOpenModal, popUpRef, toggleModal } = usePopUp();
 
-  const location = useLocation();
-  const { isHomeActive } = useActiveLinks(location);
+  const { isHomeActive } = useActiveLinks();
   const { authButtonClass } = useHeaderStyles(isHomeActive);
   const { showToast } = useNotification();
 

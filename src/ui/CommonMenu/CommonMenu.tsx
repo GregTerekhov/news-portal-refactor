@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 import { useAuthRedux, useFiltersAction } from 'reduxStore/hooks';
 
@@ -29,8 +29,7 @@ const CommonMenu: FC<CommonMenuProps> = ({ isOpen, navId, closeMenu }) => {
   const { user, logout } = useAuthRedux();
   const { showToast } = useNotification();
 
-  const location = useLocation();
-  const activeLinks = useActiveLinks(location);
+  const activeLinks = useActiveLinks();
 
   const links = renderMenuItem({ activeLinks, navId });
 

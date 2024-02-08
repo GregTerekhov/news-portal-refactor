@@ -8,7 +8,6 @@ import { useActiveLinks } from 'hooks';
 import { Notification } from 'ui';
 
 import { useToastError, useToastInfo, useToastSuccess } from './hooks';
-import { useLocation } from 'react-router-dom';
 
 interface ToastSuccessProps {
   variant: ToastVariant;
@@ -16,8 +15,7 @@ interface ToastSuccessProps {
 }
 
 const Toast: FC<ToastSuccessProps> = ({ variant, status }) => {
-  const location = useLocation();
-  const activeLinks = useActiveLinks(location);
+  const activeLinks = useActiveLinks();
 
   const { openToast, setOpenToast } = useNotification();
   const { showSuccessToast } = useToastSuccess();

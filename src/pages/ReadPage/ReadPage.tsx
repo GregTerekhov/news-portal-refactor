@@ -1,5 +1,5 @@
 import React, { FC, useEffect } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 import { useDB, useFiltersAction } from 'reduxStore/hooks';
 
@@ -12,8 +12,7 @@ const ReadPage: FC<{}> = () => {
   const { allReads, isLoadingDBData, errorDB, getReads } = useDB();
   const { hasResults } = useFiltersAction();
 
-  const location = useLocation();
-  const activeLinks = useActiveLinks(location);
+  const activeLinks = useActiveLinks();
 
   const initialReadsList = useReadNewsContent({ activeLinks });
   const { rebuildedNews } = useChooseRenderingNews({ activeLinks });

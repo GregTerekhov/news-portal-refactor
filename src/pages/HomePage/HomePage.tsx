@@ -1,5 +1,5 @@
 import React, { FC, useEffect } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 import { useAuthRedux, useDB, useNewsAPI, useFiltersAction } from 'reduxStore/hooks';
 
@@ -28,8 +28,7 @@ const HomePage: FC = () => {
   const { isAuthenticated, authError } = useAuthRedux();
   const { setOpenToast } = useNotification();
 
-  const location = useLocation();
-  const activeLinks = useActiveLinks(location);
+  const activeLinks = useActiveLinks();
 
   const { rebuildedNews } = useChooseRenderingNews({ activeLinks });
   const { hasResults } = useFiltersAction();

@@ -1,5 +1,4 @@
 import React, { FC, useState } from 'react';
-import { useLocation } from 'react-router-dom';
 
 import { Filters } from 'types';
 import { useFiltersState } from 'contexts';
@@ -14,8 +13,7 @@ import { ControlButtons, FilterInputs } from './subcomponents';
 const FiltersBlock: FC<{}> = () => {
   const [selectedMaterialType, setSelectedMaterialType] = useState<string>('');
 
-  const location = useLocation();
-  const activeLinks = useActiveLinks(location);
+  const activeLinks = useActiveLinks();
 
   const { handleMaterialTypeChange } = useFilterNews({ activeLinks, setSelectedMaterialType });
   const { filters } = useFiltersState();

@@ -1,5 +1,4 @@
 import React, { FC } from 'react';
-import { useLocation } from 'react-router-dom';
 import { format, startOfToday } from 'date-fns';
 
 import { ICON_SIZES } from 'constants/iconSizes';
@@ -20,8 +19,7 @@ const Calendar: FC<CalendarProps> = ({ variant }) => {
   const { filters } = useFiltersState();
   const { selectedRequestDate } = useSelectedDate();
 
-  const location = useLocation();
-  const activeLinks = useActiveLinks(location);
+  const activeLinks = useActiveLinks();
 
   const { handleFilterDate } = useFilterNews({ activeLinks, setIsOpenCalendar });
 

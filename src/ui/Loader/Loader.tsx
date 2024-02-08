@@ -1,5 +1,4 @@
 import React, { FC } from 'react';
-import { useLocation } from 'react-router-dom';
 
 import { useWindowWidth } from 'contexts';
 import { useActiveLinks } from 'hooks';
@@ -20,8 +19,7 @@ const Loader: FC<LoaderProps> = ({ variant }) => {
     breakpointsForMarkup: null,
   };
 
-  const location = useLocation();
-  const { isHomeActive } = useActiveLinks(location);
+  const { isHomeActive } = useActiveLinks();
 
   const mobileSkeleton = breakpointsForMarkup?.isNothing || breakpointsForMarkup?.isMobile;
   const tabletSkeleton = breakpointsForMarkup?.isTablet;

@@ -1,5 +1,5 @@
 import React, { FC, useEffect, useState } from 'react';
-import { Link, useLocation, useSearchParams } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 
 import { useAuthRedux, useFiltersAction } from 'reduxStore/hooks';
 
@@ -42,8 +42,7 @@ const Header: FC<{}> = () => {
   };
   const { filteredNews, resetAllFilters } = useFiltersAction();
 
-  const location = useLocation();
-  const { isHomeActive, isAccountPage, isManageAccountPage } = useActiveLinks(location);
+  const { isHomeActive, isAccountPage, isManageAccountPage } = useActiveLinks();
 
   const { headerClass, textClass, burgerMenuButtonClass } = useHeaderStyles(isHomeActive);
 

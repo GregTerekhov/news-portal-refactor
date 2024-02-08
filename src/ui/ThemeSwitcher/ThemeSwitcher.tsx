@@ -1,5 +1,4 @@
 import React, { FC } from 'react';
-import { useLocation } from 'react-router-dom';
 import { Switch } from '@headlessui/react';
 
 import { VariantSwitcher } from 'types';
@@ -18,8 +17,7 @@ const ThemeSwitcher: FC<{ variant: VariantSwitcher }> = ({ variant }) => {
 
   const { enabled, setEnabled, handleThemeChange } = useTheme();
 
-  const location = useLocation();
-  const { isHomeActive } = useActiveLinks(location);
+  const { isHomeActive } = useActiveLinks();
 
   const { themeSwitcherClass, themeSwitcherTextClass } = useHeaderStyles(isHomeActive);
 

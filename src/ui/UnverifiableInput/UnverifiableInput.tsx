@@ -1,5 +1,4 @@
 import React, { ReactNode, FC } from 'react';
-import { useLocation } from 'react-router-dom';
 
 import { VariantInputs } from 'types';
 import { ICON_SIZES } from 'constants/iconSizes';
@@ -47,8 +46,7 @@ const UnverifiableInput: FC<InputProps> = ({
 
   const { name, type, value, placeholder, children } = inputData ?? {};
 
-  const location = useLocation();
-  const { isHomeActive } = useActiveLinks(location);
+  const { isHomeActive } = useActiveLinks();
   const { inputClass } = useHeaderStyles(isHomeActive);
 
   const isMobile = breakpointsForMarkup?.isMobile || breakpointsForMarkup?.isNothing;

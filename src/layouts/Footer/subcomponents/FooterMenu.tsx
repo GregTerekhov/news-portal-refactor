@@ -10,7 +10,7 @@ import { renderMenuItem } from '../assistants';
 const FooterMenu = () => {
   const { isAuthenticated } = useAuthRedux();
   const location = useLocation();
-  const { isAboutUs } = useActiveLinks(location);
+  const { isAboutUs } = useActiveLinks();
 
   useEffect(() => {
     const handleScrollToTop = () => {
