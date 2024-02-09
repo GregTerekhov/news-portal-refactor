@@ -1,27 +1,23 @@
 import React, { FC } from 'react';
 
+import { useNewsAPI } from 'reduxStore/hooks';
+
 import { plugImages } from 'constants/images';
 import { generateContentImages } from 'helpers';
 import { useCacheImage } from 'hooks';
-import { useAppSelector } from 'reduxStore/hooks';
-import { selectHasAPIError } from 'reduxStore/newsAPI';
 
 interface PlugImageProps {
   variant: string;
 }
 
 const PlugImage: FC<PlugImageProps> = ({ variant }) => {
-  const errorAPI = useAppSelector(selectHasAPIError);
+  const { errorAPI } = useNewsAPI();
+
   const isErrorAPI = errorAPI?.toString().includes('429');
 
   const devicePixelRatio = window.devicePixelRatio || 1;
 
-  const matchedPlugImage = generateContentImages(
-    plugImages,
-    devicePixelRatio,
-    // 'image/webp',
-    window.innerWidth,
-  );
+  const matchedPlugImage = generateContentImages(plugImages, devicePixelRatio, window.innerWidth);
 
   const imageUrl = useCacheImage(matchedPlugImage?.src || '');
 
@@ -29,7 +25,7 @@ const PlugImage: FC<PlugImageProps> = ({ variant }) => {
     <>
       {variant === 'page' ? (
         <div className='flex flex-col items-center justify-center'>
-          <p className='md:w-548px mb-10 text-center text-2xl font-bold tracking-smallTight text-darkBase transition-colors duration-500 dark:text-whiteBase md:text-5xl md:tracking-tighter'>
+          <p className='md:w-548px mb-10 text-center text-2xl font-bold tracking-smallTight text-darkBase transition-colors dark:text-whiteBase md:text-5xl md:tracking-tighter'>
             {`${
               isErrorAPI
                 ? 'It seems you have been send too much requests then its needed'

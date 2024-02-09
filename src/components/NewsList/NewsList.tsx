@@ -28,7 +28,7 @@ const NewsList: FC<Partial<NewsListProps>> = ({ currentItems, currentPage }) => 
         currentItems.map((newsItem: Partial<VotedItem>, index: number) => (
           <li
             key={newsItem.newsUrl}
-            className={`md:w-353px hg:w-442px h-655px md:h-700px relative w-72 overflow-hidden rounded-[10px] shadow-card transition-colors duration-500 dark:shadow-darkCard lg:w-395px ${
+            className={`md:w-353px hg:w-442px h-655px md:h-700px relative w-72 overflow-hidden rounded-[10px] shadow-card transition-colors dark:shadow-darkCard lg:w-395px ${
               index === 0 && 'md:col-start-1 md:row-start-1 lg:col-start-1'
             } ${index === 1 && 'lg:col-start-2 lg:row-start-1'}`}
           >

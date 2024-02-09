@@ -1,5 +1,5 @@
-import * as ScrollArea from '@radix-ui/react-scroll-area';
 import React, { FC, ReactElement, ReactNode } from 'react';
+import * as ScrollArea from '@radix-ui/react-scroll-area';
 
 type CustomScrollProps = {
   children: ReactElement | ReactNode;

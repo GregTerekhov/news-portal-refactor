@@ -10,13 +10,12 @@ import { Loader, PlugImage } from 'ui';
 
 const FavouritePage: FC<{}> = () => {
   const { isAuthenticated } = useAuthRedux();
-  const { allFavourites, isLoadingDBData, errorDB, dbSuccessMessage, getFavourites, getSavedNews } =
-    useDB();
+  const { allFavourites, isLoadingDBData, errorDB, getFavourites, getSavedNews } = useDB();
   const { hasResults } = useFiltersAction();
 
   const activeLinks = useActiveLinks();
   const { rebuildedNews } = useChooseRenderingNews({ activeLinks });
-  console.log('dbSuccessMessage', dbSuccessMessage);
+
   const navigate = useNavigate();
 
   useEffect(() => {

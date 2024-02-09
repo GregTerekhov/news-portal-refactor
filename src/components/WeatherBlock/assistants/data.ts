@@ -14,7 +14,7 @@ import {
 
 import {
   RenderTemperatureCell,
-  RenderWeatherIConCell,
+  RenderWeatherIconCell,
   RenderHumidityCell,
   RenderPressureCell,
   RenderWindSpeedCell,
@@ -136,7 +136,7 @@ export const getWeatherTableForHours = (): TableRows[] => {
       icon: 'icon-sun',
       iconSize: ICON_SIZES.mdIcon24,
       iconColorStyles: 'stroke-whiteBase fill-transparent',
-      renderCell: RenderWeatherIConCell,
+      renderCell: RenderWeatherIconCell,
     },
     {
       label: 'Humidity (%)',

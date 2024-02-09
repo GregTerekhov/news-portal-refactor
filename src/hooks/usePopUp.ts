@@ -69,6 +69,7 @@ const usePopUp = () => {
   );
 
   const toggleMenu = () => {
+    console.log('OpenMenuClick', isOpenMenu);
     setIsOpenMenu(!isOpenMenu);
     setIsScrollDisabled(!isScrollDisabled);
   };

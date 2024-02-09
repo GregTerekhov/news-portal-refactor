@@ -4,7 +4,6 @@ import { format } from 'date-fns';
 import ArrowButton from './ArrowButton';
 import GridCalendar from './GridCalendar';
 import WeekDays from './WeekDays';
-
 import { useCalendar } from '../hooks';
 
 interface CalendarContentProps {
@@ -16,9 +15,7 @@ const CalendarContent: FC<CalendarContentProps> = ({ variant, handleDateFilter }
   const { firstDayOfMonth, getPrevMonth, getNextMonth, getPrevYear, getNextYear } = useCalendar();
 
   return (
-    <div
-      className={`${variant === 'SearchBlock' ? 'w-346px' : 'w-250px'} absolute z-40 rounded-[20px] bg-dropdownBase px-4 pb-5 pt-4 shadow-card dark:bg-darkDropdown dark:shadow-darkCard`}
-    >
+    <div className='absolute z-40 w-full rounded-[20px] bg-dropdownBase px-4 pb-5 pt-4 shadow-card dark:bg-darkDropdown dark:shadow-darkCard'>
       <div className='mb-0.5 flex items-center justify-between py-[7px]'>
         <div className='flex items-center gap-2'>
           <ArrowButton ariaLabel='Previous year button' onClick={getPrevYear}>
@@ -44,6 +41,7 @@ const CalendarContent: FC<CalendarContentProps> = ({ variant, handleDateFilter }
         </div>
       </div>
       <WeekDays />
+
       <GridCalendar variant={variant} handleDateFilter={handleDateFilter} />
     </div>
   );

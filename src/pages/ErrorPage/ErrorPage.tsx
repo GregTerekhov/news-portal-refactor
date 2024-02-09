@@ -9,7 +9,7 @@ import { generateContentImages } from 'helpers';
 import { useCacheImage } from 'hooks';
 
 import { PrimaryButton } from 'ui';
-import { serverErrorsList } from './assistants/serverErrorsList';
+import { ErrorList, serverErrorsList } from './assistants';
 
 const ErrorPage: FC<{}> = () => {
   const devicePixelRatio = window.devicePixelRatio || 1;
@@ -22,26 +22,17 @@ const ErrorPage: FC<{}> = () => {
   const APIServerError = errorAPI && errorAPI >= 500;
   const DBServerError = errorDB && errorDB >= 500;
 
-  console.log(anyServerError, errorAPI, errorDB);
+  const renderPageContent = serverErrorsList.find((value: ErrorList) => {
+    if (APIServerError) {
+      return value.code === errorAPI;
+    }
+    if (DBServerError) {
+      return value.code === errorDB;
+    }
+    return;
+  });
 
-  const renderPageContent = serverErrorsList.find(
-    (value: { code: number; warning: string; message: string }) => {
-      if (APIServerError) {
-        return value.code === errorAPI;
-      }
-      if (DBServerError) {
-        return value.code === errorDB;
-      }
-      return;
-    },
-  );
-
-  const matchedErrorImage = generateContentImages(
-    errorImages,
-    devicePixelRatio,
-    // 'image/webp',
-    window.innerWidth,
-  );
+  const matchedErrorImage = generateContentImages(errorImages, devicePixelRatio, window.innerWidth);
   const imageUrl = useCacheImage(matchedErrorImage?.src || '');
 
   const handleGoHome = () => {
@@ -51,8 +42,6 @@ const ErrorPage: FC<{}> = () => {
   const handleGoBack = () => {
     navigate(-1);
   };
-
-  console.log(renderPageContent);
 
   return (
     <div className='lg:w-900px space-y-10 text-center lg:mx-auto'>

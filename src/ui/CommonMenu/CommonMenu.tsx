@@ -74,7 +74,7 @@ const CommonMenu: FC<CommonMenuProps> = ({ isOpen, navId, closeMenu }) => {
 
   return (
     <>
-      {isMobile ? (
+      {isMobile && isOpen ? (
         <MobileContainer isOpen={isOpen} navId={navId}>
           <MobileMenu navId={navId} links={links} handleLinkClick={handleLinkClick} />
           {navId === 'account-navigation' ? (

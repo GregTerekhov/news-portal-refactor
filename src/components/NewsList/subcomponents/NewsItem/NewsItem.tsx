@@ -17,9 +17,10 @@ interface NewsItemProps {
 }
 
 const NewsItem: FC<Partial<NewsItemProps>> = ({ liveNews = {} }) => {
+  const myButtonRef = React.createRef<HTMLButtonElement>();
+
   const { isAuthenticated } = useAuthRedux();
   const { isOpenModal, toggleModal, popUpRef } = usePopUp();
-  const myButtonRef = React.createRef<HTMLButtonElement>();
 
   const { isHomeActive, isArchiveActive } = useActiveLinks();
 
@@ -42,7 +43,7 @@ const NewsItem: FC<Partial<NewsItemProps>> = ({ liveNews = {} }) => {
       {liveNews && liveNews?.newsUrl && (
         <a
           rel='noopener noreferrer'
-          className='group block transition-colors duration-500'
+          className='group block transition-colors'
           href={liveNews?.newsUrl}
           target='_blank'
           onClick={isAuthenticated ? handleReadNews : undefined}
