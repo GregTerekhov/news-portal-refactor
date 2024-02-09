@@ -69,7 +69,7 @@ const NewsItem: FC<Partial<NewsItemProps>> = ({ liveNews = {} }) => {
               <SvgIcon svgName='icon-check' size={ICON_SIZES.smIcon18} className='fill-readBase' />
             </p>
           )}
-          <div className='relative flex h-[395px] items-center justify-center overflow-hidden rounded-[10px]'>
+          <div className='relative flex h-395px items-center justify-center overflow-hidden rounded-[10px]'>
             {liveNews && liveNews?.imgLink ? (
               <img
                 className='absolute h-full max-w-none rounded-xl object-cover'

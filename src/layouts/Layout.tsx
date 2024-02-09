@@ -60,7 +60,7 @@ const Layout: FC = () => {
     statusMessage === 'Email sent successfully' ||
     statusMessage === 'User sign-in success' ||
     statusMessage === 'Sign-out success';
-  console.log('statusMessage', statusMessage);
+
   return (
     <div
       className={`${

@@ -29,7 +29,7 @@ const PlugImage: FC<PlugImageProps> = ({ variant }) => {
     <>
       {variant === 'page' ? (
         <div className='flex flex-col items-center justify-center'>
-          <p className='text-darkBase dark:text-whiteBase text-2xl font-bold tracking-smallTight mb-10 text-center md:text-5xl md:tracking-tighter md:w-[548px] transition-colors duration-500'>
+          <p className='md:w-548px mb-10 text-center text-2xl font-bold tracking-smallTight text-darkBase transition-colors duration-500 dark:text-whiteBase md:text-5xl md:tracking-tighter'>
             {`${
               isErrorAPI
                 ? 'It seems you have been send too much requests then its needed'

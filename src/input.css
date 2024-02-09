@@ -4,9 +4,6 @@
 
 :root {
   font-family: 'Manrope', sans-serif;
-}
-
-:root {
   --background-color: #f4f4f4;
   --duration: 500ms;
 }
@@ -37,6 +34,6 @@ body {
 
 @layer components {
   .customScrollPosition {
-    @apply top-[10px] right-[5px] !important;
+    @apply right-[5px] top-[10px] !important;
   }
 }

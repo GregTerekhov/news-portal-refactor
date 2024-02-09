@@ -20,7 +20,7 @@ const NewsList: FC<Partial<NewsListProps>> = ({ currentItems, currentPage }) => 
   return (
     <ul className='mb-10 max-md:space-y-7 md:mb-12 md:grid md:grid-cols-2 md:gap-[30px] lg:mb-[60px] lg:grid-cols-3 lg:gap-x-8 lg:gap-y-10 hg:gap-10'>
       {currentPage && currentPage === 1 && (
-        <li className='overflow-hidden rounded-[10px] shadow-card transition-colors duration-500 dark:shadow-darkCard max-md:h-[515px] md:col-start-2 lg:col-start-3'>
+        <li className='max-md:h-515px overflow-hidden rounded-[10px] shadow-card transition-colors dark:shadow-darkCard md:col-start-2 lg:col-start-3'>
           {isWeatherLoading ? <Loader variant='element' /> : <WeatherBlock />}
         </li>
       )}
@@ -28,7 +28,7 @@ const NewsList: FC<Partial<NewsListProps>> = ({ currentItems, currentPage }) => 
         currentItems.map((newsItem: Partial<VotedItem>, index: number) => (
           <li
             key={newsItem.newsUrl}
-            className={`relative h-[655px] w-72 overflow-hidden rounded-[10px] shadow-card transition-colors duration-500 dark:shadow-darkCard md:h-[700px] md:w-[353px] lg:w-[395px] hg:w-[442px] ${
+            className={`md:w-353px hg:w-442px h-655px md:h-700px relative w-72 overflow-hidden rounded-[10px] shadow-card transition-colors duration-500 dark:shadow-darkCard lg:w-395px ${
               index === 0 && 'md:col-start-1 md:row-start-1 lg:col-start-1'
             } ${index === 1 && 'lg:col-start-2 lg:row-start-1'}`}
           >

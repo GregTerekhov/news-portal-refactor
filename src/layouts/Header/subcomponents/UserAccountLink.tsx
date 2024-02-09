@@ -21,7 +21,7 @@ const UserAccountLink: FC<UserAccountLinkProps> = ({ isHomeActive }) => {
       to='/account'
       className={`absolute right-40 top-1.5 flex items-center gap-3 lg:right-60 hg:text-xl  ${
         isHomeActive ? textClass : 'text-darkBase dark:text-whiteBase'
-      } group transition-colors duration-500 hover:text-accentBase hover:underline hover:decoration-accentBase`}
+      } group transition-colors duration-500 hover:text-accentBase dark:hover:text-accentBase`}
     >
       {user.name}
       <SvgIcon
@@ -30,7 +30,7 @@ const UserAccountLink: FC<UserAccountLinkProps> = ({ isHomeActive }) => {
         className={`${
           isHomeActive
             ? accountIconStyles
-            : 'fill-darkBase group-hover:fill-accentBase dark:fill-whiteBase dark:group-hover:fill-whiteBase'
+            : 'fill-darkBase group-hover:fill-accentBase dark:fill-whiteBase'
         }`}
       />
     </Link>

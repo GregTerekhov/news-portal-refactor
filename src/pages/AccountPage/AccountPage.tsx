@@ -25,7 +25,7 @@ const AccountPage: FC<{}> = () => {
     <div>
       <h2 className={`${commonHeadlineClass} mb-14 text-3xl leading-tighter`}>Your account</h2>
       <div className='flex flex-col items-end'>
-        <ul className='mb-6 w-52 space-y-6 md:w-80 md:space-y-10 lg:w-[600px]'>
+        <ul className='lg:w-600px mb-6 w-52 space-y-6 md:w-80 md:space-y-10'>
           {userInfoList.map(({ label, value }) => (
             <li key={label}>
               <h3 className={`${commonHeadlineClass} mb-2 md:text-2xl`}>{label}</h3>

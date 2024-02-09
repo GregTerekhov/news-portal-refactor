@@ -14,7 +14,7 @@ export const RenderTemperatureCell = (item: HourlyWeatherData): JSX.Element => {
 
 export const RenderWeatherIConCell = (item: HourlyWeatherData): JSX.Element => {
   return (
-    <td className='h-[35px]'>
+    <td className='h-35px'>
       <img
         className='cover'
         src={`https://openweathermap.org/img/wn/${item?.weather?.[0]?.['icon']}@2x.png`}

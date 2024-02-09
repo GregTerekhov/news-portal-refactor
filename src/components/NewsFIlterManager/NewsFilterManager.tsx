@@ -39,7 +39,7 @@ const NewsFilterManager: FC<{}> = () => {
         />
       </button>
       {showDropdown && (
-        <div>
+        <div className={`${showDropdown ? 'animate-accordion-down' : 'animate-accordion-up'}`}>
           {isHomeActive ? (
             <>
               <Accordeon position='filtersService' filtersBlock='Additional requests'>

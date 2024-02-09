@@ -62,7 +62,7 @@ const Header: FC<{}> = () => {
   return (
     <>
       <header
-        className={`fixed left-0 top-0 flex min-h-[81px] w-full items-center justify-center md:min-h-[106px] lg:min-h-[113px] ${
+        className={`min-h-81px md:min-h-106px lg:min-h-113px fixed left-0 top-0 flex w-full items-center justify-center ${
           isHomeActive
             ? headerClass
             : 'border-b border-solid border-fullDark/[.2] bg-whiteBase/[.8] dark:border-whiteBase/[.2] dark:bg-darkBackground/[.8]'

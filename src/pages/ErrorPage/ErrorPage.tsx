@@ -55,7 +55,7 @@ const ErrorPage: FC<{}> = () => {
   console.log(renderPageContent);
 
   return (
-    <div className='space-y-10 text-center lg:mx-auto lg:w-[900px]'>
+    <div className='lg:w-900px space-y-10 text-center lg:mx-auto'>
       {anyServerError ? (
         <h1 className='m-0 p-0 text-[100px] text-darkBase transition-colors duration-500 dark:text-whiteBase'>
           {renderPageContent?.code}

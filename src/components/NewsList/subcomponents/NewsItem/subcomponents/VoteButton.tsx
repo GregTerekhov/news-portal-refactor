@@ -26,7 +26,7 @@ const VoteButton: FC<VBProps> = ({ onHandleClick, isFavourite, buttonData }) => 
       type='button'
       className={`absolute bottom-3 right-2 z-20 flex items-center gap-1 rounded-3xl bg-contrastWhite px-3 py-1.5 ${onButHover} ${
         !isArchiveActive ? 'hover:bg-accentBase hover:stroke-whiteBase hover:text-whiteBase' : ''
-      } duration-250 text-small font-medium text-darkBase transition-colors`}
+      } text-small font-medium text-darkBase transition-colors`}
       onClick={onHandleClick}
     >
       {!isArchiveActive

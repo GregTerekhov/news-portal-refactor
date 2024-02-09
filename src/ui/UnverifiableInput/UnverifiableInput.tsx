@@ -108,13 +108,13 @@ const UnverifiableInput: FC<InputProps> = ({
           <div
             className={`${
               variant === VariantInputs.Header ? svgWrapperClass : 'left-3'
-            } absolute top-50% flex h-5 w-5 -translate-y-1/2 transform items-center justify-center`}
+            } absolute top-1/2 flex h-5 w-5 -translate-y-1/2 transform items-center justify-center`}
           >
             <SvgIcon svgName={svgName} size={ICON_SIZES.smIcon20} className={`${svgFill}`} />
           </div>
         )}
         <input
-          className={` ${inputGeometry} rounded-3xl border border-solid font-header text-small leading-mediumRelaxed tracking-bigWide outline-0 transition-colors duration-500 focus:outline-0 md:text-base md:leading-moreRelaxed md:tracking-wide ${placeholderColor} ${inputBorder} ${inputBg} ${caretColor} ${textColor} ${checkboxStyles}`}
+          className={` ${inputGeometry} rounded-3xl border border-solid font-header text-small leading-mediumRelaxed tracking-bigWide outline-0 transition-colors focus:outline-0 md:text-base md:leading-moreRelaxed md:tracking-wide ${placeholderColor} ${inputBorder} ${inputBg} ${caretColor} ${textColor} ${checkboxStyles}`}
           id={name}
           name={name}
           type={type}

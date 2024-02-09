@@ -16,7 +16,9 @@ const CalendarContent: FC<CalendarContentProps> = ({ variant, handleDateFilter }
   const { firstDayOfMonth, getPrevMonth, getNextMonth, getPrevYear, getNextYear } = useCalendar();
 
   return (
-    <div className='absolute z-40 w-[250px] rounded-[20px] bg-dropdownBase px-4 pb-5 pt-4 shadow-card dark:bg-darkDropdown dark:shadow-darkCard'>
+    <div
+      className={`${variant === 'SearchBlock' ? 'w-346px' : 'w-250px'} absolute z-40 rounded-[20px] bg-dropdownBase px-4 pb-5 pt-4 shadow-card dark:bg-darkDropdown dark:shadow-darkCard`}
+    >
       <div className='mb-0.5 flex items-center justify-between py-[7px]'>
         <div className='flex items-center gap-2'>
           <ArrowButton ariaLabel='Previous year button' onClick={getPrevYear}>

@@ -24,7 +24,7 @@ const FooterMenu = () => {
 
   return (
     <>
-      <nav className={`${isAuthenticated ? 'w-full md:w-96 lg:w-[600px]' : 'mb-4 md:mb-10'}`}>
+      <nav className={`${isAuthenticated ? 'lg:w-600px w-full md:w-96' : 'mb-4 md:mb-10'}`}>
         <ul
           className={`${
             isAuthenticated

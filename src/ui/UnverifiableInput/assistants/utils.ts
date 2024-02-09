@@ -34,7 +34,7 @@ export const generateInputStyles = ({
 }: UnverifiableInputStylesProps) => {
   const inputStyles: Styles = {
     [VariantInputs.Header]: {
-      inputGeometry: `md:w-48 lg:w-72 md:py-[5px] md:pl-11 md:pr-3 transition-transform transition-transform border border-solid w-[173px] ring-color-whiteBase outline-0 focus:border-whiteBase ${
+      inputGeometry: `md:w-48 lg:w-72 md:py-[5px] md:pl-11 md:pr-3 transition-transform transition-transform border border-solid w-173px ring-color-whiteBase outline-0 focus:border-whiteBase ${
         isMobile ? (touched ? 'translate-x-0  py-[5px] pl-11 pr-3' : 'translate-x-full  p-0') : ''
       }`,
       inputBorder: `${inputClass.inputBorder} focus:ring-0 focus:outline-0`,

@@ -20,7 +20,7 @@ const AccountManagePage: FC<{}> = () => {
         Account settings
       </h2>
       <div className='flex items-center justify-end'>
-        <div className='w-52 space-y-2 md:w-80 md:space-y-6 lg:w-[600px]'>
+        <div className='lg:w-600px w-52 space-y-2 md:w-80 md:space-y-6'>
           <UpdateEmail />
           <UpdatePassword />
           <LinkedAccounts />

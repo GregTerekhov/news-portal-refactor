@@ -31,10 +31,10 @@ const Modal: FC<ModalProps> = ({ children, closeModal, modalRef, variant }) => {
       <RemoveScroll enabled={isOpenModal}>
         {modalRoot &&
           createPortal(
-            <div className='fixed left-0 top-0 z-[60] flex h-screen w-screen items-center justify-center overflow-auto bg-whiteBase/[.4] backdrop-blur-sm transition-colors duration-500 before:fixed before:left-0 before:top-0 before:h-[81px] before:w-full before:content-[""] dark:bg-darkBackground/[.4]'>
+            <div className='before:h-81px fixed left-0 top-0 z-[60] flex h-screen w-screen items-center justify-center overflow-auto bg-whiteBase/[.4] backdrop-blur-sm transition-colors duration-500 before:fixed before:left-0 before:top-0 before:w-full before:content-[""] dark:bg-darkBackground/[.4]'>
               <div
                 ref={modalRef}
-                className={`absolute left-1/2 w-full -translate-x-1/2 transform bg-whiteBase dark:bg-darkBackground max-md:max-w-[288px] md:w-[600px] ${currentStyles.topPosition} rounded-xl border border-solid border-accentBase px-6 py-4 shadow-modal transition-colors duration-500 dark:border-whiteBase dark:shadow-darkCard md:px-8 md:pb-8`}
+                className={`max-md:max-w-288px md:w-600px absolute left-1/2 w-full -translate-x-1/2 transform bg-whiteBase dark:bg-darkBackground ${currentStyles.topPosition} rounded-xl border border-solid border-accentBase px-6 py-4 shadow-modal transition-colors duration-500 dark:border-whiteBase dark:shadow-darkCard md:px-8 md:pb-8`}
               >
                 <button
                   aria-label='Modal close button'
