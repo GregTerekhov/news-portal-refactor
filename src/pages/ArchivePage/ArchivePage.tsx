@@ -37,6 +37,12 @@ const ArchivePage: FC<{}> = () => {
     getHistoryLog();
   }, [getArchives, getHistoryLog]);
 
+  useEffect(() => {
+    if (dbSuccessMessage) {
+      document.body.style.overflow = 'auto';
+    }
+  });
+
   const organisedNews = organiseNewsByMonth(allArchive);
 
   const shouldShowLoader = isLoadingDBData;

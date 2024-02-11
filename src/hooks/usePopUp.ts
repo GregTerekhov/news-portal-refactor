@@ -14,6 +14,7 @@ const usePopUp = () => {
         if (isOpenModal) {
           setIsOpenModal(false);
           setIsScrollDisabled(false);
+          document.body.style.overflow = 'auto';
         }
         if (isOpenCalendar) {
           setIsOpenCalendar(false);
@@ -28,6 +29,8 @@ const usePopUp = () => {
       if (event.key === 'Escape') {
         if (isOpenModal) {
           setIsOpenModal(false);
+          setIsScrollDisabled(false);
+          document.body.style.overflow = 'auto';
         }
         if (isOpenCalendar) {
           setIsOpenCalendar(false);
@@ -50,8 +53,7 @@ const usePopUp = () => {
   useEffect(() => {
     if (isScrollDisabled) {
       document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = 'auto';
+      return;
     }
   }, [isScrollDisabled]);
 
@@ -71,6 +73,7 @@ const usePopUp = () => {
   const toggleMenu = () => {
     setIsOpenMenu(!isOpenMenu);
     setIsScrollDisabled(!isScrollDisabled);
+    document.body.style.overflow = 'auto';
   };
 
   const toggleCalendar = () => {

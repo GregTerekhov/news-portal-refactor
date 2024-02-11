@@ -46,7 +46,10 @@ const Modal: FC<ModalProps> = ({ children, closeModal, modalRef, variant }) => {
                     <button
                       aria-label='Modal close button'
                       className='absolute right-4 top-4 flex items-center justify-center'
-                      onClick={closeModal}
+                      onClick={(e) => {
+                        document.body.style.overflow = 'auto';
+                        closeModal(e);
+                      }}
                     >
                       <SvgIcon
                         svgName='icon-close'
