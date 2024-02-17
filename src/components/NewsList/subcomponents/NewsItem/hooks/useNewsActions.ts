@@ -4,7 +4,7 @@ import { useDB } from 'reduxStore/hooks';
 
 import { VotedItem } from 'types';
 
-import { useNotification } from 'contexts';
+import { useNotification, useScrollBodyContext } from 'contexts';
 
 type NewsActionHookProps = {
   isArchiveActive: boolean;
@@ -25,6 +25,7 @@ const useNewsActions = ({
 
   const { savedNews, updateSavedNews, addVotedNews, removeNews, removeFavouriteNews } = useDB();
   const { showToast } = useNotification();
+  const { setIsScrollDisabled } = useScrollBodyContext();
 
   useEffect(() => {
     if (changesHappened && savedNews) {
@@ -146,6 +147,7 @@ const useNewsActions = ({
 
     showToast(response.meta.requestStatus);
     setIsDeleted(true);
+    setIsScrollDisabled(false);
   };
 
   return {

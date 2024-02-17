@@ -1,10 +1,12 @@
+import { useScrollBodyContext } from 'contexts/ScrollBodyProvider';
 import { useCallback, useEffect, useRef, useState } from 'react';
 
 const usePopUp = () => {
   const [isOpenMenu, setIsOpenMenu] = useState<boolean>(false);
   const [isOpenModal, setIsOpenModal] = useState<boolean>(false);
   const [isOpenCalendar, setIsOpenCalendar] = useState<boolean>(false);
-  const [isScrollDisabled, setIsScrollDisabled] = useState<boolean>(false);
+
+  const { isScrollDisabled, setIsScrollDisabled } = useScrollBodyContext();
 
   const popUpRef = useRef<HTMLDivElement | null>(null);
 
@@ -28,6 +30,7 @@ const usePopUp = () => {
       if (event.key === 'Escape') {
         if (isOpenModal) {
           setIsOpenModal(false);
+          setIsScrollDisabled(false);
         }
         if (isOpenCalendar) {
           setIsOpenCalendar(false);
@@ -47,14 +50,6 @@ const usePopUp = () => {
     };
   }, [handleKeyDown, handleWindowClick, isOpenModal, isOpenCalendar]);
 
-  useEffect(() => {
-    if (isScrollDisabled) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = 'auto';
-    }
-  }, [isScrollDisabled]);
-
   const toggleModal = useCallback(
     (e: React.MouseEvent<HTMLButtonElement>, preventDefault: boolean = true) => {
       if (preventDefault) {
@@ -69,7 +64,6 @@ const usePopUp = () => {
   );
 
   const toggleMenu = () => {
-    console.log('OpenMenuClick', isOpenMenu);
     setIsOpenMenu(!isOpenMenu);
     setIsScrollDisabled(!isScrollDisabled);
   };

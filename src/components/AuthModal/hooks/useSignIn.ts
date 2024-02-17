@@ -6,7 +6,7 @@ import { useAuthRedux } from 'reduxStore/hooks';
 
 import { AuthRequestWithoutName } from 'types';
 
-import { useNotification } from 'contexts';
+import { useNotification, useScrollBodyContext } from 'contexts';
 import { usePopUp } from 'hooks';
 
 import {
@@ -21,6 +21,7 @@ const useSignIn = () => {
   const [isChecked, setIsChecked] = useState<boolean>(getCheckboxState());
 
   const { showToast } = useNotification();
+  const { setIsScrollDisabled } = useScrollBodyContext();
   const { login } = useAuthRedux();
   const { toggleModal } = usePopUp();
 
@@ -98,6 +99,7 @@ const useSignIn = () => {
     });
 
     toggleModal;
+    setIsScrollDisabled(false);
   };
 
   const signInInputs: Array<AuthInputs> = [
