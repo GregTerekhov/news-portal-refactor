@@ -28,4 +28,5 @@ export type SignUpRequest = Required<MainCredentials>;
 export type AuthRequestWithoutName = Required<Omit<MainCredentials, 'name'>>;
 export type SendEmailRequest = Required<Pick<MainCredentials, 'email'>>;
 export type RecoveryPasswordChange = Required<Pick<AdditionalCredentials, 'newPassword'>>;
+export type ChangePasswordValues = Required<Omit<ExtendedUpdatePasswordRequest, 'password'>>;
 export type UpdateThemeRequest = Required<Pick<AdditionalCredentials, 'updatedTheme'>>;

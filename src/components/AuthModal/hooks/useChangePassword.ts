@@ -3,27 +3,14 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 
 import { useAuthRedux } from 'reduxStore/hooks';
 
-import type { SendEmailRequest } from 'types';
+import { ChangePasswordValues, AuthInputs } from 'types';
 import { useNotification } from 'contexts';
 
-import { changePasswordSchema, recoveryPasswordSchema } from '../assistants';
-import { AuthInputs } from '../types';
+import { changePasswordSchema } from '../assistants';
 
-interface RecoveryInputsValues {
-  newPassword: string;
-  confirmPassword: string;
-}
-
-const useForgotPassword = () => {
-  const { sendEmailForRecovery, changePassword } = useAuthRedux();
+const useChangePassword = () => {
+  const { changePassword } = useAuthRedux();
   const { showToast } = useNotification();
-
-  const {
-    handleSubmit: handleRecoveryPasswordSubmit,
-    register: registerRecovery,
-    resetField,
-    formState: { errors: recoveryPasswordErrors },
-  } = useForm<SendEmailRequest>({ resolver: yupResolver(recoveryPasswordSchema) });
 
   const {
     handleSubmit: handleChangePasswordSubmit,
@@ -31,25 +18,11 @@ const useForgotPassword = () => {
     reset,
     getValues,
     formState: { errors },
-  } = useForm<RecoveryInputsValues>({
+  } = useForm<ChangePasswordValues>({
     resolver: yupResolver(changePasswordSchema),
   });
 
-  const recoveryPasswordSubmitHandler: SubmitHandler<SendEmailRequest> = async (data, e) => {
-    e?.stopPropagation();
-    e?.preventDefault();
-
-    try {
-      const response = await sendEmailForRecovery(data);
-
-      showToast(response.meta.requestStatus);
-    } catch (error) {
-      console.error('Error during sending email for recovery password', error);
-    }
-    resetField('email');
-  };
-
-  const changePasswordSubmitHandler: SubmitHandler<RecoveryInputsValues> = async (data) => {
+  const changePasswordSubmitHandler: SubmitHandler<ChangePasswordValues> = async (data) => {
     try {
       const { newPassword } = data; // обирання необхідного для відправки поля
       const dataToSend = { newPassword };
@@ -90,10 +63,6 @@ const useForgotPassword = () => {
   ];
 
   return {
-    recoveryPasswordErrors,
-    registerRecovery,
-    handleRecoveryPasswordSubmit,
-    recoveryPasswordSubmitHandler,
     changePasswordInputs,
     handleChangePasswordSubmit,
     registerChangePassword,
@@ -101,4 +70,4 @@ const useForgotPassword = () => {
   };
 };
 
-export default useForgotPassword;
+export default useChangePassword;

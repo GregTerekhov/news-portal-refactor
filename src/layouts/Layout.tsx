@@ -54,7 +54,7 @@ const Layout: FC = () => {
     (isFavoriteActive && allFavourites && allFavourites.length === 0) ||
     (isReadActive && allReads && allReads.length === 0) ||
     (isArchiveActive && allArchive && allArchive.length === 0) ||
-    isAccountPage;
+    isAccountPages;
 
   const showSuccessToast =
     statusMessage === 'Email sent successfully' ||
@@ -111,7 +111,6 @@ const Layout: FC = () => {
         </section>
       </main>
       {!isErrorPage && <Footer />}
-      {/* {showSuccessToast && <ToastSuccess variant='non-interactive' />} */}
       {showSuccessToast && <Toast variant='non-interactive' status='success' />}
     </div>
   );

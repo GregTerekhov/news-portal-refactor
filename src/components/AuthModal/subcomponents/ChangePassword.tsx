@@ -4,7 +4,7 @@ import { VariantButton, VariantSwitcher, VariantVerifiableInputs } from 'types';
 
 import { PrimaryButton, ThemeSwitcher, VerifiableInput } from 'ui';
 
-import { useForgotPassword } from '../hooks';
+import { useChangePassword } from '../hooks';
 
 const ChangePassword: FC = () => {
   const {
@@ -12,7 +12,7 @@ const ChangePassword: FC = () => {
     handleChangePasswordSubmit,
     changePasswordSubmitHandler,
     registerChangePassword,
-  } = useForgotPassword();
+  } = useChangePassword();
 
   return (
     <>

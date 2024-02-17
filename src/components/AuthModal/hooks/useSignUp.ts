@@ -3,14 +3,12 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 
 import { useAuthRedux } from 'reduxStore/hooks';
 
-import type { SignUpRequest } from 'types';
-
+import type { SignUpRequest, AuthInputs } from 'types';
 import { useNotification, useScrollBodyContext } from 'contexts';
 
 import { usePopUp } from 'hooks';
 
 import { signUpSchema } from '../assistants';
-import { AuthInputs } from '../types';
 
 const useSignUp = () => {
   const { setOpenToast } = useNotification();
