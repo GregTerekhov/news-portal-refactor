@@ -9,7 +9,7 @@ async function encryptData(userData: Record<string, string>, key: CryptoKey): Pr
     const userDataString = JSON.stringify(userData);
     const iv = window.crypto.getRandomValues(new Uint8Array(12));
 
-    console.log('iv-encoded', iv);
+    // console.log('iv-encoded', iv);
     const encryptedData = await window.crypto.subtle.encrypt(
       { name: 'AES-GCM', iv },
       key,
@@ -18,7 +18,7 @@ async function encryptData(userData: Record<string, string>, key: CryptoKey): Pr
 
     const encryptedArray = new Uint8Array(encryptedData);
 
-    console.log('encryptedData', encryptedData);
+    // console.log('encryptedData', encryptedData);
     let combined = new Uint8Array(iv.length + encryptedArray.byteLength);
 
     combined.set(iv);
@@ -27,7 +27,7 @@ async function encryptData(userData: Record<string, string>, key: CryptoKey): Pr
     const base64String = btoa(
       new Uint8Array(combined).reduce((data, byte) => data + String.fromCharCode(byte), ''),
     );
-    console.log('base64String', base64String);
+    // console.log('base64String', base64String);
 
     return base64String;
   } catch (error) {
@@ -44,8 +44,8 @@ async function decryptData(encryptedData: string, key: CryptoKey): Promise<Recor
     const iv = uint8Array.slice(0, 12);
     const encryptedBytes = uint8Array.slice(12);
 
-    console.log('iv-decoded', iv);
-    console.log('encryptedBytes', encryptedBytes);
+    // console.log('iv-decoded', iv);
+    // console.log('encryptedBytes', encryptedBytes);
 
     const decryptedDataBuffer = await new Promise<ArrayBuffer>((resolve, reject) => {
       window.crypto.subtle
@@ -77,13 +77,13 @@ async function generateEncryptionKey(): Promise<CryptoKey> {
     ['encrypt', 'decrypt'],
   );
 
-  console.log('generatedKey', generatedKey);
+  // console.log('generatedKey', generatedKey);
 
   // Конвертування CryptoKey у JSON-serializable формат (JWK)
   const keyAsJson = await crypto.subtle.exportKey('jwk', generatedKey);
   const keyAsString = JSON.stringify(keyAsJson);
 
-  console.log('keyAsString', keyAsString);
+  // console.log('keyAsString', keyAsString);
 
   localStorage.setItem('encryptionKey', keyAsString);
 
@@ -94,7 +94,7 @@ async function generateEncryptionKey(): Promise<CryptoKey> {
 async function importStoredKey(keyString: string): Promise<CryptoKey | null> {
   try {
     const rawKey = JSON.parse(keyString);
-    console.log('rawKey', rawKey);
+    // console.log('rawKey', rawKey);
     const key = await crypto.subtle.importKey(
       'jwk',
       rawKey,
@@ -102,7 +102,7 @@ async function importStoredKey(keyString: string): Promise<CryptoKey | null> {
       true,
       ['encrypt', 'decrypt'],
     );
-    console.log('key', key);
+    // console.log('key', key);
     return key;
   } catch (error) {
     console.error('Error importing key from string:', error);

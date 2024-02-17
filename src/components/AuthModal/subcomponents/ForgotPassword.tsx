@@ -3,7 +3,7 @@ import React, { FC } from 'react';
 import { VariantVerifiableInputs } from 'types';
 
 import { VerifiableInput } from 'ui';
-import { useForgotPassword } from '../hooks';
+import { useSendEmail } from '../hooks';
 
 interface SignInProps {
   handleShowRecoveryInput: () => void;
@@ -16,7 +16,7 @@ const ForgotPassword: FC<SignInProps> = ({ handleShowRecoveryInput, isShowRecove
     registerRecovery,
     handleRecoveryPasswordSubmit,
     recoveryPasswordSubmitHandler,
-  } = useForgotPassword();
+  } = useSendEmail();
 
   return (
     <div className='text-center'>

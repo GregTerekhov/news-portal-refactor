@@ -8,6 +8,8 @@ import { useActiveLinks, useAdditionalRequest, useHeaderStyles, usePopUp } from 
 
 import { SvgIcon, ThemeSwitcher, UnverifiableInput } from 'ui';
 import AuthButton from './Auth';
+import MainMenu from './MainMenu';
+import { AccountMenu } from 'layouts/subcomponents';
 
 interface HeaderContentProps {
   touched: boolean;
@@ -60,7 +62,7 @@ const AuthenticatedHeaderContent: FC<HeaderContentProps> = ({
                 !isAccountPages ? 'mobile' : 'account'
               } menu button`}
               type='button'
-              className='h-6 w-6 md:hidden'
+              className={`${isOpenMenu ? 'z-50' : 'h-6 w-6 md:hidden'}`}
               onClick={() => {
                 toggleMenu();
                 resetFilters();
@@ -84,6 +86,8 @@ const AuthenticatedHeaderContent: FC<HeaderContentProps> = ({
           </div>
         )}
       </div>
+      {isOpenMenu && <MainMenu isOpen={isOpenMenu} closeMenu={toggleMenu} />}
+      {isOpenMenu && isAccountPages && <AccountMenu isOpen={isOpenMenu} closeMenu={toggleMenu} />}
     </>
   );
 };

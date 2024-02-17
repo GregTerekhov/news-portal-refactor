@@ -4,7 +4,7 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 
 import { useAuthRedux } from 'reduxStore/hooks';
 
-import { AuthRequestWithoutName } from 'types';
+import { AuthRequestWithoutName, AuthInputs } from 'types';
 
 import { useNotification, useScrollBodyContext } from 'contexts';
 import { usePopUp } from 'hooks';
@@ -15,7 +15,6 @@ import {
   saveUserDataToLocalStorage,
   signInSchema,
 } from '../assistants';
-import { AuthInputs } from '../types';
 
 const useSignIn = () => {
   const [isChecked, setIsChecked] = useState<boolean>(getCheckboxState());
