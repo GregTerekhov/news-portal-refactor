@@ -71,7 +71,7 @@ const Dropdown: FC<DropdownProps> = ({
             isOpen={open}
             orientation='vertical'
             className={`absolute flex ${
-              label === 'Time period' ? 'max-h-[225px]' : 'h-[225px]'
+              label === 'Time period' ? 'max-h-225px' : 'h-225px'
             } z-40 w-full overflow-hidden  rounded-[20px] bg-dropdownBase py-[10px] shadow-card dark:bg-darkDropdown dark:shadow-darkCard`}
           >
             <Menu.Items>

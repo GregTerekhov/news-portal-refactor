@@ -5,7 +5,8 @@ import { useAuthRedux } from 'reduxStore/hooks';
 
 import type { SignUpRequest } from 'types';
 
-import { useNotification } from 'contexts';
+import { useNotification, useScrollBodyContext } from 'contexts';
+
 import { usePopUp } from 'hooks';
 
 import { signUpSchema } from '../assistants';
@@ -13,6 +14,7 @@ import { AuthInputs } from '../types';
 
 const useSignUp = () => {
   const { setOpenToast } = useNotification();
+  const { setIsScrollDisabled } = useScrollBodyContext();
   const { register, login } = useAuthRedux();
   const { toggleModal } = usePopUp();
 
@@ -57,6 +59,7 @@ const useSignUp = () => {
       password: '',
     });
     toggleModal;
+    setIsScrollDisabled(false);
   };
 
   const signUpInputs: Array<AuthInputs> = [

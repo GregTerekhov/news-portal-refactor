@@ -1,45 +1,20 @@
-import { AxiosHeaders } from 'axios';
 import { Middleware } from '@reduxjs/toolkit';
 
-const serializeHeaders = (headers: AxiosHeaders) => {
-  const headersObject: Record<string, string> = {};
-  for (const [key, value] of headers.entries()) {
-    headersObject[key] = value;
-  }
-  // headers.forEach((value, key) => {
-  //   headersObject[key] = value;
-  // });
-  return headersObject;
-};
-
-const serializePayload = (payload: any) => {
-  if (payload && payload.headers instanceof Headers) {
-    return {
-      ...payload,
-      headers: serializeHeaders(payload.headers),
-    };
-  }
-  return payload;
-};
-
 export const nonSerializableMiddleware: Middleware = () => (next) => (action) => {
-  const serializableAction = {
-    ...action,
-    payload: serializePayload(action.payload),
-  };
+  if (action.error && action.payload && action.payload.response) {
+    const { status, data, headers } = action.payload.response;
 
-  return next(serializableAction);
+    const serializableAction = {
+      ...action,
+      payload: {
+        status,
+        message: data ? data.message : undefined,
+        headers: headers ? headers.toJSON() : undefined,
+      },
+    };
+
+    return next(serializableAction);
+  }
+
+  return next(action);
 };
-
-// const nonSerializableMiddleware: Middleware = () => (next) => (action) => {
-//   if (action.payload && action.payload.headers instanceof Headers) {
-//     const headers = serializeHeaders(action.payload.headers);
-//     const modifiedPayload = { ...action.payload, headers };
-//     const modifiedAction = { ...action, payload: modifiedPayload };
-//     return next(modifiedAction);
-//   }
-
-//   return next(action);
-// };
-
-// export default nonSerializableMiddleware;

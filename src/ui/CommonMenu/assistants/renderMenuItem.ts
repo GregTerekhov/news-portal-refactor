@@ -1,6 +1,5 @@
+import { MenuItem } from 'types';
 import { ActiveLinks } from 'hooks';
-
-import { MenuItem } from '../types';
 
 type MenuItemProps = {
   activeLinks: ActiveLinks;

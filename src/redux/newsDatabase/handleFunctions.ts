@@ -10,9 +10,10 @@ export const handlePending = (state: NewsDBState) => {
   state.hasError = null;
 };
 
-export const handleFulfilled = (state: NewsDBState) => {
+export const handleFulfilled = (state: NewsDBState, action: PayloadAction<any, string, any>) => {
   state.isLoading = false;
   state.hasError = null;
+  state.message = action.payload.message;
 };
 
 export const handleRejected = (state: NewsDBState, action: PayloadAction<unknown, string, any>) => {

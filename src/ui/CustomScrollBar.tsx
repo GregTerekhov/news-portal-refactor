@@ -1,5 +1,5 @@
-import * as ScrollArea from '@radix-ui/react-scroll-area';
 import React, { FC, ReactElement, ReactNode } from 'react';
+import * as ScrollArea from '@radix-ui/react-scroll-area';
 
 type CustomScrollProps = {
   children: ReactElement | ReactNode;
@@ -12,12 +12,12 @@ const CustomScrollBar: FC<CustomScrollProps> = ({ children, isOpen, orientation,
   return (
     isOpen && (
       <ScrollArea.Root type='auto' className={`${className}`}>
-        <ScrollArea.Viewport className='w-full h-full rounded'>{children}</ScrollArea.Viewport>
+        <ScrollArea.Viewport className='h-full w-full rounded'>{children}</ScrollArea.Viewport>
         <ScrollArea.Scrollbar
-          className='inline-block max-h-customScrollHeight rounded-full bg-dropdownBase data-[orientation=vertical]:w-2.5 customScrollPosition'
+          className='customScrollPosition inline-block max-h-customScrollHeight rounded-full bg-dropdownBase data-[orientation=vertical]:w-2.5'
           orientation={orientation}
         >
-          <ScrollArea.Thumb className="flex-1 bg-accentBase rounded-[10px] relative before:content-[''] before:absolute before:top-1/2 before:left-1/2 before:-translate-x-1/2 before:-translate-y-1/2 before:w-full before:h-full before:min-w-[44px] before:min-h-[44px]" />
+          <ScrollArea.Thumb className="relative flex-1 rounded-[10px] bg-accentBase before:absolute before:left-1/2 before:top-1/2 before:h-full before:min-h-11 before:w-full before:min-w-11 before:-translate-x-1/2 before:-translate-y-1/2 before:content-['']" />
         </ScrollArea.Scrollbar>
         <ScrollArea.Corner className='bg-accentBase' />
       </ScrollArea.Root>

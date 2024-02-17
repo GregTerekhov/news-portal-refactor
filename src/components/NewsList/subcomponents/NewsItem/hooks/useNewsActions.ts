@@ -2,9 +2,9 @@ import { useCallback, useEffect, useState } from 'react';
 
 import { useDB } from 'reduxStore/hooks';
 
-import { DeleteNewsResponse, VotedItem } from 'types';
+import { VotedItem } from 'types';
 
-import { useNotification } from 'contexts';
+import { useNotification, useScrollBodyContext } from 'contexts';
 
 type NewsActionHookProps = {
   isArchiveActive: boolean;
@@ -24,7 +24,8 @@ const useNewsActions = ({
   const [isDeleted, setIsDeleted] = useState<boolean>(false);
 
   const { savedNews, updateSavedNews, addVotedNews, removeNews, removeFavouriteNews } = useDB();
-  const { setOpenToast } = useNotification();
+  const { showToast } = useNotification();
+  const { setIsScrollDisabled } = useScrollBodyContext();
 
   useEffect(() => {
     if (changesHappened && savedNews) {
@@ -144,13 +145,9 @@ const useNewsActions = ({
     e.preventDefault();
     const response = await removeNews(id);
 
-    const payload = response.payload as DeleteNewsResponse;
-    const { message } = payload;
-
-    if (message && message === 'Remove news success') {
-      setOpenToast(true);
-      setIsDeleted(true);
-    }
+    showToast(response.meta.requestStatus);
+    setIsDeleted(true);
+    setIsScrollDisabled(false);
   };
 
   return {

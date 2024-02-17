@@ -1,4 +1,4 @@
-type ErrorList = {
+export type ErrorList = {
   code: number;
   warning: string;
   message: string;

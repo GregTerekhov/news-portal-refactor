@@ -1,6 +1,5 @@
 import React, { FC } from 'react';
-// import axios from 'axios';
-import { useLocation } from 'react-router-dom';
+import axios from 'axios';
 import { useGoogleLogin } from '@react-oauth/google';
 
 import { useAuthRedux } from 'reduxStore/hooks';
@@ -13,9 +12,9 @@ import { PrimaryButton } from 'ui';
 
 import { useFacebookLogin } from './hooks';
 
-// type VerifiedGoogleEmail = {
-//   email: string;
-// };
+type VerifiedGoogleEmail = {
+  email: string;
+};
 
 const LinkedAccounts: FC<{}> = () => {
   const { breakpointsForMarkup } = useWindowWidth() ?? {
@@ -23,8 +22,7 @@ const LinkedAccounts: FC<{}> = () => {
   };
   const { haveAccounts } = useAuthRedux();
 
-  const location = useLocation();
-  const { isManageAccountPage } = useActiveLinks(location);
+  const { isManageAccountPage } = useActiveLinks();
 
   const { handleFacebookLogin, isLoading } = useFacebookLogin();
 
@@ -35,18 +33,18 @@ const LinkedAccounts: FC<{}> = () => {
       console.log('codeResponse', codeResponse);
 
       // -------це логіка, яку треба буде розкоментувати після готовності беку НЕ ВИДАЛЯТИ!!!----------
-      // try {
-      //   const userInfo: VerifiedGoogleEmail = await axios
-      //     .get('https://www.googleapis.com/oauth2/v3/userinfo', {
-      //       headers: { Authorization: `Bearer ${codeResponse.access_token}` },
-      //     })
-      //     .then((res) => res.data);
-      //   console.log('userInfo', userInfo);
-      //   // enterWithGoogle({ email: userInfo.email });
-      // } catch (error) {
-      //   console.log(error);
-      //   alert('Failed to login');
-      // }
+      try {
+        const userInfo: VerifiedGoogleEmail = await axios
+          .get('https://www.googleapis.com/oauth2/v3/userinfo', {
+            headers: { Authorization: `Bearer ${codeResponse.access_token}` },
+          })
+          .then((res) => res.data);
+        console.log('userInfo', userInfo);
+        // enterWithGoogle({ email: userInfo.email });
+      } catch (error) {
+        console.log(error);
+        alert('Failed to login');
+      }
     },
     onError: (error) => {
       console.log(error);
@@ -54,7 +52,7 @@ const LinkedAccounts: FC<{}> = () => {
   });
   const hasConnectedAccount = google || facebook || apple;
   const isMobile = breakpointsForMarkup?.isNothing || breakpointsForMarkup?.isMobile;
-
+  // 'https://news-webapp-express.onrender.com/api/auth/google', - шлях до беку на redirect
   const accountButtons = [
     {
       svgName: 'icon-google',

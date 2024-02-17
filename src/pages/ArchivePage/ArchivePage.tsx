@@ -2,10 +2,8 @@ import React, { FC, useEffect } from 'react';
 
 import { useAuthRedux, useDB } from 'reduxStore/hooks';
 
-import { useNotification } from 'contexts';
-
-import { NewsList } from 'components';
-import { Accordeon, Loader, Notification, PlugImage } from 'ui';
+import { NewsList, Toast } from 'components';
+import { Accordeon, Loader, PlugImage } from 'ui';
 
 import { organiseNewsByMonth } from './assistants';
 import { ArchiveHistoryLog } from './subcomponents';
@@ -22,8 +20,6 @@ const ArchivePage: FC<{}> = () => {
     getArchives,
   } = useDB();
   const { isAuthenticated } = useAuthRedux();
-  const { openToast, setOpenToast } = useNotification();
-
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -59,14 +55,8 @@ const ArchivePage: FC<{}> = () => {
           </>
         )}
         {!shouldShowLoader && !shouldShowContent && <PlugImage variant='page' />}
-        {openToast && dbSuccessMessage === 'Remove news success' && (
-          <Notification
-            variant='non-interactive'
-            openToast={openToast}
-            setOpenToast={setOpenToast}
-            title='Delete news'
-            description='News has been successfully deleted'
-          />
+        {dbSuccessMessage === 'Remove news success' && (
+          <Toast variant='interactive' status='success' />
         )}
       </>
     )

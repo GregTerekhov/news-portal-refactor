@@ -1,5 +1,4 @@
 import React, { FC } from 'react';
-import { useLocation } from 'react-router-dom';
 
 import { useAuthRedux } from 'reduxStore/hooks';
 
@@ -18,12 +17,12 @@ interface NewsItemProps {
 }
 
 const NewsItem: FC<Partial<NewsItemProps>> = ({ liveNews = {} }) => {
-  const { isAuthenticated } = useAuthRedux();
-  const { isOpenModal, toggleModal, popUpRef } = usePopUp();
   const myButtonRef = React.createRef<HTMLButtonElement>();
 
-  const location = useLocation();
-  const { isHomeActive, isArchiveActive } = useActiveLinks(location);
+  const { isAuthenticated } = useAuthRedux();
+  const { isOpenModal, toggleModal, popUpRef } = usePopUp();
+
+  const { isHomeActive, isArchiveActive } = useActiveLinks();
 
   const { isFavourite, hasRead, handleChangeFavourites, handleReadNews, handleDeleteNews } =
     useNews({ liveNews, isArchiveActive });
@@ -44,7 +43,7 @@ const NewsItem: FC<Partial<NewsItemProps>> = ({ liveNews = {} }) => {
       {liveNews && liveNews?.newsUrl && (
         <a
           rel='noopener noreferrer'
-          className='group block transition-colors duration-500'
+          className='group block transition-colors'
           href={liveNews?.newsUrl}
           target='_blank'
           onClick={isAuthenticated ? handleReadNews : undefined}
@@ -71,7 +70,7 @@ const NewsItem: FC<Partial<NewsItemProps>> = ({ liveNews = {} }) => {
               <SvgIcon svgName='icon-check' size={ICON_SIZES.smIcon18} className='fill-readBase' />
             </p>
           )}
-          <div className='relative flex h-[395px] items-center justify-center overflow-hidden rounded-[10px]'>
+          <div className='relative flex h-395px items-center justify-center overflow-hidden rounded-[10px]'>
             {liveNews && liveNews?.imgLink ? (
               <img
                 className='absolute h-full max-w-none rounded-xl object-cover'

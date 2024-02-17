@@ -7,7 +7,7 @@ export const commonPageItemClass = `${commonTransitionClass} ${commonBgContentCl
 
 export const pageClass = `${commonTransitionClass} w-screen max-h-sectionSmall md:max-h-sectionMedium lg:max-h-sectionLarge h-screen flex flex-col items-center animate-pulse bg-greyAlt/[.4] dark:bg-darkBackground/[.1]`;
 
-export const headerContainerPageClass = `${commonContainerClass} min-h-[81px] md:min-h-[106px] lg:min-h-[113px] -mt-[81px] md:-mt-[106px] lg:-mt-[113px] items-center`;
+export const headerContainerPageClass = `${commonContainerClass} min-h-81px md:min-h-106px lg:min-h-113px -mt-[81px] md:-mt-[106px] lg:-mt-[113px] items-center`;
 
 export const logoPageClass = `${commonTransitionClass} ${commonBgContentClass} w-16 h-8 md:w-20 md:h-11 lg:w-28 lg:h-14 rounded-3xl`;
 
@@ -18,28 +18,28 @@ export const mainContentPageClass = `${commonContainerClass} pt-4 md:pt-6 lg:pt-
 //variant === 'generalSection'
 const sectionGeometryTextClass = 'px-4 mb-5';
 
-export const sectionItemWrapperClass = `${commonTransitionClass} w-72 md:w-[353px] lg:w-[395px] hg:w-[442px] h-[630px] md:h-[675px] bg-contrastWhite/[.8] dark:bg-darkBase/[.4] overflow-hidden rounded-[10px] animate-pulse`;
+export const sectionItemWrapperClass = `${commonTransitionClass} w-72 md:w-353px lg:w-395px hg:w-442px h-630px md:h-675px bg-contrastWhite/[.8] dark:bg-darkBase/[.4] overflow-hidden rounded-[10px] animate-pulse`;
 
 export const sectionLineClasses = `${commonTransitionClass} rounded-3xl ${commonBgContentClass}`;
 export const sectionAbsoluteLineClasses = `${commonTransitionClass} absolute z-20 bg-greyBase/[.4] dark:bg-darkBackground/[.8]`;
 
 const sectionLines = [
   { width: 'w-28', height: 'h-6' },
-  { width: 'w-[168px] md:w-32', height: 'h-7' },
+  { width: 'w-168px md:w-32', height: 'h-7' },
   { width: 'w-3/4', height: 'h-6 md:h-9' },
   { width: 'w-full', height: 'h-6 md:h-9' },
   { width: 'w-3/5', height: 'h-6 md:h-9' },
   { width: 'w-full', height: 'h-3.5 md:h-4' },
   { width: 'w-full', height: 'h-3.5 md:h-4' },
   { width: 'w-4/5', height: 'h-3.5 md:h-4' },
-  { width: 'w-[74px]', height: 'h-3.5' },
-  { width: 'w-[70px]', height: 'h-3.5' },
+  { width: 'w-74px', height: 'h-3.5' },
+  { width: 'w-70px', height: 'h-3.5' },
 ];
 
 export const sectionGroups = [
   {
     lines: sectionLines.slice(0, 2),
-    className: 'relative h-[395px] mb-4 bg-greyAlt/[.8] dark:bg-whiteBase/[.1] rounded-[10px]',
+    className: 'relative h-395px mb-4 bg-greyAlt/[.8] dark:bg-whiteBase/[.1] rounded-[10px]',
   },
   {
     lines: sectionLines.slice(2, 5),
@@ -73,7 +73,7 @@ export const weatherInfoWrapperClass =
 export const currentWeatherInfoClass = `${commonWeatherClasses} w-28 h-2 md:h-4 lg:h-5 ${weatherRounded20Class}`;
 export const weatherFeelsLikeClass = `${commonWeatherClasses} w-10 h-2 md:h-3 lg:h-5 ${weatherRoundedFullClass}`;
 export const weatherCurrentLocationClass = `${commonWeatherClasses} w-28 h-10 md:h-16 lg:h-20 py-[9px] px-2 md:pt-[10px] md:pr-[17px] md:pb-[9px] md:pl-[7px] rounded-lg`;
-export const weatherIconClass = `${commonWeatherClasses} m-auto w-32 h-32 md:w-[165px] md:h-[165px] ${weatherRoundedFullClass}`;
+export const weatherIconClass = `${commonWeatherClasses} m-auto w-32 h-32 md:w-165px md:h-165px ${weatherRoundedFullClass}`;
 export const weatherDetailsBlockClass = 'flex flex-col items-center gap-4 md:gap-y-6 lg:w-4/5';
 export const weatherDayTextClass = `${commonWeatherClasses} w-28 h-8 md:h-10 ${weatherRounded20Class}`;
 export const weatherCurrentDateTextClass = `${commonWeatherClasses} w-56 lg:w-full h-6 md:h-8 ${weatherRounded20Class}`;

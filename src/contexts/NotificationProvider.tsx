@@ -7,14 +7,27 @@ type NotificationContextProps = {
 type NotificationContextValue = {
   openToast: boolean;
   setOpenToast: (value: boolean) => void;
+  showToast: (requestStatus: RequestStatus) => void;
 };
+
+type RequestStatus = 'fulfilled' | 'rejected';
 
 const NotificationContext = createContext<NotificationContextValue | undefined>(undefined);
 
 export const NotificationProvider = ({ children }: NotificationContextProps) => {
   const [openToast, setOpenToast] = useState<boolean>(false);
+
+  const showToast = (requestStatus: RequestStatus) => {
+    if (requestStatus === 'rejected') {
+      setOpenToast(true);
+      return;
+    } else {
+      setOpenToast(true);
+    }
+  };
+
   return (
-    <NotificationContext.Provider value={{ openToast, setOpenToast }}>
+    <NotificationContext.Provider value={{ openToast, setOpenToast, showToast }}>
       {children}
     </NotificationContext.Provider>
   );

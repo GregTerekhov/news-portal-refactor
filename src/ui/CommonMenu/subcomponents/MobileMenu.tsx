@@ -1,11 +1,10 @@
 import React, { FC } from 'react';
 import { NavLink } from 'react-router-dom';
 
+import { IMenuProps } from 'types';
 import { ICON_SIZES } from 'constants/iconSizes';
 
 import SvgIcon from '../../SvgIcon';
-
-import { IMenuProps } from '../types';
 
 const MobileMenu: FC<IMenuProps> = ({ navId, links, handleLinkClick }) => {
   return (

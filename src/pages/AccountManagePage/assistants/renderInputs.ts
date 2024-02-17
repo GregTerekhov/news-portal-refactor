@@ -103,7 +103,7 @@ export const renderEmailInputs = ({
       fieldValue: password,
       errors: errors?.password?.message,
       label: 'password',
-      iconName: 'icon-envelop',
+      iconName: 'icon-password',
       ariaInvalid: errors?.password ? true : false,
     });
   }

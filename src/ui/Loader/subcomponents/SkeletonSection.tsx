@@ -1,5 +1,4 @@
 import React, { FC } from 'react';
-import { useLocation } from 'react-router-dom';
 
 import { useActiveLinks } from 'hooks';
 
@@ -11,8 +10,7 @@ import {
 } from '../assistants';
 
 const SkeletonSection: FC<{}> = () => {
-  const location = useLocation();
-  const { isHomeActive } = useActiveLinks(location);
+  const { isHomeActive } = useActiveLinks();
 
   return (
     <>
@@ -29,7 +27,7 @@ const SkeletonSection: FC<{}> = () => {
                 className={`${width} ${height} ${
                   groupIndex === 0
                     ? index === 0
-                      ? 'top-10 left-0 rounded-r'
+                      ? 'left-0 top-10 rounded-r'
                       : 'bottom-3 right-2 rounded-3xl'
                     : ''
                 } ${groupIndex === 0 ? sectionAbsoluteLineClasses : sectionLineClasses}`}

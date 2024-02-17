@@ -1,7 +1,9 @@
 import { useMemo } from 'react';
-import { Location } from 'react-router-dom';
+import { Location, useLocation } from 'react-router-dom';
 
-const useActiveLinks = (location: Location) => {
+const useActiveLinks = () => {
+  const location: Location = useLocation();
+
   const validPaths = [
     '/',
     '/favourite',

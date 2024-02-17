@@ -1,3 +1,5 @@
+import { ActiveLinks } from 'hooks';
+
 export type ClickHandler =
   | ((() => void) | undefined)
   | ((event: React.FormEvent) => void)
@@ -40,4 +42,18 @@ export type InputLabel =
 export enum VariantVerifiableInputs {
   Auth = 'auth',
   Account = 'accountPage',
+}
+
+export type MenuItem = {
+  path: string;
+  label: string;
+  icon: string;
+  activeLink: boolean;
+};
+
+export interface IMenuProps {
+  navId: string;
+  links: MenuItem[];
+  handleLinkClick: () => void;
+  activeLinks?: ActiveLinks;
 }

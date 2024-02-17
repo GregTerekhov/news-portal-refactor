@@ -85,7 +85,7 @@ const VerifiableInput: FC<InputProps> = ({
           </button>
         ) : null}
         {hasIcon && (
-          <span className='absolute left-3 top-50% flex h-5 w-5 -translate-y-1/2 transform items-center justify-center'>
+          <span className='absolute left-3 top-1/2 flex h-5 w-5 -translate-y-1/2 transform items-center justify-center'>
             <SvgIcon svgName={svgName} size={ICON_SIZES.smIcon20} className='fill-accentBase' />
           </span>
         )}
@@ -103,7 +103,7 @@ const VerifiableInput: FC<InputProps> = ({
           </button>
         ) : null}
         <input
-          className={` ${geometry} ${bg} ${border} ${text} ${caret} ${placeholderStyle} $ rounded-3xl border border-solid font-header text-small leading-mediumRelaxed tracking-bigWide outline-0 transition-colors duration-500 md:text-base md:leading-moreRelaxed md:tracking-wide`}
+          className={` ${geometry} ${bg} ${border} ${text} ${caret} ${placeholderStyle} $ rounded-3xl border border-solid font-header text-small leading-mediumRelaxed tracking-bigWide outline-0 transition-colors md:text-base md:leading-moreRelaxed md:tracking-wide`}
           id={id + label}
           autoFocus={autoFocus}
           {...register(label)}

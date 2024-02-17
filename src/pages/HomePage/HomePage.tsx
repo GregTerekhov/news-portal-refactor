@@ -1,13 +1,13 @@
 import React, { FC, useEffect } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 import { useAuthRedux, useDB, useNewsAPI, useFiltersAction } from 'reduxStore/hooks';
 
 import { useNotification } from 'contexts';
-import { useActiveLinks, useChooseRenderingNews, useToast } from 'hooks';
+import { useActiveLinks, useChooseRenderingNews } from 'hooks';
 
-import { NewsList } from 'components';
-import { Loader, Notification, PlugImage } from 'ui';
+import { NewsList, Toast } from 'components';
+import { Loader, PlugImage } from 'ui';
 
 import { usePagination } from './hooks';
 import { Pagination } from './subcomponents';
@@ -26,11 +26,9 @@ const HomePage: FC = () => {
   } = useNewsAPI();
   const { isLoadingDBData, getSavedNews } = useDB();
   const { isAuthenticated, authError } = useAuthRedux();
-  const { openToast, setOpenToast } = useNotification();
-  const { showErrorToast } = useToast();
+  const { setOpenToast } = useNotification();
 
-  const location = useLocation();
-  const activeLinks = useActiveLinks(location);
+  const activeLinks = useActiveLinks();
 
   const { rebuildedNews } = useChooseRenderingNews({ activeLinks });
   const { hasResults } = useFiltersAction();
@@ -90,23 +88,8 @@ const HomePage: FC = () => {
           )}
         </>
       )}
-      {showErrorToastMessage && (
-        <Notification
-          openToast={openToast}
-          setOpenToast={setOpenToast}
-          title={`${authError?.message ? 'Authorisation error' : 'News API Error'}`}
-          description={authError?.message || errorAPI ? showErrorToast() : ''}
-        />
-      )}
-      {showToastResults && (
-        <Notification
-          variant='non-interactive'
-          openToast={openToast}
-          setOpenToast={setOpenToast}
-          title='Found news'
-          description={`There are ${rebuildedNews.length} news has been found`}
-        />
-      )}
+      {showErrorToastMessage && <Toast variant='interactive' status='error' />}
+      {showToastResults && <Toast variant='non-interactive' status='info' />}
     </>
   );
 };

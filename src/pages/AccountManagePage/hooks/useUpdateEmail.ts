@@ -3,7 +3,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 
 import { useAuthRedux } from 'reduxStore/hooks';
 
-import { AuthRequestWithoutName, UpdateCredentialsResponse } from 'types';
+import { AuthRequestWithoutName } from 'types';
 
 import { useNotification } from 'contexts';
 
@@ -11,7 +11,7 @@ import { renderEmailInputs, updateEmailSchema } from '../assistants';
 
 const useUpdateEmail = () => {
   const { updateEmail } = useAuthRedux();
-  const { setOpenToast } = useNotification();
+  const { showToast } = useNotification();
 
   const {
     handleSubmit,
@@ -33,16 +33,8 @@ const useUpdateEmail = () => {
   const handleEmailSubmitHandler: SubmitHandler<AuthRequestWithoutName> = async (data) => {
     try {
       const response = await updateEmail(data);
-      const { code, message } = response.payload as UpdateCredentialsResponse;
 
-      if (response.meta.requestStatus === 'rejected') {
-        setOpenToast(true);
-        return;
-      }
-
-      if (code && code === 200 && message && message === 'Email is successfully updated') {
-        setOpenToast(true);
-      }
+      showToast(response.meta.requestStatus);
     } catch (error) {
       console.error('Error during updateEmail:', error);
     }

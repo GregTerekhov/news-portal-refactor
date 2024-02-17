@@ -1,1 +1,1 @@
-export { default as MembersLink } from './MembersLink';
+export { default as MembersList } from './MembersList';

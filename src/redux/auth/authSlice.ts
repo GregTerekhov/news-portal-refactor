@@ -66,6 +66,12 @@ const authSlice = createSlice({
         state.accessToken = action.payload.access;
         state.refreshToken = action.payload.refresh;
       })
+      .addCase(authOperations.googleBind.fulfilled, (state) => {
+        state.haveAccounts.google = true;
+      })
+      .addCase(authOperations.googleUnbind.fulfilled, (state) => {
+        state.haveAccounts.google = false;
+      })
       .addCase(authOperations.facebookAuth.fulfilled, (state, action) => {
         state.isLoggedIn = true;
         state.haveAccounts.facebook = true;

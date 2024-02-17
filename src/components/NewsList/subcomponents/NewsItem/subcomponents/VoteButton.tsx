@@ -1,5 +1,4 @@
 import React, { FC } from 'react';
-import { useLocation } from 'react-router-dom';
 
 import { ICON_SIZES } from 'constants/iconSizes';
 import { useActiveLinks } from 'hooks';
@@ -15,8 +14,7 @@ interface VBProps {
 }
 
 const VoteButton: FC<VBProps> = ({ onHandleClick, isFavourite, buttonData }) => {
-  const location = useLocation();
-  const { isArchiveActive } = useActiveLinks(location);
+  const { isArchiveActive } = useActiveLinks();
 
   const onButHover = isFavourite
     ? 'fill-accentBase stroke-accentBase'
@@ -28,7 +26,7 @@ const VoteButton: FC<VBProps> = ({ onHandleClick, isFavourite, buttonData }) => 
       type='button'
       className={`absolute bottom-3 right-2 z-20 flex items-center gap-1 rounded-3xl bg-contrastWhite px-3 py-1.5 ${onButHover} ${
         !isArchiveActive ? 'hover:bg-accentBase hover:stroke-whiteBase hover:text-whiteBase' : ''
-      } duration-250 text-small font-medium text-darkBase transition-colors`}
+      } text-small font-medium text-darkBase transition-colors`}
       onClick={onHandleClick}
     >
       {!isArchiveActive

@@ -18,9 +18,9 @@ const MembersLink: FC<IMembersLinkProps> = ({
   telegramLink,
 }) => {
   const linkClass =
-    'w-14 h-14 lg:w-12 lg:h-12 rounded-xl border border-solid border-whiteBase dark:border-greyBase bg-accentBase dark:bg-transparent flex items-center justify-center group hover:border-accentBase dark:hover:border-whiteBase hover:bg-whiteBase dark:hover:bg-accentBase transition-colors duration-500 ring-whiteBase dark:ring-darkBase ring-2';
+    'w-14 h-14 lg:w-12 lg:h-12 rounded-xl border border-solid border-whiteBase dark:border-greyBase bg-accentBase dark:bg-transparent flex items-center justify-center group hover:border-accentBase dark:hover:border-whiteBase hover:bg-whiteBase dark:hover:bg-accentBase transition-colors ring-whiteBase dark:ring-darkBase ring-2';
   const iconClass =
-    'fill-whiteBase group-hover:fill-accentAlt dark:group-hover:fill-whiteBase transition-colors duration-500';
+    'fill-whiteBase group-hover:fill-accentAlt dark:group-hover:fill-whiteBase transition-colors';
 
   const links = getMembersLink(githubLink, linkedinLink, emailLink, telegramLink);
 

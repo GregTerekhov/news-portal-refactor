@@ -32,11 +32,11 @@ const WeatherBlock: FC<{}> = () => {
     <div
       className={`${
         !isWeatherLoading && emptyWeather && !showError
-          ? 'flex flex-col items-center justify-between text-center py-10 px-6 md:px-10'
+          ? 'flex flex-col items-center justify-between px-6 py-10 text-center md:px-10'
           : showError
-            ? 'text-center py-10 px-6 md:px-10'
-            : 'py-8 px-5 md:pt-10 md:px-8'
-      }  bg-accentBase w-full hg:w-[442px] h-full`}
+            ? 'px-6 py-10 text-center md:px-10'
+            : 'px-5 py-8 md:px-8 md:pt-10'
+      }  hg:w-442px h-full w-full bg-accentBase`}
     >
       {(!isWeatherLoading && emptyWeather) || showError ? (
         <NoWeather showError={showError} />
@@ -54,14 +54,14 @@ const WeatherBlock: FC<{}> = () => {
             />
             {currentWeather?.weather && currentWeather?.weather[0]['icon'] && (
               <img
-                className='m-auto w-32 h-32 md:w-[165px] md:h-[165px] hg:w-[180px] hg:h-[180px]'
+                className='md:w-165px hg:w-180px md:h-165px hg:h-180px m-auto h-32 w-32'
                 src={`https://openweathermap.org/img/wn/${currentWeather?.weather[0]['icon']}@2x.png`}
                 alt={currentWeather?.weather?.[0]?.description}
               />
             )}
-            <div className='w-full h-56 perspective-10 cursor-pointer' onClick={flipWeatherDetails}>
+            <div className='h-56 w-full cursor-pointer perspective-10' onClick={flipWeatherDetails}>
               <div
-                className={`w-full h-full transition-transform grid grid-cols-1 grid-rows-1 transform-style-3d ${flippingCard}`}
+                className={`grid h-full w-full grid-cols-1 grid-rows-1 transition-transform transform-style-3d ${flippingCard}`}
               >
                 <WeatherDetailsForToday />
                 <WeatherDetailsForHours />

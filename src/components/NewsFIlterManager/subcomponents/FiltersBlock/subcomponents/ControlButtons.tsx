@@ -1,5 +1,4 @@
 import React, { FC } from 'react';
-import { useLocation } from 'react-router-dom';
 
 import { useWindowWidth } from 'contexts';
 import { useActiveLinks, useFilterNews } from 'hooks';
@@ -16,8 +15,7 @@ const ControlButtons: FC<ControlButtonsProps> = ({ hasFilterValue }) => {
     breakpointsForMarkup: null,
   };
 
-  const location = useLocation();
-  const activeLinks = useActiveLinks(location);
+  const activeLinks = useActiveLinks();
 
   const { handleFiltration, handleSort, handleReset, handleSortRead } = useFilterNews({
     activeLinks,

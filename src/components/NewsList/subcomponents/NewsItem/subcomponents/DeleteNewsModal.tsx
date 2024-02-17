@@ -33,20 +33,20 @@ const DeleteNewsModal: FC<DeleteNewsButtonProps> = ({ handleDeleteNews, handleCl
 
   return (
     <div>
-      <h3 className='text-2xl text-darkBase dark:text-whiteBase mb-4 md:text-4xl md:mb-6'>
+      <h3 className='mb-4 text-2xl text-darkBase dark:text-whiteBase md:mb-6 md:text-4xl'>
         Delete news
       </h3>
-      <p className='text-medium text-darkBase dark:text-whiteBase mb-6 md:text-xl md:mb-10'>
+      <p className='mb-6 text-medium text-darkBase dark:text-whiteBase md:mb-10 md:text-xl'>
         Are you sure you want to delete this news?
       </p>
-      <ul className='max-md:space-y-4 md:flex md:justify-between md:items-center md:gap-8'>
+      <ul className='max-md:space-y-4 md:flex md:items-center md:justify-between md:gap-8'>
         {dialogButtons.map(({ onClick, id, label }) => (
           <li key={label} className='w-full'>
             <PrimaryButton
               variant={VariantButton.Primary}
               onHandleClick={onClick}
               id={id}
-              classNameButton='md:text-xl'
+              classNameButton='md:text-xl border border-whiteBase'
             >
               {label}
             </PrimaryButton>

@@ -1,5 +1,4 @@
 import React, { FC } from 'react';
-import { useLocation } from 'react-router-dom';
 import { Switch } from '@headlessui/react';
 
 import { VariantSwitcher } from 'types';
@@ -18,8 +17,7 @@ const ThemeSwitcher: FC<{ variant: VariantSwitcher }> = ({ variant }) => {
 
   const { enabled, setEnabled, handleThemeChange } = useTheme();
 
-  const location = useLocation();
-  const { isHomeActive } = useActiveLinks(location);
+  const { isHomeActive } = useActiveLinks();
 
   const { themeSwitcherClass, themeSwitcherTextClass } = useHeaderStyles(isHomeActive);
 
@@ -48,7 +46,7 @@ const ThemeSwitcher: FC<{ variant: VariantSwitcher }> = ({ variant }) => {
         className={`${currentStyles.shadow} ${
           enabled ? 'border-contrastWhite bg-accentBase' : 'border-accentBase bg-contrastWhite'
         }
-          relative inline-flex h-5 w-10 shrink-0 cursor-pointer items-center rounded-full border transition-colors duration-500 ease-in-out focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75`}
+          relative inline-flex h-5 w-10 shrink-0 cursor-pointer items-center rounded-full border transition-colors ease-in-out focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75`}
       >
         <span className='sr-only'>Theme switcher</span>
         <span
@@ -56,7 +54,7 @@ const ThemeSwitcher: FC<{ variant: VariantSwitcher }> = ({ variant }) => {
           className={`${
             enabled ? 'translate-x-5 bg-contrastWhite' : 'translate-x-[1px] bg-accentBase'
           }
-            pointer-events-none inline-block h-4 w-4 transform rounded-full shadow-lg ring-0 transition duration-500 ease-in-out`}
+            pointer-events-none inline-block h-4 w-4 transform rounded-full shadow-lg ring-0 transition ease-in-out`}
         />
       </Switch>
       {breakpointsForMarkup?.isDesktop ? (

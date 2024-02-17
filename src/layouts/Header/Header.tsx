@@ -1,18 +1,19 @@
 import React, { FC, useEffect, useState } from 'react';
-import { Link, useLocation, useSearchParams } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 
 import { useAuthRedux, useFiltersAction } from 'reduxStore/hooks';
 
-import { VariantInputs, VariantModals, VariantSwitcher } from 'types';
-import { ICON_SIZES } from 'constants/iconSizes';
+import { VariantModals, VariantSwitcher } from 'types';
+
 import { useWindowWidth } from 'contexts';
-import { useActiveLinks, useAdditionalRequest, useHeaderStyles, usePopUp } from 'hooks';
+import { useActiveLinks, useHeaderStyles, usePopUp } from 'hooks';
 
 import { AuthModal } from 'components';
-import { Modal, SvgIcon, ThemeSwitcher, UnverifiableInput } from 'ui';
+import { Modal, ThemeSwitcher } from 'ui';
 
 import { AuthButton, MainMenu, UserAccountLink } from './subcomponents';
 import { AccountMenu } from '../subcomponents';
+import { AuthenticatedHeaderContent } from './subcomponents';
 
 const Header: FC<{}> = () => {
   const [touched, setTouched] = useState<boolean>(false);
@@ -36,16 +37,14 @@ const Header: FC<{}> = () => {
     // setIsOpenModal(false);
   }, [searchParams, openModal]);
 
-  const { query, onChangeInput, onHandleSearch } = useAdditionalRequest();
   const { breakpointsForMarkup } = useWindowWidth() ?? {
     breakpointsForMarkup: null,
   };
   const { filteredNews, resetAllFilters } = useFiltersAction();
 
-  const location = useLocation();
-  const { isHomeActive, isAccountPage, isManageAccountPage } = useActiveLinks(location);
+  const { isHomeActive, isAccountPage, isManageAccountPage } = useActiveLinks();
 
-  const { headerClass, textClass, burgerMenuButtonClass } = useHeaderStyles(isHomeActive);
+  const { headerClass, textClass } = useHeaderStyles(isHomeActive);
 
   const handleVisibilityChange = () => {
     setTouched(!touched);
@@ -59,11 +58,11 @@ const Header: FC<{}> = () => {
 
   const isNotMobile = breakpointsForMarkup?.isTablet || breakpointsForMarkup?.isDesktop;
   const isAccountPages = isAccountPage || isManageAccountPage;
-
+  console.log('isOpenMenu', isOpenMenu);
   return (
     <>
       <header
-        className={`fixed left-0 top-0 flex min-h-[81px] w-full items-center justify-center md:min-h-[106px] lg:min-h-[113px] ${
+        className={`min-h-81px md:min-h-106px lg:min-h-113px fixed left-0 top-0 flex w-full items-center justify-center ${
           isHomeActive
             ? headerClass
             : 'border-b border-solid border-fullDark/[.2] bg-whiteBase/[.8] dark:border-whiteBase/[.2] dark:bg-darkBackground/[.8]'
@@ -91,65 +90,11 @@ const Header: FC<{}> = () => {
           {isNotMobile && isAuthenticated ? <MainMenu /> : null}
 
           {isAuthenticated ? (
-            <>
-              <div className='flex items-center gap-3.5 lg:gap-12'>
-                {breakpointsForMarkup?.isNothing || breakpointsForMarkup?.isMobile ? (
-                  <>
-                    {!isOpenMenu && isHomeActive ? (
-                      <search>
-                        <form
-                          onSubmit={(e) => onHandleSearch(e)}
-                          className='max-md:overflow-hidden'
-                        >
-                          <UnverifiableInput
-                            inputData={{
-                              name: 'query',
-                              type: 'text',
-                              value: query,
-                              placeholder: 'Search |',
-                            }}
-                            svgName='icon-search'
-                            hasIcon={true}
-                            variant={VariantInputs.Header}
-                            hideInput={handleVisibilityChange}
-                            onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-                              onChangeInput(event)
-                            }
-                            touched={touched}
-                          />
-                        </form>
-                      </search>
-                    ) : null}
-                    <button
-                      aria-label={`${!isOpenMenu ? 'Open' : 'Close'} ${
-                        !isAccountPages ? 'mobile' : 'account'
-                      } menu button`}
-                      type='button'
-                      className='h-6 w-6 md:hidden'
-                      onClick={() => {
-                        toggleMenu();
-                        resetFilters();
-                      }}
-                    >
-                      <SvgIcon
-                        svgName={`${isOpenMenu ? 'icon-close' : 'icon-burger-menu'}`}
-                        size={ICON_SIZES.mdIcon24}
-                        className={`${
-                          !isOpenMenu && isHomeActive
-                            ? burgerMenuButtonClass
-                            : 'stroke-darkBase dark:stroke-whiteBase'
-                        }`}
-                      />
-                    </button>
-                  </>
-                ) : (
-                  <div className='flex flex-col gap-3'>
-                    {!isAccountPages && <AuthButton />}
-                    <ThemeSwitcher variant={VariantSwitcher.Header} />
-                  </div>
-                )}
-              </div>
-            </>
+            <AuthenticatedHeaderContent
+              handleVisibilityChange={handleVisibilityChange}
+              touched={touched}
+              resetFilters={resetFilters}
+            />
           ) : (
             <div className={`${isNotMobile ? 'flex flex-col gap-3' : ''}`}>
               <AuthButton />

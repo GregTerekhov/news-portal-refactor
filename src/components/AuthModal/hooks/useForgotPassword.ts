@@ -4,6 +4,7 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { useAuthRedux } from 'reduxStore/hooks';
 
 import type { SendEmailRequest } from 'types';
+import { useNotification } from 'contexts';
 
 import { changePasswordSchema, recoveryPasswordSchema } from '../assistants';
 import { AuthInputs } from '../types';
@@ -15,6 +16,7 @@ interface RecoveryInputsValues {
 
 const useForgotPassword = () => {
   const { sendEmailForRecovery, changePassword } = useAuthRedux();
+  const { showToast } = useNotification();
 
   const {
     handleSubmit: handleRecoveryPasswordSubmit,
@@ -37,15 +39,27 @@ const useForgotPassword = () => {
     e?.stopPropagation();
     e?.preventDefault();
 
-    await sendEmailForRecovery(data);
+    try {
+      const response = await sendEmailForRecovery(data);
+
+      showToast(response.meta.requestStatus);
+    } catch (error) {
+      console.error('Error during sending email for recovery password', error);
+    }
     resetField('email');
   };
 
   const changePasswordSubmitHandler: SubmitHandler<RecoveryInputsValues> = async (data) => {
-    const { newPassword } = data; // обирання необхідного для відправки поля
-    const dataToSend = { newPassword };
+    try {
+      const { newPassword } = data; // обирання необхідного для відправки поля
+      const dataToSend = { newPassword };
 
-    await changePassword(dataToSend);
+      const response = await changePassword(dataToSend);
+
+      showToast(response.meta.requestStatus);
+    } catch (error) {
+      console.error('Error during changing password', error);
+    }
 
     reset({
       ...getValues,

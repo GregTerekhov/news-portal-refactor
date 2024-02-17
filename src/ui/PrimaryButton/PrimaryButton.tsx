@@ -50,7 +50,7 @@ const PrimaryButton = forwardRef<
       <button
         id={id}
         aria-label={ariaLabel}
-        className={`flex items-center justify-center transition-colors duration-500 ${
+        className={`flex items-center justify-center transition-colors ${
           hasIcon ? 'gap-2.5' : ''
         } ${children ? 'text-base text-contrastWhite lg:text-medium' : ''} ${
           currentStyles.buttonStyles

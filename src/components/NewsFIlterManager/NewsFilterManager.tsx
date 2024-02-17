@@ -1,5 +1,4 @@
 import React, { FC, useState } from 'react';
-import { useLocation } from 'react-router-dom';
 
 import { useDB } from 'reduxStore/hooks';
 
@@ -14,9 +13,7 @@ const NewsFilterManager: FC<{}> = () => {
   const { allFavourites, allReads, allArchive } = useDB();
   const [showDropdown, setShowDropdown] = useState<boolean>(false);
 
-  const location = useLocation();
-  const { isHomeActive, isArchiveActive, isReadActive, isFavoriteActive } =
-    useActiveLinks(location);
+  const { isHomeActive, isArchiveActive, isReadActive, isFavoriteActive } = useActiveLinks();
 
   const noFavourites = isFavoriteActive && allFavourites && allFavourites?.length === 0;
   const noReads = isReadActive && allReads && allReads?.length === 0;
@@ -42,7 +39,7 @@ const NewsFilterManager: FC<{}> = () => {
         />
       </button>
       {showDropdown && (
-        <div>
+        <div className={`${showDropdown ? 'animate-accordion-down' : 'animate-accordion-up'}`}>
           {isHomeActive ? (
             <>
               <Accordeon position='filtersService' filtersBlock='Additional requests'>

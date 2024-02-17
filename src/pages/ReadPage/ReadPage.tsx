@@ -1,21 +1,18 @@
-import React, { FC, useEffect, useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import React, { FC, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import { useDB, useFiltersAction } from 'reduxStore/hooks';
 
 import { useActiveLinks, useChooseRenderingNews, useFilterNews, useReadNewsContent } from 'hooks';
 
-import { NewsList } from 'components';
-import { Accordeon, Loader, Notification, PlugImage } from 'ui';
+import { NewsList, Toast } from 'components';
+import { Accordeon, Loader, PlugImage } from 'ui';
 
 const ReadPage: FC<{}> = () => {
-  const [openToast, setOpenToast] = useState<boolean>(false);
-
   const { allReads, isLoadingDBData, errorDB, getReads } = useDB();
   const { hasResults } = useFiltersAction();
 
-  const location = useLocation();
-  const activeLinks = useActiveLinks(location);
+  const activeLinks = useActiveLinks();
 
   const initialReadsList = useReadNewsContent({ activeLinks });
   const { rebuildedNews } = useChooseRenderingNews({ activeLinks });
@@ -33,31 +30,18 @@ const ReadPage: FC<{}> = () => {
     getReads();
   }, [getReads]);
 
-  useEffect(() => {
-    if (!!allReads && allReads.length > 0) {
-      setOpenToast(true);
-    }
-  }, [allReads]);
-
   const readNews = sortedDates && sortedDates.length > 0 ? sortedDates : initialReadsList;
 
   const shouldShowLoader = isLoadingDBData || hasResults === 'loading';
   const shouldShowPlug = rebuildedNews.length === 0 || hasResults === 'empty';
-  const shouldShowAccordeon = !shouldShowLoader && !shouldShowPlug;
-
+  const shouldShowAccordeon =
+    !shouldShowLoader && !shouldShowPlug && readNews && readNews.length > 0;
+  const shouldShowToast = !shouldShowLoader && rebuildedNews && allReads.length > 0;
   return (
     <>
       {shouldShowLoader && <Loader variant='generalSection' />}
-      {!shouldShowLoader && rebuildedNews && (
-        <Notification
-          variant='non-interactive'
-          openToast={openToast}
-          setOpenToast={setOpenToast}
-          title='Monthly statistics'
-          description={`${rebuildedNews.length} news added to Reads`}
-        />
-      )}
-      {shouldShowAccordeon && readNews && readNews.length > 0 && (
+      {shouldShowToast && <Toast variant='non-interactive' status='info' />}
+      {shouldShowAccordeon && (
         <div>
           {readNews.map((date) => (
             <Accordeon key={date} dateSeparator={date} position='readPage'>
