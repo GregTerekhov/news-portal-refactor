@@ -11,6 +11,7 @@ import {
   SendEmailRequest,
   UpdatePasswordRequest,
   RecoveryPasswordChange,
+  GoogleAuth,
 } from 'types';
 
 const useAuthCollector = () => {
@@ -55,7 +56,12 @@ const useAuthCollector = () => {
   );
 
   const enterWithGoogle = useCallback(
-    (email: SendEmailRequest) => dispatch(auth.googleAuth(email)),
+    (email: GoogleAuth) => dispatch(auth.googleAuth(email)),
+    [dispatch],
+  );
+
+  const bindGoogle = useCallback(
+    (email: SendEmailRequest) => dispatch(auth.googleBind(email)),
     [dispatch],
   );
 
@@ -99,6 +105,7 @@ const useAuthCollector = () => {
     sendEmailForRecovery,
     changePassword,
     enterWithGoogle,
+    bindGoogle,
     enterWithFacebook,
     enterWithApple,
     changeTheme,

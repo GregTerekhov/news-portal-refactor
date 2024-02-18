@@ -26,13 +26,7 @@ export enum VariantInputs {
   Checkbox = 'checkbox',
 }
 
-export type InputLabel =
-  | 'name'
-  | 'email'
-  | 'password'
-  | 'newPassword'
-  | 'confirmPassword'
-  | 'recoveryEmail';
+export type InputLabel = 'name' | 'email' | 'password' | 'newPassword' | 'confirmPassword';
 
 export enum VariantVerifiableInputs {
   Auth = 'auth',

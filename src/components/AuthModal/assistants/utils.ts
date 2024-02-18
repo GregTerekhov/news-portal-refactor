@@ -44,8 +44,8 @@ async function decryptData(encryptedData: string, key: CryptoKey): Promise<Recor
     const iv = uint8Array.slice(0, 12);
     const encryptedBytes = uint8Array.slice(12);
 
-    // console.log('iv-decoded', iv);
-    // console.log('encryptedBytes', encryptedBytes);
+    console.log('iv-decoded', iv);
+    console.log('encryptedBytes', encryptedBytes);
 
     const decryptedDataBuffer = await new Promise<ArrayBuffer>((resolve, reject) => {
       window.crypto.subtle

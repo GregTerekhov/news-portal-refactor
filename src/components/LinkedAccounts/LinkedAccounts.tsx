@@ -20,7 +20,7 @@ const LinkedAccounts: FC<{}> = () => {
   const { breakpointsForMarkup } = useWindowWidth() ?? {
     breakpointsForMarkup: null,
   };
-  const { haveAccounts } = useAuthRedux();
+  const { haveAccounts, bindGoogle } = useAuthRedux();
 
   const { isManageAccountPage } = useActiveLinks();
 
@@ -30,8 +30,8 @@ const LinkedAccounts: FC<{}> = () => {
 
   const googleLogin = useGoogleLogin({
     onSuccess: async (codeResponse) => {
-      console.log('codeResponse', codeResponse);
-
+      // console.log('codeResponse', codeResponse);
+      //якщо не зареєстрований відправляти разом з email ще sub від google
       // -------це логіка, яку треба буде розкоментувати після готовності беку НЕ ВИДАЛЯТИ!!!----------
       try {
         const userInfo: VerifiedGoogleEmail = await axios
@@ -40,10 +40,11 @@ const LinkedAccounts: FC<{}> = () => {
           })
           .then((res) => res.data);
         console.log('userInfo', userInfo);
-        // enterWithGoogle({ email: userInfo.email });
+        const response = bindGoogle({ email: userInfo.email });
+        console.log('enterWithGoogle', response);
       } catch (error) {
         console.log(error);
-        alert('Failed to login');
+        console.log('Failed to login');
       }
     },
     onError: (error) => {

@@ -20,6 +20,7 @@ import {
   UpdateThemeResponse,
   UpdatePasswordRequest,
   RecoveryPasswordChange,
+  GoogleAuth,
 } from 'types';
 
 export const signUp = createAppAsyncThunk<CredentialSignUpResponse, SignUpRequest>(
@@ -33,7 +34,7 @@ export const signUp = createAppAsyncThunk<CredentialSignUpResponse, SignUpReques
       console.log('SignUpResponse', response.data);
       return response.data;
     } catch (error: any) {
-      console.log('Error SignUp', error);
+      console.log('Error SignUp', error.response.toJSON());
       return rejectWithValue(error.response);
     }
   },
@@ -156,9 +157,9 @@ export const recoveryPasswordChange = createAppAsyncThunk<ServicesInfo, Recovery
 
 export const googleAuth = createAppAsyncThunk(
   'auth/googleAuth',
-  async (email: SendEmailRequest, { rejectWithValue }) => {
+  async (credentials: GoogleAuth, { rejectWithValue }) => {
     try {
-      const response = await axiosInstance.post(`/auth/google-auth`, email);
+      const response = await axios.post(`/auth/google/auth`, credentials);
 
       console.log(response.data);
       return response.data;
@@ -172,8 +173,9 @@ export const googleAuth = createAppAsyncThunk(
 export const googleBind = createAppAsyncThunk(
   'auth/googleBind',
   async (email: SendEmailRequest, { rejectWithValue }) => {
+    console.log('email', email);
     try {
-      const response = await axiosInstance.post(`/auth/google-bind`, email);
+      const response = await axiosInstance.patch(`/auth/google/bind`, email);
 
       console.log(response.data);
       return response.data;
@@ -187,7 +189,7 @@ export const googleUnbind = createAppAsyncThunk(
   'auth/googleUnbind',
   async (_, { rejectWithValue }) => {
     try {
-      const response = await axiosInstance.delete(`/auth/google-unbind`);
+      const response = await axiosInstance.patch(`/auth/google/unbind`);
 
       console.log(response.data);
       return response.data;
