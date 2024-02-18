@@ -59,6 +59,11 @@ const useAuthCollector = () => {
     [dispatch],
   );
 
+  const bindGoogle = useCallback(
+    (email: SendEmailRequest) => dispatch(auth.googleBind(email)),
+    [dispatch],
+  );
+
   const enterWithFacebook = useCallback(
     (tokenAuth: IThirdPartyAuth) => dispatch(auth.facebookAuth(tokenAuth)),
     [dispatch],
@@ -99,6 +104,7 @@ const useAuthCollector = () => {
     sendEmailForRecovery,
     changePassword,
     enterWithGoogle,
+    bindGoogle,
     enterWithFacebook,
     enterWithApple,
     changeTheme,

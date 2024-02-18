@@ -1,12 +1,6 @@
 import React, { ReactNode, FC, useId, useState } from 'react';
 import { UseFormRegister } from 'react-hook-form';
 
-// import {
-//   SignUpRequest,
-//   AuthRequestWithoutName,
-//   ExtendedUpdatePasswordRequest,
-//   SendEmailRequest,
-// } from 'types';
 import { InputLabel, VariantVerifiableInputs } from 'types';
 import { ICON_SIZES } from 'constants/iconSizes';
 
@@ -24,8 +18,6 @@ interface InputCollectedData {
 
 type AriaInvalid = boolean | 'false' | 'true' | 'grammar' | 'spelling' | undefined;
 
-// type Values = ExtendedUpdatePasswordRequest | SignUpRequest | AuthRequestWithoutName | SendEmailRequest;
-
 interface InputProps {
   inputData: InputCollectedData;
   hasIcon: boolean;
@@ -35,6 +27,7 @@ interface InputProps {
   ariaInvalid: AriaInvalid;
   label: InputLabel;
   errors?: string | undefined;
+  // register: UseFormRegister<VerifiableInputValues>;
   register: UseFormRegister<any>;
   handleSubmitRecovery?: React.MouseEventHandler<HTMLButtonElement> | undefined;
 }
@@ -67,7 +60,7 @@ const VerifiableInput: FC<InputProps> = ({
        ${variant === VariantVerifiableInputs.Auth && 'w-full space-y-2 text-medium md:text-xl'} 
       ${className}`}
     >
-      {variant === VariantVerifiableInputs.Auth && label !== 'recoveryEmail' && (
+      {variant === VariantVerifiableInputs.Auth && placeholder !== 'Enter your current email' && (
         <span className='mb-1.5 block font-medium text-accentBase'>{children}</span>
       )}
       <div className={`relative ${variant === VariantVerifiableInputs.Auth ? '' : 'mb-4'}`}>

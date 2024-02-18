@@ -4,6 +4,7 @@ type SwitcherStylesProps = {
   isHomeActive?: boolean | undefined;
   enabled?: boolean | undefined;
   themeSwitcherClass: string;
+  isOpenMenu: boolean;
 };
 
 interface Styles {
@@ -19,6 +20,7 @@ export const generateSwitcherStyles = ({
   isHomeActive,
   enabled,
   themeSwitcherClass,
+  isOpenMenu,
 }: SwitcherStylesProps) => {
   const commonLabelClass = enabled ? 'text-greyBase' : 'text-accentAlt';
   const commonIconClass = enabled ? 'stroke-greyBase' : 'stroke-accentAlt';
@@ -26,7 +28,7 @@ export const generateSwitcherStyles = ({
   const styles: Styles = {
     [VariantSwitcher.Header]: {
       spacing: 'justify-end',
-      shadow: isHomeActive ? themeSwitcherClass : '',
+      shadow: isHomeActive && !isOpenMenu ? themeSwitcherClass : '',
       colorLeftLabel: commonLabelClass,
       strokeLeftIcon: commonIconClass,
     },

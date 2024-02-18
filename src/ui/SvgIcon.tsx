@@ -1,7 +1,8 @@
 import React, { FC } from 'react';
 
+import { useCacheIcon } from 'hooks';
+
 import icons from 'assets/icons.svg';
-import useCacheIcon from 'hooks/useCacheIcon';
 
 interface SvgIncomingData {
   svgName?: string | undefined;

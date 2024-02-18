@@ -4,7 +4,7 @@ import { Switch } from '@headlessui/react';
 import { VariantSwitcher } from 'types';
 import { ICON_SIZES } from 'constants/iconSizes';
 import { useTheme, useWindowWidth } from 'contexts';
-import { useActiveLinks, useHeaderStyles } from 'hooks';
+import { useActiveLinks, useHeaderStyles, usePopUp } from 'hooks';
 
 import SvgIcon from '../SvgIcon';
 
@@ -15,13 +15,15 @@ const ThemeSwitcher: FC<{ variant: VariantSwitcher }> = ({ variant }) => {
     breakpointsForMarkup: null,
   };
 
+  const { isOpenMenu } = usePopUp();
+
   const { enabled, setEnabled, handleThemeChange } = useTheme();
 
   const { isHomeActive } = useActiveLinks();
 
   const { themeSwitcherClass, themeSwitcherTextClass } = useHeaderStyles(isHomeActive);
 
-  const styles = generateSwitcherStyles({ enabled, isHomeActive, themeSwitcherClass });
+  const styles = generateSwitcherStyles({ enabled, isHomeActive, themeSwitcherClass, isOpenMenu });
   const currentStyles = styles[variant];
 
   const commonLabelStyles = `${

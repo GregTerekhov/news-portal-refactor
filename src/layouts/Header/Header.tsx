@@ -80,7 +80,7 @@ const Header: FC<{}> = () => {
           <Link
             to='/'
             className={`z-50 text-3xl font-bold leading-tight transition-colors duration-500 sm:py-6 md:pb-[30px] md:pt-8 md:text-4xl lg:py-7 lg:text-giant lg:leading-[1.357144] ${
-              !isOpenMenu && isHomeActive ? textClass : 'z-50 text-darkBase dark:text-whiteBase'
+              isHomeActive ? textClass : 'z-50 text-darkBase dark:text-whiteBase'
             } 
               `}
           >
