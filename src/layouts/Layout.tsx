@@ -20,7 +20,7 @@ const Layout: FC = () => {
   };
   const { fetchCategoriesList } = useNewsAPI();
   const { isAuthenticated, statusMessage } = useAuthRedux();
-  const { allFavourites, allReads, allArchive } = useDB();
+  const { allFavourites, allArchive } = useDB();
 
   const activeLinks = useActiveLinks();
   const { rebuildedNews } = useChooseRenderingNews({ activeLinks });
@@ -52,9 +52,9 @@ const Layout: FC = () => {
   const shouldNotShowFiltersManager = isAccountPages || isAboutUs || isArchiveActive || isErrorPage;
   const showScreenHeight =
     (isFavoriteActive && allFavourites && allFavourites.length === 0) ||
-    (isReadActive && allReads && allReads.length === 0) ||
     (isArchiveActive && allArchive && allArchive.length === 0) ||
-    isAccountPages;
+    isReadActive ||
+    isAccountPage;
 
   const showSuccessToast =
     statusMessage === 'Email sent successfully' ||
@@ -63,9 +63,9 @@ const Layout: FC = () => {
 
   return (
     <div
-      className={`${
-        showScreenHeight ? 'h-screen' : 'h-full'
-      } flex max-h-sectionSmall flex-col justify-between md:max-h-sectionMedium lg:max-h-sectionLarge`}
+      className={`
+      ${showScreenHeight ? 'h-screen' : 'h-full'} 
+      flex max-h-sectionSmall flex-col justify-between md:max-h-sectionMedium lg:max-h-sectionLarge`}
     >
       {!isErrorPage && <Header />}
       <main className='h-full'>
