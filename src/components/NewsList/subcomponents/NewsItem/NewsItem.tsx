@@ -2,7 +2,7 @@ import React, { FC } from 'react';
 
 import { useAuthRedux } from 'reduxStore/hooks';
 
-import { VariantModals, VotedItem } from 'types';
+import { VotedItem } from 'types';
 
 import { ICON_SIZES } from 'constants/iconSizes';
 import { useActiveLinks, usePopUp } from 'hooks';
@@ -94,7 +94,7 @@ const NewsItem: FC<Partial<NewsItemProps>> = ({ liveNews = {} }) => {
         </a>
       )}
       {isOpenModal && (
-        <Modal closeModal={toggleModal} modalRef={popUpRef} variant={VariantModals.DeleteNews}>
+        <Modal closeModal={toggleModal} modalRef={popUpRef}>
           <DeleteNewsModal
             handleDeleteNews={handleDeleteNewsWrapper}
             newsId={liveNews._id}

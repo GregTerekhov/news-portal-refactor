@@ -15,8 +15,8 @@ const ArrowButton: FC<IArrowButtonProps> = ({ ariaLabel, onClick, children, icon
   return (
     <button aria-label={ariaLabel} type='button' onClick={onClick}>
       <SvgIcon
-        svgName='icon-arrow-left'
-        size={ICON_SIZES.mdIcon24}
+        svgName='icon-arrow'
+        size={ICON_SIZES.xsIcon15}
         className={`${iconClass} fill-accentBase dark:fill-disabledBase dark:hover:fill-accentBase`}
       />
       {children && <span className='sr-only'>{children}</span>}

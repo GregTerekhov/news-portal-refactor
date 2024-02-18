@@ -56,7 +56,7 @@ const Calendar: FC<CalendarProps> = ({ variant }) => {
             ? `${filters.selectedFilterDate.startDate} - ${filters.selectedFilterDate.endDate}`
             : format(today, 'dd/MM/yyyy')}
         <SvgIcon
-          svgName='icon-arrow-down'
+          svgName='icon-arrow'
           size={ICON_SIZES.xsIcon14}
           className={`fill-accentBase transition-transform ${
             isOpenCalendar ? 'rotate-180' : 'rotate-0'

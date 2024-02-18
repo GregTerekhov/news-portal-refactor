@@ -51,7 +51,7 @@ const Dropdown: FC<DropdownProps> = ({
           >
             {selectedItem || label}
             <SvgIcon
-              svgName='icon-arrow-down'
+              svgName='icon-arrow'
               size={ICON_SIZES.xsIcon14}
               className={`fill-accentBase transition-transform dark:fill-whiteBase ${
                 open ? 'rotate-180' : 'rotate-0'

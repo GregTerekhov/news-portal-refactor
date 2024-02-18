@@ -14,11 +14,6 @@ export enum VariantButton {
   Small = 'Small',
 }
 
-export enum VariantModals {
-  Auth = 'auth',
-  DeleteNews = 'deleteNews',
-}
-
 export enum VariantSwitcher {
   Modal = 'modal',
   Header = 'header',

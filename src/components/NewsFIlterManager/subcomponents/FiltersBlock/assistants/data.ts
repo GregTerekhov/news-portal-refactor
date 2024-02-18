@@ -48,7 +48,7 @@ export const getControlButtons = ({
       classNameButtons:
         'border-whiteBase bg-accentBase dark:bg-transparent hover:bg-accentAlt transition-colors duration-500 p-2',
       hasIcon: true,
-      svgName: 'icon-dateSort-asc',
+      svgName: 'icon-dateSort',
       svgSize: 20,
       classNameIcon: 'fill-whiteBase',
       children: '',
@@ -81,7 +81,7 @@ export const getControlButtons = ({
       classNameButtons:
         'p-2 border-whiteBase bg-accentBase dark:bg-transparent hover:bg-accentAlt transition-colors duration-500',
       hasIcon: true,
-      svgName: 'icon-dateSort-asc',
+      svgName: 'icon-dateSort',
       svgSize: 20,
       classNameIcon: 'fill-whiteBase rotate-180',
       children: '',

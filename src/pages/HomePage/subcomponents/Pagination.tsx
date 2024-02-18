@@ -124,7 +124,11 @@ const Pagination: FC<PaginationProps> = ({ pageNumbers, currentPage, setCurrentP
         width={BUTTON_WIDTH}
         disabled={currentPage - 1 === 0 ? true : false}
       >
-        <SvgIcon svgName='icon-arrow-left' size={ICON_SIZES.mdIcon24} className='fill-whiteBase' />
+        <SvgIcon
+          svgName='icon-arrow'
+          size={ICON_SIZES.xsIcon14}
+          className='rotate-90 fill-whiteBase'
+        />
         {isTabletOrDesktop ? (
           <span className='text-base font-medium text-contrastWhite md:text-medium'>Prev</span>
         ) : null}
@@ -144,9 +148,9 @@ const Pagination: FC<PaginationProps> = ({ pageNumbers, currentPage, setCurrentP
         ) : null}
 
         <SvgIcon
-          svgName='icon-arrow-left'
-          size={ICON_SIZES.mdIcon24}
-          className='rotate-180 fill-whiteBase'
+          svgName='icon-arrow'
+          size={ICON_SIZES.xsIcon14}
+          className='-rotate-90 fill-whiteBase'
         />
       </PrimaryButton>
     </div>

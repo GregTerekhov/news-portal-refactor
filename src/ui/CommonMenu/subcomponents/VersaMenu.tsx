@@ -48,9 +48,9 @@ const VersaMenu: FC<IMenuProps> = ({ navId, links, activeLinks, handleLinkClick 
               </p>
               {navId === 'account-navigation' && link.activeLink ? (
                 <SvgIcon
-                  svgName='icon-arrow-left'
-                  size={ICON_SIZES.mdIcon24}
-                  className='rotate-180 fill-darkBase group-hover:fill-whiteBase dark:fill-whiteBase'
+                  svgName='icon-arrow'
+                  size={ICON_SIZES.xsIcon14}
+                  className='-rotate-90 fill-darkBase group-hover:fill-whiteBase dark:fill-whiteBase'
                 />
               ) : null}
             </NavLink>

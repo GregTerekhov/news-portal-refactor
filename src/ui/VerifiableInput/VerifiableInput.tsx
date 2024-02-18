@@ -96,7 +96,7 @@ const VerifiableInput: FC<InputProps> = ({
             onClick={handleSubmitRecovery}
           >
             <SvgIcon
-              svgName='icon-arrow-right-filled'
+              svgName='icon-arrow-right'
               size={ICON_SIZES.smIcon20}
               className='fill-whiteBase'
             />

@@ -71,10 +71,10 @@ const AuthenticatedHeaderContent: FC<HeaderContentProps> = ({
               <SvgIcon
                 svgName={`${isOpenMenu ? 'icon-close' : 'icon-burger-menu'}`}
                 size={ICON_SIZES.mdIcon24}
-                className={`${
+                className={`hover:stroke-accentBase dark:hover:stroke-accentBase ${
                   !isOpenMenu && isHomeActive
                     ? burgerMenuButtonClass
-                    : 'stroke-darkBase dark:stroke-whiteBase'
+                    : 'stroke-darkBase hover:stroke-accentBase dark:stroke-whiteBase '
                 }`}
               />
             </button>
