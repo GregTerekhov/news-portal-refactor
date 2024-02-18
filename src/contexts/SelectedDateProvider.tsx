@@ -69,12 +69,10 @@ export const SelectedDateProvider: FC<SelectedDateContextProps> = ({ children })
               resetPreviousRequest();
               await fetchByDate(newSelectedDate);
               setBeginDate(null);
-              // setIsOpenCalendar && setIsOpenCalendar(!isOpenCalendar);
               toggleCalendar();
             } else {
               await fetchByDate(newSelectedDate);
               setBeginDate(null);
-              // setIsOpenCalendar && setIsOpenCalendar(!isOpenCalendar);
               toggleCalendar();
             }
           }

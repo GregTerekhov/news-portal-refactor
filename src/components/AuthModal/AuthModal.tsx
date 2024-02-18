@@ -1,9 +1,10 @@
 import React, { FC, useState } from 'react';
 import { Tab } from '@headlessui/react';
 
+import { usePopUp } from 'hooks';
+
 import { SignUpPanel, SignInPanel, ChangePassword } from './subcomponents';
 import { RemoveScroll } from 'react-remove-scroll';
-import usePopUp from 'hooks/usePopUp';
 
 interface IAuthModalProps {
   passwordToken?: boolean;
@@ -12,7 +13,9 @@ interface IAuthModalProps {
 const AuthModal: FC<IAuthModalProps> = ({ passwordToken }) => {
   const [isShowRecoveryInput, setIsShowRecoveryInput] = useState<boolean>(false);
   const [selectedTab, setSelectedTab] = useState<number>(0);
+
   const { isOpenModal } = usePopUp();
+
   const handleShowRecoveryInput = (): void => {
     setIsShowRecoveryInput(!isShowRecoveryInput);
   };

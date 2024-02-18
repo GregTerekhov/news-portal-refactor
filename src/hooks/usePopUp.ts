@@ -1,5 +1,6 @@
-import { useScrollBodyContext } from 'contexts/ScrollBodyProvider';
 import { useCallback, useEffect, useRef, useState } from 'react';
+
+import { useScrollBodyContext } from 'contexts';
 
 const usePopUp = () => {
   const [isOpenMenu, setIsOpenMenu] = useState<boolean>(false);
@@ -76,9 +77,8 @@ const usePopUp = () => {
     isOpenMenu,
     isOpenModal,
     isOpenCalendar,
-    isScrollDisabled,
     popUpRef,
-    setIsOpenModal,
+    setIsOpenModal, // перевірити, чи потрібно це повертати
     setIsOpenCalendar,
     toggleMenu,
     toggleModal,
