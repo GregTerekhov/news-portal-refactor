@@ -31,7 +31,7 @@ const NewsFilterManager: FC<{}> = () => {
       >
         News filter service
         <SvgIcon
-          svgName='icon-arrow-down'
+          svgName='icon-arrow'
           size={ICON_SIZES.xsIcon15}
           className={`fill-darkBase dark:fill-whiteBase ${
             showDropdown ? 'rotate-180' : 'rotate-0'

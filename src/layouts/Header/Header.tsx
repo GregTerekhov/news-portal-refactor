@@ -3,7 +3,7 @@ import { Link, useSearchParams } from 'react-router-dom';
 
 import { useAuthRedux, useFiltersAction } from 'reduxStore/hooks';
 
-import { VariantModals, VariantSwitcher } from 'types';
+import { VariantSwitcher } from 'types';
 
 import { useWindowWidth } from 'contexts';
 import { useActiveLinks, useHeaderStyles, usePopUp } from 'hooks';
@@ -103,7 +103,7 @@ const Header: FC<{}> = () => {
         </div>
       </header>
       {isOpenModal && (
-        <Modal closeModal={toggleModal} modalRef={popUpRef} variant={VariantModals.Auth}>
+        <Modal closeModal={toggleModal} modalRef={popUpRef}>
           <AuthModal passwordToken={passwordToken} />
         </Modal>
       )}

@@ -1,3 +1,4 @@
+import { ICON_SIZES } from 'constants/iconSizes';
 import React, { FC } from 'react';
 
 import { VariantButton } from 'types';
@@ -23,11 +24,13 @@ const DeleteNewsModal: FC<DeleteNewsButtonProps> = ({ handleDeleteNews, handleCl
       onClick: (e: React.MouseEvent<HTMLButtonElement>) => handleClose(e, false),
       id: 'Cancel deletion the news',
       label: 'Cancel',
+      icon: 'icon-reset',
     },
     {
       onClick: deleteNews,
       id: 'Delete selected news',
       label: 'Delete',
+      icon: 'icon-trash',
     },
   ];
 
@@ -40,12 +43,16 @@ const DeleteNewsModal: FC<DeleteNewsButtonProps> = ({ handleDeleteNews, handleCl
         Are you sure you want to delete this news?
       </p>
       <ul className='max-md:space-y-4 md:flex md:items-center md:justify-between md:gap-8'>
-        {dialogButtons.map(({ onClick, id, label }) => (
+        {dialogButtons.map(({ onClick, id, label, icon }) => (
           <li key={label} className='w-full'>
             <PrimaryButton
               variant={VariantButton.Primary}
               onHandleClick={onClick}
+              hasIcon={true}
               id={id}
+              svgName={icon}
+              svgSize={ICON_SIZES.smIcon18}
+              classNameIcon='fill-whiteBase'
               classNameButton='md:text-xl border border-whiteBase'
             >
               {label}

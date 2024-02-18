@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 
 import { useAuthRedux } from 'reduxStore/hooks';
 
-import { ClickHandler, VariantButton, VariantModals } from 'types';
+import { ClickHandler, VariantButton } from 'types';
 import { useNotification, useWindowWidth } from 'contexts';
 import { useActiveLinks, useHeaderStyles, usePopUp } from 'hooks';
 
@@ -55,7 +55,7 @@ const Auth: FC<{}> = () => {
         </PrimaryButton>
       </div>
       {isOpenModal && (
-        <Modal closeModal={toggleModal} modalRef={popUpRef} variant={VariantModals.Auth}>
+        <Modal closeModal={toggleModal} modalRef={popUpRef}>
           <AuthModal />
         </Modal>
       )}

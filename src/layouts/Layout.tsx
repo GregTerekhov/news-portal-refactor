@@ -95,13 +95,13 @@ const Layout: FC = () => {
                   direction='top'
                   label='Scroll up'
                   position='top-36'
-                  icon='icon-triangle-up'
+                  icon='icon-triangle'
                 />
                 <PageScrollController
                   label='Scroll down'
                   direction='down'
                   position='bottom-12'
-                  icon='icon-triangle-up'
+                  icon='icon-triangle'
                   classIcon='rotate-180'
                 />
               </>

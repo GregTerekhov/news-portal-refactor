@@ -108,7 +108,7 @@ const UnverifiableInput: FC<InputProps> = ({
           <div
             className={`${
               variant === VariantInputs.Header ? svgWrapperClass : 'left-3'
-            } absolute top-1/2 flex h-5 w-5 -translate-y-1/2 transform items-center justify-center`}
+            } absolute top-1/2 flex h-5 w-5 -translate-y-1/2 items-center justify-center transition-all`}
           >
             <SvgIcon svgName={svgName} size={ICON_SIZES.smIcon20} className={`${svgFill}`} />
           </div>

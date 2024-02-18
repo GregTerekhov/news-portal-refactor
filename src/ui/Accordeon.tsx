@@ -38,7 +38,7 @@ const Accordeon: FC<AccordeonProps> = ({ children, dateSeparator, position, filt
           >
             {showAccordeonPages ? dateSeparator : filtersBlock}
             <SvgIcon
-              svgName='icon-arrow-down'
+              svgName='icon-arrow'
               size={ICON_SIZES.smIcon18}
               className={`fill-darkBase dark:fill-whiteBase ${
                 isOpen ? 'rotate-180' : 'rotate-0'
