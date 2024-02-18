@@ -54,7 +54,7 @@ const Layout: FC = () => {
     (isFavoriteActive && allFavourites && allFavourites.length === 0) ||
     (isArchiveActive && allArchive && allArchive.length === 0) ||
     isReadActive ||
-    isAccountPage;
+    isAccountPages;
 
   const showSuccessToast =
     statusMessage === 'Email sent successfully' ||
