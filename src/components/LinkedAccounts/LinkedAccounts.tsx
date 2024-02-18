@@ -31,7 +31,7 @@ const LinkedAccounts: FC<{}> = () => {
   const googleLogin = useGoogleLogin({
     onSuccess: async (codeResponse) => {
       // console.log('codeResponse', codeResponse);
-
+      //якщо не зареєстрований відправляти разом з email ще sub від google
       // -------це логіка, яку треба буде розкоментувати після готовності беку НЕ ВИДАЛЯТИ!!!----------
       try {
         const userInfo: VerifiedGoogleEmail = await axios
