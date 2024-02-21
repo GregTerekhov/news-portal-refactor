@@ -12,7 +12,7 @@ interface DropdownProps {
   options: string[] | undefined;
   getResults: (value: string) => void;
   selectedItem: string;
-  onSelectItem: (key: keyof SearchParamsObject | 'type', value: string) => void;
+  onSelectItem: (value: string, key: keyof SearchParamsObject | 'type') => void;
 }
 
 const Dropdown: FC<DropdownProps> = ({
@@ -29,13 +29,16 @@ const Dropdown: FC<DropdownProps> = ({
   };
 
   const handleItemClick = (item: string): void => {
+    console.log('ITEM', item);
     if (getResults) getResults(item);
     onSelectItem(
-      label === 'Category' ? 'category' : label === 'Time period' ? 'period' : 'type',
       item,
+      label === 'Category' ? 'category' : label === 'Time period' ? 'period' : 'type',
     );
     setIsOpenDropdown(false);
   };
+
+  console.log('selectedItem', selectedItem);
 
   return (
     <Menu as='div' className='relative'>
@@ -46,7 +49,7 @@ const Dropdown: FC<DropdownProps> = ({
             by <span className='capitalize'>{label}</span>
           </p>
           <Menu.Button
-            className={`flex w-full items-center justify-center gap-2.5 rounded-[20px] border border-solid border-accentBase bg-whiteBase py-2.5 text-small font-normal text-accentBase transition-colors group-hover:underline dark:border-greyBase dark:bg-darkBackground dark:text-whiteBase `}
+            className={`flex w-full items-center justify-center gap-2.5 rounded-[20px] border border-solid border-accentBase bg-whiteBase py-2.5 text-small font-normal text-accentBase transition-colors group-hover:underline dark:border-greyBase dark:bg-darkBackground dark:text-accentBase `}
             onClick={handleOpenClick}
           >
             {selectedItem || label}
@@ -83,7 +86,7 @@ const Dropdown: FC<DropdownProps> = ({
                         type='button'
                         className={`${
                           active ? 'underline' : ''
-                        } px-3.5 text-left text-small tracking-wide text-accentBase dark:text-whiteBase`}
+                        } px-3.5 text-left text-small tracking-wide text-accentBase dark:text-accentBase`}
                         onClick={() => handleItemClick(item)}
                       >
                         {item}
