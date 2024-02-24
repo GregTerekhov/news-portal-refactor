@@ -49,7 +49,7 @@ const Dropdown: FC<DropdownProps> = ({
             by <span className='capitalize'>{label}</span>
           </p>
           <Menu.Button
-            className={`flex w-full items-center justify-center gap-2.5 rounded-[20px] border border-solid border-accentBase bg-whiteBase py-2.5 text-small font-normal text-accentBase transition-colors group-hover:underline dark:border-greyBase dark:bg-darkBackground dark:text-accentBase `}
+            className={`flex w-full items-center justify-center gap-2.5 rounded-[20px] border border-solid border-accentBase bg-whiteBase py-2.5 text-small font-normal text-accentBase transition-colors group-hover:underline dark:border-greyBase dark:bg-darkBackground dark:text-whiteBase `}
             onClick={handleOpenClick}
           >
             {selectedItem || label}
@@ -86,7 +86,7 @@ const Dropdown: FC<DropdownProps> = ({
                         type='button'
                         className={`${
                           active ? 'underline' : ''
-                        } px-3.5 text-left text-small tracking-wide text-accentBase dark:text-accentBase`}
+                        } px-3.5 text-left text-small tracking-wide text-accentBase dark:text-whiteBase`}
                         onClick={() => handleItemClick(item)}
                       >
                         {item}

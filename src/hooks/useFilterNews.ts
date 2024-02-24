@@ -15,18 +15,13 @@ import { applyCrossFilters } from '../components/NewsFIlterManager/subcomponents
 type FilterHookProps = {
   activeLinks: ActiveLinks;
   setIsOpenCalendar?: (value: React.SetStateAction<boolean>) => void;
-  setSelectedMaterialType?: ((item: string) => void) | undefined;
 };
 
-const useFilterNews = ({
-  activeLinks,
-  setIsOpenCalendar,
-  setSelectedMaterialType,
-}: FilterHookProps) => {
+const useFilterNews = ({ activeLinks, setIsOpenCalendar }: FilterHookProps) => {
   const [beginDate, setBeginDate] = useState<Date | null>(null);
   const [isSorted, setIsSorted] = useState<boolean>(false);
 
-  const { filters, setFilters } = useFiltersState();
+  const { filters, setFilters, setSelectedMaterialType } = useFiltersState();
   const { sortedDates, setSortedDates } = useReadSortState();
   const { showResultsState, getFilteredNews, resetAllFilters } = useFiltersAction();
   const { updateHeadline } = useNewsAPI();
@@ -47,7 +42,7 @@ const useFilterNews = ({
   const handleMaterialTypeChange = (selectedType: string) => {
     setFilters({
       ...filters,
-      materialType: selectedType,
+      materialType: selectedType || '',
     });
   };
 
@@ -197,6 +192,7 @@ const useFilterNews = ({
         endDate: '',
       },
     });
+
     setSelectedMaterialType && setSelectedMaterialType('');
     resetAllFilters();
 

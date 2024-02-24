@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react';
+import React, { FC } from 'react';
 
 import { Filters } from 'types';
 import { useFiltersState } from 'contexts';
@@ -11,12 +11,12 @@ import Calendar from '../Calendar/Calendar';
 import { ControlButtons, FilterInputs } from './subcomponents';
 
 const FiltersBlock: FC<{}> = () => {
-  const [selectedMaterialType, setSelectedMaterialType] = useState<string>('');
-
   const activeLinks = useActiveLinks();
 
-  const { handleMaterialTypeChange } = useFilterNews({ activeLinks, setSelectedMaterialType });
-  const { filters } = useFiltersState();
+  const { handleMaterialTypeChange } = useFilterNews({
+    activeLinks,
+  });
+  const { filters, selectedMaterialType, setSelectedMaterialType } = useFiltersState();
 
   const hasNonEmptyValue = (filtersObject: Filters): boolean => {
     return Object.values(filtersObject).some((value) => {
