@@ -56,8 +56,8 @@ const Layout: FC = () => {
   return (
     <div
       className={`
-        flex h-full
-        max-h-sectionSmall min-h-screen flex-col justify-between md:max-h-sectionMedium lg:max-h-sectionLarge`}
+        min-h-sectionSmall md:min-h-sectionMedium
+        lg:min-h-sectionLarge flex h-full max-h-sectionSmall flex-col justify-between md:max-h-sectionMedium lg:max-h-sectionLarge`}
     >
       {!isErrorPage && <Header />}
       <main className='h-full'>

@@ -2,7 +2,7 @@ import axios from 'axios';
 
 import { CONFIG } from 'config';
 
-import { createAppAsyncThunk } from '../services';
+import { createAppAsyncThunk, requestTemplate } from '../services';
 
 import {
   ArticleNewsArray,
@@ -56,21 +56,28 @@ export const fetchNewsByKeyword = createAppAsyncThunk<
   }
 });
 
-export const fetchAllCategories = createAppAsyncThunk<CategoriesItem[], void>(
+export const fetchAllCategories = requestTemplate<void, CategoriesItem[]>(
   'categories/list',
-  async (_, { rejectWithValue }) => {
-    try {
-      const res = await axios.get(`${CONFIG.BASE_URL_NEWS}/news/v3/content/section-list.json`, {
-        params: {
-          'api-key': API_KEY,
-        },
-      });
-      return res.data.results;
-    } catch (error: any) {
-      return rejectWithValue(error.response.status);
-    }
-  },
+  `${CONFIG.BASE_URL_NEWS}/news/v3/content/section-list.json`,
+  'get',
+  { queryParams: { 'api-key': API_KEY }, nestedObjectName: '.results' },
 );
+
+// export const fetchAllCategories = createAppAsyncThunk<CategoriesItem[], void>(
+//   'categories/list',
+//   async (_, { rejectWithValue }) => {
+//     try {
+//       const res = await axios.get(`${CONFIG.BASE_URL_NEWS}/news/v3/content/section-list.json`, {
+//         params: {
+//           'api-key': API_KEY,
+//         },
+//       });
+//       return res.data.results;
+//     } catch (error: any) {
+//       return rejectWithValue(error.response.status);
+//     }
+//   },
+// );
 
 export const fetchNewsByCategory = createAppAsyncThunk<
   NewsWireArray,

@@ -2,7 +2,7 @@ import axios from 'axios';
 
 import { CONFIG } from 'config';
 
-import { axiosInstance, createAppAsyncThunk } from '../services';
+import { requestWithInstanceTemplate, axiosInstance, createAppAsyncThunk } from '../services';
 import { setTokens } from './authSlice';
 
 import {
@@ -22,6 +22,7 @@ import {
   RecoveryPasswordChange,
   GoogleAuth,
   PasswordChangeResponse,
+  BindSocialsResponse,
 } from 'types';
 
 export const signUp = createAppAsyncThunk<CredentialSignUpResponse, MainCredentials>(
@@ -58,103 +59,39 @@ export const signIn = createAppAsyncThunk<CredentialSignInResponse, AuthRequestW
   },
 );
 
-export const signOut = createAppAsyncThunk<SignOutResponse>(
+export const signOut = requestWithInstanceTemplate<void, SignOutResponse>(
   '/auth/signOut',
-  async (_, { rejectWithValue }) => {
-    try {
-      const response = await axiosInstance.post<SignOutResponse>('/auth/sign-out');
-      console.log('SignOutResponse', response.data);
-      return response.data;
-    } catch (error: any) {
-      console.log('Error signOut', error.response);
-      return rejectWithValue(error.response.data);
-    }
-  },
+  '/auth/sign-out',
+  'post',
 );
 
-export const fetchCurrentUser = createAppAsyncThunk<CurrentUserResponse>(
+export const fetchCurrentUser = requestWithInstanceTemplate<void, CurrentUserResponse>(
   'auth/current',
-  async (_, { rejectWithValue }) => {
-    try {
-      const response = await axiosInstance.get<CurrentUserResponse>('/auth/current-user');
-      console.log('CurrentUserResponse', response.data);
-      return response.data;
-    } catch (error: any) {
-      console.log('Error fetchCurrent', error.response);
-      return rejectWithValue(error.response.data);
-    }
-  },
+  '/auth/current-user',
+  'get',
 );
 
-export const updateUserEmail = createAppAsyncThunk<
-  UpdateCredentialsResponse,
-  AuthRequestWithoutName
->('auth/updateEmail', async (newEmail, { rejectWithValue }) => {
-  console.log('newEmail', newEmail);
-  try {
-    const response = await axiosInstance.patch<UpdateCredentialsResponse>(
-      `/auth/update-email`,
-      newEmail,
-    );
-    console.log('UpdateCredentialsResponse', response.data);
-    return response.data;
-  } catch (error: any) {
-    console.log('Error updateEmailMessage', error.response);
-    return rejectWithValue(error.response.data);
-  }
-});
+export const updateUserEmail = requestWithInstanceTemplate<
+  AuthRequestWithoutName,
+  UpdateCredentialsResponse
+>('auth/updateEmail', '/auth/update-email', 'patch');
 
-export const updateUserPassword = createAppAsyncThunk<ServicesInfo, UpdatePasswordRequest>(
+export const updateUserPassword = requestWithInstanceTemplate<UpdatePasswordRequest, ServicesInfo>(
   'auth/updatePassword',
-  async (newPassword, { rejectWithValue }) => {
-    console.log('newPassword', newPassword);
-    try {
-      const response = await axiosInstance.patch<ServicesInfo>(
-        '/auth/update-password',
-        newPassword,
-      );
-      console.log('UpdatePasswordResponse', response.data);
-      return response.data;
-    } catch (error: any) {
-      console.log('Error updatePassword', error.response);
-      return rejectWithValue(error.response.data);
-    }
-  },
-);
-export const recoveryPasswordRequest = createAppAsyncThunk<ServicesInfo, SendEmailRequest>(
-  'auth/recoveryPasswordRequest',
-  async (email, { rejectWithValue }) => {
-    try {
-      console.log('operations forgotRequest', email.email);
-      const response = await axios.post(
-        `${CONFIG.BASE_URL_DB}/auth/forgot-password-request`,
-        email,
-      );
-      console.log('recoveryPasswordRequest', response.data);
-      return response.data;
-    } catch (error: any) {
-      console.log('Error forgotPasswordRequest', error.response);
-      return rejectWithValue(error.response.data);
-    }
-  },
+  '/auth/update-password',
+  'patch',
 );
 
-export const recoveryPasswordChange = createAppAsyncThunk<
-  PasswordChangeResponse,
-  RecoveryPasswordChange
->('auth/recoveryPasswordChange', async (changedPassword, { rejectWithValue }) => {
-  try {
-    const response = await axiosInstance.post<PasswordChangeResponse>(
-      '/auth/forgot-password-change',
-      changedPassword,
-    );
-    console.log('recoveryPasswordChange', response.data);
-    return response.data;
-  } catch (error: any) {
-    console.log('Error forgotPasswordChange', error);
-    return rejectWithValue(error.response.data);
-  }
-});
+export const recoveryPasswordRequest = requestWithInstanceTemplate<SendEmailRequest, ServicesInfo>(
+  'auth/recoveryPasswordRequest',
+  '/auth/forgot-password-request',
+  'post',
+);
+
+export const recoveryPasswordChange = requestWithInstanceTemplate<
+  RecoveryPasswordChange,
+  PasswordChangeResponse
+>('auth/recoveryPasswordChange', '/auth/forgot-password-change', 'post');
 
 export const googleAuth = createAppAsyncThunk(
   'auth/googleAuth',
@@ -171,35 +108,18 @@ export const googleAuth = createAppAsyncThunk(
   },
 );
 
-export const googleBind = createAppAsyncThunk(
+export const googleBind = requestWithInstanceTemplate<SendEmailRequest, BindSocialsResponse>(
   'auth/googleBind',
-  async (email: SendEmailRequest, { rejectWithValue }) => {
-    console.log('email', email);
-    try {
-      const response = await axiosInstance.patch(`/auth/google/bind`, email);
-
-      console.log(response.data);
-      return response.data;
-    } catch (error: any) {
-      console.log('Error googleBind', error.response.data);
-      return rejectWithValue(error.response.data);
-    }
-  },
+  '/auth/google/bind',
+  'patch',
 );
-export const googleUnbind = createAppAsyncThunk(
+
+export const googleUnbind = requestWithInstanceTemplate<void, BindSocialsResponse>(
   'auth/googleUnbind',
-  async (_, { rejectWithValue }) => {
-    try {
-      const response = await axiosInstance.patch(`/auth/google/unbind`);
-
-      console.log(response.data);
-      return response.data;
-    } catch (error: any) {
-      console.log('Error googleUnbind', error.response.data);
-      return rejectWithValue(error.response.data);
-    }
-  },
+  '/auth/google/unbind',
+  'patch',
 );
+
 export const facebookAuth = createAppAsyncThunk(
   'auth/facebook',
   async (tokenAuth: IThirdPartyAuth, { rejectWithValue }) => {
@@ -231,20 +151,8 @@ export const appleAuth = createAppAsyncThunk(
   },
 );
 
-export const updateTheme = createAppAsyncThunk<UpdateThemeResponse, UpdateThemeRequest>(
+export const updateTheme = requestWithInstanceTemplate<UpdateThemeRequest, UpdateThemeResponse>(
   'auth/updateTheme',
-  async (updatedTheme, { rejectWithValue }) => {
-    console.log('theme', updatedTheme);
-    try {
-      const response = await axiosInstance.patch<UpdateThemeResponse>(
-        '/auth/update-theme',
-        updatedTheme,
-      );
-      console.log('UpdateThemeResponse', response.data);
-      return response.data;
-    } catch (error: any) {
-      console.log('Error updateTheme', error.response);
-      return rejectWithValue(error.response.data);
-    }
-  },
+  '/auth/update-theme',
+  'patch',
 );

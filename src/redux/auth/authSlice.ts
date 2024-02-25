@@ -45,7 +45,7 @@ const authSlice = createSlice({
         state.userTheme = action.payload.userTheme;
         state.accessToken = action.payload.accessToken;
         state.refreshToken = action.payload.refreshToken;
-        // state.haveAccounts = action.payload.haveAccounts;
+        state.haveAccounts = action.payload.haveAccounts;
       })
       .addCase(authOperations.signOut.fulfilled, () => {
         return { ...initialState };
@@ -67,6 +67,7 @@ const authSlice = createSlice({
         state.userTheme = action.payload.userTheme;
         state.accessToken = action.payload.accessToken;
         state.refreshToken = action.payload.refreshToken;
+        state.haveAccounts = action.payload.haveAccounts;
       })
       .addCase(authOperations.googleAuth.fulfilled, (state, action) => {
         state.isLoggedIn = true;

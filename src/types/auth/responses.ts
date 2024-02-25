@@ -4,6 +4,12 @@ type User = {
   id: string;
 };
 
+type HaveAccounts = {
+  google: boolean;
+  facebook: boolean;
+  apple: boolean;
+};
+
 type ThemeValue = 'light' | 'dark';
 
 export interface ServicesInfo {
@@ -27,6 +33,7 @@ interface SignInResponse {
   userTheme: ThemeValue;
   accessToken: string;
   refreshToken: string;
+  haveAccounts: HaveAccounts;
 }
 export type CredentialSignInResponse = ServicesInfo & SignInResponse;
 
@@ -54,6 +61,8 @@ interface Tokens {
 }
 
 export type PasswordChangeResponse = ServicesInfo & SignInResponse;
+
+export type BindSocialsResponse = ServicesInfo & HaveAccounts;
 
 export type RefreshTokensResponse = ServicesInfo & Tokens;
 

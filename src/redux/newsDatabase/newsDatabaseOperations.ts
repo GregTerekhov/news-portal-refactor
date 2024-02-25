@@ -5,36 +5,27 @@ import {
   SavedNewsResponse,
 } from 'types';
 
-import { axiosInstance, createAppAsyncThunk } from '../services';
+import { requestWithInstanceTemplate, createAppAsyncThunk, axiosInstance } from '../services';
 
-export const fetchAllNews = createAppAsyncThunk<SavedNewsResponse>(
+export const fetchAllNews = requestWithInstanceTemplate<void, SavedNewsResponse>(
   'newsDB/all',
-  async (_, { rejectWithValue }: any) => {
-    try {
-      const response = await axiosInstance.get<SavedNewsResponse>('/news');
-      return response.data;
-    } catch (error: any) {
-      console.log('Error fetchAllNews', error.response.status);
-      return rejectWithValue(error.response.status);
-    }
-  },
+  '/news',
+  'get',
 );
 
-export const addNews = createAppAsyncThunk<SavedNewsResponse, PartialVotedNewsArray>(
+export const addNews = requestWithInstanceTemplate<PartialVotedNewsArray, SavedNewsResponse>(
   'newsDB/add',
-  async (updatedData, { rejectWithValue }: any) => {
-    console.log('updatedData', updatedData);
-    try {
-      const response = await axiosInstance.post<SavedNewsResponse>('/news', updatedData);
-      console.log('responseADD', response.data);
-      return response.data;
-    } catch (error: any) {
-      console.log(error.message);
-      console.log('Error addNews', error.response.status);
-      return rejectWithValue(error.response.status);
-    }
-  },
+  '/news',
+  'post',
 );
+
+// export const deleteNews = requestWithInstanceTemplate<string, DeleteNewsResponse>(
+//   'newsDB/delete',
+//   '/news/archive',
+//   'get',
+//   true,
+//   // { pathParams: 'id' },
+// );
 
 export const deleteNews = createAppAsyncThunk<DeleteNewsResponse, string>(
   'newsDB/delete',
@@ -51,57 +42,26 @@ export const deleteNews = createAppAsyncThunk<DeleteNewsResponse, string>(
   },
 );
 
-export const fetchFavourites = createAppAsyncThunk<SavedNewsResponse>(
+export const fetchFavourites = requestWithInstanceTemplate<void, SavedNewsResponse>(
   'favourite/all',
-  async (_, { rejectWithValue }: any) => {
-    try {
-      const response = await axiosInstance.get<SavedNewsResponse>('/news/favourite');
-      console.log('allFavourites: ', response.data.data);
-      return response.data;
-    } catch (error: any) {
-      console.log('Error fetchFavourites', error.response.status);
-      return rejectWithValue(error.response.status);
-    }
-  },
+  '/news/favourite',
+  'get',
 );
 
-export const fetchRead = createAppAsyncThunk<SavedNewsResponse>(
+export const fetchRead = requestWithInstanceTemplate<void, SavedNewsResponse>(
   'read/all',
-  async (_, { rejectWithValue }: any) => {
-    try {
-      const response = await axiosInstance.get<SavedNewsResponse>('/news/read');
-      return response.data;
-    } catch (error: any) {
-      console.log('Error fetchReads', error.response.status);
-      return rejectWithValue(error.response.status);
-    }
-  },
+  '/news/read',
+  'get',
 );
 
-export const fetchArchivedNews = createAppAsyncThunk<SavedNewsResponse>(
+export const fetchArchivedNews = requestWithInstanceTemplate<void, SavedNewsResponse>(
   'archive/all',
-  async (_, { rejectWithValue }: any) => {
-    try {
-      const response = await axiosInstance.get<SavedNewsResponse>('/news/archive');
-      console.log(response.data);
-      return response.data;
-    } catch (error: any) {
-      console.log('Error fetchArchives', error.response.status);
-      return rejectWithValue(error.response.status);
-    }
-  },
+  '/news/archive',
+  'get',
 );
 
-export const fetchHistoryLog = createAppAsyncThunk<HistoryLogResponse>(
+export const fetchHistoryLog = requestWithInstanceTemplate<void, HistoryLogResponse>(
   'history/log',
-  async (_, { rejectWithValue }: any) => {
-    try {
-      const response = await axiosInstance.get<HistoryLogResponse>('/news/history-log');
-      console.log('HistoryLogResponse', response.data);
-      return response.data;
-    } catch (error: any) {
-      console.log('Error fetchHistoryLog', error.response.status);
-      return rejectWithValue(error.response.status);
-    }
-  },
+  '/news/history-log',
+  'get',
 );
