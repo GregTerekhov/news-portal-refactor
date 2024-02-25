@@ -9,9 +9,7 @@ import { useWindowWidth } from 'contexts';
 import { calculatePagesForDevices, calculateFirstIndexes } from '../assistants';
 
 const usePagination = (rebuildedNews: PartialVotedNewsArray) => {
-  const { breakpointsForMarkup } = useWindowWidth() || {
-    breakpointsForMarkup: null,
-  };
+  const { breakpointsForMarkup } = useWindowWidth();
   const { popularNews, newsByKeyword, newsByCategory, newsByDate } = useNewsAPI();
   const { filteredNews } = useFiltersAction();
 

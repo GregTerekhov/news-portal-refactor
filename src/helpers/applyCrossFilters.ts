@@ -12,7 +12,7 @@ function isDateWithinRange(
 }
 
 // Function to news' cross-filtering
-export function applyCrossFilters(
+export default function applyCrossFilters(
   newsArray: PartialVotedNewsArray | undefined,
   filters: Filters,
 ): PartialVotedNewsArray {

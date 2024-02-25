@@ -9,9 +9,7 @@ import { Dropdown, PrimaryButton, UnverifiableInput } from 'ui';
 import Calendar from './Calendar/Calendar';
 
 const SearchBlock: FC<{}> = () => {
-  const { breakpointsForMarkup } = useWindowWidth() ?? {
-    breakpointsForMarkup: null,
-  };
+  const { breakpointsForMarkup } = useWindowWidth();
 
   const {
     query,

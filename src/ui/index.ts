@@ -1,8 +1,8 @@
 export { default as Accordeon } from './Accordeon';
 export { default as CommonMenu } from './CommonMenu/CommonMenu';
+export { default as CustomScrollBar } from './CustomScrollBar';
 export { default as Dropdown } from './Dropdown';
 export { default as Hint } from './Hint';
-export { default as IconButton } from './IconButton';
 export { default as Loader } from './Loader/Loader';
 export { default as Modal } from './Modal/Modal';
 export { default as Notification } from './Notification';
@@ -12,4 +12,3 @@ export { default as SvgIcon } from './SvgIcon';
 export { default as ThemeSwitcher } from './ThemeSwitcher/ThemeSwitcher';
 export { default as UnverifiableInput } from './UnverifiableInput/UnverifiableInput';
 export { default as VerifiableInput } from './VerifiableInput/VerifiableInput';
-export { default as CustomScrollBar } from './CustomScrollBar';

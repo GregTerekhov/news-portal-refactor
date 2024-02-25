@@ -10,22 +10,21 @@ import { SvgIcon } from 'ui';
 import { renderInfoItems, renderAccountIcons } from './assistants';
 
 const AccountPage: FC<{}> = () => {
-  const { breakpointsForMarkup } = useWindowWidth() ?? {
-    breakpointsForMarkup: null,
-  };
+  const { breakpointsForMarkup } = useWindowWidth();
   const { user, haveAccounts } = useAuthRedux();
 
   const userInfoList = renderInfoItems(user);
-  const accountIcons = renderAccountIcons();
+  const accountIcons = renderAccountIcons(haveAccounts);
+
   const isMobile = breakpointsForMarkup?.isNothing || breakpointsForMarkup?.isMobile;
-  const commonHeadlineClass = 'text-darkBase dark:text-whiteBase text-end';
   const haveLinkedAccount = haveAccounts.google || haveAccounts.facebook || haveAccounts.apple;
+  const commonHeadlineClass = 'text-darkBase dark:text-whiteBase text-end';
 
   return (
     <div>
       <h2 className={`${commonHeadlineClass} mb-14 text-3xl leading-tighter`}>Your account</h2>
       <div className='flex flex-col items-end'>
-        <ul className='lg:w-600px mb-6 w-52 space-y-6 md:w-80 md:space-y-10'>
+        <ul className='mb-6 w-52 space-y-6 md:w-80 md:space-y-10 lg:w-600px'>
           {userInfoList.map(({ label, value }) => (
             <li key={label}>
               <h3 className={`${commonHeadlineClass} mb-2 md:text-2xl`}>{label}</h3>

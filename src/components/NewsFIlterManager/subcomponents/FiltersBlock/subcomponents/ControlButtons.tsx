@@ -11,9 +11,7 @@ type ControlButtonsProps = {
 };
 
 const ControlButtons: FC<ControlButtonsProps> = ({ hasFilterValue }) => {
-  const { breakpointsForMarkup } = useWindowWidth() ?? {
-    breakpointsForMarkup: null,
-  };
+  const { breakpointsForMarkup } = useWindowWidth();
 
   const activeLinks = useActiveLinks();
 

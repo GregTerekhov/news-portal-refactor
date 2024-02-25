@@ -16,22 +16,22 @@ const DeletedNewsTable: FC<TableProps> = ({ displayedRows }) => {
     'whitespace-nowrap px-6 py-4 text-sm font-medium text-darkBase dark:text-whiteBase';
 
   return (
-    <table className='min-w-full divide-y divide-greyAlt/[.4] dark:divide-greyBase/[.4]'>
-      <thead className='bg-accentBase/[.2] dark:bg-greyBase/[.4]'>
+    <table className='min-w-full divide-y divide-greyAlt/[.4] transition-colors duration-500 dark:divide-greyBase/[.4]'>
+      <thead className='bg-accentBase/[.2] transition-colors duration-500 dark:bg-greyBase/[.4]'>
         <tr>
           {tableHeads &&
             tableHeads?.map(({ label }) => (
               <th
                 key={label}
                 scope='col'
-                className='px-6 py-3 text-start text-xs font-medium uppercase text-greyBase dark:text-whiteBase md:text-small'
+                className='px-6 py-3 text-start text-xs font-medium uppercase text-greyBase transition-colors duration-500 dark:text-whiteBase md:text-small'
               >
                 {label}
               </th>
             ))}
         </tr>
       </thead>
-      <tbody className='divide-y divide-gray-200 dark:divide-gray-700'>
+      <tbody className='divide-y divide-whiteBase transition-colors duration-500 dark:divide-gray-700'>
         {Array.isArray(displayedRows) &&
           displayedRows.map((displayedRow) => {
             const { title, newsUrl, category, additionDate, deletionDate } = displayedRow;
@@ -43,7 +43,7 @@ const DeletedNewsTable: FC<TableProps> = ({ displayedRows }) => {
                   <a
                     href={newsUrl}
                     target='_blank'
-                    className=' transition-colors duration-500 group-hover:text-accentBase'
+                    className='transition-colors duration-500 group-hover:text-accentBase'
                   >
                     {title.length > TITLE_LENGTH_LIMIT ? `${title.slice(0, 65)}...` : title}
                   </a>

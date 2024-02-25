@@ -1,3 +1,7 @@
+const FIRST_PAGE = 1;
+const DESKTOP_BUTTONS_QUANTITY = 3;
+const MOBILE_BUTTONS_QUANTITY = 6;
+
 // Розрахунок кількості сторінок для кожного типу пристрою
 const calculatePagesArray = (
   total: number,
@@ -43,4 +47,61 @@ export const calculateFirstIndexes = (pages: number[], total: number): number | 
   } catch (error: any) {
     return console.error(error.message);
   }
+};
+
+// Рендерінг відповідних кнопок для різних сторінок пагінації та різних значень ширини девайсів
+export const renderPagination = (
+  currentPage: number,
+  pageNumbers: number[],
+  isTabletOrDesktop: boolean | undefined,
+  renderPaginationButton: (pageNumber: number) => JSX.Element,
+  renderEllipsis: (direction: string) => JSX.Element,
+) => {
+  const totalPages = pageNumbers.length;
+  const prevPage = currentPage - 1;
+  const nextPage = currentPage + 1;
+  const visibleButtonsCount = !isTabletOrDesktop
+    ? DESKTOP_BUTTONS_QUANTITY
+    : MOBILE_BUTTONS_QUANTITY;
+
+  const paginationButtons = [];
+
+  if (totalPages <= visibleButtonsCount) {
+    for (let i = FIRST_PAGE; i <= totalPages; i += 1) {
+      paginationButtons.push(renderPaginationButton(i));
+    }
+  } else if (currentPage === FIRST_PAGE) {
+    paginationButtons.push(renderPaginationButton(currentPage));
+    paginationButtons.push(renderPaginationButton(nextPage));
+    paginationButtons.push(renderEllipsis('next'));
+    paginationButtons.push(renderPaginationButton(totalPages));
+  } else if (currentPage === totalPages) {
+    paginationButtons.push(renderPaginationButton(FIRST_PAGE));
+    paginationButtons.push(renderEllipsis('prev'));
+    paginationButtons.push(renderPaginationButton(prevPage));
+    paginationButtons.push(renderPaginationButton(currentPage));
+  } else if (currentPage > FIRST_PAGE && currentPage < totalPages) {
+    if (currentPage === 2) {
+      paginationButtons.push(renderEllipsis('prev'));
+      paginationButtons.push(renderPaginationButton(currentPage));
+      paginationButtons.push(renderPaginationButton(nextPage));
+      paginationButtons.push(renderEllipsis('next'));
+      paginationButtons.push(renderPaginationButton(totalPages));
+    }
+    if (currentPage - 1 > FIRST_PAGE && currentPage + 1 !== totalPages) {
+      paginationButtons.push(renderEllipsis('prev'));
+      paginationButtons.push(renderPaginationButton(prevPage));
+      paginationButtons.push(renderPaginationButton(currentPage));
+      paginationButtons.push(renderPaginationButton(nextPage));
+      paginationButtons.push(renderEllipsis('next'));
+    }
+    if (currentPage + 1 === totalPages) {
+      paginationButtons.push(renderEllipsis('prev'));
+      paginationButtons.push(renderPaginationButton(prevPage));
+      paginationButtons.push(renderPaginationButton(currentPage));
+      paginationButtons.push(renderPaginationButton(totalPages));
+    }
+  }
+
+  return paginationButtons;
 };

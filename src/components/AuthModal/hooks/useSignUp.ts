@@ -3,7 +3,7 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 
 import { useAuthRedux } from 'reduxStore/hooks';
 
-import type { SignUpRequest, AuthInputs } from 'types';
+import type { MainCredentials, AuthInputs } from 'types';
 import { useNotification, useScrollBodyContext } from 'contexts';
 
 import { usePopUp } from 'hooks';
@@ -22,9 +22,9 @@ const useSignUp = () => {
     reset,
     getValues,
     formState: { errors },
-  } = useForm<SignUpRequest>({ resolver: yupResolver(signUpSchema) });
+  } = useForm<MainCredentials>({ resolver: yupResolver(signUpSchema) });
 
-  const signUpSubmitHandler: SubmitHandler<SignUpRequest> = async (data) => {
+  const signUpSubmitHandler: SubmitHandler<MainCredentials> = async (data) => {
     try {
       const { name, email, password } = data;
 
@@ -78,6 +78,7 @@ const useSignUp = () => {
       label: 'email',
       ariaInvalid: errors?.email ? true : false,
       autoFocus: false,
+      autofill: 'email',
     },
     {
       type: 'password',

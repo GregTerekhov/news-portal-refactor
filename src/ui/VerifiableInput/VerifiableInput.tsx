@@ -1,7 +1,7 @@
 import React, { ReactNode, FC, useId, useState } from 'react';
 import { UseFormRegister } from 'react-hook-form';
 
-import { InputLabel, VariantVerifiableInputs } from 'types';
+import { InputLabel, VariantVerifiableInputs, VerifiableInputValues } from 'types';
 import { ICON_SIZES } from 'constants/iconSizes';
 
 import SvgIcon from '../SvgIcon';
@@ -14,9 +14,11 @@ interface InputCollectedData {
   fieldValue?: string | string[] | undefined;
   autoFocus?: boolean | undefined;
   children?: ReactNode;
+  autofill?: string;
 }
 
 type AriaInvalid = boolean | 'false' | 'true' | 'grammar' | 'spelling' | undefined;
+type VerifiableInputRegister = UseFormRegister<VerifiableInputValues>;
 
 interface InputProps {
   inputData: InputCollectedData;
@@ -27,8 +29,7 @@ interface InputProps {
   ariaInvalid: AriaInvalid;
   label: InputLabel;
   errors?: string | undefined;
-  // register: UseFormRegister<VerifiableInputValues>;
-  register: UseFormRegister<any>;
+  register: VerifiableInputRegister;
   handleSubmitRecovery?: React.MouseEventHandler<HTMLButtonElement> | undefined;
 }
 
@@ -48,7 +49,7 @@ const VerifiableInput: FC<InputProps> = ({
 
   const id = useId(); // додається для розрізнення однакових label в різних інпутах, які знаходяться на одній сторінці
 
-  const { type, fieldValue, placeholder, children, autoFocus } = inputData;
+  const { type, fieldValue, placeholder, children, autoFocus, autofill } = inputData;
 
   const { geometry, border, bg, caret, text, placeholderStyle } =
     inputStyles[variant === VariantVerifiableInputs.Account ? 'account' : 'auth'];
@@ -103,7 +104,7 @@ const VerifiableInput: FC<InputProps> = ({
           type={isPasswordVisibility ? 'text' : type}
           value={fieldValue}
           placeholder={placeholder}
-          autoComplete='off'
+          autoComplete={autofill}
           aria-invalid={ariaInvalid}
         />
       </div>

@@ -52,6 +52,9 @@ export type UpdateThemeResponse = ServicesInfo & UpdateTheme;
 interface Tokens {
   data: TokensPayload;
 }
+
+export type PasswordChangeResponse = ServicesInfo & SignInResponse;
+
 export type RefreshTokensResponse = ServicesInfo & Tokens;
 
 export type GoogleResponse = {

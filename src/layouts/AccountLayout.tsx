@@ -9,9 +9,7 @@ import { SvgIcon } from 'ui';
 import { AccountMenu } from './subcomponents';
 
 const AccountLayout: FC = () => {
-  const { breakpointsForMarkup } = useWindowWidth() ?? {
-    breakpointsForMarkup: null,
-  };
+  const { breakpointsForMarkup } = useWindowWidth();
 
   return (
     <>

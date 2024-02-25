@@ -100,9 +100,6 @@ export default {
         mediumRelaxed: '1.75',
         mostRelaxed: '1.79',
       },
-      maxWidth: {
-        '288px': '288px',
-      },
       maxHeight: {
         '225px': '225px',
         sectionSmall: 'calc(100vh - 82px)',

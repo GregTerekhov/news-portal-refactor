@@ -27,18 +27,15 @@ const Header: FC<{}> = () => {
   const { isAuthenticated, user, writeTokens } = useAuthRedux();
 
   useEffect(() => {
-    if (!user && token && openModal) {
+    if (!user.id && token && openModal) {
       setPasswordToken(true);
       writeTokens({ accessToken: token, refreshToken: null });
       setIsOpenModal(true);
     }
-    // setPasswordToken(false);
-    // setIsOpenModal(false);
-  }, [searchParams, openModal]);
+  }, [token, openModal, user]);
 
-  const { breakpointsForMarkup } = useWindowWidth() ?? {
-    breakpointsForMarkup: null,
-  };
+  const { breakpointsForMarkup } = useWindowWidth();
+
   const { filteredNews, resetAllFilters } = useFiltersAction();
 
   const { isHomeActive, isAccountPage, isManageAccountPage } = useActiveLinks();

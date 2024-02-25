@@ -13,9 +13,7 @@ import {
 } from '../assistants';
 
 const SkeletonPage: FC = () => {
-  const { breakpointsForMarkup } = useWindowWidth() ?? {
-    breakpointsForMarkup: null,
-  };
+  const { breakpointsForMarkup } = useWindowWidth();
 
   const mobileSkeleton = breakpointsForMarkup?.isNothing || breakpointsForMarkup?.isMobile;
   const tabletSkeleton = breakpointsForMarkup?.isTablet;

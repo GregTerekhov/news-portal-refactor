@@ -1,4 +1,9 @@
-import { format } from 'date-fns';
+import { format, isAfter } from 'date-fns';
+
+type SelectedDate = {
+  beginDate: string;
+  endDate: string;
+};
 
 export function formatDate(inputDate: string) {
   if (!inputDate) return '';
@@ -33,4 +38,16 @@ export function convertDateFormat(inputDate: string) {
   const outputDate = `${day}.${month}`;
 
   return outputDate;
+}
+
+export function determineNewSelectedDate(
+  date: Date,
+  currentBeginDate: Date,
+  position: string,
+): SelectedDate {
+  const formatPattern = position === 'request' ? 'yyyyMMdd' : 'dd/MM/yyyy';
+
+  return isAfter(date, currentBeginDate)
+    ? { beginDate: format(currentBeginDate, formatPattern), endDate: format(date, formatPattern) }
+    : { beginDate: format(date, formatPattern), endDate: format(currentBeginDate, formatPattern) };
 }
