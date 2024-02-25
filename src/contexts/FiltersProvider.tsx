@@ -8,11 +8,14 @@ type FiltersProviderProps = {
 type FiltersContextValue = {
   filters: Filters;
   setFilters: (value: Filters) => void;
+  selectedMaterialType: string;
+  setSelectedMaterialType: (value: string) => void;
 };
 
 export const FiltersContext = createContext<FiltersContextValue | undefined>(undefined);
 
 export const FiltersProvider: FC<FiltersProviderProps> = ({ children }) => {
+  const [selectedMaterialType, setSelectedMaterialType] = useState<string>('');
   const [filters, setFilters] = useState<Filters>({
     keyword: '',
     title: '',
@@ -25,8 +28,14 @@ export const FiltersProvider: FC<FiltersProviderProps> = ({ children }) => {
     },
   });
 
+  console.log('FiltersContext');
+
   return (
-    <FiltersContext.Provider value={{ filters, setFilters }}>{children}</FiltersContext.Provider>
+    <FiltersContext.Provider
+      value={{ filters, setFilters, selectedMaterialType, setSelectedMaterialType }}
+    >
+      {children}
+    </FiltersContext.Provider>
   );
 };
 

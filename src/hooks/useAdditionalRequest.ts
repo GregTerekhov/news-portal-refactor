@@ -46,7 +46,9 @@ const useAdditionalRequest = () => {
 
   const getCategoriesList = () => categoriesList?.map((item) => item.display_name) || [];
 
+
   const updateSearchParams = (value: string, key: keyof SearchParamsObject | string) => {
+
     setSearchParams((prevParams) => ({ ...prevParams, [key]: value }));
   };
 

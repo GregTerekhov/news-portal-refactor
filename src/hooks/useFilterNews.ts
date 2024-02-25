@@ -21,7 +21,7 @@ const useFilterNews = ({ activeLinks }: FilterHookProps) => {
   const [beginDate, setBeginDate] = useState<Date | null>(null);
   const [isSorted, setIsSorted] = useState<boolean>(false);
 
-  const { filters, setFilters } = useFiltersState();
+  const { filters, setFilters, setSelectedMaterialType } = useFiltersState();
   const { sortedDates, setSortedDates } = useReadSortState();
 
   const { showResultsState, getFilteredNews, resetAllFilters } = useFiltersAction();
@@ -188,7 +188,7 @@ const useFilterNews = ({ activeLinks }: FilterHookProps) => {
         endDate: '',
       },
     });
-
+    setSelectedMaterialType('');
     resetAllFilters();
 
     setSortedDates([]);
