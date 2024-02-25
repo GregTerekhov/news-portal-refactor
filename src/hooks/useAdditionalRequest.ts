@@ -38,9 +38,17 @@ const useAdditionalRequest = () => {
     (newsByCategory && newsByCategory?.length === 0) ||
     (newsByDate && newsByDate?.length === 0);
 
+  const hasAnotherRequestResults =
+    (popularNews && popularNews?.length > 0) ||
+    (newsByKeyword && newsByKeyword?.length > 0) ||
+    (newsByCategory && newsByCategory?.length > 0) ||
+    (newsByDate && newsByDate?.length > 0);
+
   const getCategoriesList = () => categoriesList?.map((item) => item.display_name) || [];
 
-  const updateSearchParams = (value: string, key: keyof SearchParamsObject | 'type') => {
+
+  const updateSearchParams = (value: string, key: keyof SearchParamsObject | string) => {
+
     setSearchParams((prevParams) => ({ ...prevParams, [key]: value }));
   };
 
@@ -92,11 +100,6 @@ const useAdditionalRequest = () => {
   const resetSearchParams = () => setSearchParams({ query: '', period: '', category: '' });
 
   const handleResetRequests = async () => {
-    const hasAnotherRequestResults =
-      (popularNews && popularNews?.length > 0) ||
-      (newsByKeyword && newsByKeyword?.length > 0) ||
-      (newsByCategory && newsByCategory?.length > 0) ||
-      (newsByDate && newsByDate?.length > 0);
     if (hasAnotherRequestResults) {
       resetPreviousRequest();
       updateHeadline('Today`s Hot News');

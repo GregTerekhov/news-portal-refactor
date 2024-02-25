@@ -1,8 +1,6 @@
 import React, { FC } from 'react';
 
-import { ICON_SIZES } from 'constants/iconSizes';
-
-import { SvgIcon } from 'ui';
+import ArrowButtonPagination from './ArrowButtonPagination';
 
 interface TablePaginationProps {
   handlePageChange: (newPage: number) => void;
@@ -17,45 +15,31 @@ const TablePagination: FC<TablePaginationProps> = ({
 }) => {
   return (
     <nav className='flex items-center space-x-1'>
-      <button
-        type='button'
-        onClick={() => handlePageChange(currentPage - 1)}
-        className='inline-flex items-center gap-x-2 rounded-full p-2.5 hover:bg-greyAlt/[.2] disabled:pointer-events-none disabled:opacity-50 dark:text-white dark:hover:bg-whiteBase/[.2] dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600'
-      >
-        <span aria-hidden='true'>
-          <SvgIcon
-            svgName='icon-arrow'
-            size={ICON_SIZES.xsIcon14}
-            className='rotate-90 fill-accentBase dark:fill-whiteBase'
-          />
-        </span>
-        <span className='sr-only'>Previous</span>
-      </button>
+      <ArrowButtonPagination
+        handlePageChange={handlePageChange}
+        currentPage={currentPage}
+        label='Previous'
+        position={1}
+        iconClass='rotate-90'
+      />
       {Array.from({ length: totalPages }, (_, index) => (
         <button
           key={index}
           type='button'
           aria-current='page'
-          className='flex min-w-10 items-center justify-center rounded-full py-2.5 text-sm text-gray-800 hover:bg-greyAlt/[.2] dark:text-white dark:hover:bg-whiteBase/[.2]'
+          className='flex min-w-10 items-center justify-center rounded-full py-2.5 text-sm text-darkBase transition-colors duration-500 hover:bg-accentBase hover:text-whiteBase dark:text-whiteBase dark:hover:bg-accentBase'
           onClick={() => handlePageChange(index + 1)}
         >
           {index + 1}
         </button>
       ))}
-      <button
-        type='button'
-        onClick={() => handlePageChange(currentPage + 1)}
-        className='inline-flex items-center gap-x-2 rounded-full p-2.5 text-sm text-gray-800 hover:bg-greyAlt/[.2] disabled:pointer-events-none disabled:opacity-50  dark:hover:bg-whiteBase/[.2] dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600'
-      >
-        <span className='sr-only'>Next</span>
-        <span aria-hidden='true'>
-          <SvgIcon
-            svgName='icon-arrow'
-            size={ICON_SIZES.xsIcon14}
-            className='-rotate-90 fill-accentBase dark:fill-whiteBase'
-          />
-        </span>
-      </button>
+      <ArrowButtonPagination
+        handlePageChange={handlePageChange}
+        currentPage={currentPage}
+        label='Next'
+        position={totalPages}
+        iconClass='-rotate-90'
+      />
     </nav>
   );
 };

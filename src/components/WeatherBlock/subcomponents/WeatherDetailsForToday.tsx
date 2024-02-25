@@ -10,9 +10,8 @@ import { receiveCurrentDate, getWeatherDetailsForToday } from '../assistants';
 
 const WeatherDetailsForToday: FC<{}> = () => {
   const { currentWeather } = useWeatherAPI();
-  const { breakpointsForMarkup } = useWindowWidth() ?? {
-    breakpointsForMarkup: null,
-  };
+  const { breakpointsForMarkup } = useWindowWidth();
+
   const { days, dateNow } = receiveCurrentDate();
   const isMobile = breakpointsForMarkup?.isNothing || breakpointsForMarkup?.isMobile;
 

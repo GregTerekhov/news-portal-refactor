@@ -1,6 +1,6 @@
 export type ThemeValue = 'light' | 'dark';
 
-type MainCredentials = {
+export type MainCredentials = {
   name: string;
   email: string;
   password: string;
@@ -26,15 +26,15 @@ export interface IThirdPartyAuth {
 
 export type GoogleAuth = SendEmailRequest & { sub: string };
 
-export type SignUpRequest = Required<MainCredentials>;
-export type AuthRequestWithoutName = Required<Omit<MainCredentials, 'name'>>;
-export type SendEmailRequest = Required<Pick<MainCredentials, 'email'>>;
+export type AuthRequestWithoutName = Omit<MainCredentials, 'name'>;
+export type SendEmailRequest = Pick<MainCredentials, 'email'>;
 export type RecoveryPasswordChange = Required<Pick<AdditionalCredentials, 'newPassword'>>;
-export type ChangePasswordValues = Required<Omit<ExtendedUpdatePasswordRequest, 'password'>>;
+export type ChangePasswordValues = Omit<ExtendedUpdatePasswordRequest, 'password'>;
 export type UpdateThemeRequest = Required<Pick<AdditionalCredentials, 'updatedTheme'>>;
 
 export type VerifiableInputValues =
+  | ChangePasswordValues
   | ExtendedUpdatePasswordRequest
-  | SignUpRequest
+  | MainCredentials
   | AuthRequestWithoutName
   | SendEmailRequest;

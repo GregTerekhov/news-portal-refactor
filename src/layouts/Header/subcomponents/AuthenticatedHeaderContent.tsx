@@ -22,9 +22,8 @@ const AuthenticatedHeaderContent: FC<HeaderContentProps> = ({
   touched,
   resetFilters,
 }) => {
-  const { breakpointsForMarkup } = useWindowWidth() ?? {
-    breakpointsForMarkup: null,
-  };
+  const { breakpointsForMarkup } = useWindowWidth();
+
   const { query, onChangeInput, onHandleSearch } = useAdditionalRequest();
   const { isOpenMenu, toggleMenu } = usePopUp();
   const { isHomeActive, isAccountPage, isManageAccountPage } = useActiveLinks();

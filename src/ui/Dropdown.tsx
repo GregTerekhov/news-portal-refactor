@@ -12,7 +12,7 @@ interface DropdownProps {
   options: string[] | undefined;
   getResults: (value: string) => void;
   selectedItem: string;
-  onSelectItem: (value: string, key: keyof SearchParamsObject | 'type') => void;
+  onSelectItem: (value: string, key: keyof SearchParamsObject | string) => void;
 }
 
 const Dropdown: FC<DropdownProps> = ({
@@ -33,7 +33,7 @@ const Dropdown: FC<DropdownProps> = ({
     if (getResults) getResults(item);
     onSelectItem(
       item,
-      label === 'Category' ? 'category' : label === 'Time period' ? 'period' : 'type',
+      label === 'Category' ? 'category' : label === 'Time period' ? 'period' : item,
     );
     setIsOpenDropdown(false);
   };
@@ -45,7 +45,7 @@ const Dropdown: FC<DropdownProps> = ({
       {({ open }) => (
         <>
           <p className='mb-2 text-base text-darkBase dark:text-greyAlt'>
-            {label === 'Type' ? 'Filter' : 'Search'} {label === 'Time period' ? 'for popular' : ''}{' '}
+            {label === 'Type' ? 'Filter' : 'Search'} {label === 'Time period' ? 'for popular' : ''}
             by <span className='capitalize'>{label}</span>
           </p>
           <Menu.Button
@@ -75,7 +75,7 @@ const Dropdown: FC<DropdownProps> = ({
             orientation='vertical'
             className={`absolute flex ${
               label === 'Time period' ? 'max-h-225px' : 'h-225px'
-            } z-40 w-full overflow-hidden  rounded-[20px] bg-dropdownBase py-[10px] shadow-card dark:bg-darkDropdown dark:shadow-darkCard`}
+            } z-40 w-full overflow-hidden rounded-[20px] bg-dropdownBase py-[10px] shadow-card dark:bg-darkDropdown dark:shadow-darkCard`}
           >
             <Menu.Items>
               <div className='grid h-full gap-1.5'>

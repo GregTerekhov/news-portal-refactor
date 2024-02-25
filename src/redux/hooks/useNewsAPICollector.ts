@@ -1,7 +1,7 @@
 import { useCallback } from 'react';
 
-import { useAppDispatch, useAppSelector } from 'reduxStore/hooks/hooks';
-import * as newsAPI from 'reduxStore/newsAPI';
+import { useAppDispatch, useAppSelector } from './hooks';
+import * as newsAPI from '../newsAPI';
 
 import { PopularRequest, KeywordRequest, CategoryRequest, DateRequest } from 'types';
 

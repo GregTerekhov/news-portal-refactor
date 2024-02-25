@@ -13,9 +13,7 @@ import { convertUnixTimestampToHHMM, getWeatherTableForHours } from '../assistan
 
 const WeatherDetailsForHours: FC = () => {
   const { hourlyWeather } = useWeatherAPI();
-  const { breakpointsForMarkup } = useWindowWidth() ?? {
-    breakpointsForMarkup: null,
-  };
+  const { breakpointsForMarkup } = useWindowWidth();
 
   const rows = getWeatherTableForHours();
 

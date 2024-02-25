@@ -17,9 +17,7 @@ type VerifiedGoogleEmail = {
 };
 
 const LinkedAccounts: FC<{}> = () => {
-  const { breakpointsForMarkup } = useWindowWidth() ?? {
-    breakpointsForMarkup: null,
-  };
+  const { breakpointsForMarkup } = useWindowWidth();
   const { haveAccounts, bindGoogle } = useAuthRedux();
 
   const { isManageAccountPage } = useActiveLinks();

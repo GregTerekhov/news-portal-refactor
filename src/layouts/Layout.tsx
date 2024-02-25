@@ -1,7 +1,7 @@
 import React, { FC, useEffect } from 'react';
 import { Outlet } from 'react-router-dom';
 
-import { useAuthRedux, useDB, useNewsAPI } from 'reduxStore/hooks';
+import { useAuthRedux, useNewsAPI } from 'reduxStore/hooks';
 
 import { VariantSwitcher } from 'types';
 import { useWindowWidth } from 'contexts';
@@ -15,12 +15,10 @@ import Header from './Header/Header';
 import Footer from './Footer/Footer';
 
 const Layout: FC = () => {
-  const { breakpointsForMarkup } = useWindowWidth() ?? {
-    breakpointsForMarkup: null,
-  };
+  const { breakpointsForMarkup } = useWindowWidth();
+
   const { fetchCategoriesList } = useNewsAPI();
   const { isAuthenticated, statusMessage } = useAuthRedux();
-  const { allFavourites, allArchive } = useDB();
 
   const activeLinks = useActiveLinks();
   const { rebuildedNews } = useChooseRenderingNews({ activeLinks });
@@ -50,40 +48,34 @@ const Layout: FC = () => {
 
   const isAccountPages = isAccountPage || isManageAccountPage;
   const shouldNotShowFiltersManager = isAccountPages || isAboutUs || isArchiveActive || isErrorPage;
-  const showScreenHeight =
-    (isFavoriteActive && allFavourites && allFavourites.length === 0) ||
-    (isArchiveActive && allArchive && allArchive.length === 0) ||
-    isReadActive ||
-    isAccountPages;
 
   const showSuccessToast =
     statusMessage === 'Email sent successfully' ||
     statusMessage === 'User sign-in success' ||
     statusMessage === 'Sign-out success';
-
   return (
     <div
       className={`
-      ${showScreenHeight ? 'h-screen' : 'h-full'} 
-      flex max-h-sectionSmall flex-col justify-between md:max-h-sectionMedium lg:max-h-sectionLarge`}
+        flex h-full
+        max-h-sectionSmall min-h-screen flex-col justify-between md:max-h-sectionMedium lg:max-h-sectionLarge`}
     >
       {!isErrorPage && <Header />}
       <main className='h-full'>
         {isHomeActive && <Hero />}
         <section
-          className={`h-full w-screen bg-whiteBase transition-colors duration-500 dark:bg-darkBackground ${
+          className={`h-full w-screen bg-whiteBase pb-[60px] transition-colors duration-500 dark:bg-darkBackground md:pb-[100px] lg:pb-[150px] ${
             isArchiveActive || isFavoriteActive || isReadActive
               ? 'pt-10 md:pt-12 lg:pt-[60px]'
               : 'pt-6 md:pt-7'
-          } pb-[60px] md:pb-[100px] lg:pb-[150px]`}
+          } `}
         >
           <div className='container mx-auto px-4 hg:px-[65px]'>
-            {isAuthenticated && !shouldNotShowFiltersManager ? <NewsFilterManager /> : null}
-            {!isAuthenticated && !isNotMobile && !isErrorPage && (
+            {!isNotMobile && !isErrorPage && (
               <div className='mb-10 flex justify-end'>
                 <ThemeSwitcher variant={VariantSwitcher.Header} />
               </div>
             )}
+            {isAuthenticated && !shouldNotShowFiltersManager ? <NewsFilterManager /> : null}
             {isErrorPage && (
               <div className='mb-10 flex justify-end'>
                 <ThemeSwitcher variant={VariantSwitcher.Header} />

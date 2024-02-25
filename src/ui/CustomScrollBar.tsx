@@ -20,7 +20,7 @@ const CustomScrollBar: FC<CustomScrollProps> = ({ children, isOpen, orientation,
 
   return (
     isOpen && (
-      <ScrollArea.Root type='auto' className={`${className}`}>
+      <ScrollArea.Root type='auto' className={className}>
         <ScrollArea.Viewport className='h-full w-full rounded'>{children}</ScrollArea.Viewport>
         <ScrollArea.Scrollbar
           className={`rounded-full bg-dropdownBase ${customScrollStyle}`}

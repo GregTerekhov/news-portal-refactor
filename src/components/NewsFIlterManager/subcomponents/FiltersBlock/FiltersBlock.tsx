@@ -13,10 +13,12 @@ import { ControlButtons, FilterInputs } from './subcomponents';
 const FiltersBlock: FC<{}> = () => {
   const activeLinks = useActiveLinks();
 
+
   const { handleMaterialTypeChange } = useFilterNews({
     activeLinks,
   });
   const { filters, selectedMaterialType, setSelectedMaterialType } = useFiltersState();
+
 
   const hasNonEmptyValue = (filtersObject: Filters): boolean => {
     return Object.values(filtersObject).some((value) => {

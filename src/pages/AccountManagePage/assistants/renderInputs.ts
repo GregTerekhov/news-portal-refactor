@@ -23,6 +23,7 @@ type EmailInput = {
   label: InputLabel;
   iconName: string;
   ariaInvalid?: boolean;
+  autofill?: string;
 };
 
 type PasswordInput = {
@@ -91,6 +92,7 @@ export const renderEmailInputs = ({
       label: 'email',
       iconName: 'icon-envelop',
       ariaInvalid: errors?.email ? true : false,
+      autofill: 'email',
     },
   ];
 

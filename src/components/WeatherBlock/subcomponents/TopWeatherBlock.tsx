@@ -17,16 +17,14 @@ const TopWeatherBlock: FC<TopWeatherProps> = ({
   currentWeather,
   isCelsius,
 }) => {
-  const { breakpointsForMarkup } = useWindowWidth() ?? {
-    breakpointsForMarkup: null,
-  };
+  const { breakpointsForMarkup } = useWindowWidth();
 
   return (
     <div
       className='mx-auto flex cursor-pointer items-center justify-evenly gap-5'
       onClick={toggleTemperatureScale}
     >
-      <div className='w-83px md:w-96px relative text-center after:absolute after:-right-2 after:top-0 after:h-full after:w-px after:bg-white after:content-[""]'>
+      <div className='relative w-83px text-center after:absolute after:-right-2 after:top-0 after:h-full after:w-px after:bg-white after:content-[""] md:w-96px'>
         <p className='w-full font-weather text-monstrous text-contrastWhite md:text-[64px]'>
           {currentWeather?.main !== undefined &&
             (isCelsius

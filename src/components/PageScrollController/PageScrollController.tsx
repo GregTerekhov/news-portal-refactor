@@ -31,7 +31,7 @@ const PageScrollController: FC<ScrollDirection> = (value) => {
         contentClass='border border-solid border-whiteBase rounded-xl text-small md:text-medium px-2 text-whiteBase bg-accentAlt/[.8] transition-colors duration-500'
       >
         <button
-          id='top'
+          id={direction}
           aria-label={`Page scroll controller button in direction ${direction}`}
           onClick={onHandleClick}
           type='button'
