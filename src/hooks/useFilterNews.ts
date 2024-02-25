@@ -15,10 +15,9 @@ import { applyCrossFilters, determineNewSelectedDate } from 'helpers';
 
 type FilterHookProps = {
   activeLinks: ActiveLinks;
-}
+};
 
 const useFilterNews = ({ activeLinks }: FilterHookProps) => {
-
   const [beginDate, setBeginDate] = useState<Date | null>(null);
   const [isSorted, setIsSorted] = useState<boolean>(false);
 
@@ -44,6 +43,7 @@ const useFilterNews = ({ activeLinks }: FilterHookProps) => {
   };
 
   const handleMaterialTypeChange = (selectedType: string) => {
+    console.log('selectedType', selectedType);
     setFilters({
       ...filters,
       materialType: selectedType,
@@ -176,18 +176,19 @@ const useFilterNews = ({ activeLinks }: FilterHookProps) => {
 
   const handleReset = async () => {
     updateHeadline("Today's Hot News");
+
     setFilters({
       keyword: '',
       title: '',
       author: '',
       publisher: '',
-      materialType: '',
+      materialType: 'Type',
       selectedFilterDate: {
         startDate: '',
         endDate: '',
       },
     });
-
+    setSelectedMaterialType('');
     resetAllFilters();
 
     setSortedDates([]);
