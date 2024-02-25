@@ -15,14 +15,14 @@ import { applyCrossFilters, determineNewSelectedDate } from 'helpers';
 
 type FilterHookProps = {
   activeLinks: ActiveLinks;
-  setSelectedMaterialType?: ((item: string) => void) | undefined;
-};
+}
 
 const useFilterNews = ({ activeLinks }: FilterHookProps) => {
+
   const [beginDate, setBeginDate] = useState<Date | null>(null);
   const [isSorted, setIsSorted] = useState<boolean>(false);
 
-  const { filters, setFilters } = useFiltersState();
+  const { filters, setFilters, setSelectedMaterialType } = useFiltersState();
   const { sortedDates, setSortedDates } = useReadSortState();
 
   const { showResultsState, getFilteredNews, resetAllFilters } = useFiltersAction();

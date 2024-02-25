@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react';
+import React, { FC } from 'react';
 
 import { Filters } from 'types';
 import { useFiltersState } from 'contexts';
@@ -11,12 +11,14 @@ import Calendar from '../Calendar/Calendar';
 import { ControlButtons, FilterInputs } from './subcomponents';
 
 const FiltersBlock: FC<{}> = () => {
-  const [selectedMaterialType, setSelectedMaterialType] = useState<string>('');
-
   const activeLinks = useActiveLinks();
 
-  const { handleMaterialTypeChange } = useFilterNews({ activeLinks });
-  const { filters } = useFiltersState();
+
+  const { handleMaterialTypeChange } = useFilterNews({
+    activeLinks,
+  });
+  const { filters, selectedMaterialType, setSelectedMaterialType } = useFiltersState();
+
 
   const hasNonEmptyValue = (filtersObject: Filters): boolean => {
     return Object.values(filtersObject).some((value) => {
@@ -28,6 +30,7 @@ const FiltersBlock: FC<{}> = () => {
   };
 
   const hasFilterValue: boolean = hasNonEmptyValue(filters);
+  console.log('filterBlock');
 
   return (
     <form className='p-3.5 max-md:space-y-4 md:grid md:grid-cols-9 md:grid-rows-3 md:gap-3.5 lg:grid-cols-16 lg:grid-rows-2'>
