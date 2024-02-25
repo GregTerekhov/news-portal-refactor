@@ -40,13 +40,13 @@ const ArchiveHistoryLog: FC<IHistoryLogProps> = ({ logData }) => {
   };
 
   return (
-    <CustomScrollBar isOpen={true} orientation='horizontal'>
-      <div className='mb-6 flex flex-col overflow-hidden rounded-lg shadow-modal'>
-        <div className='-m-1.5 overflow-x-auto'>
+    <div className='mb-6 flex flex-col overflow-hidden rounded-lg shadow-modal'>
+      <CustomScrollBar isOpen={true} orientation='horizontal'>
+        <div className='-m-1.5'>
           <div className='inline-block min-w-full p-1.5 align-middle'>
             <div className='divide-y divide-greyAlt/[.4] rounded-lg border dark:divide-greyBase/[.4] dark:border-greyBase/[.4]'>
               <div className='px-4 py-3'>
-                <div className='relative max-w-xs'>
+                <div className='relative w-[254px] md:max-w-xs'>
                   <UnverifiableInput
                     inputData={{
                       name: 'Deleted news',
@@ -63,10 +63,8 @@ const ArchiveHistoryLog: FC<IHistoryLogProps> = ({ logData }) => {
                   />
                 </div>
               </div>
-              <div className='overflow-hidden'>
-                <DeletedNewsTable displayedRows={displayedRows} />
-              </div>
-              <div className='px-4 py-1'>
+              <DeletedNewsTable displayedRows={displayedRows} />
+              <div className='mb-3 px-4 py-1'>
                 <TablePagination
                   handlePageChange={handlePageChange}
                   currentPage={currentPage}
@@ -76,8 +74,8 @@ const ArchiveHistoryLog: FC<IHistoryLogProps> = ({ logData }) => {
             </div>
           </div>
         </div>
-      </div>
-    </CustomScrollBar>
+      </CustomScrollBar>
+    </div>
   );
 };
 

@@ -5,12 +5,14 @@ import { useAuthRedux } from 'reduxStore/hooks';
 
 import { ChangePasswordValues, AuthInputs } from 'types';
 import { useNotification } from 'contexts';
+import { usePopUp } from 'hooks';
 
 import { changePasswordSchema } from '../assistants';
 
 const useChangePassword = () => {
   const { changePassword } = useAuthRedux();
   const { showToast } = useNotification();
+  const { toggleModal } = usePopUp();
 
   const {
     handleSubmit: handleChangePasswordSubmit,
@@ -24,7 +26,7 @@ const useChangePassword = () => {
 
   const changePasswordSubmitHandler: SubmitHandler<ChangePasswordValues> = async (data) => {
     try {
-      const { newPassword } = data; // обирання необхідного для відправки поля
+      const { newPassword } = data;
       const dataToSend = { newPassword };
 
       const response = await changePassword(dataToSend);
@@ -39,6 +41,7 @@ const useChangePassword = () => {
       newPassword: '',
       confirmPassword: '',
     });
+    toggleModal;
   };
 
   const changePasswordInputs: Array<AuthInputs> = [

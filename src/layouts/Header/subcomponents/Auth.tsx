@@ -11,9 +11,8 @@ import { AuthModal } from 'components';
 import { Modal, PrimaryButton } from 'ui';
 
 const Auth: FC<{}> = () => {
-  const { breakpointsForMarkup } = useWindowWidth() ?? {
-    breakpointsForMarkup: null,
-  };
+  const { breakpointsForMarkup } = useWindowWidth();
+
   const { logout, isAuthenticated } = useAuthRedux();
   const { isOpenModal, popUpRef, toggleModal } = usePopUp();
 

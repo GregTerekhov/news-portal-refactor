@@ -15,7 +15,7 @@ const FiltersBlock: FC<{}> = () => {
 
   const activeLinks = useActiveLinks();
 
-  const { handleMaterialTypeChange } = useFilterNews({ activeLinks, setSelectedMaterialType });
+  const { handleMaterialTypeChange } = useFilterNews({ activeLinks });
   const { filters } = useFiltersState();
 
   const hasNonEmptyValue = (filtersObject: Filters): boolean => {

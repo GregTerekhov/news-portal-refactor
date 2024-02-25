@@ -40,9 +40,7 @@ const UnverifiableInput: FC<InputProps> = ({
   hideInput,
   onChange,
 }) => {
-  const { breakpointsForMarkup } = useWindowWidth() ?? {
-    breakpointsForMarkup: null,
-  };
+  const { breakpointsForMarkup } = useWindowWidth();
 
   const { name, type, value, placeholder, children } = inputData ?? {};
 

@@ -4,9 +4,7 @@ import { useWindowWidth } from 'contexts';
 
 const useHeaderStyles = (isHomePage: boolean | undefined) => {
   const [isScrolled, setIsScrolled] = useState<boolean>(false);
-  const { breakpointsForMarkup } = useWindowWidth() ?? {
-    breakpointsForMarkup: null,
-  };
+  const { breakpointsForMarkup } = useWindowWidth();
 
   const screenHeight = window.innerHeight;
 

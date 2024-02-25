@@ -17,7 +17,7 @@ const Footer: FC<{}> = () => {
         <div className={`${isAuthenticated ? 'md:flex md:justify-between' : ''}`}>
           <div className={`${isAuthenticated ? 'space-y-3' : ''}`}>
             <div className={`${isAuthenticated ? '' : 'hidden'}`}>
-              <h2 className='text-medium md:text-xl text-whiteBase'>Menu</h2>
+              <h2 className='text-medium text-whiteBase md:text-xl'>Menu</h2>
               <hr />
             </div>
             <FooterMenu />
@@ -25,11 +25,11 @@ const Footer: FC<{}> = () => {
           <div
             className={`${
               isAuthenticated ? 'md:flex-col' : 'flex-row'
-            } flex justify-between items-end`}
+            } flex items-end justify-between`}
           >
             <div className='space-y-3'>
-              <div className={`${isAuthenticated ? '' : 'hidden'}`}>
-                <h2 className='text-medium md:text-xl text-whiteBase'>NYTimes social links</h2>
+              <div>
+                <h2 className='text-medium text-whiteBase md:text-xl'>NYTimes social links</h2>
                 <hr />
               </div>
               <SocialLinks />

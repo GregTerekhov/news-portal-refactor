@@ -8,7 +8,7 @@ import { useActiveLinks, useChooseRenderingNews, useFilterNews, useReadNewsConte
 import { NewsList, Toast } from 'components';
 import { Accordeon, Loader, PlugImage } from 'ui';
 
-const ReadPage: FC<{}> = () => {
+const ReadPage: FC = () => {
   const { allReads, isLoadingDBData, errorDB, getReads } = useDB();
   const { hasResults } = useFiltersAction();
 

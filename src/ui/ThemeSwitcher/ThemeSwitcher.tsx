@@ -11,9 +11,7 @@ import SvgIcon from '../SvgIcon';
 import { generateSwitcherStyles } from './assistants';
 
 const ThemeSwitcher: FC<{ variant: VariantSwitcher }> = ({ variant }) => {
-  const { breakpointsForMarkup } = useWindowWidth() ?? {
-    breakpointsForMarkup: null,
-  };
+  const { breakpointsForMarkup } = useWindowWidth();
 
   const { isOpenMenu } = usePopUp();
 

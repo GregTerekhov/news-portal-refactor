@@ -1,9 +1,9 @@
 import { useCallback } from 'react';
 
-import * as auth from 'reduxStore/auth';
-import { useAppDispatch, useAppSelector } from 'reduxStore/hooks/hooks';
+import * as auth from '../auth';
+import { useAppDispatch, useAppSelector } from './hooks';
 import {
-  SignUpRequest,
+  MainCredentials,
   AuthRequestWithoutName,
   IThirdPartyAuth,
   UpdateThemeRequest,
@@ -26,7 +26,7 @@ const useAuthCollector = () => {
   const dispatch = useAppDispatch();
 
   const register = useCallback(
-    (credentials: SignUpRequest) => dispatch(auth.signUp(credentials)),
+    (credentials: MainCredentials) => dispatch(auth.signUp(credentials)),
     [dispatch],
   );
   const login = useCallback(
@@ -56,7 +56,7 @@ const useAuthCollector = () => {
   );
 
   const enterWithGoogle = useCallback(
-    (email: GoogleAuth) => dispatch(auth.googleAuth(email)),
+    (credentials: GoogleAuth) => dispatch(auth.googleAuth(credentials)),
     [dispatch],
   );
 
@@ -64,6 +64,8 @@ const useAuthCollector = () => {
     (email: SendEmailRequest) => dispatch(auth.googleBind(email)),
     [dispatch],
   );
+
+  const unbindGoogle = useCallback(() => dispatch(auth.googleUnbind()), [dispatch]);
 
   const enterWithFacebook = useCallback(
     (tokenAuth: IThirdPartyAuth) => dispatch(auth.facebookAuth(tokenAuth)),
@@ -106,6 +108,7 @@ const useAuthCollector = () => {
     changePassword,
     enterWithGoogle,
     bindGoogle,
+    unbindGoogle,
     enterWithFacebook,
     enterWithApple,
     changeTheme,

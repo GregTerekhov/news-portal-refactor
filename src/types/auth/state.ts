@@ -2,7 +2,6 @@ import { ThemeValue } from './requests';
 
 type KnownError = {
   message: string | undefined;
-  code: number | undefined;
 };
 
 export interface AuthState {

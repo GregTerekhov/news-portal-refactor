@@ -11,6 +11,13 @@ type UserInfoList = {
 
 type IconsList = {
   iconName: string;
+  linked: boolean;
+};
+
+type HaveAccounts = {
+  google: boolean;
+  facebook: boolean;
+  apple: boolean;
 };
 
 export const renderInfoItems = (user: User): UserInfoList[] => {
@@ -34,18 +41,21 @@ export const renderInfoItems = (user: User): UserInfoList[] => {
   return userInfoList;
 };
 
-export const renderAccountIcons = (): IconsList[] => {
-  const connectedAccountsIconsList: IconsList[] = [
+export const renderAccountIcons = (haveAccounts: HaveAccounts): IconsList[] => {
+  const icons: IconsList[] = [
     {
       iconName: 'icon-google',
+      linked: haveAccounts.google,
     },
     {
       iconName: 'icon-facebook',
+      linked: haveAccounts.facebook,
     },
     {
       iconName: 'icon-apple',
+      linked: haveAccounts.apple,
     },
   ];
 
-  return connectedAccountsIconsList;
+  return icons.filter((icon) => icon.linked);
 };

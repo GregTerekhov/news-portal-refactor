@@ -1,3 +1,10 @@
+import { convertDateFormat } from 'helpers';
+
+type SelectedDate = {
+  beginDate: string;
+  endDate: string;
+};
+
 export function capitalizeFirstLetter(str: string): string {
   if (typeof str !== 'string') {
     return '';
@@ -15,4 +22,11 @@ export function convertLinesForCalendar(dateStr: string): string {
   const formattedDate = `${day}/${month}/${year}`;
 
   return formattedDate;
+}
+
+export function formatDateRange(selectedDate: SelectedDate) {
+  return {
+    firstDate: selectedDate.beginDate && convertDateFormat(selectedDate.beginDate),
+    lastDate: selectedDate.endDate && convertDateFormat(selectedDate.endDate),
+  };
 }

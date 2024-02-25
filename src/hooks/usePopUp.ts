@@ -38,7 +38,7 @@ const usePopUp = () => {
         }
       }
     },
-    [isOpenModal, isOpenCalendar],
+    [isOpenCalendar, isOpenModal],
   );
 
   useEffect(() => {
@@ -73,6 +73,10 @@ const usePopUp = () => {
     setIsOpenCalendar(!isOpenCalendar);
   };
 
+  const closeCalendar = () => {
+    setIsOpenCalendar(false);
+  };
+
   return {
     isOpenMenu,
     isOpenModal,
@@ -83,6 +87,7 @@ const usePopUp = () => {
     toggleMenu,
     toggleModal,
     toggleCalendar,
+    closeCalendar,
   };
 };
 

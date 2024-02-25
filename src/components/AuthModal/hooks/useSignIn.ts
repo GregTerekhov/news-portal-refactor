@@ -31,9 +31,7 @@ const useSignIn = () => {
       if (hasSavedCryptoUserData) {
         const loadedUserData = await loadUserDataFromLocalStorage();
 
-        console.log('loadedUserData', loadedUserData);
         if (loadedUserData) {
-          // console.log('loadedUserData', loadedUserData);
           setValue('email', loadedUserData.email);
           setValue('password', loadedUserData.password);
         }
@@ -111,6 +109,7 @@ const useSignIn = () => {
       label: 'email',
       ariaInvalid: errors?.email ? true : false,
       autoFocus: true,
+      autofill: 'email',
     },
     {
       type: 'password',

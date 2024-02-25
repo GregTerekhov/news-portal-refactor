@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { format, isAfter, startOfToday } from 'date-fns';
+import { isAfter, startOfToday } from 'date-fns';
 
 import { useDB, useNewsAPI, useFiltersAction } from 'reduxStore/hooks';
 
@@ -8,33 +8,32 @@ import { PartialVotedNewsArray } from 'types';
 import { useFiltersState, useReadSortState } from 'contexts';
 import useChooseRenderingNews from './useChooseRenderingNews';
 import useReadNewsContent from './useReadNewsContent';
+import usePopUp from './usePopUp';
 import { ActiveLinks } from './commonTypes';
 
-import { applyCrossFilters } from '../components/NewsFIlterManager/subcomponents/FiltersBlock/assistants';
+import { applyCrossFilters, determineNewSelectedDate } from 'helpers';
 
 type FilterHookProps = {
   activeLinks: ActiveLinks;
-  setIsOpenCalendar?: (value: React.SetStateAction<boolean>) => void;
   setSelectedMaterialType?: ((item: string) => void) | undefined;
 };
 
-const useFilterNews = ({
-  activeLinks,
-  setIsOpenCalendar,
-  setSelectedMaterialType,
-}: FilterHookProps) => {
+const useFilterNews = ({ activeLinks }: FilterHookProps) => {
   const [beginDate, setBeginDate] = useState<Date | null>(null);
   const [isSorted, setIsSorted] = useState<boolean>(false);
 
   const { filters, setFilters } = useFiltersState();
   const { sortedDates, setSortedDates } = useReadSortState();
+
   const { showResultsState, getFilteredNews, resetAllFilters } = useFiltersAction();
   const { updateHeadline } = useNewsAPI();
   const { allFavourites, allReads } = useDB();
+
   const { rebuildedNews } = useChooseRenderingNews({ activeLinks });
+  const sortedAccordionDates = useReadNewsContent({ activeLinks });
+  const { toggleCalendar } = usePopUp();
 
   const today = startOfToday();
-  const sorDat = useReadNewsContent({ activeLinks });
 
   const handleChangeFilter = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
@@ -57,18 +56,8 @@ const useFilterNews = ({
         setBeginDate(date);
       } else {
         try {
-          let newSelectedDate: { beginDate: string | null; endDate: string | null };
-          if (isAfter(date, beginDate)) {
-            newSelectedDate = {
-              beginDate: format(beginDate, 'dd/MM/yyyy'),
-              endDate: format(date, 'dd/MM/yyyy'),
-            };
-          } else {
-            newSelectedDate = {
-              beginDate: format(date, 'dd/MM/yyyy'),
-              endDate: format(beginDate, 'dd/MM/yyyy'),
-            };
-          }
+          const newSelectedDate = determineNewSelectedDate(date, beginDate, 'filter');
+
           if (newSelectedDate.beginDate && newSelectedDate.endDate) {
             setFilters({
               ...filters,
@@ -77,8 +66,8 @@ const useFilterNews = ({
                 endDate: newSelectedDate.endDate,
               },
             });
+            toggleCalendar(); // не працює
             setBeginDate(null);
-            setIsOpenCalendar ? setIsOpenCalendar(false) : null;
           }
         } catch (error) {
           console.error(error);
@@ -96,6 +85,7 @@ const useFilterNews = ({
     }
 
     showResultsState('loading');
+
     if (activeLinks.isHomeActive) {
       updateHeadline('Filtered News');
     }
@@ -171,13 +161,13 @@ const useFilterNews = ({
   };
 
   const handleSortRead = async (order: string) => {
-    if (sorDat) {
+    if (sortedAccordionDates) {
       if (order === 'asc') {
-        const sortedDates = Array.from(sorDat).sort().reverse();
+        const sortedDates = Array.from(sortedAccordionDates).sort().reverse();
         setSortedDates(sortedDates);
         setIsSorted(true);
       } else if (order === 'desc') {
-        const sortedDates = Array.from(sorDat).sort();
+        const sortedDates = Array.from(sortedAccordionDates).sort();
         setSortedDates(sortedDates);
         setIsSorted(true);
       }
@@ -197,7 +187,7 @@ const useFilterNews = ({
         endDate: '',
       },
     });
-    setSelectedMaterialType && setSelectedMaterialType('');
+
     resetAllFilters();
 
     setSortedDates([]);

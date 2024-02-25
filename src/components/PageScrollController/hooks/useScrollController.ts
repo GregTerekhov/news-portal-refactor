@@ -7,12 +7,17 @@ interface ScrollControllerProps {
   direction: string;
 }
 
+const DOWN_MEASURE_BUTTON_VISIBILITY = 48;
+const DOWN_MEASURE_BUTTON_INVISIBILITY = 112;
+const DEFAULT_HEADER_HEIGHT = 81;
+const TABLET_HEADER_HEIGHT = 106;
+const DESKTOP_HEADER_HEIGHT = 113;
+
 const useScrollController = ({ direction }: ScrollControllerProps) => {
   const [upButtonVisibility, setUpButtonVisibility] = useState<string>('');
   const [downButtonVisibility, setDownButtonVisibility] = useState<string>('');
-  const { breakpointsForMarkup } = useWindowWidth() ?? {
-    breakpointsForMarkup: null,
-  };
+
+  const { breakpointsForMarkup } = useWindowWidth();
 
   const headerHeight = useMemo<number>(() => getHeaderHeight(), [breakpointsForMarkup]);
 
@@ -23,8 +28,8 @@ const useScrollController = ({ direction }: ScrollControllerProps) => {
     const bodyHeight = document.documentElement.scrollHeight - currentScroll;
     const topUpVisibleFrontier = currentScroll > screenHeight - headerHeight;
     const bottomDownHideFrontier = bodyHeight < oneAndHalfScreenHeight;
-    const topDownHideFrontier = currentScroll < 112;
-    const topDownVisibleFrontier = currentScroll > 48;
+    const topDownHideFrontier = currentScroll < DOWN_MEASURE_BUTTON_INVISIBILITY;
+    const topDownVisibleFrontier = currentScroll > DOWN_MEASURE_BUTTON_VISIBILITY;
 
     if (direction === 'top') {
       if (topUpVisibleFrontier) {
@@ -60,18 +65,14 @@ const useScrollController = ({ direction }: ScrollControllerProps) => {
   };
 
   function getHeaderHeight(): number {
-    let headerHeight: number = 81;
     switch (true) {
       case breakpointsForMarkup?.isTablet:
-        headerHeight = 106;
-        break;
+        return TABLET_HEADER_HEIGHT;
       case breakpointsForMarkup?.isDesktop:
-        headerHeight = 113;
-        break;
+        return DESKTOP_HEADER_HEIGHT;
       default:
-        headerHeight = 81;
+        return DEFAULT_HEADER_HEIGHT;
     }
-    return headerHeight;
   }
 
   return { upButtonVisibility, downButtonVisibility, onHandleClick };

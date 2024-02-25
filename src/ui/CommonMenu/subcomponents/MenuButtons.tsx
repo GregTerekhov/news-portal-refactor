@@ -26,9 +26,7 @@ const MenuButtons: FC<Partial<MenuButtonsProps>> = ({
   closeMenuByClickOnLink,
   navId,
 }) => {
-  const { breakpointsForMarkup } = useWindowWidth() ?? {
-    breakpointsForMarkup: null,
-  };
+  const { breakpointsForMarkup } = useWindowWidth();
 
   const buttons: MenuButton[] = [
     {

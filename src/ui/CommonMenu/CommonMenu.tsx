@@ -21,9 +21,7 @@ export interface CommonMenuProps {
 export type MobileMenu = Omit<CommonMenuProps, 'navId'>;
 
 const CommonMenu: FC<CommonMenuProps> = ({ isOpen, navId, closeMenu }) => {
-  const { breakpointsForMarkup } = useWindowWidth() ?? {
-    breakpointsForMarkup: null,
-  };
+  const { breakpointsForMarkup } = useWindowWidth();
   const { resetAllFilters } = useFiltersAction();
   const { setFilters } = useFiltersState();
   const { user, logout } = useAuthRedux();

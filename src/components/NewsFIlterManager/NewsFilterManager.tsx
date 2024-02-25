@@ -25,7 +25,7 @@ const NewsFilterManager: FC<{}> = () => {
     <div className='mb-10 w-full md:mb-12 lg:mb-[60px]'>
       <button
         id='Open filter service button'
-        className={`flex w-full items-center justify-end gap-2 px-6 py-1.5 text-medium font-medium text-darkBase dark:text-whiteBase md:text-2xl`}
+        className='flex w-full items-center justify-end gap-2 px-6 py-1.5 text-medium font-medium text-darkBase dark:text-whiteBase md:text-2xl'
         type='button'
         onClick={() => setShowDropdown(!showDropdown)}
       >

@@ -15,9 +15,7 @@ interface LoaderProps {
 }
 
 const Loader: FC<LoaderProps> = ({ variant }) => {
-  const { breakpointsForMarkup } = useWindowWidth() ?? {
-    breakpointsForMarkup: null,
-  };
+  const { breakpointsForMarkup } = useWindowWidth();
 
   const { isHomeActive } = useActiveLinks();
 

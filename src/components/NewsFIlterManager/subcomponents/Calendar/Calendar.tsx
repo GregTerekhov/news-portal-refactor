@@ -3,7 +3,7 @@ import { format, startOfToday } from 'date-fns';
 
 import { ICON_SIZES } from 'constants/iconSizes';
 import { useFiltersState, useSelectedDate } from 'contexts';
-import { useActiveLinks, useFilterNews, usePopUp } from 'hooks';
+import { useActiveLinks, usePopUp } from 'hooks';
 
 import { SvgIcon } from 'ui';
 
@@ -15,13 +15,11 @@ interface CalendarProps {
 }
 
 const Calendar: FC<CalendarProps> = ({ variant }) => {
-  const { popUpRef, toggleCalendar, isOpenCalendar, setIsOpenCalendar } = usePopUp();
+  const { popUpRef, toggleCalendar, isOpenCalendar } = usePopUp();
   const { filters } = useFiltersState();
   const { selectedRequestDate } = useSelectedDate();
 
   const activeLinks = useActiveLinks();
-
-  const { handleFilterDate } = useFilterNews({ activeLinks, setIsOpenCalendar });
 
   const { isReadActive } = activeLinks;
   const today = startOfToday();
@@ -30,6 +28,13 @@ const Calendar: FC<CalendarProps> = ({ variant }) => {
     filters &&
     filters.selectedFilterDate.startDate !== '' &&
     filters.selectedFilterDate.endDate !== '';
+
+  const firstRequestDate =
+    selectedRequestDate.beginDate && convertLinesForCalendar(selectedRequestDate.beginDate);
+  const lastRequestDate =
+    selectedRequestDate.endDate && convertLinesForCalendar(selectedRequestDate.endDate);
+  const firstFilteredDate = filters.selectedFilterDate.startDate;
+  const lastFilteredDate = filters.selectedFilterDate.endDate;
 
   const calendarButtonStyles =
     'w-full bg-whiteBase dark:bg-darkBackground rounded-[20px] border border-solid border-accentBase dark:border-greyBase text-accentBase dark:text-greyAlt flex justify-between items-center py-2 px-3 group-hover:text-whiteBase group-hover:bg-accentBase group-hover:border-whiteBase transition-colors text-small md:text-base leading-mediumRelaxed md:leading-moreRelaxed tracking-bigWide md:tracking-wider';
@@ -49,11 +54,9 @@ const Calendar: FC<CalendarProps> = ({ variant }) => {
         {variant === 'SearchBlock' &&
         selectedRequestDate.beginDate !== null &&
         selectedRequestDate.endDate !== null
-          ? `${convertLinesForCalendar(selectedRequestDate.beginDate)} - ${convertLinesForCalendar(
-              selectedRequestDate.endDate,
-            )}`
+          ? `${firstRequestDate} - ${lastRequestDate}`
           : variant === 'FiltersBlock' && showSelectedDateForFiltering
-            ? `${filters.selectedFilterDate.startDate} - ${filters.selectedFilterDate.endDate}`
+            ? `${firstFilteredDate} - ${lastFilteredDate}`
             : format(today, 'dd/MM/yyyy')}
         <SvgIcon
           svgName='icon-arrow'
@@ -63,9 +66,7 @@ const Calendar: FC<CalendarProps> = ({ variant }) => {
           }`}
         />
       </button>
-      {!!isOpenCalendar && (
-        <CalendarContent variant={variant} handleDateFilter={handleFilterDate} />
-      )}
+      {isOpenCalendar && <CalendarContent variant={variant} />}
     </div>
   );
 };

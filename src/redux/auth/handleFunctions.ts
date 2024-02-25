@@ -20,14 +20,10 @@ export const handleRejected = (state: AuthState, action: PayloadAction<unknown, 
   state.isCurrentUser = false;
   if (action.payload) {
     const payload = action.payload as {
-      status?: number;
-      data?: {
-        message?: string;
-      };
+      message?: string;
     };
     state.hasError = {
-      code: payload.status,
-      message: payload.data?.message,
+      message: payload?.message,
     };
     console.log('AuthError', state.hasError);
   }
@@ -41,13 +37,13 @@ export const getActions = (type: DispatchActionType) => {
     authOperations.fetchCurrentUser,
     authOperations.updateUserEmail, // коли user авторизований і хоче змінити поточну пошту
     authOperations.updateUserPassword, // коли user авторизований і хоче змінити поточний пароль
+    authOperations.recoveryPasswordRequest,
     authOperations.recoveryPasswordChange, // при forgotPassword, коли user забув пароль і йому треба змінити його
     authOperations.googleAuth,
     authOperations.googleBind,
     authOperations.googleUnbind,
     authOperations.facebookAuth,
     authOperations.appleAuth,
-    // authOperations.updateTheme, // вимкнено, щоб уникнути стана pending при зміни теми
   ];
   return extraActions?.map((action) => action[type]);
 };

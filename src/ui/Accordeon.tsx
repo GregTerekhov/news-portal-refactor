@@ -46,14 +46,16 @@ const Accordeon: FC<AccordeonProps> = ({ children, dateSeparator, position, filt
             />
           </Accordion.Trigger>
         </Accordion.Header>
-        <Accordion.Content
-          className={`${isOpen ? 'animate-accordion-down' : 'animate-accordion-up'}`}
-        >
-          {children}
-        </Accordion.Content>
+        {isOpen && (
+          <Accordion.Content
+            className={`${isOpen ? 'animate-accordion-down' : 'animate-accordion-up'}`}
+          >
+            {children}
+          </Accordion.Content>
+        )}
       </Accordion.Item>
     </Accordion.Root>
   );
 };
-
+// );
 export default Accordeon;
