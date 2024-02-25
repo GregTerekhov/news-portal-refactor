@@ -42,7 +42,7 @@ const useFilterNews = ({ activeLinks, setIsOpenCalendar }: FilterHookProps) => {
   const handleMaterialTypeChange = (selectedType: string) => {
     setFilters({
       ...filters,
-      materialType: selectedType || '',
+      materialType: selectedType,
     });
   };
 
