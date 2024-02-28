@@ -2,7 +2,7 @@ import { PayloadAction, createAction, createSlice } from '@reduxjs/toolkit';
 
 import { RootState } from './store';
 
-import { PartialVotedNewsArray } from 'types/news';
+import { PartialVotedNewsArray } from 'types';
 
 export type FilterResults = 'idle' | 'loading' | 'empty' | 'full';
 

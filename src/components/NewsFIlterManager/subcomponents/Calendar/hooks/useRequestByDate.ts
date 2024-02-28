@@ -12,7 +12,7 @@ import usePopUp from 'hooks/usePopUp';
 const useRequestByDate = () => {
   const { fetchByDate, resetPreviousRequest, updateHeadline } = useNewsAPI();
   const { beginDate, setBeginDate, setSelectedRequestDate } = useSelectedDate();
-  const { toggleCalendar } = usePopUp();
+  const { closeCalendar } = usePopUp();
   const { filteredNews } = useFiltersAction();
 
   const today = startOfToday();
@@ -41,7 +41,7 @@ const useRequestByDate = () => {
               await fetchByDate(newSelectedDate);
             }
             setBeginDate(null);
-            toggleCalendar(); // не працює
+            closeCalendar(); // не працює
           }
         } catch (error) {
           console.error('Помилка при зміні значень:', error);

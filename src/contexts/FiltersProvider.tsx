@@ -28,8 +28,6 @@ export const FiltersProvider: FC<FiltersProviderProps> = ({ children }) => {
     },
   });
 
-  console.log('FiltersContext');
-
   return (
     <FiltersContext.Provider
       value={{ filters, setFilters, selectedMaterialType, setSelectedMaterialType }}

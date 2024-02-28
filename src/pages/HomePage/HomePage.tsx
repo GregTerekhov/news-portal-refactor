@@ -12,7 +12,7 @@ import { Loader, PlugImage } from 'ui';
 import { usePagination } from './hooks';
 import { Pagination } from './subcomponents';
 
-const TODAY_HOT_NEWS = '1';
+const TODAY_HOT_NEWS = 1;
 
 const HomePage: FC = () => {
   const {

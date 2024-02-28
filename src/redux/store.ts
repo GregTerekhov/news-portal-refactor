@@ -11,7 +11,6 @@ import {
 } from 'redux-persist';
 import { ThunkDispatch } from 'redux-thunk';
 
-import { nonSerializableMiddleware } from './middleware';
 import { persistedReducer } from './reducers';
 
 const middleware = (getDefaultMiddleware: any) =>
@@ -19,7 +18,7 @@ const middleware = (getDefaultMiddleware: any) =>
     serializableCheck: {
       ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
     },
-  }).concat(nonSerializableMiddleware);
+  });
 
 export const store = configureStore({
   reducer: persistedReducer,

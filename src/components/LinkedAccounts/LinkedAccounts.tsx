@@ -1,6 +1,4 @@
 import React, { FC } from 'react';
-import axios from 'axios';
-import { useGoogleLogin } from '@react-oauth/google';
 
 import { useAuthRedux } from 'reduxStore/hooks';
 
@@ -10,59 +8,32 @@ import { useActiveLinks } from 'hooks';
 
 import { PrimaryButton } from 'ui';
 
-import { useFacebookLogin } from './hooks';
-
-type VerifiedGoogleEmail = {
-  email: string;
-};
+import { useFacebookLogin, useGoogleSettings } from './hooks';
 
 const LinkedAccounts: FC<{}> = () => {
   const { breakpointsForMarkup } = useWindowWidth();
-  const { haveAccounts, bindGoogle } = useAuthRedux();
+  const { haveAccounts, unbindGoogle } = useAuthRedux();
 
   const { isManageAccountPage } = useActiveLinks();
 
+  const { googleLogin } = useGoogleSettings();
   const { handleFacebookLogin, isLoading } = useFacebookLogin();
 
-  const { google, facebook, apple } = haveAccounts;
-
-  const googleLogin = useGoogleLogin({
-    onSuccess: async (codeResponse) => {
-      // console.log('codeResponse', codeResponse);
-      //якщо не зареєстрований відправляти разом з email ще sub від google
-      // -------це логіка, яку треба буде розкоментувати після готовності беку НЕ ВИДАЛЯТИ!!!----------
-      try {
-        const userInfo: VerifiedGoogleEmail = await axios
-          .get('https://www.googleapis.com/oauth2/v3/userinfo', {
-            headers: { Authorization: `Bearer ${codeResponse.access_token}` },
-          })
-          .then((res) => res.data);
-        console.log('userInfo', userInfo);
-        const response = bindGoogle({ email: userInfo.email });
-        console.log('enterWithGoogle', response);
-      } catch (error) {
-        console.log(error);
-        console.log('Failed to login');
-      }
-    },
-    onError: (error) => {
-      console.log(error);
-    },
-  });
-  const hasConnectedAccount = google || facebook || apple;
   const isMobile = breakpointsForMarkup?.isNothing || breakpointsForMarkup?.isMobile;
   // 'https://news-webapp-express.onrender.com/api/auth/google', - шлях до беку на redirect
   const accountButtons = [
     {
       svgName: 'icon-google',
       account: 'Google',
+      hasAccount: haveAccounts.google,
       onClick: () => {
-        googleLogin();
+        haveAccounts.google ? unbindGoogle() : googleLogin();
       },
     },
     {
       svgName: 'icon-facebook',
       account: 'Facebook',
+      hasAccount: haveAccounts.facebook,
       onClick: () => {
         handleFacebookLogin();
       },
@@ -70,6 +41,7 @@ const LinkedAccounts: FC<{}> = () => {
     {
       svgName: 'icon-apple',
       account: 'Apple',
+      hasAccount: haveAccounts.apple,
       onClick: () => console.log('apple'),
     },
   ];
@@ -97,7 +69,7 @@ const LinkedAccounts: FC<{}> = () => {
           isManageAccountPage ? 'space-y-3 md:space-y-4' : 'flex justify-around gap-4 md:gap-8'
         }`}
       >
-        {accountButtons.map(({ svgName, account, onClick }) => (
+        {accountButtons.map(({ svgName, account, onClick, hasAccount }) => (
           <li
             key={svgName}
             className={`${isManageAccountPage ? 'flex items-center gap-3 lg:gap-6' : ''}`}
@@ -127,7 +99,7 @@ const LinkedAccounts: FC<{}> = () => {
             {isManageAccountPage ? (
               <p className='text-small leading-normal text-darkBase dark:text-whiteBase lg:text-medium'>
                 {`${
-                  hasConnectedAccount
+                  hasAccount
                     ? `Disconnect your ${account} account from News. You will no longer be able to use it to log in.`
                     : `Connect your ${account} account to login to News.`
                 }`}

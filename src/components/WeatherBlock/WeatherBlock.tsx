@@ -36,7 +36,7 @@ const WeatherBlock: FC<{}> = () => {
           : showError
             ? 'px-6 py-10 text-center md:px-10'
             : 'px-5 py-8 md:px-8 md:pt-10'
-      }  hg:w-442px h-full w-full bg-accentBase`}
+      }  h-full w-full bg-accentBase hg:w-442px`}
     >
       {(!isWeatherLoading && emptyWeather) || showError ? (
         <NoWeather showError={showError} />
@@ -54,7 +54,7 @@ const WeatherBlock: FC<{}> = () => {
             />
             {currentWeather?.weather && currentWeather?.weather[0]['icon'] && (
               <img
-                className='md:w-165px hg:w-180px md:h-165px hg:h-180px m-auto h-32 w-32'
+                className='m-auto h-32 w-32 md:h-165px md:w-165px hg:h-180px hg:w-180px'
                 src={`https://openweathermap.org/img/wn/${currentWeather?.weather[0]['icon']}@2x.png`}
                 alt={currentWeather?.weather?.[0]?.description}
               />

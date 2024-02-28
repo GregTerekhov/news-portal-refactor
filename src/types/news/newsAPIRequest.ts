@@ -1,5 +1,5 @@
-export type PopularRequest = '1' | '7' | '30';
-export type KeywordRequest = string;
+export type PopularRequest = 1 | 7 | 30;
+export type KeywordRequest = { query: string };
 export type CategoryRequest = string;
 export interface DateRequest {
   beginDate: string | null;

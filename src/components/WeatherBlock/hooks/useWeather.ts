@@ -33,8 +33,8 @@ const useWeather = () => {
           localStorage.setItem('geolocationPermission', 'granted');
           navigator.geolocation.getCurrentPosition((position) => {
             const sendGeolocation = {
-              latitude: position.coords.latitude,
-              longitude: position.coords.longitude,
+              lat: position.coords.latitude,
+              lon: position.coords.longitude,
             };
             getCurrentWeather(sendGeolocation);
             getHourlyWeather(sendGeolocation);
@@ -47,8 +47,8 @@ const useWeather = () => {
               setHasGeolocationPermission(true);
               localStorage.setItem('geolocationPermission', 'granted');
               const sendGeolocation = {
-                latitude: position.coords.latitude,
-                longitude: position.coords.longitude,
+                lat: position.coords.latitude,
+                lon: position.coords.longitude,
               };
               getCurrentWeather(sendGeolocation);
               getHourlyWeather(sendGeolocation);
