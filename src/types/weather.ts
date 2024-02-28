@@ -44,8 +44,8 @@ export interface HourlyWeatherData {
 }
 
 export interface Position {
-  latitude: number;
-  longitude: number;
+  lat: number;
+  lon: number;
 }
 
 type WeatherError = {
@@ -56,6 +56,6 @@ type WeatherError = {
 export interface WeatherState {
   isLoading: boolean;
   data: WeatherData;
-  weatherByHour: HourlyWeatherData;
+  weatherByHour: HourlyWeatherData[];
   hasError: WeatherError | null;
 }

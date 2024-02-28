@@ -42,6 +42,7 @@ export type SignOutResponse = ServicesInfo;
 interface Current {
   user: User;
   userTheme: ThemeValue;
+  haveAccounts: HaveAccounts;
 }
 export type CurrentUserResponse = ServicesInfo & Current;
 
@@ -65,12 +66,3 @@ export type PasswordChangeResponse = ServicesInfo & SignInResponse;
 export type BindSocialsResponse = ServicesInfo & HaveAccounts;
 
 export type RefreshTokensResponse = ServicesInfo & Tokens;
-
-export type GoogleResponse = {
-  access_token: string;
-  authuser: string;
-  expires_in: number;
-  prompt: string;
-  scope: string;
-  token_type: string;
-};

@@ -18,6 +18,7 @@ const AccountPage: FC<{}> = () => {
 
   const isMobile = breakpointsForMarkup?.isNothing || breakpointsForMarkup?.isMobile;
   const haveLinkedAccount = haveAccounts.google || haveAccounts.facebook || haveAccounts.apple;
+
   const commonHeadlineClass = 'text-darkBase dark:text-whiteBase text-end';
 
   return (

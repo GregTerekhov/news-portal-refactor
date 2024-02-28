@@ -2,6 +2,7 @@ import { z } from 'zod';
 
 const configSchema = z.object({
   APP_GOOGLE_API_TOKEN: z.coerce.string(),
+  GOOGLE_LOGIN_LINK: z.coerce.string(),
   NEWS_API_KEY: z.string(),
   WEATHER_API_KEY: z.string(),
   APP_FACEBOOK_APP_ID: z.coerce.string(),

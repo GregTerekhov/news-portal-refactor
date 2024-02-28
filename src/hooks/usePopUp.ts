@@ -64,13 +64,13 @@ const usePopUp = () => {
     [isOpenModal, isScrollDisabled],
   );
 
+  const toggleCalendar = useCallback(() => {
+    setIsOpenCalendar(!isOpenCalendar);
+  }, [isOpenCalendar]);
+
   const toggleMenu = () => {
     setIsOpenMenu(!isOpenMenu);
     setIsScrollDisabled(!isScrollDisabled);
-  };
-
-  const toggleCalendar = () => {
-    setIsOpenCalendar(!isOpenCalendar);
   };
 
   const closeCalendar = () => {

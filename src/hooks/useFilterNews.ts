@@ -43,7 +43,6 @@ const useFilterNews = ({ activeLinks }: FilterHookProps) => {
   };
 
   const handleMaterialTypeChange = (selectedType: string) => {
-    console.log('selectedType', selectedType);
     setFilters({
       ...filters,
       materialType: selectedType,
@@ -182,7 +181,7 @@ const useFilterNews = ({ activeLinks }: FilterHookProps) => {
       title: '',
       author: '',
       publisher: '',
-      materialType: 'Type',
+      materialType: '',
       selectedFilterDate: {
         startDate: '',
         endDate: '',

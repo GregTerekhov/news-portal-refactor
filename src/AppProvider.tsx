@@ -8,7 +8,7 @@ import * as Tooltip from '@radix-ui/react-tooltip';
 import * as Toast from '@radix-ui/react-toast';
 
 import { store, persistor } from 'reduxStore/store';
-import { CONFIG } from './config';
+import { CONFIG } from 'config';
 
 import {
   ThemeProvider,

@@ -11,6 +11,10 @@ export type SearchParamsObject = {
   category: string;
 };
 
+const TODAY_HOT_NEWS = 1;
+const WEEKLY_NEWS = 7;
+const MONTHLY_NEWS = 30;
+
 const useAdditionalRequest = () => {
   const [searchParams, setSearchParams] = useState<SearchParamsObject>({
     query: '',
@@ -46,9 +50,7 @@ const useAdditionalRequest = () => {
 
   const getCategoriesList = () => categoriesList?.map((item) => item.display_name) || [];
 
-
   const updateSearchParams = (value: string, key: keyof SearchParamsObject | string) => {
-
     setSearchParams((prevParams) => ({ ...prevParams, [key]: value }));
   };
 
@@ -62,7 +64,7 @@ const useAdditionalRequest = () => {
       if (filteredNews?.length > 0) {
         resetPreviousRequest();
       }
-      await fetchByKeyword(searchParams.query);
+      await fetchByKeyword({ query: searchParams.query });
       updateHeadline(`News by Keyword: ${searchParams.query}`);
       setSearchParams((prev) => ({ ...prev, query: '' }));
     }
@@ -87,13 +89,13 @@ const useAdditionalRequest = () => {
 
     if (selectedPeriod === 'Today') {
       updateHeadline(`${selectedPeriod}'s Hot News`);
-      await fetchPopular('1');
+      await fetchPopular(TODAY_HOT_NEWS);
     } else if (selectedPeriod === 'Week') {
       updateHeadline(`${selectedPeriod} News`);
-      await fetchPopular('7');
+      await fetchPopular(WEEKLY_NEWS);
     } else if (selectedPeriod === 'Month') {
       updateHeadline(`${selectedPeriod} News`);
-      await fetchPopular('30');
+      await fetchPopular(MONTHLY_NEWS);
     }
   };
 
@@ -105,7 +107,7 @@ const useAdditionalRequest = () => {
       updateHeadline('Today`s Hot News');
       resetSearchParams();
       setSelectedRequestDate({ beginDate: null, endDate: null });
-      await fetchPopular('1');
+      await fetchPopular(TODAY_HOT_NEWS);
     }
   };
 

@@ -29,7 +29,6 @@ const Dropdown: FC<DropdownProps> = ({
   };
 
   const handleItemClick = (item: string): void => {
-    console.log('ITEM', item);
     if (getResults) getResults(item);
     onSelectItem(
       item,
@@ -37,8 +36,6 @@ const Dropdown: FC<DropdownProps> = ({
     );
     setIsOpenDropdown(false);
   };
-
-  console.log('selectedItem', selectedItem);
 
   return (
     <Menu as='div' className='relative'>

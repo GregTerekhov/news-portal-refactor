@@ -5,7 +5,7 @@ import {
   SavedNewsResponse,
 } from 'types';
 
-import { requestWithInstanceTemplate, createAppAsyncThunk, axiosInstance } from '../services';
+import { requestWithInstanceTemplate } from '../services';
 
 export const fetchAllNews = requestWithInstanceTemplate<void, SavedNewsResponse>(
   'newsDB/all',
@@ -19,27 +19,10 @@ export const addNews = requestWithInstanceTemplate<PartialVotedNewsArray, SavedN
   'post',
 );
 
-// export const deleteNews = requestWithInstanceTemplate<string, DeleteNewsResponse>(
-//   'newsDB/delete',
-//   '/news/archive',
-//   'get',
-//   true,
-//   // { pathParams: 'id' },
-// );
-
-export const deleteNews = createAppAsyncThunk<DeleteNewsResponse, string>(
+export const deleteNews = requestWithInstanceTemplate<string, DeleteNewsResponse>(
   'newsDB/delete',
-  async (id, { rejectWithValue }: any) => {
-    console.log('deletedId: ', id);
-    try {
-      const response = await axiosInstance.delete<DeleteNewsResponse>(`/news/archive/${id}`);
-      console.log('responseDelete', response.data);
-      return response.data;
-    } catch (error: any) {
-      console.log('Error deleteNews', error.response.status);
-      return rejectWithValue(error.response.status);
-    }
-  },
+  '/news/archive/:id',
+  'delete',
 );
 
 export const fetchFavourites = requestWithInstanceTemplate<void, SavedNewsResponse>(
