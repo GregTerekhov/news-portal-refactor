@@ -5,7 +5,7 @@ type SelectedDate = {
   endDate: string;
 };
 
-export function formatDate(inputDate: string) {
+export function formatDate(inputDate: string): string {
   if (!inputDate) return '';
 
   const date = new Date(inputDate);
@@ -14,7 +14,7 @@ export function formatDate(inputDate: string) {
   return formattedDate;
 }
 
-export function formatDateToShort(inputDate: string) {
+export function formatDateToShort(inputDate: string): string {
   if (!inputDate) return '';
 
   const date = new Date(inputDate);
@@ -28,7 +28,7 @@ export function formatDateToShort(inputDate: string) {
   return formattedDate;
 }
 
-export function convertDateFormat(inputDate: string) {
+export function convertDateFormat(inputDate: string): string {
   // Витягаємо рік, місяць і день з рядка
   // const year = inputDate.substring(0, 4);
   const month = inputDate.substring(4, 6);

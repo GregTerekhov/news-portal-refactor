@@ -2,6 +2,8 @@ import React, { FC, useEffect, useState } from 'react';
 import LiteYouTubeEmbed from 'react-lite-youtube-embed';
 import 'react-lite-youtube-embed/dist/LiteYouTubeEmbed.css';
 
+const YOUTUBE_ID = '_-EknzllWXI';
+
 const Hero: FC<{}> = () => {
   const [isVideoPlaying, setVideoPlaying] = useState<boolean>(false);
   const [aspectWidth, setAspectWidth] = useState<number>(window.innerWidth);
@@ -25,9 +27,9 @@ const Hero: FC<{}> = () => {
   }`;
 
   return (
-    <div className='w-full h-auto overflow-hidden flex items-center justify-center -mt-[82px] md:-mt-[107px] lg:-mt-[114px]'>
+    <div className='-mt-[82px] flex h-auto w-full items-center justify-center overflow-hidden md:-mt-[107px] lg:-mt-[114px]'>
       <LiteYouTubeEmbed
-        id='_-EknzllWXI'
+        id={YOUTUBE_ID}
         title='YouTube video player'
         params='t=1s&ab_channel=TheNewYorkTimes'
         wrapperClass='w-full h-screen  bg-no-repeat bg-cover bg-center flex items-center justify-center'

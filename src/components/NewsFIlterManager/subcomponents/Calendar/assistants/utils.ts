@@ -5,6 +5,11 @@ type SelectedDate = {
   endDate: string;
 };
 
+type FormattedDate = {
+  firstDate: string;
+  lastDate: string;
+};
+
 export function capitalizeFirstLetter(str: string): string {
   if (typeof str !== 'string') {
     return '';
@@ -24,7 +29,7 @@ export function convertLinesForCalendar(dateStr: string): string {
   return formattedDate;
 }
 
-export function formatDateRange(selectedDate: SelectedDate) {
+export function formatDateRange(selectedDate: SelectedDate): FormattedDate {
   return {
     firstDate: selectedDate.beginDate && convertDateFormat(selectedDate.beginDate),
     lastDate: selectedDate.endDate && convertDateFormat(selectedDate.endDate),

@@ -51,13 +51,16 @@ const Layout: FC = () => {
 
   const showSuccessToast =
     statusMessage === 'Email sent successfully' ||
+    statusMessage === 'Password has successfully changed' ||
     statusMessage === 'User sign-in success' ||
-    statusMessage === 'Sign-out success';
+    statusMessage === 'Sign-out success' ||
+    statusMessage.includes('linking');
+
   return (
     <div
       className={`
-        min-h-sectionSmall md:min-h-sectionMedium
-        lg:min-h-sectionLarge flex h-full max-h-sectionSmall flex-col justify-between md:max-h-sectionMedium lg:max-h-sectionLarge`}
+        flex h-full
+        max-h-sectionSmall min-h-sectionSmall flex-col justify-between md:max-h-sectionMedium md:min-h-sectionMedium lg:max-h-sectionLarge lg:min-h-sectionLarge`}
     >
       {!isErrorPage && <Header />}
       <main className='h-full'>

@@ -1,4 +1,4 @@
-export const fetchFont = async (fontName: string) => {
+export const fetchFont = async (fontName: string): Promise<string> => {
   // Ваша логіка завантаження шрифту
   const response = await fetch(`/src/assets/fonts/${fontName}`);
   const data = await response.blob();

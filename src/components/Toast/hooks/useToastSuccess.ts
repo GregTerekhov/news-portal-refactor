@@ -3,12 +3,16 @@ import { useAuthRedux, useDB } from 'reduxStore/hooks';
 import { ToastMessage } from 'types';
 
 const useToastSuccess = () => {
-  const { statusMessage } = useAuthRedux();
+  const { statusMessage, haveAccounts } = useAuthRedux();
   const { dbSuccessMessage } = useDB();
 
   const chooseSuccessToastText = (statusMessage: string): ToastMessage => {
     let title = '';
     let description = '';
+
+    const linkingAccount = Object.keys(haveAccounts).find(
+      (key) => haveAccounts.hasOwnProperty(key) === true,
+    );
 
     switch (statusMessage) {
       case 'User sign-in success':
@@ -42,7 +46,13 @@ const useToastSuccess = () => {
         break;
       default:
         title = '';
+        description = '';
         break;
+    }
+
+    if (statusMessage.includes('linking')) {
+      title = 'Link Account';
+      description = `Your ${linkingAccount} account is successfully linking`;
     }
 
     return { title, description };

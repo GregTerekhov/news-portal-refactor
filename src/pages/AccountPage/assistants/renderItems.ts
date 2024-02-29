@@ -1,8 +1,4 @@
-type User = {
-  id: string;
-  name: string;
-  email: string;
-};
+import { HaveAccounts, User } from 'types';
 
 type UserInfoList = {
   label: string;
@@ -12,12 +8,6 @@ type UserInfoList = {
 type IconsList = {
   iconName: string;
   linked: boolean;
-};
-
-type HaveAccounts = {
-  google: boolean;
-  facebook: boolean;
-  apple: boolean;
 };
 
 export const renderInfoItems = (user: User): UserInfoList[] => {

@@ -3,7 +3,6 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { useScrollBodyContext } from 'contexts';
 
 const usePopUp = () => {
-  const [isOpenMenu, setIsOpenMenu] = useState<boolean>(false);
   const [isOpenModal, setIsOpenModal] = useState<boolean>(false);
   const [isOpenCalendar, setIsOpenCalendar] = useState<boolean>(false);
 
@@ -68,23 +67,16 @@ const usePopUp = () => {
     setIsOpenCalendar(!isOpenCalendar);
   }, [isOpenCalendar]);
 
-  const toggleMenu = () => {
-    setIsOpenMenu(!isOpenMenu);
-    setIsScrollDisabled(!isScrollDisabled);
-  };
-
   const closeCalendar = () => {
     setIsOpenCalendar(false);
   };
 
   return {
-    isOpenMenu,
     isOpenModal,
     isOpenCalendar,
     popUpRef,
-    setIsOpenModal, // перевірити, чи потрібно це повертати
+    setIsOpenModal,
     setIsOpenCalendar,
-    toggleMenu,
     toggleModal,
     toggleCalendar,
     closeCalendar,

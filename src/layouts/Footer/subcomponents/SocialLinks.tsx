@@ -1,10 +1,10 @@
-import React from 'react';
+import React, { FC } from 'react';
 
 import { SvgIcon } from 'ui';
 
 import { renderSocialLinks } from '../assistants';
 
-const SocialLinks = () => {
+const SocialLinks: FC = () => {
   const socialLinks = renderSocialLinks();
   return (
     <ul className='flex items-center gap-x-3'>

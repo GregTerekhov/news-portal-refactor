@@ -5,9 +5,9 @@ import { useNewsAPI, useFiltersAction } from 'reduxStore/hooks';
 import { useSelectedDate } from 'contexts';
 
 import { determineNewSelectedDate } from 'helpers';
+import { usePopUp } from 'hooks';
 
 import { formatDateRange } from '../assistants';
-import usePopUp from 'hooks/usePopUp';
 
 const useRequestByDate = () => {
   const { fetchByDate, resetPreviousRequest, updateHeadline } = useNewsAPI();

@@ -2,6 +2,7 @@ import React, { FC } from 'react';
 
 import { useAuthRedux } from 'reduxStore/hooks';
 
+import { ICON_SIZES } from 'constants/iconSizes';
 import { VariantButton } from 'types';
 import { useWindowWidth } from 'contexts';
 import { useActiveLinks } from 'hooks';
@@ -71,7 +72,7 @@ const LinkedAccounts: FC<{}> = () => {
       >
         {accountButtons.map(({ svgName, account, onClick, hasAccount }) => (
           <li
-            key={svgName}
+            key={account}
             className={`${isManageAccountPage ? 'flex items-center gap-3 lg:gap-6' : ''}`}
           >
             <div className={`${isManageAccountPage ? 'w-14' : isMobile ? 'w-14' : 'w-32'}`}>
@@ -85,7 +86,7 @@ const LinkedAccounts: FC<{}> = () => {
                 }
                 hasIcon={true}
                 svgName={svgName}
-                svgSize={isMobile ? 20 : 24}
+                svgSize={isMobile ? ICON_SIZES.smIcon20 : ICON_SIZES.mdIcon24}
                 ariaLabel={`${
                   isManageAccountPage ? account + 'account binding' : 'Enter with' + account
                 } `}

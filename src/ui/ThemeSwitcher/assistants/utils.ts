@@ -1,34 +1,24 @@
 import { VariantSwitcher } from 'types';
 
 type SwitcherStylesProps = {
-  isHomeActive?: boolean | undefined;
   enabled?: boolean | undefined;
-  themeSwitcherClass: string;
-  isOpenMenu: boolean;
 };
 
 interface Styles {
   [key: string]: {
     spacing?: string;
-    shadow?: string;
     colorLeftLabel?: string;
     strokeLeftIcon?: string;
   };
 }
 
-export const generateSwitcherStyles = ({
-  isHomeActive,
-  enabled,
-  themeSwitcherClass,
-  isOpenMenu,
-}: SwitcherStylesProps) => {
+export const generateSwitcherStyles = ({ enabled }: SwitcherStylesProps) => {
   const commonLabelClass = enabled ? 'text-greyBase' : 'text-accentAlt';
   const commonIconClass = enabled ? 'stroke-greyBase' : 'stroke-accentAlt';
 
   const styles: Styles = {
     [VariantSwitcher.Header]: {
       spacing: 'justify-end',
-      shadow: isHomeActive && !isOpenMenu ? themeSwitcherClass : '',
       colorLeftLabel: commonLabelClass,
       strokeLeftIcon: commonIconClass,
     },
