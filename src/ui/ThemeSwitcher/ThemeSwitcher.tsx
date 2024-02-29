@@ -4,7 +4,7 @@ import { Switch } from '@headlessui/react';
 import { VariantSwitcher } from 'types';
 import { ICON_SIZES } from 'constants/iconSizes';
 import { useTheme, useWindowWidth } from 'contexts';
-import { useActiveLinks, useHeaderStyles, usePopUp } from 'hooks';
+import { useActiveLinks, useHeaderStyles } from 'hooks';
 
 import SvgIcon from '../SvgIcon';
 
@@ -13,15 +13,13 @@ import { generateSwitcherStyles } from './assistants';
 const ThemeSwitcher: FC<{ variant: VariantSwitcher }> = ({ variant }) => {
   const { breakpointsForMarkup } = useWindowWidth();
 
-  const { isOpenMenu } = usePopUp();
-
   const { enabled, setEnabled, handleThemeChange } = useTheme();
 
   const { isHomeActive } = useActiveLinks();
 
-  const { themeSwitcherClass, themeSwitcherTextClass } = useHeaderStyles(isHomeActive);
+  const { themeSwitcherTextClass } = useHeaderStyles(isHomeActive);
 
-  const styles = generateSwitcherStyles({ enabled, isHomeActive, themeSwitcherClass, isOpenMenu });
+  const styles = generateSwitcherStyles({ enabled });
   const currentStyles = styles[variant];
 
   const commonLabelStyles = `${
@@ -43,7 +41,7 @@ const ThemeSwitcher: FC<{ variant: VariantSwitcher }> = ({ variant }) => {
         checked={enabled}
         onChange={setEnabled}
         onClick={handleThemeChange}
-        className={`${currentStyles.shadow} ${
+        className={`${
           enabled ? 'border-contrastWhite bg-accentBase' : 'border-accentBase bg-contrastWhite'
         }
           relative inline-flex h-5 w-10 shrink-0 cursor-pointer items-center rounded-full border transition-colors ease-in-out focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75`}

@@ -5,16 +5,16 @@ import { useAuthRedux, useFiltersAction } from 'reduxStore/hooks';
 
 import { VariantSwitcher } from 'types';
 
-import { useWindowWidth } from 'contexts';
+import { useScrollBodyContext, useWindowWidth } from 'contexts';
 import { useActiveLinks, useHeaderStyles, usePopUp } from 'hooks';
 
 import { AuthModal } from 'components';
 import { Modal, ThemeSwitcher } from 'ui';
 
-import { AuthButton, MainMenu, UserAccountLink } from './subcomponents';
-import { AuthenticatedHeaderContent } from './subcomponents';
+import { AuthButton, AuthenticatedHeaderContent, MainMenu, UserAccountLink } from './subcomponents';
 
 const Header: FC<{}> = () => {
+  const [isOpenMenu, setIsOpenMenu] = useState<boolean>(false);
   const [touched, setTouched] = useState<boolean>(false);
   const [passwordToken, setPasswordToken] = useState<boolean>(false);
 
@@ -23,8 +23,13 @@ const Header: FC<{}> = () => {
   const token: string | null = searchParams.get('token');
   const openModal: string | null = searchParams.get('openModal');
 
-  const { isOpenMenu, isOpenModal, setIsOpenModal, toggleModal, popUpRef } = usePopUp();
+  const { isOpenModal, setIsOpenModal, toggleModal, popUpRef } = usePopUp();
   const { isAuthenticated, user, writeTokens } = useAuthRedux();
+  const { isScrollDisabled, setIsScrollDisabled } = useScrollBodyContext();
+
+  useEffect(() => {
+    console.log(isOpenMenu);
+  }, []);
 
   useEffect(() => {
     if (!user.id && token && openModal) {
@@ -35,12 +40,14 @@ const Header: FC<{}> = () => {
   }, [token, openModal, user]);
 
   const { breakpointsForMarkup } = useWindowWidth();
-
   const { filteredNews, resetAllFilters } = useFiltersAction();
-
   const { isHomeActive, isAccountPage, isManageAccountPage } = useActiveLinks();
-
   const { headerClass, textClass } = useHeaderStyles(isHomeActive);
+
+  const toggleMenu = () => {
+    setIsOpenMenu(!isOpenMenu);
+    setIsScrollDisabled(!isScrollDisabled);
+  };
 
   const handleVisibilityChange = () => {
     setTouched(!touched);
@@ -77,7 +84,7 @@ const Header: FC<{}> = () => {
           <Link
             to='/'
             className={`z-50 text-3xl font-bold leading-tight transition-colors duration-500 sm:py-6 md:pb-[30px] md:pt-8 md:text-4xl lg:py-7 lg:text-giant lg:leading-[1.357144] ${
-              isHomeActive ? textClass : 'z-50 text-darkBase dark:text-whiteBase'
+              isHomeActive && !isOpenMenu ? textClass : 'text-darkBase dark:text-whiteBase'
             } 
               `}
           >
@@ -90,6 +97,8 @@ const Header: FC<{}> = () => {
               handleVisibilityChange={handleVisibilityChange}
               touched={touched}
               resetFilters={resetFilters}
+              isOpenMenu={isOpenMenu}
+              toggleMenu={toggleMenu}
             />
           ) : (
             <div className={`${isNotMobile ? 'flex flex-col gap-3' : ''}`}>

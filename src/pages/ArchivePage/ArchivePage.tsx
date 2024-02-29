@@ -1,4 +1,5 @@
 import React, { FC, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import { useAuthRedux, useDB } from 'reduxStore/hooks';
 
@@ -7,7 +8,6 @@ import { Accordeon, Loader, PlugImage } from 'ui';
 
 import { organiseNewsByMonth } from './assistants';
 import { ArchiveHistoryLog } from './subcomponents';
-import { useNavigate } from 'react-router-dom';
 
 const ArchivePage: FC<{}> = () => {
   const {

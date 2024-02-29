@@ -3,6 +3,7 @@ import React, { FC } from 'react';
 import { VariantVerifiableInputs } from 'types';
 
 import { VerifiableInput } from 'ui';
+
 import { useSendEmail } from '../hooks';
 
 interface SignInProps {

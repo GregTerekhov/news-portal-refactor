@@ -4,28 +4,31 @@ import { VariantInputs, VariantSwitcher } from 'types';
 
 import { ICON_SIZES } from 'constants/iconSizes';
 import { useWindowWidth } from 'contexts';
-import { useActiveLinks, useAdditionalRequest, useHeaderStyles, usePopUp } from 'hooks';
+import { useActiveLinks, useAdditionalRequest, useHeaderStyles } from 'hooks';
 
 import { SvgIcon, ThemeSwitcher, UnverifiableInput } from 'ui';
 import AuthButton from './Auth';
 import MainMenu from './MainMenu';
-import { AccountMenu } from 'layouts/subcomponents';
+import { AccountMenu } from '../../subcomponents';
 
 interface HeaderContentProps {
   touched: boolean;
   handleVisibilityChange: () => void;
   resetFilters: () => void;
+  isOpenMenu: boolean;
+  toggleMenu: () => void;
 }
 
 const AuthenticatedHeaderContent: FC<HeaderContentProps> = ({
   handleVisibilityChange,
   touched,
   resetFilters,
+  isOpenMenu,
+  toggleMenu,
 }) => {
   const { breakpointsForMarkup } = useWindowWidth();
 
   const { query, onChangeInput, onHandleSearch } = useAdditionalRequest();
-  const { isOpenMenu, toggleMenu } = usePopUp();
   const { isHomeActive, isAccountPage, isManageAccountPage } = useActiveLinks();
   const { burgerMenuButtonClass } = useHeaderStyles(isHomeActive);
 

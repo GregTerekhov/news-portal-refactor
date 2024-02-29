@@ -2,6 +2,10 @@ import { useEffect, useState } from 'react';
 
 import { useWindowWidth } from 'contexts';
 
+const MOBILE_HEADER_HEIGHT = 81;
+const TABLET_HEADER_HEIGHT = 106;
+const DESKTOP_HEADER_HEIGHT = 113;
+
 const useHeaderStyles = (isHomePage: boolean | undefined) => {
   const [isScrolled, setIsScrolled] = useState<boolean>(false);
   const { breakpointsForMarkup } = useWindowWidth();
@@ -14,18 +18,14 @@ const useHeaderStyles = (isHomePage: boolean | undefined) => {
         const currentScroll = window.scrollY;
 
         function getHeaderHeight() {
-          let headerHeight = 81;
           switch (true) {
             case breakpointsForMarkup?.isTablet:
-              headerHeight = 106;
-              break;
+              return TABLET_HEADER_HEIGHT;
             case breakpointsForMarkup?.isDesktop:
-              headerHeight = 113;
-              break;
+              return DESKTOP_HEADER_HEIGHT;
             default:
-              headerHeight = 81;
+              return MOBILE_HEADER_HEIGHT;
           }
-          return headerHeight;
         }
 
         const isScrolling = currentScroll > screenHeight - getHeaderHeight();
@@ -79,7 +79,6 @@ const useHeaderStyles = (isHomePage: boolean | undefined) => {
 
   const authButtonClass = isScrolled ? '' : 'shadow-darkCard';
 
-  const themeSwitcherClass = isHomePage && isScrolled ? 'shadow-none' : 'shadow-darkCard';
   const themeSwitcherTextClass =
     isHomePage && isScrolled ? '' : '[text-shadow:8px_10px_20px_rgba(17,19,33,.5)]';
 
@@ -90,7 +89,6 @@ const useHeaderStyles = (isHomePage: boolean | undefined) => {
     burgerMenuButtonClass,
     accountIconStyles,
     authButtonClass,
-    themeSwitcherClass,
     themeSwitcherTextClass,
   };
 };

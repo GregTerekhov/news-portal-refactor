@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { FC, useEffect } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
 
 import { useAuthRedux } from 'reduxStore/hooks';
@@ -7,7 +7,7 @@ import { useActiveLinks } from 'hooks';
 
 import { renderMenuItem } from '../assistants';
 
-const FooterMenu = () => {
+const FooterMenu: FC = () => {
   const { isAuthenticated } = useAuthRedux();
   const location = useLocation();
   const { isAboutUs } = useActiveLinks();
@@ -24,7 +24,7 @@ const FooterMenu = () => {
 
   return (
     <>
-      <nav className={`${isAuthenticated ? 'lg:w-600px w-full md:w-96' : 'mb-4 md:mb-10'}`}>
+      <nav className={`${isAuthenticated ? 'w-full md:w-96 lg:w-600px' : 'mb-4 md:mb-10'}`}>
         <ul
           className={`${
             isAuthenticated

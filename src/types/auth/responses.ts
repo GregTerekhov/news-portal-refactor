@@ -1,10 +1,10 @@
-type User = {
+export type User = {
   name: string;
   email: string;
   id: string;
 };
 
-type HaveAccounts = {
+export type HaveAccounts = {
   google: boolean;
   facebook: boolean;
   apple: boolean;

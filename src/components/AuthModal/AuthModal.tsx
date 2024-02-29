@@ -1,10 +1,10 @@
 import React, { FC, useState } from 'react';
 import { Tab } from '@headlessui/react';
+import { RemoveScroll } from 'react-remove-scroll';
 
 import { usePopUp } from 'hooks';
 
 import { SignUpPanel, SignInPanel, ChangePassword } from './subcomponents';
-import { RemoveScroll } from 'react-remove-scroll';
 
 interface IAuthModalProps {
   passwordToken?: boolean;

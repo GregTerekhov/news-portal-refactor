@@ -33,7 +33,7 @@ export const useScrollBodyContext = () => {
   const context = useContext(ScrollBodyContext);
 
   if (!context) {
-    throw new Error('usePopUp must be used within a ScrollBodyProvider');
+    throw new Error('useScrollBodyContext must be used within a ScrollBodyProvider');
   }
   return context;
 };

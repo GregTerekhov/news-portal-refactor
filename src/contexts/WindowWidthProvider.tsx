@@ -16,6 +16,13 @@ export interface WindowWidthContextValue {
   };
 }
 
+const LESS_THAN_MOBILE = 319;
+const IS_MOBILE = 320;
+const LESS_THAN_TABLET = 767;
+const IS_TABLET = 768;
+const LESS_THAN_DESKTOP = 1279;
+const IS_DESKTOP = 1280;
+
 // Створення контексту з типом `WindowWidthContextValue`
 export const WindowWidthContext = createContext<WindowWidthContextValue | null>(null);
 
@@ -37,10 +44,10 @@ export const WindowWidthProvider: React.FC<WindowWidthProviderProps> = ({ childr
 
   // Опис значень, які будуть передані через контекст
   const breakpointsForMarkup = {
-    isNothing: windowWidth <= 319,
-    isMobile: windowWidth >= 320 && windowWidth <= 767,
-    isTablet: windowWidth >= 768 && windowWidth <= 1279,
-    isDesktop: windowWidth >= 1280,
+    isNothing: windowWidth <= LESS_THAN_MOBILE,
+    isMobile: windowWidth >= IS_MOBILE && windowWidth <= LESS_THAN_TABLET,
+    isTablet: windowWidth >= IS_TABLET && windowWidth <= LESS_THAN_DESKTOP,
+    isDesktop: windowWidth >= IS_DESKTOP,
   };
   // Значення контексту, яке буде надано дітям через `WindowWidthContext.Provider`
   const contextValue: WindowWidthContextValue = {

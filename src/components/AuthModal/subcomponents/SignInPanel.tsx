@@ -5,8 +5,9 @@ import { VariantButton, VariantInputs, VariantSwitcher, VariantVerifiableInputs 
 import { PrimaryButton, ThemeSwitcher, UnverifiableInput, VerifiableInput } from 'ui';
 
 import ThirdPartyAuthPanel from './ThirdPartyAuthPanel';
-import { useSignIn } from '../hooks';
 import ForgotPassword from './ForgotPassword';
+
+import { useSignIn } from '../hooks';
 
 interface SignInProps {
   handleShowRecoveryInput: () => void;

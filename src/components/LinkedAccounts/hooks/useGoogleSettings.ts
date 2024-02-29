@@ -21,6 +21,7 @@ const useGoogleSettings = () => {
           })
           .then((res) => res.data);
         console.log('userInfo', userInfo);
+
         if (!isAuthenticated) {
           const response = enterWithGoogle({ email: userInfo.email, sub: userInfo.sub });
           console.log('enterWithGoogle', response);
