@@ -12,7 +12,7 @@ const AccountManagePage: FC<{}> = () => {
   const showUpdatedToast =
     statusMessage === 'Email is successfully updated' ||
     statusMessage === 'Password is successfully updated';
-  const showErrorToast = authError && authError?.message;
+  const showErrorToast = !authError;
 
   return (
     <div>
@@ -20,7 +20,7 @@ const AccountManagePage: FC<{}> = () => {
         Account settings
       </h2>
       <div className='flex items-center justify-end'>
-        <div className='lg:w-600px w-52 space-y-2 md:w-80 md:space-y-6'>
+        <div className='w-52 space-y-2 md:w-80 md:space-y-6 lg:w-600px'>
           <UpdateEmail />
           <UpdatePassword />
           <LinkedAccounts />
