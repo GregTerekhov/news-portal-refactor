@@ -57,13 +57,18 @@ const HomePage: FC = () => {
   }, [newsByKeyword, newsByCategory, newsByDate]);
 
   const showLoader = isLoadingAPIData || isLoadingDBData || hasResults === 'loading';
-  const showPlugImage = (rebuildedNews && rebuildedNews.length === 0) || hasResults === 'empty';
+  const showPlugImage = rebuildedNews?.length === 0 || hasResults === 'empty';
+
+  console.log('hasResults', hasResults);
+
   const additionalRequests =
     (newsByKeyword && newsByKeyword.length > 0) ||
     (newsByCategory && newsByCategory.length > 0) ||
     (newsByDate && newsByDate.length > 0);
   const showToastResults = !showLoader && additionalRequests;
-  const showErrorToastMessage = (authError && authError.message) || errorAPI;
+  const showErrorToastMessage = authError || errorAPI;
+
+  console.log('rebuildedNews HOME_PAGE', rebuildedNews);
 
   return (
     <>

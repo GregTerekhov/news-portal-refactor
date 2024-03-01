@@ -21,7 +21,7 @@ const API_KEY = CONFIG.NEWS_API_KEY;
 //   'popular/fetch',
 //   `${CONFIG.BASE_URL_NEWS}/mostpopular/v2/viewed/:value.json`,
 //   'get',
-//   { queryParams: { 'api-key': API_KEY }, nestedObjectName: 'results' },
+//   { queryParams: { 'api-key': API_KEY }, responsePath: 'results' },
 // );
 
 export const fetchPopularNews = createAppAsyncThunk<
@@ -31,7 +31,7 @@ export const fetchPopularNews = createAppAsyncThunk<
 >('popular/fetch', async (period, { rejectWithValue }) => {
   try {
     let url = `${CONFIG.BASE_URL_NEWS}/mostpopular/v2/viewed/${period}.json`;
-    console.log('url', url);
+    // console.log('url', url);
     const response = await axios.get(url, {
       params: {
         'api-key': API_KEY,
@@ -98,7 +98,7 @@ export const fetchAllCategories = requestTemplate<void, CategoriesItem[]>(
 //   'categories/fetch',
 //   `${CONFIG.BASE_URL_NEWS}/news/v3/content/all/:value.json`,
 //   'get',
-//   { queryParams: { 'api-key': API_KEY }, responsePath: 'results' },
+//   { queryParams: { 'api-key': API_KEY }, nestedObjectName: 'results' },
 // );
 
 export const fetchNewsByCategory = createAppAsyncThunk<

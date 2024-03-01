@@ -7,25 +7,12 @@ import { PrimaryButton } from 'ui';
 interface PaginationButtonProps {
   pageNumber: number;
   currentPage: number;
-  setCurrentPage: (number: number) => void;
+  onClick: (pageNumber: number) => void;
 }
 
-const PaginationButton: FC<PaginationButtonProps> = ({
-  pageNumber,
-  currentPage,
-  setCurrentPage,
-}) => {
-  const screenHeight = window.innerHeight;
-
+const PaginationButton: FC<PaginationButtonProps> = ({ pageNumber, currentPage, onClick }) => {
   return (
-    <li
-      key={pageNumber}
-      className={`${pageNumber === currentPage ? 'active' : ''}`}
-      onClick={() => {
-        setCurrentPage(pageNumber);
-        window.scrollTo({ top: 0 + screenHeight, left: 0 });
-      }}
-    >
+    <li key={pageNumber} onClick={() => onClick(pageNumber)}>
       <PrimaryButton
         aria-label={pageNumber.toString()}
         classNameButton={`h-10 border-accentBase font-medium transition-colors duration-500 ${

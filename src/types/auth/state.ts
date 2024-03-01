@@ -1,13 +1,9 @@
 import { ThemeValue } from './requests';
 
-type KnownError = {
-  message: string | undefined;
-};
-
 export interface AuthState {
   message: string;
   isLoggedIn: boolean;
-  hasError: KnownError | null;
+  hasError: string | null;
   isCurrentUser: boolean;
   userTheme: ThemeValue;
   accessToken: string | null;
