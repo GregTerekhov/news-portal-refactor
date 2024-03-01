@@ -39,7 +39,8 @@ export const requestTemplate = <Arg, Result>(
             console.log('requestUrlInCondARGS=OBJ', requestUrl);
           });
         } else if (typeof args === 'string' || typeof args === 'number') {
-          requestUrl = url.replace(':value', args.toString());
+          console.log('args INTO REPLACE STRING', args);
+          requestUrl = url.replace(/:value\b/, args.toString().toLowerCase());
           console.log('requestUrlInCondARGS=STR', requestUrl);
         }
       }
@@ -47,6 +48,7 @@ export const requestTemplate = <Arg, Result>(
       if (options?.queryParams) {
         const queryParams = serializeParams(options.queryParams);
         requestUrl += queryParams ? `?${queryParams}` : '';
+        console.log('requestUrl after SERIALIZE_PARAMS', requestUrl);
       }
 
       const response: AxiosResponse = await axios({
@@ -88,13 +90,13 @@ export const requestTemplate = <Arg, Result>(
       // після transformResponse сюди потрапляють всі необхідні дані в одному рівні вкладеності в об'єкт response.data
       return response.data;
     } catch (error: any) {
-      if (error && error.response?.data) {
-        console.log(`Error ${name}`, error.response.data);
-        return rejectWithValue(error.response.data);
-      }
       if (error && error.response?.status) {
         console.log(`Error ${name}`, error.response);
         return rejectWithValue(error.response.status);
+      }
+      if (error && error.response?.data) {
+        console.log(`Error ${name}`, error.response.data);
+        return rejectWithValue(error.response.data.message);
       }
     }
   });
@@ -114,7 +116,7 @@ export const requestWithInstanceTemplate = <Arg, Result>(
       return response.data;
     } catch (error: any) {
       console.log(`Error ${name}`, error.response);
-      return rejectWithValue(error.response.data);
+      return rejectWithValue(error.response.data.message);
     }
   });
 };

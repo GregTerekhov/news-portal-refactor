@@ -20,7 +20,7 @@ const ErrorPage: FC<{}> = () => {
 
   const anyServerError = errorAPI || errorDB;
   const APIServerError = errorAPI && errorAPI >= 500;
-  const DBServerError = errorDB && errorDB >= 500;
+  const DBServerError = errorDB && typeof errorDB === 'number' && errorDB >= 500;
 
   const renderPageContent = serverErrorsList.find((value: ErrorList) => {
     if (APIServerError) {
@@ -44,7 +44,7 @@ const ErrorPage: FC<{}> = () => {
   };
 
   return (
-    <div className='lg:w-900px space-y-10 text-center lg:mx-auto'>
+    <div className='space-y-10 text-center lg:mx-auto lg:w-900px'>
       {anyServerError ? (
         <h1 className='m-0 p-0 text-[100px] text-darkBase transition-colors duration-500 dark:text-whiteBase'>
           {renderPageContent?.code}

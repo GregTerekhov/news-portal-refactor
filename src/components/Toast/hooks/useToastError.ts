@@ -44,8 +44,7 @@ const useToastError = () => {
     return { title, description };
   };
 
-  const status =
-    authError && authError.message ? authError.message : errorAPI ? errorAPI : undefined;
+  const status = authError ? authError : errorAPI ? errorAPI : undefined;
 
   const showErrorToast = (): ToastMessage => {
     return chooseErrorToastText(status);

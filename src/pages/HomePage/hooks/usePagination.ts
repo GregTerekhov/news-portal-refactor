@@ -8,6 +8,13 @@ import { useWindowWidth } from 'contexts';
 
 import { calculatePagesForDevices, calculateFirstIndexes } from '../assistants';
 
+const FIRST_MOBILE_PAGE_COUNT = 4;
+const FIRST_TABLET_PAGE_COUNT = 7;
+const FIRST_DESKTOP_PAGE_COUNT = 8;
+const OTHER_MOBILE_PAGE_COUNT = 5;
+const OTHER_TABLET_PAGE_COUNT = 8;
+const OTHER_DESKTOP_PAGE_COUNT = 9;
+
 const usePagination = (rebuildedNews: PartialVotedNewsArray) => {
   const { breakpointsForMarkup } = useWindowWidth();
   const { popularNews, newsByKeyword, newsByCategory, newsByDate } = useNewsAPI();
@@ -67,22 +74,22 @@ const usePagination = (rebuildedNews: PartialVotedNewsArray) => {
   //Отримання кількості новин на першій сторінці для кожного пристроя
   function getFirstPageCount(): number {
     if (breakpointsForMarkup?.isNothing || breakpointsForMarkup?.isMobile) {
-      return 4;
+      return FIRST_MOBILE_PAGE_COUNT;
     } else if (breakpointsForMarkup?.isTablet) {
-      return 7;
+      return FIRST_TABLET_PAGE_COUNT;
     } else {
-      return 8;
+      return FIRST_DESKTOP_PAGE_COUNT;
     }
   }
 
   //Отримання кількості новин на інших сторінках для кожного пристроя
   function getOtherPageCount(): number {
     if (isMobile) {
-      return 5;
+      return OTHER_MOBILE_PAGE_COUNT;
     } else if (breakpointsForMarkup?.isTablet) {
-      return 8;
+      return OTHER_TABLET_PAGE_COUNT;
     } else {
-      return 9;
+      return OTHER_DESKTOP_PAGE_COUNT;
     }
   }
 

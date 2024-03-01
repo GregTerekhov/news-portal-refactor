@@ -13,30 +13,32 @@ const useChooseRenderingNews = ({ activeLinks }: RenderHookProps) => {
   const { allFavourites, allReads, allArchive } = useDB();
   const { filteredNews } = useFiltersAction();
 
+  const { isHomeActive, isFavoriteActive, isReadActive, isArchiveActive } = activeLinks;
+
   const chooseRenderingNews = () => {
-    if (filteredNews && filteredNews?.length > 0) {
+    if (filteredNews?.length > 0) {
       return filteredNews;
-    } else if (newsByKeyword && newsByKeyword?.length > 0 && activeLinks?.isHomeActive) {
+    } else if (newsByKeyword?.length > 0 && isHomeActive) {
       const searchByWordNews = rebuildNewsArray(newsByKeyword);
 
       return searchByWordNews || [];
-    } else if (newsByCategory && newsByCategory?.length > 0 && activeLinks?.isHomeActive) {
+    } else if (newsByCategory?.length > 0 && isHomeActive) {
       const searchByCategoryNews = rebuildNewsArray(newsByCategory);
 
       return searchByCategoryNews || [];
-    } else if (newsByDate && newsByDate?.length > 0 && activeLinks?.isHomeActive) {
+    } else if (newsByDate?.length > 0 && isHomeActive) {
       const searchByDateNews = rebuildNewsArray(newsByDate);
 
       return searchByDateNews || [];
-    } else if (popularNews && popularNews?.length > 0 && activeLinks?.isHomeActive) {
+    } else if (popularNews?.length > 0 && isHomeActive) {
       const popularNewsArray = rebuildNewsArray(popularNews);
 
       return popularNewsArray || [];
-    } else if (allFavourites && allFavourites?.length > 0 && activeLinks?.isFavoriteActive) {
+    } else if (allFavourites?.length > 0 && isFavoriteActive) {
       return allFavourites || [];
-    } else if (allReads && allReads?.length > 0 && activeLinks?.isReadActive) {
+    } else if (allReads?.length > 0 && isReadActive) {
       return allReads || [];
-    } else if (allArchive && allArchive?.length > 0 && activeLinks?.isArchiveActive) {
+    } else if (allArchive?.length > 0 && isArchiveActive) {
       return allArchive || [];
     }
     return [];

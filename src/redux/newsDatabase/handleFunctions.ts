@@ -18,9 +18,9 @@ export const handleFulfilled = (state: NewsDBState, action: PayloadAction<any, s
 
 export const handleRejected = (state: NewsDBState, action: PayloadAction<unknown, string, any>) => {
   state.isLoading = false;
-  if (typeof action.payload === 'number') {
+  if (typeof action.payload === 'number' || typeof action.payload === 'string') {
     state.hasError = action.payload ?? null;
-    console.log('ERROR', action.payload, action);
+    console.log('ERROR DB with code or message', action.payload, action);
   }
 };
 

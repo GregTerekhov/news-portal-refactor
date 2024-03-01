@@ -19,7 +19,7 @@ const FavouritePage: FC<{}> = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (errorDB && errorDB >= 500) {
+    if (errorDB && typeof errorDB === 'number' && errorDB >= 500) {
       navigate('/serverError');
     }
   }, [errorDB]);

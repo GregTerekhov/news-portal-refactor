@@ -25,5 +25,5 @@ export interface NewsDBState {
   archivedNews: PartialVotedNewsArray;
   historyLog: IHistoryLog[];
   isLoading: boolean;
-  hasError: number | null;
+  hasError: number | string | null;
 }
