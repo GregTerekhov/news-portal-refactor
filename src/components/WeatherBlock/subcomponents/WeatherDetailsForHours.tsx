@@ -59,7 +59,6 @@ const WeatherDetailsForHours: FC = () => {
               side='top'
               sideOffset={0}
               ariaLabel={`Info about ${label} by time interval`}
-              contentClass='border border-solid border-whiteBase rounded-xl text-small md:text-medium px-2 text-whiteBase bg-accentAlt/[.8]'
             >
               <tr>
                 <th scope='row' className='w-10 pr-2'>
