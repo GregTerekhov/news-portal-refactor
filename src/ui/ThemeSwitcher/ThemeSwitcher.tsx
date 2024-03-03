@@ -22,13 +22,15 @@ const ThemeSwitcher: FC<{ variant: VariantSwitcher }> = ({ variant }) => {
   const styles = generateSwitcherStyles({ enabled });
   const currentStyles = styles[variant];
 
+  const wideScreens = breakpointsForMarkup?.isDesktop || breakpointsForMarkup?.isTV;
+
   const commonLabelStyles = `${
     isHomeActive && variant !== VariantSwitcher.Modal && themeSwitcherTextClass
   } font-header text-xl leading-tighter`;
 
   return (
     <div className={`flex items-center gap-2 ${currentStyles.spacing}`}>
-      {breakpointsForMarkup?.isDesktop ? (
+      {wideScreens ? (
         <p className={`${commonLabelStyles} ${currentStyles.colorLeftLabel}`}>Light</p>
       ) : (
         <SvgIcon
@@ -55,7 +57,7 @@ const ThemeSwitcher: FC<{ variant: VariantSwitcher }> = ({ variant }) => {
             pointer-events-none inline-block h-4 w-4 transform rounded-full shadow-lg ring-0 transition ease-in-out`}
         />
       </Switch>
-      {breakpointsForMarkup?.isDesktop ? (
+      {wideScreens ? (
         <p className={`${commonLabelStyles} ${enabled ? 'text-whiteBase' : 'text-greyAlt'}`}>
           Dark
         </p>

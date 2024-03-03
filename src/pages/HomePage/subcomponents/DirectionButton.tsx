@@ -25,7 +25,8 @@ const DirectionButton: FC<DirectionButtonProps> = ({
 }) => {
   const { breakpointsForMarkup } = useWindowWidth();
 
-  const isTabletOrDesktop = breakpointsForMarkup?.isTablet || breakpointsForMarkup?.isDesktop;
+  const isNotMobile =
+    breakpointsForMarkup?.isTablet || breakpointsForMarkup?.isDesktop || breakpointsForMarkup?.isTV;
   const disabledPrevButton = currentPage - 1 === 0 ? true : false;
   const disableNextButton = currentPage === pageNumbers?.length ? true : false;
 
@@ -42,7 +43,7 @@ const DirectionButton: FC<DirectionButtonProps> = ({
       classNameIcon={`${direction === 'Prev' ? 'rotate-90' : '-rotate-90'}  fill-whiteBase`}
       classNameButton={direction === 'Prev' ? 'flex-row-reverse' : ''}
     >
-      {isTabletOrDesktop ? (
+      {isNotMobile ? (
         <span className='text-base font-medium text-contrastWhite md:text-medium'>{direction}</span>
       ) : null}
     </PrimaryButton>

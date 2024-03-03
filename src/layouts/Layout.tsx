@@ -40,7 +40,8 @@ const Layout: FC = () => {
     }
   }, [isAuthenticated, fetchCategoriesList, isHomeActive]);
 
-  const isNotMobile = breakpointsForMarkup?.isTablet || breakpointsForMarkup?.isDesktop;
+  const isNotMobile =
+    breakpointsForMarkup?.isTablet || breakpointsForMarkup?.isDesktop || breakpointsForMarkup?.isTV;
 
   const shouldShowPageScrollController =
     (isHomeActive && isNotMobile && rebuildedNews?.length > 0) ||

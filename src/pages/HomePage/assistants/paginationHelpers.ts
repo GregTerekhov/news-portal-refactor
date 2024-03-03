@@ -53,16 +53,14 @@ export const calculateFirstIndexes = (pages: number[], total: number): number | 
 export const renderPagination = (
   currentPage: number,
   pageNumbers: number[],
-  isTabletOrDesktop: boolean | undefined,
+  isNotMobile: boolean | undefined,
   renderPaginationButton: (pageNumber: number) => JSX.Element,
   renderEllipsis: (direction: string) => JSX.Element,
 ) => {
   const totalPages = pageNumbers.length;
   const prevPage = currentPage - 1;
   const nextPage = currentPage + 1;
-  const visibleButtonsCount = !isTabletOrDesktop
-    ? DESKTOP_BUTTONS_QUANTITY
-    : MOBILE_BUTTONS_QUANTITY;
+  const visibleButtonsCount = !isNotMobile ? DESKTOP_BUTTONS_QUANTITY : MOBILE_BUTTONS_QUANTITY;
 
   const paginationButtons = [];
 
