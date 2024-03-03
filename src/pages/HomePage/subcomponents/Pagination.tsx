@@ -12,10 +12,7 @@ interface PaginationProps {
 }
 
 const Pagination: FC<PaginationProps> = ({ pageNumbers, currentPage, setCurrentPage }) => {
-  const { breakpointsForMarkup } = useWindowWidth();
-
-  const isNotMobile =
-    breakpointsForMarkup?.isTablet || breakpointsForMarkup?.isDesktop || breakpointsForMarkup?.isTV;
+  const { isNotMobile } = useWindowWidth();
 
   const scroll = window.scrollTo({ top: 0 + window.innerHeight, left: 0, behavior: 'smooth' });
 

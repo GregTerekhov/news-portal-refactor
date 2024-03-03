@@ -24,23 +24,23 @@ const FooterMenu: FC = () => {
 
   return (
     <>
-      <nav className={`${isAuthenticated ? 'w-full md:w-96 lg:w-600px' : 'mb-4 md:mb-10'}`}>
+      <nav className='mb-4 w-full md:mb-10'>
         <ul
           className={`${
             isAuthenticated
-              ? 'grid grid-rows-3 gap-3 max-md:grid-cols-3 md:grid-cols-2'
+              ? 'grid grid-rows-3 gap-3 max-md:grid-cols-3 md:grid-cols-6 md:grid-rows-1'
               : 'flex items-center justify-between'
           }`}
         >
           {menuItems &&
             menuItems.map(({ path, label, liClasses }) => (
-              <li key={path} className={`${liClasses}`}>
+              <li key={path} className={`${liClasses} md:text-center`}>
                 <NavLink
                   to={path}
-                  className={`p-2 text-medium font-medium text-whiteBase ${
+                  className={`p-2 text-medium font-medium text-whiteBase lg:text-2xl ${
                     isAuthenticated
                       ? ''
-                      : 'block w-24 rounded-xl border border-solid border-whiteBase text-center'
+                      : 'block w-24 rounded-xl border border-solid border-whiteBase text-center transition-colors duration-500 hover:bg-accentAlt hg:w-32'
                   }`}
                 >
                   {label}

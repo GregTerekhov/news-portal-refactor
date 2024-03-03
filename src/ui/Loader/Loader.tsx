@@ -15,25 +15,22 @@ interface LoaderProps {
 }
 
 const Loader: FC<LoaderProps> = ({ variant }) => {
-  const { breakpointsForMarkup } = useWindowWidth();
+  const { isMobile, isTablet } = useWindowWidth();
 
   const { isHomeActive } = useActiveLinks();
-
-  const mobileSkeleton = breakpointsForMarkup?.isNothing || breakpointsForMarkup?.isMobile;
-  const tabletSkeleton = breakpointsForMarkup?.isTablet;
 
   return (
     <>
       {variant === 'generalSection' && (
         <>
           <div className='grid md:grid-cols-2 md:gap-[30px] lg:grid-cols-3 lg:gap-x-8 hg:gap-x-10'>
-            {mobileSkeleton && <SkeletonSection />}
-            {tabletSkeleton && (
+            {isMobile && <SkeletonSection />}
+            {isTablet && (
               <>
                 <SkeletonSection /> <SkeletonSection />
               </>
             )}
-            {!mobileSkeleton && !tabletSkeleton && (
+            {!isMobile && !isTablet && (
               <>
                 <SkeletonSection /> <SkeletonSection /> <SkeletonSection />
               </>

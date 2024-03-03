@@ -17,9 +17,7 @@ const TopWeatherBlock: FC<TopWeatherProps> = ({
   currentWeather,
   isCelsius,
 }) => {
-  const { breakpointsForMarkup } = useWindowWidth();
-
-  const isMobile = breakpointsForMarkup?.isNothing || breakpointsForMarkup?.isMobile;
+  const { isMobile } = useWindowWidth();
 
   return (
     <div

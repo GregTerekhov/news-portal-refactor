@@ -7,25 +7,25 @@ type SocialLinks = {
   size: number;
 };
 
-export const renderSocialLinks = (): Array<SocialLinks> => {
+export const renderSocialLinks = (wideScreens: boolean): Array<SocialLinks> => {
   const links: SocialLinks[] = [
     {
       link: 'https://www.facebook.com/nytimes',
       iconName: 'icon-facebook',
       label: 'Facebook',
-      size: ICON_SIZES.smIcon20,
+      size: wideScreens ? ICON_SIZES.mdIcon28 : ICON_SIZES.smIcon20,
     },
     {
       link: 'https://twitter.com/nytimes',
       iconName: 'icon-twitter',
       label: 'Twitter',
-      size: ICON_SIZES.smIcon20,
+      size: wideScreens ? ICON_SIZES.mdIcon28 : ICON_SIZES.smIcon20,
     },
     {
       link: 'https://www.youtube.com/@nytimes',
       iconName: 'icon-youtube',
       label: 'YouTube',
-      size: ICON_SIZES.mdIcon28,
+      size: wideScreens ? ICON_SIZES.lgIcon36 : ICON_SIZES.mdIcon28,
     },
   ];
 

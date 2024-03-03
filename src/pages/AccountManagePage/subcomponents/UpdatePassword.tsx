@@ -37,7 +37,7 @@ const UpdatePassword: FC<{}> = () => {
               </li>
             ))}
         </ul>
-        <p className=' text-small text-darkBase dark:text-whiteBase lg:text-medium'>
+        <p className=' text-small text-darkBase dark:text-whiteBase lg:text-medium hg:text-xl'>
           To change your current password, enter the new password in the first field and repeat the
           entry in the second field. In the third field, confirm the change by inputting your
           current password. If all information is entered correctly, you will receive a notification

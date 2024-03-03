@@ -25,8 +25,8 @@ const VoteButton: FC<VBProps> = ({ onHandleClick, isFavourite, buttonData }) => 
       id={buttonData?.id}
       type='button'
       className={`absolute bottom-3 right-2 z-20 flex items-center gap-1 rounded-3xl bg-contrastWhite px-3 py-1.5 ${onButHover} ${
-        !isArchiveActive ? 'hover:bg-accentBase hover:stroke-whiteBase hover:text-whiteBase' : ''
-      } text-small font-medium text-darkBase transition-colors`}
+        !isArchiveActive ? 'group hover:bg-accentBase hover:text-whiteBase' : ''
+      } text-small font-medium text-darkBase transition-colors duration-500 lg:text-medium`}
       onClick={onHandleClick}
     >
       {!isArchiveActive
@@ -39,7 +39,7 @@ const VoteButton: FC<VBProps> = ({ onHandleClick, isFavourite, buttonData }) => 
       <SvgIcon
         svgName='icon-heart'
         size={ICON_SIZES.xsIcon16}
-        className={`fill-inherit stroke-inherit`}
+        className={`fill-inherit group-hover:stroke-whiteBase`}
       />
     </button>
   );

@@ -10,17 +10,18 @@ import { receiveCurrentDate, getWeatherDetailsForToday } from '../assistants';
 
 const WeatherDetailsForToday: FC<{}> = () => {
   const { currentWeather } = useWeatherAPI();
-  const { breakpointsForMarkup } = useWindowWidth();
+  const { isMobile } = useWindowWidth();
 
   const { days, dateNow } = receiveCurrentDate();
-  const isMobile = breakpointsForMarkup?.isNothing || breakpointsForMarkup?.isMobile;
 
   const weatherDetails = getWeatherDetailsForToday(isMobile, currentWeather);
 
   return (
     <div className='rows-[1/1] col-[1/1] flex h-full w-full flex-col justify-between gap-3 backface-hidden'>
-      <div className='mb-3 text-center'>
-        <p className='font-weather text-3.5xl text-contrastWhite md:text-4.5xl'>{days}</p>
+      <div className='mb-3 text-center hg:mb-5'>
+        <p className='font-weather text-3.5xl text-contrastWhite md:text-4.5xl hg:text-5xl'>
+          {days}
+        </p>
         <p className='text-2.5xl font-weather text-contrastWhite md:text-3.5xl'>{dateNow}</p>
       </div>
       <ul className='grid grid-cols-2 grid-rows-2 gap-y-3.5'>
@@ -36,7 +37,7 @@ const WeatherDetailsForToday: FC<{}> = () => {
                   ariaLabel={`Info about ${label} for current time`}
                 >
                   <div
-                    className={` flex items-center gap-3 text-base text-contrastWhite md:text-medium ${justifyItemClass}`}
+                    className={` flex items-center gap-3 text-base text-contrastWhite md:text-medium hg:text-2xl ${justifyItemClass}`}
                   >
                     <div
                       className={`${justifyItemClass === 'justify-end' ? 'order-last' : 'order-1'}`}
@@ -45,7 +46,7 @@ const WeatherDetailsForToday: FC<{}> = () => {
                     </div>
                     <p className='flex items-baseline gap-x-1 even:order-1'>
                       {value}
-                      <span className='text-xs'>{subTextValue}</span>
+                      <span className='text-xs hg:text-small'>{subTextValue}</span>
                     </p>
                   </div>
                 </Hint>

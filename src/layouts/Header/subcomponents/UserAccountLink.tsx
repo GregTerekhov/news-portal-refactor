@@ -19,7 +19,7 @@ const UserAccountLink: FC<UserAccountLinkProps> = ({ isHomeActive }) => {
   return (
     <Link
       to='/account'
-      className={`absolute right-40 top-1.5 flex items-center gap-3 lg:right-60 hg:text-xl  ${
+      className={`absolute right-40 top-1.5 flex items-center gap-3 lg:right-60 hg:right-72 hg:text-xl  ${
         isHomeActive ? textClass : 'text-darkBase dark:text-whiteBase'
       } group transition-colors duration-500 hover:text-accentBase dark:hover:text-accentBase`}
     >

@@ -41,12 +41,12 @@ const Dropdown: FC<DropdownProps> = ({
     <Menu as='div' className='relative'>
       {({ open }) => (
         <>
-          <p className='mb-2 text-base text-darkBase dark:text-greyAlt'>
+          <p className='mb-2 text-base text-darkBase dark:text-greyAlt lg:text-medium'>
             {label === 'Type' ? 'Filter' : 'Search'} {label === 'Time period' ? 'for popular' : ''}
             by <span className='capitalize'>{label}</span>
           </p>
           <Menu.Button
-            className={`flex w-full items-center justify-center gap-2.5 rounded-[20px] border border-solid border-accentBase bg-whiteBase py-2.5 text-small font-normal text-accentBase transition-colors group-hover:underline dark:border-greyBase dark:bg-darkBackground dark:text-whiteBase `}
+            className={`flex w-full items-center justify-center gap-2.5 rounded-[20px] border border-solid border-accentBase bg-whiteBase py-2.5 text-small font-normal text-accentBase transition-colors group-hover:underline dark:border-greyBase dark:bg-darkBackground dark:text-whiteBase lg:text-medium `}
             onClick={handleOpenClick}
           >
             {selectedItem || label}
@@ -83,7 +83,7 @@ const Dropdown: FC<DropdownProps> = ({
                         type='button'
                         className={`${
                           active ? 'underline' : ''
-                        } px-3.5 text-left text-small tracking-wide text-accentBase dark:text-whiteBase`}
+                        } px-3.5 text-left text-small tracking-wide text-accentBase dark:text-whiteBase lg:text-medium`}
                         onClick={() => handleItemClick(item)}
                       >
                         {item}

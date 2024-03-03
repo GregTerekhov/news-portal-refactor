@@ -4,7 +4,8 @@ import { HourlyWeatherData } from 'types';
 
 import { hPaToMmHg } from '../assistants';
 
-const cellCommonStyles = 'py-1.5 text-center text-small text-whiteBase md:py-4 md:text-base';
+const cellCommonStyles =
+  'py-1.5 text-center text-small text-whiteBase md:py-4 md:text-base hg:text-medium';
 
 export const RenderTemperatureCell = (item: HourlyWeatherData): JSX.Element => {
   return <td className={`${cellCommonStyles}`}>{Math.ceil(item?.main?.temp)}°C</td>;

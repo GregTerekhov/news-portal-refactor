@@ -40,14 +40,12 @@ const UnverifiableInput: FC<InputProps> = ({
   hideInput,
   onChange,
 }) => {
-  const { breakpointsForMarkup } = useWindowWidth();
+  const { isMobile } = useWindowWidth();
 
   const { name, type, value, placeholder, children } = inputData ?? {};
 
   const { isHomeActive } = useActiveLinks();
   const { inputClass } = useHeaderStyles(isHomeActive);
-
-  const isMobile = breakpointsForMarkup?.isMobile || breakpointsForMarkup?.isNothing;
 
   const onHideInput = (event: React.MouseEvent<HTMLInputElement>) => {
     if (hideInput) {
@@ -82,7 +80,7 @@ const UnverifiableInput: FC<InputProps> = ({
           } ${className}`}
     >
       {variant === VariantInputs.FilterServiceBlock && (
-        <p className='mb-2 text-base text-darkBase dark:text-greyAlt'>
+        <p className='mb-2 text-base text-darkBase dark:text-greyAlt lg:text-medium'>
           {name === 'query' ? 'Search' : 'Filter'} by <span className='capitalize'>{name}:</span>
         </p>
       )}
@@ -112,7 +110,7 @@ const UnverifiableInput: FC<InputProps> = ({
           </div>
         )}
         <input
-          className={` ${inputGeometry} rounded-3xl border border-solid font-header text-small leading-mediumRelaxed tracking-bigWide outline-0 transition-colors focus:outline-0 md:text-base md:leading-moreRelaxed md:tracking-wide ${placeholderColor} ${inputBorder} ${inputBg} ${caretColor} ${textColor} ${checkboxStyles}`}
+          className={` ${inputGeometry} rounded-3xl border border-solid font-header text-small leading-mediumRelaxed tracking-bigWide outline-0 transition-colors focus:outline-0 md:text-base md:leading-moreRelaxed md:tracking-wide lg:text-medium ${placeholderColor} ${inputBorder} ${inputBg} ${caretColor} ${textColor} ${checkboxStyles}`}
           id={name}
           name={name}
           type={type}
@@ -127,7 +125,9 @@ const UnverifiableInput: FC<InputProps> = ({
           }}
         />
       </div>
-      <span className={`${!hasIcon && 'block'} font-medium text-accentBase`}>{children}</span>
+      <span className={`${!hasIcon && 'block'} font-medium text-accentBase hg:text-medium`}>
+        {children}
+      </span>
     </label>
   );
 };

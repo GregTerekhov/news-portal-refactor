@@ -26,15 +26,13 @@ const AuthenticatedHeaderContent: FC<HeaderContentProps> = ({
   isOpenMenu,
   toggleMenu,
 }) => {
-  const { breakpointsForMarkup } = useWindowWidth();
+  const { isMobile } = useWindowWidth();
 
   const { query, onChangeInput, onHandleSearch } = useAdditionalRequest();
   const { isHomeActive, isAccountPage, isManageAccountPage } = useActiveLinks();
   const { burgerMenuButtonClass } = useHeaderStyles(isHomeActive);
 
   const isAccountPages = isAccountPage || isManageAccountPage;
-
-  const isMobile = breakpointsForMarkup?.isNothing || breakpointsForMarkup?.isMobile;
 
   return (
     <>

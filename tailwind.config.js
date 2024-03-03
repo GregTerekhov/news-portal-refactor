@@ -105,6 +105,7 @@ export default {
         sectionSmall: 'calc(100vh - 82px)',
         sectionMedium: 'calc(100vh - 107px)',
         sectionLarge: 'calc(100vh - 114px)',
+        sectionHuge: 'calc(100vh - 137px)',
         customScrollHeight: 'calc(100% - 20px)',
       },
       width: {
@@ -156,6 +157,7 @@ export default {
         sectionSmall: 'calc(100vh - 82px)',
         sectionMedium: 'calc(100vh - 107px)',
         sectionLarge: 'calc(100vh - 114px)',
+        sectionHuge: 'calc(100vh - 137px)',
       },
       spacing: {
         none: 'none',

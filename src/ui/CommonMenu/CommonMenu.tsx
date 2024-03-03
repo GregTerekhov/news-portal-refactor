@@ -21,7 +21,7 @@ export interface CommonMenuProps {
 export type MobileMenu = Omit<CommonMenuProps, 'navId'>;
 
 const CommonMenu: FC<CommonMenuProps> = ({ isOpen, navId, closeMenu }) => {
-  const { breakpointsForMarkup } = useWindowWidth();
+  const { isMobile } = useWindowWidth();
   const { resetAllFilters } = useFiltersAction();
   const { setFilters } = useFiltersState();
   const { user, logout } = useAuthRedux();
@@ -61,8 +61,6 @@ const CommonMenu: FC<CommonMenuProps> = ({ isOpen, navId, closeMenu }) => {
     showToast(response.meta.requestStatus);
     localStorage.removeItem('_persist');
   };
-
-  const isMobile = breakpointsForMarkup?.isNothing || breakpointsForMarkup?.isMobile;
 
   return (
     <>

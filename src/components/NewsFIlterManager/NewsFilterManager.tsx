@@ -25,14 +25,14 @@ const NewsFilterManager: FC<{}> = () => {
     <div className='mb-10 w-full md:mb-12 lg:mb-[60px]'>
       <button
         id='Open filter service button'
-        className='flex w-full items-center justify-end gap-2 px-6 py-1.5 text-medium font-medium text-darkBase dark:text-whiteBase md:text-2xl'
+        className='flex w-full items-center justify-end gap-2 px-6 py-1.5 text-medium font-medium text-darkBase dark:text-whiteBase md:text-2xl hg:text-3xl'
         type='button'
         onClick={() => setShowDropdown(!showDropdown)}
       >
         News filter service
         <SvgIcon
           svgName='icon-arrow'
-          size={ICON_SIZES.xsIcon15}
+          size={ICON_SIZES.smIcon18}
           className={`fill-darkBase dark:fill-whiteBase ${
             showDropdown ? 'rotate-180' : 'rotate-0'
           } transition-transform`}

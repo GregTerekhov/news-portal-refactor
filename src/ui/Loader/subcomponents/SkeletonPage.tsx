@@ -13,10 +13,7 @@ import {
 } from '../assistants';
 
 const SkeletonPage: FC = () => {
-  const { breakpointsForMarkup } = useWindowWidth();
-
-  const mobileSkeleton = breakpointsForMarkup?.isNothing || breakpointsForMarkup?.isMobile;
-  const tabletSkeleton = breakpointsForMarkup?.isTablet;
+  const { isMobile, isTablet } = useWindowWidth();
 
   const menuItems: ReactNode[] = Array(4)
     .fill(null)
@@ -30,18 +27,18 @@ const SkeletonPage: FC = () => {
     <div className={`${pageClass}`}>
       <div className={`${headerContainerPageClass}`}>
         <div className={`${logoPageClass}`}></div>
-        {!mobileSkeleton && <div className={`${menuWrapperClass}`}>{menuItems}</div>}
+        {!isMobile && <div className={`${menuWrapperClass}`}>{menuItems}</div>}
         <div className='space-y-2'>{headerRightBlockItems}</div>
       </div>
       <div className={`${mainContentPageClass}`}>
-        {mobileSkeleton && <SkeletonSection />}
-        {tabletSkeleton && (
+        {isMobile && <SkeletonSection />}
+        {isTablet && (
           <>
             <SkeletonSection />
             <SkeletonSection />
           </>
         )}
-        {!mobileSkeleton && !tabletSkeleton && (
+        {!isMobile && !isTablet && (
           <>
             <SkeletonSection /> <SkeletonSection /> <SkeletonSection />
           </>

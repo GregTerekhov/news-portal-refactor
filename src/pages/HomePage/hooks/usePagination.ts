@@ -16,7 +16,7 @@ const OTHER_TABLET_PAGE_COUNT = 8;
 const OTHER_DESKTOP_PAGE_COUNT = 9;
 
 const usePagination = (rebuildedNews: PartialVotedNewsArray) => {
-  const { breakpointsForMarkup } = useWindowWidth();
+  const { isMobile, isTablet } = useWindowWidth();
   const { popularNews, newsByKeyword, newsByCategory, newsByDate } = useNewsAPI();
   const { filteredNews } = useFiltersAction();
 
@@ -24,8 +24,6 @@ const usePagination = (rebuildedNews: PartialVotedNewsArray) => {
   const [currentItems, setCurrentItems] = useState<PartialVotedNewsArray>([]);
 
   const totalPages: number = (rebuildedNews && rebuildedNews?.length) || 0;
-
-  const isMobile = breakpointsForMarkup?.isNothing || breakpointsForMarkup?.isMobile;
 
   const itemsPerFirstPage: number = getFirstPageCount();
   const itemsPerOtherPages: number = getOtherPageCount();
@@ -75,7 +73,7 @@ const usePagination = (rebuildedNews: PartialVotedNewsArray) => {
   function getFirstPageCount(): number {
     if (isMobile) {
       return FIRST_MOBILE_PAGE_COUNT;
-    } else if (breakpointsForMarkup?.isTablet) {
+    } else if (isTablet) {
       return FIRST_TABLET_PAGE_COUNT;
     } else {
       return FIRST_DESKTOP_PAGE_COUNT;
@@ -86,7 +84,7 @@ const usePagination = (rebuildedNews: PartialVotedNewsArray) => {
   function getOtherPageCount(): number {
     if (isMobile) {
       return OTHER_MOBILE_PAGE_COUNT;
-    } else if (breakpointsForMarkup?.isTablet) {
+    } else if (isTablet) {
       return OTHER_TABLET_PAGE_COUNT;
     } else {
       return OTHER_DESKTOP_PAGE_COUNT;

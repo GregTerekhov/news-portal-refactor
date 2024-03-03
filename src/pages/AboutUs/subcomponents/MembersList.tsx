@@ -32,16 +32,16 @@ const MembersList: FC<MemberListProps> = ({ groupMembers, commonTextMemberClass 
                 <h3 className={`${commonTextMemberClass} text-2xl md:text-4xl hg:text-5xl`}>
                   {memberName}
                 </h3>
-                <p className={`${commonTextMemberClass} md:text-xl lg:text-medium hg:text-lg`}>
+                <p className={`${commonTextMemberClass} md:text-xl lg:text-medium hg:text-xl`}>
                   <span className='font-bold'>Role:</span> {memberRole}
                 </p>
-                <p className={`${commonTextMemberClass} md:text-xl lg:text-medium hg:text-lg`}>
+                <p className={`${commonTextMemberClass} md:text-xl lg:text-medium hg:text-xl`}>
                   <span className='font-bold'>Resume: </span>
                   <a
                     href={memberCV}
                     target='_blank'
                     rel='noopener noreferrer'
-                    className='font-medium text-accentBase transition-colors dark:text-whiteBase dark:underline dark:hover:text-accentAlt'
+                    className='font-medium text-accentBase transition-colors dark:text-accentBase dark:underline dark:hover:text-whiteBase'
                   >
                     {memberName} CV
                   </a>
