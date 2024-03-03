@@ -106,7 +106,7 @@ const Layout: FC = () => {
         </section>
       </main>
       {!isErrorPage && <Footer />}
-      {showSuccessToast && <Toast variant='non-interactive' status='success' />}
+      {showSuccessToast ? <Toast variant='non-interactive' status='success' /> : null}
     </div>
   );
 };

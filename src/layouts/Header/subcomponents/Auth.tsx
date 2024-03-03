@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAuthRedux } from 'reduxStore/hooks';
 
 import { ClickHandler, VariantButton } from 'types';
+import { ICON_SIZES } from 'constants/iconSizes';
 import { useNotification, useWindowWidth } from 'contexts';
 import { useActiveLinks, useHeaderStyles, usePopUp } from 'hooks';
 
@@ -30,27 +31,29 @@ const Auth: FC<{}> = () => {
     navigate('/');
   };
 
+  const isDesktop = breakpointsForMarkup?.isDesktop;
+
   return (
     <>
       <div className='max-lg:flex max-lg:items-center max-lg:justify-center'>
         <PrimaryButton
-          id={breakpointsForMarkup?.isDesktop ? 'Auth button for signin and signout' : ''}
-          ariaLabel={!breakpointsForMarkup?.isDesktop ? 'Auth button for signin and signout' : ''}
-          variant={breakpointsForMarkup?.isDesktop ? VariantButton.Primary : VariantButton.Small}
+          id={isDesktop ? 'Auth button for signin and signout' : ''}
+          ariaLabel={!isDesktop ? 'Auth button for signin and signout' : ''}
+          variant={isDesktop ? VariantButton.Primary : VariantButton.Small}
           onHandleClick={
             !isAuthenticated ? (toggleModal as ClickHandler) : (onSignOut as ClickHandler)
           }
           hasIcon={true}
           svgName={`${isAuthenticated ? 'icon-signout' : 'icon-auth'}`}
-          svgSize={breakpointsForMarkup?.isDesktop ? 28 : 24}
+          svgSize={isDesktop ? ICON_SIZES.mdIcon28 : ICON_SIZES.mdIcon24}
           classNameIcon='fill-whiteBase'
           classNameButton={`${
             isHomeActive && authButtonClass
           } border border-solid border-transparent dark:border-whiteBase bg-accentBase hover:bg-accentAlt transition-colors duration-500 ${
-            breakpointsForMarkup?.isDesktop ? '' : 'border-transparent p-1.5'
+            isDesktop ? '' : 'border-transparent p-1.5'
           }`}
         >
-          {breakpointsForMarkup?.isDesktop ? (isAuthenticated ? 'Sign Out' : 'Auth') : null}
+          {isDesktop ? (isAuthenticated ? 'Sign Out' : 'Auth') : null}
         </PrimaryButton>
       </div>
       {isOpenModal && (

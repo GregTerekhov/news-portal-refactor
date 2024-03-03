@@ -23,7 +23,7 @@ export const renderSocialLinks = (): Array<SocialLinks> => {
     },
     {
       link: 'https://www.youtube.com/@nytimes',
-      iconName: 'icon-youTube',
+      iconName: 'icon-youtube',
       label: 'YouTube',
       size: ICON_SIZES.mdIcon28,
     },

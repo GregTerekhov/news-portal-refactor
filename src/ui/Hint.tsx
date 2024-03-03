@@ -4,7 +4,6 @@ import * as Tooltip from '@radix-ui/react-tooltip';
 interface ITooltipProps {
   children: ReactNode;
   label: string;
-  contentClass: string;
   ariaLabel: string;
   side: 'top' | 'right' | 'bottom' | 'left';
   sideOffset: number;
@@ -12,16 +11,13 @@ interface ITooltipProps {
 }
 
 const Hint: FC<ITooltipProps> = forwardRef<HTMLDivElement, ITooltipProps>(
-  (
-    { children, label, contentClass, ariaLabel, side, sideOffset, align = 'center' },
-    forwardedRef,
-  ) => {
+  ({ children, label, ariaLabel, side, sideOffset, align = 'center' }, forwardedRef) => {
     return (
       <Tooltip.Root>
         <Tooltip.Trigger asChild>{children}</Tooltip.Trigger>
         <Tooltip.Portal>
           <Tooltip.Content
-            className={`z-40 ${contentClass}`}
+            className={`z-40 rounded-xl border border-solid border-whiteBase bg-accentAlt/[.8] px-2 text-small text-whiteBase transition-colors duration-500 md:text-medium`}
             side={side}
             aria-label={ariaLabel}
             sideOffset={sideOffset}

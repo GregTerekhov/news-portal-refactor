@@ -40,11 +40,11 @@ const NewsItem: FC<Partial<NewsItemProps>> = ({ liveNews = {} }) => {
 
   return (
     <>
-      {liveNews && liveNews?.newsUrl && (
+      {liveNews?.newsUrl && (
         <a
           rel='noopener noreferrer nofollow'
           className='group block transition-colors'
-          href={liveNews?.newsUrl}
+          href={liveNews.newsUrl}
           target='_blank'
           onClick={isAuthenticated ? handleReadNews : undefined}
         >

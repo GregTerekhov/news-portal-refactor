@@ -1,7 +1,7 @@
-import { ICON_SIZES } from 'constants/iconSizes';
 import React, { FC } from 'react';
 
 import { VariantButton } from 'types';
+import { ICON_SIZES } from 'constants/iconSizes';
 
 import { PrimaryButton } from 'ui';
 

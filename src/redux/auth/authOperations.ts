@@ -40,15 +40,15 @@ export const updateUserPassword = requestWithInstanceTemplate<
   authTypes.ServicesInfo
 >('auth/updatePassword', '/auth/update-password', 'patch');
 
-export const recoveryPasswordRequest = requestWithInstanceTemplate<
+export const recoveryPasswordRequest = requestTemplate<
   authTypes.SendEmailRequest,
   authTypes.ServicesInfo
->('auth/recoveryPasswordRequest', '/auth/forgot-password-request', 'post');
+>('auth/recoveryPasswordRequest', `${CONFIG.BASE_URL_DB}/auth/forgot-password-request`, 'post');
 
-export const recoveryPasswordChange = requestWithInstanceTemplate<
+export const recoveryPasswordChange = requestTemplate<
   authTypes.RecoveryPasswordChange,
   authTypes.PasswordChangeResponse
->('auth/recoveryPasswordChange', '/auth/forgot-password-change', 'post');
+>('auth/recoveryPasswordChange', `${CONFIG.BASE_URL_DB}/auth/forgot-password-change`, 'post');
 
 export const googleAuth = requestTemplate<authTypes.GoogleAuth, authTypes.CredentialSignInResponse>(
   'auth/googleAuth',

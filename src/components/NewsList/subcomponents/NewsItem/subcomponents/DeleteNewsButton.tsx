@@ -1,6 +1,7 @@
 import React, { FC, Ref } from 'react';
 
 import { VariantButton } from 'types';
+import { ICON_SIZES } from 'constants/iconSizes';
 
 import { Hint, PrimaryButton } from 'ui';
 
@@ -16,7 +17,6 @@ const DeleteNewsButton: FC<DeleteButtonProps> = ({ myButtonRef, handleOpenConfir
       side='bottom'
       sideOffset={16}
       ariaLabel='Delete news from archive'
-      contentClass='border border-solid border-whiteBase rounded-xl text-small md:text-medium px-2 text-whiteBase bg-accentAlt/[.8]'
     >
       <div>
         <PrimaryButton
@@ -25,7 +25,7 @@ const DeleteNewsButton: FC<DeleteButtonProps> = ({ myButtonRef, handleOpenConfir
           variant={VariantButton.Small}
           hasIcon={true}
           svgName='icon-close'
-          svgSize={24}
+          svgSize={ICON_SIZES.mdIcon24}
           classNameIcon='stroke-whiteBase'
           ariaLabel='Delete news from archive button'
           classNameButton='absolute z-40 top-3 right-3 bg-accentBase/[.8] py-1.5'

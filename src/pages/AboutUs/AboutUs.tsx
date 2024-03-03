@@ -10,27 +10,13 @@ import { getMembersList } from './assistants';
 const AboutUs: FC<{}> = () => {
   const devicePixelRatio = window.devicePixelRatio || 1;
 
-  const matchedFirstMemberImage = generateContentImages(
-    memberFirstImages,
-    devicePixelRatio,
-    window.innerWidth,
+  const matchedMemberImages = [memberFirstImages, memberSecondImages, memberThirdImages].map(
+    (images) => generateContentImages(images, devicePixelRatio, window.innerWidth),
   );
 
-  const matchedSecondMemberImage = generateContentImages(
-    memberSecondImages,
-    devicePixelRatio,
-    window.innerWidth,
-  );
-
-  const matchedThirdMemberImage = generateContentImages(
-    memberThirdImages,
-    devicePixelRatio,
-    window.innerWidth,
-  );
-
-  const firstMemberImageUrl = useCacheImage(matchedFirstMemberImage?.src || '');
-  const secondMemberImageUrl = useCacheImage(matchedSecondMemberImage?.src || '');
-  const thirdMemberImageUrl = useCacheImage(matchedThirdMemberImage?.src || '');
+  const firstMemberImageUrl = useCacheImage(matchedMemberImages[0]?.src || '');
+  const secondMemberImageUrl = useCacheImage(matchedMemberImages[1]?.src || '');
+  const thirdMemberImageUrl = useCacheImage(matchedMemberImages[2]?.src || '');
 
   const members = getMembersList(firstMemberImageUrl, secondMemberImageUrl, thirdMemberImageUrl);
 

@@ -38,7 +38,7 @@ const FavouritePage: FC<{}> = () => {
     isAuthenticated && (
       <>
         {shouldShowLoader && <Loader variant='generalSection' />}
-        {shouldShowToast && <Toast variant='non-interactive' status='info' />}
+        {shouldShowToast ? <Toast variant='non-interactive' status='info' /> : null}
         {shouldShowContent && <NewsList currentItems={rebuildedNews} />}
         {!shouldShowLoader && shouldShowPlug && <PlugImage variant='page' />}
       </>

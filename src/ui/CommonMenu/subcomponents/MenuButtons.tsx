@@ -2,6 +2,7 @@ import React, { FC, ReactNode } from 'react';
 import { Link } from 'react-router-dom';
 
 import { VariantButton } from 'types';
+import { ICON_SIZES } from 'constants/iconSizes';
 import { useWindowWidth } from 'contexts';
 
 import PrimaryButton from '../../PrimaryButton/PrimaryButton';
@@ -17,22 +18,18 @@ type MenuButton = {
 
 interface MenuButtonsProps {
   handleSignOut?: (() => void) | undefined;
-  closeMenuByClickOnLink?: (() => void) | undefined;
+  handleLinkClick?: (() => void) | undefined;
   navId: string;
 }
 
-const MenuButtons: FC<Partial<MenuButtonsProps>> = ({
-  handleSignOut,
-  closeMenuByClickOnLink,
-  navId,
-}) => {
+const MenuButtons: FC<Partial<MenuButtonsProps>> = ({ handleSignOut, handleLinkClick, navId }) => {
   const { breakpointsForMarkup } = useWindowWidth();
 
   const buttons: MenuButton[] = [
     {
       id: 'Sign out button',
       iconName: 'icon-signout',
-      iconSize: 24,
+      iconSize: ICON_SIZES.mdIcon24,
       iconClassName: 'fill-whiteBase',
       onClick: handleSignOut,
       children: 'Sign Out',
@@ -40,9 +37,9 @@ const MenuButtons: FC<Partial<MenuButtonsProps>> = ({
     {
       id: 'Go home',
       iconName: 'icon-home',
-      iconSize: 20,
+      iconSize: ICON_SIZES.smIcon20,
       iconClassName: 'stroke-whiteBase fill-transparent',
-      onClick: closeMenuByClickOnLink,
+      onClick: handleLinkClick,
       children: <Link to='/'>Home</Link>,
     },
   ];

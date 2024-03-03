@@ -34,7 +34,6 @@ const WeatherDetailsForToday: FC<{}> = () => {
                   align={justifyItemClass === 'justify-end' ? 'end' : 'start'}
                   sideOffset={4}
                   ariaLabel={`Info about ${label} for current time`}
-                  contentClass='border border-solid border-whiteBase rounded-xl text-small md:text-medium px-2 text-whiteBase bg-accentAlt/[.8]'
                 >
                   <div
                     className={` flex items-center gap-3 text-base text-contrastWhite md:text-medium ${justifyItemClass}`}

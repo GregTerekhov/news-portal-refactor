@@ -17,28 +17,20 @@ const WeatherDetailsForHours: FC = () => {
 
   const rows = getWeatherTableForHours();
 
+  const isMobile = breakpointsForMarkup?.isNothing || breakpointsForMarkup?.isMobile;
+
   return (
     <div
       className={`rows-[1/1] col-[1/1] flex h-full w-full bg-accentBase duration-500 ease-in backface-hidden rotate-y-180`}
     >
       <table className='h-full min-w-full border-separate border border-transparent bg-accentBase'>
         <thead className='h-10'>
-          <Hint
-            label='Time'
-            side='top'
-            sideOffset={0}
-            ariaLabel='Time interval (3 hours)'
-            contentClass='border border-solid border-whiteBase rounded-xl text-small md:text-medium px-2 text-whiteBase bg-accentAlt/[.8]'
-          >
+          <Hint label='Time' side='top' sideOffset={0} ariaLabel='Time interval (3 hours)'>
             <tr>
               <th className='w-10 pr-2'>
                 <SvgIcon
                   svgName='icon-time'
-                  size={
-                    breakpointsForMarkup?.isNothing || breakpointsForMarkup?.isMobile
-                      ? ICON_SIZES.smIcon20
-                      : ICON_SIZES.mdIcon24
-                  }
+                  size={isMobile ? ICON_SIZES.smIcon20 : ICON_SIZES.mdIcon24}
                   className='fill-whiteBase'
                 />
               </th>
@@ -73,11 +65,7 @@ const WeatherDetailsForHours: FC = () => {
                 <th scope='row' className='w-10 pr-2'>
                   <SvgIcon
                     svgName={icon}
-                    size={
-                      breakpointsForMarkup?.isNothing || breakpointsForMarkup?.isMobile
-                        ? ICON_SIZES.smIcon20
-                        : iconSize
-                    }
+                    size={isMobile ? ICON_SIZES.smIcon20 : iconSize}
                     className={iconColorStyles}
                   />
                 </th>

@@ -25,7 +25,7 @@ const MembersList: FC<MemberListProps> = ({ groupMembers, commonTextMemberClass 
         }: MemberItem) => (
           <li key={memberName} className='max-md:space-y-4 md:flex md:gap-x-12'>
             <div className='overflow-hidden rounded-xl shadow-card dark:shadow-darkCard md:w-96 lg:w-72 hg:w-80'>
-              <img src={memberImage} alt={imageDescription} className='h-full max-md:max-w-full' />
+              <img src={memberImage} alt={imageDescription} className='max-md:max-w-full' />
             </div>
             <div className='max-md:space-y-4 md:flex md:grow md:flex-col md:justify-around'>
               <div className='space-y-4'>
@@ -41,7 +41,7 @@ const MembersList: FC<MemberListProps> = ({ groupMembers, commonTextMemberClass 
                     href={memberCV}
                     target='_blank'
                     rel='noopener noreferrer'
-                    className='font-medium text-accentBase transition-colors dark:text-whiteBase dark:underline'
+                    className='font-medium text-accentBase transition-colors dark:text-whiteBase dark:underline dark:hover:text-accentAlt'
                   >
                     {memberName} CV
                   </a>
