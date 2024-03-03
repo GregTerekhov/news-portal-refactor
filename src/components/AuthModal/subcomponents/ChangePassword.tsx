@@ -16,7 +16,7 @@ const ChangePassword: FC = () => {
 
   return (
     <>
-      <h2 className='border-b-[1px] border-solid border-fullDark/[.2] py-4 text-2xl text-darkBase transition-colors duration-500 dark:border-whiteBase/[.2] dark:text-whiteBase'>
+      <h2 className='border-b-[1px] border-solid border-fullDark/[.2] py-4 text-2xl text-darkBase transition-colors duration-500 dark:border-whiteBase/[.2] dark:text-whiteBase hg:text-3xl'>
         Change your password
       </h2>
       <form className='pt-4' onSubmit={handleChangePasswordSubmit(changePasswordSubmitHandler)}>

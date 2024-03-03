@@ -26,9 +26,9 @@ const AuthModal: FC<IAuthModalProps> = ({ passwordToken }) => {
     }
   };
   const tabListStyles =
-    'mb-4 flex h-60px w-full gap-3.5 border-b border-solid border-fullDark/[.2] transition-colors dark:border-whiteBase/[.2]';
+    'mb-4 flex h-60px w-full gap-x-3.5 hg:gap-x-5 border-b border-solid border-fullDark/[.2] transition-colors dark:border-whiteBase/[.2]';
   const tabStyles =
-    'text-xl text-darkBase transition-colors ui-selected:font-medium ui-selected:text-accentBase dark:text-whiteBase dark:ui-selected:text-accentBase';
+    'text-xl text-darkBase transition-colors ui-selected:font-medium ui-selected:text-accentBase dark:text-whiteBase dark:ui-selected:text-accentBase hg:text-3xl';
 
   return (
     <>

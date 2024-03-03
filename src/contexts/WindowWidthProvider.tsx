@@ -8,13 +8,12 @@ interface WindowWidthProviderProps {
 // Опис значень, які будуть доступні через контекст
 export interface WindowWidthContextValue {
   windowWidth: number;
-  breakpointsForMarkup: {
-    isNothing: boolean;
-    isMobile: boolean;
-    isTablet: boolean;
-    isDesktop: boolean;
-    isTV: boolean;
-  };
+  isMobile: boolean;
+  isTablet: boolean;
+  isNotMobile: boolean;
+  isDesktop: boolean;
+  isTV: boolean;
+  wideScreens: boolean;
 }
 
 const LESS_THAN_MOBILE = 319;
@@ -45,7 +44,7 @@ export const WindowWidthProvider: React.FC<WindowWidthProviderProps> = ({ childr
     };
   }, [setWindowWidth]);
 
-  // Опис значень, які будуть передані через контекст
+  // Визначення значень ключей об'єкта breakpointsForMarkup
   const breakpointsForMarkup = {
     isNothing: windowWidth <= LESS_THAN_MOBILE,
     isMobile: windowWidth >= IS_MOBILE && windowWidth <= LESS_THAN_TABLET,
@@ -53,10 +52,25 @@ export const WindowWidthProvider: React.FC<WindowWidthProviderProps> = ({ childr
     isDesktop: windowWidth >= IS_DESKTOP && windowWidth <= LESS_THAN_TV,
     isTV: windowWidth >= IS_TV,
   };
+
+  // Опис значень, які будуть передані через контекст
+  const isMobile = breakpointsForMarkup.isNothing || breakpointsForMarkup.isMobile;
+  const isNotMobile =
+    breakpointsForMarkup.isTablet || breakpointsForMarkup.isDesktop || breakpointsForMarkup.isTV;
+  const isTablet = breakpointsForMarkup.isTablet;
+  const wideScreens = breakpointsForMarkup.isDesktop || breakpointsForMarkup.isTV;
+  const isDesktop = breakpointsForMarkup.isDesktop;
+  const isTV = breakpointsForMarkup.isTV;
+
   // Значення контексту, яке буде надано дітям через `WindowWidthContext.Provider`
   const contextValue: WindowWidthContextValue = {
     windowWidth,
-    breakpointsForMarkup,
+    isMobile,
+    isNotMobile,
+    isTablet,
+    isDesktop,
+    isTV,
+    wideScreens,
   };
 
   return <WindowWidthContext.Provider value={contextValue}>{children}</WindowWidthContext.Provider>;

@@ -11,7 +11,7 @@ type ControlButtonsProps = {
 };
 
 const ControlButtons: FC<ControlButtonsProps> = ({ hasFilterValue }) => {
-  const { breakpointsForMarkup } = useWindowWidth();
+  const { isMobile, isTablet, wideScreens } = useWindowWidth();
 
   const activeLinks = useActiveLinks();
 
@@ -20,8 +20,6 @@ const ControlButtons: FC<ControlButtonsProps> = ({ hasFilterValue }) => {
   });
 
   const shouldSortAccordeon = activeLinks.isReadActive;
-  const isMobile = breakpointsForMarkup?.isNothing || breakpointsForMarkup?.isMobile;
-  const wideScreens = breakpointsForMarkup?.isDesktop || breakpointsForMarkup?.isTV;
 
   const controlButtons = getControlButtons({
     handleFiltration,
@@ -30,10 +28,11 @@ const ControlButtons: FC<ControlButtonsProps> = ({ hasFilterValue }) => {
     handleSortRead,
     hasFilterValue,
     shouldSortAccordeon,
+    wideScreens,
   });
 
   const renderHintText = (): JSX.Element => (
-    <p className='mb-2 text-base text-darkBase dark:text-greyAlt md:max-lg:flex md:max-lg:items-center md:max-lg:justify-end'>
+    <p className='mb-2 text-base text-darkBase dark:text-greyAlt md:max-lg:flex md:max-lg:items-center md:max-lg:justify-end lg:text-medium'>
       Sort:
     </p>
   );
@@ -52,7 +51,7 @@ const ControlButtons: FC<ControlButtonsProps> = ({ hasFilterValue }) => {
           <div className='md:col-span-3 md:flex md:items-center lg:col-span-2 lg:items-end'>
             {RenderButtons(controlButtons.slice(2, 3))}
           </div>
-          {breakpointsForMarkup?.isTablet && renderHintText()}
+          {isTablet && renderHintText()}
           <div className='md-max-lg:col-start-8 md:flex md:items-center md:justify-end lg:items-end'>
             <div>
               {wideScreens && renderHintText()}

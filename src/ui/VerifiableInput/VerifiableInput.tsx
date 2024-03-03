@@ -3,6 +3,7 @@ import { UseFormRegister } from 'react-hook-form';
 
 import { InputLabel, VariantVerifiableInputs, VerifiableInputValues } from 'types';
 import { ICON_SIZES } from 'constants/iconSizes';
+import { useWindowWidth } from 'contexts';
 
 import SvgIcon from '../SvgIcon';
 
@@ -47,6 +48,8 @@ const VerifiableInput: FC<InputProps> = ({
 }) => {
   const [isPasswordVisibility, setIsPasswordVisibility] = useState<boolean>(false);
 
+  const { wideScreens } = useWindowWidth();
+
   const id = useId(); // додається для розрізнення однакових label в різних інпутах, які знаходяться на одній сторінці
 
   const { type, fieldValue, placeholder, children, autoFocus, autofill } = inputData;
@@ -58,7 +61,7 @@ const VerifiableInput: FC<InputProps> = ({
     <label
       htmlFor={id + label}
       className={`
-       ${variant === VariantVerifiableInputs.Auth && 'w-full space-y-2 text-medium md:text-xl'} 
+       ${variant === VariantVerifiableInputs.Auth && 'w-full space-y-2 text-medium md:text-xl hg:text-2xl'} 
       ${className}`}
     >
       {variant === VariantVerifiableInputs.Auth && placeholder !== 'Enter your current email' && (
@@ -73,8 +76,8 @@ const VerifiableInput: FC<InputProps> = ({
           >
             <SvgIcon
               svgName={`${isPasswordVisibility ? 'icon-eye-opened' : 'icon-eye-closed'}`}
-              size={ICON_SIZES.smIcon20}
-              className='absolute bottom-[9px] right-3 cursor-pointer fill-greyBase md:right-4'
+              size={wideScreens ? ICON_SIZES.mdIcon24 : ICON_SIZES.smIcon20}
+              className='absolute bottom-[9px] right-3 cursor-pointer fill-greyBase md:right-4 hg:bottom-2.5'
             />
           </button>
         ) : null}
@@ -97,7 +100,7 @@ const VerifiableInput: FC<InputProps> = ({
           </button>
         ) : null}
         <input
-          className={` ${geometry} ${bg} ${border} ${text} ${caret} ${placeholderStyle} $ rounded-3xl border border-solid font-header text-small leading-mediumRelaxed tracking-bigWide outline-0 transition-colors md:text-base md:leading-moreRelaxed md:tracking-wide`}
+          className={` ${geometry} ${bg} ${border} ${text} ${caret} ${placeholderStyle} $ rounded-3xl border border-solid font-header text-small leading-mediumRelaxed tracking-bigWide outline-0 transition-colors md:text-base md:leading-moreRelaxed md:tracking-wide hg:text-medium`}
           id={id + label}
           autoFocus={autoFocus}
           {...register(label)}

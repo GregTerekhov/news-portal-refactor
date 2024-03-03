@@ -13,11 +13,9 @@ import { convertUnixTimestampToHHMM, getWeatherTableForHours } from '../assistan
 
 const WeatherDetailsForHours: FC = () => {
   const { hourlyWeather } = useWeatherAPI();
-  const { breakpointsForMarkup } = useWindowWidth();
+  const { isMobile } = useWindowWidth();
 
   const rows = getWeatherTableForHours();
-
-  const isMobile = breakpointsForMarkup?.isNothing || breakpointsForMarkup?.isMobile;
 
   return (
     <div
@@ -42,7 +40,7 @@ const WeatherDetailsForHours: FC = () => {
                     <th
                       key={item?.dt}
                       scope='col'
-                      className='-rotate-90 whitespace-nowrap text-center text-small text-whiteBase md:text-base'
+                      className='-rotate-90 whitespace-nowrap text-center text-small text-whiteBase md:text-base hg:text-xl'
                     >
                       {convertedTime}
                     </th>

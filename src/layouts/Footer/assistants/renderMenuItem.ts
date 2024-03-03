@@ -20,22 +20,22 @@ export const renderMenuItem = ({ isAuthenticated, isAboutUs }: MenuItemProps): M
         {
           path: '/favourite',
           label: 'Favourite',
-          liClasses: 'row-start-2 col-start-1',
+          liClasses: 'row-start-2 col-start-1 md:row-start-1 md:col-start-2',
         },
         {
           path: '/read',
           label: 'Read',
-          liClasses: 'row-start-1 col-start-2 md:col-start-1 md:row-start-3',
+          liClasses: 'row-start-1 col-start-2 md:col-start-3 md:row-start-1',
         },
         {
           path: '/archive',
           label: 'Archive',
-          liClasses: 'row-start-2 col-start-2 md:col-start-2 md:row-start-1 md:text-end',
+          liClasses: 'row-start-2 col-start-2 md:col-start-4 md:row-start-1',
         },
         {
           path: '/account',
           label: 'Account',
-          liClasses: 'row-start-1 col-start-3 md:col-start-2 md:row-start-2 text-end',
+          liClasses: 'row-start-1 col-start-3 md:col-start-5 md:row-start-1',
         },
       ]
     : [
@@ -51,7 +51,7 @@ export const renderMenuItem = ({ isAuthenticated, isAboutUs }: MenuItemProps): M
       menuItems.push({
         path: '/about-us',
         label: 'About Us',
-        liClasses: 'row-start-2 col-start-3 md:col-start-2 md:row-start-3 text-end',
+        liClasses: 'row-start-2 col-start-3 md:col-start-6 md:row-start-1',
       });
     } else {
       menuItems.push({

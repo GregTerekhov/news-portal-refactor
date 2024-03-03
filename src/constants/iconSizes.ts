@@ -9,6 +9,7 @@ export const ICON_SIZES = {
   mdIcon27: 27,
   mdIcon28: 28,
   lgIcon30: 30,
+  lgIcon36: 36,
   xlIcon80: 80,
   ultraIcon156: 156,
   ultraIcon195: 195,

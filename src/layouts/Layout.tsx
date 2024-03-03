@@ -15,7 +15,7 @@ import Header from './Header/Header';
 import Footer from './Footer/Footer';
 
 const Layout: FC = () => {
-  const { breakpointsForMarkup } = useWindowWidth();
+  const { isNotMobile } = useWindowWidth();
 
   const { fetchCategoriesList } = useNewsAPI();
   const { isAuthenticated, statusMessage } = useAuthRedux();
@@ -40,9 +40,6 @@ const Layout: FC = () => {
     }
   }, [isAuthenticated, fetchCategoriesList, isHomeActive]);
 
-  const isNotMobile =
-    breakpointsForMarkup?.isTablet || breakpointsForMarkup?.isDesktop || breakpointsForMarkup?.isTV;
-
   const shouldShowPageScrollController =
     (isHomeActive && isNotMobile && rebuildedNews?.length > 0) ||
     (isArchiveActive && isNotMobile && rebuildedNews?.length > 0);
@@ -59,9 +56,8 @@ const Layout: FC = () => {
 
   return (
     <div
-      className={`
-        flex h-full
-        max-h-sectionSmall min-h-sectionSmall flex-col justify-between md:max-h-sectionMedium md:min-h-sectionMedium lg:max-h-sectionLarge lg:min-h-sectionLarge`}
+      className={`hg:min-h-sectionHuge flex
+        h-full max-h-sectionSmall min-h-sectionSmall flex-col justify-between md:max-h-sectionMedium md:min-h-sectionMedium lg:max-h-sectionLarge lg:min-h-sectionLarge ${isAccountPage ? 'h-screen' : 'h-full'}`}
     >
       {!isErrorPage && <Header />}
       <main className='h-full'>
@@ -70,7 +66,7 @@ const Layout: FC = () => {
           className={`h-full w-screen bg-whiteBase pb-[60px] transition-colors duration-500 dark:bg-darkBackground md:pb-[100px] lg:pb-[150px] ${
             isArchiveActive || isFavoriteActive || isReadActive
               ? 'pt-10 md:pt-12 lg:pt-[60px]'
-              : 'pt-6 md:pt-7'
+              : 'pt-6 md:pt-7 hg:pt-[60px]'
           } `}
         >
           <div className='container mx-auto px-4 hg:px-[65px]'>

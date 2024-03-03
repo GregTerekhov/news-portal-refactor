@@ -5,7 +5,7 @@ const commonBgContentClass = 'bg-greyAlt/[.4] dark:bg-whiteBase/[.1]';
 // variant === 'page'
 export const commonPageItemClass = `${commonTransitionClass} ${commonBgContentClass} w-14 h-4 md:h-6 rounded-3xl`;
 
-export const pageClass = `${commonTransitionClass} w-screen max-h-sectionSmall md:max-h-sectionMedium lg:max-h-sectionLarge h-screen flex flex-col items-center animate-pulse bg-greyAlt/[.4] dark:bg-darkBackground/[.1]`;
+export const pageClass = `${commonTransitionClass} w-screen max-h-sectionSmall md:max-h-sectionMedium lg:max-h-sectionLarge hg:max-h-sectionHuge h-screen flex flex-col items-center animate-pulse bg-greyAlt/[.4] dark:bg-darkBackground/[.1]`;
 
 export const headerContainerPageClass = `${commonContainerClass} min-h-81px md:min-h-106px lg:min-h-113px -mt-[81px] md:-mt-[106px] lg:-mt-[113px] items-center`;
 

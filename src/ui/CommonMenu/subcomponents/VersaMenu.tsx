@@ -29,7 +29,7 @@ const VersaMenu: FC<IMenuProps> = ({ navId, links, activeLinks, handleLinkClick 
             <NavLink
               to={link.path}
               onClick={handleLinkClick}
-              className={`text-medium font-medium transition-colors duration-500 md:font-bold lg:text-xl ${
+              className={`text-medium font-medium transition-colors duration-500 md:font-bold lg:text-xl hg:text-3xl ${
                 navId === 'account-navigation'
                   ? 'group flex items-center py-1.5 text-darkBase hover:bg-accentBase hover:text-whiteBase  dark:text-whiteBase'
                   : `relative pb-8 pt-12 hover:text-accentBase lg:pb-[33px] lg:pt-[55px] ${

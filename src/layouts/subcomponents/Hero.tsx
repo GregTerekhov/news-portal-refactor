@@ -27,7 +27,7 @@ const Hero: FC<{}> = () => {
   }`;
 
   return (
-    <div className='-mt-[82px] flex h-auto w-full items-center justify-center overflow-hidden md:-mt-[107px] lg:-mt-[114px]'>
+    <div className='-mt-[82px] flex h-auto w-full items-center justify-center overflow-hidden md:-mt-[107px] lg:-mt-[114px] hg:-mt-[137px]'>
       <LiteYouTubeEmbed
         id={YOUTUBE_ID}
         title='YouTube video player'

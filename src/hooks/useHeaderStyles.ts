@@ -9,7 +9,7 @@ const TV_HEADER_HEIGHT = 136;
 
 const useHeaderStyles = (isHomePage: boolean | undefined) => {
   const [isScrolled, setIsScrolled] = useState<boolean>(false);
-  const { breakpointsForMarkup } = useWindowWidth();
+  const { isTablet, isDesktop, isTV } = useWindowWidth();
 
   const screenHeight = window.innerHeight;
 
@@ -20,11 +20,11 @@ const useHeaderStyles = (isHomePage: boolean | undefined) => {
 
         function getHeaderHeight() {
           switch (true) {
-            case breakpointsForMarkup?.isTablet:
+            case isTablet:
               return TABLET_HEADER_HEIGHT;
-            case breakpointsForMarkup?.isDesktop:
+            case isDesktop:
               return DESKTOP_HEADER_HEIGHT;
-            case breakpointsForMarkup?.isTV:
+            case isTV:
               return TV_HEADER_HEIGHT;
             default:
               return MOBILE_HEADER_HEIGHT;

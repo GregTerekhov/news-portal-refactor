@@ -23,13 +23,13 @@ interface MenuButtonsProps {
 }
 
 const MenuButtons: FC<Partial<MenuButtonsProps>> = ({ handleSignOut, handleLinkClick, navId }) => {
-  const { breakpointsForMarkup } = useWindowWidth();
+  const { isMobile, isTV } = useWindowWidth();
 
   const buttons: MenuButton[] = [
     {
       id: 'Sign out button',
       iconName: 'icon-signout',
-      iconSize: ICON_SIZES.mdIcon24,
+      iconSize: isTV ? ICON_SIZES.mdIcon27 : ICON_SIZES.mdIcon24,
       iconClassName: 'fill-whiteBase',
       onClick: handleSignOut,
       children: 'Sign Out',
@@ -43,8 +43,6 @@ const MenuButtons: FC<Partial<MenuButtonsProps>> = ({ handleSignOut, handleLinkC
       children: <Link to='/'>Home</Link>,
     },
   ];
-
-  const isMobile = breakpointsForMarkup?.isNothing || breakpointsForMarkup?.isMobile;
 
   const firstButton = buttons.find((button) => button.id === 'Sign out button');
 
@@ -93,7 +91,7 @@ const MenuButtons: FC<Partial<MenuButtonsProps>> = ({ handleSignOut, handleLinkC
           classNameButton='border border-solid border-transparent dark:border-whiteBase'
           hasIcon={true}
           variant={VariantButton.Other}
-          width='w-32'
+          width='w-36'
           svgName={firstButton.iconName}
           svgSize={firstButton.iconSize}
           classNameIcon={firstButton.iconClassName}

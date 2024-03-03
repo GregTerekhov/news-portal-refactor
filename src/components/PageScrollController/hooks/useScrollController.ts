@@ -18,9 +18,9 @@ const useScrollController = ({ direction }: ScrollControllerProps) => {
   const [upButtonVisibility, setUpButtonVisibility] = useState<string>('');
   const [downButtonVisibility, setDownButtonVisibility] = useState<string>('');
 
-  const { breakpointsForMarkup } = useWindowWidth();
+  const { isTablet, isDesktop, isTV } = useWindowWidth();
 
-  const headerHeight = useMemo<number>(() => getHeaderHeight(), [breakpointsForMarkup]);
+  const headerHeight = useMemo<number>(() => getHeaderHeight(), [isDesktop, isTablet, isTV]);
 
   const callScroll = debounce(() => {
     const currentScroll = window.scrollY;
@@ -67,11 +67,11 @@ const useScrollController = ({ direction }: ScrollControllerProps) => {
 
   function getHeaderHeight(): number {
     switch (true) {
-      case breakpointsForMarkup?.isTablet:
+      case isTablet:
         return TABLET_HEADER_HEIGHT;
-      case breakpointsForMarkup?.isDesktop:
+      case isDesktop:
         return DESKTOP_HEADER_HEIGHT;
-      case breakpointsForMarkup?.isTV:
+      case isTV:
         return TV_HEADER_HEIGHT;
       default:
         return DEFAULT_HEADER_HEIGHT;

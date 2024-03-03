@@ -10,7 +10,7 @@ import { Dropdown, PrimaryButton, UnverifiableInput } from 'ui';
 import Calendar from './Calendar/Calendar';
 
 const SearchBlock: FC<{}> = () => {
-  const { breakpointsForMarkup } = useWindowWidth();
+  const { isNotMobile, wideScreens } = useWindowWidth();
 
   const {
     query,
@@ -25,10 +25,6 @@ const SearchBlock: FC<{}> = () => {
     getNewsByPeriod,
     handleResetRequests,
   } = useAdditionalRequest();
-
-  const isNotMobile =
-    breakpointsForMarkup?.isTablet || breakpointsForMarkup?.isDesktop || breakpointsForMarkup?.isTV;
-  const wideScreens = breakpointsForMarkup?.isDesktop || breakpointsForMarkup?.isTV;
 
   return (
     <div className='md-grid-rows-2 relative p-3.5 after:block after:h-px after:w-full after:bg-fullDark/[.2] after:content-[""] after:dark:bg-whiteBase/[.2] max-md:space-y-4 max-md:after:mt-4 md:grid md:grid-cols-6 md:gap-4 md:after:col-span-full lg:grid-cols-13 lg:gap-6'>
@@ -77,7 +73,7 @@ const SearchBlock: FC<{}> = () => {
       </div>
       <div className='md:col-span-3 md:mt-auto lg:col-span-1'>
         {wideScreens ? (
-          <p className='mb-2 text-base text-darkBase dark:text-whiteBase'>Reset</p>
+          <p className='mb-2 text-base text-darkBase dark:text-whiteBase lg:text-medium'>Reset</p>
         ) : null}
         <PrimaryButton
           id='Reset all requests button'
@@ -85,7 +81,7 @@ const SearchBlock: FC<{}> = () => {
           hasIcon={true}
           variant={VariantButton.Primary}
           svgName='icon-reset'
-          svgSize={ICON_SIZES.xsIcon16}
+          svgSize={wideScreens ? ICON_SIZES.smIcon21 : ICON_SIZES.xsIcon16}
           classNameIcon='fill-whiteBase'
           classNameButton='py-3'
           onHandleClick={handleResetRequests}

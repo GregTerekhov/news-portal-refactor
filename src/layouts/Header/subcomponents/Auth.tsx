@@ -12,7 +12,7 @@ import { AuthModal } from 'components';
 import { Modal, PrimaryButton } from 'ui';
 
 const Auth: FC<{}> = () => {
-  const { breakpointsForMarkup } = useWindowWidth();
+  const { wideScreens } = useWindowWidth();
 
   const { logout, isAuthenticated } = useAuthRedux();
   const { isOpenModal, popUpRef, toggleModal } = usePopUp();
@@ -30,8 +30,6 @@ const Auth: FC<{}> = () => {
     localStorage.removeItem('_persist');
     navigate('/');
   };
-
-  const wideScreens = breakpointsForMarkup?.isDesktop || breakpointsForMarkup?.isTV;
 
   return (
     <>

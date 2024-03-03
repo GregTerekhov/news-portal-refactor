@@ -35,7 +35,7 @@ const WeatherBlock: FC<{}> = () => {
           ? 'flex flex-col items-center justify-between px-6 py-10 text-center md:px-10'
           : showError
             ? 'px-6 py-10 text-center md:px-10'
-            : 'px-5 py-8 md:px-8 md:pt-10'
+            : 'px-5 py-8 md:px-8 md:pt-10 hg:pt-8'
       }  h-full w-full bg-accentBase hg:w-442px`}
     >
       {(!isWeatherLoading && emptyWeather) || showError ? (

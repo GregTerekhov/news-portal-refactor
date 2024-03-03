@@ -35,7 +35,7 @@ const Header: FC<{}> = () => {
     }
   }, [token, openModal, user]);
 
-  const { breakpointsForMarkup } = useWindowWidth();
+  const { isNotMobile } = useWindowWidth();
   const { filteredNews, resetAllFilters } = useFiltersAction();
   const { isHomeActive, isAccountPage, isManageAccountPage } = useActiveLinks();
   const { headerClass, textClass } = useHeaderStyles(isHomeActive);
@@ -54,9 +54,6 @@ const Header: FC<{}> = () => {
       resetAllFilters();
     }
   };
-
-  const isNotMobile =
-    breakpointsForMarkup?.isTablet || breakpointsForMarkup?.isDesktop || breakpointsForMarkup?.isTV;
   const isAccountPages = isAccountPage || isManageAccountPage;
 
   return (

@@ -6,8 +6,6 @@ import { VariantButton } from 'types';
 
 import { PrimaryButton } from 'ui';
 
-const BUTTON_WIDTH = 'w-32';
-
 interface DirectionButtonProps {
   direction: string;
   currentPage: number;
@@ -23,10 +21,8 @@ const DirectionButton: FC<DirectionButtonProps> = ({
   handlePrevClick,
   handleNextClick,
 }) => {
-  const { breakpointsForMarkup } = useWindowWidth();
+  const { isNotMobile } = useWindowWidth();
 
-  const isNotMobile =
-    breakpointsForMarkup?.isTablet || breakpointsForMarkup?.isDesktop || breakpointsForMarkup?.isTV;
   const disabledPrevButton = currentPage - 1 === 0 ? true : false;
   const disableNextButton = currentPage === pageNumbers?.length ? true : false;
 
@@ -35,7 +31,7 @@ const DirectionButton: FC<DirectionButtonProps> = ({
       id={`${direction} page button`}
       variant={VariantButton.Other}
       onHandleClick={direction === 'Prev' ? handlePrevClick : handleNextClick}
-      width={BUTTON_WIDTH}
+      width='w-32'
       disabled={direction === 'Prev' ? disabledPrevButton : disableNextButton}
       hasIcon={true}
       svgName='icon-arrow'
@@ -44,7 +40,9 @@ const DirectionButton: FC<DirectionButtonProps> = ({
       classNameButton={direction === 'Prev' ? 'flex-row-reverse' : ''}
     >
       {isNotMobile ? (
-        <span className='text-base font-medium text-contrastWhite md:text-medium'>{direction}</span>
+        <span className='text-base font-medium text-contrastWhite md:text-medium hg:text-xl'>
+          {direction}
+        </span>
       ) : null}
     </PrimaryButton>
   );

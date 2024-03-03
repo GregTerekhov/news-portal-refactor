@@ -10,6 +10,7 @@ type ButtonsDataProps = {
   handleSortRead: (order: string) => Promise<void>;
   handleSort: (order: string) => void;
   handleReset: () => Promise<void>;
+  wideScreens: boolean;
 };
 
 export const getControlButtons = ({
@@ -19,6 +20,7 @@ export const getControlButtons = ({
   handleSortRead,
   handleSort,
   handleReset,
+  wideScreens,
 }: ButtonsDataProps) => {
   const controlButtons: IControlButtons[] = [
     {
@@ -27,7 +29,7 @@ export const getControlButtons = ({
       variant: VariantButton.Primary,
       onHandleClick: handleFiltration,
       ariaLabel: '',
-      classNameButtons: '',
+      classNameButtons: 'lg:text-xl',
       hasIcon: false,
       svgName: '',
       svgSize: 0,
@@ -48,10 +50,10 @@ export const getControlButtons = ({
       },
       ariaLabel: 'Ascending sort button',
       classNameButtons:
-        'border-whiteBase bg-accentBase dark:bg-transparent hover:bg-accentAlt transition-colors duration-500 p-2',
+        'border-whiteBase bg-accentBase dark:bg-transparent hover:bg-accentAlt transition-colors duration-500 p-2 lg:w-12 lg:h-12',
       hasIcon: true,
       svgName: 'icon-dateSort',
-      svgSize: ICON_SIZES.smIcon20,
+      svgSize: wideScreens ? ICON_SIZES.mdIcon24 : ICON_SIZES.smIcon20,
       classNameIcon: 'fill-whiteBase',
       children: '',
     },
@@ -81,10 +83,10 @@ export const getControlButtons = ({
       },
       ariaLabel: 'Descending sort button',
       classNameButtons:
-        'p-2 border-whiteBase bg-accentBase dark:bg-transparent hover:bg-accentAlt transition-colors duration-500',
+        'p-2 border-whiteBase bg-accentBase dark:bg-transparent hover:bg-accentAlt transition-colors duration-500 lg:w-12 lg:h-12',
       hasIcon: true,
       svgName: 'icon-dateSort',
-      svgSize: ICON_SIZES.smIcon20,
+      svgSize: wideScreens ? ICON_SIZES.mdIcon24 : ICON_SIZES.smIcon20,
       classNameIcon: 'fill-whiteBase rotate-180',
       children: '',
     },
