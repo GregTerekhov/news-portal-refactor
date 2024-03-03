@@ -50,7 +50,7 @@ const UpdateEmail: FC<{}> = ({}) => {
         <PrimaryButton
           type='submit'
           width='w-28 lg:w-40'
-          id='Button for applying change your email '
+          id='Button for applying change your email'
           variant={VariantButton.Other}
           disabled={isRefreshingUser ? true : false}
         >

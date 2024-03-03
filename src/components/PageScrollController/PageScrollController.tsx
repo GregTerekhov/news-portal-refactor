@@ -23,13 +23,7 @@ const PageScrollController: FC<ScrollDirection> = (value) => {
 
   return (
     <>
-      <Hint
-        label={label}
-        side='right'
-        sideOffset={16}
-        ariaLabel={`Scroll ${position} button`}
-        contentClass='border border-solid border-whiteBase rounded-xl text-small md:text-medium px-2 text-whiteBase bg-accentAlt/[.8] transition-colors duration-500'
-      >
+      <Hint label={label} side='right' sideOffset={16} ariaLabel={`Scroll ${position} button`}>
         <button
           id={direction}
           aria-label={`Page scroll controller button in direction ${direction}`}

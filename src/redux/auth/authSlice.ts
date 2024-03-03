@@ -26,7 +26,7 @@ const initialState: AuthState = {
 };
 
 export const setTokens = createAction<TokensPayload>('auth/setTokens');
-export const changeNotAuthTheme = createAction<UpdateThemeRequest>('auth/changeTheme');
+export const changeNotAuthTheme = createAction<UpdateThemeRequest>('notAuth/changeTheme');
 
 const authSlice = createSlice({
   name: 'auth',
@@ -54,8 +54,6 @@ const authSlice = createSlice({
         state.isLoggedIn = true;
         state.user = action.payload.user;
         state.userTheme = action.payload.userTheme;
-        state.isCurrentUser = false;
-        state.hasError = null;
         state.haveAccounts = action.payload.haveAccounts;
       })
       .addCase(authOperations.updateUserEmail.fulfilled, (state, action) => {

@@ -12,23 +12,23 @@ import { PrimaryButton } from 'ui';
 import { ErrorList, serverErrorsList } from './assistants';
 
 const ErrorPage: FC<{}> = () => {
-  const devicePixelRatio = window.devicePixelRatio || 1;
   const { isAuthenticated } = useAuthRedux();
-  const navigate = useNavigate();
   const { errorAPI } = useNewsAPI();
   const { errorDB } = useDB();
+
+  const navigate = useNavigate();
+
+  const devicePixelRatio = window.devicePixelRatio || 1;
 
   const anyServerError = errorAPI || errorDB;
   const APIServerError = errorAPI && errorAPI >= 500;
   const DBServerError = errorDB && typeof errorDB === 'number' && errorDB >= 500;
 
   const renderPageContent = serverErrorsList.find((value: ErrorList) => {
-    if (APIServerError) {
-      return value.code === errorAPI;
-    }
-    if (DBServerError) {
-      return value.code === errorDB;
-    }
+    if (APIServerError) return value.code === errorAPI;
+
+    if (DBServerError) return value.code === errorDB;
+
     return;
   });
 
@@ -46,7 +46,7 @@ const ErrorPage: FC<{}> = () => {
   return (
     <div className='space-y-10 text-center lg:mx-auto lg:w-900px'>
       {anyServerError ? (
-        <h1 className='m-0 p-0 text-[100px] text-darkBase transition-colors duration-500 dark:text-whiteBase'>
+        <h1 className='text-[100px] text-darkBase transition-colors duration-500 dark:text-whiteBase'>
           {renderPageContent?.code}
         </h1>
       ) : (
@@ -74,7 +74,7 @@ const ErrorPage: FC<{}> = () => {
         {isAuthenticated && (
           <PrimaryButton
             variant={VariantButton.Primary}
-            id='redirect to previous page button'
+            id='Redirect to previous page button'
             onHandleClick={handleGoBack}
           >
             Go back

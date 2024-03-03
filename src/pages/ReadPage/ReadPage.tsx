@@ -40,7 +40,7 @@ const ReadPage: FC = () => {
   return (
     <>
       {shouldShowLoader && <Loader variant='generalSection' />}
-      {shouldShowToast && <Toast variant='non-interactive' status='info' />}
+      {shouldShowToast ? <Toast variant='non-interactive' status='info' /> : null}
       {shouldShowAccordeon && (
         <div>
           {readNews.map((date) => (

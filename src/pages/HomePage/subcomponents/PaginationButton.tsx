@@ -14,7 +14,7 @@ const PaginationButton: FC<PaginationButtonProps> = ({ pageNumber, currentPage, 
   return (
     <li key={pageNumber} onClick={() => onClick(pageNumber)}>
       <PrimaryButton
-        aria-label={pageNumber.toString()}
+        aria-label={`Page ${pageNumber.toString()} button`}
         classNameButton={`h-10 border-accentBase font-medium transition-colors duration-500 ${
           pageNumber === currentPage
             ? 'bg-accentBase text-contrastWhite'

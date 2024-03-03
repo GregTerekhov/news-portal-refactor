@@ -70,12 +70,7 @@ const SignInPanel: FC<SignInProps> = ({ handleShowRecoveryInput, isShowRecoveryI
           onChange={(event: React.ChangeEvent<HTMLInputElement>) => handleCheckboxChange(event)}
         />
         <div className='flex items-center justify-between'>
-          <PrimaryButton
-            type='submit'
-            id='Login button'
-            variant={VariantButton.Other}
-            classNameButton='w-32'
-          >
+          <PrimaryButton type='submit' id='Login button' variant={VariantButton.Other} width='w-32'>
             Sign In
           </PrimaryButton>
           <ThemeSwitcher variant={VariantSwitcher.Modal} />

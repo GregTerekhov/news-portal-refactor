@@ -30,12 +30,15 @@ const useWeather = () => {
         if (result.state === 'granted') {
           setStatePermission('granted');
           setHasGeolocationPermission(true);
+
           localStorage.setItem('geolocationPermission', 'granted');
+
           navigator.geolocation.getCurrentPosition((position) => {
             const sendGeolocation = {
               lat: position.coords.latitude,
               lon: position.coords.longitude,
             };
+
             getCurrentWeather(sendGeolocation);
             getHourlyWeather(sendGeolocation);
           });
@@ -45,11 +48,14 @@ const useWeather = () => {
           navigator.geolocation.getCurrentPosition(
             (position) => {
               setHasGeolocationPermission(true);
+
               localStorage.setItem('geolocationPermission', 'granted');
+
               const sendGeolocation = {
                 lat: position.coords.latitude,
                 lon: position.coords.longitude,
               };
+
               getCurrentWeather(sendGeolocation);
               getHourlyWeather(sendGeolocation);
             },
@@ -77,6 +83,7 @@ const useWeather = () => {
         } else {
           setHasGeolocationPermission(false);
           setStatePermission('denied');
+
           localStorage.removeItem('geolocationPermission');
         }
       });
@@ -90,6 +97,21 @@ const useWeather = () => {
   const flipWeatherDetails = () => {
     setIsFlipped(!isFlipped);
   };
+
+  const showButtonText = (): string => {
+    let buttonText = 'Give permission for your geolocation';
+
+    if (statePermission === 'prompt') {
+      buttonText = 'Give permission for your geolocation';
+    } else if (hasGeolocationPermission) {
+      buttonText = 'Get the weather for your region';
+    } else if (statePermission === 'denied') {
+      buttonText = 'Permission denied';
+    }
+
+    return buttonText;
+  };
+
   const flippingCard = isFlipped ? 'rotate-y-180' : 'rotate-y-0';
 
   return {
@@ -99,6 +121,7 @@ const useWeather = () => {
     requestGeolocationPermission,
     toggleTemperatureScale,
     flipWeatherDetails,
+    showButtonText,
     statePermission,
   };
 };

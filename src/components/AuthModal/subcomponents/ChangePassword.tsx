@@ -48,9 +48,9 @@ const ChangePassword: FC = () => {
         <div className='flex items-center justify-between'>
           <PrimaryButton
             type='submit'
-            id='Login button'
+            id='Change password and login'
             variant={VariantButton.Other}
-            classNameButton='w-32'
+            width='w-32'
           >
             Change
           </PrimaryButton>

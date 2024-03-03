@@ -11,22 +11,18 @@ import { AccountMenu } from './subcomponents';
 const AccountLayout: FC = () => {
   const { breakpointsForMarkup } = useWindowWidth();
 
+  const isNotMobile = breakpointsForMarkup?.isTablet || breakpointsForMarkup?.isDesktop;
+
   return (
     <>
       <div className='flex justify-between gap-2'>
         <div className='md:space-y-6'>
           <SvgIcon
             svgName='icon-logo'
-            size={
-              breakpointsForMarkup?.isTablet || breakpointsForMarkup?.isDesktop
-                ? ICON_SIZES.ultraIcon195
-                : ICON_SIZES.xlIcon80
-            }
+            size={isNotMobile ? ICON_SIZES.ultraIcon195 : ICON_SIZES.xlIcon80}
             className='fill-darkBase dark:fill-whiteBase'
           />
-          {breakpointsForMarkup?.isTablet || breakpointsForMarkup?.isDesktop ? (
-            <AccountMenu />
-          ) : null}
+          {isNotMobile ? <AccountMenu /> : null}
         </div>
         <Outlet />
       </div>

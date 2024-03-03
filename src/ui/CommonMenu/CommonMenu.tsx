@@ -62,12 +62,6 @@ const CommonMenu: FC<CommonMenuProps> = ({ isOpen, navId, closeMenu }) => {
     localStorage.removeItem('_persist');
   };
 
-  const closeMenuByClickOnLink = () => {
-    if (typeof closeMenu === 'function') {
-      closeMenu();
-    }
-  };
-
   const isMobile = breakpointsForMarkup?.isNothing || breakpointsForMarkup?.isMobile;
 
   return (
@@ -79,7 +73,7 @@ const CommonMenu: FC<CommonMenuProps> = ({ isOpen, navId, closeMenu }) => {
             <div className='flex justify-between'>
               <MenuButtons
                 handleSignOut={handleSignOut}
-                closeMenuByClickOnLink={closeMenuByClickOnLink}
+                handleLinkClick={handleLinkClick}
                 navId='account-navigation'
               />
             </div>

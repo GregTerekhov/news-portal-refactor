@@ -93,8 +93,8 @@ const HomePage: FC = () => {
           )}
         </>
       )}
-      {showErrorToastMessage && <Toast variant='interactive' status='error' />}
-      {showToastResults && <Toast variant='non-interactive' status='info' />}
+      {showErrorToastMessage ? <Toast variant='interactive' status='error' /> : null}
+      {showToastResults ? <Toast variant='non-interactive' status='info' /> : null}
     </>
   );
 };

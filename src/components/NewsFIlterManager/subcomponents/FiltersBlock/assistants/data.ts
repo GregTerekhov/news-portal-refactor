@@ -1,4 +1,6 @@
 import { VariantButton } from 'types';
+import { ICON_SIZES } from 'constants/iconSizes';
+
 import type { IControlButtons } from '../types';
 
 type ButtonsDataProps = {
@@ -49,7 +51,7 @@ export const getControlButtons = ({
         'border-whiteBase bg-accentBase dark:bg-transparent hover:bg-accentAlt transition-colors duration-500 p-2',
       hasIcon: true,
       svgName: 'icon-dateSort',
-      svgSize: 20,
+      svgSize: ICON_SIZES.smIcon20,
       classNameIcon: 'fill-whiteBase',
       children: '',
     },
@@ -62,7 +64,7 @@ export const getControlButtons = ({
       classNameButtons: '',
       hasIcon: true,
       svgName: 'icon-reset',
-      svgSize: 16,
+      svgSize: ICON_SIZES.xsIcon16,
       classNameIcon: 'fill-whiteBase',
       children: 'Reset',
     },
@@ -82,7 +84,7 @@ export const getControlButtons = ({
         'p-2 border-whiteBase bg-accentBase dark:bg-transparent hover:bg-accentAlt transition-colors duration-500',
       hasIcon: true,
       svgName: 'icon-dateSort',
-      svgSize: 20,
+      svgSize: ICON_SIZES.smIcon20,
       classNameIcon: 'fill-whiteBase rotate-180',
       children: '',
     },

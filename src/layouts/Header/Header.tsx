@@ -28,10 +28,6 @@ const Header: FC<{}> = () => {
   const { isScrollDisabled, setIsScrollDisabled } = useScrollBodyContext();
 
   useEffect(() => {
-    console.log(isOpenMenu);
-  }, []);
-
-  useEffect(() => {
     if (!user.id && token && openModal) {
       setPasswordToken(true);
       writeTokens({ accessToken: token, refreshToken: null });

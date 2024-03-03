@@ -19,6 +19,8 @@ const TopWeatherBlock: FC<TopWeatherProps> = ({
 }) => {
   const { breakpointsForMarkup } = useWindowWidth();
 
+  const isMobile = breakpointsForMarkup?.isNothing || breakpointsForMarkup?.isMobile;
+
   return (
     <div
       className='mx-auto flex cursor-pointer items-center justify-evenly gap-5'
@@ -49,11 +51,7 @@ const TopWeatherBlock: FC<TopWeatherProps> = ({
         <div className='flex items-center gap-1 rounded-lg bg-weatherForeground px-2 py-[9px] text-contrastWhite md:gap-2 md:pb-[9px] md:pl-[7px] md:pr-[17px] md:pt-[10px]'>
           <SvgIcon
             svgName='icon-location'
-            size={
-              breakpointsForMarkup?.isNothing || breakpointsForMarkup?.isMobile
-                ? ICON_SIZES.smIcon20
-                : ICON_SIZES.mdIcon27
-            }
+            size={isMobile ? ICON_SIZES.smIcon20 : ICON_SIZES.mdIcon27}
             className='fill-whiteBase'
           />
           <p className='text-base text-contrastWhite md:text-2xl'>{currentWeather?.name}</p>

@@ -12,22 +12,22 @@ type NoWeatherProps = {
 };
 
 const NoWeather: FC<NoWeatherProps> = ({ showError }) => {
-  const { hasGeolocationPermission, requestGeolocationPermission, statePermission } = useWeather();
+  const { requestGeolocationPermission, showButtonText } = useWeather();
+
+  const showInfoMessage = showError
+    ? 'Server error. Please try again later when you reload the page'
+    : 'What a pity, this could be your weather';
 
   return (
     <>
-      <h2 className='text-medium text-whiteBase md:text-2xl lg:text-4xl'>
-        {showError
-          ? 'Server error. Please try again later when you reload the page'
-          : 'What a pity, this could be your weather'}
-      </h2>
-      <span className={`mt-20 ${showError ? 'flex justify-center' : 'mb-28 block'}`}>
+      <h2 className='text-medium text-whiteBase md:text-2xl lg:text-4xl'>{showInfoMessage}</h2>
+      <div className={`mt-20 ${showError ? 'flex justify-center' : 'mb-28'}`}>
         <SvgIcon
           svgName='icon-moon'
           size={ICON_SIZES.ultraIcon156}
           className='fill-transparent stroke-greyBase'
         />
-      </span>
+      </div>
       {!showError && (
         <PrimaryButton
           id='Geolocation permission button'
@@ -35,11 +35,7 @@ const NoWeather: FC<NoWeatherProps> = ({ showError }) => {
           onHandleClick={requestGeolocationPermission}
           classNameButton='border border-solid border-whiteBase'
         >
-          {!statePermission || statePermission === 'prompt'
-            ? 'Give permission for your geolocation'
-            : hasGeolocationPermission
-              ? 'Get the weather for your region'
-              : statePermission === 'denied' && 'Permission denied'}
+          {showButtonText()}
         </PrimaryButton>
       )}
     </>

@@ -1,6 +1,7 @@
 import React, { FC } from 'react';
 
 import { VariantButton, VariantInputs } from 'types';
+import { ICON_SIZES } from 'constants/iconSizes';
 import { useWindowWidth } from 'contexts';
 import { useAdditionalRequest } from 'hooks';
 
@@ -55,7 +56,7 @@ const SearchBlock: FC<{}> = () => {
           selectedItem={category}
           onSelectItem={updateSearchParams}
           label='Categories'
-        ></Dropdown>
+        />
       </div>
       {showPopular ? (
         <div className='md:col-span-2 lg:col-span-3'>
@@ -65,7 +66,7 @@ const SearchBlock: FC<{}> = () => {
             selectedItem={period}
             onSelectItem={updateSearchParams}
             label='Time period'
-          ></Dropdown>
+          />
         </div>
       ) : null}
 
@@ -82,7 +83,7 @@ const SearchBlock: FC<{}> = () => {
           hasIcon={true}
           variant={VariantButton.Primary}
           svgName='icon-reset'
-          svgSize={16}
+          svgSize={ICON_SIZES.xsIcon16}
           classNameIcon='fill-whiteBase'
           classNameButton='py-3'
           onHandleClick={handleResetRequests}
