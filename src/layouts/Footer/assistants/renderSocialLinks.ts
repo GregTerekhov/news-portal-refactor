@@ -27,6 +27,12 @@ export const renderSocialLinks = (wideScreens: boolean): Array<SocialLinks> => {
       label: 'YouTube',
       size: wideScreens ? ICON_SIZES.lgIcon36 : ICON_SIZES.mdIcon28,
     },
+    {
+      link: 'https://www.linkedin.com/company/the-new-york-times/',
+      iconName: 'icon-linkedin',
+      label: 'LinkedIn',
+      size: wideScreens ? ICON_SIZES.mdIcon28 : ICON_SIZES.smIcon20,
+    },
   ];
 
   return links;
