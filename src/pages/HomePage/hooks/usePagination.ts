@@ -73,7 +73,7 @@ const usePagination = (rebuildedNews: PartialVotedNewsArray) => {
 
   //Отримання кількості новин на першій сторінці для кожного пристроя
   function getFirstPageCount(): number {
-    if (breakpointsForMarkup?.isNothing || breakpointsForMarkup?.isMobile) {
+    if (isMobile) {
       return FIRST_MOBILE_PAGE_COUNT;
     } else if (breakpointsForMarkup?.isTablet) {
       return FIRST_TABLET_PAGE_COUNT;

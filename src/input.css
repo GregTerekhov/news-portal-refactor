@@ -32,6 +32,12 @@ body {
   }
 }
 
+@media screen and (min-width: 1536px) {
+  body {
+    padding-top: 136px !important;
+  }
+}
+
 @layer components {
   .customScrollPosition {
     @apply right-[5px] top-[10px] !important;

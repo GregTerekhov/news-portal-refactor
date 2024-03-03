@@ -12,6 +12,7 @@ const DOWN_MEASURE_BUTTON_INVISIBILITY = 112;
 const DEFAULT_HEADER_HEIGHT = 81;
 const TABLET_HEADER_HEIGHT = 106;
 const DESKTOP_HEADER_HEIGHT = 113;
+const TV_HEADER_HEIGHT = 136;
 
 const useScrollController = ({ direction }: ScrollControllerProps) => {
   const [upButtonVisibility, setUpButtonVisibility] = useState<string>('');
@@ -70,6 +71,8 @@ const useScrollController = ({ direction }: ScrollControllerProps) => {
         return TABLET_HEADER_HEIGHT;
       case breakpointsForMarkup?.isDesktop:
         return DESKTOP_HEADER_HEIGHT;
+      case breakpointsForMarkup?.isTV:
+        return TV_HEADER_HEIGHT;
       default:
         return DEFAULT_HEADER_HEIGHT;
     }

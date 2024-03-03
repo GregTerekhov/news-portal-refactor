@@ -20,6 +20,8 @@ const ControlButtons: FC<ControlButtonsProps> = ({ hasFilterValue }) => {
   });
 
   const shouldSortAccordeon = activeLinks.isReadActive;
+  const isMobile = breakpointsForMarkup?.isNothing || breakpointsForMarkup?.isMobile;
+  const wideScreens = breakpointsForMarkup?.isDesktop || breakpointsForMarkup?.isTV;
 
   const controlButtons = getControlButtons({
     handleFiltration,
@@ -37,7 +39,7 @@ const ControlButtons: FC<ControlButtonsProps> = ({ hasFilterValue }) => {
   );
   return (
     <>
-      {breakpointsForMarkup?.isNothing || breakpointsForMarkup?.isMobile ? (
+      {isMobile ? (
         <>
           <div className='flex gap-3.5'>{RenderButtons(controlButtons.slice(0, 2))}</div>
           <div className='flex gap-3.5'>{RenderButtons(controlButtons.slice(2))}</div>
@@ -53,7 +55,7 @@ const ControlButtons: FC<ControlButtonsProps> = ({ hasFilterValue }) => {
           {breakpointsForMarkup?.isTablet && renderHintText()}
           <div className='md-max-lg:col-start-8 md:flex md:items-center md:justify-end lg:items-end'>
             <div>
-              {breakpointsForMarkup?.isDesktop && renderHintText()}
+              {wideScreens && renderHintText()}
               {RenderButtons([controlButtons[1]])}
             </div>
           </div>

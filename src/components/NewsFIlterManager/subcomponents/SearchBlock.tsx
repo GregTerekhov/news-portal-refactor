@@ -26,7 +26,9 @@ const SearchBlock: FC<{}> = () => {
     handleResetRequests,
   } = useAdditionalRequest();
 
-  const isNotMobile = breakpointsForMarkup?.isTablet || breakpointsForMarkup?.isDesktop;
+  const isNotMobile =
+    breakpointsForMarkup?.isTablet || breakpointsForMarkup?.isDesktop || breakpointsForMarkup?.isTV;
+  const wideScreens = breakpointsForMarkup?.isDesktop || breakpointsForMarkup?.isTV;
 
   return (
     <div className='md-grid-rows-2 relative p-3.5 after:block after:h-px after:w-full after:bg-fullDark/[.2] after:content-[""] after:dark:bg-whiteBase/[.2] max-md:space-y-4 max-md:after:mt-4 md:grid md:grid-cols-6 md:gap-4 md:after:col-span-full lg:grid-cols-13 lg:gap-6'>
@@ -74,7 +76,7 @@ const SearchBlock: FC<{}> = () => {
         <Calendar variant='SearchBlock' />
       </div>
       <div className='md:col-span-3 md:mt-auto lg:col-span-1'>
-        {breakpointsForMarkup?.isDesktop ? (
+        {wideScreens ? (
           <p className='mb-2 text-base text-darkBase dark:text-whiteBase'>Reset</p>
         ) : null}
         <PrimaryButton
@@ -88,7 +90,7 @@ const SearchBlock: FC<{}> = () => {
           classNameButton='py-3'
           onHandleClick={handleResetRequests}
         >
-          {breakpointsForMarkup?.isDesktop ? '' : 'Reset all requests'}
+          {wideScreens ? '' : 'Reset all requests'}
         </PrimaryButton>
       </div>
     </div>

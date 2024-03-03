@@ -11,7 +11,8 @@ import { AccountMenu } from './subcomponents';
 const AccountLayout: FC = () => {
   const { breakpointsForMarkup } = useWindowWidth();
 
-  const isNotMobile = breakpointsForMarkup?.isTablet || breakpointsForMarkup?.isDesktop;
+  const isNotMobile =
+    breakpointsForMarkup?.isTablet || breakpointsForMarkup?.isDesktop || breakpointsForMarkup?.isTV;
 
   return (
     <>

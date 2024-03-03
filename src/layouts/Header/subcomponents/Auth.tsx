@@ -31,29 +31,29 @@ const Auth: FC<{}> = () => {
     navigate('/');
   };
 
-  const isDesktop = breakpointsForMarkup?.isDesktop;
+  const wideScreens = breakpointsForMarkup?.isDesktop || breakpointsForMarkup?.isTV;
 
   return (
     <>
       <div className='max-lg:flex max-lg:items-center max-lg:justify-center'>
         <PrimaryButton
-          id={isDesktop ? 'Auth button for signin and signout' : ''}
-          ariaLabel={!isDesktop ? 'Auth button for signin and signout' : ''}
-          variant={isDesktop ? VariantButton.Primary : VariantButton.Small}
+          id={wideScreens ? 'Auth button for signin and signout' : ''}
+          ariaLabel={!wideScreens ? 'Auth button for signin and signout' : ''}
+          variant={wideScreens ? VariantButton.Primary : VariantButton.Small}
           onHandleClick={
             !isAuthenticated ? (toggleModal as ClickHandler) : (onSignOut as ClickHandler)
           }
           hasIcon={true}
           svgName={`${isAuthenticated ? 'icon-signout' : 'icon-auth'}`}
-          svgSize={isDesktop ? ICON_SIZES.mdIcon28 : ICON_SIZES.mdIcon24}
+          svgSize={wideScreens ? ICON_SIZES.mdIcon28 : ICON_SIZES.mdIcon24}
           classNameIcon='fill-whiteBase'
           classNameButton={`${
             isHomeActive && authButtonClass
-          } border border-solid border-transparent dark:border-whiteBase bg-accentBase hover:bg-accentAlt transition-colors duration-500 ${
-            isDesktop ? '' : 'border-transparent p-1.5'
+          } border border-solid border-transparent dark:border-whiteBase bg-accentBase hover:bg-accentAlt ${
+            wideScreens ? '' : 'border-transparent p-1.5'
           }`}
         >
-          {isDesktop ? (isAuthenticated ? 'Sign Out' : 'Auth') : null}
+          {wideScreens ? (isAuthenticated ? 'Sign Out' : 'Auth') : null}
         </PrimaryButton>
       </div>
       {isOpenModal && (

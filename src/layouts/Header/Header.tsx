@@ -55,13 +55,14 @@ const Header: FC<{}> = () => {
     }
   };
 
-  const isNotMobile = breakpointsForMarkup?.isTablet || breakpointsForMarkup?.isDesktop;
+  const isNotMobile =
+    breakpointsForMarkup?.isTablet || breakpointsForMarkup?.isDesktop || breakpointsForMarkup?.isTV;
   const isAccountPages = isAccountPage || isManageAccountPage;
 
   return (
     <>
       <header
-        className={`fixed left-0 top-0 flex min-h-81px w-full items-center justify-center md:min-h-106px lg:min-h-113px ${
+        className={`hg:min-h-136px fixed left-0 top-0 flex min-h-81px w-full items-center justify-center md:min-h-106px lg:min-h-113px ${
           isHomeActive
             ? headerClass
             : 'border-b border-solid border-fullDark/[.2] bg-whiteBase/[.8] dark:border-whiteBase/[.2] dark:bg-darkBackground/[.8]'

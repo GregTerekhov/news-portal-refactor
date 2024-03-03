@@ -34,10 +34,12 @@ const AuthenticatedHeaderContent: FC<HeaderContentProps> = ({
 
   const isAccountPages = isAccountPage || isManageAccountPage;
 
+  const isMobile = breakpointsForMarkup?.isNothing || breakpointsForMarkup?.isMobile;
+
   return (
     <>
       <div className='flex items-center gap-3.5 lg:gap-12'>
-        {breakpointsForMarkup?.isNothing || breakpointsForMarkup?.isMobile ? (
+        {isMobile ? (
           <>
             {!isOpenMenu && isHomeActive ? (
               <search>
