@@ -33,7 +33,7 @@ const Accordeon: FC<AccordeonProps> = ({ children, dateSeparator, position, filt
           }`}
         >
           <Accordion.Trigger
-            className='flex w-full items-center gap-1.5 py-3 leading-moreRelaxed tracking-wider text-darkBase dark:text-whiteBase md:gap-2 hg:text-xl'
+            className='flex w-full items-center gap-1.5 py-3 leading-moreRelaxed tracking-wider text-darkBase dark:text-whiteBase md:gap-2 lg:text-xl hg:text-2xl'
             onClick={handleClick}
           >
             {showAccordeonPages ? dateSeparator : filtersBlock}

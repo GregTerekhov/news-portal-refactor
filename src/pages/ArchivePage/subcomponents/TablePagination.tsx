@@ -27,7 +27,7 @@ const TablePagination: FC<TablePaginationProps> = ({
           key={index}
           type='button'
           aria-current='page'
-          className='flex min-w-10 items-center justify-center rounded-full py-2.5 text-sm text-darkBase transition-colors duration-500 hover:bg-accentBase hover:text-whiteBase dark:text-whiteBase dark:hover:bg-accentBase'
+          className='flex min-w-10 items-center justify-center rounded-full py-2.5 text-small text-darkBase transition-colors duration-500 hover:bg-accentBase hover:text-whiteBase dark:text-whiteBase dark:hover:bg-accentBase lg:text-medium'
           onClick={() => handlePageChange(index + 1)}
         >
           {index + 1}
