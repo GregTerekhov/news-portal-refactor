@@ -43,9 +43,9 @@ const ArchiveHistoryLog: FC<IHistoryLogProps> = ({ logData }) => {
     <div className='mb-6 flex flex-col overflow-hidden rounded-lg shadow-modal'>
       <CustomScrollBar isOpen={true} orientation='horizontal'>
         <div className='-m-1.5'>
-          <div className='inline-block min-w-full p-1.5 align-middle'>
-            <div className='divide-y divide-greyAlt/[.4] rounded-lg border dark:divide-greyBase/[.4] dark:border-greyBase/[.4]'>
-              <div className='px-4 py-3'>
+          <div className='inline-block min-w-full py-1.5 align-middle'>
+            <div className='divide-y divide-greyAlt/[.4] overflow-hidden rounded-lg border dark:divide-greyBase/[.4] dark:border-greyBase/[.4]'>
+              <div className='px-4 py-3 lg:px-6 lg:py-5'>
                 <div className='relative w-[254px] md:max-w-xs'>
                   <UnverifiableInput
                     inputData={{

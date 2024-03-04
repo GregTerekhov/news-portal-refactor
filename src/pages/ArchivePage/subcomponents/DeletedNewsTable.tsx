@@ -13,7 +13,7 @@ const TITLE_LENGTH_LIMIT = 60;
 
 const DeletedNewsTable: FC<TableProps> = ({ displayedRows }) => {
   const tableRowClass =
-    'whitespace-nowrap px-6 py-4 text-sm font-medium text-darkBase dark:text-whiteBase';
+    'whitespace-nowrap px-6 py-4 text-small font-medium text-darkBase dark:text-whiteBase lg:text-medium';
 
   return (
     <table className='min-w-full divide-y divide-greyAlt/[.4] transition-colors duration-500 dark:divide-greyBase/[.4]'>
@@ -24,7 +24,7 @@ const DeletedNewsTable: FC<TableProps> = ({ displayedRows }) => {
               <th
                 key={label}
                 scope='col'
-                className='px-6 py-3 text-start text-xs font-medium uppercase text-greyBase transition-colors duration-500 dark:text-whiteBase md:text-small'
+                className='px-6 py-3 text-start text-xs font-medium uppercase text-greyBase transition-colors duration-500 dark:text-whiteBase md:text-small lg:text-xl'
               >
                 {label}
               </th>
@@ -43,7 +43,7 @@ const DeletedNewsTable: FC<TableProps> = ({ displayedRows }) => {
                   <a
                     href={newsUrl}
                     target='_blank'
-                    className='transition-colors duration-500 group-hover:text-accentBase'
+                    className='transition-colors duration-500 group-hover:text-accentBase lg:text-medium'
                   >
                     {title.length > TITLE_LENGTH_LIMIT ? `${title.slice(0, 65)}...` : title}
                   </a>

@@ -39,7 +39,7 @@ const VoteButton: FC<VBProps> = ({ onHandleClick, isFavourite, buttonData }) => 
       <SvgIcon
         svgName='icon-heart'
         size={ICON_SIZES.xsIcon16}
-        className={`fill-inherit group-hover:stroke-whiteBase`}
+        className={`fill-inherit ${!isArchiveActive ? 'group-hover:stroke-whiteBase' : ''} `}
       />
     </button>
   );
