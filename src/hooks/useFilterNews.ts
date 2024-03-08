@@ -5,7 +5,7 @@ import { useDB, useNewsAPI, useFiltersAction } from 'reduxStore/hooks';
 
 import { PartialVotedNewsArray } from 'types';
 
-import { useFiltersState, useReadSortState } from 'contexts';
+import { useFiltersState, useReadSortState, useSelectedDate } from 'contexts';
 import useChooseRenderingNews from './useChooseRenderingNews';
 import useReadNewsContent from './useReadNewsContent';
 import usePopUp from './usePopUp';
@@ -31,6 +31,7 @@ const useFilterNews = ({ activeLinks }: FilterHookProps) => {
   const { rebuildedNews } = useChooseRenderingNews({ activeLinks });
   const sortedAccordionDates = useReadNewsContent({ activeLinks });
   const { toggleCalendar } = usePopUp();
+  const { setSelectedFilterDate } = useSelectedDate();
 
   const today = startOfToday();
 
@@ -56,8 +57,10 @@ const useFilterNews = ({ activeLinks }: FilterHookProps) => {
       } else {
         try {
           const newSelectedDate = determineNewSelectedDate(date, beginDate, 'filter');
+          setSelectedFilterDate(newSelectedDate);
 
           if (newSelectedDate.beginDate && newSelectedDate.endDate) {
+            console.log(newSelectedDate);
             setFilters({
               ...filters,
               selectedFilterDate: {
@@ -189,6 +192,10 @@ const useFilterNews = ({ activeLinks }: FilterHookProps) => {
     });
     setSelectedMaterialType('');
     resetAllFilters();
+    setSelectedFilterDate({
+      beginDate: null,
+      endDate: null,
+    });
 
     setSortedDates([]);
     setIsSorted(false);

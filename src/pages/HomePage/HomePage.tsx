@@ -59,7 +59,7 @@ const HomePage: FC = () => {
   const showLoader = isLoadingAPIData || isLoadingDBData || hasResults === 'loading';
   const showPlugImage = rebuildedNews?.length === 0 || hasResults === 'empty';
 
-  console.log('hasResults', hasResults);
+  // console.log('hasResults', hasResults);
 
   const additionalRequests =
     (newsByKeyword && newsByKeyword.length > 0) ||
@@ -68,7 +68,7 @@ const HomePage: FC = () => {
   const showToastResults = !showLoader && additionalRequests;
   const showErrorToastMessage = authError || errorAPI;
 
-  console.log('rebuildedNews HOME_PAGE', rebuildedNews);
+  // console.log('rebuildedNews HOME_PAGE', rebuildedNews);
 
   return (
     <>

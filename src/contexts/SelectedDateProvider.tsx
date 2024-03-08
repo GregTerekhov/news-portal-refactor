@@ -11,6 +11,8 @@ type SelectedDateContextProps = {
 type SelectedDateContextValue = {
   selectedRequestDate: SelectedDate;
   setSelectedRequestDate: (date: SelectedDate) => void;
+  selectedFilterDate: SelectedDate;
+  setSelectedFilterDate: (date: SelectedDate) => void;
   beginDate: Date | null;
   setBeginDate: (value: Date | null) => void;
 };
@@ -22,6 +24,10 @@ export const SelectedDateProvider: FC<SelectedDateContextProps> = ({ children })
     beginDate: null,
     endDate: null,
   });
+  const [selectedFilterDate, setSelectedFilterDate] = useState<SelectedDate>({
+    beginDate: null,
+    endDate: null,
+  });
   const [beginDate, setBeginDate] = useState<Date | null>(null);
 
   return (
@@ -29,6 +35,8 @@ export const SelectedDateProvider: FC<SelectedDateContextProps> = ({ children })
       value={{
         selectedRequestDate,
         setSelectedRequestDate,
+        selectedFilterDate,
+        setSelectedFilterDate,
         beginDate,
         setBeginDate,
       }}

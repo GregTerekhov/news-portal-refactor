@@ -67,8 +67,8 @@ const usePopUp = () => {
     setIsOpenCalendar(!isOpenCalendar);
   }, [isOpenCalendar]);
 
-  const closeCalendar = () => {
-    setIsOpenCalendar(false);
+  const closeCalendar = (state: boolean) => {
+    setIsOpenCalendar(state);
   };
 
   return {

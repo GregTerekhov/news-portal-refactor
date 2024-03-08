@@ -41,7 +41,7 @@ const useRequestByDate = () => {
               await fetchByDate(newSelectedDate);
             }
             setBeginDate(null);
-            closeCalendar(); // не працює
+            closeCalendar(false); // не працює
           }
         } catch (error) {
           console.error('Помилка при зміні значень:', error);
