@@ -4,7 +4,10 @@ import { format, getDay, isSameDay, isSameMonth, isToday, parse } from 'date-fns
 import { useSelectedDate } from 'contexts';
 
 import { COL_START_CLASSES } from '../assistants';
-import { useRequestByDate, useCalendarDayFormat } from '../hooks';
+import {
+  useRequestByDate,
+  // useCalendarDayFormat
+} from '../hooks';
 
 interface GridCalendarProps {
   variant: string;
@@ -16,7 +19,7 @@ interface GridCalendarProps {
 const GridCalendar: FC<GridCalendarProps> = ({ day, currMonth, handleFilterDate, variant }) => {
   const { selectedRequestDate, selectedFilterDate } = useSelectedDate();
   const { handleDateRequest } = useRequestByDate();
-  const { dateToString } = useCalendarDayFormat();
+  // const { dateToString } = useCalendarDayFormat();
 
   const handleDateClick = () => {
     console.log(variant);
@@ -30,56 +33,55 @@ const GridCalendar: FC<GridCalendarProps> = ({ day, currMonth, handleFilterDate,
   const isCurrentMonth = isSameMonth(day, parse(currMonth, 'MMM-yyyy', new Date()));
   const isTodayDate = isToday(day);
 
-  const dayToString = dateToString(day, variant);
+  // const dayToString = dateToString(day, variant);
 
-  // const searchDayToString = format(day, 'yyyyMMdd');
-  // const filterDayToString = format(day, 'dd/MM/yyyy');
+  const searchDayToString = format(day, 'yyyyMMdd');
+  const filterDayToString = format(day, 'dd/MM/yyyy');
 
-  let dayToParse: number | Date = 0;
+  // let dayToParse: number | Date = 0;
 
-  // let searchDayParse: number | Date = 0;
-  // let filterDayParse: number | Date = 0;
+  let searchDayParse: number | Date = 0;
+  let filterDayParse: number | Date = 0;
 
-  // let searchDaySelected: string = 'search';
-  // let filterDaySelected: string = 'filter';
+  let searchDaySelected: string = 'search';
+  let filterDaySelected: string = 'filter';
 
-  // let isStyleCrossing: string = '';
+  let isStyleCrossing: string = '';
 
   const isSearchDayRangeSelected =
     selectedRequestDate.beginDate &&
     selectedRequestDate.endDate &&
-    dayToString &&
-    selectedRequestDate.beginDate <= dayToString &&
-    selectedRequestDate.endDate >= dayToString;
+    selectedRequestDate.beginDate <= searchDayToString &&
+    selectedRequestDate.endDate >= searchDayToString;
 
   const isFilterDayRangeSelected =
     selectedFilterDate.beginDate &&
-    selectedFilterDate.beginDate <= dayToString &&
+    selectedFilterDate.beginDate <= filterDayToString &&
     selectedFilterDate.endDate &&
-    selectedFilterDate.endDate >= dayToString;
+    selectedFilterDate.endDate >= filterDayToString;
 
   if (isSearchDayRangeSelected && isCurrentMonth) {
-    dayToParse = parse(dayToString, 'yyyyMMdd', new Date());
-    // searchDaySelected = format(day, 'yyyyMMdd');
+    searchDayParse = parse(searchDayToString, 'yyyyMMdd', new Date());
+    searchDaySelected = format(day, 'yyyyMMdd');
   }
 
   if (isFilterDayRangeSelected && isCurrentMonth) {
-    dayToParse = parse(dayToString, 'dd/MM/yyyy', new Date());
-    // filterDaySelected = format(day, 'yyyyMMdd');
+    filterDayParse = parse(filterDayToString, 'dd/MM/yyyy', new Date());
+    filterDaySelected = format(day, 'yyyyMMdd');
   }
 
   const searchDate =
     selectedRequestDate?.beginDate !== null &&
     selectedRequestDate?.endDate !== null &&
-    isSameDay(day, dayToParse);
+    isSameDay(day, searchDayParse);
   const filterDate =
     selectedFilterDate?.beginDate !== null &&
     selectedFilterDate?.endDate !== null &&
-    isSameDay(day, dayToParse);
+    isSameDay(day, filterDayParse);
 
-  // if (filterDaySelected === searchDaySelected) {
-  //   isStyleCrossing = 'border-2 border-white';
-  // }
+  if (filterDaySelected === searchDaySelected) {
+    isStyleCrossing = 'border-2 border-white';
+  }
 
   const isSelectedDate = searchDate || filterDate;
 
@@ -112,7 +114,7 @@ const GridCalendar: FC<GridCalendarProps> = ({ day, currMonth, handleFilterDate,
   return (
     <div className={COL_START_CLASSES[getDay(day)]}>
       <p
-        className={`${commonStyles} ${currentMonthDatesStyle} ${isSelectedStyle} ${defaultTodayStyle}`}
+        className={`${commonStyles} ${currentMonthDatesStyle} ${isSelectedStyle} ${defaultTodayStyle} ${isStyleCrossing}`}
         onClick={handleDateClick}
       >
         {format(day, 'd')}
