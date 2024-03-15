@@ -2,23 +2,17 @@ import { useEffect, useState, useMemo } from 'react';
 import debounce from 'lodash.debounce';
 
 import { useWindowWidth } from 'contexts';
-
-interface ScrollControllerProps {
-  direction: string;
-}
+import useHeaderHeight from 'hooks/useHeaderHeight';
 
 const DOWN_MEASURE_BUTTON_VISIBILITY = 48;
 const DOWN_MEASURE_BUTTON_INVISIBILITY = 112;
-const DEFAULT_HEADER_HEIGHT = 81;
-const TABLET_HEADER_HEIGHT = 106;
-const DESKTOP_HEADER_HEIGHT = 113;
-const TV_HEADER_HEIGHT = 136;
 
-const useScrollController = ({ direction }: ScrollControllerProps) => {
+const useScrollController = (direction: string) => {
   const [upButtonVisibility, setUpButtonVisibility] = useState<string>('');
   const [downButtonVisibility, setDownButtonVisibility] = useState<string>('');
 
   const { isTablet, isDesktop, isTV } = useWindowWidth();
+  const { getHeaderHeight } = useHeaderHeight();
 
   const headerHeight = useMemo<number>(() => getHeaderHeight(), [isDesktop, isTablet, isTV]);
 
@@ -64,19 +58,6 @@ const useScrollController = ({ direction }: ScrollControllerProps) => {
       behavior: 'smooth',
     });
   };
-
-  function getHeaderHeight(): number {
-    switch (true) {
-      case isTablet:
-        return TABLET_HEADER_HEIGHT;
-      case isDesktop:
-        return DESKTOP_HEADER_HEIGHT;
-      case isTV:
-        return TV_HEADER_HEIGHT;
-      default:
-        return DEFAULT_HEADER_HEIGHT;
-    }
-  }
 
   return { upButtonVisibility, downButtonVisibility, onHandleClick };
 };

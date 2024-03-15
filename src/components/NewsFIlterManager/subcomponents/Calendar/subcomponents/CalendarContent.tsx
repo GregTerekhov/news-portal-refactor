@@ -24,7 +24,7 @@ const CalendarContent: FC<CalendarContentProps> = ({ variant }) => {
 
   const activeLinks = useActiveLinks();
 
-  const { handleFilterDate } = useFilterNews({ activeLinks });
+  const { handleFilterDate } = useFilterNews(activeLinks);
 
   return (
     <div className='absolute z-40 w-full rounded-[20px] bg-dropdownBase px-4 pb-5 pt-4 shadow-card dark:bg-darkDropdown dark:shadow-darkCard'>

@@ -23,7 +23,7 @@ const LinkedAccounts: FC<{}> = () => {
   // 'https://news-webapp-express.onrender.com/api/auth/google', - шлях до беку на redirect
   const accountButtons = [
     {
-      svgName: 'icon-google',
+      svgName: 'google',
       account: 'Google',
       hasAccount: haveAccounts.google,
       onClick: () => {
@@ -31,7 +31,7 @@ const LinkedAccounts: FC<{}> = () => {
       },
     },
     {
-      svgName: 'icon-facebook',
+      svgName: 'facebook',
       account: 'Facebook',
       hasAccount: haveAccounts.facebook,
       onClick: () => {
@@ -39,7 +39,7 @@ const LinkedAccounts: FC<{}> = () => {
       },
     },
     {
-      svgName: 'icon-apple',
+      svgName: 'apple',
       account: 'Apple',
       hasAccount: haveAccounts.apple,
       onClick: () => console.log('apple'),

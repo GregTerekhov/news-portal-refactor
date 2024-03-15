@@ -1,22 +1,21 @@
-import { CONFIG } from 'config';
 import * as authTypes from 'types';
 
 import {
   requestWithInstanceTemplate,
-  axiosInstance,
-  createAppAsyncThunk,
+  axiosInstance, // буде видалено після імплементування third-party facebook/apple authentication
+  createAppAsyncThunk, // буде видалено після імплементування third-party facebook/apple authentication
   requestTemplate,
 } from '../services';
 
 export const signUp = requestTemplate<
   authTypes.MainCredentials,
   authTypes.CredentialSignUpResponse
->('auth/signUp', `${CONFIG.BASE_URL_DB}/auth/sign-up`, 'post');
+>('auth/signUp', '/auth/sign-up', 'post');
 
 export const signIn = requestTemplate<
   authTypes.AuthRequestWithoutName,
   authTypes.CredentialSignInResponse
->('auth/signIn', `${CONFIG.BASE_URL_DB}/auth/sign-in`, 'post');
+>('auth/signIn', '/auth/sign-in', 'post');
 
 export const signOut = requestWithInstanceTemplate<void, authTypes.SignOutResponse>(
   'auth/signOut',
@@ -43,16 +42,16 @@ export const updateUserPassword = requestWithInstanceTemplate<
 export const recoveryPasswordRequest = requestTemplate<
   authTypes.SendEmailRequest,
   authTypes.ServicesInfo
->('auth/recoveryPasswordRequest', `${CONFIG.BASE_URL_DB}/auth/forgot-password-request`, 'post');
+>('auth/recoveryPasswordRequest', '/auth/forgot-password-request', 'post');
 
 export const recoveryPasswordChange = requestTemplate<
   authTypes.RecoveryPasswordChange,
   authTypes.PasswordChangeResponse
->('auth/recoveryPasswordChange', `${CONFIG.BASE_URL_DB}/auth/forgot-password-change`, 'post');
+>('auth/recoveryPasswordChange', '/auth/forgot-password-change', 'post');
 
 export const googleAuth = requestTemplate<authTypes.GoogleAuth, authTypes.CredentialSignInResponse>(
   'auth/googleAuth',
-  `${CONFIG.BASE_URL_DB}/auth/google/auth`,
+  '/auth/google/auth',
   'post',
 );
 

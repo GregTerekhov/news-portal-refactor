@@ -12,7 +12,7 @@ const AccountManagePage: FC<{}> = () => {
   const showUpdatedToast =
     statusMessage === 'Email is successfully updated' ||
     statusMessage === 'Password is successfully updated';
-  const showErrorToast = authError && authError;
+  const showErrorToast = typeof authError === 'string';
 
   return (
     <div>

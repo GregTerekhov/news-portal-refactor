@@ -40,7 +40,7 @@ const Modal: FC<ModalProps> = ({ children, closeModal, modalRef }) => {
                   onClick={closeModal}
                 >
                   <SvgIcon
-                    svgName='icon-close'
+                    svgName='close'
                     size={wideScreens ? ICON_SIZES.mdIcon28 : ICON_SIZES.smIcon20}
                     className='stroke-darkBase hover:stroke-accentBase dark:stroke-whiteBase dark:hover:stroke-accentBase'
                   />

@@ -90,7 +90,7 @@ export const renderEmailInputs = ({
       fieldValue: email,
       errors: errors?.email?.message,
       label: 'email',
-      iconName: 'icon-envelop',
+      iconName: 'envelop',
       ariaInvalid: errors?.email ? true : false,
       autofill: 'email',
     },
@@ -105,7 +105,7 @@ export const renderEmailInputs = ({
       fieldValue: password,
       errors: errors?.password?.message,
       label: 'password',
-      iconName: 'icon-password',
+      iconName: 'password',
       ariaInvalid: errors?.password ? true : false,
     });
   }

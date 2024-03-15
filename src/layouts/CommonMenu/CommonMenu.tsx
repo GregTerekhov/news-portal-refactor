@@ -7,10 +7,10 @@ import { VariantSwitcher } from 'types';
 import { useFiltersState, useNotification, useWindowWidth } from 'contexts';
 import { useActiveLinks } from 'hooks';
 
-import ThemeSwitcher from '../ThemeSwitcher/ThemeSwitcher';
+import { ThemeSwitcher } from 'ui';
 
 import { renderMenuItem } from './assistants';
-import { MenuButtons, MobileContainer, MobileMenu, VersaMenu } from './subcomponents';
+import { MenuLinks, MobileContainer, MobileMenu, SignOutButton, VersaMenu } from './subcomponents';
 
 export interface CommonMenuProps {
   isOpen?: boolean | undefined;
@@ -65,31 +65,29 @@ const CommonMenu: FC<CommonMenuProps> = ({ isOpen, navId, closeMenu }) => {
   return (
     <>
       {isMobile && isOpen ? (
-        <MobileContainer isOpen={isOpen} navId={navId}>
+        <MobileContainer isOpen={isOpen}>
           <MobileMenu navId={navId} links={links} handleLinkClick={handleLinkClick} />
           {navId === 'account-navigation' ? (
-            <div className='flex justify-between'>
-              <MenuButtons
-                handleSignOut={handleSignOut}
-                handleLinkClick={handleLinkClick}
-                navId='account-navigation'
-              />
+            <div>
+              <p className='mb-2 text-darkBase dark:text-whiteBase'>Main Menu</p>
+              <hr className='mb-4 bg-accentBase' />
+              <div className='grid grid-cols-2 grid-rows-2 gap-3'>
+                <MenuLinks handleLinkClick={handleLinkClick} />
+              </div>
             </div>
           ) : (
-            <>
-              <Link
-                to='/account'
-                className='text-end text-darkBase transition-colors duration-500 dark:text-whiteBase'
-                onClick={closeMenu}
-              >
-                Your account, {user.name}
-              </Link>
-              <div className='flex justify-between'>
-                <ThemeSwitcher variant={VariantSwitcher.Header} />
-                <MenuButtons handleSignOut={handleSignOut} navId='main-navigation' />
-              </div>
-            </>
+            <Link
+              to='/account'
+              className='text-end text-darkBase transition-colors duration-500 dark:text-whiteBase'
+              onClick={closeMenu}
+            >
+              Your account, {user.name}
+            </Link>
           )}
+          <div className='flex justify-between'>
+            <ThemeSwitcher variant={VariantSwitcher.Header} />
+            <SignOutButton handleSignOut={handleSignOut} />
+          </div>
         </MobileContainer>
       ) : (
         <>
@@ -99,9 +97,7 @@ const CommonMenu: FC<CommonMenuProps> = ({ isOpen, navId, closeMenu }) => {
             handleLinkClick={handleLinkClick}
             activeLinks={activeLinks}
           />
-          {navId === 'account-navigation' ? (
-            <MenuButtons handleSignOut={handleSignOut} navId='account-navigation' />
-          ) : null}
+          {navId === 'account-navigation' ? <SignOutButton handleSignOut={handleSignOut} /> : null}
         </>
       )}
     </>

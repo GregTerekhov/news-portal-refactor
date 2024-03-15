@@ -1,9 +1,10 @@
 import { createAction, createSlice, isAnyOf } from '@reduxjs/toolkit';
 
+import type { DispatchActionType } from 'reduxStore/store';
 import { newsAPIState } from 'types';
 
 import * as newsAPIOperations from './newsAPIOperations';
-import { getActions, handleFulfilled, handlePending, handleRejected } from './handleFunctions';
+import { handleFulfilled, handlePending, handleRejected } from '../services';
 
 const initialState: newsAPIState = {
   popular: [],
@@ -62,5 +63,16 @@ const newsAPISlice = createSlice({
       .addMatcher(isAnyOf(...getActions('rejected')), handleRejected);
   },
 });
+
+const extraActions = [
+  newsAPIOperations.fetchAllCategories,
+  newsAPIOperations.fetchNewsByCategory,
+  newsAPIOperations.fetchNewsByKeyword,
+  newsAPIOperations.fetchPopularNews,
+  newsAPIOperations.fetchNewsByDate,
+];
+
+const getActions = (type: DispatchActionType) => extraActions.map((action) => action[type]);
+
 export const { resetOtherRequests } = newsAPISlice.actions;
 export const newsAPIReducer = newsAPISlice.reducer;

@@ -15,9 +15,7 @@ const ControlButtons: FC<ControlButtonsProps> = ({ hasFilterValue }) => {
 
   const activeLinks = useActiveLinks();
 
-  const { handleFiltration, handleSort, handleReset, handleSortRead } = useFilterNews({
-    activeLinks,
-  });
+  const { handleFiltration, handleSort, handleReset, handleSortRead } = useFilterNews(activeLinks);
 
   const shouldSortAccordeon = activeLinks.isReadActive;
 

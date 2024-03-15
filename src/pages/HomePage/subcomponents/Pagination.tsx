@@ -14,30 +14,28 @@ interface PaginationProps {
 const Pagination: FC<PaginationProps> = ({ pageNumbers, currentPage, setCurrentPage }) => {
   const { isNotMobile } = useWindowWidth();
 
-  const scroll = window.scrollTo({ top: 0 + window.innerHeight, left: 0, behavior: 'smooth' });
-
   const renderEllipsis = (direction: string): JSX.Element => (
-    <li key={direction} className='ellipsis'>
-      <span className='text-darkBase dark:text-whiteBase'>...</span>
+    <li key={direction} className='text-darkBase dark:text-whiteBase'>
+      ...
     </li>
   );
 
   const handlePageNumberClick = (pageNumber: number): void => {
     setCurrentPage(pageNumber);
-    scroll;
+    window.scrollTo({ top: 0 + window.innerHeight, left: 0, behavior: 'smooth' });
   };
 
   const handlePrevClick = (): void => {
     if (currentPage > 1) {
       setCurrentPage(currentPage - 1);
-      scroll;
+      window.scrollTo({ top: 0 + window.innerHeight, left: 0, behavior: 'smooth' });
     }
   };
 
   const handleNextClick = (): void => {
     if (currentPage < pageNumbers.length) {
       setCurrentPage(currentPage + 1);
-      scroll;
+      window.scrollTo({ top: 0 + window.innerHeight, left: 0, behavior: 'smooth' });
     }
   };
 
@@ -68,7 +66,7 @@ const Pagination: FC<PaginationProps> = ({ pageNumbers, currentPage, setCurrentP
         currentPage={currentPage}
         handlePrevClick={handlePrevClick}
       />
-      <ul id='page-numbers' className='flex gap-2'>
+      <ul id='page-numbers' className='flex items-center gap-2'>
         {renderedPaginationButtons}
       </ul>
       <DirectionButton

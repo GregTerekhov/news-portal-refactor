@@ -11,6 +11,6 @@ export interface IControlButtons {
   svgName?: string;
   svgSize: number;
   classNameIcon?: string | undefined;
-  children?: string;
+  children?: string | undefined;
   disabled?: boolean;
 }

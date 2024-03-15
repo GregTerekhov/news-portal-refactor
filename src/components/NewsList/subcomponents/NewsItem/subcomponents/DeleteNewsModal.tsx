@@ -24,13 +24,13 @@ const DeleteNewsModal: FC<DeleteNewsButtonProps> = ({ handleDeleteNews, handleCl
       onClick: (e: React.MouseEvent<HTMLButtonElement>) => handleClose(e, false),
       id: 'Cancel deletion the news',
       label: 'Cancel',
-      icon: 'icon-reset',
+      icon: 'reset',
     },
     {
       onClick: deleteNews,
       id: 'Delete selected news',
       label: 'Delete',
-      icon: 'icon-trash',
+      icon: 'trash',
     },
   ];
 

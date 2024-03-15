@@ -19,7 +19,7 @@ export const handleFulfilled = (state: AuthState, action: PayloadAction<any, str
 export const handleRejected = (state: AuthState, action: PayloadAction<unknown, string, any>) => {
   state.isCurrentUser = false;
   if (typeof action.payload === 'string') {
-    state.hasError = action.payload ?? null;
+    state.hasError = action.payload;
     console.log('AuthError', state.hasError);
   }
 };

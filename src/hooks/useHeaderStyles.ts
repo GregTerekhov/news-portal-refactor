@@ -1,15 +1,10 @@
 import { useEffect, useState } from 'react';
 
-import { useWindowWidth } from 'contexts';
-
-const MOBILE_HEADER_HEIGHT = 81;
-const TABLET_HEADER_HEIGHT = 106;
-const DESKTOP_HEADER_HEIGHT = 113;
-const TV_HEADER_HEIGHT = 136;
+import useHeaderHeight from './useHeaderHeight';
 
 const useHeaderStyles = (isHomePage: boolean | undefined) => {
   const [isScrolled, setIsScrolled] = useState<boolean>(false);
-  const { isTablet, isDesktop, isTV } = useWindowWidth();
+  const { getHeaderHeight } = useHeaderHeight();
 
   const screenHeight = window.innerHeight;
 
@@ -17,19 +12,6 @@ const useHeaderStyles = (isHomePage: boolean | undefined) => {
     if (isHomePage) {
       const handleScroll = () => {
         const currentScroll = window.scrollY;
-
-        function getHeaderHeight() {
-          switch (true) {
-            case isTablet:
-              return TABLET_HEADER_HEIGHT;
-            case isDesktop:
-              return DESKTOP_HEADER_HEIGHT;
-            case isTV:
-              return TV_HEADER_HEIGHT;
-            default:
-              return MOBILE_HEADER_HEIGHT;
-          }
-        }
 
         const isScrolling = currentScroll > screenHeight - getHeaderHeight();
         setIsScrolled(isScrolling);

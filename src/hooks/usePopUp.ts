@@ -3,6 +3,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { useScrollBodyContext } from 'contexts';
 
 const usePopUp = () => {
+  const [isOpenDropdown, setIsOpenDropdown] = useState<boolean>(false);
   const [isOpenModal, setIsOpenModal] = useState<boolean>(false);
   const [isOpenCalendar, setIsOpenCalendar] = useState<boolean>(false);
 
@@ -20,9 +21,12 @@ const usePopUp = () => {
         if (isOpenCalendar) {
           setIsOpenCalendar(false);
         }
+        if (isOpenDropdown) {
+          setIsOpenDropdown(false);
+        }
       }
     },
-    [isOpenModal, isOpenCalendar],
+    [isOpenModal, isOpenCalendar, isOpenDropdown],
   );
 
   const handleKeyDown = useCallback(
@@ -35,9 +39,12 @@ const usePopUp = () => {
         if (isOpenCalendar) {
           setIsOpenCalendar(false);
         }
+        if (isOpenDropdown) {
+          setIsOpenDropdown(false);
+        }
       }
     },
-    [isOpenCalendar, isOpenModal],
+    [isOpenCalendar, isOpenModal, isOpenDropdown],
   );
 
   useEffect(() => {
@@ -48,38 +55,36 @@ const usePopUp = () => {
       window.removeEventListener('mousedown', handleWindowClick);
       window.removeEventListener('keydown', handleKeyDown);
     };
-  }, [handleKeyDown, handleWindowClick, isOpenModal, isOpenCalendar]);
-
-  const toggleModal = useCallback(
-    (e: React.MouseEvent<HTMLButtonElement>, preventDefault: boolean = true) => {
-      if (preventDefault) {
-        e.preventDefault();
-        e.stopPropagation();
-      }
-
-      setIsOpenModal(!isOpenModal);
-      setIsScrollDisabled(!isScrollDisabled);
-    },
-    [isOpenModal, isScrollDisabled],
-  );
+  }, [handleKeyDown, handleWindowClick, isOpenModal, isOpenCalendar, isOpenDropdown]);
 
   const toggleCalendar = useCallback(() => {
     setIsOpenCalendar(!isOpenCalendar);
   }, [isOpenCalendar]);
 
-  const closeCalendar = (state: boolean) => {
-    setIsOpenCalendar(state);
+  const toggleModal = (e: React.MouseEvent<HTMLButtonElement>, preventDefault: boolean = true) => {
+    if (preventDefault) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+
+    setIsOpenModal(!isOpenModal);
+    setIsScrollDisabled(!isScrollDisabled);
+  };
+
+  const toggleDropdown = (): void => {
+    setIsOpenDropdown(!isOpenDropdown);
   };
 
   return {
     isOpenModal,
     isOpenCalendar,
+    isOpenDropdown,
     popUpRef,
     setIsOpenModal,
     setIsOpenCalendar,
     toggleModal,
     toggleCalendar,
-    closeCalendar,
+    toggleDropdown,
   };
 };
 

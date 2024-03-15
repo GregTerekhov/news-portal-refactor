@@ -30,7 +30,7 @@ const NewsDescription: FC<NewsDescriptionProps> = ({ liveNews }) => {
         <p className='text-base text-greyAlt md:text-medium hg:text-xl'>{liveNews?.publishDate}</p>
         <div className='flex translate-x-full items-center gap-2 rounded-2xl bg-accentAlt pr-2 transition-all group-hover:translate-x-0 group-hover:bg-accentAlt dark:bg-transparent '>
           <SvgIcon
-            svgName='icon-triangle-double'
+            svgName='triangle-double'
             size={wideScreens ? ICON_SIZES.smIcon20 : ICON_SIZES.xsIcon16}
             className='fill-whiteBase'
           />

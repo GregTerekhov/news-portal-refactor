@@ -89,22 +89,22 @@ export const getMembersLink = (
   const links: ILink[] = [
     {
       link: githubLink,
-      icon: 'icon-github',
+      icon: 'github',
       iconSize: ICON_SIZES.mdIcon28,
     },
     {
       link: linkedinLink,
-      icon: 'icon-linkedin',
+      icon: 'linkedin',
       iconSize: ICON_SIZES.mdIcon28,
     },
     {
       link: emailLink,
-      icon: 'icon-gmail',
+      icon: 'gmail',
       iconSize: ICON_SIZES.lgIcon30,
     },
     {
       link: telegramLink,
-      icon: 'icon-telegram',
+      icon: 'telegram',
       iconSize: ICON_SIZES.mdIcon28,
     },
   ];

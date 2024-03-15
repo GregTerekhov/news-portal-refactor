@@ -8,15 +8,16 @@ import { Accordeon, PrimaryButton, VerifiableInput } from 'ui';
 
 import { useUpdateEmail } from '../hooks';
 
-const UpdateEmail: FC<{}> = ({}) => {
+const UpdateEmail: FC = () => {
   const { isRefreshingUser } = useAuthRedux();
-  const { handleSubmit, register, emailInputs, handleEmailSubmitHandler } = useUpdateEmail();
+  const { emailSubmit, updateEmailRegister, emailInputs, handleEmailSubmitHandler } =
+    useUpdateEmail();
 
   return (
     <Accordeon position='accountManagePage' filtersBlock='Change your email'>
       <form
         className='space-y-4 pt-4 lg:space-y-8'
-        onSubmit={handleSubmit(handleEmailSubmitHandler)}
+        onSubmit={emailSubmit(handleEmailSubmitHandler)}
       >
         <ul className='space-y-4 lg:space-y-8'>
           {Array.isArray(emailInputs) &&
@@ -30,10 +31,9 @@ const UpdateEmail: FC<{}> = ({}) => {
                       fieldValue,
                     }}
                     errors={errors}
-                    register={register}
+                    register={updateEmailRegister}
                     label={label}
                     svgName={iconName}
-                    className='fill-accentBase'
                     hasIcon={true}
                     variant={VariantVerifiableInputs.Account}
                     ariaInvalid={ariaInvalid}

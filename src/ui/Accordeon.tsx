@@ -21,6 +21,9 @@ const Accordeon: FC<AccordeonProps> = ({ children, dateSeparator, position, filt
 
   const showAccordeonPages = position === 'readPage' || position === 'archivePage';
 
+  const accordionTriggerStyles =
+    'flex w-full items-center gap-1.5 py-3 leading-moreRelaxed tracking-wider text-darkBase dark:text-whiteBase md:gap-2 lg:text-xl hg:text-2xl';
+
   return (
     <Accordion.Root type='single' collapsible className='w-full'>
       <Accordion.Item
@@ -32,13 +35,10 @@ const Accordeon: FC<AccordeonProps> = ({ children, dateSeparator, position, filt
             showAccordeonPages ? 'mb-7 md:mb-[30px] lg:mb-10' : ''
           }`}
         >
-          <Accordion.Trigger
-            className='flex w-full items-center gap-1.5 py-3 leading-moreRelaxed tracking-wider text-darkBase dark:text-whiteBase md:gap-2 lg:text-xl hg:text-2xl'
-            onClick={handleClick}
-          >
+          <Accordion.Trigger className={`${accordionTriggerStyles}`} onClick={handleClick}>
             {showAccordeonPages ? dateSeparator : filtersBlock}
             <SvgIcon
-              svgName='icon-arrow'
+              svgName='arrow'
               size={ICON_SIZES.smIcon18}
               className={`fill-darkBase dark:fill-whiteBase ${
                 isOpen ? 'rotate-180' : 'rotate-0'
@@ -46,16 +46,13 @@ const Accordeon: FC<AccordeonProps> = ({ children, dateSeparator, position, filt
             />
           </Accordion.Trigger>
         </Accordion.Header>
-        {isOpen && (
-          <Accordion.Content
-            className={`${isOpen ? 'animate-accordion-down' : 'animate-accordion-up'}`}
-          >
-            {children}
-          </Accordion.Content>
-        )}
+        <Accordion.Content
+          className={`${isOpen ? 'animate-accordion-down' : 'animate-accordion-up'}`}
+        >
+          {children}
+        </Accordion.Content>
       </Accordion.Item>
     </Accordion.Root>
   );
 };
-// );
 export default Accordeon;

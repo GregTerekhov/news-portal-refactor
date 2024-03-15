@@ -3,7 +3,7 @@ import { useCallback } from 'react';
 import { useAppDispatch, useAppSelector } from '../hooks';
 import * as filters from '../filterSlice';
 
-import { PartialVotedNewsArray } from 'types';
+import { FilterResults, PartialVotedNewsArray } from 'types';
 
 const useFilterCollector = () => {
   const filteredNews = useAppSelector(filters.selectFilters);
@@ -16,7 +16,7 @@ const useFilterCollector = () => {
     [dispatch],
   );
   const showResultsState = useCallback(
-    (state: filters.FilterResults) => dispatch(filters.results(state)),
+    (state: FilterResults) => dispatch(filters.results(state)),
     [dispatch],
   );
   const resetAllFilters = useCallback(() => dispatch(filters.resetFilters()), [dispatch]);

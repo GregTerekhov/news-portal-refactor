@@ -8,8 +8,9 @@ import { useActiveLinks } from 'hooks';
 import { renderMenuItem } from '../assistants';
 
 const FooterMenu: FC = () => {
-  const { isAuthenticated } = useAuthRedux();
   const location = useLocation();
+  const { isAuthenticated } = useAuthRedux();
+
   const { isAboutUs } = useActiveLinks();
 
   useEffect(() => {
@@ -24,11 +25,11 @@ const FooterMenu: FC = () => {
 
   return (
     <>
-      <nav className='mb-4 w-full md:mb-10'>
+      <nav className='mb-8 w-full md:mb-10'>
         <ul
           className={`${
             isAuthenticated
-              ? 'grid grid-rows-3 gap-3 max-md:grid-cols-3 md:grid-cols-6 md:grid-rows-1'
+              ? 'grid grid-rows-2 gap-3 max-md:grid-cols-3 md:grid-cols-6 md:grid-rows-1'
               : 'flex items-center justify-between'
           }`}
         >

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { useNewsAPI, useFiltersAction } from 'reduxStore/hooks';
 
@@ -37,6 +37,10 @@ const useAdditionalRequest = () => {
   const { filteredNews } = useFiltersAction();
   const { selectedRequestDate, setSelectedRequestDate } = useSelectedDate();
 
+  useEffect(() => {
+    console.log(searchParams.query);
+  }, [searchParams.query]);
+
   const showPopular =
     (newsByKeyword && newsByKeyword?.length === 0) ||
     (newsByCategory && newsByCategory?.length === 0) ||
@@ -55,7 +59,7 @@ const useAdditionalRequest = () => {
   };
 
   const onChangeInput = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchParams((prev) => ({ ...prev, query: event.target.value.toLowerCase() }));
+    updateSearchParams(event.target.value.toLowerCase(), 'query');
   };
 
   const onHandleSearch = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -66,13 +70,14 @@ const useAdditionalRequest = () => {
       }
       await fetchByKeyword({ query: searchParams.query });
       updateHeadline(`News by Keyword: ${searchParams.query}`);
-      setSearchParams((prev) => ({ ...prev, query: '' }));
+      updateSearchParams('', 'query');
     }
   };
 
   const getNewsByCategory = async (section: CategoryRequest) => {
     if (section) {
-      setSearchParams((prev) => ({ ...prev, category: section }));
+      updateSearchParams(section, 'category');
+
       if (filteredNews?.length > 0) {
         resetPreviousRequest();
       }
@@ -82,20 +87,21 @@ const useAdditionalRequest = () => {
   };
 
   const getNewsByPeriod = async (selectedPeriod: string) => {
-    setSearchParams((prev) => ({ ...prev, period: selectedPeriod }));
+    updateSearchParams(selectedPeriod, 'period');
+
     if (filteredNews && filteredNews.length > 0) {
       resetPreviousRequest();
     }
 
     if (selectedPeriod === 'Today') {
       updateHeadline(`${selectedPeriod}'s Hot News`);
-      await fetchPopular(TODAY_HOT_NEWS);
+      await fetchPopular({ period: TODAY_HOT_NEWS });
     } else if (selectedPeriod === 'Week') {
       updateHeadline(`${selectedPeriod} News`);
-      await fetchPopular(WEEKLY_NEWS);
+      await fetchPopular({ period: WEEKLY_NEWS });
     } else if (selectedPeriod === 'Month') {
       updateHeadline(`${selectedPeriod} News`);
-      await fetchPopular(MONTHLY_NEWS);
+      await fetchPopular({ period: MONTHLY_NEWS });
     }
   };
 
@@ -107,7 +113,7 @@ const useAdditionalRequest = () => {
       updateHeadline('Today`s Hot News');
       resetSearchParams();
       setSelectedRequestDate({ beginDate: null, endDate: null });
-      await fetchPopular(TODAY_HOT_NEWS);
+      await fetchPopular({ period: TODAY_HOT_NEWS });
     }
   };
 

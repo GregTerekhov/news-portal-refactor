@@ -1,48 +1,27 @@
 import React, { FC, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
 
-import { useAuthRedux, useDB, useFiltersAction } from 'reduxStore/hooks';
+import { useDB } from 'reduxStore/hooks';
+import { PageTemplate } from '../template';
 
 import { useActiveLinks, useChooseRenderingNews } from 'hooks';
 
-import { NewsList, Toast } from 'components';
-import { Loader, PlugImage } from 'ui';
+import { NewsList } from 'components';
 
 const FavouritePage: FC<{}> = () => {
-  const { isAuthenticated } = useAuthRedux();
-  const { allFavourites, isLoadingDBData, errorDB, getFavourites, getSavedNews } = useDB();
-  const { hasResults } = useFiltersAction();
+  const { getFavourites, getSavedNews } = useDB();
 
   const activeLinks = useActiveLinks();
-  const { rebuildedNews } = useChooseRenderingNews({ activeLinks });
-
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    if (errorDB && typeof errorDB === 'number' && errorDB >= 500) {
-      navigate('/serverError');
-    }
-  }, [errorDB]);
+  const { rebuildedNews } = useChooseRenderingNews(activeLinks);
 
   useEffect(() => {
     getFavourites();
     getSavedNews();
   }, [getFavourites, getSavedNews]);
 
-  const shouldShowLoader = isLoadingDBData || hasResults === 'loading';
-  const shouldShowPlug = allFavourites.length === 0 || hasResults === 'empty';
-  const shouldShowContent = !shouldShowPlug && !shouldShowLoader;
-  const shouldShowToast = !shouldShowLoader && allFavourites && allFavourites.length > 0;
-
   return (
-    isAuthenticated && (
-      <>
-        {shouldShowLoader && <Loader variant='generalSection' />}
-        {shouldShowToast ? <Toast variant='non-interactive' status='info' /> : null}
-        {shouldShowContent && <NewsList currentItems={rebuildedNews} />}
-        {!shouldShowLoader && shouldShowPlug && <PlugImage variant='page' />}
-      </>
-    )
+    <PageTemplate>
+      <NewsList currentItems={rebuildedNews} />
+    </PageTemplate>
   );
 };
 

@@ -8,8 +8,7 @@ import { useActiveLinks, useAdditionalRequest, useHeaderStyles } from 'hooks';
 
 import { SvgIcon, ThemeSwitcher, UnverifiableInput } from 'ui';
 import AuthButton from './Auth';
-import MainMenu from './MainMenu';
-import { AccountMenu } from '../../subcomponents';
+import CommonMenu from '../../CommonMenu/CommonMenu';
 
 interface HeaderContentProps {
   touched: boolean;
@@ -34,10 +33,30 @@ const AuthenticatedHeaderContent: FC<HeaderContentProps> = ({
 
   const isAccountPages = isAccountPage || isManageAccountPage;
 
+  const getNavId = () => {
+    let id = '';
+
+    switch (true) {
+      case isAccountPages:
+        id = 'account-navigation';
+        break;
+      case !isAccountPages:
+        id = 'main-navigation';
+        break;
+      default:
+        id = '';
+        break;
+    }
+
+    return id;
+  };
+
+  const getId = getNavId();
+
   return (
     <>
-      <div className='flex items-center gap-3.5 lg:gap-12'>
-        {isMobile ? (
+      {isMobile ? (
+        <div className={`flex items-center ${isHomeActive ? 'gap-3.5' : ''}`}>
           <>
             {!isOpenMenu && isHomeActive ? (
               <search>
@@ -49,7 +68,7 @@ const AuthenticatedHeaderContent: FC<HeaderContentProps> = ({
                       value: query,
                       placeholder: 'Search |',
                     }}
-                    svgName='icon-search'
+                    svgName='search'
                     hasIcon={true}
                     variant={VariantInputs.Header}
                     hideInput={handleVisibilityChange}
@@ -71,7 +90,7 @@ const AuthenticatedHeaderContent: FC<HeaderContentProps> = ({
               }}
             >
               <SvgIcon
-                svgName={`${isOpenMenu ? 'icon-close' : 'icon-burger-menu'}`}
+                svgName={`${isOpenMenu ? 'close' : 'burger-menu'}`}
                 size={ICON_SIZES.mdIcon24}
                 className={`hover:stroke-accentBase dark:hover:stroke-accentBase ${
                   !isOpenMenu && isHomeActive
@@ -81,15 +100,14 @@ const AuthenticatedHeaderContent: FC<HeaderContentProps> = ({
               />
             </button>
           </>
-        ) : (
-          <div className='flex flex-col gap-3'>
-            {!isAccountPages && <AuthButton />}
-            <ThemeSwitcher variant={VariantSwitcher.Header} />
-          </div>
-        )}
-      </div>
-      {isOpenMenu && <MainMenu isOpen={isOpenMenu} closeMenu={toggleMenu} />}
-      {isOpenMenu && isAccountPages && <AccountMenu isOpen={isOpenMenu} closeMenu={toggleMenu} />}
+        </div>
+      ) : (
+        <div className='flex flex-col gap-3'>
+          {!isAccountPages && <AuthButton />}
+          <ThemeSwitcher variant={VariantSwitcher.Header} />
+        </div>
+      )}
+      {isOpenMenu && <CommonMenu isOpen={isOpenMenu} navId={getId} closeMenu={toggleMenu} />}
     </>
   );
 };

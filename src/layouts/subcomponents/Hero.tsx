@@ -1,8 +1,9 @@
 import React, { FC, useEffect, useState } from 'react';
 import LiteYouTubeEmbed from 'react-lite-youtube-embed';
+
 import 'react-lite-youtube-embed/dist/LiteYouTubeEmbed.css';
 
-const YOUTUBE_ID = '_-EknzllWXI';
+import { CONFIG } from 'config';
 
 const Hero: FC<{}> = () => {
   const [isVideoPlaying, setVideoPlaying] = useState<boolean>(false);
@@ -29,10 +30,10 @@ const Hero: FC<{}> = () => {
   return (
     <div className='-mt-[82px] flex h-auto w-full items-center justify-center overflow-hidden md:-mt-[107px] lg:-mt-[114px] hg:-mt-[137px]'>
       <LiteYouTubeEmbed
-        id={YOUTUBE_ID}
+        id={CONFIG.YOUTUBE_ID}
         title='YouTube video player'
         params='t=1s&ab_channel=TheNewYorkTimes'
-        wrapperClass='w-full h-screen  bg-no-repeat bg-cover bg-center flex items-center justify-center'
+        wrapperClass='w-full h-screen bg-no-repeat bg-cover bg-center flex items-center justify-center'
         iframeClass='w-full h-screen'
         aspectWidth={aspectWidth}
         aspectHeight={aspectHeight}

@@ -21,9 +21,9 @@ const NoWeather: FC<NoWeatherProps> = ({ showError }) => {
   return (
     <>
       <h2 className='text-medium text-whiteBase md:text-2xl lg:text-4xl'>{showInfoMessage}</h2>
-      <div className={`mt-20 ${showError ? 'flex justify-center' : 'mb-28'}`}>
+      <div className={`my-auto ${showError ? 'flex justify-center' : ''}`}>
         <SvgIcon
-          svgName='icon-moon'
+          svgName='moon'
           size={ICON_SIZES.ultraIcon156}
           className='fill-transparent stroke-greyBase'
         />

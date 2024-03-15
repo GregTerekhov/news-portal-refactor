@@ -3,11 +3,11 @@ import { format, startOfToday } from 'date-fns';
 
 import { ICON_SIZES } from 'constants/iconSizes';
 import { useFiltersState, useSelectedDate } from 'contexts';
+import { convertLinesForCalendar } from 'helpers';
 import { useActiveLinks, usePopUp } from 'hooks';
 
 import { SvgIcon } from 'ui';
 
-import { convertLinesForCalendar } from './assistants';
 import { CalendarContent } from './subcomponents';
 
 interface CalendarProps {
@@ -68,10 +68,10 @@ const Calendar: FC<CalendarProps> = ({ variant }) => {
         onClick={toggleCalendar}
         className={`${calendarButtonStyles}`}
       >
-        <SvgIcon svgName='icon-calendar' size={ICON_SIZES.smIcon20} className='fill-accentBase' />
+        <SvgIcon svgName='calendar' size={ICON_SIZES.smIcon20} className='fill-accentBase' />
         {showButtonText(variant)}
         <SvgIcon
-          svgName='icon-arrow'
+          svgName='arrow'
           size={ICON_SIZES.xsIcon14}
           className={`fill-accentBase transition-transform ${
             isOpenCalendar ? 'rotate-180' : 'rotate-0'

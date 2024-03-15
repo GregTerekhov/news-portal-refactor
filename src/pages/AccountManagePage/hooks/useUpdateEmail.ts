@@ -14,8 +14,8 @@ const useUpdateEmail = () => {
   const { showToast } = useNotification();
 
   const {
-    handleSubmit,
-    register,
+    handleSubmit: emailSubmit,
+    register: updateEmailRegister,
     watch,
     reset,
     getValues,
@@ -37,19 +37,20 @@ const useUpdateEmail = () => {
       showToast(response.meta.requestStatus);
     } catch (error) {
       console.error('Error during updateEmail:', error);
+    } finally {
+      reset({
+        ...getValues,
+        email: '',
+        password: '',
+      });
     }
-    reset({
-      ...getValues,
-      email: '',
-      password: '',
-    });
   };
 
   const emailInputs = renderEmailInputs({ email, password, errors });
 
   return {
-    handleSubmit,
-    register,
+    emailSubmit,
+    updateEmailRegister,
     errors,
     email,
     handleEmailSubmitHandler,

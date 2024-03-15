@@ -2,6 +2,8 @@ import axios, { AxiosResponse } from 'axios';
 
 import { axiosInstance, createAppAsyncThunk } from '../services';
 
+import { CONFIG } from 'config';
+
 type QueryParams = Record<string, string | object | number>;
 
 interface AsyncThunkTemplateOptions {
@@ -11,12 +13,10 @@ interface AsyncThunkTemplateOptions {
 }
 
 const serializeParams = (params: QueryParams): string => {
-  console.log('PARAMS into serializeParams', typeof params, params);
   if (params && typeof params === 'object') {
-    const serializedParams = Object.entries(params)
+    return Object.entries(params)
       .map(([key, value]) => `${encodeURIComponent(key)}=${encodeURIComponent(String(value))}`)
       .join('&');
-    return serializedParams;
   }
   return '';
 };
@@ -29,33 +29,40 @@ export const requestTemplate = <Arg, Result>(
 ) => {
   return createAppAsyncThunk<Result, Arg>(name, async (args, { rejectWithValue }) => {
     try {
-      let requestUrl = url;
+      let requestUrl = '';
 
-      // Додавання динамічних даних до URL
-      if (args) {
-        if (typeof args === 'object') {
-          Object.entries(args).forEach(([key, value]) => {
-            requestUrl = url.replace(`:${key}`, value.toString());
-            console.log('requestUrlInCondARGS=OBJ', requestUrl);
-          });
-        } else if (typeof args === 'string' || typeof args === 'number') {
-          console.log('args INTO REPLACE STRING', args);
-          requestUrl = url.replace(/:value\b/, args.toString().toLowerCase());
-          console.log('requestUrlInCondARGS=STR', requestUrl);
-        }
+      // Динамічне додавання базового URL
+      if (name.includes('auth')) {
+        requestUrl = `${CONFIG.BASE_URL_DB}` + url;
+      } else if (name.includes('apiNews')) {
+        requestUrl = `${CONFIG.BASE_URL_NEWS}` + url;
+      } else if (name.includes('weather')) {
+        requestUrl = `${CONFIG.BASE_URL_WEATHER}` + url;
       }
 
+      if (args) {
+        // Додавання динамічних даних до URL
+        if (typeof args === 'object') {
+          Object.entries(args).forEach(([key, value]) => {
+            requestUrl = requestUrl.replace(`:${key}`, value.toString());
+          });
+        } else if (typeof args === 'string') {
+          requestUrl = requestUrl.replace(':section', args.toString().toLowerCase());
+        }
+      }
+      // додавання query params до url
       if (options?.queryParams) {
         const queryParams = serializeParams(options.queryParams);
         requestUrl += queryParams ? `?${queryParams}` : '';
-        console.log('requestUrl after SERIALIZE_PARAMS', requestUrl);
       }
+
+      const dynamicRow = url.includes('period') || url.includes('section');
 
       const response: AxiosResponse = await axios({
         method,
         url: requestUrl,
         data: method !== 'get' ? args : undefined,
-        params: method === 'get' ? args : undefined,
+        params: method === 'get' && !dynamicRow ? args : undefined,
         headers: {
           'Content-Type': 'application/json',
         },
@@ -63,21 +70,17 @@ export const requestTemplate = <Arg, Result>(
           (data) => {
             try {
               const parsedData = JSON.parse(data);
-              console.log('parsedData', parsedData);
-              console.log('url intoRESPONSE', url);
 
               // Виводимо, якщо є responsePath - для варіантів, коли є вкладеність необхідних даних більше, ніж два рівня після response.data
               const resultData = options?.responsePath
                 ? parsedData?.[options.responsePath]
                 : parsedData;
-              console.log('resultData', resultData);
 
               // Виводимо, якщо є nestedObjectName - для варіантів, коли є вкладеність необхідних даних на один рівень нижче response.data
               const finalData = options?.nestedObjectName
                 ? resultData?.[options.nestedObjectName]
                 : resultData;
 
-              console.log('finalData', finalData);
               return finalData;
             } catch (error) {
               return data;
@@ -86,18 +89,14 @@ export const requestTemplate = <Arg, Result>(
         ],
       });
 
-      console.log(`${name}Response`, response.data);
+      console.log(`${name}Response`, response);
       // після transformResponse сюди потрапляють всі необхідні дані в одному рівні вкладеності в об'єкт response.data
       return response.data;
     } catch (error: any) {
-      if (error && error.response?.status) {
-        console.log(`Error ${name}`, error.response);
-        return rejectWithValue(error.response.status);
-      }
-      if (error && error.response?.data) {
-        console.log(`Error ${name}`, error.response.data);
-        return rejectWithValue(error.response.data.message);
-      }
+      console.log(`Error ${name}`, error.response);
+      return rejectWithValue(
+        error.response?.status || error.response?.data?.message || 'Unknown error',
+      );
     }
   });
 };
@@ -116,7 +115,7 @@ export const requestWithInstanceTemplate = <Arg, Result>(
       return response.data;
     } catch (error: any) {
       console.log(`Error ${name}`, error.response);
-      return rejectWithValue(error.response.data.message);
+      return rejectWithValue(error.response.data.message || 'Unknown error');
     }
   });
 };

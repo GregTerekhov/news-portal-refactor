@@ -87,16 +87,16 @@ const useSignIn = () => {
       showToast(response.meta.requestStatus);
     } catch (error) {
       console.error('Error during signIn:', error);
+    } finally {
+      reset({
+        ...getValues,
+        email: '',
+        password: '',
+      });
+
+      toggleModal;
+      setIsScrollDisabled(false);
     }
-
-    reset({
-      ...getValues,
-      email: '',
-      password: '',
-    });
-
-    toggleModal;
-    setIsScrollDisabled(false);
   };
 
   const signInInputs: Array<AuthInputs> = [

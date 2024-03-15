@@ -14,10 +14,10 @@ const SearchBlock: FC<{}> = () => {
 
   const {
     query,
-    categoriesForDropdown,
-    showPopular,
     period,
     category,
+    categoriesForDropdown,
+    showPopular,
     updateSearchParams,
     onChangeInput,
     onHandleSearch,
@@ -27,7 +27,7 @@ const SearchBlock: FC<{}> = () => {
   } = useAdditionalRequest();
 
   return (
-    <div className='md-grid-rows-2 relative p-3.5 after:block after:h-px after:w-full after:bg-fullDark/[.2] after:content-[""] after:dark:bg-whiteBase/[.2] max-md:space-y-4 max-md:after:mt-4 md:grid md:grid-cols-6 md:gap-4 md:after:col-span-full lg:grid-cols-13 lg:gap-6'>
+    <div className='relative p-3.5 after:block after:h-px after:w-full after:bg-fullDark/[.2] after:content-[""] after:dark:bg-whiteBase/[.2] max-md:space-y-4 max-md:after:mt-4 md:grid md:grid-cols-6 md:grid-rows-2 md:gap-4 md:after:col-span-full lg:grid-cols-13 lg:grid-rows-1 lg:gap-x-6'>
       {isNotMobile ? (
         <form
           onSubmit={(e) => onHandleSearch(e)}
@@ -40,7 +40,7 @@ const SearchBlock: FC<{}> = () => {
               value: query,
               placeholder: 'Search |',
             }}
-            svgName='icon-search'
+            svgName='search'
             hasIcon={true}
             variant={VariantInputs.FilterServiceBlock}
             onChange={(event: React.ChangeEvent<HTMLInputElement>) => onChangeInput(event)}
@@ -80,7 +80,7 @@ const SearchBlock: FC<{}> = () => {
           type='submit'
           hasIcon={true}
           variant={VariantButton.Primary}
-          svgName='icon-reset'
+          svgName='reset'
           svgSize={wideScreens ? ICON_SIZES.smIcon21 : ICON_SIZES.xsIcon16}
           classNameIcon='fill-whiteBase'
           classNameButton='py-3'

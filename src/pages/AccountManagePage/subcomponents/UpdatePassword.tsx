@@ -6,15 +6,15 @@ import { Accordeon, PrimaryButton, VerifiableInput } from 'ui';
 
 import { useUpdatePassword } from '../hooks';
 
-const UpdatePassword: FC<{}> = () => {
-  const { handleSubmit, register, handlePasswordSubmitHandler, passwordInputs } =
+const UpdatePassword: FC = () => {
+  const { passwordSubmit, updatePasswordRegister, handlePasswordSubmitHandler, passwordInputs } =
     useUpdatePassword();
 
   return (
     <Accordeon position='accountManagePage' filtersBlock='Change your password'>
       <form
         className='space-y-4 pt-4 lg:space-y-8'
-        onSubmit={handleSubmit(handlePasswordSubmitHandler)}
+        onSubmit={passwordSubmit(handlePasswordSubmitHandler)}
       >
         <ul className='space-y-4 lg:space-y-8'>
           {Array.isArray(passwordInputs) &&
@@ -27,9 +27,9 @@ const UpdatePassword: FC<{}> = () => {
                     fieldValue,
                   }}
                   errors={errors}
-                  register={register}
+                  register={updatePasswordRegister}
                   label={label}
-                  svgName='icon-password'
+                  svgName='password'
                   hasIcon={true}
                   variant={VariantVerifiableInputs.Account}
                   ariaInvalid={ariaInvalid}

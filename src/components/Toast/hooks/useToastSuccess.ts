@@ -24,11 +24,11 @@ const useToastSuccess = () => {
         description = 'See you soon! We will be waiting for you with new news';
         break;
       case 'Email is successfully updated':
-        title = 'Update credentials success';
+        title = 'Update credentials';
         description = 'Your email address has been successfully updated';
         break;
       case 'Password is successfully updated':
-        title = 'Update credentials success';
+        title = 'Update credentials';
         description = 'Your password has been successfully updated';
         break;
       case 'Email sent successfully':
@@ -44,15 +44,18 @@ const useToastSuccess = () => {
         title = 'Delete news';
         description = 'News has been successfully deleted';
         break;
+      case `Account ${linkingAccount} linking successful`:
+        title = 'Link Account';
+        description = `Your ${linkingAccount} account is successfully linking`;
+        break;
+      case `Account ${linkingAccount} unlinking successful`:
+        title = 'Unlink Account';
+        description = `Your ${linkingAccount} account has unlinked successfully`;
+        break;
       default:
         title = '';
         description = '';
         break;
-    }
-
-    if (statusMessage.includes('linking')) {
-      title = 'Link Account';
-      description = `Your ${linkingAccount} account is successfully linking`;
     }
 
     return { title, description };

@@ -11,7 +11,8 @@ import { useActiveLinks, useHeaderStyles, usePopUp } from 'hooks';
 import { AuthModal } from 'components';
 import { Modal, ThemeSwitcher } from 'ui';
 
-import { AuthButton, AuthenticatedHeaderContent, MainMenu, UserAccountLink } from './subcomponents';
+import { AuthButton, AuthenticatedHeaderContent, UserAccountLink } from './subcomponents';
+import CommonMenu from '../CommonMenu/CommonMenu';
 
 const Header: FC<{}> = () => {
   const [isOpenMenu, setIsOpenMenu] = useState<boolean>(false);
@@ -59,7 +60,7 @@ const Header: FC<{}> = () => {
   return (
     <>
       <header
-        className={`hg:min-h-136px fixed left-0 top-0 flex min-h-81px w-full items-center justify-center md:min-h-106px lg:min-h-113px ${
+        className={`fixed left-0 top-0 flex min-h-81px w-full items-center justify-center md:min-h-106px lg:min-h-113px hg:min-h-136px ${
           isHomeActive
             ? headerClass
             : 'border-b border-solid border-fullDark/[.2] bg-whiteBase/[.8] dark:border-whiteBase/[.2] dark:bg-darkBackground/[.8]'
@@ -84,7 +85,7 @@ const Header: FC<{}> = () => {
           >
             News
           </Link>
-          {isNotMobile && isAuthenticated ? <MainMenu /> : null}
+          {isNotMobile && isAuthenticated ? <CommonMenu navId='main-navigation' /> : null}
 
           {isAuthenticated ? (
             <AuthenticatedHeaderContent

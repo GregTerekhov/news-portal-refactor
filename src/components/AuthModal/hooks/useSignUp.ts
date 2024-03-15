@@ -43,21 +43,24 @@ const useSignUp = () => {
 
       if (signUpResponse.meta.requestStatus === 'rejected') {
         setOpenToast(true);
+        toggleModal;
+        setIsScrollDisabled(false);
         return;
       } else {
         await login(signInCredentials);
       }
     } catch (error) {
       console.error('Error during signUp:', error);
+    } finally {
+      reset({
+        ...getValues,
+        name: '',
+        email: '',
+        password: '',
+      });
+      toggleModal;
+      setIsScrollDisabled(false);
     }
-    reset({
-      ...getValues,
-      name: '',
-      email: '',
-      password: '',
-    });
-    toggleModal;
-    setIsScrollDisabled(false);
   };
 
   const signUpInputs: Array<AuthInputs> = [

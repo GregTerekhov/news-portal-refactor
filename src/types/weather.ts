@@ -56,6 +56,6 @@ type WeatherError = {
 export interface WeatherState {
   isLoading: boolean;
   data: WeatherData;
-  weatherByHour: HourlyWeatherData;
+  weatherByHour: HourlyWeatherData | [];
   hasError: WeatherError | null;
 }

@@ -13,6 +13,9 @@ const TablePagination: FC<TablePaginationProps> = ({
   currentPage,
   totalPages,
 }) => {
+  const tableButtonStyles =
+    'flex min-w-10 items-center justify-center rounded-full py-2.5 text-small text-darkBase transition-colors duration-500 hover:bg-accentBase hover:text-whiteBase dark:text-whiteBase dark:hover:bg-accentBase lg:text-medium';
+
   return (
     <nav className='flex items-center space-x-1'>
       <ArrowButtonPagination
@@ -27,7 +30,7 @@ const TablePagination: FC<TablePaginationProps> = ({
           key={index}
           type='button'
           aria-current='page'
-          className='flex min-w-10 items-center justify-center rounded-full py-2.5 text-small text-darkBase transition-colors duration-500 hover:bg-accentBase hover:text-whiteBase dark:text-whiteBase dark:hover:bg-accentBase lg:text-medium'
+          className={`${tableButtonStyles} ${currentPage === index + 1 ? 'bg-accentBase text-whiteBase' : 'bg-transparent text-darkBase dark:text-whiteBase'}`}
           onClick={() => handlePageChange(index + 1)}
         >
           {index + 1}

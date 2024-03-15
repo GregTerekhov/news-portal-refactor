@@ -9,9 +9,7 @@ import { UnverifiableInput } from 'ui';
 const FilterInputs: FC = () => {
   const activeLinks = useActiveLinks();
 
-  const { handleChangeFilter } = useFilterNews({
-    activeLinks,
-  });
+  const { handleChangeFilter } = useFilterNews(activeLinks);
   const { filters } = useFiltersState();
 
   const filterInputs = [
@@ -48,7 +46,7 @@ const FilterInputs: FC = () => {
                 value,
                 placeholder,
               }}
-              svgName='icon-search'
+              svgName='search'
               hasIcon={true}
               onChange={(event: React.ChangeEvent<HTMLInputElement>) => handleChangeFilter(event)}
               variant={VariantInputs.FilterServiceBlock}

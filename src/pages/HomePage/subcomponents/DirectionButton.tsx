@@ -34,7 +34,7 @@ const DirectionButton: FC<DirectionButtonProps> = ({
       width='w-32'
       disabled={direction === 'Prev' ? disabledPrevButton : disableNextButton}
       hasIcon={true}
-      svgName='icon-arrow'
+      svgName='arrow'
       svgSize={ICON_SIZES.xsIcon14}
       classNameIcon={`${direction === 'Prev' ? 'rotate-90' : '-rotate-90'}  fill-whiteBase`}
       classNameButton={direction === 'Prev' ? 'flex-row-reverse' : ''}

@@ -36,8 +36,9 @@ export enum VariantVerifiableInputs {
 export type MenuItem = {
   path: string;
   label: string;
-  icon: string;
-  activeLink: boolean;
+  icon?: string | undefined;
+  activeLink?: boolean;
+  liClasses?: string | undefined;
 };
 
 export interface IMenuProps {

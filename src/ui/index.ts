@@ -1,5 +1,4 @@
 export { default as Accordeon } from './Accordeon';
-export { default as CommonMenu } from './CommonMenu/CommonMenu';
 export { default as CustomScrollBar } from './CustomScrollBar';
 export { default as Dropdown } from './Dropdown';
 export { default as Hint } from './Hint';

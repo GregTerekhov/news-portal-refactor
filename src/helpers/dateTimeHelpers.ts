@@ -1,8 +1,10 @@
 import { format, isAfter } from 'date-fns';
 
-type SelectedDate = {
-  beginDate: string;
-  endDate: string;
+import { SelectedDate } from 'types';
+
+type FormattedDate = {
+  firstDate: string;
+  lastDate: string;
 };
 
 export function formatDate(inputDate: string): string {
@@ -40,6 +42,18 @@ export function convertDateFormat(inputDate: string): string {
   return outputDate;
 }
 
+export function convertLinesForCalendar(dateStr: string): string {
+  // Розбиваємо рядок на компоненти
+  const year = dateStr.slice(0, 4);
+  const month = dateStr.slice(4, 6);
+  const day = dateStr.slice(6, 8);
+
+  // Формуємо рядок у бажаному форматі
+  const formattedDate = `${day}/${month}/${year}`;
+
+  return formattedDate;
+}
+
 export function determineNewSelectedDate(
   date: Date,
   currentBeginDate: Date,
@@ -50,4 +64,37 @@ export function determineNewSelectedDate(
   return isAfter(date, currentBeginDate)
     ? { beginDate: format(currentBeginDate, formatPattern), endDate: format(date, formatPattern) }
     : { beginDate: format(date, formatPattern), endDate: format(currentBeginDate, formatPattern) };
+}
+
+export const formatSortedDate = (dateStr: string | undefined): number => {
+  if (dateStr) {
+    const [day, month, year] = dateStr.split('/').map(Number);
+    return new Date(year, month - 1, day).getTime();
+  }
+  return 0;
+};
+
+// Функція для розбиття дати на частини та перетворення на числові значення
+const parseDate = (dateString: string): number[] => {
+  const [day, month, year] = dateString.split('/').map(Number);
+  return [year, month, day];
+};
+
+// Порівняння двох дат за принципом календаря
+export const compareDates = (dateA: string, dateB: string): number => {
+  const parsedDateA = parseDate(dateA);
+  const parsedDateB = parseDate(dateB);
+  for (let i = 0; i < 3; i++) {
+    if (parsedDateA[i] !== parsedDateB[i]) {
+      return parsedDateA[i] - parsedDateB[i];
+    }
+  }
+  return 0;
+};
+
+export function formatDateRange(selectedDate: SelectedDate): FormattedDate {
+  return {
+    firstDate: selectedDate.beginDate && convertDateFormat(selectedDate.beginDate),
+    lastDate: selectedDate.endDate && convertDateFormat(selectedDate.endDate),
+  };
 }

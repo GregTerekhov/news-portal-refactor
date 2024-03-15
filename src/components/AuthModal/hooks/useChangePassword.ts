@@ -8,11 +8,13 @@ import { useNotification } from 'contexts';
 import { usePopUp } from 'hooks';
 
 import { changePasswordSchema } from '../assistants';
+import { useNavigate } from 'react-router-dom';
 
 const useChangePassword = () => {
   const { changePassword } = useAuthRedux();
   const { showToast } = useNotification();
   const { toggleModal } = usePopUp();
+  const navigate = useNavigate();
 
   const {
     handleSubmit: handleChangePasswordSubmit,
@@ -32,16 +34,20 @@ const useChangePassword = () => {
       const response = await changePassword(dataToSend);
 
       showToast(response.meta.requestStatus);
+
+      if (response.meta.requestStatus === 'fulfilled') {
+        navigate('/');
+      }
     } catch (error) {
       console.error('Error during changing password', error);
+    } finally {
+      reset({
+        ...getValues,
+        newPassword: '',
+        confirmPassword: '',
+      });
+      toggleModal;
     }
-
-    reset({
-      ...getValues,
-      newPassword: '',
-      confirmPassword: '',
-    });
-    toggleModal;
   };
 
   const changePasswordInputs: Array<AuthInputs> = [

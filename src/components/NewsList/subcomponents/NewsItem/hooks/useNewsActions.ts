@@ -3,7 +3,6 @@ import { useCallback, useEffect, useState } from 'react';
 import { useDB } from 'reduxStore/hooks';
 
 import { VotedItem } from 'types';
-
 import { useNotification, useScrollBodyContext } from 'contexts';
 
 type NewsActionHookProps = {
@@ -42,7 +41,7 @@ const useNewsActions = ({
 
   const clickDate = new Date().getTime();
 
-  const handleAddToFavourites = async (): Promise<void> => {
+  const handleAddToFavourites = (): void => {
     setIsFavourite(true);
 
     const updatedData = {
@@ -51,15 +50,15 @@ const useNewsActions = ({
       additionDate: clickDate,
     };
 
-    await updateSavedNews(updatedData);
+    updateSavedNews(updatedData);
   };
 
-  const handleToggleFavourites = async (): Promise<void> => {
+  const handleToggleFavourites = (): void => {
     setIsFavourite(!savedFavourite);
 
     if (!savedFavourite && savedRead) {
       const updatedData = { ...liveNews, isFavourite: true };
-      await updateSavedNews(updatedData);
+      updateSavedNews(updatedData);
     } else if (savedFavourite && !savedRead) {
       const updatedData = {
         ...liveNews,
@@ -67,7 +66,7 @@ const useNewsActions = ({
         hasRead: savedRead,
         additionDate: null,
       };
-      await updateSavedNews(updatedData);
+      updateSavedNews(updatedData);
       removeFavouriteNews(liveNews?.newsUrl || '');
     } else if (savedFavourite && savedRead) {
       const updatedData = {
@@ -75,36 +74,26 @@ const useNewsActions = ({
         isFavourite: false,
         hasRead: savedRead,
       };
-      await updateSavedNews(updatedData);
+      updateSavedNews(updatedData);
       removeFavouriteNews(liveNews?.newsUrl || '');
     }
   };
 
-  const handleChangeFavourites = useCallback(
-    async (e: React.MouseEvent<HTMLButtonElement>): Promise<void> => {
-      e.stopPropagation();
-      e.preventDefault();
+  const handleChangeFavourites = (e: React.MouseEvent<HTMLButtonElement>): void => {
+    e.stopPropagation();
+    e.preventDefault();
 
-      if (shouldMakeChanges) {
-        handleChangeVotes();
-        if (savedNews.length === 0 || !existingNews) {
-          handleAddToFavourites();
-        } else {
-          handleToggleFavourites();
-        }
+    if (shouldMakeChanges) {
+      handleChangeVotes();
+      if (savedNews.length === 0 || !existingNews) {
+        handleAddToFavourites();
+      } else {
+        handleToggleFavourites();
       }
-    },
-    [
-      shouldMakeChanges,
-      existingNews,
-      savedNews,
-      handleChangeVotes,
-      handleAddToFavourites,
-      handleToggleFavourites,
-    ],
-  );
+    }
+  };
 
-  const handleReadNews = useCallback(async (): Promise<void> => {
+  const handleReadNews = useCallback((): void => {
     if (shouldMakeChanges) {
       if (savedNews.length === 0 || !existingNews) {
         setHasRead(true);
@@ -115,7 +104,7 @@ const useNewsActions = ({
           hasRead: true,
           additionDate: clickDate,
         };
-        await updateSavedNews(updatedData);
+        updateSavedNews(updatedData);
       } else {
         if (!savedRead && savedFavourite) {
           setHasRead(true);
@@ -125,7 +114,7 @@ const useNewsActions = ({
             ...liveNews,
             hasRead: true,
           };
-          await updateSavedNews(updatedData);
+          updateSavedNews(updatedData);
         } else if (savedRead === true) {
           return;
         }

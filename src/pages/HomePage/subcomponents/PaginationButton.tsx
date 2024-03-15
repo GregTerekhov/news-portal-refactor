@@ -11,15 +11,17 @@ interface PaginationButtonProps {
 }
 
 const PaginationButton: FC<PaginationButtonProps> = ({ pageNumber, currentPage, onClick }) => {
+  const paginationButtonStyles = `h-10 border-accentBase font-medium transition-colors duration-500 ${
+    pageNumber === currentPage
+      ? 'bg-accentBase text-contrastWhite'
+      : 'text-darkBase dark:text-whiteBase dark:border-whiteBase'
+  }`;
+
   return (
     <li key={pageNumber} onClick={() => onClick(pageNumber)}>
       <PrimaryButton
         aria-label={`Page ${pageNumber.toString()} button`}
-        classNameButton={`h-10 border-accentBase font-medium transition-colors duration-500 ${
-          pageNumber === currentPage
-            ? 'bg-accentBase text-contrastWhite'
-            : 'text-darkBase dark:text-whiteBase dark:border-whiteBase'
-        }`}
+        classNameButton={`${paginationButtonStyles}`}
         variant={VariantButton.Small}
       >
         {pageNumber}
