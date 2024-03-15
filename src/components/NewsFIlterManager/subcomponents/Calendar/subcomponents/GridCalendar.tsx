@@ -11,7 +11,6 @@ interface GridCalendarProps {
   day: Date;
   currMonth: string;
   handleFilterDate: (date: Date) => void;
-  selectedDate: (date: Date) => void;
 }
 
 const GridCalendar: FC<GridCalendarProps> = ({ day, currMonth, handleFilterDate, variant }) => {
