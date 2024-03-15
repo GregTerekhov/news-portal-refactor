@@ -28,18 +28,15 @@ export const getControlButtons = ({
       id: 'Filters submit button',
       variant: VariantButton.Primary,
       onHandleClick: handleFiltration,
-      ariaLabel: '',
       classNameButtons: 'lg:text-xl',
       hasIcon: false,
       svgName: '',
       svgSize: 0,
-      classNameIcon: '',
       children: 'Apply',
       disabled: !hasFilterValue ? true : false,
     },
     {
       type: 'button',
-      id: '',
       variant: VariantButton.Small,
       onHandleClick: () => {
         if (shouldSortAccordeon) {
@@ -52,27 +49,24 @@ export const getControlButtons = ({
       classNameButtons:
         'border-whiteBase bg-accentBase dark:bg-transparent hover:bg-accentAlt transition-colors duration-500 p-2 lg:w-12 lg:h-12',
       hasIcon: true,
-      svgName: 'icon-dateSort',
+      svgName: 'dateSort',
       svgSize: wideScreens ? ICON_SIZES.mdIcon24 : ICON_SIZES.smIcon20,
       classNameIcon: 'fill-whiteBase',
-      children: '',
     },
     {
       type: 'reset',
       id: 'Filters reset button',
       variant: VariantButton.Primary,
       onHandleClick: handleReset,
-      ariaLabel: '',
       classNameButtons: '',
       hasIcon: true,
-      svgName: 'icon-reset',
+      svgName: 'reset',
       svgSize: ICON_SIZES.xsIcon16,
       classNameIcon: 'fill-whiteBase',
       children: 'Reset',
     },
     {
       type: 'button',
-      id: '',
       variant: VariantButton.Small,
       onHandleClick: () => {
         if (shouldSortAccordeon) {
@@ -85,10 +79,9 @@ export const getControlButtons = ({
       classNameButtons:
         'p-2 border-whiteBase bg-accentBase dark:bg-transparent hover:bg-accentAlt transition-colors duration-500 lg:w-12 lg:h-12',
       hasIcon: true,
-      svgName: 'icon-dateSort',
+      svgName: 'dateSort',
       svgSize: wideScreens ? ICON_SIZES.mdIcon24 : ICON_SIZES.smIcon20,
       classNameIcon: 'fill-whiteBase rotate-180',
-      children: '',
     },
   ];
 

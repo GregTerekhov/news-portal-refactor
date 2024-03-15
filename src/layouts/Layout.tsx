@@ -1,7 +1,7 @@
 import React, { FC, useEffect } from 'react';
 import { Outlet } from 'react-router-dom';
 
-import { useAuthRedux, useNewsAPI } from 'reduxStore/hooks';
+import { useAuthRedux, useDB, useNewsAPI } from 'reduxStore/hooks';
 
 import { VariantSwitcher } from 'types';
 import { useWindowWidth } from 'contexts';
@@ -17,11 +17,12 @@ import Footer from './Footer/Footer';
 const Layout: FC = () => {
   const { isNotMobile } = useWindowWidth();
 
-  const { fetchCategoriesList } = useNewsAPI();
+  const { fetchCategoriesList, errorAPI } = useNewsAPI();
   const { isAuthenticated, statusMessage } = useAuthRedux();
+  const { allFavourites, allArchive } = useDB();
 
   const activeLinks = useActiveLinks();
-  const { rebuildedNews } = useChooseRenderingNews({ activeLinks });
+  const { rebuildedNews } = useChooseRenderingNews(activeLinks);
 
   const {
     isAboutUs,
@@ -40,34 +41,50 @@ const Layout: FC = () => {
     }
   }, [isAuthenticated, fetchCategoriesList, isHomeActive]);
 
+  const is429ErrorAPI = errorAPI?.toString().includes('429');
+
   const shouldShowPageScrollController =
     (isHomeActive && isNotMobile && rebuildedNews?.length > 0) ||
     (isArchiveActive && isNotMobile && rebuildedNews?.length > 0);
 
   const isAccountPages = isAccountPage || isManageAccountPage;
-  const shouldNotShowFiltersManager = isAccountPages || isAboutUs || isArchiveActive || isErrorPage;
+  const shouldNotShowFiltersManager =
+    isAccountPages ||
+    isAboutUs ||
+    isArchiveActive ||
+    isErrorPage ||
+    (isHomeActive && is429ErrorAPI);
 
   const showSuccessToast =
-    statusMessage === 'Email sent successfully' ||
-    statusMessage === 'Password has successfully changed' ||
-    statusMessage === 'User sign-in success' ||
-    statusMessage === 'Sign-out success' ||
-    statusMessage.includes('linking');
+    (statusMessage === 'Email sent successfully' ||
+      statusMessage === 'Password has successfully changed' ||
+      statusMessage === 'User sign-in success' ||
+      statusMessage === 'Sign-out success' ||
+      statusMessage.includes('linking')) &&
+    statusMessage !== '';
+
+  const screenShow =
+    isAccountPages ||
+    (isFavoriteActive && allFavourites?.length === 0) ||
+    isReadActive ||
+    (isArchiveActive && allArchive?.length === 0) // питання відкрите саме по сторінці Archive
+      ? 'h-screen'
+      : 'h-full';
 
   return (
     <div
-      className={`hg:min-h-sectionHuge flex
-        h-full max-h-sectionSmall min-h-sectionSmall flex-col justify-between md:max-h-sectionMedium md:min-h-sectionMedium lg:max-h-sectionLarge lg:min-h-sectionLarge ${isAccountPage ? 'h-screen' : 'h-full'}`}
+      className={`flex max-h-sectionSmall
+        flex-col justify-between md:max-h-sectionMedium lg:max-h-sectionLarge hg:max-h-sectionHuge ${screenShow}`}
     >
       {!isErrorPage && <Header />}
-      <main className='h-full'>
+      <main>
         {isHomeActive && <Hero />}
         <section
-          className={`h-full w-screen bg-whiteBase pb-[60px] transition-colors duration-500 dark:bg-darkBackground md:pb-[100px] lg:pb-[150px] ${
-            isArchiveActive || isFavoriteActive || isReadActive
+          className={`w-full bg-whiteBase pb-[60px] transition-colors duration-500 dark:bg-darkBackground md:pb-[100px] lg:pb-[150px] ${
+            isArchiveActive || isFavoriteActive || isReadActive || (isHomeActive && is429ErrorAPI)
               ? 'pt-10 md:pt-12 lg:pt-[60px]'
               : 'pt-6 md:pt-7 hg:pt-[60px]'
-          } `}
+          }`}
         >
           <div className='container mx-auto px-4 hg:px-[65px]'>
             {!isNotMobile && !isErrorPage && (
@@ -87,13 +104,13 @@ const Layout: FC = () => {
                   direction='top'
                   label='Scroll up'
                   position='top-36'
-                  icon='icon-triangle'
+                  icon='triangle'
                 />
                 <PageScrollController
                   label='Scroll down'
                   direction='down'
                   position='bottom-12'
-                  icon='icon-triangle'
+                  icon='triangle'
                   classIcon='rotate-180'
                 />
               </>

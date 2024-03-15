@@ -67,12 +67,13 @@ const NewsItem: FC<Partial<NewsItemProps>> = ({ liveNews = {} }) => {
           {isAuthenticated && hasRead && (
             <p className='absolute right-14 top-3.5 z-10 flex items-center gap-1 text-base font-bold text-readBase md:top-5'>
               Already read
-              <SvgIcon svgName='icon-check' size={ICON_SIZES.smIcon18} className='fill-readBase' />
+              <SvgIcon svgName='check' size={ICON_SIZES.smIcon18} className='fill-readBase' />
             </p>
           )}
           <div className='relative flex h-395px items-center justify-center overflow-hidden rounded-[10px]'>
             {liveNews && liveNews?.imgLink ? (
               <img
+                loading='lazy'
                 className='absolute h-full max-w-none rounded-xl object-cover'
                 src={liveNews?.imgLink}
                 alt={liveNews?.imgAlt ? liveNews?.imgAlt : 'plug image'}
@@ -85,7 +86,7 @@ const NewsItem: FC<Partial<NewsItemProps>> = ({ liveNews = {} }) => {
                 <VoteButton
                   onHandleClick={handleChangeFavourites}
                   isFavourite={isFavourite}
-                  buttonData={{ id: `Add ${liveNews?.newsUrl} to favourites or remove from them` }}
+                  buttonData={{ id: `Add ${liveNews?.title} to favourites or remove from them` }}
                 />
               </>
             )}

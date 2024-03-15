@@ -4,7 +4,7 @@ import { useNewsAPI } from 'reduxStore/hooks';
 
 import { plugImages } from 'constants/images';
 import { generateContentImages } from 'helpers';
-import { useCacheImage } from 'hooks';
+import { useActiveLinks, useCacheImage } from 'hooks';
 
 interface PlugImageProps {
   variant: string;
@@ -12,6 +12,7 @@ interface PlugImageProps {
 
 const PlugImage: FC<PlugImageProps> = ({ variant }) => {
   const { errorAPI } = useNewsAPI();
+  const { isHomeActive } = useActiveLinks();
 
   const isErrorAPI = errorAPI?.toString().includes('429');
 
@@ -21,20 +22,23 @@ const PlugImage: FC<PlugImageProps> = ({ variant }) => {
 
   const imageUrl = useCacheImage(matchedPlugImage?.src || '');
 
+  const plugImageTextStyles =
+    'mb-10 text-center text-2xl font-bold tracking-smallTight text-darkBase transition-colors dark:text-whiteBase md:w-548px md:text-5xl md:tracking-tighter';
+
   return (
     <>
       {variant === 'page' ? (
         <div className='flex flex-col items-center justify-center'>
-          <p className='md:w-548px mb-10 text-center text-2xl font-bold tracking-smallTight text-darkBase transition-colors dark:text-whiteBase md:text-5xl md:tracking-tighter'>
+          <p className={`${plugImageTextStyles}`}>
             {`${
-              isErrorAPI
+              isErrorAPI && isHomeActive
                 ? 'It seems you have been send too much requests then its needed'
                 : 'We haven’t found news from this category'
             }`}
           </p>
           <img
             src={imageUrl}
-            alt='No found news'
+            alt={`${isErrorAPI && isHomeActive ? 'Too much requests' : 'No found news'}`}
             width={matchedPlugImage.width}
             height={matchedPlugImage.height}
           />
@@ -42,7 +46,7 @@ const PlugImage: FC<PlugImageProps> = ({ variant }) => {
       ) : (
         <img
           src={imageUrl}
-          alt='No found news'
+          alt='No found an image for news'
           width={matchedPlugImage.width}
           height={matchedPlugImage.height}
         />

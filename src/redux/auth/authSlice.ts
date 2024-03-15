@@ -85,6 +85,7 @@ const authSlice = createSlice({
         state.isLoggedIn = true;
         state.haveAccounts.facebook = true;
         state.user = action.payload.user;
+        state.userTheme = action.payload.userTheme;
         state.accessToken = action.payload.accessToken;
         state.refreshToken = action.payload.refreshToken;
       })
@@ -92,6 +93,7 @@ const authSlice = createSlice({
         state.isLoggedIn = true;
         state.haveAccounts.apple = true;
         state.user = action.payload.user;
+        state.userTheme = action.payload.userTheme;
         state.accessToken = action.payload.accessToken;
         state.refreshToken = action.payload.refreshToken;
       })

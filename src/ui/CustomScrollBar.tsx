@@ -9,14 +9,12 @@ type CustomScrollProps = {
 };
 
 const CustomScrollBar: FC<CustomScrollProps> = ({ children, isOpen, orientation, className }) => {
-  const archiveScroll = 'data-[orientation=horizontal]:h-2.5';
+  const archiveScroll = 'data-[orientation=horizontal]:!h-2.5';
   const dropdownScroll =
     'customScrollPosition max-h-customScrollHeight data-[orientation=vertical]:w-2.5';
 
-  const defineScrollDirection = orientation === 'vertical' ? true : false;
-
-  const customScrollStyle: string = defineScrollDirection ? dropdownScroll : archiveScroll;
-  const customScrollThumb: string = defineScrollDirection ? '' : 'h-[10px]';
+  const customScrollStyle: string = orientation === 'vertical' ? dropdownScroll : archiveScroll;
+  const customScrollThumb: string = orientation === 'vertical' ? '' : 'h-[10px]';
 
   return (
     isOpen && (
@@ -30,7 +28,7 @@ const CustomScrollBar: FC<CustomScrollProps> = ({ children, isOpen, orientation,
             className={`relative flex-1 rounded-[10px] bg-accentBase before:absolute before:left-1/2 before:top-1/2 before:h-full before:w-full ${customScrollThumb} before:-translate-x-1/2 before:-translate-y-1/2 before:content-['']`}
           />
         </ScrollArea.Scrollbar>
-        <ScrollArea.Corner className='bg-accentBase' />
+        <ScrollArea.Corner asChild className='bg-accentBase' />
       </ScrollArea.Root>
     )
   );

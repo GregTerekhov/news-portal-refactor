@@ -3,7 +3,6 @@
 @tailwind utilities;
 
 :root {
-  font-family: 'Manrope', sans-serif;
   --background-color: #f4f4f4;
   --duration: 500ms;
 }

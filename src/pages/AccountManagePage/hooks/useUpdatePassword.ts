@@ -13,8 +13,8 @@ const useUpdatePassword = () => {
   const { updatePassword } = useAuthRedux();
   const { showToast } = useNotification();
   const {
-    handleSubmit,
-    register,
+    handleSubmit: passwordSubmit,
+    register: updatePasswordRegister,
     watch,
     reset,
     getValues,
@@ -46,13 +46,14 @@ const useUpdatePassword = () => {
       showToast(response.meta.requestStatus);
     } catch (error) {
       console.error('Error during updatePassword:', error);
+    } finally {
+      reset({
+        ...getValues,
+        newPassword: '',
+        confirmPassword: '',
+        password: '',
+      });
     }
-    reset({
-      ...getValues,
-      newPassword: '',
-      confirmPassword: '',
-      password: '',
-    });
   };
 
   const passwordInputs = renderPasswordInputs({
@@ -63,8 +64,8 @@ const useUpdatePassword = () => {
   });
 
   return {
-    handleSubmit,
-    register,
+    passwordSubmit,
+    updatePasswordRegister,
     handlePasswordSubmitHandler,
     passwordInputs,
   };

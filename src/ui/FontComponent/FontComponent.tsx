@@ -3,7 +3,7 @@ import React, { FC } from 'react';
 import { fonts } from './assistants';
 import { FontFaceRule } from './subcomponents';
 
-const FontComponent: FC<{}> = () => {
+const FontComponent: FC = () => {
   return (
     <style>
       {`

@@ -1,10 +1,10 @@
 import React, { FC } from 'react';
 
+import { WeatherData } from 'types';
 import { ICON_SIZES } from 'constants/iconSizes';
 import { useWindowWidth } from 'contexts';
 
 import { SvgIcon } from 'ui';
-import { WeatherData } from 'types';
 
 interface TopWeatherProps {
   toggleTemperatureScale: () => void;
@@ -48,7 +48,7 @@ const TopWeatherBlock: FC<TopWeatherProps> = ({
         </p>
         <div className='flex items-center gap-1 rounded-lg bg-weatherForeground px-2 py-[9px] text-contrastWhite md:gap-2 md:pb-[9px] md:pl-[7px] md:pr-[17px] md:pt-[10px]'>
           <SvgIcon
-            svgName='icon-location'
+            svgName='location'
             size={isMobile ? ICON_SIZES.smIcon20 : ICON_SIZES.mdIcon27}
             className='fill-whiteBase'
           />

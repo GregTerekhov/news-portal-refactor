@@ -8,16 +8,11 @@ import { PartialVotedNewsArray } from 'types';
 import { useFiltersState, useReadSortState, useSelectedDate } from 'contexts';
 import useChooseRenderingNews from './useChooseRenderingNews';
 import useReadNewsContent from './useReadNewsContent';
-import usePopUp from './usePopUp';
 import { ActiveLinks } from './commonTypes';
 
-import { applyCrossFilters, determineNewSelectedDate } from 'helpers';
+import { applyCrossFilters, determineNewSelectedDate, formatSortedDate } from 'helpers';
 
-type FilterHookProps = {
-  activeLinks: ActiveLinks;
-};
-
-const useFilterNews = ({ activeLinks }: FilterHookProps) => {
+const useFilterNews = (activeLinks: ActiveLinks) => {
   const [beginDate, setBeginDate] = useState<Date | null>(null);
   const [isSorted, setIsSorted] = useState<boolean>(false);
 
@@ -28,14 +23,13 @@ const useFilterNews = ({ activeLinks }: FilterHookProps) => {
   const { updateHeadline } = useNewsAPI();
   const { allFavourites, allReads } = useDB();
 
-  const { rebuildedNews } = useChooseRenderingNews({ activeLinks });
-  const sortedAccordionDates = useReadNewsContent({ activeLinks });
-  const { toggleCalendar } = usePopUp();
+  const { rebuildedNews } = useChooseRenderingNews(activeLinks);
+  const sortedAccordionDates = useReadNewsContent(activeLinks);
   const { setSelectedFilterDate } = useSelectedDate();
 
   const today = startOfToday();
 
-  const handleChangeFilter = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChangeFilter = (event: React.ChangeEvent<HTMLInputElement>): void => {
     const { name, value } = event.target;
     setFilters({
       ...filters,
@@ -43,14 +37,14 @@ const useFilterNews = ({ activeLinks }: FilterHookProps) => {
     });
   };
 
-  const handleMaterialTypeChange = (selectedType: string) => {
+  const handleMaterialTypeChange = (selectedType: string): void => {
     setFilters({
       ...filters,
       materialType: selectedType,
     });
   };
 
-  const handleFilterDate = (date: Date) => {
+  const handleFilterDate = (date: Date): void => {
     if (!isAfter(date, today)) {
       if (!beginDate) {
         setBeginDate(date);
@@ -68,7 +62,6 @@ const useFilterNews = ({ activeLinks }: FilterHookProps) => {
                 endDate: newSelectedDate.endDate,
               },
             });
-            toggleCalendar(); // не працює
             setBeginDate(null);
           }
         } catch (error) {
@@ -78,7 +71,7 @@ const useFilterNews = ({ activeLinks }: FilterHookProps) => {
     }
   };
 
-  const handleFiltration = async (event: React.FormEvent) => {
+  const handleFiltration = async (event: React.FormEvent): Promise<void> => {
     event.preventDefault();
     event.stopPropagation();
 
@@ -128,9 +121,10 @@ const useFilterNews = ({ activeLinks }: FilterHookProps) => {
     setIsSorted(false);
   };
 
-  const handleSort = (order: string) => {
+  const handleSort = (order: string): void => {
     if (rebuildedNews && rebuildedNews?.length > 0) {
       let sortedNews: PartialVotedNewsArray = [];
+
       if (activeLinks.isHomeActive) {
         sortedNews = [...rebuildedNews];
       } else if (activeLinks.isFavoriteActive) {
@@ -140,15 +134,8 @@ const useFilterNews = ({ activeLinks }: FilterHookProps) => {
       }
 
       sortedNews.sort((a, b) => {
-        const formatDate = (dateStr: string | undefined) => {
-          if (dateStr) {
-            const [day, month, year] = dateStr.split('/').map(Number);
-            return new Date(year, month - 1, day).getTime();
-          }
-          return 0;
-        };
-        const dateA = formatDate(a.publishDate);
-        const dateB = formatDate(b.publishDate);
+        const dateA = formatSortedDate(a.publishDate);
+        const dateB = formatSortedDate(b.publishDate);
 
         if (order === 'asc') {
           return dateA - dateB;
@@ -162,7 +149,7 @@ const useFilterNews = ({ activeLinks }: FilterHookProps) => {
     }
   };
 
-  const handleSortRead = async (order: string) => {
+  const handleSortRead = async (order: string): Promise<void> => {
     if (sortedAccordionDates) {
       if (order === 'asc') {
         const sortedDates = Array.from(sortedAccordionDates).sort().reverse();
@@ -176,7 +163,7 @@ const useFilterNews = ({ activeLinks }: FilterHookProps) => {
     }
   };
 
-  const handleReset = async () => {
+  const handleReset = async (): Promise<void> => {
     updateHeadline("Today's Hot News");
 
     setFilters({

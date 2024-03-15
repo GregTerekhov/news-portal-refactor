@@ -15,7 +15,7 @@ interface LoaderProps {
 }
 
 const Loader: FC<LoaderProps> = ({ variant }) => {
-  const { isMobile, isTablet } = useWindowWidth();
+  const { isMobile, isTablet, wideScreens } = useWindowWidth();
 
   const { isHomeActive } = useActiveLinks();
 
@@ -30,7 +30,7 @@ const Loader: FC<LoaderProps> = ({ variant }) => {
                 <SkeletonSection /> <SkeletonSection />
               </>
             )}
-            {!isMobile && !isTablet && (
+            {wideScreens && (
               <>
                 <SkeletonSection /> <SkeletonSection /> <SkeletonSection />
               </>
@@ -39,15 +39,7 @@ const Loader: FC<LoaderProps> = ({ variant }) => {
           {isHomeActive && <SkeletonPagination />}
         </>
       )}
-      {variant === 'element' && (
-        <>
-          {isHomeActive && (
-            <>
-              <SkeletonWeather />
-            </>
-          )}
-        </>
-      )}
+      {variant === 'element' && isHomeActive && <SkeletonWeather />}
       {variant === 'page' && <SkeletonPage />}
     </>
   );

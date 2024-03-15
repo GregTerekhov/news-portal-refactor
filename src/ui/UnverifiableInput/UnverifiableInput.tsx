@@ -21,7 +21,6 @@ interface InputProps {
   inputData?: Partial<InputCollectedData>;
   isChecked?: boolean;
   hasIcon: boolean;
-  className?: string;
   svgName?: string;
   variant: VariantInputs;
   hideInput?: (event: React.MouseEvent<HTMLInputElement>) => void;
@@ -33,7 +32,6 @@ const UnverifiableInput: FC<InputProps> = ({
   inputData,
   hasIcon,
   svgName,
-  className,
   isChecked,
   variant,
   touched,
@@ -67,6 +65,8 @@ const UnverifiableInput: FC<InputProps> = ({
     textColor,
   } = styles[variant];
 
+  const inputFieldStyles = `${inputGeometry} rounded-3xl border border-solid font-header text-small leading-mediumRelaxed tracking-bigWide outline-0 transition-all focus:outline-0 md:text-base md:leading-moreRelaxed md:tracking-wide lg:text-medium ${placeholderColor} ${inputBorder} ${inputBg} ${caretColor} ${textColor} ${checkboxStyles}`;
+
   return (
     <label
       htmlFor={name}
@@ -77,7 +77,7 @@ const UnverifiableInput: FC<InputProps> = ({
             variant === VariantInputs.FilterServiceBlock ||
             (variant === VariantInputs.Header && 'gap-x-4') ||
             (variant === VariantInputs.Checkbox && 'cursor-pointer items-center gap-x-4')
-          } ${className}`}
+          }`}
     >
       {variant === VariantInputs.FilterServiceBlock && (
         <p className='mb-2 text-base text-darkBase dark:text-greyAlt lg:text-medium'>
@@ -95,22 +95,22 @@ const UnverifiableInput: FC<InputProps> = ({
       >
         {variant === VariantInputs.Checkbox ? (
           <SvgIcon
-            svgName='icon-check'
+            svgName='check'
             size={ICON_SIZES.xsIcon16}
             className={`${isChecked ? 'fill-whiteBase' : 'fill-none'}`}
           />
         ) : null}
         {hasIcon && (
-          <div
-            className={`${
+          <SvgIcon
+            svgName={svgName}
+            size={ICON_SIZES.smIcon20}
+            className={`${svgFill} ${
               variant === VariantInputs.Header ? svgWrapperClass : 'left-3'
-            } absolute top-1/2 flex h-5 w-5 -translate-y-1/2 items-center justify-center transition-all`}
-          >
-            <SvgIcon svgName={svgName} size={ICON_SIZES.smIcon20} className={`${svgFill}`} />
-          </div>
+            } absolute top-1/2 flex h-5 w-5 -translate-y-1/2 items-center justify-center`}
+          />
         )}
         <input
-          className={` ${inputGeometry} rounded-3xl border border-solid font-header text-small leading-mediumRelaxed tracking-bigWide outline-0 transition-colors focus:outline-0 md:text-base md:leading-moreRelaxed md:tracking-wide lg:text-medium ${placeholderColor} ${inputBorder} ${inputBg} ${caretColor} ${textColor} ${checkboxStyles}`}
+          className={`${inputFieldStyles}`}
           id={name}
           name={name}
           type={type}

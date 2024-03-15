@@ -2,6 +2,7 @@ import React, { FC } from 'react';
 import { format } from 'date-fns';
 
 import { IHistoryLog } from 'types';
+import { useWindowWidth } from 'contexts';
 
 import { tableHeads } from '../assistants';
 
@@ -9,9 +10,26 @@ interface TableProps {
   displayedRows: IHistoryLog[];
 }
 
-const TITLE_LENGTH_LIMIT = 60;
+const DEFAULT_TITLE_LENGTH = 60;
+const WIDE_SCREENS_TITLE_LENGTH = 87;
 
 const DeletedNewsTable: FC<TableProps> = ({ displayedRows }) => {
+  const { wideScreens } = useWindowWidth();
+
+  const getNewsTitle = (title: string): string => {
+    let cutTitleLength: number;
+
+    switch (true) {
+      case wideScreens:
+        cutTitleLength = WIDE_SCREENS_TITLE_LENGTH;
+        break;
+      default:
+        cutTitleLength = DEFAULT_TITLE_LENGTH;
+        break;
+    }
+    return title.length > cutTitleLength ? `${title.slice(0, cutTitleLength)}...` : title;
+  };
+
   const tableRowClass =
     'whitespace-nowrap px-6 py-4 text-small font-medium text-darkBase dark:text-whiteBase lg:text-medium';
 
@@ -19,16 +37,15 @@ const DeletedNewsTable: FC<TableProps> = ({ displayedRows }) => {
     <table className='min-w-full divide-y divide-greyAlt/[.4] transition-colors duration-500 dark:divide-greyBase/[.4]'>
       <thead className='bg-accentBase/[.2] transition-colors duration-500 dark:bg-greyBase/[.4]'>
         <tr>
-          {tableHeads &&
-            tableHeads?.map(({ label }) => (
-              <th
-                key={label}
-                scope='col'
-                className='px-6 py-3 text-start text-xs font-medium uppercase text-greyBase transition-colors duration-500 dark:text-whiteBase md:text-small lg:text-xl'
-              >
-                {label}
-              </th>
-            ))}
+          {tableHeads?.map(({ label }) => (
+            <th
+              key={label}
+              scope='col'
+              className='px-6 py-3 text-start text-xs font-medium uppercase text-greyBase transition-colors duration-500 dark:text-whiteBase md:text-small lg:text-xl'
+            >
+              {label}
+            </th>
+          ))}
         </tr>
       </thead>
       <tbody className='divide-y divide-whiteBase transition-colors duration-500 dark:divide-gray-700'>
@@ -45,7 +62,7 @@ const DeletedNewsTable: FC<TableProps> = ({ displayedRows }) => {
                     target='_blank'
                     className='transition-colors duration-500 group-hover:text-accentBase lg:text-medium'
                   >
-                    {title.length > TITLE_LENGTH_LIMIT ? `${title.slice(0, 65)}...` : title}
+                    {getNewsTitle(title)}
                   </a>
                 </td>
                 <td className={`${tableRowClass}`}>{category}</td>

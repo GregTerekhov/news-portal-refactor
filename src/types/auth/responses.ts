@@ -1,3 +1,5 @@
+import { ThemeValue } from './requests';
+
 export type User = {
   name: string;
   email: string;
@@ -9,8 +11,6 @@ export type HaveAccounts = {
   facebook: boolean;
   apple: boolean;
 };
-
-type ThemeValue = 'light' | 'dark';
 
 export interface ServicesInfo {
   code: number;

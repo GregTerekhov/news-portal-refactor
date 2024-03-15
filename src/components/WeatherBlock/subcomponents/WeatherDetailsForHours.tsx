@@ -27,7 +27,7 @@ const WeatherDetailsForHours: FC = () => {
             <tr>
               <th className='w-10 pr-2'>
                 <SvgIcon
-                  svgName='icon-time'
+                  svgName='time'
                   size={isMobile ? ICON_SIZES.smIcon20 : ICON_SIZES.mdIcon24}
                   className='fill-whiteBase'
                 />

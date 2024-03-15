@@ -21,8 +21,8 @@ const CalendarControls: FC<CalendarControlsProps> = ({
   getNextMonth,
 }) => {
   return (
-    <div className='mb-0.5 flex items-center justify-between py-[7px]'>
-      <div className='flex items-center gap-2'>
+    <div className='mb-5 flex items-center justify-between py-[7px]'>
+      <div className='flex items-center gap-x-2'>
         <ArrowButton ariaLabel='Previous year button' iconClass='rotate-90' onClick={getPrevYear}>
           Previous year button
         </ArrowButton>
@@ -33,7 +33,7 @@ const CalendarControls: FC<CalendarControlsProps> = ({
           Next year button
         </ArrowButton>
       </div>
-      <div className='flex'>
+      <div className='flex items-center gap-x-2'>
         <ArrowButton ariaLabel='Previous month button' iconClass='rotate-90' onClick={getPrevMonth}>
           Previous month button
         </ArrowButton>

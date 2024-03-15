@@ -11,25 +11,25 @@ export const renderSocialLinks = (wideScreens: boolean): Array<SocialLinks> => {
   const links: SocialLinks[] = [
     {
       link: 'https://www.facebook.com/nytimes',
-      iconName: 'icon-facebook',
+      iconName: 'facebook',
       label: 'Facebook',
       size: wideScreens ? ICON_SIZES.mdIcon28 : ICON_SIZES.smIcon20,
     },
     {
       link: 'https://twitter.com/nytimes',
-      iconName: 'icon-twitter',
+      iconName: 'twitter',
       label: 'Twitter',
       size: wideScreens ? ICON_SIZES.mdIcon28 : ICON_SIZES.smIcon20,
     },
     {
       link: 'https://www.youtube.com/@nytimes',
-      iconName: 'icon-youtube',
+      iconName: 'youtube',
       label: 'YouTube',
       size: wideScreens ? ICON_SIZES.lgIcon36 : ICON_SIZES.mdIcon28,
     },
     {
       link: 'https://www.linkedin.com/company/the-new-york-times/',
-      iconName: 'icon-linkedin',
+      iconName: 'linkedin',
       label: 'LinkedIn',
       size: wideScreens ? ICON_SIZES.mdIcon28 : ICON_SIZES.smIcon20,
     },

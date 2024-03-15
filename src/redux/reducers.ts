@@ -20,16 +20,10 @@ const authPersistConfig = {
   whitelist: ['userTheme', 'accessToken', 'refreshToken', 'isLoggedIn'],
 };
 
-const NewsDBPersistConfig = {
-  key: 'newsDB',
-  storage,
-  whitelist: ['savedNews'],
-};
-
 const rootReducer = combineReducers({
   auth: persistReducer(authPersistConfig, authReducer),
   newsAPI: newsAPIReducer,
-  newsDB: persistReducer(NewsDBPersistConfig, newsDBReducer),
+  newsDB: newsDBReducer,
   weather: weatherReducer,
   filters: filtersReducer,
 });

@@ -1,14 +1,15 @@
 import { createSlice, isAnyOf } from '@reduxjs/toolkit';
 
+import type { DispatchActionType } from 'reduxStore/store';
 import type { WeatherState } from 'types';
 
 import { fetchWeather, fetchHourlyForecastWeather } from './weatherOperations';
 
-import { getActions, handleFulfilled, handlePending, handleRejected } from './handleFunctions';
+import { handleFulfilled, handlePending, handleRejected } from '../services';
 
 const initialState = {
   data: {},
-  weatherByHour: {},
+  weatherByHour: [],
   isLoading: false,
   hasError: null,
 } as WeatherState;
@@ -30,5 +31,9 @@ const weatherSlice = createSlice({
       .addMatcher(isAnyOf(...getActions('rejected')), handleRejected);
   },
 });
+
+const extraActions = [fetchWeather, fetchHourlyForecastWeather];
+
+const getActions = (type: DispatchActionType) => extraActions.map((action) => action[type]);
 
 export const weatherReducer = weatherSlice.reducer;

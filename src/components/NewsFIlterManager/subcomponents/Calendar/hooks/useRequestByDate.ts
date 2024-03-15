@@ -3,16 +3,13 @@ import { isAfter, startOfToday } from 'date-fns';
 import { useNewsAPI, useFiltersAction } from 'reduxStore/hooks';
 
 import { useFiltersState, useSelectedDate } from 'contexts';
-
-import { determineNewSelectedDate } from 'helpers';
+import { determineNewSelectedDate, formatDateRange } from 'helpers';
 import { usePopUp } from 'hooks';
-
-import { formatDateRange } from '../assistants';
 
 const useRequestByDate = () => {
   const { fetchByDate, resetPreviousRequest, updateHeadline } = useNewsAPI();
   const { beginDate, setBeginDate, setSelectedRequestDate } = useSelectedDate();
-  const { closeCalendar } = usePopUp();
+  const { toggleCalendar } = usePopUp();
   const { filteredNews, resetAllFilters } = useFiltersAction();
   const { setSelectedFilterDate } = useSelectedDate();
 
@@ -56,7 +53,7 @@ const useRequestByDate = () => {
               await fetchByDate(newSelectedDate);
             }
             setBeginDate(null);
-            closeCalendar(false); // не працює
+            toggleCalendar(); // не працює
           }
         } catch (error) {
           console.error('Помилка при зміні значень:', error);

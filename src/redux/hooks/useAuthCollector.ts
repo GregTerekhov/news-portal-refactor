@@ -1,7 +1,7 @@
 import { useCallback } from 'react';
 
 import * as auth from '../auth';
-import { useAppDispatch, useAppSelector } from './hooks';
+import { useAppDispatch, useAppSelector } from './reduxHooks';
 import {
   MainCredentials,
   AuthRequestWithoutName,

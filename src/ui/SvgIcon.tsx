@@ -12,7 +12,7 @@ interface SvgIncomingData {
 
 const SvgIcon: FC<SvgIncomingData> = (svgData) => {
   const { svgName, size, className } = svgData;
-  const cachedIconName = useCacheIcon(svgName || '');
+  const cachedIconName = useCacheIcon(`icon-${svgName}` || '');
 
   return (
     <svg width={size} height={size} className={`transition-colors duration-500 ${className}`}>

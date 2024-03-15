@@ -3,7 +3,7 @@ import { ActiveLinks, useChooseRenderingNews } from 'hooks';
 
 const useToastInfo = () => {
   const chooseInfoToastText = (activeLinks: ActiveLinks): ToastMessage => {
-    const { rebuildedNews } = useChooseRenderingNews({ activeLinks });
+    const { rebuildedNews } = useChooseRenderingNews(activeLinks);
 
     const { isHomeActive, isFavoriteActive, isReadActive } = activeLinks;
 

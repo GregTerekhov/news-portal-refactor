@@ -1,6 +1,7 @@
 import { InputLabel } from '..';
 
 export type ToastVariant = 'non-interactive' | 'interactive';
+export type ToastStatus = 'error' | 'success' | 'info';
 
 export interface ToastMessage {
   title: string;
@@ -17,4 +18,9 @@ export interface AuthInputs {
   fieldValue?: string | undefined;
   autoFocus?: boolean;
   autofill?: string;
+}
+
+export interface SelectedDate {
+  beginDate: string;
+  endDate: string;
 }

@@ -27,13 +27,13 @@ const ArchiveHistoryLog: FC<IHistoryLogProps> = ({ logData }) => {
   const endIndex = startIndex + ROWS_PER_PAGE;
   const displayedRows = filteredLogData.slice(startIndex, endIndex);
 
-  const handleSearchNews = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleSearchNews = (event: React.ChangeEvent<HTMLInputElement>): void => {
     const query = event.target.value;
     setSearchValue(query);
     setCurrentPage(1);
   };
 
-  const handlePageChange = (newPage: number) => {
+  const handlePageChange = (newPage: number): void => {
     if (newPage >= 1 && newPage <= totalPages) {
       setCurrentPage(newPage);
     }
@@ -42,35 +42,31 @@ const ArchiveHistoryLog: FC<IHistoryLogProps> = ({ logData }) => {
   return (
     <div className='mb-6 flex flex-col overflow-hidden rounded-lg shadow-modal'>
       <CustomScrollBar isOpen={true} orientation='horizontal'>
-        <div className='-m-1.5'>
-          <div className='inline-block min-w-full py-1.5 align-middle'>
-            <div className='divide-y divide-greyAlt/[.4] overflow-hidden rounded-lg border dark:divide-greyBase/[.4] dark:border-greyBase/[.4]'>
-              <div className='px-4 py-3 lg:px-6 lg:py-5'>
-                <div className='relative w-[254px] md:max-w-xs'>
-                  <UnverifiableInput
-                    inputData={{
-                      name: 'Deleted news',
-                      type: 'text',
-                      value: searchValue,
-                      placeholder: 'Search for deleted news',
-                    }}
-                    hasIcon={true}
-                    svgName='icon-search'
-                    onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-                      handleSearchNews(event)
-                    }
-                    variant={VariantInputs.FilterServiceBlock}
-                  />
-                </div>
-              </div>
-              <DeletedNewsTable displayedRows={displayedRows} />
-              <div className='mb-3 px-4 py-1'>
-                <TablePagination
-                  handlePageChange={handlePageChange}
-                  currentPage={currentPage}
-                  totalPages={totalPages}
+        <div className='inline-block min-w-full align-middle'>
+          <div className='divide-y divide-greyAlt/[.4] overflow-hidden rounded-lg border dark:divide-greyBase/[.4] dark:border-greyBase/[.4]'>
+            <div className='px-4 py-3 lg:px-6 lg:py-5'>
+              <div className='relative w-[254px] md:max-w-xs'>
+                <UnverifiableInput
+                  inputData={{
+                    name: 'Deleted news',
+                    type: 'text',
+                    value: searchValue,
+                    placeholder: 'Search for deleted news',
+                  }}
+                  hasIcon={true}
+                  svgName='search'
+                  onChange={(event: React.ChangeEvent<HTMLInputElement>) => handleSearchNews(event)}
+                  variant={VariantInputs.FilterServiceBlock}
                 />
               </div>
+            </div>
+            <DeletedNewsTable displayedRows={displayedRows} />
+            <div className='mb-3 px-4 py-1'>
+              <TablePagination
+                handlePageChange={handlePageChange}
+                currentPage={currentPage}
+                totalPages={totalPages}
+              />
             </div>
           </div>
         </div>

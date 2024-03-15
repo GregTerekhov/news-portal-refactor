@@ -16,16 +16,15 @@ const UserAccountLink: FC<UserAccountLinkProps> = ({ isHomeActive }) => {
   const { user } = useAuthRedux();
   const { textClass, accountIconStyles } = useHeaderStyles(isHomeActive);
 
+  const accountLinkStyles = `absolute right-40 top-1.5 flex items-center gap-3 lg:right-60 hg:right-72 hg:text-xl  ${
+    isHomeActive ? textClass : 'text-darkBase dark:text-whiteBase'
+  } group transition-colors duration-500 hover:text-accentBase dark:hover:text-accentBase`;
+
   return (
-    <Link
-      to='/account'
-      className={`absolute right-40 top-1.5 flex items-center gap-3 lg:right-60 hg:right-72 hg:text-xl  ${
-        isHomeActive ? textClass : 'text-darkBase dark:text-whiteBase'
-      } group transition-colors duration-500 hover:text-accentBase dark:hover:text-accentBase`}
-    >
+    <Link to='/account' className={`${accountLinkStyles}`}>
       {user.name}
       <SvgIcon
-        svgName='icon-account'
+        svgName='account'
         size={ICON_SIZES.smIcon18}
         className={`${
           isHomeActive

@@ -20,7 +20,6 @@ const backfaceVisibility = plugin(function ({ addUtilities }) {
 
 export default {
   mode: 'jit',
-  important: true,
   content: ['./index.html', './src/**/*.{js,jsx,ts,tsx}'],
   darkMode: 'class',
   theme: {
@@ -154,10 +153,6 @@ export default {
         '106px': '106px',
         '113px': '113px',
         '136px': '136px',
-        sectionSmall: 'calc(100vh - 82px)',
-        sectionMedium: 'calc(100vh - 107px)',
-        sectionLarge: 'calc(100vh - 114px)',
-        sectionHuge: 'calc(100vh - 137px)',
       },
       spacing: {
         none: 'none',

@@ -21,6 +21,7 @@ export type ExtendedUpdatePasswordRequest = UpdatePasswordRequest & {
 };
 
 export interface IThirdPartyAuth {
+  // треба видалити, або змінити, коли буде зроблена автентифікація через facebook та apple
   tokenAuth: string | null;
 }
 

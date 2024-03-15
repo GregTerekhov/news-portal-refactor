@@ -1,13 +1,9 @@
+import { MenuItem } from 'types';
+
 interface MenuItemProps {
   isAuthenticated: boolean;
   isAboutUs: boolean;
 }
-
-type MenuItem = {
-  path: string;
-  label: string;
-  liClasses: string;
-};
 
 export const renderMenuItem = ({ isAuthenticated, isAboutUs }: MenuItemProps): MenuItem[] => {
   const menuItems: MenuItem[] = isAuthenticated

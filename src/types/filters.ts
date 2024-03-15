@@ -9,3 +9,5 @@ export interface Filters {
     endDate: string;
   };
 }
+
+export type FilterResults = 'idle' | 'loading' | 'empty' | 'full';

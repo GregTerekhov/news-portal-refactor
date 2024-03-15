@@ -1,4 +1,4 @@
-export * from './hooks';
+export * from './reduxHooks';
 export { default as useAuthRedux } from './useAuthCollector';
 export { default as useDB } from './useNewsDBCollector';
 export { default as useFiltersAction } from './useFilterCollector';

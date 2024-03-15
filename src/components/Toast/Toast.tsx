@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 
-import { ToastVariant } from 'types';
+import { ToastStatus, ToastVariant } from 'types';
 
 import { useNotification } from 'contexts';
 import { useActiveLinks } from 'hooks';
@@ -11,7 +11,7 @@ import { useToastError, useToastInfo, useToastSuccess } from './hooks';
 
 interface ToastSuccessProps {
   variant: ToastVariant;
-  status: 'error' | 'success' | 'info';
+  status: ToastStatus;
 }
 
 const Toast: FC<ToastSuccessProps> = ({ variant, status }) => {

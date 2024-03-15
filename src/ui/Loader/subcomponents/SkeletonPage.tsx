@@ -13,7 +13,7 @@ import {
 } from '../assistants';
 
 const SkeletonPage: FC = () => {
-  const { isMobile, isTablet } = useWindowWidth();
+  const { isMobile, isTablet, wideScreens } = useWindowWidth();
 
   const menuItems: ReactNode[] = Array(4)
     .fill(null)
@@ -38,7 +38,7 @@ const SkeletonPage: FC = () => {
             <SkeletonSection />
           </>
         )}
-        {!isMobile && !isTablet && (
+        {wideScreens && (
           <>
             <SkeletonSection /> <SkeletonSection /> <SkeletonSection />
           </>

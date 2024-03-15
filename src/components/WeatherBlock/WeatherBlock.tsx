@@ -28,16 +28,16 @@ const WeatherBlock: FC<{}> = () => {
   const showLoader = isWeatherLoading && hasGeolocationPermission;
   const showError = weatherError && weatherError?.cod?.includes('5');
 
+  const weatherContainerStyles = `${
+    !isWeatherLoading && emptyWeather && !showError
+      ? 'flex flex-col items-center justify-between px-6 py-10 text-center md:px-10'
+      : showError
+        ? 'px-6 py-10 text-center md:px-10'
+        : 'px-5 py-8 md:px-8 md:pt-10 hg:pt-8'
+  }  h-full w-full bg-accentBase hg:w-442px`;
+
   return (
-    <div
-      className={`${
-        !isWeatherLoading && emptyWeather && !showError
-          ? 'flex flex-col items-center justify-between px-6 py-10 text-center md:px-10'
-          : showError
-            ? 'px-6 py-10 text-center md:px-10'
-            : 'px-5 py-8 md:px-8 md:pt-10 hg:pt-8'
-      }  h-full w-full bg-accentBase hg:w-442px`}
-    >
+    <div className={`${weatherContainerStyles}`}>
       {(!isWeatherLoading && emptyWeather) || showError ? (
         <NoWeather showError={showError} />
       ) : showLoader ? (

@@ -4,8 +4,8 @@ export interface VotedItem {
   _id?: string;
   title: string;
   description?: string;
-  isFavourite: boolean | undefined; // тимчасово для уникнення помилки типів в синхронній дії addOrUpdateVotedNews
-  hasRead: boolean | undefined; // так само як описано вище
+  isFavourite: boolean | undefined;
+  hasRead: boolean | undefined;
   publishDate: string;
   edition?: string;
   author?: string | undefined;

@@ -34,14 +34,14 @@ export const generateInputStyles = ({
 }: UnverifiableInputStylesProps) => {
   const inputStyles: Styles = {
     [VariantInputs.Header]: {
-      inputGeometry: `md:w-48 lg:w-72 md:py-[5px] md:pl-11 md:pr-3 transition-transform border border-solid w-173px ring-color-whiteBase outline-0 focus:border-whiteBase ${
+      inputGeometry: `md:w-48 lg:w-72 md:py-[5px] md:pl-11 md:pr-3 w-173px ring-color-whiteBase focus:border-whiteBase ${
         isMobile
           ? touched
             ? 'translate-x-0 max-md:py-[5px] max-md:pl-11 max-md:pr-3'
-            : 'translate-x-full  p-0'
+            : 'translate-x-full p-0'
           : ''
       }`,
-      inputBorder: `${inputClass.inputBorder} focus:ring-0 focus:outline-0`,
+      inputBorder: `${inputClass.inputBorder} focus:ring-0`,
       inputBg: 'bg-transparent',
       svgWrapperClass: `${touched ? 'left-3' : 'right-3'}`,
       svgFill: inputClass.svgFill,

@@ -4,13 +4,14 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { useAuthRedux } from 'reduxStore/hooks';
 
 import type { SendEmailRequest } from 'types';
-import { useNotification } from 'contexts';
+import { useNotification, useScrollBodyContext } from 'contexts';
 
 import { recoveryPasswordSchema } from '../assistants';
 
 const useSendEmail = () => {
   const { sendEmailForRecovery } = useAuthRedux();
   const { showToast } = useNotification();
+  const { setIsScrollDisabled } = useScrollBodyContext();
 
   const {
     handleSubmit: handleRecoveryPasswordSubmit,
@@ -31,6 +32,7 @@ const useSendEmail = () => {
       console.error('Error during sending email for recovery password', error);
     } finally {
       resetField('email');
+      setIsScrollDisabled(false);
     }
   };
 

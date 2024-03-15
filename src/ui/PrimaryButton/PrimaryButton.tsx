@@ -46,15 +46,17 @@ const PrimaryButton = forwardRef<
     const styles = generateButtonStyles({ disabled, width });
     const currentStyles = styles[variant];
 
+    const primaryButtonStyles = `flex items-center justify-center transition-colors duration-500 ${
+      hasIcon ? 'gap-2.5' : ''
+    } ${children ? 'text-base text-contrastWhite lg:text-medium hg:text-2xl' : ''} ${
+      currentStyles.buttonStyles
+    } ${classNameButton}`;
+
     return (
       <button
         id={id}
         aria-label={ariaLabel}
-        className={`flex items-center justify-center transition-colors duration-500 ${
-          hasIcon ? 'gap-2.5' : ''
-        } ${children ? 'text-base text-contrastWhite lg:text-medium hg:text-2xl' : ''} ${
-          currentStyles.buttonStyles
-        } ${classNameButton}`}
+        className={`${primaryButtonStyles}`}
         type={type}
         onClick={onHandleClick}
         ref={ref}

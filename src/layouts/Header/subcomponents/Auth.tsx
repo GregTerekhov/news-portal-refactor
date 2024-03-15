@@ -42,7 +42,7 @@ const Auth: FC<{}> = () => {
             !isAuthenticated ? (toggleModal as ClickHandler) : (onSignOut as ClickHandler)
           }
           hasIcon={true}
-          svgName={`${isAuthenticated ? 'icon-signout' : 'icon-auth'}`}
+          svgName={`${isAuthenticated ? 'signout' : 'auth'}`}
           svgSize={wideScreens ? ICON_SIZES.mdIcon28 : ICON_SIZES.mdIcon24}
           classNameIcon='fill-whiteBase'
           classNameButton={`${

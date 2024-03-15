@@ -34,15 +34,15 @@ export const renderInfoItems = (user: User): UserInfoList[] => {
 export const renderAccountIcons = (haveAccounts: HaveAccounts): IconsList[] => {
   const icons: IconsList[] = [
     {
-      iconName: 'icon-google',
+      iconName: 'google',
       linked: haveAccounts.google,
     },
     {
-      iconName: 'icon-facebook',
+      iconName: 'facebook',
       linked: haveAccounts.facebook,
     },
     {
-      iconName: 'icon-apple',
+      iconName: 'apple',
       linked: haveAccounts.apple,
     },
   ];
