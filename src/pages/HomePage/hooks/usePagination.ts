@@ -98,7 +98,6 @@ const usePagination = (rebuildedNews: PartialVotedNewsArray) => {
       : Math.ceil(totalPages / currentCardsPerPage);
 
   const pageNumbers: number[] = Array.from({ length: pageQuantity }, (_, index) => index + 1);
-  console.log('pageQuantity', pageQuantity);
 
   return {
     currentItems,

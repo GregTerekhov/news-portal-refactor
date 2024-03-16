@@ -46,8 +46,6 @@ const useRequestByDate = () => {
                 },
               });
 
-              console.log(`WORK`);
-
               await fetchByDate(newSelectedDate);
             } else {
               await fetchByDate(newSelectedDate);

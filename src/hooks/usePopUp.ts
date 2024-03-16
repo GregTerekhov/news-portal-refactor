@@ -3,7 +3,6 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { useScrollBodyContext } from 'contexts';
 
 const usePopUp = () => {
-  const [isOpenDropdown, setIsOpenDropdown] = useState<boolean>(false);
   const [isOpenModal, setIsOpenModal] = useState<boolean>(false);
   const [isOpenCalendar, setIsOpenCalendar] = useState<boolean>(false);
 
@@ -21,12 +20,9 @@ const usePopUp = () => {
         if (isOpenCalendar) {
           setIsOpenCalendar(false);
         }
-        if (isOpenDropdown) {
-          setIsOpenDropdown(false);
-        }
       }
     },
-    [isOpenModal, isOpenCalendar, isOpenDropdown],
+    [isOpenModal, isOpenCalendar],
   );
 
   const handleKeyDown = useCallback(
@@ -39,12 +35,9 @@ const usePopUp = () => {
         if (isOpenCalendar) {
           setIsOpenCalendar(false);
         }
-        if (isOpenDropdown) {
-          setIsOpenDropdown(false);
-        }
       }
     },
-    [isOpenCalendar, isOpenModal, isOpenDropdown],
+    [isOpenCalendar, isOpenModal],
   );
 
   useEffect(() => {
@@ -55,7 +48,7 @@ const usePopUp = () => {
       window.removeEventListener('mousedown', handleWindowClick);
       window.removeEventListener('keydown', handleKeyDown);
     };
-  }, [handleKeyDown, handleWindowClick, isOpenModal, isOpenCalendar, isOpenDropdown]);
+  }, [handleKeyDown, handleWindowClick, isOpenModal, isOpenCalendar]);
 
   const toggleCalendar = useCallback(() => {
     setIsOpenCalendar(!isOpenCalendar);
@@ -71,20 +64,14 @@ const usePopUp = () => {
     setIsScrollDisabled(!isScrollDisabled);
   };
 
-  const toggleDropdown = (): void => {
-    setIsOpenDropdown(!isOpenDropdown);
-  };
-
   return {
     isOpenModal,
     isOpenCalendar,
-    isOpenDropdown,
     popUpRef,
     setIsOpenModal,
     setIsOpenCalendar,
     toggleModal,
     toggleCalendar,
-    toggleDropdown,
   };
 };
 

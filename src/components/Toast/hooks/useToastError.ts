@@ -36,8 +36,8 @@ const useToastError = () => {
         description = 'Too many requests';
         break;
       default:
-        title = '';
-        description = '';
+        title = 'UnknownError';
+        description = 'Try to reload page';
         break;
     }
 

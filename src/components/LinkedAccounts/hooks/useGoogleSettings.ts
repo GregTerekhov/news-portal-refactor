@@ -22,7 +22,7 @@ const useGoogleSettings = () => {
             headers: { Authorization: `Bearer ${codeResponse.access_token}` },
           })
           .then((res) => res.data);
-        console.log('userInfo', userInfo);
+        // console.log('userInfo', userInfo);
 
         if (!isAuthenticated) {
           const response = await enterWithGoogle({ email: userInfo.email, sub: userInfo.sub });
@@ -33,11 +33,11 @@ const useGoogleSettings = () => {
           console.log('bindGoogle', response);
         }
       } catch (error) {
-        console.log('Failed to login', error);
+        console.error('Failed to login', error);
       }
     },
     onError: (error) => {
-      console.log(error);
+      console.error(error);
     },
   });
 

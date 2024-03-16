@@ -54,7 +54,6 @@ const useFilterNews = (activeLinks: ActiveLinks) => {
           setSelectedFilterDate(newSelectedDate);
 
           if (newSelectedDate.beginDate && newSelectedDate.endDate) {
-            console.log(newSelectedDate);
             setFilters({
               ...filters,
               selectedFilterDate: {
