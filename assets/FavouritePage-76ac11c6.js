@@ -1,0 +1,1 @@
+import{d as o,f as c,g as n,r as i,R as s}from"./index-dfd72dbe.js";import{P as u,N as l}from"./PageTemplate-95b83692.js";import"./images-456d345e.js";const g=()=>{const{getFavourites:e,getSavedNews:t}=o(),a=c(),{rebuildedNews:r}=n(a);return i.useEffect(()=>{e(),t()},[e,t]),s.createElement(u,null,s.createElement(l,{currentItems:r}))};export{g as default};
