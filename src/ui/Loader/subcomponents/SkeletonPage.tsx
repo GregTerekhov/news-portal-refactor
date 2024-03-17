@@ -1,6 +1,7 @@
 import React, { FC, ReactNode } from 'react';
 
 import { useWindowWidth } from 'contexts';
+import { useActiveLinks } from 'hooks';
 
 import SkeletonSection from './SkeletonSection';
 import {
@@ -11,9 +12,11 @@ import {
   mainContentPageClass,
   menuWrapperClass,
 } from '../assistants';
+import SkeletonPagination from './SkeletonPagination';
 
 const SkeletonPage: FC = () => {
   const { isMobile, isTablet, wideScreens } = useWindowWidth();
+  const { isHomeActive } = useActiveLinks();
 
   const menuItems: ReactNode[] = Array(4)
     .fill(null)
@@ -44,6 +47,7 @@ const SkeletonPage: FC = () => {
           </>
         )}
       </div>
+      {isHomeActive && <SkeletonPagination />}
     </div>
   );
 };

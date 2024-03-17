@@ -11,7 +11,7 @@ const useRequestByDate = () => {
   const { beginDate, setBeginDate, setSelectedRequestDate } = useSelectedDate();
   const { toggleCalendar } = usePopUp();
   const { filteredNews, resetAllFilters } = useFiltersAction();
-  const { setSelectedFilterDate } = useSelectedDate();
+  const { resetFiltersDay } = useSelectedDate();
 
   const { setFilters, filters } = useFiltersState();
 
@@ -36,7 +36,7 @@ const useRequestByDate = () => {
           if (newDateValues !== null) {
             if (filteredNews && filteredNews.length > 0) {
               resetPreviousRequest();
-              setSelectedFilterDate({ beginDate: null, endDate: null });
+              resetFiltersDay();
               resetAllFilters();
               setFilters({
                 ...filters,

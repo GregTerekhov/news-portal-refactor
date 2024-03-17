@@ -18,7 +18,7 @@ const SignOutButton: FC<SignOutButtonProps> = ({ handleSignOut }) => {
       classNameButton='border border-solid border-transparent dark:border-whiteBase'
       hasIcon={true}
       variant={VariantButton.Other}
-      width='w-32'
+      width='w-32 hg:w-36'
       svgName='signout'
       svgSize={isTV ? ICON_SIZES.mdIcon27 : ICON_SIZES.mdIcon24}
       classNameIcon='fill-whiteBase'

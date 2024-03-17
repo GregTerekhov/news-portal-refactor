@@ -17,9 +17,9 @@ const CustomScrollBar: FC<CustomScrollProps> = ({ children, isOpen, orientation,
   const customScrollThumb: string =
     orientation === 'vertical'
       ? 'before:left-1/2 before:top-1/2 before:-translate-x-1/2 before:-translate-y-1/2'
-      : 'before:h-2.5';
+      : 'before:!h-2.5';
 
-  const areaThumbStyles = `${customScrollThumb} relative flex flex-1 before:rounded-[10px] before:absolute before:h-full before:w-full before:bg-accentBase  before:content-['']`;
+  const areaThumbStyles = `${customScrollThumb} relative flex flex-1 before:rounded-[10px] before:absolute before:h-full before:w-full before:bg-accentBase before:content-['']`;
 
   return (
     isOpen && (

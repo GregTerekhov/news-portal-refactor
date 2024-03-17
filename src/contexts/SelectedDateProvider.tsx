@@ -15,6 +15,7 @@ type SelectedDateContextValue = {
   setSelectedFilterDate: (date: SelectedDate) => void;
   beginDate: Date | null;
   setBeginDate: (value: Date | null) => void;
+  resetFiltersDay: () => void;
 };
 
 export const SelectedDateContext = createContext<SelectedDateContextValue | undefined>(undefined);
@@ -30,6 +31,10 @@ export const SelectedDateProvider: FC<SelectedDateContextProps> = ({ children })
   });
   const [beginDate, setBeginDate] = useState<Date | null>(null);
 
+  const resetFiltersDay = (): void => {
+    setSelectedFilterDate({ beginDate: null, endDate: null });
+  };
+
   return (
     <SelectedDateContext.Provider
       value={{
@@ -39,6 +44,7 @@ export const SelectedDateProvider: FC<SelectedDateContextProps> = ({ children })
         setSelectedFilterDate,
         beginDate,
         setBeginDate,
+        resetFiltersDay,
       }}
     >
       {children}
