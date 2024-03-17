@@ -38,7 +38,10 @@ body {
 }
 
 @layer components {
-  .customScrollPosition {
+  .customVerticalScrollPosition {
     @apply right-[5px] top-[10px] !important;
+  }
+  .customHorizontalScrollPosition {
+    @apply left-[2px] !important;
   }
 }

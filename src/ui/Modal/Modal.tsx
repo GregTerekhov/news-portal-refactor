@@ -22,7 +22,7 @@ const Modal: FC<ModalProps> = ({ children, closeModal, modalRef }) => {
   const { wideScreens } = useWindowWidth();
 
   const backdropStyles =
-    'fixed left-0 top-0 z-[60] flex h-screen w-screen items-center justify-center overflow-auto bg-whiteBase/[.4] backdrop-blur-sm transition-colors before:fixed before:left-0 before:top-0 before:h-81px before:w-full before:content-[""] dark:bg-darkBackground/[.4]';
+    'fixed left-0 top-0 z-100 flex h-screen w-screen items-center justify-center overflow-auto bg-whiteBase/[.4] backdrop-blur-sm transition-colors before:fixed before:left-0 before:top-0 before:h-81px before:w-full before:content-[""] dark:bg-darkBackground/[.4]';
 
   const modalContainerStyles =
     'absolute left-1/2 top-1/2 w-full -translate-x-1/2 -translate-y-1/2 transform rounded-xl border border-solid border-accentBase bg-whiteBase px-6 py-4 shadow-modal transition-colors dark:border-whiteBase dark:bg-darkBackground dark:shadow-darkCard max-md:max-w-[288px] md:w-600px md:px-8 md:pb-8 hg:px-9';

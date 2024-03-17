@@ -37,6 +37,8 @@ export default {
       },
       zIndex: {
         45: '45',
+        60: '60',
+        100: '100',
       },
       boxShadow: {
         modal: '0 5px 15px rgba(168,168,168,.50)',

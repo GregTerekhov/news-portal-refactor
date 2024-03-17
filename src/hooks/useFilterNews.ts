@@ -25,7 +25,7 @@ const useFilterNews = (activeLinks: ActiveLinks) => {
 
   const { rebuildedNews } = useChooseRenderingNews(activeLinks);
   const sortedAccordionDates = useReadNewsContent(activeLinks);
-  const { setSelectedFilterDate } = useSelectedDate();
+  const { resetFiltersDay, setSelectedFilterDate } = useSelectedDate();
 
   const today = startOfToday();
 
@@ -54,7 +54,6 @@ const useFilterNews = (activeLinks: ActiveLinks) => {
           setSelectedFilterDate(newSelectedDate);
 
           if (newSelectedDate.beginDate && newSelectedDate.endDate) {
-            console.log(newSelectedDate);
             setFilters({
               ...filters,
               selectedFilterDate: {
@@ -179,11 +178,7 @@ const useFilterNews = (activeLinks: ActiveLinks) => {
     });
     setSelectedMaterialType('');
     resetAllFilters();
-    setSelectedFilterDate({
-      beginDate: null,
-      endDate: null,
-    });
-
+    resetFiltersDay();
     setSortedDates([]);
     setIsSorted(false);
   };

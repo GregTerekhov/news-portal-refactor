@@ -1,13 +1,10 @@
-import { useSelectedDate } from 'contexts/SelectedDateProvider';
 import { format } from 'date-fns';
 
 //Хук для разгрузки логики в компоненте GridCalendar
 const useCalendarDayFormat = () => {
-  const { setSelectedFilterDate } = useSelectedDate();
-
   //Принимает день и вариант календаря: поиск, фильтр. Приводит день к формату
-  const dateToString = (day: number | Date, variant: string) => {
-    let dayToString: string = '';
+  const dateToString = (day: Date, variant: string): string => {
+    let dayToString = '';
 
     switch (variant) {
       case 'SearchBlock':
@@ -29,11 +26,7 @@ const useCalendarDayFormat = () => {
     return isDayInRange;
   };
 
-  const resetFiltersDay = () => {
-    setSelectedFilterDate({ beginDate: null, endDate: null });
-  };
-
-  const dayFormatConverter = (filterDate: string) => {
+  const dayFormatConverter = (filterDate: string): string => {
     const chopTheDay = filterDate.slice(0, 2);
     const chopTheMonth = filterDate.slice(3, 5);
     const chopTheYear = filterDate.slice(6);
@@ -43,7 +36,7 @@ const useCalendarDayFormat = () => {
     return sewTogether;
   };
 
-  return { dateToString, isDayInRange, resetFiltersDay, dayFormatConverter };
+  return { dateToString, isDayInRange, dayFormatConverter };
 };
 
 export default useCalendarDayFormat;

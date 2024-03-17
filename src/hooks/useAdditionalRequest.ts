@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 import { useNewsAPI, useFiltersAction } from 'reduxStore/hooks';
 
@@ -36,10 +36,6 @@ const useAdditionalRequest = () => {
   } = useNewsAPI();
   const { filteredNews } = useFiltersAction();
   const { selectedRequestDate, setSelectedRequestDate } = useSelectedDate();
-
-  useEffect(() => {
-    console.log(searchParams.query);
-  }, [searchParams.query]);
 
   const showPopular =
     (newsByKeyword && newsByKeyword?.length === 0) ||

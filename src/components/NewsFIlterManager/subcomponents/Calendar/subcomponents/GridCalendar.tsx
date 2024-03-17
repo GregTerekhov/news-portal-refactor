@@ -19,7 +19,6 @@ const GridCalendar: FC<GridCalendarProps> = ({ day, currMonth, handleFilterDate,
   const { dateToString, isDayInRange, dayFormatConverter } = useCalendarDayFormat();
 
   const handleDateClick = () => {
-    console.log(variant);
     if (variant === 'SearchBlock') {
       handleDateRequest(day);
     } else {
@@ -109,7 +108,6 @@ const GridCalendar: FC<GridCalendarProps> = ({ day, currMonth, handleFilterDate,
   }
 
   const defaultTodayStyle = variant === 'FiltersBlock' ? defaultFilterStyle : defaultSearchStyle;
-  console.log('filterDate', filterDate);
 
   return (
     <div className={COL_START_CLASSES[getDay(day)]}>
