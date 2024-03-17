@@ -71,6 +71,9 @@ const NewsItem: FC<Partial<NewsItemProps>> = ({ liveNews = {} }) => {
             </p>
           )}
           <div className='relative flex h-395px items-center justify-center overflow-hidden rounded-[10px]'>
+            <p className='absolute bottom-3 left-3 z-10 text-darkBase opacity-0 drop-shadow-lg transition-opacity group-hover:opacity-100 dark:text-whiteBase'>
+              {liveNews?.edition}
+            </p>
             {liveNews && liveNews?.imgLink ? (
               <img
                 loading='lazy'

@@ -1,5 +1,6 @@
 export * from './FiltersProvider';
 export * from './NotificationProvider';
+export * from './PaginationProvider';
 export * from './ScrollBodyProvider';
 export * from './SelectedDateProvider';
 export * from './SortReadAccordeon';

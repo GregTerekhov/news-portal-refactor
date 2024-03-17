@@ -2,7 +2,7 @@ import { isAfter, startOfToday } from 'date-fns';
 
 import { useNewsAPI, useFiltersAction } from 'reduxStore/hooks';
 
-import { useFiltersState, useSelectedDate } from 'contexts';
+import { useFiltersState, usePaginationContext, useSelectedDate } from 'contexts';
 import { determineNewSelectedDate, formatDateRange } from 'helpers';
 import { usePopUp } from 'hooks';
 
@@ -10,8 +10,9 @@ const useRequestByDate = () => {
   const { fetchByDate, resetPreviousRequest, updateHeadline } = useNewsAPI();
   const { beginDate, setBeginDate, setSelectedRequestDate } = useSelectedDate();
   const { toggleCalendar } = usePopUp();
-  const { filteredNews, resetAllFilters } = useFiltersAction();
+  const { filteredNews, resetAllFiltersResults } = useFiltersAction();
   const { resetFiltersDay } = useSelectedDate();
+  const { resetPagination } = usePaginationContext();
 
   const { setFilters, filters } = useFiltersState();
 
@@ -34,10 +35,11 @@ const useRequestByDate = () => {
           const newDateValues = Object.values(newSelectedDate);
 
           if (newDateValues !== null) {
+            resetPagination();
             if (filteredNews && filteredNews.length > 0) {
               resetPreviousRequest();
               resetFiltersDay();
-              resetAllFilters();
+              resetAllFiltersResults();
               setFilters({
                 ...filters,
                 selectedFilterDate: {

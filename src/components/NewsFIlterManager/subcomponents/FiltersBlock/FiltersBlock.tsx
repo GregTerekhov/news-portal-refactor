@@ -2,18 +2,17 @@ import React, { FC } from 'react';
 
 import { Filters } from 'types';
 import { useFiltersState } from 'contexts';
-import { useActiveLinks, useFilterNews } from 'hooks';
 
 import { Dropdown } from 'ui';
 
 import { materialTypes } from './assistants';
+import { useChangeFilter } from './hooks';
+
 import Calendar from '../Calendar/Calendar';
 import { ControlButtons, FilterInputs } from './subcomponents';
 
 const FiltersBlock: FC<{}> = () => {
-  const activeLinks = useActiveLinks();
-
-  const { handleMaterialTypeChange } = useFilterNews(activeLinks);
+  const { handleMaterialTypeChange } = useChangeFilter();
   const { filters, selectedMaterialType, setSelectedMaterialType } = useFiltersState();
 
   const hasNonEmptyValue = (filtersObject: Filters): boolean => {

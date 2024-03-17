@@ -19,12 +19,12 @@ const useFilterCollector = () => {
     (state: FilterResults) => dispatch(filters.results(state)),
     [dispatch],
   );
-  const resetAllFilters = useCallback(() => dispatch(filters.resetFilters()), [dispatch]);
+  const resetAllFiltersResults = useCallback(() => dispatch(filters.resetFilters()), [dispatch]);
   return {
     filteredNews,
     hasResults,
     getFilteredNews,
-    resetAllFilters,
+    resetAllFiltersResults,
     showResultsState,
   };
 };

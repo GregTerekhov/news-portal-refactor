@@ -1,4 +1,4 @@
-import { useAuthRedux, useDB, useNewsAPI } from 'reduxStore/hooks';
+import { useAuthRedux, useDB, useFiltersAction, useNewsAPI } from 'reduxStore/hooks';
 
 import { ToastStatus, ToastVariant } from 'types';
 import { useActiveLinks } from 'hooks';
@@ -6,6 +6,7 @@ import useShowLoader from './useShowLoader';
 
 const useShowToast = () => {
   const activeLinks = useActiveLinks();
+  const { filteredNews } = useFiltersAction();
 
   const { isArchiveActive, isFavoriteActive, isHomeActive, isReadActive } = activeLinks;
   const { errorAPI, newsByKeyword, newsByCategory, newsByDate } = useNewsAPI();
@@ -19,7 +20,7 @@ const useShowToast = () => {
     (newsByDate && newsByDate.length > 0);
 
   const homeToastError = !!authError || !!errorAPI;
-  const homeToastInfo = !isHomeLoader && additionalRequests;
+  const homeToastInfo = (!isHomeLoader && additionalRequests) || filteredNews?.length > 0;
   const favouritesToastInfo = isFavoriteActive && !commonDBLoader && allFavourites?.length > 0;
   const readsToastInfo = isReadActive && !commonDBLoader && allReads?.length > 0;
   const archiveToast = isArchiveActive && dbSuccessMessage === 'Remove news success';

@@ -1,18 +1,17 @@
 import React, { FC } from 'react';
 
-import { useWindowWidth } from 'contexts';
+import { usePaginationContext, useWindowWidth } from 'contexts';
 
 import DirectionButton from './DirectionButton';
 import PaginationButton from './PaginationButton';
 import { renderPagination } from '../assistants';
 interface PaginationProps {
   pageNumbers: number[];
-  currentPage: number;
-  setCurrentPage: (number: number) => void;
 }
 
-const Pagination: FC<PaginationProps> = ({ pageNumbers, currentPage, setCurrentPage }) => {
+const Pagination: FC<PaginationProps> = ({ pageNumbers }) => {
   const { isNotMobile } = useWindowWidth();
+  const { currentPage, setCurrentPage } = usePaginationContext();
 
   const renderEllipsis = (direction: string): JSX.Element => (
     <li key={direction} className='text-darkBase dark:text-whiteBase'>
@@ -40,11 +39,7 @@ const Pagination: FC<PaginationProps> = ({ pageNumbers, currentPage, setCurrentP
   };
 
   const renderPaginationButton = (pageNumber: number): JSX.Element => (
-    <PaginationButton
-      pageNumber={pageNumber}
-      currentPage={currentPage}
-      onClick={handlePageNumberClick}
-    />
+    <PaginationButton pageNumber={pageNumber} onClick={handlePageNumberClick} />
   );
 
   const paginationButtons = renderPagination(
@@ -61,18 +56,13 @@ const Pagination: FC<PaginationProps> = ({ pageNumbers, currentPage, setCurrentP
 
   return (
     <div className='flex items-center justify-center gap-2'>
-      <DirectionButton
-        direction='Prev'
-        currentPage={currentPage}
-        handlePrevClick={handlePrevClick}
-      />
+      <DirectionButton direction='Prev' handlePrevClick={handlePrevClick} />
       <ul id='page-numbers' className='flex items-center gap-2'>
         {renderedPaginationButtons}
       </ul>
       <DirectionButton
         direction='Next'
         pageNumbers={pageNumbers}
-        currentPage={currentPage}
         handleNextClick={handleNextClick}
       />
     </div>

@@ -17,6 +17,7 @@ import {
   SelectedDateProvider,
   ReadSortProvider,
   ScrollBodyProvider,
+  PaginationProvider,
 } from 'contexts';
 
 const queryClient = new QueryClient();
@@ -37,13 +38,15 @@ const AppProvider: FC<AppProviderProps> = ({ children }) => (
               <Tooltip.Provider delayDuration={500}>
                 <Toast.Provider>
                   <NotificationProvider>
-                    <ScrollBodyProvider>
-                      <SelectedDateProvider>
-                        <FiltersProvider>
-                          <ReadSortProvider>{children}</ReadSortProvider>
-                        </FiltersProvider>
-                      </SelectedDateProvider>
-                    </ScrollBodyProvider>
+                    <PaginationProvider>
+                      <ScrollBodyProvider>
+                        <SelectedDateProvider>
+                          <FiltersProvider>
+                            <ReadSortProvider>{children}</ReadSortProvider>
+                          </FiltersProvider>
+                        </SelectedDateProvider>
+                      </ScrollBodyProvider>
+                    </PaginationProvider>
                   </NotificationProvider>
                 </Toast.Provider>
               </Tooltip.Provider>

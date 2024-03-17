@@ -2,7 +2,7 @@ import { useDB, useNewsAPI, useFiltersAction } from 'reduxStore/hooks';
 
 import { rebuildNewsArray } from 'helpers';
 
-import { ActiveLinks } from './commonTypes';
+import type { ActiveLinks } from './commonTypes';
 
 const useChooseRenderingNews = (activeLinks: ActiveLinks) => {
   const { popularNews, newsByKeyword, newsByCategory, newsByDate } = useNewsAPI();

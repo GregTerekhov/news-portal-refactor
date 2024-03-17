@@ -4,23 +4,16 @@ import { useNewsAPI, useFiltersAction } from 'reduxStore/hooks';
 
 import { PartialVotedNewsArray } from 'types';
 
-import { useWindowWidth } from 'contexts';
+import { usePaginationContext, useWindowWidth } from 'contexts';
 
-import { calculatePagesForDevices, calculateFirstIndexes } from '../assistants';
-
-const FIRST_MOBILE_PAGE_COUNT = 4;
-const FIRST_TABLET_PAGE_COUNT = 7;
-const FIRST_DESKTOP_PAGE_COUNT = 8;
-const OTHER_MOBILE_PAGE_COUNT = 5;
-const OTHER_TABLET_PAGE_COUNT = 8;
-const OTHER_DESKTOP_PAGE_COUNT = 9;
+import { calculatePagesForDevices, calculateFirstIndexes, COUNT } from '../assistants';
 
 const usePagination = (rebuildedNews: PartialVotedNewsArray) => {
   const { isMobile, isTablet } = useWindowWidth();
+  const { currentPage } = usePaginationContext();
   const { popularNews, newsByKeyword, newsByCategory, newsByDate } = useNewsAPI();
   const { filteredNews } = useFiltersAction();
 
-  const [currentPage, setCurrentPage] = useState(1);
   const [currentItems, setCurrentItems] = useState<PartialVotedNewsArray>([]);
 
   const totalPages: number = (rebuildedNews && rebuildedNews?.length) || 0;
@@ -72,22 +65,22 @@ const usePagination = (rebuildedNews: PartialVotedNewsArray) => {
   //Отримання кількості новин на першій сторінці для кожного пристроя
   function getFirstPageCount(): number {
     if (isMobile) {
-      return FIRST_MOBILE_PAGE_COUNT;
+      return COUNT.FIRST_MOBILE_PAGE_COUNT;
     } else if (isTablet) {
-      return FIRST_TABLET_PAGE_COUNT;
+      return COUNT.FIRST_TABLET_PAGE_COUNT;
     } else {
-      return FIRST_DESKTOP_PAGE_COUNT;
+      return COUNT.FIRST_DESKTOP_PAGE_COUNT;
     }
   }
 
   //Отримання кількості новин на інших сторінках для кожного пристроя
   function getOtherPageCount(): number {
     if (isMobile) {
-      return OTHER_MOBILE_PAGE_COUNT;
+      return COUNT.OTHER_MOBILE_PAGE_COUNT;
     } else if (isTablet) {
-      return OTHER_TABLET_PAGE_COUNT;
+      return COUNT.OTHER_TABLET_PAGE_COUNT;
     } else {
-      return OTHER_DESKTOP_PAGE_COUNT;
+      return COUNT.OTHER_DESKTOP_PAGE_COUNT;
     }
   }
 
@@ -102,8 +95,6 @@ const usePagination = (rebuildedNews: PartialVotedNewsArray) => {
   return {
     currentItems,
     pageNumbers,
-    currentPage,
-    setCurrentPage,
   };
 };
 

@@ -2,7 +2,7 @@ import React from 'react';
 
 import { PrimaryButton } from 'ui';
 
-import { IControlButtons } from '../types';
+import type { IControlButtons } from '../types';
 
 export const RenderButtons = (buttons: IControlButtons[]) => {
   return (
