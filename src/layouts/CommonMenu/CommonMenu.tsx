@@ -22,8 +22,8 @@ export type MobileMenu = Omit<CommonMenuProps, 'navId'>;
 
 const CommonMenu: FC<CommonMenuProps> = ({ isOpen, navId, closeMenu }) => {
   const { isMobile } = useWindowWidth();
-  const { resetAllFilters } = useFiltersAction();
-  const { setFilters } = useFiltersState();
+  const { resetAllFiltersResults } = useFiltersAction();
+  const { resetFilters } = useFiltersState();
   const { user, logout } = useAuthRedux();
   const { showToast } = useNotification();
 
@@ -37,18 +37,8 @@ const CommonMenu: FC<CommonMenuProps> = ({ isOpen, navId, closeMenu }) => {
     }
 
     if (navId === 'main-navigation') {
-      resetAllFilters();
-      setFilters({
-        keyword: '',
-        title: '',
-        author: '',
-        publisher: '',
-        materialType: '',
-        selectedFilterDate: {
-          startDate: '',
-          endDate: '',
-        },
-      });
+      resetAllFiltersResults();
+      resetFilters();
     }
   };
 

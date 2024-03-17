@@ -2,7 +2,7 @@ import { useState } from 'react';
 
 import { useNewsAPI, useFiltersAction } from 'reduxStore/hooks';
 
-import { useSelectedDate } from 'contexts';
+import { usePaginationContext, useSelectedDate } from 'contexts';
 import { CategoryRequest } from 'types';
 
 export type SearchParamsObject = {
@@ -35,7 +35,8 @@ const useAdditionalRequest = () => {
     updateHeadline,
   } = useNewsAPI();
   const { filteredNews } = useFiltersAction();
-  const { selectedRequestDate, setSelectedRequestDate } = useSelectedDate();
+  const { resetRequestDay } = useSelectedDate();
+  const { resetPagination } = usePaginationContext();
 
   const showPopular =
     (newsByKeyword && newsByKeyword?.length === 0) ||
@@ -61,9 +62,10 @@ const useAdditionalRequest = () => {
   const onHandleSearch = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (searchParams.query) {
-      if (filteredNews?.length > 0) {
-        resetPreviousRequest();
-      }
+      resetPagination();
+
+      if (filteredNews?.length > 0) resetPreviousRequest();
+
       await fetchByKeyword({ query: searchParams.query });
       updateHeadline(`News by Keyword: ${searchParams.query}`);
       updateSearchParams('', 'query');
@@ -72,6 +74,7 @@ const useAdditionalRequest = () => {
 
   const getNewsByCategory = async (section: CategoryRequest) => {
     if (section) {
+      resetPagination();
       updateSearchParams(section, 'category');
 
       if (filteredNews?.length > 0) {
@@ -83,21 +86,30 @@ const useAdditionalRequest = () => {
   };
 
   const getNewsByPeriod = async (selectedPeriod: string) => {
-    updateSearchParams(selectedPeriod, 'period');
+    if (selectedPeriod) {
+      resetPagination();
+      updateSearchParams(selectedPeriod, 'period');
 
-    if (filteredNews && filteredNews.length > 0) {
-      resetPreviousRequest();
-    }
+      if (filteredNews && filteredNews.length > 0) {
+        resetPreviousRequest();
+      }
 
-    if (selectedPeriod === 'Today') {
-      updateHeadline(`${selectedPeriod}'s Hot News`);
-      await fetchPopular({ period: TODAY_HOT_NEWS });
-    } else if (selectedPeriod === 'Week') {
-      updateHeadline(`${selectedPeriod} News`);
-      await fetchPopular({ period: WEEKLY_NEWS });
-    } else if (selectedPeriod === 'Month') {
-      updateHeadline(`${selectedPeriod} News`);
-      await fetchPopular({ period: MONTHLY_NEWS });
+      switch (selectedPeriod) {
+        case 'Today':
+          updateHeadline(`${selectedPeriod}'s Hot News`);
+          await fetchPopular({ period: TODAY_HOT_NEWS });
+          break;
+        case 'Week':
+          updateHeadline(`${selectedPeriod} News`);
+          await fetchPopular({ period: WEEKLY_NEWS });
+          break;
+        case 'Month':
+          updateHeadline(`${selectedPeriod} News`);
+          await fetchPopular({ period: MONTHLY_NEWS });
+          break;
+        default:
+          break;
+      }
     }
   };
 
@@ -105,17 +117,18 @@ const useAdditionalRequest = () => {
 
   const handleResetRequests = async () => {
     if (hasAnotherRequestResults) {
+      resetPagination();
       resetPreviousRequest();
       updateHeadline('Today`s Hot News');
       resetSearchParams();
-      setSelectedRequestDate({ beginDate: null, endDate: null });
+      resetRequestDay();
+
       await fetchPopular({ period: TODAY_HOT_NEWS });
     }
   };
 
   return {
     ...searchParams,
-    selectedRequestDate,
     categoriesForDropdown: getCategoriesList(),
     showPopular,
     updateSearchParams,

@@ -32,6 +32,7 @@ const useUpdateEmail = () => {
 
   const handleEmailSubmitHandler: SubmitHandler<AuthRequestWithoutName> = async (data) => {
     try {
+      console.log('updateEmailRequest', data);
       const response = await updateEmail(data);
 
       showToast(response.meta.requestStatus);

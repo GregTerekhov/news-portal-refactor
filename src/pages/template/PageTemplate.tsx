@@ -40,7 +40,7 @@ const PageTemplate: FC<PageTemplateProps> = ({ children }) => {
 
   useEffect(() => {
     if (rebuildedNews?.length > 0) setOpenToast(true);
-  }, [rebuildedNews?.length]);
+  }, []);
 
   return (
     <>

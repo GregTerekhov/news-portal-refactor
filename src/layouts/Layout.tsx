@@ -107,8 +107,8 @@ const Layout: FC = () => {
                   icon='triangle'
                 />
                 <PageScrollController
-                  label='Scroll down'
                   direction='down'
+                  label='Scroll down'
                   position='bottom-12'
                   icon='triangle'
                   classIcon='rotate-180'

@@ -1,12 +1,10 @@
 import React, { FC } from 'react';
 
-import { useActiveLinks, useFilterNews } from 'hooks';
-
 import CalendarControls from './CalendarControls';
 import GridCalendar from './GridCalendar';
 import WeekDays from './WeekDays';
 
-import { useControlCalendar } from '../hooks';
+import { useControlCalendar, useFilterDateChange } from '../hooks';
 interface CalendarContentProps {
   variant: string;
 }
@@ -22,9 +20,7 @@ const CalendarContent: FC<CalendarContentProps> = ({ variant }) => {
     getNextYear,
   } = useControlCalendar();
 
-  const activeLinks = useActiveLinks();
-
-  const { handleFilterDate } = useFilterNews(activeLinks);
+  const { handleFilterDate } = useFilterDateChange();
 
   return (
     <div className='absolute z-40 w-full rounded-[20px] bg-dropdownBase px-4 pb-5 pt-4 shadow-card dark:bg-darkDropdown dark:shadow-darkCard'>

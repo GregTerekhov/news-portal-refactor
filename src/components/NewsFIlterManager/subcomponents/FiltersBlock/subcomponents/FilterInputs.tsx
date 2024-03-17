@@ -2,15 +2,14 @@ import React, { FC } from 'react';
 
 import { VariantInputs } from 'types';
 import { useFiltersState } from 'contexts';
-import { useActiveLinks, useFilterNews } from 'hooks';
 
 import { UnverifiableInput } from 'ui';
 
-const FilterInputs: FC = () => {
-  const activeLinks = useActiveLinks();
+import { useChangeFilter } from '../hooks';
 
-  const { handleChangeFilter } = useFilterNews(activeLinks);
+const FilterInputs: FC = () => {
   const { filters } = useFiltersState();
+  const { handleChangeFilter } = useChangeFilter();
 
   const filterInputs = [
     {

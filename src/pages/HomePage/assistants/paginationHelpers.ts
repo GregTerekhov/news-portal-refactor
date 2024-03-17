@@ -1,6 +1,4 @@
-const FIRST_PAGE = 1;
-const DESKTOP_BUTTONS_QUANTITY = 3;
-const MOBILE_BUTTONS_QUANTITY = 6;
+import { FIRST_PAGE, QUANTITY } from './constants';
 
 // Розрахунок кількості сторінок для кожного типу пристрою
 const calculatePagesArray = (
@@ -60,7 +58,9 @@ export const renderPagination = (
   const totalPages = pageNumbers.length;
   const prevPage = currentPage - 1;
   const nextPage = currentPage + 1;
-  const visibleButtonsCount = !isNotMobile ? DESKTOP_BUTTONS_QUANTITY : MOBILE_BUTTONS_QUANTITY;
+  const visibleButtonsCount = !isNotMobile
+    ? QUANTITY.DESKTOP_BUTTONS_QUANTITY
+    : QUANTITY.MOBILE_BUTTONS_QUANTITY;
 
   const paginationButtons = [];
 

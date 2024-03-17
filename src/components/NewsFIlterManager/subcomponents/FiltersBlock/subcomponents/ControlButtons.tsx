@@ -1,10 +1,11 @@
 import React, { FC } from 'react';
 
 import { useWindowWidth } from 'contexts';
-import { useActiveLinks, useFilterNews } from 'hooks';
+import { useActiveLinks } from 'hooks';
 
 import { getControlButtons } from '../assistants';
 import { RenderButtons } from './RenderButtons';
+import { useFilterNews } from '../hooks';
 
 type ControlButtonsProps = {
   hasFilterValue: boolean | undefined;
@@ -13,11 +14,11 @@ type ControlButtonsProps = {
 const ControlButtons: FC<ControlButtonsProps> = ({ hasFilterValue }) => {
   const { isMobile, isTablet, wideScreens } = useWindowWidth();
 
-  const activeLinks = useActiveLinks();
+  const { isReadActive } = useActiveLinks();
 
-  const { handleFiltration, handleSort, handleReset, handleSortRead } = useFilterNews(activeLinks);
+  const { handleFiltration, handleSort, handleReset, handleSortRead } = useFilterNews();
 
-  const shouldSortAccordeon = activeLinks.isReadActive;
+  const shouldSortAccordeon = isReadActive;
 
   const controlButtons = getControlButtons({
     handleFiltration,

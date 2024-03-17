@@ -1,14 +1,13 @@
 import React, { FC } from 'react';
 
 import { ICON_SIZES } from 'constants/iconSizes';
-import { useWindowWidth } from 'contexts';
+import { usePaginationContext, useWindowWidth } from 'contexts';
 import { VariantButton } from 'types';
 
 import { PrimaryButton } from 'ui';
 
 interface DirectionButtonProps {
   direction: string;
-  currentPage: number;
   pageNumbers?: number[];
   handlePrevClick?: () => void;
   handleNextClick?: () => void;
@@ -16,12 +15,12 @@ interface DirectionButtonProps {
 
 const DirectionButton: FC<DirectionButtonProps> = ({
   direction,
-  currentPage,
   pageNumbers,
   handlePrevClick,
   handleNextClick,
 }) => {
   const { isNotMobile } = useWindowWidth();
+  const { currentPage } = usePaginationContext();
 
   const disabledPrevButton = currentPage - 1 === 0 ? true : false;
   const disableNextButton = currentPage === pageNumbers?.length ? true : false;

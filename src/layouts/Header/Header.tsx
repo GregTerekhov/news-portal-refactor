@@ -37,7 +37,7 @@ const Header: FC<{}> = () => {
   }, [token, openModal, user]);
 
   const { isNotMobile } = useWindowWidth();
-  const { filteredNews, resetAllFilters } = useFiltersAction();
+  const { filteredNews, resetAllFiltersResults } = useFiltersAction();
   const { isHomeActive, isAccountPage, isManageAccountPage } = useActiveLinks();
   const { headerClass, textClass } = useHeaderStyles(isHomeActive);
 
@@ -52,7 +52,7 @@ const Header: FC<{}> = () => {
 
   const resetFilters = () => {
     if (filteredNews && filteredNews.length > 0) {
-      resetAllFilters();
+      resetAllFiltersResults();
     }
   };
   const isAccountPages = isAccountPage || isManageAccountPage;
