@@ -7,7 +7,7 @@ import { RemoveScroll } from 'react-remove-scroll';
 import { SignUpPanel, SignInPanel, ChangePassword } from './subcomponents';
 
 interface IAuthModalProps {
-  passwordToken?: boolean;
+  passwordToken?: boolean | undefined;
   isOpenModal: boolean;
 }
 

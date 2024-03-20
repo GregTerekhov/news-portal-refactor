@@ -11,7 +11,7 @@ import { AuthModal } from 'components';
 import { Modal, PrimaryButton } from 'ui';
 
 interface AuthButtonProps {
-  passwordToken: boolean;
+  passwordToken?: boolean;
 }
 
 const Auth: FC<AuthButtonProps> = ({ passwordToken }) => {
