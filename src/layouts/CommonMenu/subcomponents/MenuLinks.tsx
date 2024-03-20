@@ -1,8 +1,6 @@
 import React, { FC } from 'react';
 import { Link } from 'react-router-dom';
 
-import { ICON_SIZES } from 'constants/iconSizes';
-
 import { SvgIcon } from 'ui';
 
 type MobileMenuLinks = {
@@ -60,7 +58,7 @@ const MenuLinks: FC<Partial<MenuLinksProps>> = ({ handleLinkClick }) => {
           {label}
           <SvgIcon
             svgName={iconName}
-            size={ICON_SIZES.smIcon20}
+            sizeKey='smIcon20'
             className='fill-transparent stroke-whiteBase'
           />
         </Link>

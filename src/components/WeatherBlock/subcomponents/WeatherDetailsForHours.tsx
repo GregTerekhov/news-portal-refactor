@@ -1,11 +1,9 @@
 import React, { FC } from 'react';
 
 import { useWeatherAPI } from 'reduxStore/hooks';
-
-import { HourlyWeatherData } from 'types';
-
-import { ICON_SIZES } from 'constants/iconSizes';
 import { useWindowWidth } from 'contexts';
+
+import type { HourlyWeatherData } from 'types';
 
 import { Hint, SvgIcon } from 'ui';
 
@@ -28,7 +26,7 @@ const WeatherDetailsForHours: FC = () => {
               <th className='w-10 pr-2'>
                 <SvgIcon
                   svgName='time'
-                  size={isMobile ? ICON_SIZES.smIcon20 : ICON_SIZES.mdIcon24}
+                  sizeKey={isMobile ? 'smIcon20' : 'mdIcon24'}
                   className='fill-whiteBase'
                 />
               </th>
@@ -62,7 +60,7 @@ const WeatherDetailsForHours: FC = () => {
                 <th scope='row' className='w-10 pr-2'>
                   <SvgIcon
                     svgName={icon}
-                    size={isMobile ? ICON_SIZES.smIcon20 : iconSize}
+                    sizeKey={isMobile ? 'smIcon20' : iconSize}
                     className={iconColorStyles}
                   />
                 </th>

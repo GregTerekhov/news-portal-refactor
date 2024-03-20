@@ -1,7 +1,5 @@
 import React, { FC } from 'react';
 
-import { ICON_SIZES } from 'constants/iconSizes';
-
 import { Hint, SvgIcon } from 'ui';
 
 import { useScrollController } from './hooks';
@@ -34,7 +32,7 @@ const PageScrollController: FC<ScrollDirection> = (value) => {
         >
           <SvgIcon
             svgName={icon}
-            size={ICON_SIZES.lgIcon30}
+            sizeKey='lgIcon30'
             className={`${classIcon} fill-accentBase group-hover:fill-whiteBase`}
           />
         </button>

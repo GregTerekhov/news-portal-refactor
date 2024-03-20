@@ -1,10 +1,12 @@
 import React, { FC } from 'react';
 
 import { useWindowWidth } from 'contexts';
+
 import { useActiveLinks } from 'hooks';
 
-import { getControlButtons } from '../assistants';
 import { RenderButtons } from './RenderButtons';
+
+import { getControlButtons } from '../assistants';
 import { useFilterNews } from '../hooks';
 
 type ControlButtonsProps = {
@@ -15,10 +17,7 @@ const ControlButtons: FC<ControlButtonsProps> = ({ hasFilterValue }) => {
   const { isMobile, isTablet, wideScreens } = useWindowWidth();
 
   const { isReadActive } = useActiveLinks();
-
   const { handleFiltration, handleSort, handleReset, handleSortRead } = useFilterNews();
-
-  const shouldSortAccordeon = isReadActive;
 
   const controlButtons = getControlButtons({
     handleFiltration,
@@ -26,12 +25,12 @@ const ControlButtons: FC<ControlButtonsProps> = ({ hasFilterValue }) => {
     handleReset,
     handleSortRead,
     hasFilterValue,
-    shouldSortAccordeon,
+    isReadActive,
     wideScreens,
   });
 
   const renderHintText = (): JSX.Element => (
-    <p className='mb-2 text-base text-darkBase dark:text-greyAlt md:max-lg:flex md:max-lg:items-center md:max-lg:justify-end lg:text-medium'>
+    <p className='text-base text-darkBase dark:text-greyAlt md:max-lg:flex md:max-lg:items-center md:max-lg:justify-end lg:mb-2 lg:text-medium'>
       Sort:
     </p>
   );

@@ -1,16 +1,16 @@
 import { useCallback, useEffect, useState } from 'react';
 
 import { useDB } from 'reduxStore/hooks';
-
-import { VotedItem } from 'types';
 import { useNotification, useScrollBodyContext } from 'contexts';
+
+import type { VotedItem } from 'types';
 
 type NewsActionHookProps = {
   isArchiveActive: boolean;
   isAuthenticated: boolean;
   liveNews: Partial<VotedItem>;
-  setIsFavourite: (value: React.SetStateAction<boolean>) => void;
-  setHasRead: (value: React.SetStateAction<boolean>) => void;
+  setIsFavourite: (isFavourite: boolean) => void;
+  setHasRead: (hasRead: boolean) => void;
 };
 
 const useNewsActions = ({
@@ -23,6 +23,7 @@ const useNewsActions = ({
   const [isDeleted, setIsDeleted] = useState<boolean>(false);
 
   const { savedNews, updateSavedNews, addVotedNews, removeNews, removeFavouriteNews } = useDB();
+
   const { showToast } = useNotification();
   const { setIsScrollDisabled } = useScrollBodyContext();
 
@@ -35,6 +36,7 @@ const useNewsActions = ({
 
   const shouldMakeChanges =
     savedNews && liveNews && liveNews?.newsUrl !== undefined && !isArchiveActive;
+
   const existingNews = savedNews?.find((news) => news.newsUrl === liveNews.newsUrl);
   const savedFavourite = existingNews?.isFavourite;
   const savedRead = existingNews?.hasRead;

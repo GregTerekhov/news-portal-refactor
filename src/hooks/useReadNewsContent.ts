@@ -1,9 +1,10 @@
 import useChooseRenderingNews from './useChooseRenderingNews';
-import { ActiveLinks } from './commonTypes';
 
 import { compareDates } from 'helpers';
+import useActiveLinks from './useActiveLinks';
 
-const useReadNewsContent = (activeLinks: ActiveLinks) => {
+const useReadNewsContent = () => {
+  const activeLinks = useActiveLinks();
   const { rebuildedNews } = useChooseRenderingNews(activeLinks);
 
   const publishedDate = rebuildedNews

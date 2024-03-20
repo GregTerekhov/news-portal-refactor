@@ -44,7 +44,7 @@ export const recoveryPasswordRequest = requestTemplate<
   authTypes.ServicesInfo
 >('auth/recoveryPasswordRequest', '/auth/forgot-password-request', 'post');
 
-export const recoveryPasswordChange = requestTemplate<
+export const recoveryPasswordChange = requestWithInstanceTemplate<
   authTypes.RecoveryPasswordChange,
   authTypes.PasswordChangeResponse
 >('auth/recoveryPasswordChange', '/auth/forgot-password-change', 'post');

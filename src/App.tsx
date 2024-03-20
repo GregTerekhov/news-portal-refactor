@@ -2,9 +2,9 @@ import React, { lazy, useEffect } from 'react';
 import { Route, Routes } from 'react-router-dom';
 
 import { ProtectedRoute } from 'routes';
-import { AccountLayout, Layout } from 'layouts';
-
 import { useAuthRedux } from 'reduxStore/hooks';
+
+import { AccountLayout, Layout } from 'layouts';
 
 import { Loader } from 'ui';
 

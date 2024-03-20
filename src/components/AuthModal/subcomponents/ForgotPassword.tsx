@@ -43,7 +43,6 @@ const ForgotPassword: FC<SignInProps> = ({ handleShowRecoveryInput, isShowRecove
           register={registerRecovery}
           handleSubmitRecovery={handleRecoveryPasswordSubmit(recoveryPasswordSubmitHandler)}
           label='email'
-          hasIcon={false}
           variant={VariantVerifiableInputs.Auth}
           ariaInvalid={recoveryPasswordErrors?.email ? 'true' : 'false'}
         />

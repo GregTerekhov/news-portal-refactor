@@ -2,7 +2,6 @@ import React, { FC } from 'react';
 import { NavLink } from 'react-router-dom';
 
 import { IMenuProps } from 'types';
-import { ICON_SIZES } from 'constants/iconSizes';
 import { useHeaderStyles } from 'hooks';
 
 import { SvgIcon } from 'ui';
@@ -48,7 +47,7 @@ const VersaMenu: FC<IMenuProps> = ({ navId, links, activeLinks, handleLinkClick 
               {navId === 'account-navigation' && link.activeLink ? (
                 <SvgIcon
                   svgName='arrow'
-                  size={ICON_SIZES.xsIcon14}
+                  sizeKey='xsIcon14'
                   className='-rotate-90 fill-darkBase group-hover:fill-whiteBase dark:fill-whiteBase'
                 />
               ) : null}

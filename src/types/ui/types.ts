@@ -1,4 +1,4 @@
-import { ActiveLinks } from 'hooks';
+import type { ActiveLinks } from 'hooks';
 
 export type ClickHandler =
   | ((() => void) | undefined)

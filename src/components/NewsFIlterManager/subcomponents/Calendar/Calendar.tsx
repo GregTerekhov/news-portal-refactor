@@ -1,8 +1,8 @@
 import React, { FC } from 'react';
 import { format, startOfToday } from 'date-fns';
 
-import { ICON_SIZES } from 'constants/iconSizes';
 import { useFiltersState, useSelectedDate } from 'contexts';
+
 import { convertLinesForCalendar } from 'helpers';
 import { useActiveLinks, usePopUp } from 'hooks';
 
@@ -15,43 +15,32 @@ interface CalendarProps {
 }
 
 const Calendar: FC<CalendarProps> = ({ variant }) => {
-  const { popUpRef, toggleCalendar, isOpenCalendar } = usePopUp();
   const { filters } = useFiltersState();
   const { selectedRequestDate } = useSelectedDate();
 
-  const activeLinks = useActiveLinks();
+  const { popUpRef, toggleCalendar, isOpenCalendar } = usePopUp();
+  const { isReadActive } = useActiveLinks();
 
-  const { isReadActive } = activeLinks;
+  const { beginDate, endDate } = selectedRequestDate;
+
   const today = startOfToday();
 
   const showSelectedDateForFiltering =
-    filters &&
-    filters.selectedFilterDate.startDate !== '' &&
-    filters.selectedFilterDate.endDate !== '';
+    filters?.selectedFilterDate?.startDate !== '' && filters?.selectedFilterDate?.endDate !== '';
 
-  const firstRequestDate =
-    selectedRequestDate.beginDate && convertLinesForCalendar(selectedRequestDate.beginDate);
-  const lastRequestDate =
-    selectedRequestDate.endDate && convertLinesForCalendar(selectedRequestDate.endDate);
+  const firstRequestDate = beginDate && convertLinesForCalendar(beginDate);
+  const lastRequestDate = endDate && convertLinesForCalendar(endDate);
   const firstFilteredDate = filters.selectedFilterDate.startDate;
   const lastFilteredDate = filters.selectedFilterDate.endDate;
 
   const showButtonText = (variant: string): string => {
-    let buttonContent = '';
-
-    if (
-      variant === 'SearchBlock' &&
-      selectedRequestDate.beginDate !== null &&
-      selectedRequestDate.endDate !== null
-    ) {
-      buttonContent = `${firstRequestDate} - ${lastRequestDate}`;
-    } else if (variant === 'FiltersBlock' && showSelectedDateForFiltering) {
-      buttonContent = `${firstFilteredDate} - ${lastFilteredDate}`;
-    } else {
-      buttonContent = format(today, 'dd/MM/yyyy');
+    if (variant === 'SearchBlock' && beginDate && endDate) {
+      return `${firstRequestDate} - ${lastRequestDate}`;
     }
-
-    return buttonContent;
+    if (variant === 'FiltersBlock' && showSelectedDateForFiltering) {
+      return `${firstFilteredDate} - ${lastFilteredDate}`;
+    }
+    return format(today, 'dd/MM/yyyy');
   };
 
   const calendarButtonStyles =
@@ -68,17 +57,23 @@ const Calendar: FC<CalendarProps> = ({ variant }) => {
         onClick={toggleCalendar}
         className={`${calendarButtonStyles}`}
       >
-        <SvgIcon svgName='calendar' size={ICON_SIZES.smIcon20} className='fill-accentBase' />
+        <SvgIcon svgName='calendar' sizeKey='smIcon20' className='fill-accentBase' />
         {showButtonText(variant)}
         <SvgIcon
           svgName='arrow'
-          size={ICON_SIZES.xsIcon14}
+          sizeKey='xsIcon14'
           className={`fill-accentBase transition-transform ${
             isOpenCalendar ? 'rotate-180' : 'rotate-0'
           }`}
         />
       </button>
-      {isOpenCalendar && <CalendarContent variant={variant} />}
+      {isOpenCalendar && (
+        <CalendarContent
+          variant={variant}
+          isOpenCalendar={isOpenCalendar}
+          toggleCalendar={toggleCalendar}
+        />
+      )}
     </div>
   );
 };

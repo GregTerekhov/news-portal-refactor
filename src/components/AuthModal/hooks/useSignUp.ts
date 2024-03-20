@@ -2,16 +2,15 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { SubmitHandler, useForm } from 'react-hook-form';
 
 import { useAuthRedux } from 'reduxStore/hooks';
-
-import type { MainCredentials, AuthInputs } from 'types';
 import { useNotification, useScrollBodyContext } from 'contexts';
 
+import type { MainCredentials, AuthInputs } from 'types';
 import { usePopUp } from 'hooks';
 
 import { signUpSchema } from '../assistants';
 
 const useSignUp = () => {
-  const { setOpenToast } = useNotification();
+  const { showToast } = useNotification();
   const { setIsScrollDisabled } = useScrollBodyContext();
   const { register, login } = useAuthRedux();
   const { toggleModal } = usePopUp();
@@ -42,12 +41,14 @@ const useSignUp = () => {
       const signUpResponse = await register(signUpCredentials);
 
       if (signUpResponse.meta.requestStatus === 'rejected') {
-        setOpenToast(true);
+        showToast(signUpResponse.meta.requestStatus);
         toggleModal;
         setIsScrollDisabled(false);
         return;
       } else {
-        await login(signInCredentials);
+        const response = await login(signInCredentials);
+
+        showToast(response.meta.requestStatus);
       }
     } catch (error) {
       console.error('Error during signUp:', error);
@@ -67,7 +68,7 @@ const useSignUp = () => {
     {
       type: 'text',
       placeholder: 'Enter your name',
-      children: 'Name',
+      labelName: 'Name',
       errors: errors?.name?.message,
       label: 'name',
       ariaInvalid: errors?.name ? true : false,
@@ -76,7 +77,7 @@ const useSignUp = () => {
     {
       type: 'email',
       placeholder: 'Enter your email',
-      children: 'Email',
+      labelName: 'Email',
       errors: errors?.email?.message,
       label: 'email',
       ariaInvalid: errors?.email ? true : false,
@@ -86,7 +87,7 @@ const useSignUp = () => {
     {
       type: 'password',
       placeholder: 'Enter your password',
-      children: 'Password',
+      labelName: 'Password',
       errors: errors?.password?.message,
       label: 'password',
       ariaInvalid: errors?.password ? true : false,

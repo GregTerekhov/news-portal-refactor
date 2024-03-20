@@ -1,4 +1,5 @@
 import { ClickHandler, PrimaryButtonType, VariantButton } from 'types';
+import { ICON_SIZES } from 'constants/iconSizes';
 
 export interface IControlButtons {
   type: PrimaryButtonType;
@@ -9,7 +10,7 @@ export interface IControlButtons {
   classNameButtons?: string | undefined;
   hasIcon: boolean;
   svgName?: string;
-  svgSize: number;
+  svgSize?: keyof typeof ICON_SIZES;
   classNameIcon?: string | undefined;
   children?: string | undefined;
   disabled?: boolean;

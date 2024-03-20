@@ -8,6 +8,7 @@ export interface AuthState {
   userTheme: ThemeValue;
   accessToken: string | null;
   refreshToken: string | null;
+  // thirdPartyRegister: boolean,
   user: {
     name: string;
     email: string;

@@ -11,7 +11,7 @@ export interface ToastMessage {
 export interface AuthInputs {
   type: string;
   placeholder: string;
-  children: string;
+  labelName: string;
   errors?: string | undefined;
   label: InputLabel;
   ariaInvalid?: boolean | undefined;

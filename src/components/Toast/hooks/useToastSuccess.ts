@@ -10,8 +10,8 @@ const useToastSuccess = () => {
     let title = '';
     let description = '';
 
-    const linkingAccount = Object.keys(haveAccounts).find(
-      (key) => haveAccounts.hasOwnProperty(key) === true,
+    const linkingAccount = Object.keys(haveAccounts).find((key) =>
+      haveAccounts.hasOwnProperty(key),
     );
 
     switch (statusMessage) {

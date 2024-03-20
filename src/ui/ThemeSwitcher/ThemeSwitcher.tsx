@@ -2,8 +2,8 @@ import React, { FC } from 'react';
 import { Switch } from '@headlessui/react';
 
 import { VariantSwitcher } from 'types';
-import { ICON_SIZES } from 'constants/iconSizes';
 import { useTheme, useWindowWidth } from 'contexts';
+
 import { useActiveLinks, useHeaderStyles } from 'hooks';
 
 import SvgIcon from '../SvgIcon';
@@ -41,7 +41,7 @@ const ThemeSwitcher: FC<{ variant: VariantSwitcher }> = ({ variant }) => {
       ) : (
         <SvgIcon
           svgName='sun'
-          size={ICON_SIZES.smIcon21}
+          sizeKey='smIcon21'
           className={`fill-transparent ${currentStyles.strokeLeftIcon}`}
         />
       )}
@@ -61,7 +61,7 @@ const ThemeSwitcher: FC<{ variant: VariantSwitcher }> = ({ variant }) => {
       ) : (
         <SvgIcon
           svgName='moon'
-          size={ICON_SIZES.smIcon21}
+          sizeKey='smIcon21'
           className={`fill-transparent ${enabled ? 'stroke-whiteBase' : 'stroke-greyAlt'}`}
         />
       )}

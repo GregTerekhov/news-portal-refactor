@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { HourlyWeatherData } from 'types';
+import type { HourlyWeatherData } from 'types';
 
 import { hPaToMmHg } from '../assistants';
 

@@ -1,8 +1,7 @@
 import React, { FC } from 'react';
 import { NavLink } from 'react-router-dom';
 
-import { IMenuProps } from 'types';
-import { ICON_SIZES } from 'constants/iconSizes';
+import type { IMenuProps } from 'types';
 
 import { SvgIcon } from 'ui';
 
@@ -40,7 +39,7 @@ const MobileMenu: FC<IMenuProps> = ({ navId, links, handleLinkClick }) => {
                 <div className={getSvgWrapperStyles(link.activeLink)}>
                   <SvgIcon
                     svgName={link.icon}
-                    size={ICON_SIZES.smIcon18}
+                    sizeKey='smIcon18'
                     className={`${
                       navId === 'main-navigation'
                         ? 'fill-transparent stroke-whiteBase'
@@ -51,11 +50,7 @@ const MobileMenu: FC<IMenuProps> = ({ navId, links, handleLinkClick }) => {
                 {link.label}
               </div>
               {link.activeLink && (
-                <SvgIcon
-                  svgName='arrow'
-                  size={ICON_SIZES.xsIcon14}
-                  className='-rotate-90 fill-whiteBase'
-                />
+                <SvgIcon svgName='arrow' sizeKey='xsIcon14' className='-rotate-90 fill-whiteBase' />
               )}
             </NavLink>
           </li>

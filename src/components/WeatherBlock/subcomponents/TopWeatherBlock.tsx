@@ -1,10 +1,11 @@
 import React, { FC } from 'react';
 
 import { WeatherData } from 'types';
-import { ICON_SIZES } from 'constants/iconSizes';
 import { useWindowWidth } from 'contexts';
 
 import { SvgIcon } from 'ui';
+
+import { convertTemperature } from '../assistants';
 
 interface TopWeatherProps {
   toggleTemperatureScale: () => void;
@@ -19,40 +20,38 @@ const TopWeatherBlock: FC<TopWeatherProps> = ({
 }) => {
   const { isMobile } = useWindowWidth();
 
+  const currentTemperature = currentWeather.main?.temp ?? 0;
+  const feelsLike = currentWeather.main?.feels_like ?? 0;
+  const prevailingWeather = currentWeather.weather?.[0]?.main ?? '';
+  const cityArea = currentWeather.name ?? '';
+
   return (
     <div
       className='mx-auto flex cursor-pointer items-center justify-evenly gap-5'
       onClick={toggleTemperatureScale}
     >
-      <div className='relative w-83px text-center after:absolute after:-right-2 after:top-0 after:h-full after:w-px after:bg-white after:content-[""] md:w-96px'>
-        <p className='w-full font-weather text-monstrous text-contrastWhite md:text-[64px]'>
-          {currentWeather?.main !== undefined &&
-            (isCelsius
-              ? Math.round(currentWeather?.main?.temp) + '\u00b0'
-              : Math.round((currentWeather?.main?.temp * 9) / 5 + 32) + '\u00b0')}
+      <div className='relative text-center after:absolute after:-right-2 after:top-0 after:h-full after:w-px after:bg-white after:content-[""]'>
+        <p className='w-83px font-weather text-monstrous text-contrastWhite md:w-96px md:text-[64px]'>
+          {convertTemperature(currentTemperature, isCelsius)}
         </p>
       </div>
       <div>
-        {currentWeather?.weather && currentWeather?.weather[0]?.main && (
-          <p className='font-weather text-3xl text-contrastWhite md:text-4.5xl'>
-            {currentWeather?.weather[0]?.main}
-          </p>
-        )}
+        <p className='font-weather text-3xl text-contrastWhite md:text-4.5xl'>
+          {prevailingWeather}
+        </p>
         <p className='mb-2.5 font-weather text-base text-contrastWhite md:text-2xl'>
           Feels like{' '}
           {isCelsius
-            ? currentWeather?.main?.feels_like &&
-              Math.round(currentWeather?.main?.feels_like) + '\u00b0' + 'C'
-            : currentWeather?.main?.feels_like &&
-              Math.round((currentWeather?.main?.feels_like * 9) / 5 + 32) + '\u00b0' + 'F'}
+            ? convertTemperature(feelsLike, true) + 'C'
+            : convertTemperature(feelsLike, false) + 'F'}
         </p>
         <div className='flex items-center gap-1 rounded-lg bg-weatherForeground px-2 py-[9px] text-contrastWhite md:gap-2 md:pb-[9px] md:pl-[7px] md:pr-[17px] md:pt-[10px]'>
           <SvgIcon
             svgName='location'
-            size={isMobile ? ICON_SIZES.smIcon20 : ICON_SIZES.mdIcon27}
+            sizeKey={isMobile ? 'smIcon20' : 'mdIcon27'}
             className='fill-whiteBase'
           />
-          <p className='text-base text-contrastWhite md:text-2xl'>{currentWeather?.name}</p>
+          <p className='font-weather text-base text-contrastWhite md:text-medium'>{cityArea}</p>
         </div>
       </div>
     </div>

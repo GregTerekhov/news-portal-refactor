@@ -1,7 +1,6 @@
 import { ReactElement } from 'react';
 
 import { HourlyWeatherData, WeatherData } from 'types';
-
 import { ICON_SIZES } from 'constants/iconSizes';
 
 import {
@@ -22,7 +21,7 @@ import {
 
 type DetailsRows = {
   icon: string;
-  iconSize: number;
+  iconSize: keyof typeof ICON_SIZES;
   value: string;
   label: string;
   hint: string;
@@ -33,7 +32,7 @@ type DetailsRows = {
 type TableRows = {
   label: string;
   icon: string;
-  iconSize: number;
+  iconSize: keyof typeof ICON_SIZES;
   iconColorStyles: string;
   renderCell: (item: HourlyWeatherData) => ReactElement;
 };
@@ -45,7 +44,7 @@ export const getWeatherDetailsForToday = (
   const weatherDetails: DetailsRows[] = [
     {
       icon: 'earth',
-      iconSize: isMobile ? ICON_SIZES.xsIcon16 : ICON_SIZES.mdIcon24,
+      iconSize: isMobile ? 'xsIcon16' : 'mdIcon24',
       value: `${convertTimezone(currentWeather?.timezone)}`,
       label: 'Greenwich mean time',
       hint: 'GMT time',
@@ -54,7 +53,7 @@ export const getWeatherDetailsForToday = (
     },
     {
       icon: 'humidity',
-      iconSize: isMobile ? ICON_SIZES.smIcon18 : ICON_SIZES.lgIcon30,
+      iconSize: isMobile ? 'smIcon18' : 'lgIcon30',
       value: `${currentWeather?.main?.humidity}`,
       label: 'Humidity in percent',
       hint: 'Humidity (%)',
@@ -63,7 +62,7 @@ export const getWeatherDetailsForToday = (
     },
     {
       icon: 'pressure',
-      iconSize: isMobile ? ICON_SIZES.smIcon18 : ICON_SIZES.lgIcon30,
+      iconSize: isMobile ? 'smIcon18' : 'lgIcon30',
       value: `${hPaToMmHg(currentWeather?.main?.pressure)}`,
       label: 'Atmospheric pressure in mm Hg',
       hint: 'Atmospheric pressure (mm.Hg)',
@@ -72,7 +71,7 @@ export const getWeatherDetailsForToday = (
     },
     {
       icon: 'pressure',
-      iconSize: isMobile ? ICON_SIZES.smIcon18 : ICON_SIZES.lgIcon30,
+      iconSize: isMobile ? 'smIcon18' : 'lgIcon30',
       value: `${currentWeather?.main?.pressure}`,
       label: 'Atmospheric pressure in hPa',
       hint: 'Atmospheric pressure (HPa)',
@@ -81,7 +80,7 @@ export const getWeatherDetailsForToday = (
     },
     {
       icon: 'sunrise',
-      iconSize: isMobile ? ICON_SIZES.smIcon20 : ICON_SIZES.lgIcon30,
+      iconSize: isMobile ? 'smIcon20' : 'lgIcon30',
       value: `${convertUnixTimestampToHHMM(currentWeather?.sys?.sunrise)}`,
       label: 'Sunrise time',
       hint: 'Sunrise time',
@@ -90,7 +89,7 @@ export const getWeatherDetailsForToday = (
     },
     {
       icon: 'sunset',
-      iconSize: isMobile ? ICON_SIZES.smIcon20 : ICON_SIZES.lgIcon30,
+      iconSize: isMobile ? 'smIcon20' : 'lgIcon30',
       value: `${convertUnixTimestampToHHMM(currentWeather?.sys?.sunset)}`,
       label: 'Sunset time',
       hint: 'Sunset time',
@@ -99,7 +98,7 @@ export const getWeatherDetailsForToday = (
     },
     {
       icon: 'eye-opened',
-      iconSize: isMobile ? ICON_SIZES.smIcon20 : ICON_SIZES.lgIcon30,
+      iconSize: isMobile ? 'smIcon20' : 'lgIcon30',
       value: `${formatKmToMetre(currentWeather?.visibility)}`,
       label: 'Road visibility',
       hint: 'Road visibility',
@@ -108,7 +107,7 @@ export const getWeatherDetailsForToday = (
     },
     {
       icon: 'weather-wind',
-      iconSize: isMobile ? ICON_SIZES.smIcon20 : ICON_SIZES.lgIcon30,
+      iconSize: isMobile ? 'smIcon20' : 'lgIcon30',
       value: `${currentWeather?.wind?.speed}`,
       label: 'Wind speed in metre per seconds',
       hint: `Wind speed (m/s). (${getWindStrengthScale(
@@ -127,35 +126,35 @@ export const getWeatherTableForHours = (): TableRows[] => {
     {
       label: 'Temperature in °C',
       icon: 'thermometer',
-      iconSize: ICON_SIZES.mdIcon24,
+      iconSize: 'mdIcon24',
       iconColorStyles: 'fill-whiteBase',
       renderCell: RenderTemperatureCell,
     },
     {
       label: 'Precipitation and weather',
       icon: 'sun',
-      iconSize: ICON_SIZES.mdIcon24,
+      iconSize: 'mdIcon24',
       iconColorStyles: 'stroke-whiteBase fill-transparent',
       renderCell: RenderWeatherIconCell,
     },
     {
       label: 'Humidity (%)',
       icon: 'humidity',
-      iconSize: ICON_SIZES.mdIcon28,
+      iconSize: 'mdIcon28',
       iconColorStyles: 'fill-whiteBase',
       renderCell: RenderHumidityCell,
     },
     {
       label: 'Pressure (mm.Hg)',
       icon: 'pressure',
-      iconSize: ICON_SIZES.mdIcon24,
+      iconSize: 'mdIcon24',
       iconColorStyles: 'fill-whiteBase',
       renderCell: RenderPressureCell,
     },
     {
       label: 'Wind speed (m/s)',
       icon: 'weather-wind',
-      iconSize: ICON_SIZES.mdIcon24,
+      iconSize: 'mdIcon24',
       iconColorStyles: 'fill-whiteBase',
       renderCell: RenderWindSpeedCell,
     },

@@ -7,9 +7,11 @@ import WeekDays from './WeekDays';
 import { useControlCalendar, useFilterDateChange } from '../hooks';
 interface CalendarContentProps {
   variant: string;
+  isOpenCalendar: boolean;
+  toggleCalendar: () => void;
 }
 
-const CalendarContent: FC<CalendarContentProps> = ({ variant }) => {
+const CalendarContent: FC<CalendarContentProps> = ({ variant, isOpenCalendar, toggleCalendar }) => {
   const {
     firstDayOfMonth,
     currMonth,
@@ -41,6 +43,8 @@ const CalendarContent: FC<CalendarContentProps> = ({ variant }) => {
               currMonth={currMonth}
               handleFilterDate={handleFilterDate}
               variant={variant}
+              isOpenCalendar={isOpenCalendar}
+              toggleCalendar={toggleCalendar}
             />
           ))}
       </div>

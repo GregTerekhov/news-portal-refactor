@@ -1,7 +1,6 @@
 import React, { FC } from 'react';
 
 import { VariantButton } from 'types';
-import { ICON_SIZES } from 'constants/iconSizes';
 import { useWindowWidth } from 'contexts';
 
 import { PrimaryButton } from 'ui';
@@ -20,7 +19,7 @@ const SignOutButton: FC<SignOutButtonProps> = ({ handleSignOut }) => {
       variant={VariantButton.Other}
       width='w-32 hg:w-36'
       svgName='signout'
-      svgSize={isTV ? ICON_SIZES.mdIcon27 : ICON_SIZES.mdIcon24}
+      svgSize={isTV ? 'mdIcon27' : 'mdIcon24'}
       classNameIcon='fill-whiteBase'
       onHandleClick={handleSignOut}
     >

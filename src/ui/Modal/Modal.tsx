@@ -2,7 +2,6 @@ import React, { FC, ReactNode } from 'react';
 import { createPortal } from 'react-dom';
 import { RemoveScroll } from 'react-remove-scroll';
 
-import { ICON_SIZES } from 'constants/iconSizes';
 import { useWindowWidth } from 'contexts';
 import { usePopUp } from 'hooks';
 
@@ -41,7 +40,7 @@ const Modal: FC<ModalProps> = ({ children, closeModal, modalRef }) => {
                 >
                   <SvgIcon
                     svgName='close'
-                    size={wideScreens ? ICON_SIZES.mdIcon28 : ICON_SIZES.smIcon20}
+                    sizeKey={wideScreens ? 'mdIcon28' : 'smIcon20'}
                     className='stroke-darkBase hover:stroke-accentBase dark:stroke-whiteBase dark:hover:stroke-accentBase'
                   />
                 </button>

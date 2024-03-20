@@ -10,7 +10,7 @@ const useShowToast = () => {
 
   const { isArchiveActive, isFavoriteActive, isHomeActive, isReadActive } = activeLinks;
   const { errorAPI, newsByKeyword, newsByCategory, newsByDate } = useNewsAPI();
-  const { authError } = useAuthRedux();
+  const { authError, statusMessage } = useAuthRedux();
   const { allFavourites, allReads, dbSuccessMessage } = useDB();
   const { isHomeLoader, commonDBLoader } = useShowLoader();
 
@@ -19,13 +19,20 @@ const useShowToast = () => {
     (newsByCategory && newsByCategory.length > 0) ||
     (newsByDate && newsByDate.length > 0);
 
+  const homeToastSuccess =
+    statusMessage === 'Email sent successfully' ||
+    statusMessage === 'Password has successfully changed' ||
+    statusMessage === 'User sign-in success' ||
+    statusMessage === 'Sign-out success';
   const homeToastError = !!authError || !!errorAPI;
+  console.log('authError', authError);
   const homeToastInfo = (!isHomeLoader && additionalRequests) || filteredNews?.length > 0;
+
   const favouritesToastInfo = isFavoriteActive && !commonDBLoader && allFavourites?.length > 0;
   const readsToastInfo = isReadActive && !commonDBLoader && allReads?.length > 0;
   const archiveToast = isArchiveActive && dbSuccessMessage === 'Remove news success';
 
-  const showHomeToast = isHomeActive && (homeToastError || homeToastInfo);
+  const showHomeToast = isHomeActive && (homeToastSuccess || homeToastError || homeToastInfo);
 
   const shouldShowToast = showHomeToast || favouritesToastInfo || readsToastInfo || archiveToast;
 
@@ -33,6 +40,10 @@ const useShowToast = () => {
   let toastType: ToastVariant;
 
   switch (true) {
+    case isHomeActive && homeToastSuccess:
+      statusToast = 'success';
+      toastType = 'non-interactive';
+      break;
     case isHomeActive && homeToastError:
       statusToast = 'error';
       toastType = 'interactive';
@@ -41,15 +52,15 @@ const useShowToast = () => {
       statusToast = 'info';
       toastType = 'non-interactive';
       break;
-    case isFavoriteActive && favouritesToastInfo:
+    case favouritesToastInfo:
       statusToast = 'info';
       toastType = 'non-interactive';
       break;
-    case isReadActive && readsToastInfo:
+    case readsToastInfo:
       statusToast = 'info';
       toastType = 'non-interactive';
       break;
-    case isArchiveActive && archiveToast:
+    case archiveToast:
       statusToast = 'success';
       toastType = 'interactive';
       break;

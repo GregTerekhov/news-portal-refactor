@@ -1,8 +1,8 @@
 import React, { FC } from 'react';
 
-import { VotedItem } from 'types';
-import { ICON_SIZES } from 'constants/iconSizes';
 import { useWindowWidth } from 'contexts';
+
+import { VotedItem } from 'types';
 
 import { SvgIcon } from 'ui';
 
@@ -31,7 +31,7 @@ const NewsDescription: FC<NewsDescriptionProps> = ({ liveNews }) => {
         <div className='flex translate-x-full items-center gap-2 rounded-2xl bg-accentAlt pr-2 transition-all group-hover:translate-x-0 group-hover:bg-accentAlt dark:bg-transparent '>
           <SvgIcon
             svgName='triangle-double'
-            size={wideScreens ? ICON_SIZES.smIcon20 : ICON_SIZES.xsIcon16}
+            sizeKey={wideScreens ? 'smIcon20' : 'xsIcon16'}
             className='fill-whiteBase'
           />
           <p className='text-base text-whiteBase transition-colors md:text-medium hg:py-px hg:text-xl'>

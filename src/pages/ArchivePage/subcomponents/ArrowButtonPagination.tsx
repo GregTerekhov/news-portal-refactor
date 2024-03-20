@@ -1,7 +1,5 @@
 import React, { FC } from 'react';
 
-import { ICON_SIZES } from 'constants/iconSizes';
-
 import { SvgIcon } from 'ui';
 
 interface ArrowButtonProps {
@@ -33,7 +31,7 @@ const ArrowButtonPagination: FC<ArrowButtonProps> = ({
       <span aria-hidden='true'>
         <SvgIcon
           svgName='arrow'
-          size={ICON_SIZES.xsIcon14}
+          sizeKey='xsIcon14'
           className={`${iconClass} fill-accentBase group-hover:fill-whiteBase dark:fill-whiteBase`}
         />
       </span>

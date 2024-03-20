@@ -1,8 +1,8 @@
 import React, { FC } from 'react';
 
 import { VariantButton, VariantInputs } from 'types';
-import { ICON_SIZES } from 'constants/iconSizes';
 import { useWindowWidth } from 'contexts';
+
 import { useAdditionalRequest } from 'hooks';
 
 import { Dropdown, PrimaryButton, UnverifiableInput } from 'ui';
@@ -81,7 +81,7 @@ const SearchBlock: FC<{}> = () => {
           hasIcon={true}
           variant={VariantButton.Primary}
           svgName='reset'
-          svgSize={wideScreens ? ICON_SIZES.smIcon21 : ICON_SIZES.xsIcon16}
+          svgSize={wideScreens ? 'smIcon21' : 'xsIcon16'}
           classNameIcon='fill-whiteBase'
           classNameButton='py-3'
           onHandleClick={handleResetRequests}

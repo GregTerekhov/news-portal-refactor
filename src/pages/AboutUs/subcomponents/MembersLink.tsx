@@ -22,7 +22,7 @@ const MembersLink: FC<Partial<MemberItem>> = ({
         links.map(({ link, icon, iconSize }) => (
           <li key={link}>
             <a href={link} className={linkClass}>
-              <SvgIcon svgName={icon} size={iconSize} className={iconClass} />
+              <SvgIcon svgName={icon} sizeKey={iconSize} className={iconClass} />
             </a>
           </li>
         ))}

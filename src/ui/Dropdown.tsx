@@ -1,7 +1,6 @@
 import React, { FC } from 'react';
 import { Menu } from '@headlessui/react';
 
-import { ICON_SIZES } from 'constants/iconSizes';
 import type { SearchParamsObject } from 'hooks/useAdditionalRequest';
 
 import CustomScrollBar from './CustomScrollBar';
@@ -44,7 +43,7 @@ const Dropdown: FC<DropdownProps> = ({
             {selectedItem || label}
             <SvgIcon
               svgName='arrow'
-              size={ICON_SIZES.xsIcon14}
+              sizeKey='xsIcon14'
               className={`fill-accentBase transition-transform dark:fill-whiteBase ${
                 open ? 'rotate-180' : 'rotate-0'
               }`}

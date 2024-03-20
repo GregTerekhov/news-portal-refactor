@@ -16,11 +16,9 @@ import CommonMenu from '../CommonMenu/CommonMenu';
 
 const Header: FC<{}> = () => {
   const [isOpenMenu, setIsOpenMenu] = useState<boolean>(false);
-  const [touched, setTouched] = useState<boolean>(false);
   const [passwordToken, setPasswordToken] = useState<boolean>(false);
 
   const [searchParams] = useSearchParams();
-
   const token: string | null = searchParams.get('token');
   const openModal: string | null = searchParams.get('openModal');
 
@@ -33,6 +31,7 @@ const Header: FC<{}> = () => {
       setPasswordToken(true);
       writeTokens({ accessToken: token, refreshToken: null });
       setIsOpenModal(true);
+      setIsScrollDisabled(true);
     }
   }, [token, openModal, user]);
 
@@ -41,16 +40,12 @@ const Header: FC<{}> = () => {
   const { isHomeActive, isAccountPage, isManageAccountPage } = useActiveLinks();
   const { headerClass, textClass } = useHeaderStyles(isHomeActive);
 
-  const toggleMenu = () => {
+  const toggleMenu = (): void => {
     setIsOpenMenu(!isOpenMenu);
     setIsScrollDisabled(!isScrollDisabled);
   };
 
-  const handleVisibilityChange = () => {
-    setTouched(!touched);
-  };
-
-  const resetFilters = () => {
+  const resetFilters = (): void => {
     if (filteredNews && filteredNews.length > 0) {
       resetAllFiltersResults();
     }
@@ -89,15 +84,13 @@ const Header: FC<{}> = () => {
 
           {isAuthenticated ? (
             <AuthenticatedHeaderContent
-              handleVisibilityChange={handleVisibilityChange}
-              touched={touched}
               resetFilters={resetFilters}
               isOpenMenu={isOpenMenu}
               toggleMenu={toggleMenu}
             />
           ) : (
             <div className={`${isNotMobile ? 'flex flex-col gap-3' : ''}`}>
-              <AuthButton />
+              <AuthButton passwordToken={passwordToken} />
               {isNotMobile ? <ThemeSwitcher variant={VariantSwitcher.Header} /> : null}
             </div>
           )}
@@ -105,7 +98,7 @@ const Header: FC<{}> = () => {
       </header>
       {isOpenModal && (
         <Modal closeModal={toggleModal} modalRef={popUpRef}>
-          <AuthModal passwordToken={passwordToken} />
+          <AuthModal passwordToken={passwordToken} isOpenModal={isOpenModal} />
         </Modal>
       )}
     </>

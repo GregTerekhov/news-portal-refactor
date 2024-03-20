@@ -1,24 +1,36 @@
 import React, { FC } from 'react';
 
 import { useAuthRedux } from 'reduxStore/hooks';
+import { useNotification, useWindowWidth } from 'contexts';
 
-import { ICON_SIZES } from 'constants/iconSizes';
 import { VariantButton } from 'types';
-import { useWindowWidth } from 'contexts';
+
 import { useActiveLinks } from 'hooks';
 
 import { PrimaryButton } from 'ui';
 
-import { useFacebookLogin, useGoogleSettings } from './hooks';
+import { useGoogleSettings } from './hooks';
 
 const LinkedAccounts: FC<{}> = () => {
-  const { isMobile, isTV } = useWindowWidth();
   const { haveAccounts, unbindGoogle } = useAuthRedux();
+
+  const { isMobile, isTV } = useWindowWidth();
+  const { showToast } = useNotification();
 
   const { isManageAccountPage } = useActiveLinks();
 
   const { googleLogin } = useGoogleSettings();
-  const { handleFacebookLogin, isLoading } = useFacebookLogin();
+  // const { handleFacebookLogin, isLoading } = useFacebookLogin();
+
+  const handleGoogleLinkClick = async () => {
+    if (haveAccounts.google) {
+      const response = await unbindGoogle();
+
+      showToast(response.meta.requestStatus);
+    } else {
+      googleLogin();
+    }
+  };
 
   // 'https://news-webapp-express.onrender.com/api/auth/google', - шлях до беку на redirect
   const accountButtons = [
@@ -26,16 +38,15 @@ const LinkedAccounts: FC<{}> = () => {
       svgName: 'google',
       account: 'Google',
       hasAccount: haveAccounts.google,
-      onClick: () => {
-        haveAccounts.google ? unbindGoogle() : googleLogin();
-      },
+      onClick: handleGoogleLinkClick,
     },
     {
       svgName: 'facebook',
       account: 'Facebook',
       hasAccount: haveAccounts.facebook,
       onClick: () => {
-        handleFacebookLogin();
+        // handleFacebookLogin();
+        console.log('facebook');
       },
     },
     {
@@ -57,7 +68,7 @@ const LinkedAccounts: FC<{}> = () => {
           <h3 className='mb-2 text-darkBase dark:text-whiteBase md:text-2xl lg:mb-4 hg:text-3xl'>
             Connected accounts
           </h3>
-          <p className='after:content=[""] mb-2 text-small leading-normal text-darkBase after:mt-3 after:block after:h-px after:w-full after:bg-greyAlt dark:text-whiteBase after:dark:bg-whiteBase md:mb-4 lg:text-medium hg:text-xl'>
+          <p className='after:content=[""] mb-2 text-small leading-normal text-darkBase after:mb-4 after:mt-3 after:block after:h-px after:w-full after:bg-greyAlt dark:text-whiteBase after:dark:bg-whiteBase md:mb-4 lg:text-medium hg:text-xl'>
             You can connect or disconnect your News account to Google, Facebook, or Apple to log in
             using this account. We will never send messages to your contacts without your
             permission.
@@ -88,11 +99,7 @@ const LinkedAccounts: FC<{}> = () => {
                 hasIcon={true}
                 svgName={svgName}
                 svgSize={
-                  isMobile
-                    ? ICON_SIZES.smIcon20
-                    : isTV && isManageAccountPage
-                      ? ICON_SIZES.mdIcon27
-                      : ICON_SIZES.mdIcon24
+                  isMobile ? 'smIcon20' : isTV && isManageAccountPage ? 'mdIcon27' : 'mdIcon24'
                 }
                 ariaLabel={`${
                   isManageAccountPage ? account + 'account binding' : 'Enter with' + account
@@ -101,7 +108,7 @@ const LinkedAccounts: FC<{}> = () => {
                 classNameIcon='fill-whiteBase group-hover:fill-accentAlt dark:group-hover:fill-whiteBase'
                 children={!isMobile && !isManageAccountPage ? account : ''}
                 onHandleClick={onClick}
-                disabled={account === 'Facebook' && isLoading}
+                // disabled={account === 'Facebook' && isLoading}
               />
             </div>
             {isManageAccountPage ? (

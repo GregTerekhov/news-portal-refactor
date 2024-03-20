@@ -16,27 +16,26 @@ const ChangePassword: FC = () => {
 
   return (
     <>
-      <h2 className='border-b-[1px] border-solid border-fullDark/[.2] py-4 text-2xl text-darkBase transition-colors duration-500 dark:border-whiteBase/[.2] dark:text-whiteBase hg:text-3xl'>
+      <h2 className='mb-4 border-b-[1px] border-solid border-fullDark/[.2] py-4 text-2xl text-darkBase transition-colors duration-500 dark:border-whiteBase/[.2] dark:text-whiteBase hg:text-3xl'>
         Change your password
       </h2>
-      <form className='pt-4' onSubmit={handleChangePasswordSubmit(changePasswordSubmitHandler)}>
+      <form onSubmit={handleChangePasswordSubmit(changePasswordSubmitHandler)}>
         <ul className='mb-8 space-y-4 lg:space-y-8'>
           {Array.isArray(changePasswordInputs) &&
             changePasswordInputs.map(
-              ({ type, placeholder, children, autoFocus, errors, label, ariaInvalid }) => (
+              ({ type, placeholder, labelName, autoFocus, errors, label, ariaInvalid }) => (
                 <li key={label}>
                   <VerifiableInput
                     inputData={{
                       type,
                       placeholder,
-                      children,
+                      labelName,
                       autoFocus,
                     }}
                     errors={errors}
                     register={registerChangePassword}
                     label={label}
                     svgName='password'
-                    hasIcon={false}
                     variant={VariantVerifiableInputs.Auth}
                     ariaInvalid={ariaInvalid}
                   />

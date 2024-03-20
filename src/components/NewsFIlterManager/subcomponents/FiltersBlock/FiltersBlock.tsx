@@ -12,8 +12,9 @@ import Calendar from '../Calendar/Calendar';
 import { ControlButtons, FilterInputs } from './subcomponents';
 
 const FiltersBlock: FC<{}> = () => {
-  const { handleMaterialTypeChange } = useChangeFilter();
   const { filters, selectedMaterialType, setSelectedMaterialType } = useFiltersState();
+
+  const { handleMaterialTypeChange } = useChangeFilter();
 
   const hasNonEmptyValue = (filtersObject: Filters): boolean => {
     return Object.values(filtersObject).some((value) => {
@@ -24,7 +25,7 @@ const FiltersBlock: FC<{}> = () => {
     });
   };
 
-  const hasFilterValue: boolean = hasNonEmptyValue(filters);
+  const hasFilterValue = hasNonEmptyValue(filters);
 
   return (
     <form className='p-3.5 max-md:space-y-4 md:grid md:grid-cols-9 md:grid-rows-3 md:gap-3.5 lg:grid-cols-16 lg:grid-rows-2'>

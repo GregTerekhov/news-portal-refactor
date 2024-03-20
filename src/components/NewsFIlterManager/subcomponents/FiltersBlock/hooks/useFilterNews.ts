@@ -1,28 +1,29 @@
 import { useState } from 'react';
 
 import { useDB, useNewsAPI, useFiltersAction } from 'reduxStore/hooks';
+import { useFiltersState, usePaginationContext, useReadSortState, useSelectedDate } from 'contexts';
 
 import type { PartialVotedNewsArray } from 'types';
 
-import { useFiltersState, usePaginationContext, useReadSortState, useSelectedDate } from 'contexts';
 import { useActiveLinks, useChooseRenderingNews, useReadNewsContent } from 'hooks';
 import { applyCrossFilters, formatSortedDate } from 'helpers';
 
 const useFilterNews = () => {
   const [isSorted, setIsSorted] = useState<boolean>(false);
 
-  const { filters, setSelectedMaterialType, resetFilters } = useFiltersState();
-  const { setSortedDates } = useReadSortState();
-  const activeLinks = useActiveLinks();
-
   const { showResultsState, getFilteredNews, resetAllFiltersResults } = useFiltersAction();
   const { updateHeadline } = useNewsAPI();
   const { allFavourites, allReads } = useDB();
 
-  const { rebuildedNews } = useChooseRenderingNews(activeLinks);
-  const sortedAccordionDates = useReadNewsContent(activeLinks);
+  const { filters, setSelectedMaterialType, resetFilters } = useFiltersState();
+  const { setSortedDates } = useReadSortState();
   const { resetFiltersDay } = useSelectedDate();
   const { resetPagination } = usePaginationContext();
+
+  const activeLinks = useActiveLinks();
+  const sortedAccordionDates = useReadNewsContent();
+
+  const { rebuildedNews } = useChooseRenderingNews(activeLinks);
 
   const { isHomeActive, isFavoriteActive, isReadActive } = activeLinks;
 

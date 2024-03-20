@@ -6,7 +6,7 @@ import { store, RootState } from '../store';
 import { CONFIG } from 'config';
 import { setTokens } from '../auth';
 
-import { RefreshTokensResponse } from 'types';
+import type { RefreshTokensResponse } from 'types';
 
 const updateTokens = async () => {
   const state = store.getState() as RootState;
@@ -47,7 +47,10 @@ const createAxiosInstance = () => {
 
       const isAuthenticated: boolean = state.auth.isLoggedIn;
 
-      if (!(accessToken && isAuthenticated)) {
+      if (accessToken && !isAuthenticated) {
+        config.headers['Authorization'] = `Bearer ${accessToken}`;
+      }
+      if (!accessToken && !isAuthenticated) {
         throw new Error('User is not authenticated');
       }
 

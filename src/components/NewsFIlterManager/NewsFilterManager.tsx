@@ -2,7 +2,6 @@ import React, { FC, useState } from 'react';
 
 import { useDB } from 'reduxStore/hooks';
 
-import { ICON_SIZES } from 'constants/iconSizes';
 import { useActiveLinks } from 'hooks';
 
 import { Accordeon, SvgIcon } from 'ui';
@@ -10,8 +9,9 @@ import { Accordeon, SvgIcon } from 'ui';
 import { FiltersBlock, SearchBlock } from './subcomponents';
 
 const NewsFilterManager: FC<{}> = () => {
-  const { allFavourites, allReads, allArchive } = useDB();
   const [showDropdown, setShowDropdown] = useState<boolean>(false);
+
+  const { allFavourites, allReads, allArchive } = useDB();
 
   const { isHomeActive, isArchiveActive, isReadActive, isFavoriteActive } = useActiveLinks();
 
@@ -32,7 +32,7 @@ const NewsFilterManager: FC<{}> = () => {
         News filter service
         <SvgIcon
           svgName='arrow'
-          size={ICON_SIZES.smIcon18}
+          sizeKey='smIcon18'
           className={`fill-darkBase dark:fill-whiteBase ${
             showDropdown ? 'rotate-180' : 'rotate-0'
           } transition-transform`}

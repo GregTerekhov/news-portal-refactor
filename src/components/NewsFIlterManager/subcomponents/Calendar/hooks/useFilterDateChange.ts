@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { isAfter, startOfToday } from 'date-fns';
 
 import { useFiltersState, useSelectedDate } from 'contexts';
+
 import { determineNewSelectedDate } from 'helpers';
 
 const useFilterDateChange = () => {
@@ -11,7 +12,11 @@ const useFilterDateChange = () => {
   const { filters, setFilters } = useFiltersState();
   const { setSelectedFilterDate } = useSelectedDate();
 
-  const handleFilterDate = (date: Date): void => {
+  const handleFilterDate = (
+    date: Date,
+    isOpenCalendar: boolean,
+    toggleCalendar: () => void,
+  ): void => {
     if (!isAfter(date, today)) {
       if (!beginDate) {
         setBeginDate(date);
@@ -31,7 +36,9 @@ const useFilterDateChange = () => {
             setBeginDate(null);
           }
         } catch (error) {
-          console.error(error);
+          console.error('An error occurred while updating the values: ', error);
+        } finally {
+          if (isOpenCalendar) toggleCalendar();
         }
       }
     }
