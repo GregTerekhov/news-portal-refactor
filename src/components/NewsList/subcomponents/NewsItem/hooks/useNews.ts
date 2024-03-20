@@ -1,4 +1,4 @@
-import { VotedItem } from 'types';
+import type { VotedItem } from 'types';
 
 import { useAuthRedux, useDB } from 'reduxStore/hooks';
 

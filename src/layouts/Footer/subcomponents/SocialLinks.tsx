@@ -16,7 +16,7 @@ const SocialLinks: FC = () => {
         socialLinks.map(({ label, link, iconName, size }) => (
           <li key={label}>
             <a href={link} aria-label={`${label} NYTimes button link`}>
-              <SvgIcon svgName={iconName} size={size} className='fill-whiteBase' />
+              <SvgIcon svgName={iconName} sizeKey={size} className='fill-whiteBase' />
             </a>
           </li>
         ))}

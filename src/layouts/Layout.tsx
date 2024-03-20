@@ -2,15 +2,15 @@ import React, { FC, useEffect } from 'react';
 import { Outlet } from 'react-router-dom';
 
 import { useAuthRedux, useDB, useNewsAPI } from 'reduxStore/hooks';
+import { useWindowWidth } from 'contexts';
 
 import { VariantSwitcher } from 'types';
-import { useWindowWidth } from 'contexts';
 import { useActiveLinks, useChooseRenderingNews } from 'hooks';
 
-import { NewsFilterManager, PageScrollController, Toast } from 'components';
+import { NewsFilterManager } from 'components';
 import { ThemeSwitcher } from 'ui';
 
-import { Hero } from './subcomponents';
+import { Hero, PageScrollController } from './subcomponents';
 import Header from './Header/Header';
 import Footer from './Footer/Footer';
 
@@ -18,7 +18,7 @@ const Layout: FC = () => {
   const { isNotMobile } = useWindowWidth();
 
   const { fetchCategoriesList, errorAPI } = useNewsAPI();
-  const { isAuthenticated, statusMessage } = useAuthRedux();
+  const { isAuthenticated } = useAuthRedux();
   const { allFavourites, allArchive } = useDB();
 
   const activeLinks = useActiveLinks();
@@ -54,14 +54,6 @@ const Layout: FC = () => {
     isArchiveActive ||
     isErrorPage ||
     (isHomeActive && is429ErrorAPI);
-
-  const showSuccessToast =
-    (statusMessage === 'Email sent successfully' ||
-      statusMessage === 'Password has successfully changed' ||
-      statusMessage === 'User sign-in success' ||
-      statusMessage === 'Sign-out success' ||
-      statusMessage.includes('linking')) &&
-    statusMessage !== '';
 
   const screenShow =
     isAccountPages ||
@@ -120,7 +112,6 @@ const Layout: FC = () => {
         </section>
       </main>
       {!isErrorPage && <Footer />}
-      {showSuccessToast ? <Toast variant='non-interactive' status='success' /> : null}
     </div>
   );
 };

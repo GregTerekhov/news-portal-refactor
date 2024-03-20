@@ -59,7 +59,10 @@ const WeatherBlock: FC<{}> = () => {
                 alt={currentWeather?.weather?.[0]?.description}
               />
             )}
-            <div className='h-56 w-full cursor-pointer perspective-10' onClick={flipWeatherDetails}>
+            <div
+              className='h-56 w-full cursor-pointer perspective-10 md:h-[314px]'
+              onClick={flipWeatherDetails}
+            >
               <div
                 className={`grid h-full w-full grid-cols-1 grid-rows-1 transition-transform transform-style-3d ${flippingCard}`}
               >

@@ -1,5 +1,10 @@
 import { TimezoneOffset, zoneList } from './constants';
 
+type WeatherCurrentTime = {
+  days: string;
+  dateNow: string;
+};
+
 export function convertUnixTimestampToHHMM(unixTimestamp: number): string {
   // Створюємо новий об'єкт Date, використовуючи переданий Unix Timestamp (у мілісекундах)
   const date = new Date(unixTimestamp * 1000);
@@ -19,8 +24,7 @@ export function convertUnixTimestampToHHMM(unixTimestamp: number): string {
 export function convertTimezone(data: number): string | undefined {
   const key = String(data) as TimezoneOffset;
 
-  const convert = zoneList[key];
-  return convert;
+  return zoneList[key];
 }
 
 export function hPaToMmHg(hPa: number): number {
@@ -68,7 +72,7 @@ function receiveCurrentTime(): string {
   const hours = currentTime.getHours();
   const minutes = currentTime.getMinutes();
 
-  const formatTimeUnit = (timeUnit: number) => {
+  const formatTimeUnit = (timeUnit: number): string => {
     return timeUnit < 10 ? `0${timeUnit}` : timeUnit.toString();
   };
 
@@ -78,7 +82,7 @@ function receiveCurrentTime(): string {
   return `${formattedHours}:${formattedMinutes}`;
 }
 
-export function receiveCurrentDate() {
+export function receiveCurrentDate(): WeatherCurrentTime {
   // Визначаємо повну назву дня за допомогою мапи
   const daysMap = {
     Sun: 'Sunday',
@@ -91,12 +95,20 @@ export function receiveCurrentDate() {
   };
 
   const today = new Date();
+
   const days = daysMap[today.toDateString().slice(0, 3) as keyof typeof daysMap];
   const currentTime = receiveCurrentTime();
   const month = today.toDateString().slice(4).slice(0, 4);
   const number = today.toDateString().slice(8).slice(0, 2);
   const year = today.toDateString().slice(11);
+
   const formattedDate = `${currentTime} | ${number} ${month} ${year}`;
 
   return { days, dateNow: formattedDate };
 }
+
+export const convertTemperature = (temp: number, isCelsius: boolean): string => {
+  return isCelsius && temp
+    ? Math.round(temp) + '\u00b0'
+    : Math.round((temp * 9) / 5 + 32) + '\u00b0';
+};

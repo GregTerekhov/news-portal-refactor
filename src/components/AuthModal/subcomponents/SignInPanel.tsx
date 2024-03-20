@@ -4,8 +4,8 @@ import { VariantButton, VariantInputs, VariantSwitcher, VariantVerifiableInputs 
 
 import { PrimaryButton, ThemeSwitcher, UnverifiableInput, VerifiableInput } from 'ui';
 
-import ThirdPartyAuthPanel from './ThirdPartyAuthPanel';
 import ForgotPassword from './ForgotPassword';
+import ThirdPartyAuthPanel from './ThirdPartyAuthPanel';
 
 import { useSignIn } from '../hooks';
 
@@ -33,7 +33,7 @@ const SignInPanel: FC<SignInProps> = ({ handleShowRecoveryInput, isShowRecoveryI
               ({
                 type,
                 placeholder,
-                children,
+                labelName,
                 autoFocus,
                 fieldValue,
                 errors,
@@ -42,11 +42,10 @@ const SignInPanel: FC<SignInProps> = ({ handleShowRecoveryInput, isShowRecoveryI
               }) => (
                 <li key={label}>
                   <VerifiableInput
-                    inputData={{ type, placeholder, autoFocus, children, fieldValue }}
+                    inputData={{ type, placeholder, autoFocus, labelName, fieldValue }}
                     errors={errors}
                     register={registration}
                     label={label}
-                    hasIcon={false}
                     variant={VariantVerifiableInputs.Auth}
                     ariaInvalid={ariaInvalid}
                   />

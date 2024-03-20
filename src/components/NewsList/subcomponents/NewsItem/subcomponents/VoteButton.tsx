@@ -1,9 +1,15 @@
 import React, { FC } from 'react';
 
-import { ICON_SIZES } from 'constants/iconSizes';
 import { useActiveLinks } from 'hooks';
 
 import { SvgIcon } from 'ui';
+
+type ButtonLabel =
+  | 'Remove from favorite'
+  | 'Add to favorite'
+  | 'Favourited'
+  | 'Not in favourites'
+  | undefined;
 
 interface VBProps {
   buttonData: {
@@ -24,18 +30,28 @@ const VoteButton: FC<VBProps> = ({ onHandleClick, isFavourite, buttonData }) => 
     !isArchiveActive ? 'group hover:bg-accentBase hover:text-whiteBase' : ''
   } text-small font-medium text-darkBase transition-colors duration-500 lg:text-medium`;
 
+  const getButtonLabel = (): ButtonLabel => {
+    switch (true) {
+      case !isArchiveActive && isFavourite:
+        return 'Remove from favorite';
+      case !isArchiveActive && !isFavourite:
+        return 'Add to favorite';
+      case isArchiveActive && isFavourite:
+        return 'Favourited';
+      case isArchiveActive && !isFavourite:
+        return 'Not in favourites';
+
+      default:
+        return;
+    }
+  };
+
   return (
     <button id={buttonData?.id} type='button' className={`${buttonStyles}`} onClick={onHandleClick}>
-      {!isArchiveActive
-        ? isFavourite
-          ? 'Remove from favorite'
-          : 'Add to favorite'
-        : isFavourite
-          ? 'Favourited'
-          : 'Not in favourites'}
+      {getButtonLabel()}
       <SvgIcon
         svgName='heart'
-        size={ICON_SIZES.xsIcon16}
+        sizeKey='xsIcon16'
         className={`fill-inherit ${!isArchiveActive ? 'group-hover:stroke-whiteBase' : ''} `}
       />
     </button>

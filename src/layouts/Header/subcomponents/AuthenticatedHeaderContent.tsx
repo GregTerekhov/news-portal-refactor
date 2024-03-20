@@ -1,9 +1,8 @@
-import React, { FC } from 'react';
+import React, { FC, useState } from 'react';
 
 import { VariantInputs, VariantSwitcher } from 'types';
-
-import { ICON_SIZES } from 'constants/iconSizes';
 import { useWindowWidth } from 'contexts';
+
 import { useActiveLinks, useAdditionalRequest, useHeaderStyles } from 'hooks';
 
 import { SvgIcon, ThemeSwitcher, UnverifiableInput } from 'ui';
@@ -11,20 +10,17 @@ import AuthButton from './Auth';
 import CommonMenu from '../../CommonMenu/CommonMenu';
 
 interface HeaderContentProps {
-  touched: boolean;
-  handleVisibilityChange: () => void;
   resetFilters: () => void;
   isOpenMenu: boolean;
   toggleMenu: () => void;
 }
 
 const AuthenticatedHeaderContent: FC<HeaderContentProps> = ({
-  handleVisibilityChange,
-  touched,
   resetFilters,
   isOpenMenu,
   toggleMenu,
 }) => {
+  const [touched, setTouched] = useState<boolean>(false);
   const { isMobile } = useWindowWidth();
 
   const { query, onChangeInput, onHandleSearch } = useAdditionalRequest();
@@ -33,7 +29,11 @@ const AuthenticatedHeaderContent: FC<HeaderContentProps> = ({
 
   const isAccountPages = isAccountPage || isManageAccountPage;
 
-  const getNavId = () => {
+  const handleVisibilityChange = (): void => {
+    setTouched(!touched);
+  };
+
+  const getNavId = (): string => {
     let id = '';
 
     switch (true) {
@@ -91,7 +91,7 @@ const AuthenticatedHeaderContent: FC<HeaderContentProps> = ({
             >
               <SvgIcon
                 svgName={`${isOpenMenu ? 'close' : 'burger-menu'}`}
-                size={ICON_SIZES.mdIcon24}
+                sizeKey='mdIcon24'
                 className={`hover:stroke-accentBase dark:hover:stroke-accentBase ${
                   !isOpenMenu && isHomeActive
                     ? burgerMenuButtonClass

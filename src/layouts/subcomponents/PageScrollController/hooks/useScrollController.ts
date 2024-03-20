@@ -2,7 +2,8 @@ import { useEffect, useState, useMemo } from 'react';
 import debounce from 'lodash.debounce';
 
 import { useWindowWidth } from 'contexts';
-import useHeaderHeight from 'hooks/useHeaderHeight';
+
+import { useHeaderHeight } from 'hooks';
 
 const DOWN_MEASURE_BUTTON_VISIBILITY = 48;
 const DOWN_MEASURE_BUTTON_INVISIBILITY = 112;

@@ -20,7 +20,7 @@ interface Members {
 interface ILink {
   link: string;
   icon: string;
-  iconSize: number;
+  iconSize: keyof typeof ICON_SIZES;
 }
 
 export const getMembersList = (
@@ -90,22 +90,22 @@ export const getMembersLink = (
     {
       link: githubLink,
       icon: 'github',
-      iconSize: ICON_SIZES.mdIcon28,
+      iconSize: 'mdIcon28',
     },
     {
       link: linkedinLink,
       icon: 'linkedin',
-      iconSize: ICON_SIZES.mdIcon28,
+      iconSize: 'mdIcon28',
     },
     {
       link: emailLink,
       icon: 'gmail',
-      iconSize: ICON_SIZES.lgIcon30,
+      iconSize: 'lgIcon30',
     },
     {
       link: telegramLink,
       icon: 'telegram',
-      iconSize: ICON_SIZES.mdIcon28,
+      iconSize: 'mdIcon28',
     },
   ];
   return links;

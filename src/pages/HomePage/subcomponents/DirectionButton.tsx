@@ -1,6 +1,5 @@
 import React, { FC } from 'react';
 
-import { ICON_SIZES } from 'constants/iconSizes';
 import { usePaginationContext, useWindowWidth } from 'contexts';
 import { VariantButton } from 'types';
 
@@ -34,7 +33,7 @@ const DirectionButton: FC<DirectionButtonProps> = ({
       disabled={direction === 'Prev' ? disabledPrevButton : disableNextButton}
       hasIcon={true}
       svgName='arrow'
-      svgSize={ICON_SIZES.xsIcon14}
+      svgSize='xsIcon14'
       classNameIcon={`${direction === 'Prev' ? 'rotate-90' : '-rotate-90'}  fill-whiteBase`}
       classNameButton={direction === 'Prev' ? 'flex-row-reverse' : ''}
     >

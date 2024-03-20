@@ -3,10 +3,9 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { SubmitHandler, useForm } from 'react-hook-form';
 
 import { useAuthRedux } from 'reduxStore/hooks';
+import { useNotification, useScrollBodyContext } from 'contexts';
 
 import { AuthRequestWithoutName, AuthInputs } from 'types';
-
-import { useNotification, useScrollBodyContext } from 'contexts';
 import { usePopUp } from 'hooks';
 
 import {
@@ -24,9 +23,9 @@ const useSignIn = () => {
   const { login } = useAuthRedux();
   const { toggleModal } = usePopUp();
 
-  const hasSavedCryptoUserData = localStorage.getItem('rememberMeData');
-
   useEffect(() => {
+    const hasSavedCryptoUserData = localStorage.getItem('rememberMeData');
+
     const loadUserData = async (): Promise<void> => {
       if (hasSavedCryptoUserData) {
         const loadedUserData = await loadUserDataFromLocalStorage();
@@ -103,7 +102,7 @@ const useSignIn = () => {
     {
       type: 'email',
       placeholder: 'Enter your email',
-      children: 'Email',
+      labelName: 'Email',
       fieldValue: email,
       errors: errors?.email?.message,
       label: 'email',
@@ -114,7 +113,7 @@ const useSignIn = () => {
     {
       type: 'password',
       placeholder: 'Enter your password',
-      children: 'Password',
+      labelName: 'Password',
       fieldValue: password,
       errors: errors?.password?.message,
       label: 'password',

@@ -17,46 +17,28 @@ const useNewsState = ({
   savedNews,
   allArchive,
 }: NewsStateHookProps) => {
-  const [isFavourite, setIsFavourite] = useState<boolean>(() => getIsFavourite());
-  const [hasRead, setHasRead] = useState<boolean>(() => getHasRead());
+  const newsArray = isArchiveActive ? allArchive : savedNews;
+  const allSavedNews = newsArray?.find((news) => news.newsUrl === liveNews?.newsUrl);
+
+  const [newsState, setNewsState] = useState({
+    isFavourite: allSavedNews?.isFavourite ?? false,
+    hasRead: allSavedNews?.hasRead ?? false,
+  });
 
   useEffect(() => {
-    if (isAuthenticated) {
-      if (!isArchiveActive) {
-        if (savedNews && liveNews?.newsUrl !== undefined) {
-          if (savedNews?.length !== 0) {
-            const existingNews = savedNews?.find((news) => news.newsUrl === liveNews?.newsUrl);
-            updateStates(existingNews);
-          }
-        }
-      } else if (isArchiveActive && allArchive && allArchive.length !== 0) {
-        const existingNews = allArchive.find((news) => news.newsUrl === liveNews.newsUrl);
-        updateStates(existingNews);
-      }
+    if (isAuthenticated && allSavedNews) {
+      setNewsState({
+        isFavourite: allSavedNews.isFavourite ?? false,
+        hasRead: allSavedNews.hasRead ?? false,
+      });
     }
-  }, [savedNews, allArchive, isAuthenticated, liveNews]);
+  }, [allSavedNews, isAuthenticated, liveNews]);
 
-  function updateStates(existingNews: Partial<VotedItem> | undefined) {
-    const savedFavourite = existingNews?.isFavourite;
-    const savedRead = existingNews?.hasRead;
-
-    setIsFavourite(savedFavourite ?? false);
-    setHasRead(savedRead ?? false);
-  }
-
-  function getIsFavourite(): boolean {
-    const newsArray = isArchiveActive ? allArchive : savedNews;
-    const existingNews = newsArray.find((news) => news.newsUrl === liveNews?.newsUrl);
-    return existingNews?.isFavourite ?? false;
-  }
-
-  function getHasRead(): boolean {
-    const newsArray = isArchiveActive ? allArchive : savedNews;
-    const existingNews = newsArray.find((news) => news.newsUrl === liveNews?.newsUrl);
-    return existingNews?.hasRead ?? false;
-  }
-
-  return { isFavourite, hasRead, setIsFavourite, setHasRead };
+  return {
+    ...newsState,
+    setIsFavourite: (isFavourite: boolean) => setNewsState({ ...newsState, isFavourite }),
+    setHasRead: (hasRead: boolean) => setNewsState({ ...newsState, hasRead }),
+  };
 };
 
 export default useNewsState;

@@ -4,14 +4,17 @@ import { useNavigate } from 'react-router-dom';
 import { useAuthRedux } from 'reduxStore/hooks';
 
 import { ClickHandler, VariantButton } from 'types';
-import { ICON_SIZES } from 'constants/iconSizes';
 import { useNotification, useWindowWidth } from 'contexts';
 import { useActiveLinks, useHeaderStyles, usePopUp } from 'hooks';
 
 import { AuthModal } from 'components';
 import { Modal, PrimaryButton } from 'ui';
 
-const Auth: FC<{}> = () => {
+interface AuthButtonProps {
+  passwordToken: boolean;
+}
+
+const Auth: FC<AuthButtonProps> = ({ passwordToken }) => {
   const { wideScreens } = useWindowWidth();
 
   const { logout, isAuthenticated } = useAuthRedux();
@@ -43,7 +46,7 @@ const Auth: FC<{}> = () => {
           }
           hasIcon={true}
           svgName={`${isAuthenticated ? 'signout' : 'auth'}`}
-          svgSize={wideScreens ? ICON_SIZES.mdIcon28 : ICON_SIZES.mdIcon24}
+          svgSize={wideScreens ? 'mdIcon28' : 'mdIcon24'}
           classNameIcon='fill-whiteBase'
           classNameButton={`${
             isHomeActive && authButtonClass
@@ -56,7 +59,7 @@ const Auth: FC<{}> = () => {
       </div>
       {isOpenModal && (
         <Modal closeModal={toggleModal} modalRef={popUpRef}>
-          <AuthModal />
+          <AuthModal isOpenModal={isOpenModal} passwordToken={passwordToken} />
         </Modal>
       )}
     </>

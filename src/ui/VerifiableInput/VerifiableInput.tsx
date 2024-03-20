@@ -2,7 +2,6 @@ import React, { ReactNode, FC, useId, useState } from 'react';
 import { UseFormRegister } from 'react-hook-form';
 
 import { InputLabel, VariantVerifiableInputs, VerifiableInputValues } from 'types';
-import { ICON_SIZES } from 'constants/iconSizes';
 import { useWindowWidth } from 'contexts';
 
 import SvgIcon from '../SvgIcon';
@@ -14,7 +13,7 @@ interface InputCollectedData {
   placeholder?: string;
   fieldValue?: string | string[] | undefined;
   autoFocus?: boolean | undefined;
-  children?: ReactNode;
+  labelName?: ReactNode;
   autofill?: string;
 }
 
@@ -23,7 +22,7 @@ type VerifiableInputRegister = UseFormRegister<VerifiableInputValues>;
 
 interface InputProps {
   inputData: InputCollectedData;
-  hasIcon: boolean;
+  hasIcon?: boolean;
   svgName?: string;
   variant: VariantVerifiableInputs;
   ariaInvalid: AriaInvalid;
@@ -50,7 +49,7 @@ const VerifiableInput: FC<InputProps> = ({
 
   const id = useId(); // додається для розрізнення однакових label в різних інпутах, які знаходяться на одній сторінці
 
-  const { type, fieldValue, placeholder, children, autoFocus, autofill } = inputData;
+  const { type, fieldValue, placeholder, labelName, autoFocus, autofill } = inputData;
 
   const { geometry, border, bg, caret, text, placeholderStyle } =
     inputStyles[variant === VariantVerifiableInputs.Account ? 'account' : 'auth'];
@@ -67,7 +66,7 @@ const VerifiableInput: FC<InputProps> = ({
        ${variant === VariantVerifiableInputs.Auth && 'w-full space-y-2 text-medium md:text-xl hg:text-2xl'}`}
     >
       {variant === VariantVerifiableInputs.Auth && placeholder !== 'Enter your current email' && (
-        <span className='mb-1.5 block font-medium text-accentBase'>{children}</span>
+        <span className='mb-1.5 block font-medium text-accentBase'>{labelName}</span>
       )}
       <div className={`relative ${variant === VariantVerifiableInputs.Auth ? '' : 'mb-4'}`}>
         {type === 'password' ? (
@@ -78,7 +77,7 @@ const VerifiableInput: FC<InputProps> = ({
           >
             <SvgIcon
               svgName={`${isPasswordVisibility ? 'eye-opened' : 'eye-closed'}`}
-              size={wideScreens ? ICON_SIZES.mdIcon24 : ICON_SIZES.smIcon20}
+              sizeKey={wideScreens ? 'mdIcon24' : 'smIcon20'}
               className='absolute bottom-[9px] right-3 cursor-pointer fill-greyBase md:right-4 hg:bottom-2.5'
             />
           </button>
@@ -86,7 +85,7 @@ const VerifiableInput: FC<InputProps> = ({
         {hasIcon && (
           <SvgIcon
             svgName={svgName}
-            size={ICON_SIZES.smIcon20}
+            sizeKey='smIcon20'
             className='absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 transform items-center justify-center fill-accentBase'
           />
         )}
@@ -96,7 +95,7 @@ const VerifiableInput: FC<InputProps> = ({
             className={`${forgotSubmitButtonStyles}`}
             onClick={handleSubmitRecovery}
           >
-            <SvgIcon svgName='arrow-right' size={ICON_SIZES.smIcon20} className='fill-whiteBase' />
+            <SvgIcon svgName='arrow-right' sizeKey='smIcon20' className='fill-whiteBase' />
           </button>
         ) : null}
         <input

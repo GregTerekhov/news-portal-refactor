@@ -2,7 +2,6 @@ import React, { FC } from 'react';
 
 import { useAuthRedux } from 'reduxStore/hooks';
 
-import { ICON_SIZES } from 'constants/iconSizes';
 import { useWindowWidth } from 'contexts';
 
 import { SvgIcon } from 'ui';
@@ -49,7 +48,7 @@ const AccountPage: FC<{}> = () => {
                 >
                   <SvgIcon
                     svgName={iconName}
-                    size={isMobile ? ICON_SIZES.smIcon20 : ICON_SIZES.mdIcon24}
+                    sizeKey={isMobile ? 'smIcon20' : 'mdIcon24'}
                     className='fill-whiteBase'
                   />
                 </li>

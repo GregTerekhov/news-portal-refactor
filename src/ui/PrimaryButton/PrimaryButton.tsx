@@ -1,6 +1,7 @@
 import React, { ButtonHTMLAttributes, ReactNode, forwardRef } from 'react';
 
 import { ClickHandler, PrimaryButtonType, VariantButton } from 'types';
+import { ICON_SIZES } from 'constants/iconSizes';
 
 import SvgIcon from '../SvgIcon';
 import { generateButtonStyles } from './assistants';
@@ -12,7 +13,7 @@ interface PBProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   children?: ReactNode;
   hasIcon?: boolean;
   svgName?: string | undefined;
-  svgSize?: number;
+  svgSize?: keyof typeof ICON_SIZES | undefined;
   classNameIcon?: string | undefined;
   width?: string;
   classNameButton?: string | undefined;
@@ -63,7 +64,7 @@ const PrimaryButton = forwardRef<
         disabled={disabled}
       >
         {children}
-        {hasIcon && <SvgIcon svgName={svgName} size={svgSize} className={classNameIcon} />}
+        {hasIcon && <SvgIcon svgName={svgName} sizeKey={svgSize} className={classNameIcon} />}
       </button>
     );
   },

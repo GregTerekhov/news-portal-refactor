@@ -1,8 +1,6 @@
 import React, { FC, ReactElement, ReactNode, useState } from 'react';
 import * as Accordion from '@radix-ui/react-accordion';
 
-import { ICON_SIZES } from 'constants/iconSizes';
-
 import SvgIcon from './SvgIcon';
 
 interface AccordeonProps {
@@ -39,7 +37,7 @@ const Accordeon: FC<AccordeonProps> = ({ children, dateSeparator, position, filt
             {showAccordeonPages ? dateSeparator : filtersBlock}
             <SvgIcon
               svgName='arrow'
-              size={ICON_SIZES.smIcon18}
+              sizeKey='smIcon18'
               className={`fill-darkBase dark:fill-whiteBase ${
                 isOpen ? 'rotate-180' : 'rotate-0'
               } transition-transform`}

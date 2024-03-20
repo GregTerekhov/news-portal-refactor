@@ -1,8 +1,8 @@
 import React, { ReactNode, FC } from 'react';
 
 import { VariantInputs } from 'types';
-import { ICON_SIZES } from 'constants/iconSizes';
 import { useWindowWidth } from 'contexts';
+
 import { useHeaderStyles, useActiveLinks } from 'hooks';
 
 import SvgIcon from '../SvgIcon';
@@ -96,14 +96,14 @@ const UnverifiableInput: FC<InputProps> = ({
         {variant === VariantInputs.Checkbox ? (
           <SvgIcon
             svgName='check'
-            size={ICON_SIZES.xsIcon16}
+            sizeKey='xsIcon16'
             className={`${isChecked ? 'fill-whiteBase' : 'fill-none'}`}
           />
         ) : null}
         {hasIcon && (
           <SvgIcon
             svgName={svgName}
-            size={ICON_SIZES.smIcon20}
+            sizeKey='smIcon20'
             className={`${svgFill} ${
               variant === VariantInputs.Header ? svgWrapperClass : 'left-3'
             } absolute top-1/2 flex h-5 w-5 -translate-y-1/2 items-center justify-center`}

@@ -2,8 +2,8 @@ import React, { FC, ReactElement, ReactNode, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { useDB, useNewsAPI } from 'reduxStore/hooks';
-
 import { useNotification } from 'contexts';
+
 import { useActiveLinks, useChooseRenderingNews } from 'hooks';
 
 import { Toast } from 'components';
@@ -29,6 +29,8 @@ const PageTemplate: FC<PageTemplateProps> = ({ children }) => {
 
   const navigate = useNavigate();
 
+  const { isFavoriteActive, isReadActive } = activeLinks;
+
   useEffect(() => {
     if (
       (errorDB && typeof errorDB === 'number' && errorDB >= 500) ||
@@ -39,7 +41,7 @@ const PageTemplate: FC<PageTemplateProps> = ({ children }) => {
   }, [errorDB, errorAPI]);
 
   useEffect(() => {
-    if (rebuildedNews?.length > 0) setOpenToast(true);
+    if ((isFavoriteActive || isReadActive) && rebuildedNews?.length > 0) setOpenToast(true);
   }, []);
 
   return (

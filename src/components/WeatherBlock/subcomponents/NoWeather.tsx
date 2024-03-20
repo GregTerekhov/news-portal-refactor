@@ -1,7 +1,6 @@
 import React, { FC } from 'react';
 
 import { VariantButton } from 'types';
-import { ICON_SIZES } from 'constants/iconSizes';
 
 import { PrimaryButton, SvgIcon } from 'ui';
 
@@ -24,7 +23,7 @@ const NoWeather: FC<NoWeatherProps> = ({ showError }) => {
       <div className={`my-auto ${showError ? 'flex justify-center' : ''}`}>
         <SvgIcon
           svgName='moon'
-          size={ICON_SIZES.ultraIcon156}
+          sizeKey='ultraIcon156'
           className='fill-transparent stroke-greyBase'
         />
       </div>

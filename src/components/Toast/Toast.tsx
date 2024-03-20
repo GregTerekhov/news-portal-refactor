@@ -1,8 +1,8 @@
 import React, { FC } from 'react';
 
 import { ToastStatus, ToastVariant } from 'types';
-
 import { useNotification } from 'contexts';
+
 import { useActiveLinks } from 'hooks';
 
 import { Notification } from 'ui';
@@ -15,14 +15,36 @@ interface ToastSuccessProps {
 }
 
 const Toast: FC<ToastSuccessProps> = ({ variant, status }) => {
-  const activeLinks = useActiveLinks();
-
   const { openToast, setOpenToast } = useNotification();
+
   const { showSuccessToast } = useToastSuccess();
   const { showErrorToast } = useToastError();
   const { chooseInfoToastText } = useToastInfo();
 
+  const activeLinks = useActiveLinks();
   const showInfoToast = chooseInfoToastText(activeLinks);
+
+  const getToastTitle = (status: ToastStatus) => {
+    switch (status) {
+      case 'success':
+        return showSuccessToast().title;
+      case 'error':
+        return showErrorToast().title;
+      default:
+        return showInfoToast.title;
+    }
+  };
+
+  const getToastDescription = (status: ToastStatus) => {
+    switch (status) {
+      case 'success':
+        return showSuccessToast().description;
+      case 'error':
+        return showErrorToast().description;
+      default:
+        return showInfoToast.description;
+    }
+  };
 
   return (
     <>
@@ -30,20 +52,8 @@ const Toast: FC<ToastSuccessProps> = ({ variant, status }) => {
         variant={variant}
         openToast={openToast}
         setOpenToast={setOpenToast}
-        title={
-          status === 'success'
-            ? showSuccessToast().title
-            : status === 'error'
-              ? showErrorToast().title
-              : showInfoToast.title
-        }
-        description={
-          status === 'success'
-            ? showSuccessToast().description
-            : status === 'error'
-              ? showErrorToast().description
-              : showInfoToast.description
-        }
+        title={getToastTitle(status)}
+        description={getToastDescription(status)}
       />
     </>
   );

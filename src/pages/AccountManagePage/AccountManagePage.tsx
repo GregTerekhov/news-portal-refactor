@@ -11,8 +11,14 @@ const AccountManagePage: FC<{}> = () => {
 
   const showUpdatedToast =
     statusMessage === 'Email is successfully updated' ||
-    statusMessage === 'Password is successfully updated';
-  const showErrorToast = typeof authError === 'string';
+    statusMessage === 'Password is successfully updated' ||
+    statusMessage.includes('linking');
+
+  console.log('showUpdatedToast', showUpdatedToast);
+
+  const showErrorToast = authError && typeof authError === 'string';
+
+  const shouldShowToast = showUpdatedToast || showErrorToast;
 
   return (
     <div>
@@ -26,8 +32,9 @@ const AccountManagePage: FC<{}> = () => {
           <LinkedAccounts />
         </div>
       </div>
-      {showErrorToast ? <Toast variant='interactive' status='error' /> : null}
-      {showUpdatedToast ? <Toast variant='interactive' status='success' /> : null}
+      {shouldShowToast ? (
+        <Toast variant='interactive' status={showUpdatedToast ? 'success' : 'error'} />
+      ) : null}
     </div>
   );
 };

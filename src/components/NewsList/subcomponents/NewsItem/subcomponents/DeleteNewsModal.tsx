@@ -1,7 +1,6 @@
 import React, { FC } from 'react';
 
 import { VariantButton } from 'types';
-import { ICON_SIZES } from 'constants/iconSizes';
 
 import { PrimaryButton } from 'ui';
 
@@ -51,7 +50,7 @@ const DeleteNewsModal: FC<DeleteNewsButtonProps> = ({ handleDeleteNews, handleCl
               hasIcon={true}
               id={id}
               svgName={icon}
-              svgSize={ICON_SIZES.smIcon18}
+              svgSize='smIcon18'
               classNameIcon='fill-whiteBase'
               classNameButton='md:text-xl border border-whiteBase'
             >

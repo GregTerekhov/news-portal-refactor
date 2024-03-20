@@ -109,9 +109,11 @@ export const requestWithInstanceTemplate = <Arg, Result>(
   return createAppAsyncThunk<Result, Arg>(name, async (args, { rejectWithValue }) => {
     try {
       console.log('args', args);
-      let dynamicUrl = args ? url.replace(/:id\b/, args.toString()) : url;
+      if (url.includes(':id')) {
+        url = args ? url.replace(/:id\b/, args.toString()) : url;
+      }
 
-      const response = await axiosInstance[method]<Result>(dynamicUrl, args);
+      const response = await axiosInstance[method]<Result>(url, args);
       console.log(`${name}Response`, response.data);
       return response.data;
     } catch (error: any) {

@@ -1,6 +1,6 @@
 import { format, isAfter } from 'date-fns';
 
-import { SelectedDate } from 'types';
+import type { SelectedDate } from 'types';
 
 type FormattedDate = {
   firstDate: string;
@@ -98,3 +98,33 @@ export function formatDateRange(selectedDate: SelectedDate): FormattedDate {
     lastDate: selectedDate.endDate && convertDateFormat(selectedDate.endDate),
   };
 }
+
+export const getStringDateToCalendar = (day: Date, variant: string): string => {
+  let dayToString = '';
+
+  switch (variant) {
+    case 'SearchBlock':
+      dayToString = format(day, 'yyyyMMdd');
+      break;
+    case 'FiltersBlock':
+      dayToString = format(day, 'dd/MM/yyyy');
+      break;
+    default:
+      break;
+  }
+  return dayToString;
+};
+
+export const isDayInRange = (
+  beginDate: string | null,
+  endDate: string | null,
+  selectedDate: string,
+) => beginDate && endDate && beginDate <= selectedDate && endDate >= selectedDate;
+
+export const formatDateToYYYYMMDD = (filterDate: string): string => {
+  const day = filterDate.slice(0, 2);
+  const month = filterDate.slice(3, 5);
+  const year = filterDate.slice(6);
+
+  return `${year}${month}${day}`;
+};

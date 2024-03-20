@@ -13,6 +13,7 @@ const initialState: AuthState = {
   userTheme: 'light',
   accessToken: null,
   refreshToken: null,
+  // thirdPartyRegister: false,
   user: {
     name: '',
     email: '',
@@ -55,6 +56,7 @@ const authSlice = createSlice({
         state.user = action.payload.user;
         state.userTheme = action.payload.userTheme;
         state.haveAccounts = action.payload.haveAccounts;
+        // if(action.payload.thirdPartyRegister)  state.thirdPartyRegister = true;
       })
       .addCase(authOperations.updateUserEmail.fulfilled, (state, action) => {
         state.user.email = action.payload.newEmail;
@@ -69,11 +71,11 @@ const authSlice = createSlice({
       })
       .addCase(authOperations.googleAuth.fulfilled, (state, action) => {
         state.isLoggedIn = true;
-        state.haveAccounts.google = true;
         state.user = action.payload.user;
         state.userTheme = action.payload.userTheme;
         state.accessToken = action.payload.accessToken;
         state.refreshToken = action.payload.refreshToken;
+        // state.thirdPartyRegister = true;
       })
       .addCase(authOperations.googleBind.fulfilled, (state) => {
         state.haveAccounts.google = true;
@@ -88,6 +90,7 @@ const authSlice = createSlice({
         state.userTheme = action.payload.userTheme;
         state.accessToken = action.payload.accessToken;
         state.refreshToken = action.payload.refreshToken;
+        // state.thirdPartyRegister = true;
       })
       .addCase(authOperations.appleAuth.fulfilled, (state, action) => {
         state.isLoggedIn = true;
@@ -96,6 +99,7 @@ const authSlice = createSlice({
         state.userTheme = action.payload.userTheme;
         state.accessToken = action.payload.accessToken;
         state.refreshToken = action.payload.refreshToken;
+        // state.thirdPartyRegister = true;
       })
       .addCase(authOperations.updateTheme.fulfilled, (state, action) => {
         state.userTheme = action.payload.userTheme;

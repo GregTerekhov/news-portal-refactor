@@ -5,6 +5,7 @@ import { useAuthRedux, useDB, useNewsAPI } from 'reduxStore/hooks';
 
 import { VariantButton } from 'types';
 import { errorImages } from 'constants/images';
+
 import { generateContentImages } from 'helpers';
 import { useCacheImage } from 'hooks';
 
@@ -15,18 +16,15 @@ const ErrorPage: FC<{}> = () => {
   const { isAuthenticated } = useAuthRedux();
   const { errorAPI } = useNewsAPI();
   const { errorDB } = useDB();
-
   const navigate = useNavigate();
 
   const devicePixelRatio = window.devicePixelRatio || 1;
-
   const anyServerError = errorAPI || errorDB;
   const APIServerError = errorAPI && errorAPI >= 500;
   const DBServerError = errorDB && typeof errorDB === 'number' && errorDB >= 500;
 
   const renderPageContent = serverErrorsList.find((value: ErrorList) => {
     if (APIServerError) return value.code === errorAPI;
-
     if (DBServerError) return value.code === errorDB;
 
     return;
@@ -35,13 +33,8 @@ const ErrorPage: FC<{}> = () => {
   const matchedErrorImage = generateContentImages(errorImages, devicePixelRatio, window.innerWidth);
   const imageUrl = useCacheImage(matchedErrorImage?.src || '');
 
-  const handleGoHome = () => {
-    navigate('/');
-  };
-
-  const handleGoBack = () => {
-    navigate(-1);
-  };
+  const handleGoHome = () => navigate('/');
+  const handleGoBack = () => navigate(-1);
 
   return (
     <div className='space-y-10 text-center lg:mx-auto lg:w-900px'>

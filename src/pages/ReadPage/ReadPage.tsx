@@ -14,7 +14,7 @@ const ReadPage: FC = () => {
 
   const activeLinks = useActiveLinks();
 
-  const initialReadsList = useReadNewsContent(activeLinks);
+  const initialReadsList = useReadNewsContent();
   const { rebuildedNews } = useChooseRenderingNews(activeLinks);
   const { sortedDates } = useReadSortState();
 

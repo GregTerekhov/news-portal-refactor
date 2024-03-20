@@ -2,9 +2,9 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { SubmitHandler, useForm } from 'react-hook-form';
 
 import { useAuthRedux } from 'reduxStore/hooks';
+import { useNotification, useScrollBodyContext } from 'contexts';
 
 import { ChangePasswordValues, AuthInputs } from 'types';
-import { useNotification } from 'contexts';
 import { usePopUp } from 'hooks';
 
 import { changePasswordSchema } from '../assistants';
@@ -12,7 +12,10 @@ import { useNavigate } from 'react-router-dom';
 
 const useChangePassword = () => {
   const { changePassword } = useAuthRedux();
+
   const { showToast } = useNotification();
+  const { setIsScrollDisabled } = useScrollBodyContext();
+
   const { toggleModal } = usePopUp();
   const navigate = useNavigate();
 
@@ -47,6 +50,7 @@ const useChangePassword = () => {
         confirmPassword: '',
       });
       toggleModal;
+      setIsScrollDisabled(false);
     }
   };
 
@@ -54,7 +58,7 @@ const useChangePassword = () => {
     {
       type: 'password',
       placeholder: 'Enter your new password',
-      children: 'New Password',
+      labelName: 'New Password',
       errors: errors?.newPassword?.message,
       label: 'newPassword',
       ariaInvalid: errors?.newPassword ? true : false,
@@ -63,7 +67,7 @@ const useChangePassword = () => {
     {
       type: 'password',
       placeholder: 'Confirm your password',
-      children: 'Confirm Password',
+      labelName: 'Confirm Password',
       errors: errors?.confirmPassword?.message,
       label: 'confirmPassword',
       ariaInvalid: errors?.confirmPassword ? true : false,

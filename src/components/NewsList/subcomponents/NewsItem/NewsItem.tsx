@@ -2,15 +2,14 @@ import React, { FC } from 'react';
 
 import { useAuthRedux } from 'reduxStore/hooks';
 
-import { VotedItem } from 'types';
+import type { VotedItem } from 'types';
 
-import { ICON_SIZES } from 'constants/iconSizes';
 import { useActiveLinks, usePopUp } from 'hooks';
 
 import { Modal, PlugImage, SvgIcon } from 'ui';
+import { DeleteNewsButton, DeleteNewsModal, NewsDescription, VoteButton } from './subcomponents';
 
 import { useNews } from './hooks';
-import { DeleteNewsButton, DeleteNewsModal, NewsDescription, VoteButton } from './subcomponents';
 
 interface NewsItemProps {
   liveNews: Partial<VotedItem>;
@@ -20,10 +19,9 @@ const NewsItem: FC<Partial<NewsItemProps>> = ({ liveNews = {} }) => {
   const myButtonRef = React.createRef<HTMLButtonElement>();
 
   const { isAuthenticated } = useAuthRedux();
+
   const { isOpenModal, toggleModal, popUpRef } = usePopUp();
-
   const { isHomeActive, isArchiveActive } = useActiveLinks();
-
   const { isFavourite, hasRead, handleChangeFavourites, handleReadNews, handleDeleteNews } =
     useNews({ liveNews, isArchiveActive });
 
@@ -67,11 +65,11 @@ const NewsItem: FC<Partial<NewsItemProps>> = ({ liveNews = {} }) => {
           {isAuthenticated && hasRead && (
             <p className='absolute right-14 top-3.5 z-10 flex items-center gap-1 text-base font-bold text-readBase md:top-5'>
               Already read
-              <SvgIcon svgName='check' size={ICON_SIZES.smIcon18} className='fill-readBase' />
+              <SvgIcon svgName='check' sizeKey='smIcon18' className='fill-readBase' />
             </p>
           )}
           <div className='relative flex h-395px items-center justify-center overflow-hidden rounded-[10px]'>
-            <p className='absolute bottom-3 left-3 z-10 text-darkBase opacity-0 drop-shadow-lg transition-opacity group-hover:opacity-100 dark:text-whiteBase'>
+            <p className='absolute bottom-3 left-3 z-10 text-whiteBase opacity-0 drop-shadow-lg transition-opacity group-hover:opacity-100'>
               {liveNews?.edition}
             </p>
             {liveNews && liveNews?.imgLink ? (
@@ -85,13 +83,11 @@ const NewsItem: FC<Partial<NewsItemProps>> = ({ liveNews = {} }) => {
               <PlugImage variant='card' />
             )}
             {isAuthenticated && (
-              <>
-                <VoteButton
-                  onHandleClick={handleChangeFavourites}
-                  isFavourite={isFavourite}
-                  buttonData={{ id: `Add ${liveNews?.title} to favourites or remove from them` }}
-                />
-              </>
+              <VoteButton
+                onHandleClick={handleChangeFavourites}
+                isFavourite={isFavourite}
+                buttonData={{ id: `Add ${liveNews?.title} to favourites or remove from them` }}
+              />
             )}
           </div>
           <NewsDescription liveNews={liveNews} />

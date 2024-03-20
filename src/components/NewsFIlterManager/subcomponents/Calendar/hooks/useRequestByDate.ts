@@ -1,65 +1,57 @@
 import { isAfter, startOfToday } from 'date-fns';
 
 import { useNewsAPI, useFiltersAction } from 'reduxStore/hooks';
-
 import { useFiltersState, usePaginationContext, useSelectedDate } from 'contexts';
+
+import type { SelectedDate } from 'types';
+
 import { determineNewSelectedDate, formatDateRange } from 'helpers';
-import { usePopUp } from 'hooks';
 
 const useRequestByDate = () => {
   const { fetchByDate, resetPreviousRequest, updateHeadline } = useNewsAPI();
-  const { beginDate, setBeginDate, setSelectedRequestDate } = useSelectedDate();
-  const { toggleCalendar } = usePopUp();
   const { filteredNews, resetAllFiltersResults } = useFiltersAction();
+
+  const { beginDate, setBeginDate, setSelectedRequestDate } = useSelectedDate();
   const { resetFiltersDay } = useSelectedDate();
   const { resetPagination } = usePaginationContext();
-
-  const { setFilters, filters } = useFiltersState();
+  const { resetFilters } = useFiltersState();
 
   const today = startOfToday();
 
-  const handleDateRequest = async (date: Date) => {
-    if (isAfter(date, today)) {
+  const handleDateRequest = async (
+    date: Date,
+    isOpenCalendar: boolean,
+    toggleCalendar: () => void,
+  ): Promise<void> => {
+    if (isAfter(date, today)) return;
+
+    if (!beginDate) {
+      setBeginDate(date);
       return;
     } else {
-      if (beginDate) {
-        try {
-          const newSelectedDate = determineNewSelectedDate(date, beginDate, 'request');
+      try {
+        const newSelectedDate: SelectedDate = determineNewSelectedDate(date, beginDate, 'request');
 
-          setSelectedRequestDate(newSelectedDate);
+        setSelectedRequestDate(newSelectedDate);
 
-          const { firstDate, lastDate } = formatDateRange(newSelectedDate);
+        const { firstDate, lastDate } = formatDateRange(newSelectedDate);
 
-          updateHeadline(`News by Date: from ${firstDate} to ${lastDate}`);
+        updateHeadline(`News by Date: from ${firstDate} to ${lastDate}`);
+        resetPagination();
 
-          const newDateValues = Object.values(newSelectedDate);
-
-          if (newDateValues !== null) {
-            resetPagination();
-            if (filteredNews && filteredNews.length > 0) {
-              resetPreviousRequest();
-              resetFiltersDay();
-              resetAllFiltersResults();
-              setFilters({
-                ...filters,
-                selectedFilterDate: {
-                  startDate: '',
-                  endDate: '',
-                },
-              });
-
-              await fetchByDate(newSelectedDate);
-            } else {
-              await fetchByDate(newSelectedDate);
-            }
-            setBeginDate(null);
-            toggleCalendar(); // не працює
-          }
-        } catch (error) {
-          console.error('Помилка при зміні значень:', error);
+        if (filteredNews?.length > 0) {
+          resetPreviousRequest();
+          resetFiltersDay();
+          resetAllFiltersResults();
+          resetFilters();
         }
-      } else {
-        setBeginDate(date);
+
+        await fetchByDate(newSelectedDate);
+        if (isOpenCalendar) toggleCalendar();
+
+        setBeginDate(null);
+      } catch (error) {
+        console.error('An error occurred while updating the values: ', error);
       }
     }
   };

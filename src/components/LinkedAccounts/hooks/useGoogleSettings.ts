@@ -2,35 +2,34 @@ import axios from 'axios';
 import { useGoogleLogin } from '@react-oauth/google';
 
 import { useAuthRedux } from 'reduxStore/hooks';
-import { CONFIG } from 'config';
-import { useScrollBodyContext } from 'contexts';
+import { useNotification, useScrollBodyContext } from 'contexts';
 
-type VerifiedGoogleEmail = {
-  email: string;
-  sub: string;
-};
+import { CONFIG } from 'config';
+import type { GoogleAuth } from 'types';
 
 const useGoogleSettings = () => {
   const { isAuthenticated, enterWithGoogle, bindGoogle } = useAuthRedux();
   const { setIsScrollDisabled } = useScrollBodyContext();
+  const { showToast } = useNotification();
 
   const googleLogin = useGoogleLogin({
     onSuccess: async (codeResponse) => {
       try {
-        const userInfo: VerifiedGoogleEmail = await axios
+        const userInfo: GoogleAuth = await axios
           .get(`${CONFIG.GOOGLE_LOGIN_LINK}`, {
             headers: { Authorization: `Bearer ${codeResponse.access_token}` },
           })
           .then((res) => res.data);
-        // console.log('userInfo', userInfo);
 
         if (!isAuthenticated) {
           const response = await enterWithGoogle({ email: userInfo.email, sub: userInfo.sub });
-          console.log('enterWithGoogle', response);
+
+          showToast(response.meta.requestStatus);
           setIsScrollDisabled(false);
         } else {
-          const response = bindGoogle({ email: userInfo.email });
-          console.log('bindGoogle', response);
+          const response = await bindGoogle({ email: userInfo.email });
+
+          showToast(response.meta.requestStatus);
         }
       } catch (error) {
         console.error('Failed to login', error);

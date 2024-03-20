@@ -9,6 +9,7 @@ import { useChangeFilter } from '../hooks';
 
 const FilterInputs: FC = () => {
   const { filters } = useFiltersState();
+
   const { handleChangeFilter } = useChangeFilter();
 
   const filterInputs = [
