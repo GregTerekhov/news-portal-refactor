@@ -26,7 +26,8 @@ const WeatherBlock: FC<{}> = () => {
 
   const emptyWeather = currentWeather && Object.keys(currentWeather).length === 0;
   const showLoader = isWeatherLoading && hasGeolocationPermission;
-  const showError = weatherError && weatherError?.cod?.includes('5');
+  // const showError = weatherError && weatherError?.cod?.includes('5');
+  const showError = weatherError && weatherError;
 
   const weatherContainerStyles = `${
     !isWeatherLoading && emptyWeather && !showError
