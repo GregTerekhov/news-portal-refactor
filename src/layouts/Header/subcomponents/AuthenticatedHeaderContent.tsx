@@ -8,6 +8,7 @@ import { useActiveLinks, useAdditionalRequest, useHeaderStyles } from 'hooks';
 import { SvgIcon, ThemeSwitcher, UnverifiableInput } from 'ui';
 import AuthButton from './Auth';
 import CommonMenu from '../../CommonMenu/CommonMenu';
+import UserAccountLink from './UserAccountLink';
 
 interface HeaderContentProps {
   resetFilters: () => void;
@@ -102,10 +103,14 @@ const AuthenticatedHeaderContent: FC<HeaderContentProps> = ({
           </>
         </div>
       ) : (
-        <div className='flex flex-col gap-3'>
-          {!isAccountPages && <AuthButton />}
-          <ThemeSwitcher variant={VariantSwitcher.Header} />
-        </div>
+        <>
+          {!isAccountPages ? <UserAccountLink isHomeActive={isHomeActive} /> : null}
+          <CommonMenu navId='main-navigation' />
+          <div className='flex flex-col gap-3'>
+            {!isAccountPages && <AuthButton />}
+            <ThemeSwitcher variant={VariantSwitcher.Header} />
+          </div>
+        </>
       )}
       {isOpenMenu && <CommonMenu isOpen={isOpenMenu} navId={getId} closeMenu={toggleMenu} />}
     </>

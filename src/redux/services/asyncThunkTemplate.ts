@@ -95,7 +95,7 @@ export const requestTemplate = <Arg, Result>(
     } catch (error: any) {
       console.log(`Error ${name}`, error.response);
       return rejectWithValue(
-        error.response?.status || error.response?.data?.message || 'Unknown error',
+        error.response.data.message || error.response.status || 'Unknown error',
       );
     }
   });
@@ -109,8 +109,10 @@ export const requestWithInstanceTemplate = <Arg, Result>(
   return createAppAsyncThunk<Result, Arg>(name, async (args, { rejectWithValue }) => {
     try {
       console.log('args', args);
+      let dynamicUrl = url;
+
       if (url.includes(':id')) {
-        url = args ? url.replace(/:id\b/, args.toString()) : url;
+        dynamicUrl = args ? dynamicUrl.replace(/:id\b/, args.toString()) : dynamicUrl;
       }
 
       const response = await axiosInstance[method]<Result>(url, args);

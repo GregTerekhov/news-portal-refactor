@@ -11,8 +11,7 @@ import { useActiveLinks, useHeaderStyles, usePopUp } from 'hooks';
 import { AuthModal } from 'components';
 import { Modal, ThemeSwitcher } from 'ui';
 
-import { AuthButton, AuthenticatedHeaderContent, UserAccountLink } from './subcomponents';
-import CommonMenu from '../CommonMenu/CommonMenu';
+import { AuthButton, AuthenticatedHeaderContent } from './subcomponents';
 
 const Header: FC<{}> = () => {
   const [isOpenMenu, setIsOpenMenu] = useState<boolean>(false);
@@ -37,7 +36,7 @@ const Header: FC<{}> = () => {
 
   const { isNotMobile } = useWindowWidth();
   const { filteredNews, resetAllFiltersResults } = useFiltersAction();
-  const { isHomeActive, isAccountPage, isManageAccountPage } = useActiveLinks();
+  const { isHomeActive } = useActiveLinks();
   const { headerClass, textClass } = useHeaderStyles(isHomeActive);
 
   const toggleMenu = (): void => {
@@ -50,7 +49,6 @@ const Header: FC<{}> = () => {
       resetAllFiltersResults();
     }
   };
-  const isAccountPages = isAccountPage || isManageAccountPage;
 
   return (
     <>
@@ -68,9 +66,6 @@ const Header: FC<{}> = () => {
             isAuthenticated ? 'gap-3.5' : ''
           }`}
         >
-          {isNotMobile && !isAccountPages && isAuthenticated ? (
-            <UserAccountLink isHomeActive={isHomeActive} />
-          ) : null}
           <Link
             to='/'
             className={`z-50 text-3xl font-bold leading-tight transition-colors duration-500 sm:py-6 md:pb-[30px] md:pt-8 md:text-4xl lg:py-7 lg:text-giant lg:leading-[1.357144] ${
@@ -80,8 +75,6 @@ const Header: FC<{}> = () => {
           >
             News
           </Link>
-          {isNotMobile && isAuthenticated ? <CommonMenu navId='main-navigation' /> : null}
-
           {isAuthenticated ? (
             <AuthenticatedHeaderContent
               resetFilters={resetFilters}

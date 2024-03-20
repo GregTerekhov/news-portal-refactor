@@ -24,15 +24,17 @@ const useShowToast = () => {
     statusMessage === 'Password has successfully changed' ||
     statusMessage === 'User sign-in success' ||
     statusMessage === 'Sign-out success';
-  const homeToastError = !!authError || !!errorAPI;
-  console.log('authError', authError);
+
+  const homeToastError =
+    (authError && typeof authError === 'string') || (errorAPI && typeof errorAPI === 'number');
+
   const homeToastInfo = (!isHomeLoader && additionalRequests) || filteredNews?.length > 0;
 
   const favouritesToastInfo = isFavoriteActive && !commonDBLoader && allFavourites?.length > 0;
   const readsToastInfo = isReadActive && !commonDBLoader && allReads?.length > 0;
   const archiveToast = isArchiveActive && dbSuccessMessage === 'Remove news success';
 
-  const showHomeToast = isHomeActive && (homeToastSuccess || homeToastError || homeToastInfo);
+  const showHomeToast = isHomeActive && (homeToastError || homeToastSuccess || homeToastInfo);
 
   const shouldShowToast = showHomeToast || favouritesToastInfo || readsToastInfo || archiveToast;
 

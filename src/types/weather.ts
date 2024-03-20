@@ -48,14 +48,9 @@ export interface Position {
   lon: number;
 }
 
-type WeatherError = {
-  cod?: string;
-  message?: string;
-};
-
 export interface WeatherState {
   isLoading: boolean;
   data: WeatherData;
   weatherByHour: HourlyWeatherData | [];
-  hasError: WeatherError | null;
+  hasError: string | null;
 }

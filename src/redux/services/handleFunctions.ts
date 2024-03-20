@@ -17,7 +17,7 @@ export const handleFulfilled = (state: AppState) => {
 export const handleRejected = (state: AppState, action: PayloadAction<unknown, string, any>) => {
   state.isLoading = false;
 
-  if (typeof action.payload === 'number' || typeof action.payload === 'object') {
+  if (typeof action.payload === 'number' || typeof action.payload === 'string') {
     state.hasError = action.payload;
     console.log('ERROR', action.payload, action);
   }
