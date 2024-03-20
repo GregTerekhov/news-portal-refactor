@@ -35,8 +35,8 @@ const useHeaderStyles = (isHomePage: boolean | undefined) => {
     : 'text-whiteBase [text-shadow:8px_10px_20px_rgba(17,19,33,.5)]';
 
   const accountIconStyles = isScrolled
-    ? 'fill-darkBase dark:fill-whiteBase'
-    : 'fill-whiteBase group-hover:fill-accentBase';
+    ? 'fill-darkBase dark:fill-whiteBase group-hover:fill-accentBase group-focus:fill-accentBase'
+    : 'fill-whiteBase group-hover:fill-accentBase group-focus:fill-accentBase';
 
   const inputHomePage = {
     inputBorder: isScrolled ? 'border-darkBase dark:border-whiteBase' : 'border-whiteBase',
