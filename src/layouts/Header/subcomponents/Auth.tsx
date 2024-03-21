@@ -50,7 +50,7 @@ const Auth: FC<AuthButtonProps> = ({ passwordToken }) => {
           classNameIcon='fill-whiteBase'
           classNameButton={`${
             isHomeActive && authButtonClass
-          } border border-solid border-transparent dark:border-whiteBase bg-accentBase hover:bg-accentAlt ${
+          } border border-solid border-transparent dark:border-whiteBase bg-accentBase hocus:bg-accentAlt ${
             wideScreens ? '' : 'border-transparent p-1.5'
           }`}
         >

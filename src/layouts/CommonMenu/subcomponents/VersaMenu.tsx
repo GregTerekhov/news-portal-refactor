@@ -12,8 +12,8 @@ const VersaMenu: FC<IMenuProps> = ({ navId, links, activeLinks, handleLinkClick 
   const getNavLinkStyles = (isActiveLink: boolean | undefined) => {
     return `text-medium font-medium transition-colors duration-500 md:font-bold lg:text-xl hg:text-3xl ${
       navId === 'account-navigation'
-        ? 'group flex items-center gap-3.5 px-2 py-1.5 text-darkBase hover:bg-accentBase hover:text-whiteBase  dark:text-whiteBase'
-        : `relative pb-8 pt-12 hover:text-accentBase lg:pb-[33px] lg:pt-[55px] ${
+        ? 'group flex items-center gap-3.5 px-2 py-1.5 text-darkBase hocus:bg-accentBase hocus:text-whiteBase  dark:text-whiteBase'
+        : `relative pb-8 pt-12 hocus:text-accentBase lg:pb-[33px] lg:pt-[55px] ${
             isActiveLink
               ? 'after:content[""] text-accentBase after:absolute after:block after:h-px after:w-full after:bg-accentBase'
               : activeLinks?.isHomeActive
@@ -48,7 +48,7 @@ const VersaMenu: FC<IMenuProps> = ({ navId, links, activeLinks, handleLinkClick 
                 <SvgIcon
                   svgName='arrow'
                   sizeKey='xsIcon14'
-                  className='-rotate-90 fill-darkBase group-hover:fill-whiteBase dark:fill-whiteBase'
+                  className='-rotate-90 fill-darkBase group-hover:fill-whiteBase group-focus:fill-whiteBase dark:fill-whiteBase'
                 />
               ) : null}
             </NavLink>

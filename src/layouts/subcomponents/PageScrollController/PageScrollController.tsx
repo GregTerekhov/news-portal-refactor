@@ -18,7 +18,7 @@ const PageScrollController: FC<ScrollDirection> = (value) => {
   const { upButtonVisibility, downButtonVisibility, onHandleClick } =
     useScrollController(direction);
 
-  const buttonStyles = `group fixed z-30 ${upButtonVisibility} ${downButtonVisibility} ${position} left-20 h-16 w-16 items-center justify-center rounded-full transition-colors duration-500 hover:border-2 hover:border-solid hover:border-whiteBase hover:bg-accentBase/[.7] dark:hover:border-whiteBase`;
+  const buttonStyles = `group fixed z-30 ${upButtonVisibility} ${downButtonVisibility} ${position} left-20 h-16 w-16 items-center justify-center rounded-full transition-colors duration-500 hocus:border-2 hocus:border-solid hocus:border-whiteBase hocus:bg-accentBase/[.7] dark:hocus:border-whiteBase`;
 
   return (
     <>
@@ -33,7 +33,7 @@ const PageScrollController: FC<ScrollDirection> = (value) => {
           <SvgIcon
             svgName={icon}
             sizeKey='lgIcon30'
-            className={`${classIcon} fill-accentBase group-hover:fill-whiteBase`}
+            className={`${classIcon} fill-accentBase group-hover:fill-whiteBase group-focus:fill-whiteBase`}
           />
         </button>
       </Hint>

@@ -19,7 +19,7 @@ const ArrowButtonPagination: FC<ArrowButtonProps> = ({
 }) => {
   const isLeftArrow = position < currentPage;
   const buttonStyles =
-    'group inline-flex items-center gap-x-2 rounded-full p-2.5 transition-colors duration-500 hover:bg-accentBase disabled:pointer-events-none disabled:opacity-50 dark:hover:bg-accentBase dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600';
+    'group inline-flex items-center gap-x-2 rounded-full p-2.5 transition-colors duration-500 hocus:bg-accentBase disabled:pointer-events-none disabled:opacity-50 dark:hocus:bg-accentBase dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600';
 
   return (
     <button
@@ -32,7 +32,7 @@ const ArrowButtonPagination: FC<ArrowButtonProps> = ({
         <SvgIcon
           svgName='arrow'
           sizeKey='xsIcon14'
-          className={`${iconClass} fill-accentBase group-hover:fill-whiteBase dark:fill-whiteBase`}
+          className={`${iconClass} fill-accentBase group-hover:fill-whiteBase group-focus:fill-whiteBase dark:fill-whiteBase`}
         />
       </span>
       <span className='sr-only'>{label}</span>

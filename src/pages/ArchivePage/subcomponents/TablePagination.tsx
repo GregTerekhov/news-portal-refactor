@@ -14,7 +14,7 @@ const TablePagination: FC<TablePaginationProps> = ({
   totalPages,
 }) => {
   const tableButtonStyles =
-    'flex w-10 h-10 items-center justify-center rounded-full py-2.5 text-small text-darkBase transition-colors duration-500 hover:bg-accentBase hover:text-whiteBase dark:text-whiteBase dark:hover:bg-accentBase lg:text-medium';
+    'flex w-10 h-10 items-center justify-center rounded-full py-2.5 text-small text-darkBase transition-colors duration-500 hocus:bg-accentBase hocus:text-whiteBase dark:text-whiteBase dark:hocus:bg-accentBase lg:text-medium';
 
   return (
     <nav className='flex items-center space-x-1 px-4 py-2'>

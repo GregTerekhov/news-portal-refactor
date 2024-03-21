@@ -63,7 +63,7 @@ const DeletedNewsTable: FC<TableProps> = ({ displayedRows }) => {
                     <a
                       href={newsUrl}
                       target='_blank'
-                      className='transition-colors duration-500 group-hover:text-accentBase lg:text-medium'
+                      className='group-hocus:text-accentBase transition-colors duration-500 lg:text-medium'
                     >
                       {getNewsTitle(title)}
                     </a>

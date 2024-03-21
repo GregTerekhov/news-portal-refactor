@@ -41,7 +41,7 @@ const FooterMenu: FC = () => {
                   className={`p-2 text-medium font-medium text-whiteBase lg:text-2xl ${
                     isAuthenticated
                       ? ''
-                      : 'block w-24 rounded-xl border border-solid border-whiteBase text-center transition-colors duration-500 hover:bg-accentAlt lg:w-32'
+                      : 'hocus:bg-accentAlt block w-24 rounded-xl border border-solid border-whiteBase text-center transition-colors duration-500 lg:w-32'
                   }`}
                 >
                   {label}

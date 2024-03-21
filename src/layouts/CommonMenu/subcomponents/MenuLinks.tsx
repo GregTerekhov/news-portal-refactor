@@ -43,7 +43,7 @@ const MenuLinks: FC<Partial<MenuLinksProps>> = ({ handleLinkClick }) => {
   ];
 
   const menuLinksStyles =
-    'flex items-center justify-between rounded-[20px] border border-solid border-transparent bg-accentBase px-4 text-whiteBase dark:border-whiteBase max-lg:py-2.5 lg:py-2 hover:bg-accentAlt';
+    'flex items-center justify-between rounded-[20px] border border-solid border-transparent bg-accentBase px-4 text-whiteBase dark:border-whiteBase max-lg:py-2.5 lg:py-2 hocus:bg-accentAlt';
 
   return (
     <>
