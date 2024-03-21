@@ -44,7 +44,7 @@ const Calendar: FC<CalendarProps> = ({ variant }) => {
   };
 
   const calendarButtonStyles =
-    'w-full bg-whiteBase dark:bg-darkBackground rounded-[20px] border border-solid border-accentBase dark:border-greyBase text-accentBase dark:text-greyAlt flex justify-between items-center py-2 px-3 group-hover:text-whiteBase group-hover:bg-accentBase group-hover:border-whiteBase transition-colors text-small md:text-base lg:text-medium leading-mediumRelaxed md:leading-moreRelaxed tracking-bigWide md:tracking-wider';
+    'w-full bg-whiteBase dark:bg-darkBackground rounded-[20px] border border-solid border-accentBase dark:border-greyBase text-accentBase dark:text-greyAlt flex justify-between items-center py-2 px-3 group-hover:text-whiteBase group-focus:text-whiteBase group-focus:bg-accentBase group-hover:bg-accentBase group-hover:border-whiteBase group-focus:border-whiteBase transition-colors text-small md:text-base lg:text-medium leading-mediumRelaxed md:leading-moreRelaxed tracking-bigWide md:tracking-wider';
 
   return (
     <div ref={popUpRef} className={`relative ${isReadActive ? null : 'col-span-4'}`}>

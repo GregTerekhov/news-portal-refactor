@@ -15,12 +15,12 @@ export const generateButtonStyles = ({ disabled, width }: ButtonStylesProps) => 
   const styles: Styles = {
     [VariantButton.Primary]: {
       buttonStyles: `w-full py-2 ${
-        disabled ? 'cursor-default bg-disabledBase' : 'bg-accentBase hover:bg-accentAlt'
+        disabled ? 'cursor-default bg-disabledBase' : 'bg-accentBase hocus:bg-accentAlt'
       }  rounded-[20px]`,
     },
     [VariantButton.Other]: {
       buttonStyles: `${width} max-lg:py-2.5 lg:py-2 border border-solid border-transparent dark:border-whiteBase rounded-[20px] ${
-        disabled ? 'cursor-default bg-disabledBase' : 'bg-accentBase hover:bg-accentAlt'
+        disabled ? 'cursor-default bg-disabledBase' : 'bg-accentBase hocus:bg-accentAlt'
       }`,
     },
     [VariantButton.Small]: {

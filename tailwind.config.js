@@ -18,6 +18,10 @@ const backfaceVisibility = plugin(function ({ addUtilities }) {
   });
 });
 
+const hocusFunction = plugin(function ({ addVariant }) {
+  addVariant('hocus', ['&:hover', '&:focus']);
+});
+
 export default {
   mode: 'jit',
   content: ['./index.html', './src/**/*.{js,jsx,ts,tsx}'],
@@ -184,6 +188,7 @@ export default {
   },
   plugins: [
     backfaceVisibility,
+    hocusFunction,
     require('@headlessui/tailwindcss')({ prefix: 'ui' }),
     require('@kamona/tailwindcss-perspective'),
   ],

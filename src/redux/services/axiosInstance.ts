@@ -47,11 +47,12 @@ const createAxiosInstance = () => {
 
       const isAuthenticated: boolean = state.auth.isLoggedIn;
 
-      if (accessToken && !isAuthenticated) {
-        config.headers['Authorization'] = `Bearer ${accessToken}`;
-      }
-      if (!accessToken && !isAuthenticated) {
-        throw new Error('User is not authenticated');
+      if (!isAuthenticated) {
+        if (!accessToken) {
+          throw new Error('User is not authenticated');
+        } else {
+          config.headers['Authorization'] = `Bearer ${accessToken}`;
+        }
       }
 
       const tokenStatus = jwtDecode<JwtPayload>(accessToken!);

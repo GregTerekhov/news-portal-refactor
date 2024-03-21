@@ -38,11 +38,12 @@ export const getControlButtons = ({
       onHandleClick: () => (isReadActive ? handleSortRead('asc') : handleSort('asc')),
       ariaLabel: 'Ascending sort button',
       classNameButtons:
-        'group border-whiteBase bg-accentBase hover:bg-whiteBase dark:bg-transparent transition-colors duration-500 p-2 lg:w-12 lg:h-12 hover:border-accentBase dark:hover:bg-accentAlt dark:hover:border-whiteBase',
+        'group border-whiteBase bg-accentBase hocus:bg-whiteBase dark:bg-transparent transition-colors duration-500 p-2 lg:w-12 lg:h-12 hocus:border-accentBase dark:hocus:bg-accentAlt dark:hocus:border-whiteBase',
       hasIcon: true,
       svgName: 'dateSort',
       svgSize: wideScreens ? 'mdIcon24' : 'smIcon20',
-      classNameIcon: 'fill-whiteBase group-hover:fill-accentBase dark:group-hover:fill-whiteBase',
+      classNameIcon:
+        'fill-whiteBase group-hover:fill-accentBase  group-focus:fill-accentBase dark:group-hover:fill-whiteBase dark:group-focus:fill-whiteBase',
     },
     {
       type: 'reset',
@@ -61,12 +62,12 @@ export const getControlButtons = ({
       onHandleClick: () => (isReadActive ? handleSortRead('desc') : handleSort('desc')),
       ariaLabel: 'Descending sort button',
       classNameButtons:
-        'group p-2 border-whiteBase bg-accentBase hover:bg-whiteBase dark:bg-transparent transition-colors duration-500 lg:w-12 lg:h-12 hover:border-accentBase dark:hover:bg-accentAlt dark:hover:border-whiteBase',
+        'group p-2 border-whiteBase bg-accentBase hocus:bg-whiteBase dark:bg-transparent transition-colors duration-500 lg:w-12 lg:h-12 hocus:border-accentBase dark:hocus:bg-accentAlt dark:hocus:border-whiteBase',
       hasIcon: true,
       svgName: 'dateSort',
       svgSize: wideScreens ? 'mdIcon24' : 'smIcon20',
       classNameIcon:
-        'fill-whiteBase rotate-180 group-hover:fill-accentBase dark:group-hover:fill-whiteBase',
+        'fill-whiteBase rotate-180 group-hover:fill-accentBase dark:group-hover:fill-whiteBase group-focus:fill-accentBase dark:group-focus:fill-whiteBase',
     },
   ];
 

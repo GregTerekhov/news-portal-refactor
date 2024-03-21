@@ -41,7 +41,7 @@ const MembersList: FC<MemberListProps> = ({ groupMembers, commonTextMemberClass 
                     href={memberCV}
                     target='_blank'
                     rel='noopener noreferrer'
-                    className='font-medium text-accentBase transition-colors dark:text-accentBase dark:underline dark:hover:text-whiteBase'
+                    className='dark:hocus:text-whiteBase font-medium text-accentBase transition-colors dark:text-accentBase dark:underline'
                   >
                     {memberName} CV
                   </a>

@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import { Menu } from '@headlessui/react';
+import { Menu, Transition } from '@headlessui/react';
 
 import type { SearchParamsObject } from 'hooks/useAdditionalRequest';
 
@@ -38,7 +38,7 @@ const Dropdown: FC<DropdownProps> = ({
             by <span className='capitalize'>{label}</span>
           </p>
           <Menu.Button
-            className={`flex w-full items-center justify-center gap-2.5 rounded-[20px] border border-solid border-accentBase bg-whiteBase py-2.5 text-small font-normal text-accentBase transition-colors group-hover:underline dark:border-greyBase dark:bg-darkBackground dark:text-whiteBase lg:text-medium `}
+            className={`flex w-full items-center justify-center gap-2.5 rounded-[20px] border border-solid border-accentBase bg-whiteBase py-2.5 text-small font-normal text-accentBase transition-colors group-hover:underline group-focus:underline dark:border-greyBase dark:bg-darkBackground dark:text-whiteBase lg:text-medium `}
           >
             {selectedItem || label}
             <SvgIcon
@@ -57,7 +57,7 @@ const Dropdown: FC<DropdownProps> = ({
                 label === 'Time period' ? 'max-h-225px' : 'h-225px'
               } z-40 w-full overflow-hidden rounded-[20px] bg-dropdownBase py-[10px] shadow-card dark:bg-darkDropdown dark:shadow-darkCard`}
             >
-              {/* <Transition
+              <Transition
                 show={open}
                 enter='transition-transform ease-out duration-100'
                 enterFrom='transform opacity-0 scale-95'
@@ -65,27 +65,27 @@ const Dropdown: FC<DropdownProps> = ({
                 leave='transition-transform ease-in duration-100'
                 leaveFrom='transform opacity-100 scale-100'
                 leaveTo='transform opacity-0 scale-95'
-              > */}
-              <Menu.Items static>
-                <div className='grid h-full gap-2.5'>
-                  {options?.map((item, index) => (
-                    <Menu.Item key={index}>
-                      {({ active }) => (
-                        <button
-                          type='button'
-                          className={`${
-                            active ? 'underline' : ''
-                          } px-3.5 text-left text-base tracking-wide text-accentBase dark:text-whiteBase lg:text-medium`}
-                          onClick={() => handleItemClick(item)}
-                        >
-                          {item}
-                        </button>
-                      )}
-                    </Menu.Item>
-                  ))}
-                </div>
-              </Menu.Items>
-              {/* </Transition> */}
+              >
+                <Menu.Items static>
+                  <div className='grid h-full gap-2.5'>
+                    {options?.map((item, index) => (
+                      <Menu.Item key={index}>
+                        {({ active }) => (
+                          <button
+                            type='button'
+                            className={`${
+                              active ? 'underline' : ''
+                            } px-3.5 text-left text-base tracking-wide text-accentBase dark:text-whiteBase lg:text-medium`}
+                            onClick={() => handleItemClick(item)}
+                          >
+                            {item}
+                          </button>
+                        )}
+                      </Menu.Item>
+                    ))}
+                  </div>
+                </Menu.Items>
+              </Transition>
             </CustomScrollBar>
           )}
         </>

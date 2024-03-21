@@ -41,7 +41,7 @@ const Modal: FC<ModalProps> = ({ children, closeModal, modalRef }) => {
                   <SvgIcon
                     svgName='close'
                     sizeKey={wideScreens ? 'mdIcon28' : 'smIcon20'}
-                    className='stroke-darkBase hover:stroke-accentBase dark:stroke-whiteBase dark:hover:stroke-accentBase'
+                    className='hocus:stroke-accentBase stroke-darkBase dark:stroke-whiteBase dark:hover:stroke-accentBase dark:focus:stroke-accentBase'
                   />
                 </button>
                 {children}

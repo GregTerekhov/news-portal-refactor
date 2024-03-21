@@ -57,7 +57,7 @@ const VerifiableInput: FC<InputProps> = ({
   const inputFieldStyles = `${geometry} ${bg} ${border} ${text} ${caret} ${placeholderStyle}  rounded-3xl border border-solid font-header text-small leading-mediumRelaxed tracking-bigWide outline-0 transition-colors md:text-base md:leading-moreRelaxed md:tracking-wide hg:text-medium`;
 
   const forgotSubmitButtonStyles =
-    'absolute right-2 top-1/2 flex h-8 w-8 -translate-y-1/2 cursor-pointer items-center justify-center rounded-full bg-accentBase hover:bg-accentAlt';
+    'absolute right-2 top-1/2 flex h-8 w-8 -translate-y-1/2 cursor-pointer items-center justify-center rounded-full bg-accentBase hocus:bg-accentAlt';
 
   return (
     <label

@@ -20,7 +20,7 @@ const Notification: FC<ToastProps> = ({ variant, title, description, openToast, 
     'm-0 text-[13px] leading-[1.3] text-darkBase [grid-area:_description] dark:text-whiteBase';
 
   const buttonUndoStyles =
-    'inline-flex h-25px items-center justify-center rounded-[10px] bg-accentBase px-[10px] text-small font-medium leading-[25px] text-whiteBase shadow-[inset_0_0_0_1px] transition-colors duration-500 hover:bg-accentAlt hover:shadow-[inset_0_0_0_1px] focus:shadow-[0_0_0_2px]';
+    'inline-flex h-25px items-center justify-center rounded-[10px] bg-accentBase px-[10px] text-small font-medium leading-[25px] text-whiteBase shadow-[inset_0_0_0_1px] transition-colors duration-500 hocus:bg-accentAlt hocus:shadow-[inset_0_0_0_1px] focus:shadow-[0_0_0_2px]';
 
   const toastViewportStyles =
     'max-w-screen fixed right-0 top-0 z-[2147483647] m-0 flex w-390px list-none flex-col gap-[10px] p-[var(--viewport-padding)] outline-none [--viewport-padding:_25px]';
