@@ -4,7 +4,9 @@ import { enUS } from 'date-fns/locale';
 import type { PartialVotedNewsArray } from 'types';
 
 // Функція для організації новин за місяцями
-export const organiseNewsByMonth = (newsArray: PartialVotedNewsArray) => {
+export const organiseNewsByMonth = (
+  newsArray: PartialVotedNewsArray,
+): Record<string, PartialVotedNewsArray> => {
   const organisedNews: Record<string, PartialVotedNewsArray> = {};
 
   if (newsArray?.length > 0) {

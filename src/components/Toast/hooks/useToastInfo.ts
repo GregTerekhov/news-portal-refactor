@@ -1,4 +1,4 @@
-import { ToastMessage } from 'types';
+import type { ToastMessage } from 'types';
 
 import { ActiveLinks, useChooseRenderingNews } from 'hooks';
 

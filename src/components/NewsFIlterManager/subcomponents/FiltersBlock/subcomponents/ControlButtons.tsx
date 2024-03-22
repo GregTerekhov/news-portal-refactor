@@ -30,9 +30,7 @@ const ControlButtons: FC<ControlButtonsProps> = ({ hasFilterValue }) => {
   });
 
   const renderHintText = (): JSX.Element => (
-    <p className='text-base text-darkBase dark:text-greyAlt md:max-lg:flex md:max-lg:items-center md:max-lg:justify-end lg:mb-2 lg:text-medium'>
-      Sort:
-    </p>
+    <span className='text-base text-darkBase dark:text-greyAlt lg:text-medium'>Sort:</span>
   );
   return (
     <>
@@ -49,9 +47,11 @@ const ControlButtons: FC<ControlButtonsProps> = ({ hasFilterValue }) => {
           <div className='md:col-span-3 md:flex md:items-center lg:col-span-2 lg:items-end'>
             {RenderButtons(controlButtons.slice(2, 3))}
           </div>
-          {isTablet && renderHintText()}
+          <div className='md:max-lg:flex md:max-lg:items-center md:max-lg:justify-end'>
+            {isTablet && renderHintText()}
+          </div>
           <div className='md-max-lg:col-start-8 md:flex md:items-center md:justify-end lg:items-end'>
-            <div>
+            <div className='lg:space-y-2'>
               {wideScreens && renderHintText()}
               {RenderButtons([controlButtons[1]])}
             </div>

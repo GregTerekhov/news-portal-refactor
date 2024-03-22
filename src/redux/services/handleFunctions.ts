@@ -1,6 +1,6 @@
 import { PayloadAction } from '@reduxjs/toolkit';
 
-import { WeatherState, newsAPIState } from 'types';
+import type { WeatherState, newsAPIState } from 'types';
 
 type AppState = newsAPIState | WeatherState;
 
@@ -19,6 +19,6 @@ export const handleRejected = (state: AppState, action: PayloadAction<unknown, s
 
   if (typeof action.payload === 'number' || typeof action.payload === 'string') {
     state.hasError = action.payload;
-    console.log('ERROR', action.payload, action);
+    console.log('Error from API', action.payload, action);
   }
 };

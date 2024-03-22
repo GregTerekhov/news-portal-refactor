@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
 import { format } from 'date-fns';
 
-import { IHistoryLog } from 'types';
+import type { IHistoryLog } from 'types';
 import { useWindowWidth } from 'contexts';
 
 import { CustomScrollBar } from 'ui';

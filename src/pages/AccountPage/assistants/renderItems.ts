@@ -1,4 +1,4 @@
-import { HaveAccounts, User } from 'types';
+import type { HaveAccounts, User } from 'types';
 
 type UserInfoList = {
   label: string;

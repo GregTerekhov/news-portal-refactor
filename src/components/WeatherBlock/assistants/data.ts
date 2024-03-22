@@ -1,6 +1,6 @@
 import { ReactElement } from 'react';
 
-import { HourlyWeatherData, WeatherData } from 'types';
+import type { HourlyWeatherData, WeatherData } from 'types';
 import { ICON_SIZES } from 'constants/iconSizes';
 
 import {

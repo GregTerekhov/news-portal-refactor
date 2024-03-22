@@ -3,7 +3,7 @@ import { useCallback } from 'react';
 import { useAppDispatch, useAppSelector } from './reduxHooks';
 import * as newsAPI from '../newsAPI';
 
-import { PopularRequest, KeywordRequest, CategoryRequest, DateRequest } from 'types';
+import type { PopularRequest, KeywordRequest, CategoryRequest, DateRequest } from 'types';
 
 const useNewsAPICollector = () => {
   const isLoadingAPIData = useAppSelector(newsAPI.selectLoading);

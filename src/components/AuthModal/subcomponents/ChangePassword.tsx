@@ -43,7 +43,6 @@ const ChangePassword: FC = () => {
               ),
             )}
         </ul>
-
         <div className='flex items-center justify-between'>
           <PrimaryButton
             type='submit'

@@ -2,7 +2,7 @@ import { CONFIG } from 'config';
 
 import { requestTemplate } from '../services';
 
-import {
+import type {
   ArticleNewsArray,
   NewsWireArray,
   PopularNewsArray,

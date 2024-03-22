@@ -1,6 +1,6 @@
 import React, { FC, ReactNode, createContext, useContext, useState } from 'react';
 
-import { Filters } from 'types';
+import type { Filters } from 'types';
 
 type FiltersProviderProps = {
   children: ReactNode;

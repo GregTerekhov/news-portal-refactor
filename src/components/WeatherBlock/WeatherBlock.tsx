@@ -35,7 +35,7 @@ const WeatherBlock: FC<{}> = () => {
       : showError
         ? 'px-6 py-10 text-center md:px-10'
         : 'px-5 py-8 md:px-8 md:pt-10 hg:pt-8'
-  }  h-full w-full bg-accentBase hg:w-442px`;
+  } h-[515px] md:h-700px flex flex-col justify-between w-full bg-accentBase hg:w-442px`;
 
   return (
     <div className={`${weatherContainerStyles}`}>

@@ -2,9 +2,9 @@ import React, { FC } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { useAuthRedux } from 'reduxStore/hooks';
+import { useNotification, useWindowWidth } from 'contexts';
 
 import { ClickHandler, VariantButton } from 'types';
-import { useNotification, useWindowWidth } from 'contexts';
 import { useActiveLinks, useHeaderStyles, usePopUp } from 'hooks';
 
 import { AuthModal } from 'components';
@@ -26,7 +26,7 @@ const Auth: FC<AuthButtonProps> = ({ passwordToken }) => {
 
   const navigate = useNavigate();
 
-  const onSignOut = async () => {
+  const onSignOut = async (): Promise<void> => {
     const response = await logout();
 
     showToast(response.meta.requestStatus);

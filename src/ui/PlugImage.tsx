@@ -23,12 +23,12 @@ const PlugImage: FC<PlugImageProps> = ({ variant }) => {
   const imageUrl = useCacheImage(matchedPlugImage?.src || '');
 
   const plugImageTextStyles =
-    'mb-10 text-center text-2xl font-bold tracking-smallTight text-darkBase transition-colors dark:text-whiteBase md:w-548px md:text-5xl md:tracking-tighter';
+    'text-center text-2xl font-bold tracking-smallTight text-darkBase transition-colors dark:text-whiteBase md:w-548px md:text-5xl md:tracking-tighter';
 
   return (
     <>
       {variant === 'page' ? (
-        <div className='flex flex-col items-center justify-center'>
+        <div className='flex flex-col items-center justify-center space-y-10'>
           <p className={`${plugImageTextStyles}`}>
             {`${
               isErrorAPI && isHomeActive

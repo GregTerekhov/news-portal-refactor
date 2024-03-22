@@ -13,6 +13,13 @@ interface CalendarControlsProps {
   getNextMonth: ControlFunction;
 }
 
+type ButtonsBlock = {
+  id: string;
+  onPrevClick: ControlFunction;
+  onNextClick: ControlFunction;
+  formatSchemaString: string;
+};
+
 const CalendarControls: FC<CalendarControlsProps> = ({
   firstDayOfMonth,
   getPrevYear,
@@ -20,30 +27,41 @@ const CalendarControls: FC<CalendarControlsProps> = ({
   getPrevMonth,
   getNextMonth,
 }) => {
+  const controlButtonsBlock: ButtonsBlock[] = [
+    {
+      id: 'year',
+      onPrevClick: getPrevYear,
+      onNextClick: getNextYear,
+      formatSchemaString: 'yyyy',
+    },
+    {
+      id: 'month',
+      onPrevClick: getPrevMonth,
+      onNextClick: getNextMonth,
+      formatSchemaString: 'MMMM',
+    },
+  ];
+
+  const commonTextStyles =
+    'ext-center text-medium font-medium leading-tight tracking-tightest text-fullDark dark:text-contrastWhite';
+
   return (
     <div className='mb-5 flex items-center justify-between py-[7px]'>
-      <div className='flex items-center gap-x-2'>
-        <ArrowButton ariaLabel='Previous year button' iconClass='rotate-90' onClick={getPrevYear}>
-          Previous year button
-        </ArrowButton>
-        <p className='text-center text-medium font-medium leading-tight tracking-tightest text-fullDark dark:text-contrastWhite'>
-          {format(firstDayOfMonth, 'yyyy')}
-        </p>
-        <ArrowButton ariaLabel='Next year button' onClick={getNextYear} iconClass='-rotate-90'>
-          Next year button
-        </ArrowButton>
-      </div>
-      <div className='flex items-center gap-x-2'>
-        <ArrowButton ariaLabel='Previous month button' iconClass='rotate-90' onClick={getPrevMonth}>
-          Previous month button
-        </ArrowButton>
-        <p className='text-center text-medium font-medium leading-tight tracking-tightest text-fullDark dark:text-contrastWhite'>
-          {format(firstDayOfMonth, 'MMMM')}
-        </p>
-        <ArrowButton ariaLabel='Next month button' onClick={getNextMonth} iconClass='-rotate-90'>
-          Next month button
-        </ArrowButton>
-      </div>
+      {controlButtonsBlock.map(({ id, onPrevClick, onNextClick, formatSchemaString }) => (
+        <div className='flex items-center gap-x-2' key={id}>
+          <ArrowButton
+            ariaLabel={`Previous ${id} button`}
+            iconClass='rotate-90'
+            onClick={onPrevClick}
+          >
+            {`Previous ${id} button`}
+          </ArrowButton>
+          <p className={`${commonTextStyles}`}>{format(firstDayOfMonth, formatSchemaString)}</p>
+          <ArrowButton ariaLabel={`Next ${id} button`} onClick={onNextClick} iconClass='-rotate-90'>
+            {`Next ${id} button`}
+          </ArrowButton>
+        </div>
+      ))}
     </div>
   );
 };

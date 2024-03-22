@@ -4,6 +4,7 @@ import useHeaderHeight from './useHeaderHeight';
 
 const useHeaderStyles = (isHomePage: boolean | undefined) => {
   const [isScrolled, setIsScrolled] = useState<boolean>(false);
+
   const { getHeaderHeight } = useHeaderHeight();
 
   const screenHeight = window.innerHeight;

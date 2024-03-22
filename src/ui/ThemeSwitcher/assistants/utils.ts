@@ -12,7 +12,7 @@ interface Styles {
   };
 }
 
-export const generateSwitcherStyles = ({ enabled }: SwitcherStylesProps) => {
+export const generateSwitcherStyles = ({ enabled }: SwitcherStylesProps): Styles => {
   const commonLabelClass = enabled ? 'text-greyBase' : 'text-accentAlt';
   const commonIconClass = enabled ? 'stroke-greyBase' : 'stroke-accentAlt';
 

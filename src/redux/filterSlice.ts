@@ -2,7 +2,7 @@ import { PayloadAction, createAction, createSlice } from '@reduxjs/toolkit';
 
 import { RootState } from './store';
 
-import { FilterResults, PartialVotedNewsArray } from 'types';
+import type { FilterResults, PartialVotedNewsArray } from 'types';
 
 interface FiltersState {
   filters: PartialVotedNewsArray;

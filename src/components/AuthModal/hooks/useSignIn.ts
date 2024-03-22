@@ -5,7 +5,7 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { useAuthRedux } from 'reduxStore/hooks';
 import { useNotification, useScrollBodyContext } from 'contexts';
 
-import { AuthRequestWithoutName, AuthInputs } from 'types';
+import type { AuthRequestWithoutName, AuthInputs } from 'types';
 import { usePopUp } from 'hooks';
 
 import {

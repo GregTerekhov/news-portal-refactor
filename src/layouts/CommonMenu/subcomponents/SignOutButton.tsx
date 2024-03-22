@@ -11,6 +11,7 @@ interface SignOutButtonProps {
 
 const SignOutButton: FC<SignOutButtonProps> = ({ handleSignOut }) => {
   const { isTV } = useWindowWidth();
+
   return (
     <PrimaryButton
       id='Sign out button'

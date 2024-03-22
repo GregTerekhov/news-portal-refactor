@@ -1,10 +1,9 @@
 import { useEffect, useState } from 'react';
 
 import { useNewsAPI, useFiltersAction } from 'reduxStore/hooks';
-
-import { PartialVotedNewsArray } from 'types';
-
 import { usePaginationContext, useWindowWidth } from 'contexts';
+
+import type { PartialVotedNewsArray } from 'types';
 
 import { calculatePagesForDevices, calculateFirstIndexes, COUNT } from '../assistants';
 
