@@ -1,6 +1,6 @@
 import { createAction, createSlice, isAnyOf } from '@reduxjs/toolkit';
 
-import { AuthState, TokensPayload, UpdateThemeRequest } from 'types';
+import type { AuthState, TokensPayload, UpdateThemeRequest } from 'types';
 
 import * as authOperations from './authOperations';
 import { getActions, handleFulfilled, handlePending, handleRejected } from './handleFunctions';

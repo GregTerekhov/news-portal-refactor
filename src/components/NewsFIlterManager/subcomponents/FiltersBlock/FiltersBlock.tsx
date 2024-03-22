@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 
-import { Filters } from 'types';
+import type { Filters } from 'types';
 import { useFiltersState } from 'contexts';
 
 import { Dropdown } from 'ui';

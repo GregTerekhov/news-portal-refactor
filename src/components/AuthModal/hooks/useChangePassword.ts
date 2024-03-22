@@ -4,7 +4,7 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { useAuthRedux } from 'reduxStore/hooks';
 import { useNotification, useScrollBodyContext } from 'contexts';
 
-import { ChangePasswordValues, AuthInputs } from 'types';
+import type { ChangePasswordValues, AuthInputs } from 'types';
 import { usePopUp } from 'hooks';
 
 import { changePasswordSchema } from '../assistants';

@@ -1,6 +1,6 @@
 import { useAuthRedux, useDB } from 'reduxStore/hooks';
 
-import { ToastMessage } from 'types';
+import type { ToastMessage } from 'types';
 
 const useToastSuccess = () => {
   const { statusMessage, haveAccounts } = useAuthRedux();

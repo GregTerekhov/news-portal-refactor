@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 
-import LinkedAccounts from '../../LinkedAccounts/LinkedAccounts';
+import LinkAccountsButtons from '../../LinkedAccounts/LinkAccountsButtons';
 
 const ThirdPartyAuthPanel: FC = () => {
   return (
@@ -11,7 +11,7 @@ const ThirdPartyAuthPanel: FC = () => {
         </span>
         <hr className='absolute left-0 top-1/2 h-px w-full bg-greyAlt opacity-60 dark:bg-whiteBase/[.1] dark:opacity-20' />
       </div>
-      <LinkedAccounts />
+      <LinkAccountsButtons />
     </>
   );
 };

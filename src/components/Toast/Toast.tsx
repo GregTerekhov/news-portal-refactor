@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 
-import { ToastStatus, ToastVariant } from 'types';
+import type { ToastStatus, ToastVariant } from 'types';
 import { useNotification } from 'contexts';
 
 import { useActiveLinks } from 'hooks';

@@ -1,6 +1,6 @@
 import { useAuthRedux, useDB, useFiltersAction, useNewsAPI } from 'reduxStore/hooks';
 
-import { ToastStatus, ToastVariant } from 'types';
+import type { ToastStatus, ToastVariant } from 'types';
 import { useActiveLinks } from 'hooks';
 import useShowLoader from './useShowLoader';
 

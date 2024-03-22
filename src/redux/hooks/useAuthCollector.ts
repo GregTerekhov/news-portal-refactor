@@ -2,7 +2,7 @@ import { useCallback } from 'react';
 
 import * as auth from '../auth';
 import { useAppDispatch, useAppSelector } from './reduxHooks';
-import {
+import type {
   MainCredentials,
   AuthRequestWithoutName,
   IThirdPartyAuth,

@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 
-import { PartialVotedNewsArray, VotedItem } from 'types';
+import type { PartialVotedNewsArray, VotedItem } from 'types';
 
 type NewsStateHookProps = {
   isArchiveActive: boolean;

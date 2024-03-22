@@ -1,4 +1,4 @@
-import { Filters, PartialVotedNewsArray } from 'types';
+import type { Filters, PartialVotedNewsArray } from 'types';
 
 // Function to check if a date is within a given range
 function isDateWithinRange(

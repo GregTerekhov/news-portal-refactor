@@ -2,10 +2,9 @@ import React, { FC, useEffect, useState } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 
 import { useAuthRedux, useFiltersAction } from 'reduxStore/hooks';
+import { useScrollBodyContext, useWindowWidth } from 'contexts';
 
 import { VariantSwitcher } from 'types';
-
-import { useScrollBodyContext, useWindowWidth } from 'contexts';
 import { useActiveLinks, useHeaderStyles, usePopUp } from 'hooks';
 
 import { AuthModal } from 'components';

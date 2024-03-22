@@ -1,6 +1,6 @@
 import { PayloadAction, createAction, createSlice, isAnyOf } from '@reduxjs/toolkit';
 
-import { NewsDBState, VotedItem } from 'types';
+import type { NewsDBState, VotedItem } from 'types';
 
 import * as newsDBOperations from './newsDatabaseOperations';
 import { getActions, handleFulfilled, handlePending, handleRejected } from './handleFunctions';

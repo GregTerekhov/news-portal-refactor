@@ -2,7 +2,7 @@ import { CONFIG } from 'config';
 
 import { requestTemplate } from '../services';
 
-import { HourlyWeatherData, Position, WeatherData } from 'types';
+import type { HourlyWeatherData, Position, WeatherData } from 'types';
 
 const API_KEY = CONFIG.WEATHER_API_KEY;
 

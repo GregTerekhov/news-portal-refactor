@@ -30,10 +30,10 @@ const Dropdown: FC<DropdownProps> = ({
   };
 
   return (
-    <Menu as='div' className='relative'>
+    <Menu as='div' className='relative space-y-2'>
       {({ open }) => (
         <>
-          <p className='mb-2 text-base text-darkBase dark:text-greyAlt lg:text-medium'>
+          <p className='text-base text-darkBase dark:text-greyAlt lg:text-medium'>
             {label === 'Type' ? 'Filter' : 'Search'} {label === 'Time period' ? 'for popular' : ''}
             by <span className='capitalize'>{label}</span>
           </p>

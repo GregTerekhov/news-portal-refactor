@@ -42,7 +42,7 @@ const UpdateEmail: FC = () => {
               ),
             )}
         </ul>
-        <p className=' text-small text-darkBase dark:text-whiteBase lg:text-medium hg:text-xl'>
+        <p className='text-small text-darkBase dark:text-whiteBase lg:text-medium hg:text-xl'>
           To change your current email, enter the new email and confirm by inputting your current
           password in the new field. If all information is entered correctly, you will receive a
           notification confirming the successful update of your email.

@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { useNewsAPI, useFiltersAction } from 'reduxStore/hooks';
 
 import { usePaginationContext, useSelectedDate } from 'contexts';
-import { CategoryRequest } from 'types';
+import type { CategoryRequest } from 'types';
 
 export type SearchParamsObject = {
   query: string;

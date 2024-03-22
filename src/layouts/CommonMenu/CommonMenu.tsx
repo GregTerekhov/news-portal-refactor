@@ -2,9 +2,9 @@ import React, { FC } from 'react';
 import { Link } from 'react-router-dom';
 
 import { useAuthRedux, useFiltersAction } from 'reduxStore/hooks';
+import { useFiltersState, useNotification, useWindowWidth } from 'contexts';
 
 import { VariantSwitcher } from 'types';
-import { useFiltersState, useNotification, useWindowWidth } from 'contexts';
 import { useActiveLinks } from 'hooks';
 
 import { ThemeSwitcher } from 'ui';
@@ -60,7 +60,7 @@ const CommonMenu: FC<CommonMenuProps> = ({ isOpen, navId, closeMenu }) => {
           {navId === 'account-navigation' ? (
             <div>
               <p className='mb-2 text-darkBase dark:text-whiteBase'>Main Menu</p>
-              <hr className='mb-4 bg-accentBase' />
+              <hr className='mb-4 !border-accentBase' />
               <div className='grid grid-cols-2 grid-rows-2 gap-3'>
                 <MenuLinks handleLinkClick={handleLinkClick} />
               </div>
@@ -87,6 +87,7 @@ const CommonMenu: FC<CommonMenuProps> = ({ isOpen, navId, closeMenu }) => {
             handleLinkClick={handleLinkClick}
             activeLinks={activeLinks}
           />
+          <hr className='!border-greyAlt transition-colors duration-500 dark:!border-accentBase' />
           {navId === 'account-navigation' ? <SignOutButton handleSignOut={handleSignOut} /> : null}
         </>
       )}

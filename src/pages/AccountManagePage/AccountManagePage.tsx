@@ -2,7 +2,7 @@ import React, { FC } from 'react';
 
 import { useAuthRedux } from 'reduxStore/hooks';
 
-import { LinkedAccounts, Toast } from 'components';
+import { LinkAccountsButtons, Toast } from 'components';
 
 import { UpdateEmail, UpdatePassword } from './subcomponents';
 
@@ -13,8 +13,6 @@ const AccountManagePage: FC<{}> = () => {
     statusMessage === 'Email is successfully updated' ||
     statusMessage === 'Password is successfully updated' ||
     statusMessage.includes('linking');
-
-  console.log('showUpdatedToast', showUpdatedToast);
 
   const showErrorToast = authError && typeof authError === 'string';
 
@@ -29,7 +27,16 @@ const AccountManagePage: FC<{}> = () => {
         <div className='w-52 space-y-2 md:w-80 md:space-y-6 lg:w-600px'>
           <UpdateEmail />
           <UpdatePassword />
-          <LinkedAccounts />
+          <h3 className='text-darkBase dark:text-whiteBase md:text-2xl lg:mb-4 hg:text-3xl'>
+            Connected accounts
+          </h3>
+          <p className='text-small leading-normal text-darkBase dark:text-whiteBase lg:text-medium hg:text-xl'>
+            You can connect or disconnect your News account to Google, Facebook, or Apple to log in
+            using this account. We will never send messages to your contacts without your
+            permission.
+          </p>
+          <hr className='!border-greyAlt dark:!border-whiteBase' />
+          <LinkAccountsButtons />
         </div>
       </div>
       {shouldShowToast ? (

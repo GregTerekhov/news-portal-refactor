@@ -1,7 +1,7 @@
 import { createAction, createSlice, isAnyOf } from '@reduxjs/toolkit';
 
 import type { DispatchActionType } from 'reduxStore/store';
-import { newsAPIState } from 'types';
+import type { newsAPIState } from 'types';
 
 import * as newsAPIOperations from './newsAPIOperations';
 import { handleFulfilled, handlePending, handleRejected } from '../services';

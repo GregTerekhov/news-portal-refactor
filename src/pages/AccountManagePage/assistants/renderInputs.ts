@@ -1,6 +1,5 @@
 import type { FieldErrors } from 'react-hook-form';
-
-import { AuthRequestWithoutName, ExtendedUpdatePasswordRequest, InputLabel } from 'types';
+import type { AuthRequestWithoutName, ExtendedUpdatePasswordRequest, InputLabel } from 'types';
 
 type EmailInputsValues = {
   email: string;

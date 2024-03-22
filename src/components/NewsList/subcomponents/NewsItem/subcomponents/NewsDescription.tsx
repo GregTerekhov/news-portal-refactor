@@ -2,7 +2,7 @@ import React, { FC } from 'react';
 
 import { useWindowWidth } from 'contexts';
 
-import { VotedItem } from 'types';
+import type { VotedItem } from 'types';
 
 import { SvgIcon } from 'ui';
 
@@ -28,7 +28,7 @@ const NewsDescription: FC<NewsDescriptionProps> = ({ liveNews }) => {
       </p>
       <div className='flex justify-between'>
         <p className='text-base text-greyAlt md:text-medium hg:text-xl'>{liveNews?.publishDate}</p>
-        <div className='flex translate-x-full items-center gap-2 rounded-2xl bg-accentAlt pr-2 transition-all group-hover:translate-x-0 group-hover:bg-accentAlt dark:bg-transparent '>
+        <div className='flex translate-x-full items-center gap-2 rounded-2xl bg-accentAlt pr-2 transition-all group-hover:translate-x-0 group-hover:bg-accentAlt dark:bg-transparent'>
           <SvgIcon
             svgName='triangle-double'
             sizeKey={wideScreens ? 'smIcon20' : 'xsIcon16'}

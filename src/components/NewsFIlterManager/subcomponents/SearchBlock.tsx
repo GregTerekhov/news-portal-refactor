@@ -71,9 +71,9 @@ const SearchBlock: FC<{}> = () => {
       <div className='md:col-span-3 lg:col-span-3'>
         <Calendar variant='SearchBlock' />
       </div>
-      <div className='md:col-span-3 md:mt-auto lg:col-span-1'>
+      <div className='md:col-span-3 md:mt-auto lg:col-span-1 lg:space-y-2'>
         {wideScreens ? (
-          <p className='mb-2 text-base text-darkBase dark:text-whiteBase lg:text-medium'>Reset</p>
+          <p className='text-base text-darkBase dark:text-whiteBase lg:text-medium'>Reset</p>
         ) : null}
         <PrimaryButton
           id='Reset all requests button'
