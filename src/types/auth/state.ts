@@ -3,7 +3,7 @@ import { ThemeValue } from './requests';
 export interface AuthState {
   message: string;
   isLoggedIn: boolean;
-  hasError: string | null;
+  hasError: string | number | null;
   isCurrentUser: boolean;
   userTheme: ThemeValue;
   accessToken: string | null;
