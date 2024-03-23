@@ -6,5 +6,6 @@ export interface ActiveLinks {
   isAccountPage: boolean;
   isManageAccountPage: boolean;
   isAboutUs: boolean;
+  isServerErrorPage: boolean;
   isErrorPage: boolean;
 }

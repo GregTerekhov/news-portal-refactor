@@ -16,6 +16,7 @@ const AccountPage = lazy(() => import('./pages/AccountPage/AccountPage'));
 const AccountManagePage = lazy(() => import('./pages/AccountManagePage/AccountManagePage'));
 const ErrorPage = lazy(() => import('./pages/ErrorPage/ErrorPage'));
 const AboutUs = lazy(() => import('./pages/AboutUs/AboutUs'));
+const ServerErrorPage = lazy(() => import('./pages/ServerErrorPage/ServerErrorPage'));
 
 function App() {
   const { isRefreshingUser, fetchCurrentAuthUser } = useAuthRedux();
@@ -40,6 +41,7 @@ function App() {
           </Route>
         </Route>
         <Route path='/about-us' element={<AboutUs />} />
+        <Route path='/server-error' element={<ServerErrorPage />} />
         <Route path='*' element={<ErrorPage />} />
       </Route>
     </Routes>

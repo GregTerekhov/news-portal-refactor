@@ -1,44 +1,46 @@
 import React, { FC } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import { useAuthRedux } from 'reduxStore/hooks';
+import { useAuthRedux, useDB, useNewsAPI } from 'reduxStore/hooks';
 
 import { VariantButton } from 'types';
-import { errorImages } from 'constants/images';
-
-import { generateContentImages } from 'helpers';
-import { useCacheImage } from 'hooks';
 
 import { PrimaryButton } from 'ui';
+import { ErrorList, serverErrorsList } from './assistants';
 
 const ErrorPage: FC<{}> = () => {
   const { isAuthenticated } = useAuthRedux();
-
+  const { errorAPI } = useNewsAPI();
+  const { errorDB } = useDB();
+  const { authError } = useAuthRedux();
   const navigate = useNavigate();
 
-  const devicePixelRatio = window.devicePixelRatio || 1;
+  const APIServerError = errorAPI && typeof errorAPI === 'number' && errorAPI >= 500;
+  const DBServerError = errorDB && typeof errorDB === 'number' && errorDB >= 500;
+  const authErrorDB = authError && typeof authError === 'number' && authError >= 500;
+  const anyServerError = APIServerError || DBServerError || authErrorDB;
 
-  const matchedErrorImage = generateContentImages(errorImages, devicePixelRatio, window.innerWidth);
-  const imageUrl = useCacheImage(matchedErrorImage?.src || '');
+  const renderPageContent = serverErrorsList.find((value: ErrorList) => {
+    if (APIServerError) return value.code === errorAPI;
+    if (DBServerError) return value.code === errorDB;
+    if (authErrorDB) return value.code === authError;
 
-  const handleGoHome = () => navigate('/');
+    return [];
+  });
+
+  const handleGoHome = () => !anyServerError && navigate('/');
   const handleGoBack = () => navigate(-1);
 
   return (
     <div className='space-y-10 text-center lg:mx-auto lg:w-900px'>
-      <img
-        className='mx-auto'
-        src={imageUrl}
-        alt='Error page'
-        width={matchedErrorImage.width}
-        height={matchedErrorImage.height}
-      />
+      <h1 className='text-[100px] text-darkBase transition-colors duration-500 dark:text-whiteBase'>
+        {renderPageContent?.code}
+      </h1>
       <h2 className='text-5xl text-darkBase transition-colors duration-500 dark:text-whiteBase'>
-        Page not found
+        {renderPageContent?.warning}
       </h2>
       <p className='text-justify text-xl text-darkBase transition-colors duration-500 dark:text-whiteBase md:text-center'>
-        Looks like you'we lost a bit. The page you requested could not be found or maybe don't even
-        exist. How about to make a step back and try again?
+        {renderPageContent?.message}
       </p>
       <div
         className={`${

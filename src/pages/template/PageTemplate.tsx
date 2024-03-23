@@ -1,7 +1,7 @@
 import React, { FC, ReactElement, ReactNode, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import { useDB, useNewsAPI } from 'reduxStore/hooks';
+import { useAuthRedux, useDB, useNewsAPI } from 'reduxStore/hooks';
 import { useNotification } from 'contexts';
 
 import { useActiveLinks, useChooseRenderingNews } from 'hooks';
@@ -17,6 +17,7 @@ interface PageTemplateProps {
 
 const PageTemplate: FC<PageTemplateProps> = ({ children }) => {
   const { errorDB } = useDB();
+  const { authError } = useAuthRedux();
   const { errorAPI } = useNewsAPI();
   const { setOpenToast } = useNotification();
 
@@ -34,9 +35,10 @@ const PageTemplate: FC<PageTemplateProps> = ({ children }) => {
   useEffect(() => {
     if (
       (errorDB && typeof errorDB === 'number' && errorDB >= 500) ||
-      (errorAPI && errorAPI >= 500)
+      (errorAPI && errorAPI >= 500) ||
+      (authError && typeof authError === 'number' && authError >= 500)
     ) {
-      navigate('/serverError');
+      navigate('/server-error');
     }
   }, [errorDB, errorAPI]);
 
