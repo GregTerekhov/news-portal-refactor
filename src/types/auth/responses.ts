@@ -1,21 +1,31 @@
 import { ThemeValue } from './requests';
 
+export interface ServicesInfo {
+  code: number;
+  message: string;
+}
+
 export type User = {
   name: string;
   email: string;
   id: string;
 };
 
+export interface ReceivedCryptoPassword {
+  cryptoData: {
+    encryptedPassword: ArrayBuffer;
+    salt: Uint8Array;
+    email: string;
+  };
+}
+
+export type ResponseCryptoPassword = ReceivedCryptoPassword & ServicesInfo;
+
 export type HaveAccounts = {
   google: boolean;
   facebook: boolean;
   apple: boolean;
 };
-
-export interface ServicesInfo {
-  code: number;
-  message: string;
-}
 
 export type TokensPayload = {
   accessToken: string | null;

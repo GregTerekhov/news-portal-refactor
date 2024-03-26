@@ -1,6 +1,5 @@
 import React, { FC } from 'react';
 
-import type { Filters } from 'types';
 import { useFiltersState } from 'contexts';
 
 import { Dropdown } from 'ui';
@@ -12,20 +11,9 @@ import Calendar from '../Calendar/Calendar';
 import { ControlButtons, FilterInputs } from './subcomponents';
 
 const FiltersBlock: FC<{}> = () => {
-  const { filters, selectedMaterialType, setSelectedMaterialType } = useFiltersState();
+  const { selectedMaterialType, setSelectedMaterialType } = useFiltersState();
 
   const { handleMaterialTypeChange } = useChangeFilter();
-
-  const hasNonEmptyValue = (filtersObject: Filters): boolean => {
-    return Object.values(filtersObject).some((value) => {
-      if (typeof value === 'object' && value !== null) {
-        return hasNonEmptyValue(value);
-      }
-      return value !== '';
-    });
-  };
-
-  const hasFilterValue = hasNonEmptyValue(filters);
 
   return (
     <form className='p-3.5 max-md:space-y-4 md:grid md:grid-cols-9 md:grid-rows-3 md:gap-3.5 lg:grid-cols-16 lg:grid-rows-2'>
@@ -42,7 +30,7 @@ const FiltersBlock: FC<{}> = () => {
       <div className='md:col-span-3 lg:col-span-4'>
         <Calendar variant='FiltersBlock' />
       </div>
-      <ControlButtons hasFilterValue={hasFilterValue} />
+      <ControlButtons />
     </form>
   );
 };

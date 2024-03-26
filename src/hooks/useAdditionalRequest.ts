@@ -1,9 +1,9 @@
 import { useState } from 'react';
+import memoizeOne from 'memoize-one';
 
-import { useNewsAPI, useFiltersAction } from 'reduxStore/hooks';
-
-import { usePaginationContext, useSelectedDate } from 'contexts';
 import type { CategoryRequest } from 'types';
+import { useNewsAPI, useFiltersAction } from 'reduxStore/hooks';
+import { usePaginationContext, useSelectedDate } from 'contexts';
 
 export type SearchParamsObject = {
   query: string;
@@ -23,7 +23,6 @@ const useAdditionalRequest = () => {
   });
 
   const {
-    popularNews,
     newsByKeyword,
     newsByCategory,
     newsByDate,
@@ -44,22 +43,22 @@ const useAdditionalRequest = () => {
     (newsByDate && newsByDate?.length === 0);
 
   const hasAnotherRequestResults =
-    (popularNews && popularNews?.length > 0) ||
-    (newsByKeyword && newsByKeyword?.length > 0) ||
-    (newsByCategory && newsByCategory?.length > 0) ||
+    Object.values(searchParams).some((value) => value !== '') ||
     (newsByDate && newsByDate?.length > 0);
 
-  const getCategoriesList = () => categoriesList?.map((item) => item.display_name) || [];
+  const getCategoriesList = memoizeOne((): string[] => {
+    return categoriesList?.map((item) => item.display_name) || [];
+  });
 
-  const updateSearchParams = (value: string, key: keyof SearchParamsObject | string) => {
+  const updateSearchParams = (value: string, key: keyof SearchParamsObject | string): void => {
     setSearchParams((prevParams) => ({ ...prevParams, [key]: value }));
   };
 
-  const onChangeInput = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const onChangeInput = (event: React.ChangeEvent<HTMLInputElement>): void => {
     updateSearchParams(event.target.value.toLowerCase(), 'query');
   };
 
-  const onHandleSearch = async (e: React.FormEvent<HTMLFormElement>) => {
+  const onHandleSearch = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
     e.preventDefault();
     if (searchParams.query) {
       resetPagination();
@@ -72,7 +71,7 @@ const useAdditionalRequest = () => {
     }
   };
 
-  const getNewsByCategory = async (section: CategoryRequest) => {
+  const getNewsByCategory = async (section: CategoryRequest): Promise<void> => {
     if (section) {
       resetPagination();
       updateSearchParams(section, 'category');
@@ -85,7 +84,7 @@ const useAdditionalRequest = () => {
     }
   };
 
-  const getNewsByPeriod = async (selectedPeriod: string) => {
+  const getNewsByPeriod = async (selectedPeriod: string): Promise<void> => {
     if (selectedPeriod) {
       resetPagination();
       updateSearchParams(selectedPeriod, 'period');
@@ -113,13 +112,13 @@ const useAdditionalRequest = () => {
     }
   };
 
-  const resetSearchParams = () => setSearchParams({ query: '', period: '', category: '' });
+  const resetSearchParams = (): void => setSearchParams({ query: '', period: '', category: '' });
 
-  const handleResetRequests = async () => {
+  const handleResetRequests = async (): Promise<void> => {
     if (hasAnotherRequestResults) {
       resetPagination();
       resetPreviousRequest();
-      updateHeadline('Today`s Hot News');
+      updateHeadline(filteredNews?.length === 0 ? 'Today`s Hot News' : 'Filtered News');
       resetSearchParams();
       resetRequestDay();
 
@@ -129,6 +128,7 @@ const useAdditionalRequest = () => {
 
   return {
     ...searchParams,
+    hasAnotherRequestResults,
     categoriesForDropdown: getCategoriesList(),
     showPopular,
     updateSearchParams,

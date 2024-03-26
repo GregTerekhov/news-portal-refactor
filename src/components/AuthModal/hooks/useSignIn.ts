@@ -1,50 +1,53 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useId, useState } from 'react';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { SubmitHandler, useForm } from 'react-hook-form';
 
 import { useAuthRedux } from 'reduxStore/hooks';
 import { useNotification, useScrollBodyContext } from 'contexts';
 
-import type { AuthRequestWithoutName, AuthInputs } from 'types';
+import type {
+  AuthRequestWithoutName,
+  AuthInputs,
+  ResponseCryptoPassword,
+  EncryptedPasswordRequest,
+} from 'types';
 import { usePopUp } from 'hooks';
 
-import {
-  getCheckboxState,
-  loadUserDataFromLocalStorage,
-  saveUserDataToLocalStorage,
-  signInSchema,
-} from '../assistants';
+import { decryptPassword, encryptPassword, getCheckboxState, signInSchema } from '../assistants';
 
 const useSignIn = () => {
   const [isChecked, setIsChecked] = useState<boolean>(getCheckboxState());
 
   const { showToast } = useNotification();
   const { setIsScrollDisabled } = useScrollBodyContext();
-  const { login } = useAuthRedux();
+  const { login, getCryptoPassword } = useAuthRedux();
   const { toggleModal } = usePopUp();
 
-  useEffect(() => {
-    const hasSavedCryptoUserData = localStorage.getItem('rememberMeData');
+  const savedUserId = localStorage.getItem('userId');
 
-    const loadUserData = async (): Promise<void> => {
-      if (hasSavedCryptoUserData) {
-        const loadedUserData = await loadUserDataFromLocalStorage();
+  const fetchPassword = async () => {
+    if (isChecked && savedUserId) {
+      const response = await getCryptoPassword({ userId: savedUserId });
+      const { cryptoData } = response.payload as ResponseCryptoPassword;
+      const { encryptedPassword, salt, email } = cryptoData;
 
-        if (loadedUserData) {
-          setValue('email', loadedUserData.email);
-          setValue('password', loadedUserData.password);
-        }
+      const savedPassword = await decryptPassword(encryptedPassword, salt);
+
+      if (savedPassword) {
+        setValue('email', email);
+        setValue('password', savedPassword);
       }
-    };
+    }
+  };
 
-    loadUserData();
+  useEffect(() => {
+    fetchPassword();
   }, []);
 
   useEffect(() => {
     if (!isChecked) {
-      localStorage.removeItem('rememberMeData');
       localStorage.removeItem('rememberMe');
-      localStorage.removeItem('encryptionKey');
+      localStorage.removeItem('userId');
     }
   }, [isChecked]);
 
@@ -71,19 +74,32 @@ const useSignIn = () => {
 
   const [email, password] = watch(['email', 'password']); // споглядання за відповідними полями, щоб зберігати введені валідні значення для RememberMe
 
-  const signInSubmitHandler: SubmitHandler<AuthRequestWithoutName> = async (data, e) => {
+  const signInSubmitHandler: SubmitHandler<
+    AuthRequestWithoutName | EncryptedPasswordRequest
+  > = async (data, e) => {
     e?.preventDefault();
     try {
-      const { email, password } = data;
+      // const { email, password } = data;
 
-      if (isChecked && email !== '' && password !== '') {
-        await saveUserDataToLocalStorage({ email, password });
-        localStorage.rememberMe = isChecked.toString();
+      if (isChecked && password !== '' && !savedUserId && !errors.password) {
+        const { encryptedPassword, salt } = await encryptPassword(password);
+        const uniqueUserId = useId();
+
+        console.log('uniqueUserId', uniqueUserId);
+        localStorage.setItem('userId', uniqueUserId);
+        localStorage.setItem('rememberMe', isChecked.toString());
+
+        const response = await login({
+          email,
+          password: { encryptedPassword, salt, userId: uniqueUserId },
+        });
+
+        showToast(response.meta.requestStatus);
+      } else if (!isChecked) {
+        const response = await login(data);
+
+        showToast(response.meta.requestStatus);
       }
-
-      const response = await login(data);
-
-      showToast(response.meta.requestStatus);
     } catch (error) {
       console.error('Error during signIn:', error);
     } finally {
@@ -109,16 +125,18 @@ const useSignIn = () => {
       ariaInvalid: errors?.email ? true : false,
       autoFocus: true,
       autofill: 'email',
+      disabled: isChecked ? true : false,
     },
     {
       type: 'password',
       placeholder: 'Enter your password',
       labelName: 'Password',
-      fieldValue: password,
+      fieldValue: typeof password === 'string' ? password : '',
       errors: errors?.password?.message,
       label: 'password',
       ariaInvalid: errors?.password ? true : false,
       autoFocus: false,
+      disabled: isChecked ? true : false,
     },
   ];
 

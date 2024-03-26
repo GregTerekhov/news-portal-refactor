@@ -1,5 +1,3 @@
-import { useState } from 'react';
-
 import { useDB, useNewsAPI, useFiltersAction } from 'reduxStore/hooks';
 import { useFiltersState, usePaginationContext, useReadSortState, useSelectedDate } from 'contexts';
 
@@ -8,10 +6,17 @@ import type { PartialVotedNewsArray } from 'types';
 import { useActiveLinks, useChooseRenderingNews, useReadNewsContent } from 'hooks';
 import { applyCrossFilters, formatSortedDate } from 'helpers';
 
-const useFilterNews = () => {
-  const [isSorted, setIsSorted] = useState<boolean>(false);
+import { hasNonEmptyValue } from '../assistants';
 
-  const { showResultsState, getFilteredNews, resetAllFiltersResults } = useFiltersAction();
+const useFilterNews = () => {
+  const {
+    showResultsState,
+    getFilteredNews,
+    resetAllFiltersResults,
+    filteredNews,
+    isSorted,
+    sortResults,
+  } = useFiltersAction();
   const { updateHeadline } = useNewsAPI();
   const { allFavourites, allReads } = useDB();
 
@@ -22,7 +27,6 @@ const useFilterNews = () => {
 
   const activeLinks = useActiveLinks();
   const sortedAccordionDates = useReadNewsContent();
-
   const { rebuildedNews } = useChooseRenderingNews(activeLinks);
 
   const { isHomeActive, isFavoriteActive, isReadActive } = activeLinks;
@@ -44,7 +48,7 @@ const useFilterNews = () => {
 
     if (!filters || !rebuildedNews || rebuildedNews?.length === 0) return;
 
-    const hasFilterValue = Object.values(filters).some((entry) => entry !== '');
+    const hasFilterValue = hasNonEmptyValue(filters);
     if (!hasFilterValue) return;
 
     let filteredNews: PartialVotedNewsArray = [];
@@ -63,11 +67,13 @@ const useFilterNews = () => {
     } else {
       showResultsState('empty');
     }
-    setIsSorted(false);
+    sortResults(false);
   };
 
   const handleSort = (order: string): void => {
     if (!rebuildedNews || rebuildedNews.length === 0) return;
+
+    sortResults(true);
     let sortedNews: PartialVotedNewsArray = [];
 
     if (isHomeActive) {
@@ -97,12 +103,14 @@ const useFilterNews = () => {
         : Array.from(sortedAccordionDates).sort();
 
     setSortedDates(sortedDates);
-    setIsSorted(true);
+    sortResults(true);
   };
 
   const handleReset = async (): Promise<void> => {
     if (isHomeActive) {
-      updateHeadline("Today's Hot News");
+      if (filteredNews?.length > 0) {
+        updateHeadline("Today's Hot News");
+      }
       resetPagination();
     }
 
@@ -111,10 +119,11 @@ const useFilterNews = () => {
     resetAllFiltersResults();
     resetFiltersDay();
     setSortedDates([]);
-    setIsSorted(false);
+    sortResults(false);
   };
 
   return {
+    isSorted,
     handleFiltration,
     handleSort,
     handleReset,

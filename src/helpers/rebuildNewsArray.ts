@@ -7,7 +7,7 @@ import type {
   NewsWireItem,
 } from 'types';
 
-import { formatDate, formatDateToShort } from 'helpers';
+import { convertDateStringToDDMMYYY } from 'helpers';
 
 function rebuildNewsArray(
   data: PartialPopularNewsArray | PartialArticleNewsArray | PartialNewsWireArray,
@@ -23,11 +23,16 @@ function rebuildNewsArray(
       if ('media' in item) {
         // Type: PartialPopularNewsArray
         const popularNewsItem = item as PopularNewsItem;
+        // console.log(
+        //   'popularNewsItem?.published_date',
+        //   typeof popularNewsItem?.published_date,
+        //   popularNewsItem?.published_date,
+        // );
         return {
           ...commonFields,
           title: popularNewsItem.title || '',
           description: popularNewsItem.abstract || '',
-          publishDate: formatDate(popularNewsItem.published_date) || '',
+          publishDate: convertDateStringToDDMMYYY(popularNewsItem.published_date) || '',
           category: popularNewsItem.section || '',
           edition: popularNewsItem.source || '',
           newsUrl: popularNewsItem.url || '',
@@ -39,11 +44,16 @@ function rebuildNewsArray(
       } else if ('headline' in item) {
         // Type: PartialArticleNewsArray
         const articleNewsItem = item as ArticleNewsItem;
+        // console.log(
+        //   'articleNewsItem.pub_date',
+        //   typeof articleNewsItem?.pub_date,
+        //   articleNewsItem?.pub_date,
+        // );
         return {
           ...commonFields,
           title: articleNewsItem.headline?.main || '',
           description: articleNewsItem.abstract || '',
-          publishDate: formatDateToShort(articleNewsItem.pub_date) || '',
+          publishDate: convertDateStringToDDMMYYY(articleNewsItem.pub_date) || '',
           category: articleNewsItem.section_name || '',
           edition: articleNewsItem.source || '',
           newsUrl: articleNewsItem.web_url || '',
@@ -64,7 +74,7 @@ function rebuildNewsArray(
           ...commonFields,
           title: newsWireItem?.title || '',
           description: newsWireItem?.abstract || '',
-          publishDate: formatDate(newsWireItem.published_date) || '',
+          publishDate: convertDateStringToDDMMYYY(newsWireItem.published_date) || '',
           category: newsWireItem.section || '',
           edition: newsWireItem.source || '',
           newsUrl: newsWireItem.url || '',

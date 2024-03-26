@@ -63,6 +63,7 @@ const useChangePassword = () => {
       label: 'newPassword',
       ariaInvalid: errors?.newPassword ? true : false,
       autoFocus: true,
+      disabled: false,
     },
     {
       type: 'password',
@@ -72,6 +73,7 @@ const useChangePassword = () => {
       label: 'confirmPassword',
       ariaInvalid: errors?.confirmPassword ? true : false,
       autoFocus: false,
+      disabled: false,
     },
   ];
 

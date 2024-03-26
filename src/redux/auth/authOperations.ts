@@ -12,10 +12,21 @@ export const signUp = requestTemplate<
   authTypes.CredentialSignUpResponse
 >('auth/signUp', '/auth/sign-up', 'post');
 
-export const signIn = requestTemplate<
-  authTypes.AuthRequestWithoutName,
-  authTypes.CredentialSignInResponse
->('auth/signIn', '/auth/sign-in', 'post');
+export const signIn = requestTemplate<authTypes.SignInRequest, authTypes.CredentialSignInResponse>(
+  'auth/signIn',
+  '/auth/sign-in',
+  'post',
+);
+
+// export const sendCryptoPassword = requestTemplate<
+//   authTypes.SendEncryptedPassword,
+//   authTypes.ServicesInfo
+// >('auth/sendCryptoPassword', '/auth/send-password', 'post');
+
+export const getSavedPassword = requestTemplate<
+  authTypes.GetCryptoPassword,
+  authTypes.ResponseCryptoPassword
+>('auth/getCryptoPassword', '/auth/get-password', 'get');
 
 export const signOut = requestWithInstanceTemplate<void, authTypes.SignOutResponse>(
   'auth/signOut',

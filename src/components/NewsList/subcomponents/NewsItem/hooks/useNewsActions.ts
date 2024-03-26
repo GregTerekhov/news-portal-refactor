@@ -43,7 +43,7 @@ const useNewsActions = ({
 
   const clickDate = new Date().getTime();
 
-  const handleAddToFavourites = (): void => {
+  const handleAddToFavourites = useCallback((): void => {
     setIsFavourite(true);
 
     const updatedData = {
@@ -53,9 +53,9 @@ const useNewsActions = ({
     };
 
     updateSavedNews(updatedData);
-  };
+  }, []);
 
-  const handleToggleFavourites = (): void => {
+  const handleToggleFavourites = useCallback((): void => {
     setIsFavourite(!savedFavourite);
 
     if (!savedFavourite && savedRead) {
@@ -65,7 +65,6 @@ const useNewsActions = ({
       const updatedData = {
         ...liveNews,
         isFavourite: false,
-        hasRead: savedRead,
         additionDate: null,
       };
       updateSavedNews(updatedData);
@@ -79,7 +78,7 @@ const useNewsActions = ({
       updateSavedNews(updatedData);
       removeFavouriteNews(liveNews?.newsUrl || '');
     }
-  };
+  }, []);
 
   const handleChangeFavourites = (e: React.MouseEvent<HTMLButtonElement>): void => {
     e.stopPropagation();

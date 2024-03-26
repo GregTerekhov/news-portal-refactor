@@ -5,6 +5,7 @@ type ButtonsDataProps = {
   handleFiltration: (event: React.FormEvent<Element>) => Promise<void>;
   hasFilterValue: boolean | undefined;
   isReadActive: boolean;
+  isSorted: boolean;
   handleSortRead: (order: string) => Promise<void>;
   handleSort: (order: string) => void;
   handleReset: () => Promise<void>;
@@ -15,6 +16,7 @@ export const getControlButtons = ({
   handleFiltration,
   hasFilterValue,
   isReadActive,
+  isSorted,
   handleSortRead,
   handleSort,
   handleReset,
@@ -55,6 +57,7 @@ export const getControlButtons = ({
       svgSize: 'xsIcon16',
       classNameIcon: 'fill-whiteBase',
       children: 'Reset',
+      disabled: !hasFilterValue && !isSorted ? true : false,
     },
     {
       type: 'button',

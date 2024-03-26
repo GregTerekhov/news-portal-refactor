@@ -24,7 +24,7 @@ const GridCalendar: FC<GridCalendarProps> = ({
   isOpenCalendar,
   toggleCalendar,
 }) => {
-  const { selectedRequestDate, selectedFilterDate } = useSelectedDate();
+  const { memoizedSelectedRequestDate, memoizedSelectedFilterDate } = useSelectedDate();
 
   const { handleDateRequest } = useRequestByDate();
 
@@ -38,53 +38,49 @@ const GridCalendar: FC<GridCalendarProps> = ({
 
   const isCurrentMonth = isSameMonth(day, parse(currMonth, 'MMM-yyyy', new Date()));
   const isTodayDate = isToday(day);
+  const evenDayToString = getStringDateToCalendar(day, variant);
 
-  const dayToString = getStringDateToCalendar(day, variant);
-
-  let filterFormatToSearch: string | null = null;
   let isFilterDayRangeSelected: string | boolean | null = null;
   let filterDate = false;
 
   let dayToParse: number | Date = 0;
   let filterDayToParse: number | Date = 0;
 
-  if (variant === 'FiltersBlock') {
-    filterFormatToSearch = formatDateToYYYYMMDD(dayToString);
-  }
-
-  const searchDayString = filterFormatToSearch ? filterFormatToSearch : dayToString;
+  const validDateValue =
+    variant === 'FiltersBlock' ? formatDateToYYYYMMDD(evenDayToString) : evenDayToString;
 
   const isSearchDayRangeSelected = isDayInRange(
-    selectedRequestDate.beginDate,
-    selectedRequestDate.endDate,
-    searchDayString,
+    memoizedSelectedRequestDate?.beginDate,
+    memoizedSelectedRequestDate?.endDate,
+    validDateValue,
   );
 
   if (variant === 'FiltersBlock') {
     isFilterDayRangeSelected = isDayInRange(
-      selectedFilterDate.beginDate,
-      selectedFilterDate.endDate,
-      dayToString,
+      memoizedSelectedFilterDate?.beginDate,
+      memoizedSelectedFilterDate?.endDate,
+      evenDayToString,
     );
   }
 
   if (isSearchDayRangeSelected && isCurrentMonth) {
-    dayToParse = parse(searchDayString, 'yyyyMMdd', new Date());
+    dayToParse = parse(validDateValue, 'yyyyMMdd', new Date());
+    console.log('typeof dayToParse', typeof dayToParse);
   }
 
   if (variant === 'FiltersBlock' && isFilterDayRangeSelected && isCurrentMonth) {
-    filterDayToParse = parse(dayToString, 'dd/MM/yyyy', new Date());
+    filterDayToParse = parse(evenDayToString, 'dd/MM/yyyy', new Date());
   }
 
   const searchDate =
-    selectedRequestDate?.beginDate !== null &&
-    selectedRequestDate?.endDate !== null &&
+    memoizedSelectedRequestDate?.beginDate !== null &&
+    memoizedSelectedRequestDate?.endDate !== null &&
     isSameDay(day, dayToParse);
 
   if (variant === 'FiltersBlock') {
     filterDate =
-      selectedFilterDate?.beginDate !== null &&
-      selectedFilterDate?.endDate !== null &&
+      memoizedSelectedFilterDate?.beginDate !== null &&
+      memoizedSelectedFilterDate?.endDate !== null &&
       isSameDay(day, filterDayToParse);
   }
 
@@ -98,22 +94,22 @@ const GridCalendar: FC<GridCalendarProps> = ({
   const selectedFilterStyle = filterDate ? 'border-2 border-whiteBase' : '';
 
   const defaultSearchStyle =
-    selectedRequestDate?.beginDate === null &&
-    selectedRequestDate?.endDate === null &&
+    memoizedSelectedRequestDate?.beginDate === null &&
+    memoizedSelectedRequestDate?.endDate === null &&
     isTodayDate &&
     !searchDate
       ? 'bg-accentBase text-whiteBase'
       : '';
 
   let defaultFilterStyle =
-    selectedFilterDate?.beginDate === null &&
-    selectedFilterDate?.endDate === null &&
+    memoizedSelectedFilterDate?.beginDate === null &&
+    memoizedSelectedFilterDate?.endDate === null &&
     isTodayDate &&
     !filterDate
       ? 'bg-accentBase text-whiteBase'
       : '';
 
-  if (variant === 'FiltersBlock' && selectedRequestDate.endDate) {
+  if (variant === 'FiltersBlock' && memoizedSelectedRequestDate.endDate) {
     defaultFilterStyle = '';
   }
 
@@ -122,7 +118,17 @@ const GridCalendar: FC<GridCalendarProps> = ({
   return (
     <div className={COL_START_CLASSES[getDay(day)]}>
       <p
-        className={`${commonStyles} ${currentMonthDatesStyle} ${selectedSearchStyle} ${selectedFilterStyle} ${defaultTodayStyle}`}
+        className={
+          commonStyles +
+          ' ' +
+          currentMonthDatesStyle +
+          ' ' +
+          selectedSearchStyle +
+          ' ' +
+          selectedFilterStyle +
+          ' ' +
+          defaultTodayStyle
+        }
         onClick={handleDateClick}
       >
         {format(day, 'd')}

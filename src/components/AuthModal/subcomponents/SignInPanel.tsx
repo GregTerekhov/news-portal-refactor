@@ -39,10 +39,18 @@ const SignInPanel: FC<SignInProps> = ({ handleShowRecoveryInput, isShowRecoveryI
                 errors,
                 label,
                 ariaInvalid,
+                disabled,
               }) => (
                 <li key={label}>
                   <VerifiableInput
-                    inputData={{ type, placeholder, autoFocus, labelName, fieldValue }}
+                    inputData={{
+                      type,
+                      placeholder,
+                      autoFocus,
+                      labelName,
+                      fieldValue,
+                      disabled,
+                    }}
                     errors={errors}
                     register={registration}
                     label={label}

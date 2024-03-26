@@ -18,6 +18,7 @@ export interface AuthInputs {
   fieldValue?: string | undefined;
   autoFocus?: boolean;
   autofill?: string;
+  disabled: boolean;
 }
 
 export interface SelectedDate {

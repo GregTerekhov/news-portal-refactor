@@ -15,6 +15,7 @@ interface InputCollectedData {
   autoFocus?: boolean | undefined;
   labelName?: ReactNode;
   autofill?: string;
+  disabled?: boolean;
 }
 
 type AriaInvalid = boolean | 'false' | 'true' | 'grammar' | 'spelling' | undefined;
@@ -49,7 +50,7 @@ const VerifiableInput: FC<InputProps> = ({
 
   const id = useId(); // додається для розрізнення однакових label в різних інпутах, які знаходяться на одній сторінці
 
-  const { type, fieldValue, placeholder, labelName, autoFocus, autofill } = inputData;
+  const { type, fieldValue, placeholder, labelName, autoFocus, autofill, disabled } = inputData;
 
   const { geometry, border, bg, caret, text, placeholderStyle } =
     inputStyles[variant === VariantVerifiableInputs.Account ? 'account' : 'auth'];
@@ -108,6 +109,7 @@ const VerifiableInput: FC<InputProps> = ({
           placeholder={placeholder}
           autoComplete={autofill}
           aria-invalid={ariaInvalid}
+          disabled={disabled}
         />
       </div>
       {fieldValue?.length !== 0 && errors && (

@@ -89,14 +89,13 @@ export const requestTemplate = <Arg, Result>(
         ],
       });
 
-      // console.log(`${name}Response`, response);
+      console.log(`${name}Response`, response);
       // після transformResponse сюди потрапляють всі необхідні дані в одному рівні вкладеності в об'єкт response.data
       return response.data;
     } catch (error: any) {
-      // console.log(`Error ${name}`, error.response);
-      console.log(`ERRA`, error);
+      console.log(`Error ${name}`, error.response);
+
       if (error.response.status && (error.response.status >= 500 || error.response.status >= 429)) {
-        console.log(`ERRA 500`, error.response);
         return rejectWithValue(error.response.status || 'Unknown error');
       }
       return rejectWithValue(error.response.data.message || 'Unknown error');
@@ -111,7 +110,6 @@ export const requestWithInstanceTemplate = <Arg, Result>(
 ) => {
   return createAppAsyncThunk<Result, Arg>(name, async (args, { rejectWithValue }) => {
     try {
-      // console.log('args', args);
       let dynamicUrl = url;
 
       if (url.includes(':id')) {
@@ -122,10 +120,9 @@ export const requestWithInstanceTemplate = <Arg, Result>(
       console.log(`${name}Response`, response.data);
       return response.data;
     } catch (error: any) {
-      // console.log(`Error ${name}`, error.response);
-      console.log(`INSTANCE ERRA`, error);
+      console.log(`Error ${name}`, error.response);
+
       if (error.response.status && error.response.status >= 500) {
-        console.log(`INSTANCE ERRA 500`, error.response);
         return rejectWithValue(error.response.status || 'Unknown error');
       }
       return rejectWithValue(error.response.data.message || 'Unknown error');

@@ -16,6 +16,7 @@ const SearchBlock: FC<{}> = () => {
     query,
     period,
     category,
+    hasAnotherRequestResults,
     categoriesForDropdown,
     showPopular,
     updateSearchParams,
@@ -85,6 +86,7 @@ const SearchBlock: FC<{}> = () => {
           classNameIcon='fill-whiteBase'
           classNameButton='py-3'
           onHandleClick={handleResetRequests}
+          disabled={!hasAnotherRequestResults ? true : false}
         >
           {wideScreens ? '' : 'Reset all requests'}
         </PrimaryButton>

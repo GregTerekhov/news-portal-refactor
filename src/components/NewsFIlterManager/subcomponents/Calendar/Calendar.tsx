@@ -3,7 +3,7 @@ import { format, startOfToday } from 'date-fns';
 
 import { useFiltersState, useSelectedDate } from 'contexts';
 
-import { convertLinesForCalendar } from 'helpers';
+import { convertDateStringToVariables } from 'helpers';
 import { useActiveLinks, usePopUp } from 'hooks';
 
 import { SvgIcon } from 'ui';
@@ -16,20 +16,20 @@ interface CalendarProps {
 
 const Calendar: FC<CalendarProps> = ({ variant }) => {
   const { filters } = useFiltersState();
-  const { selectedRequestDate } = useSelectedDate();
+  const { memoizedSelectedRequestDate } = useSelectedDate();
 
   const { popUpRef, toggleCalendar, isOpenCalendar } = usePopUp();
   const { isReadActive } = useActiveLinks();
 
-  const { beginDate, endDate } = selectedRequestDate;
+  const { beginDate, endDate } = memoizedSelectedRequestDate;
 
   const today = startOfToday();
 
   const showSelectedDateForFiltering =
     filters?.selectedFilterDate?.startDate !== '' && filters?.selectedFilterDate?.endDate !== '';
 
-  const firstRequestDate = beginDate && convertLinesForCalendar(beginDate);
-  const lastRequestDate = endDate && convertLinesForCalendar(endDate);
+  const firstRequestDate = !!beginDate && convertDateStringToVariables(beginDate);
+  const lastRequestDate = !!endDate && convertDateStringToVariables(endDate);
   const firstFilteredDate = filters.selectedFilterDate.startDate;
   const lastFilteredDate = filters.selectedFilterDate.endDate;
 

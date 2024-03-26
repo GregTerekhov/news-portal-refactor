@@ -28,6 +28,8 @@ export const getActions = (type: DispatchActionType) => {
   const extraActions = [
     authOperations.signUp,
     authOperations.signIn,
+    // authOperations.sendCryptoPassword,
+    authOperations.getSavedPassword,
     authOperations.signOut,
     authOperations.fetchCurrentUser,
     authOperations.updateUserEmail, // коли user авторизований і хоче змінити поточну пошту
