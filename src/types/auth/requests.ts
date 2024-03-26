@@ -6,6 +6,21 @@ export type MainCredentials = {
   password: string;
 };
 
+export interface EncryptedPassword {
+  encryptedPassword: ArrayBuffer;
+  salt: Uint8Array;
+}
+
+export interface GetCryptoPassword {
+  userId: string;
+}
+
+export type SendEncryptedPassword = EncryptedPassword & GetCryptoPassword;
+
+export type EncryptedPasswordRequest = SendEmailRequest & { password: SendEncryptedPassword };
+
+export type SignInRequest = AuthRequestWithoutName | EncryptedPasswordRequest;
+
 type AdditionalCredentials = {
   newPassword: string;
   updatedTheme: ThemeValue;

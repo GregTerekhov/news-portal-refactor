@@ -10,8 +10,10 @@ interface IAuthModalProps {
 }
 
 const AuthModal: FC<IAuthModalProps> = ({ passwordToken, isOpenModal }) => {
+  const isCredentialsRemembered = localStorage.getItem('rememberMe');
+
   const [isShowRecoveryInput, setIsShowRecoveryInput] = useState<boolean>(false);
-  const [selectedTab, setSelectedTab] = useState<number>(0);
+  const [selectedTab, setSelectedTab] = useState<number>(isCredentialsRemembered ? 1 : 0);
 
   const handleShowRecoveryInput = (): void => {
     setIsShowRecoveryInput(!isShowRecoveryInput);

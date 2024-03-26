@@ -21,10 +21,10 @@ const Modal: FC<ModalProps> = ({ children, closeModal, modalRef }) => {
   const { wideScreens } = useWindowWidth();
 
   const backdropStyles =
-    'fixed left-0 top-0 z-100 flex h-screen w-screen items-center justify-center overflow-auto bg-whiteBase/[.4] backdrop-blur-sm transition-colors before:fixed before:left-0 before:top-0 before:h-81px before:w-full before:content-[""] dark:bg-darkBackground/[.4]';
+    'fixed left-0 top-0 z-100 h-screen flex items-center justify-center w-full mx-auto overflow-auto bg-whiteBase/[.4] backdrop-blur-sm transition-colors before:fixed before:left-0 before:top-0 before:h-81px before:w-full before:content-[""] dark:bg-darkBackground/[.4]';
 
   const modalContainerStyles =
-    'absolute left-1/2 top-1/2 w-full -translate-x-1/2 -translate-y-1/2 transform rounded-xl border border-solid border-accentBase bg-whiteBase px-6 py-4 shadow-modal transition-colors dark:border-whiteBase dark:bg-darkBackground dark:shadow-darkCard max-md:max-w-[288px] md:w-600px md:px-8 md:pb-8 hg:px-9';
+    'w-full mx-auto transform rounded-xl border border-solid border-accentBase bg-whiteBase px-6 py-4 shadow-modal transition-colors dark:border-whiteBase dark:bg-darkBackground dark:shadow-darkCard md:w-600px md:px-8 md:pb-8 hg:px-9';
 
   return (
     <>
@@ -32,19 +32,21 @@ const Modal: FC<ModalProps> = ({ children, closeModal, modalRef }) => {
         {modalRoot &&
           createPortal(
             <div className={`${backdropStyles}`}>
-              <div ref={modalRef} className={`${modalContainerStyles}`}>
-                <button
-                  aria-label='Modal close button'
-                  className='absolute right-4 top-4 flex items-center justify-center hg:right-5 hg:top-5'
-                  onClick={closeModal}
-                >
-                  <SvgIcon
-                    svgName='close'
-                    sizeKey={wideScreens ? 'mdIcon28' : 'smIcon20'}
-                    className='hocus:stroke-accentBase stroke-darkBase dark:stroke-whiteBase dark:hover:stroke-accentBase dark:focus:stroke-accentBase'
-                  />
-                </button>
-                {children}
+              <div className='flex w-full items-center justify-center max-md:px-10'>
+                <div ref={modalRef} className={`${modalContainerStyles}`}>
+                  <button
+                    aria-label='Modal close button'
+                    className='absolute right-4 top-4 flex items-center justify-center hg:right-5 hg:top-5'
+                    onClick={closeModal}
+                  >
+                    <SvgIcon
+                      svgName='close'
+                      sizeKey={wideScreens ? 'mdIcon28' : 'smIcon20'}
+                      className='hocus:stroke-accentBase stroke-darkBase dark:stroke-whiteBase dark:hover:stroke-accentBase dark:focus:stroke-accentBase'
+                    />
+                  </button>
+                  {children}
+                </div>
               </div>
             </div>,
             modalRoot,

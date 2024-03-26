@@ -11,8 +11,7 @@ const useRequestByDate = () => {
   const { fetchByDate, resetPreviousRequest, updateHeadline } = useNewsAPI();
   const { filteredNews, resetAllFiltersResults } = useFiltersAction();
 
-  const { beginDate, setBeginDate, setSelectedRequestDate } = useSelectedDate();
-  const { resetFiltersDay } = useSelectedDate();
+  const { beginDate, setBeginDate, setSelectedRequestDate, resetFiltersDay } = useSelectedDate();
   const { resetPagination } = usePaginationContext();
   const { resetFilters } = useFiltersState();
 

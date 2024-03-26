@@ -67,7 +67,7 @@ const LinkAccountsButtons: FC = () => {
   return (
     <ul
       className={`${
-        isManageAccountPage ? 'space-y-3 md:space-y-4' : 'flex justify-around gap-4 md:gap-8'
+        isManageAccountPage ? 'space-y-3 md:space-y-4' : 'flex justify-evenly gap-4 md:gap-8'
       }`}
     >
       {accountButtons.map(({ svgName, account, onClick, hasAccount }) => (

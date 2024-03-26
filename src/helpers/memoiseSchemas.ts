@@ -8,6 +8,7 @@ export const createEmailValidation = memoizeOne(() =>
     .matches(/^[^\s@]+@[^\s@]+\.[^\s@]+$/, 'Invalid email format')
     .trim(),
 );
+
 export const createPasswordValidation = memoizeOne(() =>
   yup
     .string()

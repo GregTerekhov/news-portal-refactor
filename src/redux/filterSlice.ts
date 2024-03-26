@@ -8,12 +8,14 @@ interface FiltersState {
   filters: PartialVotedNewsArray;
   hasResults: FilterResults;
   hasError: string | null;
+  isSorted: boolean;
 }
 
 const initialState: FiltersState = {
   filters: [],
   hasResults: 'idle',
   hasError: null,
+  isSorted: false,
 };
 
 export const results = createAction<FilterResults>('filters/filtering');
@@ -32,6 +34,9 @@ const filterSlice = createSlice({
         state.hasResults = 'empty';
       }
     },
+    sortNews: (state, action: PayloadAction<boolean>) => {
+      state.isSorted = action.payload;
+    },
     resetFilters: () => {
       return initialState;
     },
@@ -43,7 +48,8 @@ const filterSlice = createSlice({
   },
 });
 
+export const selectIsSorted = (state: RootState) => state.filters.isSorted;
 export const selectFilters = (state: RootState) => state.filters.filters;
 export const selectResults = (state: RootState) => state.filters.hasResults;
-export const { filterNews, resetFilters } = filterSlice.actions;
+export const { filterNews, resetFilters, sortNews } = filterSlice.actions;
 export const filtersReducer = filterSlice.reducer;

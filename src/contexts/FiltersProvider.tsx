@@ -22,7 +22,7 @@ export const FiltersProvider: FC<FiltersProviderProps> = ({ children }) => {
     title: '',
     author: '',
     publisher: '',
-    materialType: '',
+    materialType: selectedMaterialType,
     selectedFilterDate: {
       startDate: '',
       endDate: '',

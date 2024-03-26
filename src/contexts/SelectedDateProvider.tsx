@@ -1,4 +1,4 @@
-import React, { FC, ReactNode, createContext, useContext, useState } from 'react';
+import React, { FC, ReactNode, createContext, useContext, useMemo, useState } from 'react';
 export interface SelectedDate {
   beginDate: string | null;
   endDate: string | null;
@@ -9,11 +9,11 @@ type SelectedDateContextProps = {
 };
 
 type SelectedDateContextValue = {
-  selectedRequestDate: SelectedDate;
-  setSelectedRequestDate: (date: SelectedDate) => void;
-  selectedFilterDate: SelectedDate;
-  setSelectedFilterDate: (date: SelectedDate) => void;
   beginDate: Date | null;
+  memoizedSelectedRequestDate: SelectedDate;
+  memoizedSelectedFilterDate: SelectedDate;
+  setSelectedFilterDate: (date: SelectedDate) => void;
+  setSelectedRequestDate: (date: SelectedDate) => void;
   setBeginDate: (value: Date | null) => void;
   resetFiltersDay: () => void;
   resetRequestDay: () => void;
@@ -39,13 +39,22 @@ export const SelectedDateProvider: FC<SelectedDateContextProps> = ({ children })
     setSelectedFilterDate({ beginDate: null, endDate: null });
   };
 
+  const memoizedSelectedRequestDate = useMemo(
+    () => selectedRequestDate,
+    [selectedRequestDate, resetRequestDay],
+  );
+  const memoizedSelectedFilterDate = useMemo(
+    () => selectedFilterDate,
+    [selectedFilterDate, resetFiltersDay],
+  );
+
   return (
     <SelectedDateContext.Provider
       value={{
-        selectedRequestDate,
         setSelectedRequestDate,
-        selectedFilterDate,
         setSelectedFilterDate,
+        memoizedSelectedRequestDate,
+        memoizedSelectedFilterDate,
         beginDate,
         setBeginDate,
         resetRequestDay,

@@ -73,6 +73,7 @@ const useSignUp = () => {
       label: 'name',
       ariaInvalid: errors?.name ? true : false,
       autoFocus: true,
+      disabled: false,
     },
     {
       type: 'email',
@@ -83,6 +84,7 @@ const useSignUp = () => {
       ariaInvalid: errors?.email ? true : false,
       autoFocus: false,
       autofill: 'email',
+      disabled: false,
     },
     {
       type: 'password',
@@ -92,6 +94,7 @@ const useSignUp = () => {
       label: 'password',
       ariaInvalid: errors?.password ? true : false,
       autoFocus: false,
+      disabled: false,
     },
   ];
 
