@@ -9,11 +9,16 @@ interface IAuthModalProps {
   isOpenModal: boolean;
 }
 
+const SIGN_IN_TAB_IDX = 1;
+const SIGN_UP_TAB_IDX = 0;
+
 const AuthModal: FC<IAuthModalProps> = ({ passwordToken, isOpenModal }) => {
   const isCredentialsRemembered = localStorage.getItem('rememberMe');
 
   const [isShowRecoveryInput, setIsShowRecoveryInput] = useState<boolean>(false);
-  const [selectedTab, setSelectedTab] = useState<number>(isCredentialsRemembered ? 1 : 0);
+  const [selectedTab, setSelectedTab] = useState<number>(
+    isCredentialsRemembered ? SIGN_IN_TAB_IDX : SIGN_UP_TAB_IDX,
+  );
 
   const handleShowRecoveryInput = (): void => {
     setIsShowRecoveryInput(!isShowRecoveryInput);
@@ -36,7 +41,7 @@ const AuthModal: FC<IAuthModalProps> = ({ passwordToken, isOpenModal }) => {
       ) : (
         <RemoveScroll enabled={isOpenModal}>
           <Tab.Group
-            defaultIndex={0}
+            defaultIndex={SIGN_UP_TAB_IDX}
             selectedIndex={selectedTab}
             onChange={(index) => {
               setSelectedTab(index);

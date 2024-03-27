@@ -7,7 +7,7 @@ import { LinkAccountsButtons, Toast } from 'components';
 import { UpdateEmail, UpdatePassword } from './subcomponents';
 
 const AccountManagePage: FC<{}> = () => {
-  const { authError, statusMessage } = useAuthRedux();
+  const { authError, statusMessage, isThirdPartyRegister } = useAuthRedux();
 
   const showUpdatedToast =
     statusMessage === 'Email is successfully updated' ||
@@ -25,8 +25,12 @@ const AccountManagePage: FC<{}> = () => {
       </h2>
       <div className='flex items-center justify-end'>
         <div className='w-52 space-y-2 md:w-80 md:space-y-6 lg:w-600px'>
-          <UpdateEmail />
-          <UpdatePassword />
+          {!isThirdPartyRegister && (
+            <>
+              <UpdateEmail />
+              <UpdatePassword />
+            </>
+          )}
           <h3 className='text-darkBase dark:text-whiteBase md:text-2xl lg:mb-4 hg:text-3xl'>
             Connected accounts
           </h3>

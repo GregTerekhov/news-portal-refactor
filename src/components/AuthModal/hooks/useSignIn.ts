@@ -5,42 +5,33 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { useAuthRedux } from 'reduxStore/hooks';
 import { useNotification, useScrollBodyContext } from 'contexts';
 
-import type {
-  AuthRequestWithoutName,
-  AuthInputs,
-  ResponseCryptoPassword,
-  EncryptedPasswordRequest,
-} from 'types';
-import { usePopUp } from 'hooks';
+import type { AuthRequestWithoutName, AuthInputs, EncryptedPasswordRequest } from 'types';
+import { encryptPassword } from 'helpers';
+import { useCrypto, usePopUp } from 'hooks';
 
-import { decryptPassword, encryptPassword, getCheckboxState, signInSchema } from '../assistants';
+import { getCheckboxState, signInSchema } from '../assistants';
 
 const useSignIn = () => {
   const [isChecked, setIsChecked] = useState<boolean>(getCheckboxState());
 
   const { showToast } = useNotification();
   const { setIsScrollDisabled } = useScrollBodyContext();
-  const { login, getCryptoPassword } = useAuthRedux();
+  const { login } = useAuthRedux();
   const { toggleModal } = usePopUp();
+  const { fetchCryptoPassword } = useCrypto();
 
   const savedUserId = localStorage.getItem('userId');
 
-  const fetchPassword = async () => {
-    if (isChecked && savedUserId) {
-      const response = await getCryptoPassword({ userId: savedUserId });
-      const { cryptoData } = response.payload as ResponseCryptoPassword;
-      const { encryptedPassword, salt, email } = cryptoData;
-
-      const savedPassword = await decryptPassword(encryptedPassword, salt);
-
-      if (savedPassword) {
-        setValue('email', email);
-        setValue('password', savedPassword);
-      }
-    }
-  };
-
   useEffect(() => {
+    const fetchPassword = async () => {
+      const cryptoData = await fetchCryptoPassword();
+
+      if (cryptoData && cryptoData.savedPassword) {
+        setValue('email', cryptoData.email);
+        setValue('password', cryptoData.savedPassword);
+      }
+    };
+
     fetchPassword();
   }, []);
 
@@ -79,8 +70,6 @@ const useSignIn = () => {
   > = async (data, e) => {
     e?.preventDefault();
     try {
-      // const { email, password } = data;
-
       if (isChecked && password !== '' && !savedUserId && !errors.password) {
         const { encryptedPassword, salt } = await encryptPassword(password);
         const uniqueUserId = useId();
