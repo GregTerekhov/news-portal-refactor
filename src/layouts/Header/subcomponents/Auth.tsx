@@ -5,7 +5,7 @@ import { useAuthRedux } from 'reduxStore/hooks';
 import { useNotification, useWindowWidth } from 'contexts';
 
 import { ClickHandler, VariantButton } from 'types';
-import { useActiveLinks, useHeaderStyles, usePopUp } from 'hooks';
+import { useActiveLinks, useCrypto, useHeaderStyles, usePopUp } from 'hooks';
 
 import { AuthModal } from 'components';
 import { Modal, PrimaryButton } from 'ui';
@@ -15,16 +15,22 @@ interface AuthButtonProps {
 }
 
 const Auth: FC<AuthButtonProps> = ({ passwordToken }) => {
-  const { wideScreens } = useWindowWidth();
-
   const { logout, isAuthenticated } = useAuthRedux();
-  const { isOpenModal, popUpRef, toggleModal } = usePopUp();
-
-  const { isHomeActive } = useActiveLinks();
-  const { authButtonClass } = useHeaderStyles(isHomeActive);
+  const { wideScreens } = useWindowWidth();
   const { showToast } = useNotification();
 
+  const { isOpenModal, popUpRef, toggleModal } = usePopUp();
+  const { isHomeActive } = useActiveLinks();
+  const { authButtonClass } = useHeaderStyles(isHomeActive);
+  const { fetchCryptoPassword } = useCrypto();
+
   const navigate = useNavigate();
+
+  const onOpenModal = () => {
+    fetchCryptoPassword();
+
+    toggleModal();
+  };
 
   const onSignOut = async (): Promise<void> => {
     const response = await logout();
@@ -41,9 +47,7 @@ const Auth: FC<AuthButtonProps> = ({ passwordToken }) => {
           id={wideScreens ? 'Auth button for signin and signout' : ''}
           ariaLabel={!wideScreens ? 'Auth button for signin and signout' : ''}
           variant={wideScreens ? VariantButton.Primary : VariantButton.Small}
-          onHandleClick={
-            !isAuthenticated ? (toggleModal as ClickHandler) : (onSignOut as ClickHandler)
-          }
+          onHandleClick={!isAuthenticated ? onOpenModal : (onSignOut as ClickHandler)}
           hasIcon={true}
           svgName={`${isAuthenticated ? 'signout' : 'auth'}`}
           svgSize={wideScreens ? 'mdIcon28' : 'mdIcon24'}

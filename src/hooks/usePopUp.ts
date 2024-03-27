@@ -54,10 +54,10 @@ const usePopUp = () => {
     setIsOpenCalendar(!isOpenCalendar);
   }, [isOpenCalendar]);
 
-  const toggleModal = (e: React.MouseEvent<HTMLButtonElement>, preventDefault: boolean = true) => {
+  const toggleModal = (e?: React.MouseEvent<HTMLButtonElement>, preventDefault: boolean = true) => {
     if (preventDefault) {
-      e.preventDefault();
-      e.stopPropagation();
+      e?.preventDefault();
+      e?.stopPropagation();
     }
 
     setIsOpenModal(!isOpenModal);
