@@ -1,12 +1,11 @@
 import React, { FC } from 'react';
-import { format } from 'date-fns';
 
 import type { IHistoryLog } from 'types';
 import { useWindowWidth } from 'contexts';
 
 import { CustomScrollBar } from 'ui';
 
-import { tableHeads } from '../assistants';
+import { formatTableDates, tableHeads } from '../assistants';
 
 interface TableProps {
   displayedRows: IHistoryLog[];
@@ -33,7 +32,7 @@ const DeletedNewsTable: FC<TableProps> = ({ displayedRows }) => {
   };
 
   const tableRowClass =
-    'whitespace-nowrap px-6 py-4 text-small font-medium text-darkBase dark:text-whiteBase lg:text-medium';
+    'whitespace-nowrap px-6 text-small font-medium text-darkBase dark:text-whiteBase lg:text-medium';
 
   return (
     <CustomScrollBar isOpen={true} orientation='horizontal'>
@@ -53,27 +52,23 @@ const DeletedNewsTable: FC<TableProps> = ({ displayedRows }) => {
         </thead>
         <tbody className='divide-y divide-whiteBase transition-colors duration-500 dark:divide-gray-700'>
           {Array.isArray(displayedRows) &&
-            displayedRows.map((displayedRow) => {
-              const { title, newsUrl, category, additionDate, deletionDate } = displayedRow;
-              const formattedAdditionDate = format(additionDate, 'dd/MM/yyyy');
-              const formattedDeletionDate = format(deletionDate, 'dd/MM/yyyy');
-              return (
-                <tr key={newsUrl} className='group even:bg-greyAlt/[.1]'>
-                  <td className={`${tableRowClass}`}>
-                    <a
-                      href={newsUrl}
-                      target='_blank'
-                      className='group-hocus:text-accentBase transition-colors duration-500 lg:text-medium'
-                    >
-                      {getNewsTitle(title)}
-                    </a>
-                  </td>
-                  <td className={`${tableRowClass}`}>{category}</td>
-                  <td className={`${tableRowClass}`}>{formattedAdditionDate}</td>
-                  <td className={`${tableRowClass}`}>{formattedDeletionDate}</td>
-                </tr>
-              );
-            })}
+            displayedRows.map(({ title, newsUrl, category, additionDate, deletionDate }) => (
+              <tr key={newsUrl} className='group even:bg-greyAlt/[.1]'>
+                <td className={`${tableRowClass}`}>
+                  <a
+                    href={newsUrl}
+                    target='_blank'
+                    rel='noopener noreferrer nofollow'
+                    className='block py-4 transition-colors duration-500 focus:text-accentBase group-hover:text-accentBase lg:text-medium'
+                  >
+                    {getNewsTitle(title)}
+                  </a>
+                </td>
+                <td className={`${tableRowClass}`}>{category}</td>
+                <td className={`${tableRowClass}`}>{formatTableDates(additionDate)}</td>
+                <td className={`${tableRowClass}`}>{formatTableDates(deletionDate)}</td>
+              </tr>
+            ))}
         </tbody>
       </table>
     </CustomScrollBar>

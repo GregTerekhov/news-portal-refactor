@@ -1,5 +1,7 @@
 import React, { FC, ReactNode } from 'react';
 
+import Container from '../../Container';
+
 interface MobileContainerProps {
   isOpen: boolean | undefined;
   children: ReactNode;
@@ -10,11 +12,9 @@ const MobileContainer: FC<MobileContainerProps> = ({ isOpen, children }) => {
     isOpen ? 'left-0' : '-left-full'
   }`;
 
-  const containerStyles = 'container mx-auto px-4 flex h-full flex-col justify-between';
-
   return (
     <div className={`${backgroundMenuStyles}`}>
-      <div className={`${containerStyles}`}>{children}</div>
+      <Container className='flex h-full flex-col justify-between'>{children}</Container>
     </div>
   );
 };

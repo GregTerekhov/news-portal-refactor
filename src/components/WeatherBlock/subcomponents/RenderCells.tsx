@@ -2,13 +2,21 @@ import React from 'react';
 
 import type { HourlyWeatherData } from 'types';
 
-import { hPaToMmHg } from '../assistants';
+import { convertTemperature, hPaToMmHg } from '../assistants';
 
 const cellCommonStyles =
   'py-1.5 text-center text-small text-whiteBase md:py-4 md:text-base hg:text-medium';
 
-export const RenderTemperatureCell = (item: HourlyWeatherData): JSX.Element => {
-  return <td className={`${cellCommonStyles}`}>{Math.ceil(item?.main?.temp)}°C</td>;
+export const RenderTemperatureCell = (item: HourlyWeatherData, isCelsius: boolean): JSX.Element => {
+  console.log('isCelsius', isCelsius);
+
+  return (
+    <td className={`${cellCommonStyles}`}>
+      {isCelsius
+        ? convertTemperature(item?.main?.temp, true) + 'C'
+        : convertTemperature(item?.main?.temp, false) + 'F'}
+    </td>
+  );
 };
 
 export const RenderWeatherIconCell = (item: HourlyWeatherData): JSX.Element => {

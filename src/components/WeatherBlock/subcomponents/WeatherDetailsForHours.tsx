@@ -9,11 +9,15 @@ import { Hint, SvgIcon } from 'ui';
 
 import { convertUnixTimestampToHHMM, getWeatherTableForHours } from '../assistants';
 
-const WeatherDetailsForHours: FC = () => {
+interface WeatherForHoursProps {
+  isCelsius: boolean;
+}
+
+const WeatherDetailsForHours: FC<WeatherForHoursProps> = ({ isCelsius }) => {
   const { hourlyWeather } = useWeatherAPI();
   const { isMobile } = useWindowWidth();
 
-  const rows = getWeatherTableForHours();
+  const rows = getWeatherTableForHours(isCelsius);
 
   return (
     <div
@@ -67,7 +71,7 @@ const WeatherDetailsForHours: FC = () => {
                 {hourlyWeather &&
                   Array.isArray(hourlyWeather) &&
                   hourlyWeather.map((item: HourlyWeatherData) => (
-                    <React.Fragment key={item?.dt}>{renderCell(item)}</React.Fragment>
+                    <React.Fragment key={item?.dt}>{renderCell(item, isCelsius)}</React.Fragment>
                   ))}
               </tr>
             </Hint>

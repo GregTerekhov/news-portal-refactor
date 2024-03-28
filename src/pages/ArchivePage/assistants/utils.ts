@@ -27,3 +27,7 @@ export const organiseNewsByMonth = (
 
   return organisedNews;
 };
+
+export const formatTableDates = (changingDate: number): string => {
+  return format(changingDate, 'dd/MM/yyyy');
+};
