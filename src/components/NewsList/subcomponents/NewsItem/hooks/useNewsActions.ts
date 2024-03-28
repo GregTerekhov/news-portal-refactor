@@ -40,6 +40,7 @@ const useNewsActions = ({
   const existingNews = savedNews?.find((news) => news.newsUrl === liveNews.newsUrl);
   const savedFavourite = existingNews?.isFavourite;
   const savedRead = existingNews?.hasRead;
+  const savedClickDate = existingNews?.additionDate;
 
   const clickDate = new Date().getTime();
 
@@ -59,7 +60,12 @@ const useNewsActions = ({
     setIsFavourite(!savedFavourite);
 
     if (!savedFavourite && savedRead) {
-      const updatedData = { ...liveNews, isFavourite: true };
+      const updatedData = {
+        ...liveNews,
+        isFavourite: true,
+        hasRead: savedRead,
+        additionDate: savedClickDate,
+      };
       updateSavedNews(updatedData);
     } else if (savedFavourite && !savedRead) {
       const updatedData = {
@@ -74,6 +80,7 @@ const useNewsActions = ({
         ...liveNews,
         isFavourite: false,
         hasRead: savedRead,
+        additionDate: savedClickDate,
       };
       updateSavedNews(updatedData);
       removeFavouriteNews(liveNews?.newsUrl || '');
@@ -113,7 +120,9 @@ const useNewsActions = ({
 
           const updatedData = {
             ...liveNews,
+            isFavourite: savedFavourite,
             hasRead: true,
+            additionDate: savedClickDate,
           };
           updateSavedNews(updatedData);
         } else if (savedRead === true) {

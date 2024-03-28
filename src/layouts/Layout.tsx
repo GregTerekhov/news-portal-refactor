@@ -13,6 +13,7 @@ import { ThemeSwitcher } from 'ui';
 import { Hero, PageScrollController } from './subcomponents';
 import Header from './Header/Header';
 import Footer from './Footer/Footer';
+import Container from './Container';
 
 const Layout: FC = () => {
   const { isNotMobile } = useWindowWidth();
@@ -59,7 +60,7 @@ const Layout: FC = () => {
     isAccountPages ||
     (isFavoriteActive && allFavourites?.length === 0) ||
     isReadActive ||
-    (isArchiveActive && allArchive?.length === 0) // питання відкрите саме по сторінці Archive
+    (isArchiveActive && allArchive?.length === 0)
       ? 'h-screen'
       : 'h-full';
 
@@ -78,7 +79,7 @@ const Layout: FC = () => {
               : 'pt-6 md:pt-7 hg:pt-[60px]'
           }`}
         >
-          <div className='container mx-auto px-4 hg:px-[65px]'>
+          <Container>
             {!isNotMobile && !isErrorPage && (
               <div className='mb-10 flex justify-end'>
                 <ThemeSwitcher variant={VariantSwitcher.Header} />
@@ -108,7 +109,7 @@ const Layout: FC = () => {
               </>
             ) : null}
             <Outlet />
-          </div>
+          </Container>
         </section>
       </main>
       {!isErrorPage && <Footer />}

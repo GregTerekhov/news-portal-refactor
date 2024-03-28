@@ -34,7 +34,7 @@ type TableRows = {
   icon: string;
   iconSize: keyof typeof ICON_SIZES;
   iconColorStyles: string;
-  renderCell: (item: HourlyWeatherData) => ReactElement;
+  renderCell: (item: HourlyWeatherData, isCelsius: boolean) => ReactElement;
 };
 
 export const getWeatherDetailsForToday = (
@@ -121,10 +121,10 @@ export const getWeatherDetailsForToday = (
   return weatherDetails;
 };
 
-export const getWeatherTableForHours = (): TableRows[] => {
+export const getWeatherTableForHours = (isCelsius: boolean): TableRows[] => {
   const rows: TableRows[] = [
     {
-      label: 'Temperature in °C',
+      label: `Temperature in °${isCelsius ? 'C' : 'F'}`,
       icon: 'thermometer',
       iconSize: 'mdIcon24',
       iconColorStyles: 'fill-whiteBase',

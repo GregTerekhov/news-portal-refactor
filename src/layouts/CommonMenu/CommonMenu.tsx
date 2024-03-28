@@ -21,10 +21,11 @@ export interface CommonMenuProps {
 export type MobileMenu = Omit<CommonMenuProps, 'navId'>;
 
 const CommonMenu: FC<CommonMenuProps> = ({ isOpen, navId, closeMenu }) => {
-  const { isMobile } = useWindowWidth();
   const { resetAllFiltersResults } = useFiltersAction();
-  const { resetFilters } = useFiltersState();
   const { user, logout } = useAuthRedux();
+
+  const { isMobile } = useWindowWidth();
+  const { resetFilters } = useFiltersState();
   const { showToast } = useNotification();
 
   const activeLinks = useActiveLinks();
@@ -87,7 +88,9 @@ const CommonMenu: FC<CommonMenuProps> = ({ isOpen, navId, closeMenu }) => {
             handleLinkClick={handleLinkClick}
             activeLinks={activeLinks}
           />
-          <hr className='!border-greyAlt transition-colors duration-500 dark:!border-accentBase' />
+          {navId === 'account-navigation' ? (
+            <hr className='!border-greyAlt transition-colors duration-500 dark:!border-accentBase' />
+          ) : null}
           {navId === 'account-navigation' ? <SignOutButton handleSignOut={handleSignOut} /> : null}
         </>
       )}

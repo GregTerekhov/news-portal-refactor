@@ -2,7 +2,7 @@ import axios, { AxiosResponse } from 'axios';
 
 import { axiosInstance, createAppAsyncThunk } from '../services';
 
-import { CONFIG } from 'config';
+import { getRequestUrl } from './helpers';
 
 type QueryParams = Record<string, string | object | number>;
 
@@ -29,16 +29,7 @@ export const requestTemplate = <Arg, Result>(
 ) => {
   return createAppAsyncThunk<Result, Arg>(name, async (args, { rejectWithValue }) => {
     try {
-      let requestUrl = '';
-
-      // Динамічне додавання базового URL
-      if (name.includes('auth')) {
-        requestUrl = `${CONFIG.BASE_URL_DB}` + url;
-      } else if (name.includes('apiNews')) {
-        requestUrl = `${CONFIG.BASE_URL_NEWS}` + url;
-      } else if (name.includes('weather')) {
-        requestUrl = `${CONFIG.BASE_URL_WEATHER}` + url;
-      }
+      let requestUrl = getRequestUrl(name, url);
 
       if (args) {
         // Додавання динамічних даних до URL
@@ -89,11 +80,11 @@ export const requestTemplate = <Arg, Result>(
         ],
       });
 
-      console.log(`${name}Response`, response);
+      // console.log(`${name}Response`, response);
       // після transformResponse сюди потрапляють всі необхідні дані в одному рівні вкладеності в об'єкт response.data
       return response.data;
     } catch (error: any) {
-      console.log(`Error ${name}`, error.response);
+      // console.log(`Error ${name}`, error.response);
 
       if (error.response.status && (error.response.status >= 500 || error.response.status >= 429)) {
         return rejectWithValue(error.response.status || 'Unknown error');
@@ -117,10 +108,10 @@ export const requestWithInstanceTemplate = <Arg, Result>(
       }
 
       const response = await axiosInstance[method]<Result>(url, args);
-      console.log(`${name}Response`, response.data);
+      // console.log(`${name}Response`, response.data);
       return response.data;
     } catch (error: any) {
-      console.log(`Error ${name}`, error.response);
+      // console.log(`Error ${name}`, error.response);
 
       if (error.response.status && error.response.status >= 500) {
         return rejectWithValue(error.response.status || 'Unknown error');

@@ -68,7 +68,7 @@ const WeatherBlock: FC<{}> = () => {
                 className={`grid h-full w-full grid-cols-1 grid-rows-1 transition-transform transform-style-3d ${flippingCard}`}
               >
                 <WeatherDetailsForToday />
-                <WeatherDetailsForHours />
+                <WeatherDetailsForHours isCelsius={isCelsius} />
               </div>
             </div>
           </>

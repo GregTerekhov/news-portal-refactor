@@ -11,6 +11,7 @@ import { AuthModal } from 'components';
 import { Modal, ThemeSwitcher } from 'ui';
 
 import { AuthButton, AuthenticatedHeaderContent } from './subcomponents';
+import Container from '../Container';
 
 const Header: FC<{}> = () => {
   const [isOpenMenu, setIsOpenMenu] = useState<boolean>(false);
@@ -60,10 +61,10 @@ const Header: FC<{}> = () => {
           isOpenModal ? 'pointer-events-none z-0' : 'pointer-events-auto z-50'
         }`}
       >
-        <div
-          className={`container relative mx-auto flex items-center justify-between px-4 hg:px-[65px] ${
+        <Container
+          className={`${
             isAuthenticated ? 'gap-3.5' : ''
-          }`}
+          } relative flex items-center justify-between`}
         >
           <Link
             to='/'
@@ -86,7 +87,7 @@ const Header: FC<{}> = () => {
               {isNotMobile ? <ThemeSwitcher variant={VariantSwitcher.Header} /> : null}
             </div>
           )}
-        </div>
+        </Container>
       </header>
       {isOpenModal && (
         <Modal closeModal={toggleModal} modalRef={popUpRef}>
