@@ -52,13 +52,13 @@ const ControlButtons: FC = () => {
           <div className='md:max-lg:flex md:max-lg:items-center md:max-lg:justify-end'>
             {isTablet && renderHintText()}
           </div>
-          <div className='md-max-lg:col-start-8 md:flex md:items-center md:justify-end lg:items-end'>
+          <div className='md:col-start-8 md:flex md:items-center md:justify-end lg:col-start-[15] lg:row-start-2 lg:items-end'>
             <div className='lg:space-y-2'>
               {wideScreens && renderHintText()}
               {RenderButtons([controlButtons[1]])}
             </div>
           </div>
-          <div className='md-max-lg:col-start-9 md:flex md:items-center md:justify-start lg:items-end'>
+          <div className='md:col-start-9 md:flex md:items-center md:justify-start lg:col-start-[16] lg:row-start-2 lg:items-end'>
             {RenderButtons([controlButtons[3]])}
           </div>
         </>
