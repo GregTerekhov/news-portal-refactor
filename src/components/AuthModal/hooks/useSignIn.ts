@@ -80,7 +80,8 @@ const useSignIn = () => {
 
         const response = await login({
           email,
-          password: { encryptedPassword, salt, userId: uniqueUserId },
+          password,
+          cryptoData: { encryptedPassword, salt, userId: uniqueUserId },
         });
 
         showToast(response.meta.requestStatus);

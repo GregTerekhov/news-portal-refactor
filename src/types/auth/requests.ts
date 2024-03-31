@@ -17,7 +17,9 @@ export interface GetCryptoPassword {
 
 export type SendEncryptedPassword = EncryptedPassword & GetCryptoPassword;
 
-export type EncryptedPasswordRequest = SendEmailRequest & { password: SendEncryptedPassword };
+export type EncryptedPasswordRequest = AuthRequestWithoutName & {
+  cryptoData: SendEncryptedPassword;
+};
 
 export type SignInRequest = AuthRequestWithoutName | EncryptedPasswordRequest;
 

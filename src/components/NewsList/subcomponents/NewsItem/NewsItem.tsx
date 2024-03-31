@@ -23,7 +23,7 @@ const NewsItem: FC<Partial<NewsItemProps>> = ({ liveNews = {} }) => {
   const { isOpenModal, toggleModal, popUpRef } = usePopUp();
   const { isHomeActive, isArchiveActive } = useActiveLinks();
   const { isFavourite, hasRead, handleChangeFavourites, handleReadNews, handleDeleteNews } =
-    useNews({ liveNews, isArchiveActive });
+    useNews({ liveNews });
 
   const handleDeleteNewsWrapper = async (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
