@@ -29,6 +29,7 @@ const VoteButton: FC<VBProps> = ({ onHandleClick, isFavourite, buttonData }) => 
   const buttonStyles = `absolute bottom-3 right-2 z-20 flex items-center gap-x-1 rounded-3xl bg-contrastWhite px-3 py-1.5 ${onButHover} ${
     !isArchiveActive ? 'group hocus:bg-accentBase hocus:text-whiteBase' : ''
   } text-small font-medium text-darkBase transition-colors duration-500 lg:text-medium`;
+  // console.log('isFavourite', isFavourite);
 
   const getButtonLabel = (): ButtonLabel => {
     switch (true) {

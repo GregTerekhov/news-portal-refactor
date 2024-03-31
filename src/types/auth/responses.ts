@@ -44,7 +44,6 @@ interface SignInResponse {
   accessToken: string;
   refreshToken: string;
   haveAccounts: HaveAccounts;
-  thirdPartyRegister: boolean;
 }
 export type CredentialSignInResponse = ServicesInfo & SignInResponse;
 

@@ -48,7 +48,6 @@ const authSlice = createSlice({
         state.accessToken = action.payload.accessToken;
         state.refreshToken = action.payload.refreshToken;
         state.haveAccounts = action.payload.haveAccounts;
-        if (action.payload.thirdPartyRegister) state.thirdPartyRegister = true;
       })
       .addCase(authOperations.getSavedPassword.fulfilled, (state, action) => {
         state.receivedCryptoPassword = action.payload;

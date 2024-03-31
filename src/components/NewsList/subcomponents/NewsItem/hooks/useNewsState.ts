@@ -1,22 +1,19 @@
 import { useEffect, useState } from 'react';
 
-import type { PartialVotedNewsArray, VotedItem } from 'types';
+import { useAuthRedux, useDB } from 'reduxStore/hooks';
+import type { VotedItem } from 'types';
+
+import { useActiveLinks } from 'hooks';
 
 type NewsStateHookProps = {
-  isArchiveActive: boolean;
-  isAuthenticated: boolean;
   liveNews: Partial<VotedItem>;
-  savedNews: PartialVotedNewsArray;
-  allArchive: PartialVotedNewsArray;
 };
 
-const useNewsState = ({
-  isArchiveActive,
-  isAuthenticated,
-  liveNews,
-  savedNews,
-  allArchive,
-}: NewsStateHookProps) => {
+const useNewsState = ({ liveNews }: NewsStateHookProps) => {
+  const { savedNews, allArchive } = useDB();
+  const { isAuthenticated } = useAuthRedux();
+  const { isArchiveActive } = useActiveLinks();
+
   const newsArray = isArchiveActive ? allArchive : savedNews;
   const allSavedNews = newsArray?.find((news) => news.newsUrl === liveNews?.newsUrl);
 

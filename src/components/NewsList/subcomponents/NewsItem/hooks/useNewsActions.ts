@@ -4,21 +4,15 @@ import { useDB } from 'reduxStore/hooks';
 import { useNotification, useScrollBodyContext } from 'contexts';
 
 import type { VotedItem } from 'types';
+import { useActiveLinks } from 'hooks';
 
 type NewsActionHookProps = {
-  isArchiveActive: boolean;
-  isAuthenticated: boolean;
   liveNews: Partial<VotedItem>;
   setIsFavourite: (isFavourite: boolean) => void;
   setHasRead: (hasRead: boolean) => void;
 };
 
-const useNewsActions = ({
-  isArchiveActive,
-  liveNews,
-  setIsFavourite,
-  setHasRead,
-}: NewsActionHookProps) => {
+const useNewsActions = ({ liveNews, setIsFavourite, setHasRead }: NewsActionHookProps) => {
   const [changesHappened, setChangesHappened] = useState<boolean>(false);
   const [isDeleted, setIsDeleted] = useState<boolean>(false);
 
@@ -26,6 +20,8 @@ const useNewsActions = ({
 
   const { showToast } = useNotification();
   const { setIsScrollDisabled } = useScrollBodyContext();
+
+  const { isArchiveActive } = useActiveLinks();
 
   useEffect(() => {
     if (changesHappened && savedNews) {
@@ -49,7 +45,7 @@ const useNewsActions = ({
 
     const updatedData = {
       ...liveNews,
-      isFavourite: true,
+      isFavourite: !savedFavourite,
       additionDate: clickDate,
     };
 
@@ -62,7 +58,7 @@ const useNewsActions = ({
     if (!savedFavourite && savedRead) {
       const updatedData = {
         ...liveNews,
-        isFavourite: true,
+        isFavourite: !savedFavourite,
         hasRead: savedRead,
         additionDate: savedClickDate,
       };
@@ -70,7 +66,7 @@ const useNewsActions = ({
     } else if (savedFavourite && !savedRead) {
       const updatedData = {
         ...liveNews,
-        isFavourite: false,
+        isFavourite: !savedFavourite,
         additionDate: null,
       };
       updateSavedNews(updatedData);
@@ -78,7 +74,7 @@ const useNewsActions = ({
     } else if (savedFavourite && savedRead) {
       const updatedData = {
         ...liveNews,
-        isFavourite: false,
+        isFavourite: !savedFavourite,
         hasRead: savedRead,
         additionDate: savedClickDate,
       };
