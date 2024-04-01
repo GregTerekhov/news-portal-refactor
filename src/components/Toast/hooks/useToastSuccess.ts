@@ -1,15 +1,17 @@
-import { useAuthRedux, useDB } from 'reduxStore/hooks';
+import { useAuthRedux, useDBRedux } from 'reduxStore/hooks';
 
 import type { ToastMessage } from 'types';
 
 const useToastSuccess = () => {
   const { statusMessage, haveAccounts } = useAuthRedux();
-  const { dbSuccessMessage } = useDB();
+  const { dbSuccessMessage } = useDBRedux();
 
+  //Функція виведення заголовка та опису для тостів успіху
   const chooseSuccessToastText = (statusMessage: string): ToastMessage => {
     let title = '';
     let description = '';
 
+    //Визначення наявності значення прив'язаного акаунту
     const linkingAccount = Object.keys(haveAccounts).find((key) =>
       haveAccounts.hasOwnProperty(key),
     );
@@ -18,6 +20,10 @@ const useToastSuccess = () => {
       case 'User sign-in success':
         title = 'Welcome';
         description = 'Welcome to New York Times News Viewer';
+        break;
+      case 'Your saved password has been successfully retrieved':
+        title = 'Paste credentials';
+        description = 'Your credentials have been successfully inserted';
         break;
       case 'Sign-out success':
         title = 'Goodbye';
@@ -61,8 +67,10 @@ const useToastSuccess = () => {
     return { title, description };
   };
 
+  //Визначення статусу успіху в залежності від API
   const responseMessage = statusMessage || dbSuccessMessage;
 
+  //Функція-обгортка
   const showSuccessToast = (): ToastMessage => {
     return chooseSuccessToastText(responseMessage);
   };

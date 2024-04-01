@@ -1,8 +1,15 @@
-import { useFiltersState } from 'contexts';
+import { useFiltersStateContext } from 'contexts';
+
+interface FilterInputs {
+  name: string;
+  value: string;
+  placeholder: string;
+}
 
 const useChangeFilter = () => {
-  const { filters, setFilters } = useFiltersState();
+  const { filters, setFilters } = useFiltersStateContext();
 
+  //Функція зміни значення станів інпутів для фільтрів
   const handleChangeFilter = (event: React.ChangeEvent<HTMLInputElement>): void => {
     const { name, value } = event.target;
     setFilters({
@@ -11,6 +18,7 @@ const useChangeFilter = () => {
     });
   };
 
+  //Функція зміни значення стану dropdown-фільтра
   const handleMaterialTypeChange = (selectedType: string): void => {
     setFilters({
       ...filters,
@@ -18,7 +26,31 @@ const useChangeFilter = () => {
     });
   };
 
-  return { handleChangeFilter, handleMaterialTypeChange };
+  //Data для інпутів фільтрації
+  const filterInputs: FilterInputs[] = [
+    {
+      name: 'keyword',
+      value: filters.keyword,
+      placeholder: 'Keyword',
+    },
+    {
+      name: 'author',
+      value: filters.author,
+      placeholder: 'Author',
+    },
+    {
+      name: 'title',
+      value: filters.title,
+      placeholder: 'Title',
+    },
+    {
+      name: 'publisher',
+      value: filters.publisher,
+      placeholder: 'Publisher',
+    },
+  ];
+
+  return { filterInputs, handleChangeFilter, handleMaterialTypeChange };
 };
 
 export default useChangeFilter;

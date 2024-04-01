@@ -2,7 +2,7 @@ import React, { FC, ReactNode } from 'react';
 import { createPortal } from 'react-dom';
 import { RemoveScroll } from 'react-remove-scroll';
 
-import { useWindowWidth } from 'contexts';
+import { useWindowWidthContext } from 'contexts';
 import { usePopUp } from 'hooks';
 
 import SvgIcon from '../SvgIcon';
@@ -17,8 +17,8 @@ interface ModalProps {
 }
 
 const Modal: FC<ModalProps> = ({ children, closeModal, modalRef }) => {
+  const { wideScreens } = useWindowWidthContext();
   const { isOpenModal } = usePopUp();
-  const { wideScreens } = useWindowWidth();
 
   const backdropStyles =
     'fixed left-0 top-0 z-100 h-screen flex items-center justify-center w-full mx-auto overflow-auto bg-whiteBase/[.4] backdrop-blur-sm transition-colors before:fixed before:left-0 before:top-0 before:h-81px before:w-full before:content-[""] dark:bg-darkBackground/[.4]';
@@ -42,7 +42,7 @@ const Modal: FC<ModalProps> = ({ children, closeModal, modalRef }) => {
                     <SvgIcon
                       svgName='close'
                       sizeKey={wideScreens ? 'mdIcon28' : 'smIcon20'}
-                      className='hocus:stroke-accentBase stroke-darkBase dark:stroke-whiteBase dark:hover:stroke-accentBase dark:focus:stroke-accentBase'
+                      className='stroke-darkBase hocus:stroke-accentBase dark:stroke-whiteBase dark:hover:stroke-accentBase dark:focus:stroke-accentBase'
                     />
                   </button>
                   {children}

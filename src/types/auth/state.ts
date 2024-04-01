@@ -1,5 +1,5 @@
-import { ThemeValue } from './requests';
-import { ReceivedCryptoPassword } from './responses';
+import type { ThemeValue } from './requests';
+import type { ReceivedCryptoPassword } from './responses';
 
 export interface AuthState {
   message: string;

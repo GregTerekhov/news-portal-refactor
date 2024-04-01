@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 
-import { useAuthRedux, useDB } from 'reduxStore/hooks';
+import { useAuthRedux, useDBRedux } from 'reduxStore/hooks';
 import type { VotedItem } from 'types';
 
 import { useActiveLinks } from 'hooks';
@@ -10,7 +10,7 @@ type NewsStateHookProps = {
 };
 
 const useNewsState = ({ liveNews }: NewsStateHookProps) => {
-  const { savedNews, allArchive } = useDB();
+  const { savedNews, allArchive } = useDBRedux();
   const { isAuthenticated } = useAuthRedux();
   const { isArchiveActive } = useActiveLinks();
 

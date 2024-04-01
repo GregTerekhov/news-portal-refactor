@@ -1,7 +1,7 @@
 import React, { ReactNode, FC } from 'react';
 
 import { VariantInputs } from 'types';
-import { useWindowWidth } from 'contexts';
+import { useWindowWidthContext } from 'contexts';
 
 import { useHeaderStyles, useActiveLinks } from 'hooks';
 
@@ -38,14 +38,14 @@ const UnverifiableInput: FC<InputProps> = ({
   hideInput,
   onChange,
 }) => {
-  const { isMobile } = useWindowWidth();
+  const { isMobile } = useWindowWidthContext();
 
   const { name, type, value, placeholder, children } = inputData ?? {};
 
   const { isHomeActive } = useActiveLinks();
   const { inputClass } = useHeaderStyles(isHomeActive);
 
-  const onHideInput = (event: React.MouseEvent<HTMLInputElement>) => {
+  const onHideInput = (event: React.MouseEvent<HTMLInputElement>): void => {
     if (hideInput) {
       hideInput(event);
     }

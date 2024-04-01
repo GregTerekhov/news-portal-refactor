@@ -1,6 +1,7 @@
 import memoizeOne from 'memoize-one';
 import * as yup from 'yup';
 
+//Мемоїзація схеми валідації користувацької пошти
 export const createEmailValidation = memoizeOne(() =>
   yup
     .string()
@@ -9,6 +10,7 @@ export const createEmailValidation = memoizeOne(() =>
     .trim(),
 );
 
+//Мемоїзація схеми валідації користувацького пароля
 export const createPasswordValidation = memoizeOne(() =>
   yup
     .string()
@@ -21,10 +23,12 @@ export const createPasswordValidation = memoizeOne(() =>
     .trim(),
 );
 
+//Мемоїзація схеми валідації поточного користувацького пароля
 export const createCurrentPassword = memoizeOne(() =>
   yup.string().required('Please enter your current password to confirm changes').trim(),
 );
 
+//Мемоїзація схеми валідації повтора користувацького пароля
 export const createConfirmPasswordValidation = memoizeOne(
   (passwordValidation: yup.StringSchema<string>) =>
     yup

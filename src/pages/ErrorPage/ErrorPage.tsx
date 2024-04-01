@@ -21,6 +21,7 @@ const ErrorPage: FC<{}> = () => {
   const matchedErrorImage = generateContentImages(errorImages, devicePixelRatio, window.innerWidth);
   const imageUrl = useCacheImage(matchedErrorImage?.src || '');
 
+  //Функції навігації зі сторінки помилки
   const handleGoHome = () => navigate('/');
   const handleGoBack = () => navigate(-1);
 

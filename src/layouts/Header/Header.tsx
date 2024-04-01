@@ -1,8 +1,8 @@
 import React, { FC, useEffect, useState } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 
-import { useAuthRedux, useFiltersAction } from 'reduxStore/hooks';
-import { useScrollBodyContext, useWindowWidth } from 'contexts';
+import { useAuthRedux, useFiltersRedux } from 'reduxStore/hooks';
+import { useScrollBodyContext, useWindowWidthContext } from 'contexts';
 
 import { VariantSwitcher } from 'types';
 import { useActiveLinks, useHeaderStyles, usePopUp } from 'hooks';
@@ -21,9 +21,14 @@ const Header: FC<{}> = () => {
   const token: string | null = searchParams.get('token');
   const openModal: string | null = searchParams.get('openModal');
 
-  const { isOpenModal, setIsOpenModal, toggleModal, popUpRef } = usePopUp();
   const { isAuthenticated, user, writeTokens } = useAuthRedux();
+  const { filteredNews, resetAllFiltersResults } = useFiltersRedux();
   const { isScrollDisabled, setIsScrollDisabled } = useScrollBodyContext();
+  const { isNotMobile } = useWindowWidthContext();
+
+  const { isOpenModal, setIsOpenModal, toggleModal, popUpRef } = usePopUp();
+  const { isHomeActive } = useActiveLinks();
+  const { headerClass, textClass } = useHeaderStyles(isHomeActive);
 
   useEffect(() => {
     if (!user.id && token && openModal) {
@@ -34,16 +39,13 @@ const Header: FC<{}> = () => {
     }
   }, [token, openModal, user]);
 
-  const { isNotMobile } = useWindowWidth();
-  const { filteredNews, resetAllFiltersResults } = useFiltersAction();
-  const { isHomeActive } = useActiveLinks();
-  const { headerClass, textClass } = useHeaderStyles(isHomeActive);
-
+  //Функція toggle для мобільного меню
   const toggleMenu = (): void => {
     setIsOpenMenu(!isOpenMenu);
     setIsScrollDisabled(!isScrollDisabled);
   };
 
+  //Скидання значень фільтрації новин
   const resetFilters = (): void => {
     if (filteredNews && filteredNews.length > 0) {
       resetAllFiltersResults();

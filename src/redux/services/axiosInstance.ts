@@ -1,39 +1,9 @@
 import axios, { AxiosInstance } from 'axios';
 import { jwtDecode, JwtPayload } from 'jwt-decode';
-import dayjs from 'dayjs';
 
 import { store, RootState } from '../store';
 import { CONFIG } from 'config';
-import { setTokens } from '../auth';
-
-import type { RefreshTokensResponse } from 'types';
-
-const updateTokens = async () => {
-  const state = store.getState() as RootState;
-  const persistedToken = state.auth.refreshToken;
-
-  if (!persistedToken) {
-    throw new Error('Refresh token is missing');
-  }
-
-  try {
-    const response = await axios.post<RefreshTokensResponse>(`${CONFIG.BASE_URL_DB}/auth/refresh`, {
-      refreshToken: persistedToken,
-    });
-    store.dispatch(setTokens(response.data.data));
-  } catch (error) {
-    console.error('Token refreshing error', error);
-    throw error;
-  }
-};
-
-const isTokenExpired = (tokenStatus: JwtPayload): boolean | undefined => {
-  const currentTime = dayjs().unix();
-  const tokenExpiryTime = tokenStatus.exp; // час смерті токена
-  if (tokenExpiryTime) return currentTime > tokenExpiryTime;
-
-  return undefined;
-};
+import { isTokenExpired, updateTokens } from './helpers';
 
 const createAxiosInstance = () => {
   const axiosInstance: AxiosInstance = axios.create({

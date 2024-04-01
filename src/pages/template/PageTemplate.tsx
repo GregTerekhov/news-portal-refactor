@@ -1,8 +1,8 @@
 import React, { FC, ReactElement, ReactNode, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import { useAuthRedux, useDB, useNewsAPI } from 'reduxStore/hooks';
-import { useNotification } from 'contexts';
+import { useAuthRedux, useDBRedux, useNewsAPIRedux } from 'reduxStore/hooks';
+import { useNotificationContext } from 'contexts';
 
 import { useActiveLinks, useChooseRenderingNews } from 'hooks';
 
@@ -16,10 +16,10 @@ interface PageTemplateProps {
 }
 
 const PageTemplate: FC<PageTemplateProps> = ({ children }) => {
-  const { errorDB } = useDB();
+  const { errorDB } = useDBRedux();
   const { authError } = useAuthRedux();
-  const { errorAPI } = useNewsAPI();
-  const { setOpenToast } = useNotification();
+  const { errorAPI, headline } = useNewsAPIRedux();
+  const { setOpenToast } = useNotificationContext();
 
   const activeLinks = useActiveLinks();
   const { rebuildedNews } = useChooseRenderingNews(activeLinks);
@@ -30,7 +30,7 @@ const PageTemplate: FC<PageTemplateProps> = ({ children }) => {
 
   const navigate = useNavigate();
 
-  const { isFavoriteActive, isReadActive } = activeLinks;
+  const { isHomeActive, isFavoriteActive, isReadActive, isArchiveActive } = activeLinks;
 
   useEffect(() => {
     if (
@@ -46,11 +46,30 @@ const PageTemplate: FC<PageTemplateProps> = ({ children }) => {
     if ((isFavoriteActive || isReadActive) && rebuildedNews?.length > 0) setOpenToast(true);
   }, []);
 
+  const getHeadline = (): string => {
+    switch (true) {
+      case headline && isHomeActive:
+        return headline;
+      case isFavoriteActive:
+        return 'Favourite news';
+      case isReadActive:
+        return 'Read news';
+      case isArchiveActive:
+        return 'Archive news';
+
+      default:
+        return '';
+    }
+  };
+
   return (
     <>
       {shouldShowLoader && <Loader variant='generalSection' />}
       {shouldShowToast && <Toast variant={toastType} status={statusToast} />}
       {shouldShowPlug && <PlugImage variant='page' />}
+      {shouldShowContent && (
+        <h1 className='mb-6 text-giant font-bold dark:text-whiteBase'>{getHeadline()}</h1>
+      )}
       {shouldShowContent && children}
     </>
   );

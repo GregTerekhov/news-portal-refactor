@@ -1,8 +1,8 @@
 import React, { FC } from 'react';
 import { Link } from 'react-router-dom';
 
-import { useAuthRedux, useFiltersAction } from 'reduxStore/hooks';
-import { useFiltersState, useNotification, useWindowWidth } from 'contexts';
+import { useAuthRedux, useFiltersRedux } from 'reduxStore/hooks';
+import { useFiltersStateContext, useNotificationContext, useWindowWidthContext } from 'contexts';
 
 import { VariantSwitcher } from 'types';
 import { useActiveLinks } from 'hooks';
@@ -21,18 +21,19 @@ export interface CommonMenuProps {
 export type MobileMenu = Omit<CommonMenuProps, 'navId'>;
 
 const CommonMenu: FC<CommonMenuProps> = ({ isOpen, navId, closeMenu }) => {
-  const { resetAllFiltersResults } = useFiltersAction();
+  const { resetAllFiltersResults } = useFiltersRedux();
   const { user, logout } = useAuthRedux();
 
-  const { isMobile } = useWindowWidth();
-  const { resetFilters } = useFiltersState();
-  const { showToast } = useNotification();
+  const { isMobile } = useWindowWidthContext();
+  const { resetFilters } = useFiltersStateContext();
+  const { showToast } = useNotificationContext();
 
   const activeLinks = useActiveLinks();
 
   const links = renderMenuItem({ activeLinks, navId });
 
-  const handleLinkClick = () => {
+  //Функція обробки кліку по пунктам меню та скидання значень фільтрів та результатів фільтрації, якщо вони є
+  const handleLinkClick = (): void => {
     if (typeof closeMenu === 'function') {
       closeMenu();
     }
@@ -43,7 +44,8 @@ const CommonMenu: FC<CommonMenuProps> = ({ isOpen, navId, closeMenu }) => {
     }
   };
 
-  const handleSignOut = async () => {
+  //Функція виходу з акаунту
+  const handleSignOut = async (): Promise<void> => {
     if (typeof closeMenu === 'function') {
       closeMenu();
     }

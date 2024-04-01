@@ -2,7 +2,7 @@ import { useForm, SubmitHandler } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 
 import { useAuthRedux } from 'reduxStore/hooks';
-import { useNotification } from 'contexts';
+import { useNotificationContext } from 'contexts';
 
 import type { ExtendedUpdatePasswordRequest } from 'types';
 
@@ -10,7 +10,9 @@ import { renderPasswordInputs, updatePasswordSchema } from '../assistants';
 
 const useUpdatePassword = () => {
   const { updatePassword } = useAuthRedux();
-  const { showToast } = useNotification();
+  const { showToast } = useNotificationContext();
+
+  // хук useForm react-hook-form для updatePassword-операції
   const {
     handleSubmit: passwordSubmit,
     register: updatePasswordRegister,
@@ -27,12 +29,14 @@ const useUpdatePassword = () => {
     },
   });
 
+  // споглядання за відповідними полями
   const [newPassword, confirmPassword, password] = watch([
     'newPassword',
     'confirmPassword',
     'password',
   ]);
 
+  //Функція-submit
   const handlePasswordSubmitHandler: SubmitHandler<ExtendedUpdatePasswordRequest> = async (
     data,
   ) => {
@@ -55,6 +59,7 @@ const useUpdatePassword = () => {
     }
   };
 
+  // Data для updatePassword-інпутів
   const passwordInputs = renderPasswordInputs({
     newPassword,
     confirmPassword,

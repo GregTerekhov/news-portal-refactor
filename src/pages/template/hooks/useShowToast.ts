@@ -1,4 +1,4 @@
-import { useAuthRedux, useDB, useFiltersAction, useNewsAPI } from 'reduxStore/hooks';
+import { useAuthRedux, useDBRedux, useFiltersRedux, useNewsAPIRedux } from 'reduxStore/hooks';
 
 import type { ToastStatus, ToastVariant } from 'types';
 import { useActiveLinks } from 'hooks';
@@ -6,12 +6,12 @@ import useShowLoader from './useShowLoader';
 
 const useShowToast = () => {
   const activeLinks = useActiveLinks();
-  const { filteredNews } = useFiltersAction();
+  const { filteredNews } = useFiltersRedux();
 
   const { isArchiveActive, isFavoriteActive, isHomeActive, isReadActive } = activeLinks;
-  const { errorAPI, newsByKeyword, newsByCategory, newsByDate } = useNewsAPI();
+  const { errorAPI, newsByKeyword, newsByCategory, newsByDate } = useNewsAPIRedux();
   const { authError, statusMessage } = useAuthRedux();
-  const { allFavourites, allReads, dbSuccessMessage } = useDB();
+  const { allFavourites, allReads, dbSuccessMessage } = useDBRedux();
   const { isHomeLoader, commonDBLoader } = useShowLoader();
 
   const additionalRequests =
@@ -23,6 +23,7 @@ const useShowToast = () => {
     statusMessage === 'Email sent successfully' ||
     statusMessage === 'Password has successfully changed' ||
     statusMessage === 'User sign-in success' ||
+    statusMessage === 'Your saved password has been successfully retrieved' ||
     statusMessage === 'Sign-out success';
 
   const homeToastError =
@@ -38,6 +39,7 @@ const useShowToast = () => {
 
   const shouldShowToast = showHomeToast || favouritesToastInfo || readsToastInfo || archiveToast;
 
+  //Виведення статусу та типу тостів
   let statusToast: ToastStatus;
   let toastType: ToastVariant;
 

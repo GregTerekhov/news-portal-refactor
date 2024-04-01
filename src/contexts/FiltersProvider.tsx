@@ -52,11 +52,11 @@ export const FiltersProvider: FC<FiltersProviderProps> = ({ children }) => {
   );
 };
 
-export const useFiltersState = () => {
+export const useFiltersStateContext = () => {
   const context = useContext(FiltersContext);
 
   if (!context) {
-    throw new Error('useFiltersState must be used within a FiltersProvider');
+    throw new Error('useFiltersStateContext must be used within a FiltersProvider');
   }
   return context;
 };

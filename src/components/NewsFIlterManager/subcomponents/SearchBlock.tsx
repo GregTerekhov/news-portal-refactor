@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
 
 import { VariantButton, VariantInputs } from 'types';
-import { useWindowWidth } from 'contexts';
+import { useWindowWidthContext } from 'contexts';
 
 import { useAdditionalRequest } from 'hooks';
 
@@ -10,7 +10,7 @@ import { Dropdown, PrimaryButton, UnverifiableInput } from 'ui';
 import Calendar from './Calendar/Calendar';
 
 const SearchBlock: FC<{}> = () => {
-  const { isNotMobile, wideScreens } = useWindowWidth();
+  const { isNotMobile, wideScreens } = useWindowWidthContext();
 
   const {
     query,

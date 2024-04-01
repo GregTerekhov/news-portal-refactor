@@ -23,11 +23,6 @@ function rebuildNewsArray(
       if ('media' in item) {
         // Type: PartialPopularNewsArray
         const popularNewsItem = item as PopularNewsItem;
-        // console.log(
-        //   'popularNewsItem?.published_date',
-        //   typeof popularNewsItem?.published_date,
-        //   popularNewsItem?.published_date,
-        // );
         return {
           ...commonFields,
           title: popularNewsItem.title || '',
@@ -44,11 +39,6 @@ function rebuildNewsArray(
       } else if ('headline' in item) {
         // Type: PartialArticleNewsArray
         const articleNewsItem = item as ArticleNewsItem;
-        // console.log(
-        //   'articleNewsItem.pub_date',
-        //   typeof articleNewsItem?.pub_date,
-        //   articleNewsItem?.pub_date,
-        // );
         return {
           ...commonFields,
           title: articleNewsItem.headline?.main || '',

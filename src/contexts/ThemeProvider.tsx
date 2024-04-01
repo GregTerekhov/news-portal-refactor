@@ -29,24 +29,21 @@ export const ThemeProvider: FC<ThemeContextProps> = ({ children }) => {
     }
   }, [userTheme]);
 
-  const handleThemeChange = async () => {
+  //Зміна стану теми
+  const handleThemeChange = async (): Promise<void> => {
     const newTheme = !enabled;
     setEnabled(newTheme);
 
     if (newTheme) {
       document.documentElement.classList.add('dark');
-      if (!isAuthenticated) {
-        unauthorisedChangeTheme({ updatedTheme: 'dark' });
-      } else {
-        changeTheme({ updatedTheme: 'dark' });
-      }
+      isAuthenticated
+        ? changeTheme({ updatedTheme: 'dark' })
+        : unauthorisedChangeTheme({ updatedTheme: 'dark' });
     } else {
       document.documentElement.classList.remove('dark');
-      if (!isAuthenticated) {
-        unauthorisedChangeTheme({ updatedTheme: 'light' });
-      } else {
-        changeTheme({ updatedTheme: 'light' });
-      }
+      isAuthenticated
+        ? changeTheme({ updatedTheme: 'light' })
+        : unauthorisedChangeTheme({ updatedTheme: 'light' });
     }
   };
 
@@ -57,10 +54,10 @@ export const ThemeProvider: FC<ThemeContextProps> = ({ children }) => {
   );
 };
 
-export const useTheme = () => {
+export const useThemeContext = () => {
   const context = useContext(ThemeContext);
   if (!context) {
-    throw new Error('useTheme must be used within a ThemeProvider');
+    throw new Error('useThemeContext must be used within a ThemeProvider');
   }
   return context;
 };

@@ -7,13 +7,13 @@ import { PrimaryButton, SvgIcon } from 'ui';
 import { useWeather } from '../hooks';
 
 type NoWeatherProps = {
-  // showError: boolean | null | undefined;
   showError: string | null;
 };
 
 const NoWeather: FC<NoWeatherProps> = ({ showError }) => {
   const { requestGeolocationPermission, showButtonText } = useWeather();
 
+  //Визначення тексту в залежності від наявності помилки від серверу, або дефолтного значення
   const showInfoMessage = showError
     ? 'Server error. Please try again later when you reload the page'
     : 'What a pity, this could be your weather';

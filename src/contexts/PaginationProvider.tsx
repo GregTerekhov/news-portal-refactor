@@ -15,7 +15,8 @@ const PaginationContext = createContext<PaginationContextValue | undefined>(unde
 export const PaginationProvider = ({ children }: PaginationContextProps) => {
   const [currentPage, setCurrentPage] = useState(1);
 
-  const resetPagination = () => {
+  //Скидування глобального стану пагінації
+  const resetPagination = (): void => {
     setCurrentPage(1);
   };
 

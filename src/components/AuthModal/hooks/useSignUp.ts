@@ -2,7 +2,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { SubmitHandler, useForm } from 'react-hook-form';
 
 import { useAuthRedux } from 'reduxStore/hooks';
-import { useNotification, useScrollBodyContext } from 'contexts';
+import { useNotificationContext, useScrollBodyContext } from 'contexts';
 
 import type { MainCredentials, AuthInputs } from 'types';
 import { usePopUp } from 'hooks';
@@ -10,11 +10,13 @@ import { usePopUp } from 'hooks';
 import { signUpSchema } from '../assistants';
 
 const useSignUp = () => {
-  const { showToast } = useNotification();
-  const { setIsScrollDisabled } = useScrollBodyContext();
   const { register, login } = useAuthRedux();
+  const { showToast } = useNotificationContext();
+  const { setIsScrollDisabled } = useScrollBodyContext();
+
   const { toggleModal } = usePopUp();
 
+  // хук useForm react-hook-form для signUp-операції
   const {
     handleSubmit,
     register: registration,
@@ -23,6 +25,7 @@ const useSignUp = () => {
     formState: { errors },
   } = useForm<MainCredentials>({ resolver: yupResolver(signUpSchema) });
 
+  //Функція-submit
   const signUpSubmitHandler: SubmitHandler<MainCredentials> = async (data) => {
     try {
       const { name, email, password } = data;
@@ -64,6 +67,7 @@ const useSignUp = () => {
     }
   };
 
+  // Data для signUp-інпутів
   const signUpInputs: Array<AuthInputs> = [
     {
       type: 'text',

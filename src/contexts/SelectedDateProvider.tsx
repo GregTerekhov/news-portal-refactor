@@ -32,19 +32,24 @@ export const SelectedDateProvider: FC<SelectedDateContextProps> = ({ children })
   });
   const [beginDate, setBeginDate] = useState<Date | null>(null);
 
+  //Скидування значень дат для запиту
   const resetRequestDay = (): void => {
     setSelectedRequestDate({ beginDate: null, endDate: null });
   };
+  //Скидування значень дат для фільтрації
   const resetFiltersDay = (): void => {
     setSelectedFilterDate({ beginDate: null, endDate: null });
   };
 
+  //Мемоїзація значення глобального стану дати запита
   const memoizedSelectedRequestDate = useMemo(
-    () => selectedRequestDate,
+    (): SelectedDate => selectedRequestDate,
     [selectedRequestDate, resetRequestDay],
   );
+
+  //Мемоїзація значення глобального стану дати фільтрації
   const memoizedSelectedFilterDate = useMemo(
-    () => selectedFilterDate,
+    (): SelectedDate => selectedFilterDate,
     [selectedFilterDate, resetFiltersDay],
   );
 
@@ -66,10 +71,10 @@ export const SelectedDateProvider: FC<SelectedDateContextProps> = ({ children })
   );
 };
 
-export const useSelectedDate = () => {
+export const useSelectedDateContext = () => {
   const context = useContext(SelectedDateContext);
   if (!context) {
-    throw new Error('useSelectedDate must be used within a SelectedDateProvider');
+    throw new Error('useSelectedDateContext must be used within a SelectedDateProvider');
   }
   return context;
 };

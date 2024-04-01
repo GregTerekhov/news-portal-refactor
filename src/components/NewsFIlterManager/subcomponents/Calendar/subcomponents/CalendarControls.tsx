@@ -27,6 +27,7 @@ const CalendarControls: FC<CalendarControlsProps> = ({
   getPrevMonth,
   getNextMonth,
 }) => {
+  //Data для кнопок переключення місяців та років
   const controlButtonsBlock: ButtonsBlock[] = [
     {
       id: 'year',

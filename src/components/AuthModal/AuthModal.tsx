@@ -20,10 +20,12 @@ const AuthModal: FC<IAuthModalProps> = ({ passwordToken, isOpenModal }) => {
     isCredentialsRemembered ? SIGN_IN_TAB_IDX : SIGN_UP_TAB_IDX,
   );
 
+  //Функція зміни стану показування інпута для forgotPassword
   const handleShowRecoveryInput = (): void => {
     setIsShowRecoveryInput(!isShowRecoveryInput);
   };
 
+  //Функція приховування інпута forgotPassword при переключенні на інший таб
   const hideForgotPasswordInput = (index: number): void => {
     if (index === 0) {
       setIsShowRecoveryInput(false);

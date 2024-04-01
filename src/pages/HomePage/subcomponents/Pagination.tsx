@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 
-import { usePaginationContext, useWindowWidth } from 'contexts';
+import { usePaginationContext, useWindowWidthContext } from 'contexts';
 
 import DirectionButton from './DirectionButton';
 import PaginationButton from './PaginationButton';
@@ -10,7 +10,7 @@ interface PaginationProps {
 }
 
 const Pagination: FC<PaginationProps> = ({ pageNumbers }) => {
-  const { isNotMobile } = useWindowWidth();
+  const { isNotMobile } = useWindowWidthContext();
   const { currentPage, setCurrentPage } = usePaginationContext();
 
   const renderEllipsis = (direction: string): JSX.Element => (
@@ -19,11 +19,13 @@ const Pagination: FC<PaginationProps> = ({ pageNumbers }) => {
     </li>
   );
 
+  //Функція обробки кліку по кнопках пагінації
   const handlePageNumberClick = (pageNumber: number): void => {
     setCurrentPage(pageNumber);
     window.scrollTo({ top: 0 + window.innerHeight, left: 0, behavior: 'smooth' });
   };
 
+  //Функції обробки кліку по кнопках навігації
   const handlePrevClick = (): void => {
     if (currentPage > 1) {
       setCurrentPage(currentPage - 1);

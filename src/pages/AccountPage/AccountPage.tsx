@@ -1,20 +1,20 @@
 import React, { FC } from 'react';
 
 import { useAuthRedux } from 'reduxStore/hooks';
-
-import { useWindowWidth } from 'contexts';
+import { useWindowWidthContext } from 'contexts';
 
 import { SvgIcon } from 'ui';
 
 import { renderInfoItems, renderAccountIcons } from './assistants';
 
 const AccountPage: FC<{}> = () => {
-  const { isMobile } = useWindowWidth();
   const { user, haveAccounts } = useAuthRedux();
+  const { isMobile } = useWindowWidthContext();
 
   const userInfoList = renderInfoItems(user);
   const accountIcons = renderAccountIcons(haveAccounts);
 
+  //Умови наявності прив'язаних акаунтів
   const haveLinkedAccount = haveAccounts.google || haveAccounts.facebook || haveAccounts.apple;
 
   const commonHeadlineClass = 'text-darkBase dark:text-whiteBase text-end';

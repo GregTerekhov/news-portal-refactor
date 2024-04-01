@@ -1,5 +1,5 @@
-import { IHistoryLog, PartialVotedNewsArray } from './newsDBResponse';
-import {
+import type { IHistoryLog, PartialVotedNewsArray } from './newsDBResponse';
+import type {
   ArticleNewsArray,
   CategoriesItem,
   NewsWireArray,

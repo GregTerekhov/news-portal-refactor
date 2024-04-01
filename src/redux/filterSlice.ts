@@ -4,7 +4,7 @@ import { RootState } from './store';
 
 import type { FilterResults, PartialVotedNewsArray } from 'types';
 
-interface FiltersState {
+export interface FiltersState {
   filters: PartialVotedNewsArray;
   hasResults: FilterResults;
   hasError: string | null;

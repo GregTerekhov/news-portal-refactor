@@ -21,10 +21,10 @@ export const ReadSortProvider: FC<ReadSortProviderProps> = ({ children }) => {
   );
 };
 
-export const useReadSortState = () => {
+export const useReadSortStateContext = () => {
   const context = useContext(ReadSortContext);
 
-  if (!context) throw new Error('useReadSortState must be used within a ReadSortProvider');
+  if (!context) throw new Error('useReadSortStateContext must be used within a ReadSortProvider');
 
   return context;
 };

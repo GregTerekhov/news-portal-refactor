@@ -1,35 +1,18 @@
 import React, { FC } from 'react';
 
 import type { IHistoryLog } from 'types';
-import { useWindowWidth } from 'contexts';
+import { useWindowWidthContext } from 'contexts';
 
 import { CustomScrollBar } from 'ui';
 
-import { formatTableDates, tableHeads } from '../assistants';
+import { formatTableDates, getNewsTitle, tableHeads } from '../assistants';
 
 interface TableProps {
   displayedRows: IHistoryLog[];
 }
 
-const DEFAULT_TITLE_LENGTH = 60;
-const WIDE_SCREENS_TITLE_LENGTH = 87;
-
 const DeletedNewsTable: FC<TableProps> = ({ displayedRows }) => {
-  const { wideScreens } = useWindowWidth();
-
-  const getNewsTitle = (title: string): string => {
-    let cutTitleLength: number;
-
-    switch (true) {
-      case wideScreens:
-        cutTitleLength = WIDE_SCREENS_TITLE_LENGTH;
-        break;
-      default:
-        cutTitleLength = DEFAULT_TITLE_LENGTH;
-        break;
-    }
-    return title.length > cutTitleLength ? `${title.slice(0, cutTitleLength)}...` : title;
-  };
+  const { wideScreens } = useWindowWidthContext();
 
   const tableRowClass =
     'whitespace-nowrap px-6 text-small font-medium text-darkBase dark:text-whiteBase lg:text-medium';
@@ -61,7 +44,7 @@ const DeletedNewsTable: FC<TableProps> = ({ displayedRows }) => {
                     rel='noopener noreferrer nofollow'
                     className='block py-4 transition-colors duration-500 focus:text-accentBase group-hover:text-accentBase lg:text-medium'
                   >
-                    {getNewsTitle(title)}
+                    {getNewsTitle(title, wideScreens)}
                   </a>
                 </td>
                 <td className={`${tableRowClass}`}>{category}</td>

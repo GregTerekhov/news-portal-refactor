@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 
-import { useWindowWidth } from 'contexts';
+import { useWindowWidthContext } from 'contexts';
 import { useActiveLinks } from 'hooks';
 
 import {
@@ -15,7 +15,7 @@ interface LoaderProps {
 }
 
 const Loader: FC<LoaderProps> = ({ variant }) => {
-  const { isMobile, isTablet, wideScreens } = useWindowWidth();
+  const { isMobile, isTablet, wideScreens } = useWindowWidthContext();
 
   const { isHomeActive } = useActiveLinks();
 

@@ -3,6 +3,7 @@ import type { ToastMessage } from 'types';
 import { ActiveLinks, useChooseRenderingNews } from 'hooks';
 
 const useToastInfo = () => {
+  //Функція виведення заголовка та опису для інформаційних тостів
   const chooseInfoToastText = (activeLinks: ActiveLinks): ToastMessage => {
     const { rebuildedNews } = useChooseRenderingNews(activeLinks);
 

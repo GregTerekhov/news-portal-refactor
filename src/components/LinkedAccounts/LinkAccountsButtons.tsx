@@ -1,7 +1,6 @@
 import React, { FC } from 'react';
 
-import { useAuthRedux } from 'reduxStore/hooks';
-import { useNotification, useWindowWidth } from 'contexts';
+import { useWindowWidthContext } from 'contexts';
 
 import { VariantButton } from 'types';
 import { useActiveLinks } from 'hooks';
@@ -10,55 +9,11 @@ import { PrimaryButton } from 'ui';
 
 import { useGoogleSettings } from './hooks';
 
-type AccountsButton = {
-  svgName: string;
-  account: string;
-  hasAccount: boolean;
-  onClick: (() => Promise<void>) | (() => void);
-};
-
 const LinkAccountsButtons: FC = () => {
-  const { haveAccounts, unbindGoogle } = useAuthRedux();
-
-  const { isMobile, isTV } = useWindowWidth();
-  const { showToast } = useNotification();
+  const { isMobile, isTV } = useWindowWidthContext();
 
   const { isManageAccountPage } = useActiveLinks();
-  const { googleLogin } = useGoogleSettings();
-
-  const handleGoogleLinkClick = async () => {
-    if (haveAccounts.google) {
-      const response = await unbindGoogle();
-
-      showToast(response.meta.requestStatus);
-    } else {
-      googleLogin();
-    }
-  };
-
-  const accountButtons: AccountsButton[] = [
-    {
-      svgName: 'google',
-      account: 'Google',
-      hasAccount: haveAccounts.google,
-      onClick: handleGoogleLinkClick,
-    },
-    {
-      svgName: 'facebook',
-      account: 'Facebook',
-      hasAccount: haveAccounts.facebook,
-      onClick: () => {
-        // handleFacebookLogin();
-        console.log('facebook');
-      },
-    },
-    {
-      svgName: 'apple',
-      account: 'Apple',
-      hasAccount: haveAccounts.apple,
-      onClick: () => console.log('apple'),
-    },
-  ];
+  const { accountButtons } = useGoogleSettings();
 
   const accountButtonStyles = `w-14 h-14 ${
     isManageAccountPage ? 'lg:w-12 lg:h-12 hg:w-16 hg:h-16' : 'md:w-full'

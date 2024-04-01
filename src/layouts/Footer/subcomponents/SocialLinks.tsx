@@ -1,13 +1,13 @@
 import React, { FC } from 'react';
 
-import { useWindowWidth } from 'contexts';
+import { useWindowWidthContext } from 'contexts';
 
 import { SvgIcon } from 'ui';
 
 import { renderSocialLinks } from '../assistants';
 
 const SocialLinks: FC = () => {
-  const { wideScreens } = useWindowWidth();
+  const { wideScreens } = useWindowWidthContext();
   const socialLinks = renderSocialLinks(wideScreens);
 
   return (

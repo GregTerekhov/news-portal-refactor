@@ -1,4 +1,4 @@
-import { useDB } from 'reduxStore/hooks';
+import { useDBRedux } from 'reduxStore/hooks';
 
 import { useActiveLinks } from 'hooks';
 import useShowLoader from './useShowLoader';
@@ -8,7 +8,7 @@ const useShowContent = () => {
   const activeLinks = useActiveLinks();
   const { isHomeLoader, commonDBLoader } = useShowLoader();
   const { isHomePlug, commonPlug } = useShowPlug();
-  const { allArchive, isLoadingDBData } = useDB();
+  const { allArchive, isLoadingDBData } = useDBRedux();
 
   const { isArchiveActive, isFavoriteActive, isHomeActive, isReadActive } = activeLinks;
 

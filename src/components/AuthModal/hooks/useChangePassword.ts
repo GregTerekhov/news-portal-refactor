@@ -2,7 +2,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { SubmitHandler, useForm } from 'react-hook-form';
 
 import { useAuthRedux } from 'reduxStore/hooks';
-import { useNotification, useScrollBodyContext } from 'contexts';
+import { useNotificationContext, useScrollBodyContext } from 'contexts';
 
 import type { ChangePasswordValues, AuthInputs } from 'types';
 import { usePopUp } from 'hooks';
@@ -12,13 +12,14 @@ import { useNavigate } from 'react-router-dom';
 
 const useChangePassword = () => {
   const { changePassword } = useAuthRedux();
-
-  const { showToast } = useNotification();
+  const { showToast } = useNotificationContext();
   const { setIsScrollDisabled } = useScrollBodyContext();
 
   const { toggleModal } = usePopUp();
+
   const navigate = useNavigate();
 
+  // хук useForm react-hook-form для changePassword-операції
   const {
     handleSubmit: handleChangePasswordSubmit,
     register: registerChangePassword,
@@ -29,6 +30,7 @@ const useChangePassword = () => {
     resolver: yupResolver(changePasswordSchema),
   });
 
+  //Функція-submit
   const changePasswordSubmitHandler: SubmitHandler<ChangePasswordValues> = async (data) => {
     try {
       const { newPassword } = data;
@@ -54,6 +56,7 @@ const useChangePassword = () => {
     }
   };
 
+  // Data для changePassword-інпутів
   const changePasswordInputs: Array<AuthInputs> = [
     {
       type: 'password',

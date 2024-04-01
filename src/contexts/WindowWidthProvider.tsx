@@ -77,11 +77,11 @@ export const WindowWidthProvider: React.FC<WindowWidthProviderProps> = ({ childr
 };
 
 // Користувацька гілка для використання значень контексту
-export const useWindowWidth = (): WindowWidthContextValue => {
+export const useWindowWidthContext = () => {
   const context = useContext(WindowWidthContext);
 
   if (!context) {
-    throw new Error('useWindowWidth must be used within a WindowWidthProvider');
+    throw new Error('useWindowWidthContext must be used within a WindowWidthProvider');
   }
   return context;
 };

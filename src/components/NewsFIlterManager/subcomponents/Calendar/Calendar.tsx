@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
 import { format, startOfToday } from 'date-fns';
 
-import { useFiltersState, useSelectedDate } from 'contexts';
+import { useFiltersStateContext, useSelectedDateContext } from 'contexts';
 
 import { convertDateStringToVariables } from 'helpers';
 import { useActiveLinks, usePopUp } from 'hooks';
@@ -15,8 +15,8 @@ interface CalendarProps {
 }
 
 const Calendar: FC<CalendarProps> = ({ variant }) => {
-  const { filters } = useFiltersState();
-  const { memoizedSelectedRequestDate } = useSelectedDate();
+  const { filters } = useFiltersStateContext();
+  const { memoizedSelectedRequestDate } = useSelectedDateContext();
 
   const { popUpRef, toggleCalendar, isOpenCalendar } = usePopUp();
   const { isReadActive } = useActiveLinks();
@@ -25,7 +25,7 @@ const Calendar: FC<CalendarProps> = ({ variant }) => {
 
   const today = startOfToday();
 
-  const showSelectedDateForFiltering =
+  const showSelectedDateForFiltering: boolean =
     filters?.selectedFilterDate?.startDate !== '' && filters?.selectedFilterDate?.endDate !== '';
 
   const firstRequestDate = !!beginDate && convertDateStringToVariables(beginDate);
@@ -33,6 +33,7 @@ const Calendar: FC<CalendarProps> = ({ variant }) => {
   const firstFilteredDate = filters.selectedFilterDate.startDate;
   const lastFilteredDate = filters.selectedFilterDate.endDate;
 
+  //Функція відображення дат в кнопці календаря
   const showButtonText = (variant: string): string => {
     if (variant === 'SearchBlock' && beginDate && endDate) {
       return `${firstRequestDate} - ${lastRequestDate}`;

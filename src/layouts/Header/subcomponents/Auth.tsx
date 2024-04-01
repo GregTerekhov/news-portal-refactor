@@ -2,7 +2,7 @@ import React, { FC } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { useAuthRedux } from 'reduxStore/hooks';
-import { useNotification, useWindowWidth } from 'contexts';
+import { useNotificationContext, useWindowWidthContext } from 'contexts';
 
 import { ClickHandler, VariantButton } from 'types';
 import { useActiveLinks, useCrypto, useHeaderStyles, usePopUp } from 'hooks';
@@ -16,8 +16,8 @@ interface AuthButtonProps {
 
 const Auth: FC<AuthButtonProps> = ({ passwordToken }) => {
   const { logout, isAuthenticated } = useAuthRedux();
-  const { wideScreens } = useWindowWidth();
-  const { showToast } = useNotification();
+  const { wideScreens } = useWindowWidthContext();
+  const { showToast } = useNotificationContext();
 
   const { isOpenModal, popUpRef, toggleModal } = usePopUp();
   const { isHomeActive } = useActiveLinks();
@@ -26,12 +26,13 @@ const Auth: FC<AuthButtonProps> = ({ passwordToken }) => {
 
   const navigate = useNavigate();
 
+  //Функція відкриття модалки при наявності збереженого Remember me та запиту шифрованого пароля
   const onOpenModal = () => {
     fetchCryptoPassword();
-
     toggleModal();
   };
 
+  //Функція виходу з акаунту
   const onSignOut = async (): Promise<void> => {
     const response = await logout();
 

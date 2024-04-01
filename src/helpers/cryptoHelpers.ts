@@ -3,6 +3,7 @@ import type { EncryptedPassword } from 'types';
 const encoder = new TextEncoder();
 const decoder = new TextDecoder();
 
+//Функція шифрування користувацького пароля
 export async function encryptPassword(password: string): Promise<EncryptedPassword> {
   const salt = window.crypto.getRandomValues(new Uint8Array(12));
 
@@ -24,6 +25,7 @@ export async function encryptPassword(password: string): Promise<EncryptedPasswo
   return { encryptedPassword, salt };
 }
 
+//Функція дешифрування користувацького пароля
 export async function decryptPassword(
   encryptedPassword: ArrayBuffer,
   salt: Uint8Array,

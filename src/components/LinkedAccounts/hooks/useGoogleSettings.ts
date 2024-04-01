@@ -2,16 +2,25 @@ import axios from 'axios';
 import { useGoogleLogin } from '@react-oauth/google';
 
 import { useAuthRedux } from 'reduxStore/hooks';
-import { useNotification, useScrollBodyContext } from 'contexts';
+import { useNotificationContext, useScrollBodyContext } from 'contexts';
 
 import { CONFIG } from 'config';
 import type { GoogleAuth } from 'types';
 
-const useGoogleSettings = () => {
-  const { isAuthenticated, enterWithGoogle, bindGoogle } = useAuthRedux();
-  const { setIsScrollDisabled } = useScrollBodyContext();
-  const { showToast } = useNotification();
+type AccountsButton = {
+  svgName: string;
+  account: string;
+  hasAccount: boolean;
+  onClick: (() => Promise<void>) | (() => void);
+};
 
+const useGoogleSettings = () => {
+  const { isAuthenticated, enterWithGoogle, bindGoogle, haveAccounts, unbindGoogle } =
+    useAuthRedux();
+  const { setIsScrollDisabled } = useScrollBodyContext();
+  const { showToast } = useNotificationContext();
+
+  //Функція google-автентифікації або прив'зяки google-акаунту в залежності від стану isAuthenticated
   const googleLogin = useGoogleLogin({
     onSuccess: async (codeResponse) => {
       try {
@@ -40,7 +49,42 @@ const useGoogleSettings = () => {
     },
   });
 
-  return { googleLogin };
+  //Функція обробки кліку по кнопці google-auth
+  const handleGoogleLinkClick = async () => {
+    if (haveAccounts.google) {
+      const response = await unbindGoogle();
+
+      showToast(response.meta.requestStatus);
+    } else {
+      googleLogin();
+    }
+  };
+
+  //Data для third-party-auth кнопок
+  const accountButtons: AccountsButton[] = [
+    {
+      svgName: 'google',
+      account: 'Google',
+      hasAccount: haveAccounts.google,
+      onClick: handleGoogleLinkClick,
+    },
+    {
+      svgName: 'facebook',
+      account: 'Facebook',
+      hasAccount: haveAccounts.facebook,
+      onClick: () => {
+        console.log('facebook');
+      },
+    },
+    {
+      svgName: 'apple',
+      account: 'Apple',
+      hasAccount: haveAccounts.apple,
+      onClick: () => console.log('apple'),
+    },
+  ];
+
+  return { googleLogin, handleGoogleLinkClick, accountButtons };
 };
 
 export default useGoogleSettings;

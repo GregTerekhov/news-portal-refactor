@@ -2,17 +2,18 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { SubmitHandler, useForm } from 'react-hook-form';
 
 import { useAuthRedux } from 'reduxStore/hooks';
+import { useNotificationContext, useScrollBodyContext } from 'contexts';
 
 import type { SendEmailRequest } from 'types';
-import { useNotification, useScrollBodyContext } from 'contexts';
 
 import { recoveryPasswordSchema } from '../assistants';
 
 const useSendEmail = () => {
   const { sendEmailForRecovery } = useAuthRedux();
-  const { showToast } = useNotification();
+  const { showToast } = useNotificationContext();
   const { setIsScrollDisabled } = useScrollBodyContext();
 
+  // хук useForm react-hook-form для sendEmailForRecovery-операції
   const {
     handleSubmit: handleRecoveryPasswordSubmit,
     register: registerRecovery,
@@ -20,6 +21,7 @@ const useSendEmail = () => {
     formState: { errors: recoveryPasswordErrors },
   } = useForm<SendEmailRequest>({ resolver: yupResolver(recoveryPasswordSchema) });
 
+  //Функція-submit
   const recoveryPasswordSubmitHandler: SubmitHandler<SendEmailRequest> = async (data, e) => {
     e?.stopPropagation();
     e?.preventDefault();

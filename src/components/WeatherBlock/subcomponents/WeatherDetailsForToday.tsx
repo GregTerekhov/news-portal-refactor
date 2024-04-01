@@ -1,15 +1,15 @@
 import React, { FC } from 'react';
 
-import { useWeatherAPI } from 'reduxStore/hooks';
-import { useWindowWidth } from 'contexts';
+import { useWeatherAPIRedux } from 'reduxStore/hooks';
+import { useWindowWidthContext } from 'contexts';
 
 import { Hint, SvgIcon } from 'ui';
 
 import { receiveCurrentDate, getWeatherDetailsForToday } from '../assistants';
 
 const WeatherDetailsForToday: FC<{}> = () => {
-  const { currentWeather } = useWeatherAPI();
-  const { isMobile } = useWindowWidth();
+  const { currentWeather } = useWeatherAPIRedux();
+  const { isMobile } = useWindowWidthContext();
 
   const { days, dateNow } = receiveCurrentDate();
 

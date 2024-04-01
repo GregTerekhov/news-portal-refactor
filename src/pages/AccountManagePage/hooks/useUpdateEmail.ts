@@ -2,7 +2,7 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 
 import { useAuthRedux } from 'reduxStore/hooks';
-import { useNotification } from 'contexts';
+import { useNotificationContext } from 'contexts';
 
 import type { AuthRequestWithoutName } from 'types';
 
@@ -10,8 +10,9 @@ import { renderEmailInputs, updateEmailSchema } from '../assistants';
 
 const useUpdateEmail = () => {
   const { updateEmail } = useAuthRedux();
-  const { showToast } = useNotification();
+  const { showToast } = useNotificationContext();
 
+  // хук useForm react-hook-form для updateEmail-операції
   const {
     handleSubmit: emailSubmit,
     register: updateEmailRegister,
@@ -27,8 +28,10 @@ const useUpdateEmail = () => {
     },
   });
 
+  // споглядання за відповідними полями
   const [email, password] = watch(['email', 'password']);
 
+  //Функція-submit
   const handleEmailSubmitHandler: SubmitHandler<AuthRequestWithoutName> = async (data) => {
     try {
       const response = await updateEmail(data);
@@ -45,6 +48,7 @@ const useUpdateEmail = () => {
     }
   };
 
+  // Data для updateEmail-інпутів
   const emailInputs = renderEmailInputs({ email, password, errors });
 
   return {

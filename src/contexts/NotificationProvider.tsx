@@ -17,7 +17,8 @@ const NotificationContext = createContext<NotificationContextValue | undefined>(
 export const NotificationProvider = ({ children }: NotificationContextProps) => {
   const [openToast, setOpenToast] = useState<boolean>(false);
 
-  const showToast = (requestStatus: RequestStatus) => {
+  //Функція показування тосту в залежності від статусу відповіді
+  const showToast = (requestStatus: RequestStatus): void => {
     if (requestStatus === 'rejected') {
       setOpenToast(true);
       return;
@@ -33,11 +34,11 @@ export const NotificationProvider = ({ children }: NotificationContextProps) => 
   );
 };
 
-export const useNotification = () => {
+export const useNotificationContext = () => {
   const context = useContext(NotificationContext);
 
   if (!context) {
-    throw new Error('useNotification must be used within a NotificationProvider');
+    throw new Error('useNotificationContext must be used within a NotificationProvider');
   }
   return context;
 };

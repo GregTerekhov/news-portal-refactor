@@ -9,13 +9,16 @@ import { UpdateEmail, UpdatePassword } from './subcomponents';
 const AccountManagePage: FC<{}> = () => {
   const { authError, statusMessage, isThirdPartyRegister } = useAuthRedux();
 
+  //Умови показування тостів успіху запитів
   const showUpdatedToast =
     statusMessage === 'Email is successfully updated' ||
     statusMessage === 'Password is successfully updated' ||
     statusMessage.includes('linking');
 
+  //Умови показування тостів помилки запитів
   const showErrorToast = authError && typeof authError === 'string';
 
+  //Загальні умови показування тостів на сторінці
   const shouldShowToast = showUpdatedToast || showErrorToast;
 
   return (

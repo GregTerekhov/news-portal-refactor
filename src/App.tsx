@@ -5,7 +5,6 @@ import { ProtectedRoute } from 'routes';
 import { useAuthRedux } from 'reduxStore/hooks';
 
 import { AccountLayout, Layout } from 'layouts';
-
 import { Loader } from 'ui';
 
 const HomePage = lazy(() => import('./pages/HomePage/HomePage'));

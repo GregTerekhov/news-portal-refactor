@@ -8,10 +8,11 @@ import { useActiveLinks } from 'hooks';
 import { renderMenuItem } from '../assistants';
 
 const FooterMenu: FC = () => {
-  const location = useLocation();
   const { isAuthenticated } = useAuthRedux();
 
   const { isAboutUs } = useActiveLinks();
+
+  const location = useLocation();
 
   useEffect(() => {
     const handleScrollToTop = () => {
@@ -41,7 +42,7 @@ const FooterMenu: FC = () => {
                   className={`p-2 text-medium font-medium text-whiteBase lg:text-2xl ${
                     isAuthenticated
                       ? 'hocus:underline'
-                      : 'hocus:bg-accentAlt block w-24 rounded-xl border border-solid border-whiteBase text-center transition-colors duration-500 lg:w-32'
+                      : 'block w-24 rounded-xl border border-solid border-whiteBase text-center transition-colors duration-500 hocus:bg-accentAlt lg:w-32'
                   }`}
                 >
                   {label}

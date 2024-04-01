@@ -27,6 +27,7 @@ export function convertTimezone(data: number): string | undefined {
   return zoneList[key];
 }
 
+//Функція виведення значення атмосферного тиску
 export function hPaToMmHg(hPa: number): number {
   const mmHg = hPa * 0.75006;
   const formattedMmHg = Math.floor(mmHg);
@@ -34,10 +35,11 @@ export function hPaToMmHg(hPa: number): number {
   return formattedMmHg;
 }
 
+//Функція конвертації км в метри
 export function formatKmToMetre(distance: number): number {
   return distance / 1000;
 }
-
+//Виведення значення сили ветра за шкалою Бофорта
 export function getWindStrengthScale(windSpeed: number): string {
   let interval;
   // Шкала Бофорта з відповідними інтервалами швидкостей вітру
@@ -107,6 +109,7 @@ export function receiveCurrentDate(): WeatherCurrentTime {
   return { days, dateNow: formattedDate };
 }
 
+//Функція конвертації температур (Цельсій <=> Фаренгейт)
 export const convertTemperature = (temp: number, isCelsius: boolean): string => {
   return isCelsius && temp
     ? Math.round(temp) + '\u00b0'

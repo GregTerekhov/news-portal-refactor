@@ -28,19 +28,18 @@ export const getActions = (type: DispatchActionType) => {
   const extraActions = [
     authOperations.signUp,
     authOperations.signIn,
-    // authOperations.sendCryptoPassword,
-    authOperations.getSavedPassword,
+    authOperations.getSavedPassword, // отримання зашифрованого пароля користувача при Remember me
     authOperations.signOut,
     authOperations.fetchCurrentUser,
-    authOperations.updateUserEmail, // коли user авторизований і хоче змінити поточну пошту
-    authOperations.updateUserPassword, // коли user авторизований і хоче змінити поточний пароль
-    authOperations.recoveryPasswordRequest,
-    authOperations.recoveryPasswordChange, // при forgotPassword, коли user забув пароль і йому треба змінити його
-    authOperations.googleAuth,
-    authOperations.googleBind,
-    authOperations.googleUnbind,
-    authOperations.facebookAuth,
-    authOperations.appleAuth,
+    authOperations.updateUserEmail, // оновлення потчоної пошти зареєстрованого користувача
+    authOperations.updateUserPassword, // оновлення потчоного пароля зареєстрованого користувача
+    authOperations.recoveryPasswordRequest, // відправка пошти для відновлення пароля користувача при forgotPassword
+    authOperations.recoveryPasswordChange, // заміна пароля користувача при forgotPassword
+    authOperations.googleAuth, // реєстрація та авторизація через google-акаунт
+    authOperations.googleBind, // прив'язка google-акаунта
+    authOperations.googleUnbind, // відв'язка google-акаунта
+    authOperations.facebookAuth, // реєстрація та авторизація через facebook-акаунт
+    authOperations.appleAuth, // реєстрація та авторизація через apple-акаунт
   ];
   return extraActions?.map((action) => action[type]);
 };

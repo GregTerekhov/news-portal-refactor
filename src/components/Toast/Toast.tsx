@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
 
 import type { ToastStatus, ToastVariant } from 'types';
-import { useNotification } from 'contexts';
+import { useNotificationContext } from 'contexts';
 
 import { useActiveLinks } from 'hooks';
 
@@ -15,7 +15,7 @@ interface ToastSuccessProps {
 }
 
 const Toast: FC<ToastSuccessProps> = ({ variant, status }) => {
-  const { openToast, setOpenToast } = useNotification();
+  const { openToast, setOpenToast } = useNotificationContext();
 
   const { showSuccessToast } = useToastSuccess();
   const { showErrorToast } = useToastError();
@@ -24,7 +24,8 @@ const Toast: FC<ToastSuccessProps> = ({ variant, status }) => {
   const activeLinks = useActiveLinks();
   const showInfoToast = chooseInfoToastText(activeLinks);
 
-  const getToastTitle = (status: ToastStatus) => {
+  //Функція виведення заголовка тоста
+  const getToastTitle = (status: ToastStatus): string => {
     switch (status) {
       case 'success':
         return showSuccessToast().title;
@@ -35,7 +36,8 @@ const Toast: FC<ToastSuccessProps> = ({ variant, status }) => {
     }
   };
 
-  const getToastDescription = (status: ToastStatus) => {
+  //Функція виведення опису тоста
+  const getToastDescription = (status: ToastStatus): string => {
     switch (status) {
       case 'success':
         return showSuccessToast().description;

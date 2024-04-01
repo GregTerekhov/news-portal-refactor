@@ -39,6 +39,7 @@ export const renderPasswordInputs = ({
   password,
   errors,
 }: PasswordInputsValues): Array<PasswordInput> => {
+  //Data для updatePassword-інпутів
   const passwordInputs: Array<PasswordInput> = [
     {
       placeholder: 'Enter new password',
@@ -82,6 +83,7 @@ export const renderEmailInputs = ({
   password,
   errors,
 }: EmailInputsValues): Array<EmailInput> => {
+  //Data для updateEmail-інпутів
   const emailInputs: Array<EmailInput> = [
     {
       type: 'email',
