@@ -1,14 +1,14 @@
 import React, { FC } from 'react';
 import { Outlet } from 'react-router-dom';
 
-import { useWindowWidth } from 'contexts';
+import { useWindowWidthContext } from 'contexts';
 
 import { SvgIcon } from 'ui';
 
 import CommonMenu from './CommonMenu/CommonMenu';
 
 const AccountLayout: FC = () => {
-  const { isNotMobile } = useWindowWidth();
+  const { isNotMobile } = useWindowWidthContext();
 
   return (
     <div className='flex justify-between gap-2'>

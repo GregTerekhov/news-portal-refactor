@@ -1,4 +1,4 @@
-import { InputLabel } from '..';
+import type { InputLabel } from '..';
 
 export type ToastVariant = 'non-interactive' | 'interactive';
 export type ToastStatus = 'error' | 'success' | 'info';

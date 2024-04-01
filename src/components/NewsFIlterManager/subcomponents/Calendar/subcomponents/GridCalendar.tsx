@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
 import { format, getDay, isSameDay, isSameMonth, isToday, parse } from 'date-fns';
 
-import { useSelectedDate } from 'contexts';
+import { useSelectedDateContext } from 'contexts';
 import { formatDateToYYYYMMDD, getStringDateToCalendar, isDayInRange } from 'helpers';
 
 import { COL_START_CLASSES } from '../assistants';
@@ -24,7 +24,7 @@ const GridCalendar: FC<GridCalendarProps> = ({
   isOpenCalendar,
   toggleCalendar,
 }) => {
-  const { memoizedSelectedRequestDate, memoizedSelectedFilterDate } = useSelectedDate();
+  const { memoizedSelectedRequestDate, memoizedSelectedFilterDate } = useSelectedDateContext();
 
   const { handleDateRequest } = useRequestByDate();
 

@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 
-import { useWeatherAPI } from 'reduxStore/hooks';
+import { useWeatherAPIRedux } from 'reduxStore/hooks';
 
 type StatePermission = 'granted' | 'prompt' | 'denied';
 type ErrorCallback = (error: GeolocationPositionError) => void;
@@ -11,7 +11,7 @@ const useWeather = () => {
   const [statePermission, setStatePermission] = useState<StatePermission | null>(null);
   const [hasGeolocationPermission, setHasGeolocationPermission] = useState<boolean>(false);
 
-  const { getCurrentWeather, getHourlyWeather } = useWeatherAPI();
+  const { getCurrentWeather, getHourlyWeather } = useWeatherAPIRedux();
 
   const geolocation: boolean = 'geolocation' in navigator;
 
@@ -98,6 +98,7 @@ const useWeather = () => {
     setIsFlipped(!isFlipped);
   };
 
+  //Виведення тексту в кнопці виклику погоди
   const showButtonText = (): string => {
     let buttonText = 'Give permission for your geolocation';
 

@@ -18,11 +18,6 @@ export const signIn = requestTemplate<authTypes.SignInRequest, authTypes.Credent
   'post',
 );
 
-// export const sendCryptoPassword = requestTemplate<
-//   authTypes.SendEncryptedPassword,
-//   authTypes.ServicesInfo
-// >('auth/sendCryptoPassword', '/auth/send-password', 'post');
-
 export const getSavedPassword = requestTemplate<
   authTypes.GetCryptoPassword,
   authTypes.ResponseCryptoPassword

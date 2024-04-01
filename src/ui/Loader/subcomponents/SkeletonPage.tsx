@@ -1,6 +1,6 @@
 import React, { FC, ReactNode } from 'react';
 
-import { useWindowWidth } from 'contexts';
+import { useWindowWidthContext } from 'contexts';
 import { useActiveLinks } from 'hooks';
 
 import SkeletonSection from './SkeletonSection';
@@ -15,7 +15,7 @@ import {
 import SkeletonPagination from './SkeletonPagination';
 
 const SkeletonPage: FC = () => {
-  const { isMobile, isTablet, wideScreens } = useWindowWidth();
+  const { isMobile, isTablet, wideScreens } = useWindowWidthContext();
   const { isHomeActive } = useActiveLinks();
 
   const menuItems: ReactNode[] = Array(4)

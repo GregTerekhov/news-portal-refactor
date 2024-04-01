@@ -14,6 +14,7 @@ const ScrollBodyContext = createContext<ScrollBodyContextValue | undefined>(unde
 export const ScrollBodyProvider = ({ children }: ScrollBodyContextProps) => {
   const [isScrollDisabled, setIsScrollDisabled] = useState<boolean>(false);
 
+  //Надавання стиля body в залежності від стану скрола
   useEffect(() => {
     if (isScrollDisabled) {
       document.body.style.overflow = 'hidden';

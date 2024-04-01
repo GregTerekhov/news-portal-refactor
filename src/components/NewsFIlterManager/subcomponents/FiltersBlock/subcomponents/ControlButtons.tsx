@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
 
-import { useFiltersAction } from 'reduxStore/hooks';
-import { useFiltersState, useWindowWidth } from 'contexts';
+import { useFiltersRedux } from 'reduxStore/hooks';
+import { useFiltersStateContext, useWindowWidthContext } from 'contexts';
 
 import { useActiveLinks } from 'hooks';
 
@@ -11,9 +11,9 @@ import { getControlButtons, hasNonEmptyValue } from '../assistants';
 import { useFilterNews } from '../hooks';
 
 const ControlButtons: FC = () => {
-  const { isSorted } = useFiltersAction();
-  const { isMobile, isTablet, wideScreens } = useWindowWidth();
-  const { filters } = useFiltersState();
+  const { isSorted } = useFiltersRedux();
+  const { isMobile, isTablet, wideScreens } = useWindowWidthContext();
+  const { filters } = useFiltersStateContext();
 
   const { isReadActive } = useActiveLinks();
   const { handleFiltration, handleSort, handleReset, handleSortRead } = useFilterNews();

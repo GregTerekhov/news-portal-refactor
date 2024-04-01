@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import { useAuthRedux, useDB, useNewsAPI } from 'reduxStore/hooks';
+import { useAuthRedux, useDBRedux, useNewsAPIRedux } from 'reduxStore/hooks';
 
 import { VariantButton } from 'types';
 
@@ -10,8 +10,8 @@ import { ErrorList, serverErrorsList } from './assistants';
 
 const ErrorPage: FC<{}> = () => {
   const { isAuthenticated } = useAuthRedux();
-  const { errorAPI } = useNewsAPI();
-  const { errorDB } = useDB();
+  const { errorAPI } = useNewsAPIRedux();
+  const { errorDB } = useDBRedux();
   const { authError } = useAuthRedux();
   const navigate = useNavigate();
 

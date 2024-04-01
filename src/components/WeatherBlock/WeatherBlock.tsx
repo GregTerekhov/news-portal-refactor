@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 
-import { useWeatherAPI } from 'reduxStore/hooks';
+import { useWeatherAPIRedux } from 'reduxStore/hooks';
 
 import { useWeather } from './hooks';
 
@@ -22,7 +22,7 @@ const WeatherBlock: FC<{}> = () => {
     flipWeatherDetails,
   } = useWeather();
 
-  const { isWeatherLoading, currentWeather, weatherError } = useWeatherAPI();
+  const { isWeatherLoading, currentWeather, weatherError } = useWeatherAPIRedux();
 
   const emptyWeather = currentWeather && Object.keys(currentWeather).length === 0;
   const showLoader = isWeatherLoading && hasGeolocationPermission;

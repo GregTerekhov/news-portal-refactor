@@ -12,7 +12,6 @@ import type {
   UpdatePasswordRequest,
   RecoveryPasswordChange,
   GoogleAuth,
-  // SendEncryptedPassword,
   GetCryptoPassword,
   SignInRequest,
 } from 'types';
@@ -38,10 +37,6 @@ const useAuthCollector = () => {
     (credentials: SignInRequest) => dispatch(auth.signIn(credentials)),
     [dispatch],
   );
-  // const sendPassword = useCallback(
-  //   (cryptoData: SendEncryptedPassword) => dispatch(auth.sendCryptoPassword(cryptoData)),
-  //   [dispatch],
-  // );
   const getCryptoPassword = useCallback(
     (userId: GetCryptoPassword) => dispatch(auth.getSavedPassword(userId)),
     [dispatch],
@@ -115,7 +110,6 @@ const useAuthCollector = () => {
     authError,
     register,
     login,
-    // sendPassword,
     getCryptoPassword,
     logout,
     fetchCurrentAuthUser,

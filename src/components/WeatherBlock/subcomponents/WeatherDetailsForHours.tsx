@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
 
-import { useWeatherAPI } from 'reduxStore/hooks';
-import { useWindowWidth } from 'contexts';
+import { useWeatherAPIRedux } from 'reduxStore/hooks';
+import { useWindowWidthContext } from 'contexts';
 
 import type { HourlyWeatherData } from 'types';
 
@@ -14,8 +14,8 @@ interface WeatherForHoursProps {
 }
 
 const WeatherDetailsForHours: FC<WeatherForHoursProps> = ({ isCelsius }) => {
-  const { hourlyWeather } = useWeatherAPI();
-  const { isMobile } = useWindowWidth();
+  const { hourlyWeather } = useWeatherAPIRedux();
+  const { isMobile } = useWindowWidthContext();
 
   const rows = getWeatherTableForHours(isCelsius);
 

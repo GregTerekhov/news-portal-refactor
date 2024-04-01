@@ -1,17 +1,17 @@
 import { useEffect, useState } from 'react';
 
-import { useNewsAPI, useFiltersAction } from 'reduxStore/hooks';
-import { usePaginationContext, useWindowWidth } from 'contexts';
+import { useNewsAPIRedux, useFiltersRedux } from 'reduxStore/hooks';
+import { usePaginationContext, useWindowWidthContext } from 'contexts';
 
 import type { PartialVotedNewsArray } from 'types';
 
 import { calculatePagesForDevices, calculateFirstIndexes, COUNT } from '../assistants';
 
 const usePagination = (rebuildedNews: PartialVotedNewsArray) => {
-  const { isMobile, isTablet } = useWindowWidth();
+  const { popularNews, newsByKeyword, newsByCategory, newsByDate } = useNewsAPIRedux();
+  const { filteredNews } = useFiltersRedux();
+  const { isMobile, isTablet } = useWindowWidthContext();
   const { currentPage } = usePaginationContext();
-  const { popularNews, newsByKeyword, newsByCategory, newsByDate } = useNewsAPI();
-  const { filteredNews } = useFiltersAction();
 
   const [currentItems, setCurrentItems] = useState<PartialVotedNewsArray>([]);
 

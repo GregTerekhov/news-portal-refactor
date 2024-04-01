@@ -1,6 +1,6 @@
 import React, { FC, useEffect } from 'react';
 
-import { useAuthRedux, useDB, useNewsAPI } from 'reduxStore/hooks';
+import { useAuthRedux, useDBRedux, useNewsAPIRedux } from 'reduxStore/hooks';
 import { usePaginationContext } from 'contexts';
 
 import { useActiveLinks, useChooseRenderingNews } from 'hooks';
@@ -14,8 +14,8 @@ import { Pagination } from './subcomponents';
 const TODAY_HOT_NEWS = 1;
 
 const HomePage: FC = () => {
-  const { headline, fetchPopular } = useNewsAPI();
-  const { getSavedNews } = useDB();
+  const { fetchPopular } = useNewsAPIRedux();
+  const { getSavedNews } = useDBRedux();
   const { isAuthenticated } = useAuthRedux();
 
   const { currentPage } = usePaginationContext();
@@ -31,7 +31,6 @@ const HomePage: FC = () => {
 
   return (
     <PageTemplate>
-      {headline && <h2 className='mb-6 text-giant font-bold dark:text-whiteBase'>{headline}</h2>}
       <NewsList currentItems={currentItems} currentPage={currentPage} />
       <Pagination pageNumbers={pageNumbers} />
     </PageTemplate>

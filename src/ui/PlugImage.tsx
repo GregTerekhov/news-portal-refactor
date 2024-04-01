@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 
-import { useNewsAPI } from 'reduxStore/hooks';
+import { useNewsAPIRedux } from 'reduxStore/hooks';
 
 import { plugImages } from 'constants/images';
 import { generateContentImages } from 'helpers';
@@ -11,7 +11,7 @@ interface PlugImageProps {
 }
 
 const PlugImage: FC<PlugImageProps> = ({ variant }) => {
-  const { errorAPI } = useNewsAPI();
+  const { errorAPI } = useNewsAPIRedux();
   const { isHomeActive } = useActiveLinks();
 
   const isErrorAPI = errorAPI?.toString().includes('429');

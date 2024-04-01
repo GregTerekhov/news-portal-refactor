@@ -1,39 +1,14 @@
 import React, { FC } from 'react';
 
 import { VariantInputs } from 'types';
-import { useFiltersState } from 'contexts';
 
 import { UnverifiableInput } from 'ui';
 
 import { useChangeFilter } from '../hooks';
 
 const FilterInputs: FC = () => {
-  const { filters } = useFiltersState();
+  const { filterInputs, handleChangeFilter } = useChangeFilter();
 
-  const { handleChangeFilter } = useChangeFilter();
-
-  const filterInputs = [
-    {
-      name: 'keyword',
-      value: filters.keyword,
-      placeholder: 'Keyword',
-    },
-    {
-      name: 'author',
-      value: filters.author,
-      placeholder: 'Author',
-    },
-    {
-      name: 'title',
-      value: filters.title,
-      placeholder: 'Title',
-    },
-    {
-      name: 'publisher',
-      value: filters.publisher,
-      placeholder: 'Publisher',
-    },
-  ];
   return (
     <>
       {Array.isArray(filterInputs) &&

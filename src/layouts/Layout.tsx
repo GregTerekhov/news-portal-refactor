@@ -1,8 +1,8 @@
 import React, { FC, useEffect } from 'react';
 import { Outlet } from 'react-router-dom';
 
-import { useAuthRedux, useDB, useNewsAPI } from 'reduxStore/hooks';
-import { useWindowWidth } from 'contexts';
+import { useAuthRedux, useDBRedux, useNewsAPIRedux } from 'reduxStore/hooks';
+import { useWindowWidthContext } from 'contexts';
 
 import { VariantSwitcher } from 'types';
 import { useActiveLinks, useChooseRenderingNews } from 'hooks';
@@ -16,11 +16,11 @@ import Footer from './Footer/Footer';
 import Container from './Container';
 
 const Layout: FC = () => {
-  const { isNotMobile } = useWindowWidth();
+  const { isNotMobile } = useWindowWidthContext();
 
-  const { fetchCategoriesList, errorAPI } = useNewsAPI();
+  const { fetchCategoriesList, errorAPI } = useNewsAPIRedux();
   const { isAuthenticated } = useAuthRedux();
-  const { allFavourites, allArchive } = useDB();
+  const { allFavourites, allArchive } = useDBRedux();
 
   const activeLinks = useActiveLinks();
   const { rebuildedNews } = useChooseRenderingNews(activeLinks);

@@ -1,22 +1,21 @@
 import React, { FC, useEffect } from 'react';
 
-import { useDB } from 'reduxStore/hooks';
+import { useDBRedux } from 'reduxStore/hooks';
 import { PageTemplate } from '../template';
 
-import { useReadSortState } from 'contexts';
+import { useReadSortStateContext } from 'contexts';
 import { useActiveLinks, useChooseRenderingNews, useReadNewsContent } from 'hooks';
 
 import { NewsList } from 'components';
 import { Accordeon } from 'ui';
 
 const ReadPage: FC = () => {
-  const { getReads } = useDB();
+  const { getReads } = useDBRedux();
+  const { sortedDates } = useReadSortStateContext();
 
   const activeLinks = useActiveLinks();
-
   const initialReadsList = useReadNewsContent();
   const { rebuildedNews } = useChooseRenderingNews(activeLinks);
-  const { sortedDates } = useReadSortState();
 
   useEffect(() => {
     getReads();

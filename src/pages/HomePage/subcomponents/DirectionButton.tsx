@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 
-import { usePaginationContext, useWindowWidth } from 'contexts';
+import { usePaginationContext, useWindowWidthContext } from 'contexts';
 import { VariantButton } from 'types';
 
 import { PrimaryButton } from 'ui';
@@ -18,7 +18,7 @@ const DirectionButton: FC<DirectionButtonProps> = ({
   handlePrevClick,
   handleNextClick,
 }) => {
-  const { isNotMobile } = useWindowWidth();
+  const { isNotMobile } = useWindowWidthContext();
   const { currentPage } = usePaginationContext();
 
   const disabledPrevButton = currentPage - 1 === 0 ? true : false;

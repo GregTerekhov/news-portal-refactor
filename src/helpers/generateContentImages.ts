@@ -16,6 +16,7 @@ const isWebPSupported = (() => {
   return elem.toDataURL('image/webp').indexOf('data:image/webp') === 0;
 })();
 
+//Функція генерації контентних зображень під відповідні розміри екрану, значень devicePixelRatio та (не-)підтримки формату webp
 export default function generateContentImages(
   images: Image[],
   devicePixelRatio: number,

@@ -2,7 +2,7 @@ import axios, { AxiosResponse } from 'axios';
 
 import { axiosInstance, createAppAsyncThunk } from '../services';
 
-import { getRequestUrl } from './helpers';
+import { getRequestUrl, serializeParams } from './helpers';
 
 type QueryParams = Record<string, string | object | number>;
 
@@ -11,15 +11,6 @@ interface AsyncThunkTemplateOptions {
   nestedObjectName?: string;
   responsePath?: string;
 }
-
-const serializeParams = (params: QueryParams): string => {
-  if (params && typeof params === 'object') {
-    return Object.entries(params)
-      .map(([key, value]) => `${encodeURIComponent(key)}=${encodeURIComponent(String(value))}`)
-      .join('&');
-  }
-  return '';
-};
 
 export const requestTemplate = <Arg, Result>(
   name: string,
@@ -58,7 +49,7 @@ export const requestTemplate = <Arg, Result>(
           'Content-Type': 'application/json',
         },
         transformResponse: [
-          (data) => {
+          async (data) => {
             try {
               const parsedData = JSON.parse(data);
 
@@ -86,7 +77,10 @@ export const requestTemplate = <Arg, Result>(
     } catch (error: any) {
       // console.log(`Error ${name}`, error.response);
 
-      if (error.response.status && (error.response.status >= 500 || error.response.status >= 429)) {
+      if (
+        error.response.status &&
+        (error.response.status >= 500 || error.response.status === 429)
+      ) {
         return rejectWithValue(error.response.status || 'Unknown error');
       }
       return rejectWithValue(error.response.data.message || 'Unknown error');

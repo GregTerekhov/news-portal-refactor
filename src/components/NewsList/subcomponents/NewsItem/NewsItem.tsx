@@ -21,10 +21,11 @@ const NewsItem: FC<Partial<NewsItemProps>> = ({ liveNews = {} }) => {
   const { isAuthenticated } = useAuthRedux();
 
   const { isOpenModal, toggleModal, popUpRef } = usePopUp();
-  const { isHomeActive, isArchiveActive } = useActiveLinks();
+  const { isHomeActive, isArchiveActive, isReadActive } = useActiveLinks();
   const { isFavourite, hasRead, handleChangeFavourites, handleReadNews, handleDeleteNews } =
     useNews({ liveNews });
 
+  //Функція видалення новини
   const handleDeleteNewsWrapper = async (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
   ): Promise<void> => {
@@ -62,7 +63,7 @@ const NewsItem: FC<Partial<NewsItemProps>> = ({ liveNews = {} }) => {
           <p className='absolute left-0 top-10 z-20 rounded-r bg-accentBase/[.7] px-2 py-1 text-small font-medium text-contrastWhite hg:text-medium'>
             {liveNews?.category} / {liveNews?.materialType}
           </p>
-          {isAuthenticated && hasRead && (
+          {isAuthenticated && hasRead && !isReadActive && (
             <p className='absolute right-14 top-3.5 z-10 flex items-center gap-1 text-base font-bold text-readBase md:top-5'>
               Already read
               <SvgIcon svgName='check' sizeKey='smIcon18' className='fill-readBase' />

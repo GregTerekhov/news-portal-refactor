@@ -1,15 +1,9 @@
-import React, { FC } from 'react';
+import React, { FC, useState } from 'react';
 
 import { useActiveLinks } from 'hooks';
 
 import { SvgIcon } from 'ui';
-
-type ButtonLabel =
-  | 'Remove from favorite'
-  | 'Add to favorite'
-  | 'Favourited'
-  | 'Not in favourites'
-  | undefined;
+import { getButtonLabel, getIconStyles } from '../assistants';
 
 interface VBProps {
   buttonData: {
@@ -20,40 +14,27 @@ interface VBProps {
 }
 
 const VoteButton: FC<VBProps> = ({ onHandleClick, isFavourite, buttonData }) => {
+  const [isHovered, setIsHovered] = useState<boolean>(false);
   const { isArchiveActive } = useActiveLinks();
 
-  const onButHover = isFavourite
-    ? 'fill-accentBase stroke-accentBase'
-    : 'stroke-accentBase fill-none';
-
-  const buttonStyles = `absolute bottom-3 right-2 z-20 flex items-center gap-x-1 rounded-3xl bg-contrastWhite px-3 py-1.5 ${onButHover} ${
+  const buttonStyles = `absolute bottom-3 right-2 z-20 flex items-center gap-x-1 rounded-3xl bg-contrastWhite px-3 py-1.5 text-small font-medium text-darkBase transition-colors duration-500 lg:text-medium ${
     !isArchiveActive ? 'group hocus:bg-accentBase hocus:text-whiteBase' : ''
-  } text-small font-medium text-darkBase transition-colors duration-500 lg:text-medium`;
-  // console.log('isFavourite', isFavourite);
-
-  const getButtonLabel = (): ButtonLabel => {
-    switch (true) {
-      case !isArchiveActive && isFavourite:
-        return 'Remove from favorite';
-      case !isArchiveActive && !isFavourite:
-        return 'Add to favorite';
-      case isArchiveActive && isFavourite:
-        return 'Favourited';
-      case isArchiveActive && !isFavourite:
-        return 'Not in favourites';
-
-      default:
-        return;
-    }
-  };
+  }`;
 
   return (
-    <button id={buttonData?.id} type='button' className={`${buttonStyles}`} onClick={onHandleClick}>
-      {getButtonLabel()}
+    <button
+      id={buttonData?.id}
+      type='button'
+      className={`${buttonStyles}`}
+      onClick={onHandleClick}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+    >
+      {getButtonLabel(isArchiveActive, isFavourite)}
       <SvgIcon
         svgName='heart'
         sizeKey='xsIcon16'
-        className={`fill-inherit ${!isArchiveActive ? 'group-hover:stroke-whiteBase group-focus:stroke-whiteBase' : ''} `}
+        className={getIconStyles(isFavourite, isHovered, isArchiveActive)}
       />
     </button>
   );

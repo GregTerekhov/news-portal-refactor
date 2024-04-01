@@ -1,11 +1,11 @@
-import { useDB, useFiltersAction, useNewsAPI } from 'reduxStore/hooks';
+import { useDBRedux, useFiltersRedux, useNewsAPIRedux } from 'reduxStore/hooks';
 
 import { useActiveLinks } from 'hooks';
 
 const useShowLoader = () => {
-  const { hasResults } = useFiltersAction();
-  const { isLoadingAPIData } = useNewsAPI();
-  const { isLoadingDBData } = useDB();
+  const { hasResults } = useFiltersRedux();
+  const { isLoadingAPIData } = useNewsAPIRedux();
+  const { isLoadingDBData } = useDBRedux();
   const { isHomeActive, isFavoriteActive, isReadActive, isArchiveActive } = useActiveLinks();
 
   const commonDBLoader = isLoadingDBData || hasResults === 'loading';

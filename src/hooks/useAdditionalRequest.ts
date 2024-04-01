@@ -2,8 +2,8 @@ import { useState } from 'react';
 import memoizeOne from 'memoize-one';
 
 import type { CategoryRequest } from 'types';
-import { useNewsAPI, useFiltersAction } from 'reduxStore/hooks';
-import { usePaginationContext, useSelectedDate } from 'contexts';
+import { useNewsAPIRedux, useFiltersRedux } from 'reduxStore/hooks';
+import { usePaginationContext, useSelectedDateContext } from 'contexts';
 
 export type SearchParamsObject = {
   query: string;
@@ -32,9 +32,9 @@ const useAdditionalRequest = () => {
     fetchPopular,
     resetPreviousRequest,
     updateHeadline,
-  } = useNewsAPI();
-  const { filteredNews } = useFiltersAction();
-  const { resetRequestDay } = useSelectedDate();
+  } = useNewsAPIRedux();
+  const { filteredNews } = useFiltersRedux();
+  const { resetRequestDay } = useSelectedDateContext();
   const { resetPagination } = usePaginationContext();
 
   const showPopular =

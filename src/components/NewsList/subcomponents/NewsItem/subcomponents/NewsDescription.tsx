@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 
-import { useWindowWidth } from 'contexts';
+import { useWindowWidthContext } from 'contexts';
 
 import type { VotedItem } from 'types';
 
@@ -11,7 +11,7 @@ interface NewsDescriptionProps {
 }
 
 const NewsDescription: FC<NewsDescriptionProps> = ({ liveNews }) => {
-  const { wideScreens } = useWindowWidth();
+  const { wideScreens } = useWindowWidthContext();
 
   return (
     <div className='mt-4 px-4'>

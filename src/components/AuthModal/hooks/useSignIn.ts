@@ -3,9 +3,10 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { SubmitHandler, useForm } from 'react-hook-form';
 
 import { useAuthRedux } from 'reduxStore/hooks';
-import { useNotification, useScrollBodyContext } from 'contexts';
+import { useNotificationContext, useScrollBodyContext } from 'contexts';
 
 import type { AuthRequestWithoutName, AuthInputs, EncryptedPasswordRequest } from 'types';
+
 import { encryptPassword } from 'helpers';
 import { useCrypto, usePopUp } from 'hooks';
 
@@ -14,14 +15,16 @@ import { getCheckboxState, signInSchema } from '../assistants';
 const useSignIn = () => {
   const [isChecked, setIsChecked] = useState<boolean>(getCheckboxState());
 
-  const { showToast } = useNotification();
-  const { setIsScrollDisabled } = useScrollBodyContext();
   const { login } = useAuthRedux();
+  const { showToast } = useNotificationContext();
+  const { setIsScrollDisabled } = useScrollBodyContext();
+
   const { toggleModal } = usePopUp();
   const { fetchCryptoPassword } = useCrypto();
 
   const savedUserId = localStorage.getItem('userId');
 
+  // Отримання розшифрованого пароля та пошти, збережених раніше на бекенді та вставка їх в інпути авторизаційних даних
   useEffect(() => {
     const fetchPassword = async () => {
       const cryptoData = await fetchCryptoPassword();
@@ -35,6 +38,7 @@ const useSignIn = () => {
     fetchPassword();
   }, []);
 
+  // Видалення даних з localStorage при умові незаповненого чекбоксу Remember me
   useEffect(() => {
     if (!isChecked) {
       localStorage.removeItem('rememberMe');
@@ -42,6 +46,7 @@ const useSignIn = () => {
     }
   }, [isChecked]);
 
+  // хук useForm react-hook-form для signIn-операції
   const {
     handleSubmit,
     register: registration,
@@ -58,13 +63,16 @@ const useSignIn = () => {
     },
   });
 
+  // Функція слідкування за станом чекбокса та його зміни
   const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const isRememberMe = event.target.checked;
     setIsChecked(isRememberMe);
   };
 
-  const [email, password] = watch(['email', 'password']); // споглядання за відповідними полями, щоб зберігати введені валідні значення для RememberMe
+  // споглядання за відповідними полями, щоб зберігати введені валідні значення для RememberMe
+  const [email, password] = watch(['email', 'password']);
 
+  //Функція-submit
   const signInSubmitHandler: SubmitHandler<
     AuthRequestWithoutName | EncryptedPasswordRequest
   > = async (data, e) => {
@@ -104,6 +112,7 @@ const useSignIn = () => {
     }
   };
 
+  // Data для signIn-інпутів
   const signInInputs: Array<AuthInputs> = [
     {
       type: 'email',

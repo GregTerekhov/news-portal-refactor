@@ -12,9 +12,13 @@ interface ScrollDirection {
   label: string;
 }
 
-const PageScrollController: FC<ScrollDirection> = (value) => {
-  const { direction, position, icon, label, classIcon } = value;
-
+const PageScrollController: FC<ScrollDirection> = ({
+  direction,
+  position,
+  icon,
+  label,
+  classIcon,
+}) => {
   const { upButtonVisibility, downButtonVisibility, onHandleClick } =
     useScrollController(direction);
 

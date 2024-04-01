@@ -1,13 +1,13 @@
-import { useDB, useNewsAPI, useFiltersAction } from 'reduxStore/hooks';
+import { useDBRedux, useNewsAPIRedux, useFiltersRedux } from 'reduxStore/hooks';
 
 import { rebuildNewsArray } from 'helpers';
 
 import type { ActiveLinks } from './commonTypes';
 
 const useChooseRenderingNews = (activeLinks: ActiveLinks) => {
-  const { popularNews, newsByKeyword, newsByCategory, newsByDate } = useNewsAPI();
-  const { allFavourites, allReads, allArchive } = useDB();
-  const { filteredNews } = useFiltersAction();
+  const { popularNews, newsByKeyword, newsByCategory, newsByDate } = useNewsAPIRedux();
+  const { allFavourites, allReads, allArchive } = useDBRedux();
+  const { filteredNews } = useFiltersRedux();
 
   const { isHomeActive, isFavoriteActive, isReadActive, isArchiveActive } = activeLinks;
 

@@ -1,4 +1,4 @@
-import { useWindowWidth } from 'contexts';
+import { useWindowWidthContext } from 'contexts';
 
 const MOBILE_HEADER_HEIGHT = 81;
 const TABLET_HEADER_HEIGHT = 106;
@@ -6,7 +6,7 @@ const DESKTOP_HEADER_HEIGHT = 113;
 const TV_HEADER_HEIGHT = 136;
 
 const useHeaderHeight = () => {
-  const { isTablet, isDesktop, isTV } = useWindowWidth();
+  const { isTablet, isDesktop, isTV } = useWindowWidthContext();
 
   function getHeaderHeight() {
     switch (true) {

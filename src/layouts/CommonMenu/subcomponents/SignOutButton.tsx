@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
 
 import { VariantButton } from 'types';
-import { useWindowWidth } from 'contexts';
+import { useWindowWidthContext } from 'contexts';
 
 import { PrimaryButton } from 'ui';
 
@@ -10,7 +10,7 @@ interface SignOutButtonProps {
 }
 
 const SignOutButton: FC<SignOutButtonProps> = ({ handleSignOut }) => {
-  const { isTV } = useWindowWidth();
+  const { isTV } = useWindowWidthContext();
 
   return (
     <PrimaryButton

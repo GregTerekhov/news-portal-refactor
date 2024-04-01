@@ -22,6 +22,7 @@ export const getControlButtons = ({
   handleReset,
   wideScreens,
 }: ButtonsDataProps) => {
+  //Data для кнопок блока фільтрації новин
   const controlButtons: IControlButtons[] = [
     {
       type: 'submit',

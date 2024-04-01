@@ -9,7 +9,7 @@ import {
   Persistor,
   persistStore,
 } from 'redux-persist';
-import { ThunkDispatch } from 'redux-thunk';
+import type { ThunkDispatch } from 'redux-thunk';
 
 import { persistedReducer } from './reducers';
 

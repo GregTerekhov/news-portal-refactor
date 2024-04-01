@@ -1,6 +1,6 @@
 import React, { FC, useEffect } from 'react';
 
-import { useDB } from 'reduxStore/hooks';
+import { useDBRedux } from 'reduxStore/hooks';
 import { PageTemplate } from '../template';
 
 import { useActiveLinks, useChooseRenderingNews } from 'hooks';
@@ -8,7 +8,7 @@ import { useActiveLinks, useChooseRenderingNews } from 'hooks';
 import { NewsList } from 'components';
 
 const FavouritePage: FC<{}> = () => {
-  const { getFavourites, getSavedNews } = useDB();
+  const { getFavourites, getSavedNews } = useDBRedux();
 
   const activeLinks = useActiveLinks();
   const { rebuildedNews } = useChooseRenderingNews(activeLinks);

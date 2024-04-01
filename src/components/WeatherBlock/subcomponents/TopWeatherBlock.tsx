@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
 
 import type { WeatherData } from 'types';
-import { useWindowWidth } from 'contexts';
+import { useWindowWidthContext } from 'contexts';
 
 import { SvgIcon } from 'ui';
 
@@ -18,7 +18,7 @@ const TopWeatherBlock: FC<TopWeatherProps> = ({
   currentWeather,
   isCelsius,
 }) => {
-  const { isMobile } = useWindowWidth();
+  const { isMobile } = useWindowWidthContext();
 
   const currentTemperature = currentWeather.main?.temp ?? 0;
   const feelsLike = currentWeather.main?.feels_like ?? 0;

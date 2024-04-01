@@ -1,7 +1,7 @@
 import React, { FC, useState } from 'react';
 
 import { VariantInputs, VariantSwitcher } from 'types';
-import { useWindowWidth } from 'contexts';
+import { useWindowWidthContext } from 'contexts';
 
 import { useActiveLinks, useAdditionalRequest, useHeaderStyles } from 'hooks';
 
@@ -22,7 +22,7 @@ const AuthenticatedHeaderContent: FC<HeaderContentProps> = ({
   toggleMenu,
 }) => {
   const [touched, setTouched] = useState<boolean>(false);
-  const { isMobile } = useWindowWidth();
+  const { isMobile } = useWindowWidthContext();
 
   const { query, onChangeInput, onHandleSearch } = useAdditionalRequest();
   const { isHomeActive, isAccountPage, isManageAccountPage } = useActiveLinks();
@@ -30,10 +30,12 @@ const AuthenticatedHeaderContent: FC<HeaderContentProps> = ({
 
   const isAccountPages = isAccountPage || isManageAccountPage;
 
+  //Функція змінення стану показування/приховування інпуту пошуку по ключовому слову в хедері на мобільних девайсах
   const handleVisibilityChange = (): void => {
     setTouched(!touched);
   };
 
+  //Функція визначення id для меню в залежності від розміщення
   const getNavId = (): string => {
     let id = '';
 
@@ -51,8 +53,6 @@ const AuthenticatedHeaderContent: FC<HeaderContentProps> = ({
 
     return id;
   };
-
-  const getId = getNavId();
 
   return (
     <>
@@ -96,7 +96,7 @@ const AuthenticatedHeaderContent: FC<HeaderContentProps> = ({
                 className={`hocus:stroke-accentBase dark:hocus:stroke-accentBase ${
                   !isOpenMenu && isHomeActive
                     ? burgerMenuButtonClass
-                    : 'hocus:stroke-accentBase stroke-darkBase dark:stroke-whiteBase '
+                    : 'stroke-darkBase hocus:stroke-accentBase dark:stroke-whiteBase '
                 }`}
               />
             </button>
@@ -112,7 +112,7 @@ const AuthenticatedHeaderContent: FC<HeaderContentProps> = ({
           </div>
         </>
       )}
-      {isOpenMenu && <CommonMenu isOpen={isOpenMenu} navId={getId} closeMenu={toggleMenu} />}
+      {isOpenMenu && <CommonMenu isOpen={isOpenMenu} navId={getNavId()} closeMenu={toggleMenu} />}
     </>
   );
 };

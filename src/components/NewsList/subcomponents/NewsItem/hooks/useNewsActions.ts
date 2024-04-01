@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
 
-import { useDB } from 'reduxStore/hooks';
-import { useNotification, useScrollBodyContext } from 'contexts';
+import { useDBRedux } from 'reduxStore/hooks';
+import { useNotificationContext, useScrollBodyContext } from 'contexts';
 
 import type { VotedItem } from 'types';
 import { useActiveLinks } from 'hooks';
@@ -16,9 +16,10 @@ const useNewsActions = ({ liveNews, setIsFavourite, setHasRead }: NewsActionHook
   const [changesHappened, setChangesHappened] = useState<boolean>(false);
   const [isDeleted, setIsDeleted] = useState<boolean>(false);
 
-  const { savedNews, updateSavedNews, addVotedNews, removeNews, removeFavouriteNews } = useDB();
+  const { savedNews, updateSavedNews, addVotedNews, removeNews, removeFavouriteNews } =
+    useDBRedux();
 
-  const { showToast } = useNotification();
+  const { showToast } = useNotificationContext();
   const { setIsScrollDisabled } = useScrollBodyContext();
 
   const { isArchiveActive } = useActiveLinks();

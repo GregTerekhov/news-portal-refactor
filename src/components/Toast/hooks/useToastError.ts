@@ -1,11 +1,12 @@
-import { useAuthRedux, useNewsAPI } from 'reduxStore/hooks';
+import { useAuthRedux, useNewsAPIRedux } from 'reduxStore/hooks';
 
 import type { ToastMessage } from 'types';
 
 const useToastError = () => {
   const { authError } = useAuthRedux();
-  const { errorAPI } = useNewsAPI();
+  const { errorAPI } = useNewsAPIRedux();
 
+  //Функція виведення заголовка та опису для тостів помилок
   const chooseErrorToastText = (status: string | number | undefined): ToastMessage => {
     let title = '';
     let description = '';
@@ -44,8 +45,10 @@ const useToastError = () => {
     return { title, description };
   };
 
+  //Визначення статусу помилки в залежності від API
   const status = authError ? authError : errorAPI ? errorAPI : undefined;
 
+  //Функція-обгортка
   const showErrorToast = (): ToastMessage => {
     return chooseErrorToastText(status);
   };

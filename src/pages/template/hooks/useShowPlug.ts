@@ -1,4 +1,4 @@
-import { useDB, useFiltersAction, useNewsAPI } from 'reduxStore/hooks';
+import { useDBRedux, useFiltersRedux, useNewsAPIRedux } from 'reduxStore/hooks';
 
 import { useActiveLinks, useChooseRenderingNews } from 'hooks';
 import useShowLoader from './useShowLoader';
@@ -6,9 +6,9 @@ import useShowLoader from './useShowLoader';
 const useShowPlug = () => {
   const activeLinks = useActiveLinks();
   const { rebuildedNews } = useChooseRenderingNews(activeLinks);
-  const { hasResults } = useFiltersAction();
-  const { errorAPI } = useNewsAPI();
-  const { allArchive, archiveHistoryLog, isLoadingDBData } = useDB();
+  const { hasResults } = useFiltersRedux();
+  const { errorAPI } = useNewsAPIRedux();
+  const { allArchive, archiveHistoryLog, isLoadingDBData } = useDBRedux();
   const { isHomeLoader, commonDBLoader } = useShowLoader();
 
   const { isHomeActive, isFavoriteActive, isReadActive, isArchiveActive } = activeLinks;

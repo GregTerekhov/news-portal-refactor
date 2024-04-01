@@ -1,6 +1,6 @@
 import React, { FC, useEffect } from 'react';
 
-import { useDB } from 'reduxStore/hooks';
+import { useDBRedux } from 'reduxStore/hooks';
 import { PageTemplate } from '../template';
 
 import { NewsList } from 'components';
@@ -10,7 +10,7 @@ import { organiseNewsByMonth } from './assistants';
 import { ArchiveHistoryLog } from './subcomponents';
 
 const ArchivePage: FC<{}> = () => {
-  const { allArchive, archiveHistoryLog, getHistoryLog, getArchives } = useDB();
+  const { allArchive, archiveHistoryLog, getHistoryLog, getArchives } = useDBRedux();
 
   useEffect(() => {
     getArchives();

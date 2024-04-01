@@ -2,7 +2,7 @@ import React, { FC } from 'react';
 import { Switch } from '@headlessui/react';
 
 import { VariantSwitcher } from 'types';
-import { useTheme, useWindowWidth } from 'contexts';
+import { useThemeContext, useWindowWidthContext } from 'contexts';
 
 import { useActiveLinks, useHeaderStyles } from 'hooks';
 
@@ -11,12 +11,10 @@ import SvgIcon from '../SvgIcon';
 import { generateSwitcherStyles } from './assistants';
 
 const ThemeSwitcher: FC<{ variant: VariantSwitcher }> = ({ variant }) => {
-  const { wideScreens } = useWindowWidth();
-
-  const { enabled, setEnabled, handleThemeChange } = useTheme();
+  const { wideScreens } = useWindowWidthContext();
+  const { enabled, setEnabled, handleThemeChange } = useThemeContext();
 
   const { isHomeActive } = useActiveLinks();
-
   const { themeSwitcherTextClass } = useHeaderStyles(isHomeActive);
 
   const styles = generateSwitcherStyles({ enabled });

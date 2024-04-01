@@ -2,7 +2,7 @@ import React, { ReactNode, FC, useId, useState } from 'react';
 import { UseFormRegister } from 'react-hook-form';
 
 import { InputLabel, VariantVerifiableInputs, VerifiableInputValues } from 'types';
-import { useWindowWidth } from 'contexts';
+import { useWindowWidthContext } from 'contexts';
 
 import SvgIcon from '../SvgIcon';
 
@@ -46,7 +46,7 @@ const VerifiableInput: FC<InputProps> = ({
 }) => {
   const [isPasswordVisibility, setIsPasswordVisibility] = useState<boolean>(false);
 
-  const { wideScreens } = useWindowWidth();
+  const { wideScreens } = useWindowWidthContext();
 
   const id = useId(); // додається для розрізнення однакових label в різних інпутах, які знаходяться на одній сторінці
 

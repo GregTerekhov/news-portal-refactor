@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 
-import { useFiltersState } from 'contexts';
+import { useFiltersStateContext } from 'contexts';
 
 import { Dropdown } from 'ui';
 
@@ -11,7 +11,7 @@ import Calendar from '../Calendar/Calendar';
 import { ControlButtons, FilterInputs } from './subcomponents';
 
 const FiltersBlock: FC<{}> = () => {
-  const { selectedMaterialType, setSelectedMaterialType } = useFiltersState();
+  const { selectedMaterialType, setSelectedMaterialType } = useFiltersStateContext();
 
   const { handleMaterialTypeChange } = useChangeFilter();
 
