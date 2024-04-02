@@ -15,7 +15,7 @@ export interface AuthState {
     email: string;
     id: string;
   };
-  receivedCryptoPassword: ReceivedCryptoPassword | null;
+  receivedCryptoPassword: ReceivedCryptoPassword | {};
   haveAccounts: {
     google: boolean;
     facebook: boolean;

@@ -24,11 +24,13 @@ const Auth: FC<AuthButtonProps> = ({ passwordToken }) => {
   const { authButtonClass } = useHeaderStyles(isHomeActive);
   const { fetchCryptoPassword } = useCrypto();
 
+  const isCredentialsRemembered = localStorage.getItem('rememberMe');
   const navigate = useNavigate();
 
   //Функція відкриття модалки при наявності збереженого Remember me та запиту шифрованого пароля
   const onOpenModal = () => {
-    fetchCryptoPassword();
+    console.log('onOpenModal in AUTH');
+    if (isCredentialsRemembered) fetchCryptoPassword();
     toggleModal();
   };
 

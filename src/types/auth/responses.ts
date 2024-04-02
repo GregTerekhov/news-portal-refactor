@@ -13,6 +13,7 @@ export type User = {
 
 export interface ReceivedCryptoPassword {
   cryptoData: {
+    encryptionKey: CryptoKey;
     encryptedPassword: ArrayBuffer;
     salt: Uint8Array;
     email: string;
@@ -46,6 +47,8 @@ interface SignInResponse {
   haveAccounts: HaveAccounts;
 }
 export type CredentialSignInResponse = ServicesInfo & SignInResponse;
+
+export type GoogleAuthResponse = CredentialSignInResponse & { thirdPartyRegister: boolean };
 
 export type SignOutResponse = ServicesInfo;
 

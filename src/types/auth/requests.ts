@@ -7,6 +7,7 @@ export type MainCredentials = {
 };
 
 export interface EncryptedPassword {
+  encryptionKey: CryptoKey;
   encryptedPassword: ArrayBuffer;
   salt: Uint8Array;
 }

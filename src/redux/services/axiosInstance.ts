@@ -15,7 +15,7 @@ const createAxiosInstance = () => {
       const state = store.getState() as RootState;
       const accessToken = state.auth.accessToken;
 
-      const isAuthenticated: boolean = state.auth.isLoggedIn;
+      const isAuthenticated = state.auth.isLoggedIn;
 
       if (!isAuthenticated) {
         if (!accessToken) {

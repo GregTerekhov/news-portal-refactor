@@ -5,15 +5,18 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { useAuthRedux } from 'reduxStore/hooks';
 import { useNotificationContext, useScrollBodyContext } from 'contexts';
 
-import type { AuthRequestWithoutName, AuthInputs, EncryptedPasswordRequest } from 'types';
+import type { AuthRequestWithoutName, EncryptedPasswordRequest } from 'types';
 
 import { encryptPassword } from 'helpers';
 import { useCrypto, usePopUp } from 'hooks';
 
-import { getCheckboxState, signInSchema } from '../assistants';
+import { signInDataInputs, signInSchema } from '../assistants';
 
 const useSignIn = () => {
-  const [isChecked, setIsChecked] = useState<boolean>(getCheckboxState());
+  const rememberMe = localStorage.getItem('rememberMe');
+  const [isChecked, setIsChecked] = useState<boolean>(
+    rememberMe && rememberMe === 'true' ? true : false,
+  );
 
   const { login } = useAuthRedux();
   const { showToast } = useNotificationContext();
@@ -67,6 +70,7 @@ const useSignIn = () => {
   const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const isRememberMe = event.target.checked;
     setIsChecked(isRememberMe);
+    localStorage.setItem('rememberMe', isRememberMe.toString());
   };
 
   // споглядання за відповідними полями, щоб зберігати введені валідні значення для RememberMe
@@ -79,17 +83,16 @@ const useSignIn = () => {
     e?.preventDefault();
     try {
       if (isChecked && password !== '' && !savedUserId && !errors.password) {
-        const { encryptedPassword, salt } = await encryptPassword(password);
+        const { encryptionKey, encryptedPassword, salt } = await encryptPassword(password);
         const uniqueUserId = useId();
 
         console.log('uniqueUserId', uniqueUserId);
         localStorage.setItem('userId', uniqueUserId);
-        localStorage.setItem('rememberMe', isChecked.toString());
 
         const response = await login({
           email,
           password,
-          cryptoData: { encryptedPassword, salt, userId: uniqueUserId },
+          cryptoData: { encryptionKey, encryptedPassword, salt, userId: uniqueUserId },
         });
 
         showToast(response.meta.requestStatus);
@@ -113,31 +116,7 @@ const useSignIn = () => {
   };
 
   // Data для signIn-інпутів
-  const signInInputs: Array<AuthInputs> = [
-    {
-      type: 'email',
-      placeholder: 'Enter your email',
-      labelName: 'Email',
-      fieldValue: email,
-      errors: errors?.email?.message,
-      label: 'email',
-      ariaInvalid: errors?.email ? true : false,
-      autoFocus: true,
-      autofill: 'email',
-      disabled: isChecked ? true : false,
-    },
-    {
-      type: 'password',
-      placeholder: 'Enter your password',
-      labelName: 'Password',
-      fieldValue: typeof password === 'string' ? password : '',
-      errors: errors?.password?.message,
-      label: 'password',
-      ariaInvalid: errors?.password ? true : false,
-      autoFocus: false,
-      disabled: isChecked ? true : false,
-    },
-  ];
+  const signInInputs = signInDataInputs(errors, email, password, isChecked);
 
   return {
     handleSubmit,

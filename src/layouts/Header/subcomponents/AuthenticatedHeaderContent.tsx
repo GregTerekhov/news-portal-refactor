@@ -58,49 +58,47 @@ const AuthenticatedHeaderContent: FC<HeaderContentProps> = ({
     <>
       {isMobile ? (
         <div className={`flex items-center ${isHomeActive ? 'gap-3.5' : ''}`}>
-          <>
-            {!isOpenMenu && isHomeActive ? (
-              <search>
-                <form onSubmit={(e) => onHandleSearch(e)} className='max-md:overflow-hidden'>
-                  <UnverifiableInput
-                    inputData={{
-                      name: 'query',
-                      type: 'text',
-                      value: query,
-                      placeholder: 'Search |',
-                    }}
-                    svgName='search'
-                    hasIcon={true}
-                    variant={VariantInputs.Header}
-                    hideInput={handleVisibilityChange}
-                    onChange={(event: React.ChangeEvent<HTMLInputElement>) => onChangeInput(event)}
-                    touched={touched}
-                  />
-                </form>
-              </search>
-            ) : null}
-            <button
-              aria-label={`${!isOpenMenu ? 'Open' : 'Close'} ${
-                !isAccountPages ? 'mobile' : 'account'
-              } menu button`}
-              type='button'
-              className={`${isOpenMenu ? 'z-50' : 'h-6 w-6 md:hidden'}`}
-              onClick={() => {
-                toggleMenu();
-                resetFilters();
-              }}
-            >
-              <SvgIcon
-                svgName={`${isOpenMenu ? 'close' : 'burger-menu'}`}
-                sizeKey='mdIcon24'
-                className={`hocus:stroke-accentBase dark:hocus:stroke-accentBase ${
-                  !isOpenMenu && isHomeActive
-                    ? burgerMenuButtonClass
-                    : 'stroke-darkBase hocus:stroke-accentBase dark:stroke-whiteBase '
-                }`}
-              />
-            </button>
-          </>
+          {!isOpenMenu && isHomeActive ? (
+            <search>
+              <form onSubmit={(e) => onHandleSearch(e)} className='max-md:overflow-hidden'>
+                <UnverifiableInput
+                  inputData={{
+                    name: 'query',
+                    type: 'text',
+                    value: query,
+                    placeholder: 'Search |',
+                  }}
+                  svgName='search'
+                  hasIcon={true}
+                  variant={VariantInputs.Header}
+                  hideInput={handleVisibilityChange}
+                  onChange={(event: React.ChangeEvent<HTMLInputElement>) => onChangeInput(event)}
+                  touched={touched}
+                />
+              </form>
+            </search>
+          ) : null}
+          <button
+            aria-label={`${!isOpenMenu ? 'Open' : 'Close'} ${
+              !isAccountPages ? 'mobile' : 'account'
+            } menu button`}
+            type='button'
+            className={`${isOpenMenu ? 'z-50' : 'h-6 w-6 md:hidden'}`}
+            onClick={() => {
+              toggleMenu();
+              resetFilters();
+            }}
+          >
+            <SvgIcon
+              svgName={`${isOpenMenu ? 'close' : 'burger-menu'}`}
+              sizeKey='mdIcon24'
+              className={`hocus:stroke-accentBase dark:hocus:stroke-accentBase ${
+                !isOpenMenu && isHomeActive
+                  ? burgerMenuButtonClass
+                  : 'stroke-darkBase hocus:stroke-accentBase dark:stroke-whiteBase '
+              }`}
+            />
+          </button>
         </div>
       ) : (
         <>
