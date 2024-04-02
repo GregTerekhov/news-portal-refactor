@@ -61,7 +61,7 @@ export const updateTokens = async (): Promise<void> => {
 
 export const isTokenExpired = (tokenStatus: JwtPayload): boolean | undefined => {
   const currentTime = dayjs().unix();
-  const tokenExpiryTime = tokenStatus.exp; // час смерті токена
+  const tokenExpiryTime = tokenStatus.exp;
   if (tokenExpiryTime) return currentTime > tokenExpiryTime;
 
   return undefined;

@@ -4,10 +4,10 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { useAuthRedux } from 'reduxStore/hooks';
 import { useNotificationContext, useScrollBodyContext } from 'contexts';
 
-import type { ChangePasswordValues, AuthInputs } from 'types';
+import type { ChangePasswordValues } from 'types';
 import { usePopUp } from 'hooks';
 
-import { changePasswordSchema } from '../assistants';
+import { changePasswordDataInputs, changePasswordSchema } from '../assistants';
 import { useNavigate } from 'react-router-dom';
 
 const useChangePassword = () => {
@@ -57,28 +57,7 @@ const useChangePassword = () => {
   };
 
   // Data для changePassword-інпутів
-  const changePasswordInputs: Array<AuthInputs> = [
-    {
-      type: 'password',
-      placeholder: 'Enter your new password',
-      labelName: 'New Password',
-      errors: errors?.newPassword?.message,
-      label: 'newPassword',
-      ariaInvalid: errors?.newPassword ? true : false,
-      autoFocus: true,
-      disabled: false,
-    },
-    {
-      type: 'password',
-      placeholder: 'Confirm your password',
-      labelName: 'Confirm Password',
-      errors: errors?.confirmPassword?.message,
-      label: 'confirmPassword',
-      ariaInvalid: errors?.confirmPassword ? true : false,
-      autoFocus: false,
-      disabled: false,
-    },
-  ];
+  const changePasswordInputs = changePasswordDataInputs(errors);
 
   return {
     changePasswordInputs,

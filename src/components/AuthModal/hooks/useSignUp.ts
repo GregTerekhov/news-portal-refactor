@@ -4,10 +4,10 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { useAuthRedux } from 'reduxStore/hooks';
 import { useNotificationContext, useScrollBodyContext } from 'contexts';
 
-import type { MainCredentials, AuthInputs } from 'types';
+import type { MainCredentials } from 'types';
 import { usePopUp } from 'hooks';
 
-import { signUpSchema } from '../assistants';
+import { signUpDataInputs, signUpSchema } from '../assistants';
 
 const useSignUp = () => {
   const { register, login } = useAuthRedux();
@@ -68,39 +68,7 @@ const useSignUp = () => {
   };
 
   // Data для signUp-інпутів
-  const signUpInputs: Array<AuthInputs> = [
-    {
-      type: 'text',
-      placeholder: 'Enter your name',
-      labelName: 'Name',
-      errors: errors?.name?.message,
-      label: 'name',
-      ariaInvalid: errors?.name ? true : false,
-      autoFocus: true,
-      disabled: false,
-    },
-    {
-      type: 'email',
-      placeholder: 'Enter your email',
-      labelName: 'Email',
-      errors: errors?.email?.message,
-      label: 'email',
-      ariaInvalid: errors?.email ? true : false,
-      autoFocus: false,
-      autofill: 'email',
-      disabled: false,
-    },
-    {
-      type: 'password',
-      placeholder: 'Enter your password',
-      labelName: 'Password',
-      errors: errors?.password?.message,
-      label: 'password',
-      ariaInvalid: errors?.password ? true : false,
-      autoFocus: false,
-      disabled: false,
-    },
-  ];
+  const signUpInputs = signUpDataInputs(errors);
 
   return {
     handleSubmit,

@@ -3,15 +3,14 @@ import React, { FC, useEffect } from 'react';
 import { useDBRedux } from 'reduxStore/hooks';
 import { PageTemplate } from '../template';
 
-import { useActiveLinks, useChooseRenderingNews } from 'hooks';
-
 import { NewsList } from 'components';
+import { InfiniteScroll } from './subcomponents';
+
+import { useInfiniteScroll } from './hooks';
 
 const FavouritePage: FC<{}> = () => {
   const { getFavourites, getSavedNews } = useDBRedux();
-
-  const activeLinks = useActiveLinks();
-  const { rebuildedNews } = useChooseRenderingNews(activeLinks);
+  const { displayedNews, handleLoadMore } = useInfiniteScroll();
 
   useEffect(() => {
     getFavourites();
@@ -20,7 +19,8 @@ const FavouritePage: FC<{}> = () => {
 
   return (
     <PageTemplate>
-      <NewsList currentItems={rebuildedNews} />
+      <NewsList currentItems={displayedNews} />
+      <InfiniteScroll onLoadMore={handleLoadMore} />
     </PageTemplate>
   );
 };

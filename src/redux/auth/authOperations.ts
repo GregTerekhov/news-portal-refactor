@@ -55,7 +55,7 @@ export const recoveryPasswordChange = requestWithInstanceTemplate<
   authTypes.PasswordChangeResponse
 >('auth/recoveryPasswordChange', '/auth/forgot-password-change', 'post');
 
-export const googleAuth = requestTemplate<authTypes.GoogleAuth, authTypes.CredentialSignInResponse>(
+export const googleAuth = requestTemplate<authTypes.GoogleAuth, authTypes.GoogleAuthResponse>(
   'auth/googleAuth',
   '/auth/google/auth',
   'post',

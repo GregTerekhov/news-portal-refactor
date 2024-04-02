@@ -12,8 +12,8 @@ const VersaMenu: FC<IMenuProps> = ({ navId, links, activeLinks, handleLinkClick 
   const getNavLinkStyles = (isActiveLink: boolean | undefined): string => {
     return `text-medium font-medium transition-colors duration-500 md:font-bold lg:text-xl hg:text-3xl ${
       navId === 'account-navigation'
-        ? 'group flex items-center gap-3.5 px-2 py-1.5 text-darkBase hocus:bg-accentBase hocus:text-whiteBase  dark:text-whiteBase'
-        : `relative pb-8 pt-12 hocus:text-accentBase lg:pb-[33px] lg:pt-[55px] ${
+        ? 'group flex items-center gap-3.5 px-2 py-1.5 text-darkBase hocus:bg-accentBase hocus:text-whiteBase dark:text-whiteBase'
+        : `relative pb-8 pt-12 hocus:text-accentBase dark:hocus:text-accentBase lg:pb-[33px] lg:pt-[55px] ${
             isActiveLink
               ? 'text-accentBase'
               : activeLinks?.isHomeActive

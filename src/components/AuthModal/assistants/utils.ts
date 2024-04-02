@@ -154,8 +154,3 @@
 //     return null;
 //   }
 // };
-
-export const getCheckboxState = () => {
-  const rememberMe = localStorage.getItem('rememberMe');
-  return rememberMe ? rememberMe === 'true' : false;
-};
