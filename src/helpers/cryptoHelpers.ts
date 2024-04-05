@@ -5,11 +5,7 @@ const decoder = new TextDecoder();
 
 //Функція шифрування користувацького пароля
 export async function encryptPassword(password: string): Promise<EncryptedPassword> {
-  let encryptionKey: CryptoKey | null = null;
-
-  if (!encryptionKey) {
-    encryptionKey = await generateEncryptionKey();
-  }
+  const encryptionKey: CryptoKey = await generateEncryptionKey();
 
   const salt = window.crypto.getRandomValues(new Uint8Array(16));
   const passwordData: Uint8Array = encoder.encode(password);
@@ -23,18 +19,22 @@ export async function encryptPassword(password: string): Promise<EncryptedPasswo
     passwordData,
   );
 
-  return { encryptionKey, encryptedPassword, salt };
+  const exportedCryptoKey = await exportEncryptionKey(encryptionKey);
+
+  return { exportedCryptoKey, encryptedPassword, salt };
 }
 
 //Функція дешифрування користувацького пароля
 export async function decryptPassword(
-  encryptionKey: CryptoKey,
+  exportedKey: ArrayBuffer,
   encryptedPassword: ArrayBuffer,
   salt: Uint8Array,
 ): Promise<string> {
-  if (!encryptionKey) {
+  if (!exportedKey) {
     throw new Error('Encryption key is missing');
   }
+
+  const encryptionKey = await importEncryptionKey(exportedKey);
 
   const decryptedPassword = await window.crypto.subtle.decrypt(
     {
@@ -58,4 +58,22 @@ async function generateEncryptionKey(): Promise<CryptoKey> {
     true,
     ['encrypt', 'decrypt'],
   );
+}
+
+//Функція експортування ключа для відправки його на бекенд
+async function exportEncryptionKey(encryptionKey: CryptoKey): Promise<ArrayBuffer> {
+  const exportedKey = await window.crypto.subtle.exportKey('raw', encryptionKey);
+  return exportedKey;
+}
+
+// Функція імпортування ключа
+async function importEncryptionKey(exportedKey: ArrayBuffer): Promise<CryptoKey> {
+  const importedKey = await window.crypto.subtle.importKey(
+    'raw',
+    exportedKey,
+    { name: 'AES-GCM', length: 256 },
+    true,
+    ['encrypt', 'decrypt'],
+  );
+  return importedKey;
 }

@@ -7,10 +7,9 @@ import { store, RootState } from '../store';
 import { setTokens } from '../auth';
 
 import type { RefreshTokensResponse } from 'types';
+import type { AsyncThunkTemplateOptions, QueryParams } from './types';
 
-type QueryParams = Record<string, string | object | number>;
-
-export function getRequestUrl(name: string, url: string): string {
+function getBaseRequestUrl(name: string, url: string): string {
   let requestUrl = '';
 
   switch (true) {
@@ -31,14 +30,79 @@ export function getRequestUrl(name: string, url: string): string {
   return requestUrl;
 }
 
-export const serializeParams = (params: QueryParams): string => {
+function replaceQueryStringInUrl(args: any, name: string, url: string): string {
+  let requestUrl = getBaseRequestUrl(name, url);
+
+  if (args) {
+    // Додавання динамічних даних до URL
+    if (typeof args === 'object') {
+      Object.entries(args).forEach(([key, value]) => {
+        if (typeof value === 'string' || typeof value === 'number') {
+          return (requestUrl = requestUrl.replace(`:${key}`, value.toString()));
+        }
+        return requestUrl;
+      });
+    } else if (typeof args === 'string') {
+      return (requestUrl = requestUrl.replace(':section', args.toString().toLowerCase()));
+    }
+  }
+
+  return requestUrl;
+}
+
+function serializeParams(params: QueryParams): string {
   if (params && typeof params === 'object') {
     return Object.entries(params)
       .map(([key, value]) => `${encodeURIComponent(key)}=${encodeURIComponent(String(value))}`)
       .join('&');
   }
   return '';
-};
+}
+
+function addQueryParams(options?: AsyncThunkTemplateOptions | undefined): string {
+  let requestUrl = '';
+  // додавання query params до url
+  if (options?.queryParams) {
+    const queryParams = serializeParams(options.queryParams);
+    return (requestUrl += queryParams ? `?${queryParams}` : '');
+  }
+
+  return requestUrl;
+}
+
+export function getFinalUrl(
+  name: string,
+  url: string,
+  args: any,
+  options?: AsyncThunkTemplateOptions | undefined,
+): string {
+  return (replaceQueryStringInUrl(args, name, url) + addQueryParams(options)).trim();
+}
+
+export function getDynamicUrl(args: any, url: string): string {
+  let dynamicUrl = url;
+
+  if (args && typeof args === 'string' && url.includes('_id')) {
+    dynamicUrl = url.replace(/_id\b/, args.toString());
+  }
+
+  return dynamicUrl;
+}
+
+export async function transformDataResponse(
+  data: any,
+  options?: AsyncThunkTemplateOptions | undefined,
+): Promise<any> {
+  const parsedData = JSON.parse(data);
+
+  // Виводимо, якщо є responsePath - для варіантів, коли є вкладеність необхідних даних більше, ніж два рівня після response.data
+  const resultData = options?.responsePath ? parsedData?.[options.responsePath] : parsedData;
+
+  // Виводимо, якщо є nestedObjectName - для варіантів, коли є вкладеність необхідних даних на один рівень нижче response.data
+  const finalData = options?.nestedObjectName ? resultData?.[options.nestedObjectName] : resultData;
+
+  return finalData;
+}
 
 export const updateTokens = async (): Promise<void> => {
   const state = store.getState() as RootState;

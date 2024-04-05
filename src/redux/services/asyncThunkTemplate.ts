@@ -2,41 +2,18 @@ import axios, { AxiosResponse } from 'axios';
 
 import { axiosInstance, createAppAsyncThunk } from '../services';
 
-import { getRequestUrl, serializeParams } from './helpers';
-
-type QueryParams = Record<string, string | object | number>;
-
-interface AsyncThunkTemplateOptions {
-  queryParams?: QueryParams;
-  nestedObjectName?: string;
-  responsePath?: string;
-}
+import { getDynamicUrl, getFinalUrl, transformDataResponse } from './helpers';
+import type { AsyncThunkTemplateOptions, UsedMethods } from './types';
 
 export const requestTemplate = <Arg, Result>(
   name: string,
   url: string,
-  method: 'get' | 'post' | 'patch' | 'delete',
+  method: UsedMethods,
   options?: AsyncThunkTemplateOptions,
 ) => {
   return createAppAsyncThunk<Result, Arg>(name, async (args, { rejectWithValue }) => {
     try {
-      let requestUrl = getRequestUrl(name, url);
-
-      if (args) {
-        // Додавання динамічних даних до URL
-        if (typeof args === 'object') {
-          Object.entries(args).forEach(([key, value]) => {
-            requestUrl = requestUrl.replace(`:${key}`, value.toString());
-          });
-        } else if (typeof args === 'string') {
-          requestUrl = requestUrl.replace(':section', args.toString().toLowerCase());
-        }
-      }
-      // додавання query params до url
-      if (options?.queryParams) {
-        const queryParams = serializeParams(options.queryParams);
-        requestUrl += queryParams ? `?${queryParams}` : '';
-      }
+      let requestUrl = getFinalUrl(name, url, args, options);
 
       const dynamicRow = url.includes('period') || url.includes('section');
 
@@ -51,19 +28,7 @@ export const requestTemplate = <Arg, Result>(
         transformResponse: [
           async (data) => {
             try {
-              const parsedData = JSON.parse(data);
-
-              // Виводимо, якщо є responsePath - для варіантів, коли є вкладеність необхідних даних більше, ніж два рівня після response.data
-              const resultData = options?.responsePath
-                ? parsedData?.[options.responsePath]
-                : parsedData;
-
-              // Виводимо, якщо є nestedObjectName - для варіантів, коли є вкладеність необхідних даних на один рівень нижче response.data
-              const finalData = options?.nestedObjectName
-                ? resultData?.[options.nestedObjectName]
-                : resultData;
-
-              return finalData;
+              return await transformDataResponse(data, options);
             } catch (error) {
               return data;
             }
@@ -91,17 +56,13 @@ export const requestTemplate = <Arg, Result>(
 export const requestWithInstanceTemplate = <Arg, Result>(
   name: string,
   url: string,
-  method: 'get' | 'post' | 'patch' | 'delete',
+  method: UsedMethods,
 ) => {
   return createAppAsyncThunk<Result, Arg>(name, async (args, { rejectWithValue }) => {
     try {
-      let dynamicUrl = url;
+      let dynamicUrl = getDynamicUrl(args, url);
 
-      if (url.includes(':id')) {
-        dynamicUrl = args ? dynamicUrl.replace(/:id\b/, args.toString()) : dynamicUrl;
-      }
-
-      const response = await axiosInstance[method]<Result>(url, args);
+      const response = await axiosInstance[method]<Result>(dynamicUrl, args);
       // console.log(`${name}Response`, response.data);
       return response.data;
     } catch (error: any) {

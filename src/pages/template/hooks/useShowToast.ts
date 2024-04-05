@@ -5,10 +5,9 @@ import { useActiveLinks } from 'hooks';
 import useShowLoader from './useShowLoader';
 
 const useShowToast = () => {
-  const activeLinks = useActiveLinks();
+  const { isArchiveActive, isFavoriteActive, isHomeActive, isReadActive } = useActiveLinks();
   const { filteredNews } = useFiltersRedux();
 
-  const { isArchiveActive, isFavoriteActive, isHomeActive, isReadActive } = activeLinks;
   const { errorAPI, newsByKeyword, newsByCategory, newsByDate } = useNewsAPIRedux();
   const { authError, statusMessage } = useAuthRedux();
   const { allFavourites, allReads, dbSuccessMessage } = useDBRedux();
@@ -34,6 +33,8 @@ const useShowToast = () => {
   const favouritesToastInfo = isFavoriteActive && !commonDBLoader && allFavourites?.length > 0;
   const readsToastInfo = isReadActive && !commonDBLoader && allReads?.length > 0;
   const archiveToast = isArchiveActive && dbSuccessMessage === 'Remove news success';
+
+  // console.log('archiveToast', archiveToast);
 
   const showHomeToast = isHomeActive && (homeToastError || homeToastSuccess || homeToastInfo);
 

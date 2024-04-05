@@ -12,11 +12,13 @@ const useCrypto = () => {
 
   const fetchCryptoPassword = async () => {
     if (savedUserId) {
-      const response = await getCryptoPassword({ userId: savedUserId });
+      const response = await getCryptoPassword({
+        userId: savedUserId,
+      });
       const { cryptoData } = response.payload as ResponseCryptoPassword;
-      const { encryptionKey, encryptedPassword, salt, email } = cryptoData;
+      const { exportedCryptoKey, encryptedPassword, salt, email } = cryptoData;
 
-      const savedPassword = await decryptPassword(encryptionKey, encryptedPassword, salt);
+      const savedPassword = await decryptPassword(exportedCryptoKey, encryptedPassword, salt);
 
       showToast(response.meta.requestStatus);
 

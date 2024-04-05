@@ -2,10 +2,10 @@ import React, { FC } from 'react';
 import { Link } from 'react-router-dom';
 
 import { useAuthRedux, useFiltersRedux } from 'reduxStore/hooks';
-import { useFiltersStateContext, useNotificationContext, useWindowWidthContext } from 'contexts';
+import { useFiltersStateContext, useWindowWidthContext } from 'contexts';
 
 import { VariantSwitcher } from 'types';
-import { useActiveLinks } from 'hooks';
+import { useActiveLinks, useSignOut } from 'hooks';
 
 import { ThemeSwitcher } from 'ui';
 
@@ -22,13 +22,13 @@ export type MobileMenu = Omit<CommonMenuProps, 'navId'>;
 
 const CommonMenu: FC<CommonMenuProps> = ({ isOpen, navId, closeMenu }) => {
   const { resetAllFiltersResults } = useFiltersRedux();
-  const { user, logout } = useAuthRedux();
+  const { user } = useAuthRedux();
 
   const { isMobile } = useWindowWidthContext();
   const { resetFilters } = useFiltersStateContext();
-  const { showToast } = useNotificationContext();
 
   const activeLinks = useActiveLinks();
+  const { handleSignOut } = useSignOut(closeMenu);
 
   const links = renderMenuItem({ activeLinks, navId });
 
@@ -42,17 +42,6 @@ const CommonMenu: FC<CommonMenuProps> = ({ isOpen, navId, closeMenu }) => {
       resetAllFiltersResults();
       resetFilters();
     }
-  };
-
-  //Функція виходу з акаунту
-  const handleSignOut = async (): Promise<void> => {
-    if (typeof closeMenu === 'function') {
-      closeMenu();
-    }
-    const response = await logout();
-
-    showToast(response.meta.requestStatus);
-    localStorage.removeItem('_persist');
   };
 
   return (
