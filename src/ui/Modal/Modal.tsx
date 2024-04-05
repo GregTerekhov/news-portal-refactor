@@ -5,7 +5,7 @@ import { RemoveScroll } from 'react-remove-scroll';
 import { useWindowWidthContext } from 'contexts';
 import { usePopUp } from 'hooks';
 
-import SvgIcon from '../SvgIcon';
+import SvgIcon from '../SvgIcon/SvgIcon';
 
 const modalRoot = document.querySelector('#modalRoot');
 

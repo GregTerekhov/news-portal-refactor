@@ -1,7 +1,7 @@
 import React, { FC, ReactElement, ReactNode, useState } from 'react';
 import * as Accordion from '@radix-ui/react-accordion';
 
-import SvgIcon from './SvgIcon';
+import SvgIcon from '../SvgIcon/SvgIcon';
 
 interface AccordeonProps {
   dateSeparator?: string;

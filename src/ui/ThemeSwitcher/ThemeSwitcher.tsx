@@ -6,7 +6,7 @@ import { useThemeContext, useWindowWidthContext } from 'contexts';
 
 import { useActiveLinks, useHeaderStyles } from 'hooks';
 
-import SvgIcon from '../SvgIcon';
+import SvgIcon from '../SvgIcon/SvgIcon';
 
 import { generateSwitcherStyles } from './assistants';
 

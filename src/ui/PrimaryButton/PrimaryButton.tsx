@@ -3,7 +3,7 @@ import React, { ButtonHTMLAttributes, ReactNode, forwardRef } from 'react';
 import { ClickHandler, PrimaryButtonType, VariantButton } from 'types';
 import { ICON_SIZES } from 'constants/iconSizes';
 
-import SvgIcon from '../SvgIcon';
+import SvgIcon from '../SvgIcon/SvgIcon';
 import { generateButtonStyles } from './assistants';
 
 interface PBProps extends ButtonHTMLAttributes<HTMLButtonElement> {

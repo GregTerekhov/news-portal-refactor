@@ -5,7 +5,7 @@ import { useWindowWidthContext } from 'contexts';
 
 import { useHeaderStyles, useActiveLinks } from 'hooks';
 
-import SvgIcon from '../SvgIcon';
+import SvgIcon from '../SvgIcon/SvgIcon';
 
 import { generateInputStyles } from './assistants';
 

@@ -4,7 +4,7 @@ import { UseFormRegister } from 'react-hook-form';
 import { InputLabel, VariantVerifiableInputs, VerifiableInputValues } from 'types';
 import { useWindowWidthContext } from 'contexts';
 
-import SvgIcon from '../SvgIcon';
+import SvgIcon from '../SvgIcon/SvgIcon';
 
 import { inputStyles } from './assistants';
 

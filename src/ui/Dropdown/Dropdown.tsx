@@ -3,8 +3,8 @@ import { Menu, Transition } from '@headlessui/react';
 
 import type { SearchParamsObject } from 'hooks/useAdditionalRequest';
 
-import CustomScrollBar from './CustomScrollBar';
-import SvgIcon from './SvgIcon';
+import CustomScrollBar from '../CustomScrollBar/CustomScrollBar';
+import SvgIcon from '../SvgIcon/SvgIcon';
 
 interface DropdownProps {
   label: string;
