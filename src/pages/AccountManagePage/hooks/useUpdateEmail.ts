@@ -35,6 +35,8 @@ const useUpdateEmail = () => {
   const handleEmailSubmitHandler: SubmitHandler<AuthRequestWithoutName> = async (data) => {
     try {
       const response = await updateEmail(data);
+      localStorage.removeItem('rememberMe');
+      localStorage.removeItem('userId');
 
       showToast(response.meta.requestStatus);
     } catch (error) {

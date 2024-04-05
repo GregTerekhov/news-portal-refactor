@@ -21,7 +21,7 @@ export const addNews = requestWithInstanceTemplate<PartialVotedNewsArray, SavedN
 
 export const deleteNews = requestWithInstanceTemplate<string, DeleteNewsResponse>(
   'newsDB/delete',
-  '/news/archive/:id',
+  '/news/archive/_id',
   'delete',
 );
 

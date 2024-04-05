@@ -25,6 +25,7 @@ const useSignIn = () => {
   const { toggleModal } = usePopUp();
   const { fetchCryptoPassword } = useCrypto();
 
+  const uniqueUserId = useId();
   const savedUserId = localStorage.getItem('userId');
 
   // Отримання розшифрованого пароля та пошти, збережених раніше на бекенді та вставка їх в інпути авторизаційних даних
@@ -71,6 +72,7 @@ const useSignIn = () => {
     const isRememberMe = event.target.checked;
     setIsChecked(isRememberMe);
     localStorage.setItem('rememberMe', isRememberMe.toString());
+    localStorage.setItem('userId', uniqueUserId);
   };
 
   // споглядання за відповідними полями, щоб зберігати введені валідні значення для RememberMe
@@ -83,16 +85,12 @@ const useSignIn = () => {
     e?.preventDefault();
     try {
       if (isChecked && password !== '' && !savedUserId && !errors.password) {
-        const { encryptionKey, encryptedPassword, salt } = await encryptPassword(password);
-        const uniqueUserId = useId();
-
-        console.log('uniqueUserId', uniqueUserId);
-        localStorage.setItem('userId', uniqueUserId);
+        const { exportedCryptoKey, encryptedPassword, salt } = await encryptPassword(password);
 
         const response = await login({
           email,
           password,
-          cryptoData: { encryptionKey, encryptedPassword, salt, userId: uniqueUserId },
+          cryptoData: { exportedCryptoKey, encryptedPassword, salt, userId: uniqueUserId },
         });
 
         showToast(response.meta.requestStatus);

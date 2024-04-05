@@ -12,15 +12,13 @@ export type User = {
 };
 
 export interface ReceivedCryptoPassword {
-  cryptoData: {
-    encryptionKey: CryptoKey;
-    encryptedPassword: ArrayBuffer;
-    salt: Uint8Array;
-    email: string;
-  };
+  exportedCryptoKey: ArrayBuffer;
+  encryptedPassword: ArrayBuffer;
+  salt: Uint8Array;
+  email: string;
 }
 
-export type ResponseCryptoPassword = ReceivedCryptoPassword & ServicesInfo;
+export type ResponseCryptoPassword = { cryptoData: ReceivedCryptoPassword } & ServicesInfo;
 
 export type HaveAccounts = {
   google: boolean;

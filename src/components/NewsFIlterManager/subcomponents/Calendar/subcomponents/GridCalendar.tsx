@@ -65,7 +65,6 @@ const GridCalendar: FC<GridCalendarProps> = ({
 
   if (isSearchDayRangeSelected && isCurrentMonth) {
     dayToParse = parse(validDateValue, 'yyyyMMdd', new Date());
-    console.log('typeof dayToParse', typeof dayToParse);
   }
 
   if (variant === 'FiltersBlock' && isFilterDayRangeSelected && isCurrentMonth) {
@@ -117,7 +116,8 @@ const GridCalendar: FC<GridCalendarProps> = ({
 
   return (
     <div className={COL_START_CLASSES[getDay(day)]}>
-      <p
+      <button
+        type='button'
         className={
           commonStyles +
           ' ' +
@@ -132,7 +132,7 @@ const GridCalendar: FC<GridCalendarProps> = ({
         onClick={handleDateClick}
       >
         {format(day, 'd')}
-      </p>
+      </button>
     </div>
   );
 };

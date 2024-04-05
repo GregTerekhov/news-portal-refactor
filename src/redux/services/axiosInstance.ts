@@ -34,6 +34,14 @@ const createAxiosInstance = () => {
           config.headers['Authorization'] = `Bearer ${accessToken}`;
         }
       }
+
+      if (config.url?.endsWith('/auth/sign-out')) {
+        const refreshToken = state.auth.refreshToken;
+
+        if (refreshToken) {
+          document.cookie = `rftoken=${refreshToken}; path=/`;
+        }
+      }
       return config;
     },
     (error) => {

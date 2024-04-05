@@ -37,6 +37,8 @@ const useChangePassword = () => {
       const dataToSend = { newPassword };
 
       const response = await changePassword(dataToSend);
+      localStorage.removeItem('rememberMe');
+      localStorage.removeItem('userId');
 
       showToast(response.meta.requestStatus);
 
