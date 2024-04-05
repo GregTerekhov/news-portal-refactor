@@ -9,4 +9,3 @@ export const selectUserTheme = (state: RootState) => state.auth.userTheme;
 export const selectBoundAccounts = (state: RootState) => state.auth.haveAccounts;
 export const selectThirdPartyRegister = (state: RootState) => state.auth.thirdPartyRegister;
 export const selectStatusMessage = (state: RootState) => state.auth.message;
-export const selectRefreshToken = (state: RootState) => state.auth.refreshToken;

@@ -26,7 +26,6 @@ const useAuthCollector = () => {
   const haveAccounts = useAppSelector(auth.selectBoundAccounts);
   const isThirdPartyRegister = useAppSelector(auth.selectThirdPartyRegister);
   const statusMessage = useAppSelector(auth.selectStatusMessage);
-  const refreshToken = useAppSelector(auth.selectRefreshToken);
 
   const dispatch = useAppDispatch();
 
@@ -109,7 +108,6 @@ const useAuthCollector = () => {
     isThirdPartyRegister,
     userTheme,
     authError,
-    refreshToken,
     register,
     login,
     getCryptoPassword,

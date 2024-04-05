@@ -1,9 +1,7 @@
 import React, { FC } from 'react';
-// import { useNavigate } from 'react-router-dom';
 
 import { useAuthRedux } from 'reduxStore/hooks';
 import { useWindowWidthContext } from 'contexts';
-// import { useNotificationContext, useWindowWidthContext } from 'contexts';
 
 import { VariantButton } from 'types';
 import { useActiveLinks, useCrypto, useHeaderStyles, usePopUp, useSignOut } from 'hooks';
@@ -17,9 +15,7 @@ interface AuthButtonProps {
 
 const Auth: FC<AuthButtonProps> = ({ passwordToken }) => {
   const { isAuthenticated } = useAuthRedux();
-  // const { logout, isAuthenticated, refreshToken } = useAuthRedux();
   const { wideScreens } = useWindowWidthContext();
-  // const { showToast } = useNotificationContext();
 
   const { isOpenModal, popUpRef, toggleModal } = usePopUp();
   const { isHomeActive } = useActiveLinks();
@@ -28,7 +24,6 @@ const Auth: FC<AuthButtonProps> = ({ passwordToken }) => {
   const { handleSignOut } = useSignOut();
 
   const isCredentialsRemembered = localStorage.getItem('rememberMe');
-  // const navigate = useNavigate();
 
   //Функція відкриття модалки при наявності збереженого Remember me та запиту шифрованого пароля
   const onOpenModal = () => {
@@ -36,20 +31,6 @@ const Auth: FC<AuthButtonProps> = ({ passwordToken }) => {
     if (isCredentialsRemembered) fetchCryptoPassword();
     toggleModal();
   };
-
-  // //Функція виходу з акаунту
-  // const onSignOut = async (): Promise<void> => {
-  //   const response = await logout();
-
-  //   showToast(response.meta.requestStatus);
-  //   localStorage.removeItem('_persist');
-  //   navigate('/');
-  // };
-
-  // const handleSignOut = useCallback(async () => {
-  //   await onSignOut();
-  //   document.cookie = `rftoken=${refreshToken}; path=/`;
-  // }, [onSignOut, refreshToken]);
 
   return (
     <>
