@@ -42,14 +42,14 @@ export const SelectedDateProvider: FC<SelectedDateContextProps> = ({ children })
   };
 
   //Мемоїзація значення глобального стану дати запита
-  const memoizedSelectedRequestDate = useMemo(
-    (): SelectedDate => selectedRequestDate,
+  const memoizedSelectedRequestDate: SelectedDate = useMemo(
+    () => selectedRequestDate,
     [selectedRequestDate, resetRequestDay],
   );
 
   //Мемоїзація значення глобального стану дати фільтрації
-  const memoizedSelectedFilterDate = useMemo(
-    (): SelectedDate => selectedFilterDate,
+  const memoizedSelectedFilterDate: SelectedDate = useMemo(
+    () => selectedFilterDate,
     [selectedFilterDate, resetFiltersDay],
   );
 

@@ -5,10 +5,11 @@ import useShowLoader from './useShowLoader';
 import useShowPlug from './useShowPlug';
 
 const useShowContent = () => {
+  const { allArchive, isLoadingDBData } = useDBRedux();
+
   const activeLinks = useActiveLinks();
   const { isHomeLoader, commonDBLoader } = useShowLoader();
   const { isHomePlug, commonPlug } = useShowPlug();
-  const { allArchive, isLoadingDBData } = useDBRedux();
 
   const { isArchiveActive, isFavoriteActive, isHomeActive, isReadActive } = activeLinks;
 

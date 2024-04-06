@@ -5,7 +5,7 @@ import { usePaginationContext, useWindowWidthContext } from 'contexts';
 
 import type { PartialVotedNewsArray } from 'types';
 
-import { calculatePagesForDevices, calculateFirstIndexes, COUNT } from '../assistants';
+import { calculatePagesForDevices, calculateFirstIndexes, COUNT, FIRST_PAGE } from '../assistants';
 
 const usePagination = (rebuildedNews: PartialVotedNewsArray) => {
   const { popularNews, newsByKeyword, newsByCategory, newsByDate } = useNewsAPIRedux();
@@ -39,20 +39,20 @@ const usePagination = (rebuildedNews: PartialVotedNewsArray) => {
     if (rebuildedNews && rebuildedNews?.length > 0) {
       //перевірка, якщо результат множення поточної сторінки на необхідну кількість об'єктів на сторінці - 1 більше, або дорівнює загальної довжині масива об'єктів новин. Необхідна, щоб індекс останнього елемента не був більше довжини масива
       const calculationOfLastElements: boolean =
-        currentPage * currentCardsPerPage - 1 >= totalPages;
+        currentPage * currentCardsPerPage - FIRST_PAGE >= totalPages;
       let indexOfLastItem: number;
       let indexOfFirstItem: number;
 
-      if (currentPage === 1) {
+      if (currentPage === FIRST_PAGE) {
         indexOfLastItem = currentPage * currentCardsPerPage;
         indexOfFirstItem = indexOfLastItem - currentCardsPerPage;
-      } else if (currentPage > 1 && calculationOfLastElements && calculatedFirstIndexes) {
+      } else if (currentPage > FIRST_PAGE && calculationOfLastElements && calculatedFirstIndexes) {
         //Якщо перевірка вище спрацювала і є значення першого індекса для останній сторінці. Розрахунок для останній сторінки
         indexOfLastItem = totalPages;
         indexOfFirstItem = totalPages - calculatedFirstIndexes;
       } else {
         //Для всіх окрім першій та останній
-        indexOfLastItem = currentPage * currentCardsPerPage - 1;
+        indexOfLastItem = currentPage * currentCardsPerPage - FIRST_PAGE;
         indexOfFirstItem = indexOfLastItem - currentCardsPerPage;
       }
 

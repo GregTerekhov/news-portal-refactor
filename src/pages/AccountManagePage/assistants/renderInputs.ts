@@ -1,5 +1,9 @@
 import type { FieldErrors } from 'react-hook-form';
-import type { AuthRequestWithoutName, ExtendedUpdatePasswordRequest, InputLabel } from 'types';
+import type {
+  AuthRequestWithoutName,
+  ExtendedUpdatePasswordRequest,
+  UpdateCredentialsInput,
+} from 'types';
 
 type EmailInputsValues = {
   email: string;
@@ -14,46 +18,31 @@ type PasswordInputsValues = {
   errors?: FieldErrors<Required<ExtendedUpdatePasswordRequest>>;
 };
 
-type EmailInput = {
-  type: string;
-  placeholder: string;
-  fieldValue: string;
-  errors?: string | undefined;
-  label: InputLabel;
-  iconName: string;
-  ariaInvalid?: boolean;
-  autofill?: string;
-};
-
-type PasswordInput = {
-  placeholder: string;
-  fieldValue: string;
-  errors?: string | undefined;
-  label: InputLabel;
-  ariaInvalid?: boolean;
-};
-
 export const renderPasswordInputs = ({
   newPassword,
   confirmPassword,
   password,
   errors,
-}: PasswordInputsValues): Array<PasswordInput> => {
+}: PasswordInputsValues): Array<UpdateCredentialsInput> => {
   //Data для updatePassword-інпутів
-  const passwordInputs: Array<PasswordInput> = [
+  const passwordInputs: Array<UpdateCredentialsInput> = [
     {
+      type: 'password',
       placeholder: 'Enter new password',
       fieldValue: newPassword,
       errors: errors?.newPassword?.message,
       label: 'newPassword',
       ariaInvalid: errors?.newPassword ? true : false,
+      iconName: 'password',
     },
     {
+      type: 'password',
       placeholder: 'Confirm new password',
       fieldValue: confirmPassword,
       errors: errors?.confirmPassword?.message,
       label: 'confirmPassword',
       ariaInvalid: errors?.confirmPassword ? true : false,
+      iconName: 'password',
     },
   ];
 
@@ -67,11 +56,13 @@ export const renderPasswordInputs = ({
 
   if (showCurrentPasswordInput) {
     passwordInputs.push({
+      type: 'password',
       placeholder: 'Enter your current password',
       fieldValue: password,
       errors: errors?.password?.message,
       label: 'password',
       ariaInvalid: errors && errors?.password ? true : false,
+      iconName: 'password',
     });
   }
 
@@ -82,9 +73,9 @@ export const renderEmailInputs = ({
   email,
   password,
   errors,
-}: EmailInputsValues): Array<EmailInput> => {
+}: EmailInputsValues): Array<UpdateCredentialsInput> => {
   //Data для updateEmail-інпутів
-  const emailInputs: Array<EmailInput> = [
+  const emailInputs: Array<UpdateCredentialsInput> = [
     {
       type: 'email',
       placeholder: 'Enter new email',

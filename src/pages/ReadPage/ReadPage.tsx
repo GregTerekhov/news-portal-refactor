@@ -1,9 +1,9 @@
 import React, { FC, useEffect } from 'react';
 
 import { useDBRedux } from 'reduxStore/hooks';
+import { useReadSortStateContext } from 'contexts';
 import { PageTemplate } from '../template';
 
-import { useReadSortStateContext } from 'contexts';
 import { useActiveLinks, useChooseRenderingNews, useReadNewsContent } from 'hooks';
 
 import { NewsList } from 'components';
