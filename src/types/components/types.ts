@@ -25,3 +25,14 @@ export interface SelectedDate {
   beginDate: string;
   endDate: string;
 }
+
+export type UpdateCredentialsInput = {
+  type: string;
+  placeholder: string;
+  fieldValue: string;
+  errors?: string | undefined;
+  label: InputLabel;
+  iconName: string;
+  ariaInvalid?: boolean;
+  autofill?: string;
+};

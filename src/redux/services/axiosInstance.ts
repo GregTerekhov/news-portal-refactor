@@ -17,13 +17,16 @@ const createAxiosInstance = () => {
 
       const isAuthenticated = state.auth.isLoggedIn;
 
-      if (!isAuthenticated) {
-        if (!accessToken) {
-          throw new Error('User is not authenticated');
-        } else {
-          config.headers['Authorization'] = `Bearer ${accessToken}`;
-        }
+      if (!isAuthenticated && config.url?.endsWith('/auth/current-user')) {
+        const abortController = new AbortController();
+        config.signal = abortController.signal;
+
+        abortController.abort();
+        throw new Error('User is not authenticated');
       }
+
+      if (!isAuthenticated && accessToken)
+        config.headers['Authorization'] = `Bearer ${accessToken}`;
 
       const tokenStatus = jwtDecode<JwtPayload>(accessToken!);
 

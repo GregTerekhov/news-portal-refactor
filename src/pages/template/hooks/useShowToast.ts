@@ -1,17 +1,27 @@
+import { useEffect } from 'react';
 import { useAuthRedux, useDBRedux, useFiltersRedux, useNewsAPIRedux } from 'reduxStore/hooks';
+import { useNotificationContext } from 'contexts';
 
 import type { ToastStatus, ToastVariant } from 'types';
-import { useActiveLinks } from 'hooks';
+import { useActiveLinks, useChooseRenderingNews } from 'hooks';
 import useShowLoader from './useShowLoader';
 
 const useShowToast = () => {
-  const { isArchiveActive, isFavoriteActive, isHomeActive, isReadActive } = useActiveLinks();
   const { filteredNews } = useFiltersRedux();
-
   const { errorAPI, newsByKeyword, newsByCategory, newsByDate } = useNewsAPIRedux();
   const { authError, statusMessage } = useAuthRedux();
   const { allFavourites, allReads, dbSuccessMessage } = useDBRedux();
+  const { setOpenToast } = useNotificationContext();
+
+  const activeLinks = useActiveLinks();
+  const { rebuildedNews } = useChooseRenderingNews(activeLinks);
   const { isHomeLoader, commonDBLoader } = useShowLoader();
+
+  const { isArchiveActive, isFavoriteActive, isHomeActive, isReadActive } = activeLinks;
+
+  useEffect(() => {
+    if ((isFavoriteActive || isReadActive) && rebuildedNews?.length > 0) setOpenToast(true);
+  }, []);
 
   const additionalRequests =
     (newsByKeyword && newsByKeyword.length > 0) ||
@@ -33,8 +43,6 @@ const useShowToast = () => {
   const favouritesToastInfo = isFavoriteActive && !commonDBLoader && allFavourites?.length > 0;
   const readsToastInfo = isReadActive && !commonDBLoader && allReads?.length > 0;
   const archiveToast = isArchiveActive && dbSuccessMessage === 'Remove news success';
-
-  // console.log('archiveToast', archiveToast);
 
   const showHomeToast = isHomeActive && (homeToastError || homeToastSuccess || homeToastInfo);
 

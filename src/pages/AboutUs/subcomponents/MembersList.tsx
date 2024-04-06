@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
 
 import MembersLink from './MembersLink';
-import { MemberItem } from '../assistants';
+import type { MemberItem } from '../assistants';
 
 interface MemberListProps {
   groupMembers: MemberItem[];
@@ -41,7 +41,7 @@ const MembersList: FC<MemberListProps> = ({ groupMembers, commonTextMemberClass 
                     href={memberCV}
                     target='_blank'
                     rel='noopener noreferrer'
-                    className='dark:hocus:text-whiteBase font-medium text-accentBase transition-colors dark:text-accentBase dark:underline'
+                    className='font-medium text-accentBase transition-colors dark:text-accentBase dark:underline dark:hocus:text-whiteBase'
                   >
                     {memberName} CV
                   </a>

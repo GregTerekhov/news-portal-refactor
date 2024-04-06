@@ -4,11 +4,12 @@ import { useActiveLinks, useChooseRenderingNews } from 'hooks';
 import useShowLoader from './useShowLoader';
 
 const useShowPlug = () => {
-  const activeLinks = useActiveLinks();
-  const { rebuildedNews } = useChooseRenderingNews(activeLinks);
   const { hasResults } = useFiltersRedux();
   const { errorAPI } = useNewsAPIRedux();
   const { allArchive, archiveHistoryLog, isLoadingDBData } = useDBRedux();
+
+  const activeLinks = useActiveLinks();
+  const { rebuildedNews } = useChooseRenderingNews(activeLinks);
   const { isHomeLoader, commonDBLoader } = useShowLoader();
 
   const { isHomeActive, isFavoriteActive, isReadActive, isArchiveActive } = activeLinks;

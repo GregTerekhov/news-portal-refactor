@@ -2,14 +2,11 @@ import React, { FC, ReactElement, ReactNode, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { useAuthRedux, useDBRedux, useNewsAPIRedux } from 'reduxStore/hooks';
-import { useNotificationContext } from 'contexts';
-
-import { useActiveLinks, useChooseRenderingNews } from 'hooks';
 
 import { Toast } from 'components';
 import { Loader, PlugImage } from 'ui';
 
-import { useShowLoader, useShowPlug, useShowContent, useShowToast } from './hooks';
+import { useShowLoader, useShowPlug, useShowContent, useShowToast, useHeadline } from './hooks';
 
 interface PageTemplateProps {
   children: ReactElement | ReactNode;
@@ -18,19 +15,15 @@ interface PageTemplateProps {
 const PageTemplate: FC<PageTemplateProps> = ({ children }) => {
   const { errorDB } = useDBRedux();
   const { authError } = useAuthRedux();
-  const { errorAPI, headline } = useNewsAPIRedux();
-  const { setOpenToast } = useNotificationContext();
+  const { errorAPI } = useNewsAPIRedux();
 
-  const activeLinks = useActiveLinks();
-  const { rebuildedNews } = useChooseRenderingNews(activeLinks);
   const { shouldShowLoader } = useShowLoader();
   const { shouldShowPlug } = useShowPlug();
   const { shouldShowContent } = useShowContent();
   const { shouldShowToast, statusToast, toastType } = useShowToast();
+  const { getHeadline } = useHeadline();
 
   const navigate = useNavigate();
-
-  const { isHomeActive, isFavoriteActive, isReadActive, isArchiveActive } = activeLinks;
 
   useEffect(() => {
     if (
@@ -41,26 +34,6 @@ const PageTemplate: FC<PageTemplateProps> = ({ children }) => {
       navigate('/server-error');
     }
   }, [errorDB, errorAPI]);
-
-  useEffect(() => {
-    if ((isFavoriteActive || isReadActive) && rebuildedNews?.length > 0) setOpenToast(true);
-  }, []);
-
-  const getHeadline = (): string => {
-    switch (true) {
-      case headline && isHomeActive:
-        return headline;
-      case isFavoriteActive:
-        return 'Favourite news';
-      case isReadActive:
-        return 'Read news';
-      case isArchiveActive:
-        return 'Archive news';
-
-      default:
-        return '';
-    }
-  };
 
   return (
     <>

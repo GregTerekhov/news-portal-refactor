@@ -1,6 +1,8 @@
 import { useMemo } from 'react';
 import { Location, useLocation } from 'react-router-dom';
 
+import { ActiveLinks } from './commonTypes';
+
 const useActiveLinks = () => {
   const location: Location = useLocation();
 
@@ -15,7 +17,7 @@ const useActiveLinks = () => {
     '/server-error',
   ];
 
-  const activeLinks = useMemo(
+  const activeLinks: ActiveLinks = useMemo(
     () => ({
       isHomeActive: location.pathname === '/',
       isFavoriteActive: location.pathname === '/favourite',

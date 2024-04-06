@@ -14,12 +14,12 @@ const useControlCalendar = () => {
   const today = startOfToday();
   const [currMonth, setCurrMonth] = useState<string>(getCurrentMonthState());
 
-  const firstDayOfMonth = useMemo(
-    (): Date => parse(currMonth, 'MMM-yyyy', new Date()),
+  const firstDayOfMonth: Date = useMemo(
+    () => parse(currMonth, 'MMM-yyyy', new Date()),
     [currMonth],
   );
 
-  const daysInMonth = useMemo((): Date[] => {
+  const daysInMonth: Date[] = useMemo(() => {
     return eachDayOfInterval({
       start: startOfWeek(firstDayOfMonth),
       end: endOfWeek(endOfMonth(firstDayOfMonth)),
