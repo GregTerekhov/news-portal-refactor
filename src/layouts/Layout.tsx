@@ -20,10 +20,10 @@ const Layout: FC = () => {
 
   const { fetchCategoriesList, errorAPI } = useNewsAPIRedux();
   const { isAuthenticated } = useAuthRedux();
-  const { allFavourites, allArchive } = useDBRedux();
+  const { allFavourites, allArchive, isLoadingDBData } = useDBRedux();
 
   const activeLinks = useActiveLinks();
-  const { rebuildedNews } = useChooseRenderingNews(activeLinks);
+  const { rebuiltNews } = useChooseRenderingNews(activeLinks);
 
   const {
     isAboutUs,
@@ -34,6 +34,7 @@ const Layout: FC = () => {
     isHomeActive,
     isManageAccountPage,
     isReadActive,
+    isServerErrorPage,
   } = activeLinks;
 
   useEffect(() => {
@@ -45,8 +46,8 @@ const Layout: FC = () => {
   const is429ErrorAPI = errorAPI?.toString().includes('429');
 
   const shouldShowPageScrollController =
-    (isHomeActive && isNotMobile && rebuildedNews?.length > 0) ||
-    (isArchiveActive && isNotMobile && rebuildedNews?.length > 0);
+    (isHomeActive && isNotMobile && rebuiltNews?.length > 0) ||
+    (isArchiveActive && isNotMobile && rebuiltNews?.length > 0);
 
   const isAccountPages = isAccountPage || isManageAccountPage;
   const shouldNotShowFiltersManager =
@@ -57,8 +58,11 @@ const Layout: FC = () => {
     (isHomeActive && is429ErrorAPI);
 
   const screenShow =
+    isServerErrorPage ||
     isAccountPages ||
     (isFavoriteActive && allFavourites?.length === 0) ||
+    (isFavoriteActive && isLoadingDBData) ||
+    (isArchiveActive && isLoadingDBData) ||
     isReadActive ||
     (isArchiveActive && allArchive?.length === 0)
       ? 'h-screen'

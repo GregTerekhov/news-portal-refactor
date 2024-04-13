@@ -31,6 +31,7 @@ const extraActions = [
   newsDBOperations.fetchArchivedNews,
   newsDBOperations.deleteNews,
   newsDBOperations.fetchHistoryLog,
+  newsDBOperations.clearHistoryLog,
 ];
 
 export const getActions = (type: DispatchActionType) => extraActions.map((action) => action[type]);

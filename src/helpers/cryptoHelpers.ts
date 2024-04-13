@@ -10,6 +10,8 @@ export async function encryptPassword(password: string): Promise<EncryptedPasswo
   const salt = window.crypto.getRandomValues(new Uint8Array(16));
   const passwordData: Uint8Array = encoder.encode(password);
 
+  console.log('passwordData', passwordData);
+
   const encryptedPassword = await window.crypto.subtle.encrypt(
     {
       name: 'AES-GCM',
@@ -63,6 +65,8 @@ async function generateEncryptionKey(): Promise<CryptoKey> {
 //Функція експортування ключа для відправки його на бекенд
 async function exportEncryptionKey(encryptionKey: CryptoKey): Promise<ArrayBuffer> {
   const exportedKey = await window.crypto.subtle.exportKey('raw', encryptionKey);
+
+  console.log('exportedKey', exportedKey);
   return exportedKey;
 }
 

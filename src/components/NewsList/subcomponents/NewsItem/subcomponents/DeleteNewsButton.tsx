@@ -15,7 +15,7 @@ const DeleteNewsButton: FC<DeleteButtonProps> = ({ myButtonRef, handleOpenConfir
       label='Delete news from archive'
       side='bottom'
       sideOffset={16}
-      ariaLabel='Delete news from archive'
+      ariaLabel='Button for deleting news from archive'
     >
       <div>
         <PrimaryButton

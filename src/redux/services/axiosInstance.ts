@@ -52,6 +52,19 @@ const createAxiosInstance = () => {
     },
   );
 
+  axiosInstance.interceptors.response.use(
+    async (response) => {
+      if (response.config.url?.endsWith('/auth/sign-out')) {
+        response.config.headers['Authorization'] = '';
+      }
+
+      return response;
+    },
+    (error) => {
+      throw error;
+    },
+  );
+
   return axiosInstance;
 };
 

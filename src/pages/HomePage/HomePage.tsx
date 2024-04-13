@@ -21,8 +21,8 @@ const HomePage: FC = () => {
   const { currentPage } = usePaginationContext();
 
   const activeLinks = useActiveLinks();
-  const { rebuildedNews } = useChooseRenderingNews(activeLinks);
-  const { currentItems, pageNumbers } = usePagination(rebuildedNews ?? []);
+  const { rebuiltNews } = useChooseRenderingNews(activeLinks);
+  const { currentItems, pageNumbers } = usePagination(rebuiltNews ?? []);
 
   useEffect(() => {
     fetchPopular({ period: TODAY_HOT_NEWS });

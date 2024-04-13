@@ -32,7 +32,7 @@ const useFilterNews = () => {
 
   const activeLinks = useActiveLinks();
   const sortedAccordionDates = useReadNewsContent();
-  const { rebuildedNews } = useChooseRenderingNews(activeLinks);
+  const { rebuiltNews } = useChooseRenderingNews(activeLinks);
 
   const { isHomeActive, isFavoriteActive, isReadActive } = activeLinks;
 
@@ -59,14 +59,14 @@ const useFilterNews = () => {
     }
 
     //Умова виходу з функції, якщо немає значень фільтрів
-    if (!filters || !rebuildedNews || rebuildedNews?.length === 0) return;
+    if (!filters || !rebuiltNews || rebuiltNews?.length === 0) return;
     if (!hasFilterValue) return;
 
     //Крос-фільтрація по значенням фільтрів в залежності від локації
     let filteredNews: PartialVotedNewsArray = [];
 
     if (isHomeActive) {
-      filteredNews = applyCrossFilters(rebuildedNews, filters);
+      filteredNews = applyCrossFilters(rebuiltNews, filters);
     } else if (isFavoriteActive) {
       filteredNews = applyCrossFilters(allFavourites, filters);
     } else if (isReadActive) {
@@ -85,7 +85,7 @@ const useFilterNews = () => {
 
   //Функція сортування новин
   const handleSort = (order: string): void => {
-    if (!rebuildedNews || rebuildedNews.length === 0) return;
+    if (!rebuiltNews || rebuiltNews.length === 0) return;
 
     sortResults(true);
 
@@ -93,7 +93,7 @@ const useFilterNews = () => {
     let sortedNews: PartialVotedNewsArray = [];
 
     if (isHomeActive) {
-      sortedNews = [...rebuildedNews];
+      sortedNews = [...rebuiltNews];
     } else if (isFavoriteActive) {
       sortedNews = [...allFavourites];
     } else if (isReadActive) {
