@@ -6,9 +6,9 @@ import { useWindowWidthContext } from 'contexts';
 import { Hint, UnverifiableInput } from 'ui';
 import TablePagination from './TablePagination';
 import DeletedNewsTable from './DeletedNewsTable';
+import ClearLogButton from './ClearLogButton';
 
 import { useDeletedNewsControls } from '../hooks';
-import ClearLogButton from './ClearLogButton';
 
 interface IHistoryLogProps {
   logData: IHistoryLog[];

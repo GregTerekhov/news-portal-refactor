@@ -15,8 +15,8 @@ const PaginationButtons: FC<PaginationButtonsProps> = ({
 }) => {
   const { isMobile } = useWindowWidthContext();
 
-  const renderPaginationButtons = () => {
-    const buttons = [];
+  const renderPaginationButtons = (): JSX.Element[] => {
+    const buttons: JSX.Element[] = [];
 
     const addPageButtons = (start: number, end: number) => {
       for (let i = start; i <= end; i++) {
@@ -49,55 +49,50 @@ const PaginationButtons: FC<PaginationButtonsProps> = ({
       );
     };
 
+    const addLastPageButton = () => {
+      buttons.push(
+        <button
+          key={totalPages}
+          type='button'
+          aria-current='page'
+          className={`${tableButtonStyles} ${
+            currentPage === totalPages
+              ? 'bg-accentBase text-whiteBase'
+              : 'bg-transparent text-darkBase dark:text-whiteBase'
+          }`}
+          onClick={() => handlePageChange(totalPages)}
+        >
+          {totalPages}
+        </button>,
+      );
+    };
+
+    const mobileLastPages =
+      currentPage + 2 === totalPages ||
+      currentPage + 1 === totalPages ||
+      currentPage === totalPages;
+
+    const wideScreensLastPages =
+      currentPage + 3 === totalPages ||
+      currentPage + 2 === totalPages ||
+      currentPage + 1 === totalPages ||
+      currentPage === totalPages;
+
     if (isMobile) {
       if (totalPages <= 4) {
         addPageButtons(1, totalPages);
       } else if (currentPage === 1) {
         addPageButtons(1, 2);
         addDots('next');
-        buttons.push(
-          <button
-            key={totalPages}
-            type='button'
-            aria-current='page'
-            className={`${tableButtonStyles} ${
-              currentPage === totalPages
-                ? 'bg-accentBase text-whiteBase'
-                : 'bg-transparent text-darkBase dark:text-whiteBase'
-            }`}
-            onClick={() => handlePageChange(totalPages)}
-          >
-            {totalPages}
-          </button>,
-        );
-      } else if (currentPage + 2 === totalPages) {
-        addDots('prev');
-        addPageButtons(currentPage, totalPages);
-      } else if (currentPage + 1 === totalPages) {
-        addDots('prev');
-        addPageButtons(totalPages - 2, totalPages);
-      } else if (currentPage === totalPages) {
+        addLastPageButton();
+      } else if (mobileLastPages) {
         addDots('prev');
         addPageButtons(totalPages - 2, totalPages);
       } else if (currentPage + 2 < totalPages) {
         addDots('prev');
         addPageButtons(currentPage, currentPage);
         addDots('next');
-        buttons.push(
-          <button
-            key={totalPages}
-            type='button'
-            aria-current='page'
-            className={`${tableButtonStyles} ${
-              currentPage === totalPages
-                ? 'bg-accentBase text-whiteBase'
-                : 'bg-transparent text-darkBase dark:text-whiteBase'
-            }`}
-            onClick={() => handlePageChange(totalPages)}
-          >
-            {totalPages}
-          </button>,
-        );
+        addLastPageButton();
       }
     } else {
       if (totalPages <= 5) {
@@ -105,52 +100,15 @@ const PaginationButtons: FC<PaginationButtonsProps> = ({
       } else if (currentPage === 1) {
         addPageButtons(1, 3);
         addDots('next');
-        buttons.push(
-          <button
-            key={totalPages}
-            type='button'
-            aria-current='page'
-            className={`${tableButtonStyles} ${
-              currentPage === totalPages
-                ? 'bg-accentBase text-whiteBase'
-                : 'bg-transparent text-darkBase dark:text-whiteBase'
-            }`}
-            onClick={() => handlePageChange(totalPages)}
-          >
-            {totalPages}
-          </button>,
-        );
-      } else if (currentPage + 3 === totalPages) {
-        addDots('prev');
-        addPageButtons(totalPages - 3, totalPages);
-      } else if (currentPage + 2 === totalPages) {
-        addDots('prev');
-        addPageButtons(totalPages - 3, totalPages);
-      } else if (currentPage + 1 === totalPages) {
-        addDots('prev');
-        addPageButtons(totalPages - 3, totalPages);
-      } else if (currentPage === totalPages) {
+        addLastPageButton();
+      } else if (wideScreensLastPages) {
         addDots('prev');
         addPageButtons(totalPages - 3, totalPages);
       } else if (currentPage + 3 < totalPages) {
         addDots('prev');
         addPageButtons(currentPage, currentPage + 1);
         addDots('next');
-        buttons.push(
-          <button
-            key={totalPages}
-            type='button'
-            aria-current='page'
-            className={`${tableButtonStyles} ${
-              currentPage === totalPages
-                ? 'bg-accentBase text-whiteBase'
-                : 'bg-transparent text-darkBase dark:text-whiteBase'
-            }`}
-            onClick={() => handlePageChange(totalPages)}
-          >
-            {totalPages}
-          </button>,
-        );
+        addLastPageButton();
       }
     }
 
