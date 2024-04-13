@@ -1,4 +1,5 @@
 import type {
+  ClearLogResponse,
   DeleteNewsResponse,
   HistoryLogResponse,
   PartialVotedNewsArray,
@@ -44,7 +45,13 @@ export const fetchArchivedNews = requestWithInstanceTemplate<void, SavedNewsResp
 );
 
 export const fetchHistoryLog = requestWithInstanceTemplate<void, HistoryLogResponse>(
-  'history/log',
+  'historyLog/all',
   '/news/history-log',
   'get',
+);
+
+export const clearHistoryLog = requestWithInstanceTemplate<void, ClearLogResponse>(
+  'historyLog/clear',
+  '/news/delete-log',
+  'delete',
 );

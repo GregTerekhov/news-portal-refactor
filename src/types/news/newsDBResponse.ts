@@ -45,3 +45,8 @@ export interface DeleteNewsResponse {
   message: string;
   _id: string;
 }
+
+export interface ClearLogResponse {
+  code: number;
+  message: string;
+}

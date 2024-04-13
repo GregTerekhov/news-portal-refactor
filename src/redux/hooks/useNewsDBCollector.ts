@@ -36,6 +36,7 @@ const useNewsDBCollector = () => {
     [dispatch],
   );
   const removeNews = useCallback((id: string) => dispatch(newsDB.deleteNews(id)), [dispatch]);
+  const clearLog = useCallback(() => dispatch(newsDB.clearHistoryLog()), [dispatch]);
 
   return {
     dbSuccessMessage,
@@ -55,6 +56,7 @@ const useNewsDBCollector = () => {
     addVotedNews,
     removeNews,
     removeFavouriteNews,
+    clearLog,
   };
 };
 

@@ -5,7 +5,7 @@ import { ActiveLinks, useChooseRenderingNews } from 'hooks';
 const useToastInfo = () => {
   //Функція виведення заголовка та опису для інформаційних тостів
   const chooseInfoToastText = (activeLinks: ActiveLinks): ToastMessage => {
-    const { rebuildedNews } = useChooseRenderingNews(activeLinks);
+    const { rebuiltNews } = useChooseRenderingNews(activeLinks);
 
     const { isHomeActive, isFavoriteActive, isReadActive } = activeLinks;
 
@@ -15,15 +15,15 @@ const useToastInfo = () => {
     switch (true) {
       case isHomeActive:
         title = 'Found news';
-        description = `There are ${rebuildedNews.length} news has been found`;
+        description = `There are ${rebuiltNews.length} news has been found`;
         break;
       case isFavoriteActive:
         title = 'Monthly statistics';
-        description = `${rebuildedNews.length} news added to Favourites`;
+        description = `${rebuiltNews.length} news added to Favourites`;
         break;
       case isReadActive:
         title = 'Monthly statistics';
-        description = `${rebuildedNews.length} news added to Reads`;
+        description = `${rebuiltNews.length} news added to Reads`;
         break;
       default:
         title = '';

@@ -39,6 +39,7 @@ module.exports = {
     "import/newline-after-import": "error",
     'spaced-comment': 'error',
     'no-duplicate-imports': 'error',
+    'no-restricted-imports': ['warn', {'name': 'react-redux', 'importNames': ['useSelector', 'useDispatch'], 'message': 'Use typed hooks `useAppDispatch` and `useAppSelector` instead.'}],
     "jest/no-disabled-tests": "warn",
     "jest/no-focused-tests": "error",
     "jest/no-identical-title": "error",

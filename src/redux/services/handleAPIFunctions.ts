@@ -22,6 +22,5 @@ export const handleRejected = (
 
   if (typeof action.payload === 'number' || typeof action.payload === 'string') {
     state.hasError = action.payload;
-    console.log('Error from API', action.payload, action);
   }
 };

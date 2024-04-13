@@ -72,7 +72,6 @@ const useSignIn = () => {
     const isRememberMe = event.target.checked;
     setIsChecked(isRememberMe);
     localStorage.setItem('rememberMe', isRememberMe.toString());
-    localStorage.setItem('userId', uniqueUserId);
   };
 
   // споглядання за відповідними полями, щоб зберігати введені валідні значення для RememberMe
@@ -84,8 +83,11 @@ const useSignIn = () => {
   > = async (data, e) => {
     e?.preventDefault();
     try {
-      if (isChecked && password !== '' && !savedUserId && !errors.password) {
+      const { email, password } = data;
+
+      if (isChecked && password != '' && !savedUserId && !errors.password) {
         const { exportedCryptoKey, encryptedPassword, salt } = await encryptPassword(password);
+        localStorage.setItem('userId', uniqueUserId);
 
         const response = await login({
           email,
@@ -94,7 +96,7 @@ const useSignIn = () => {
         });
 
         showToast(response.meta.requestStatus);
-      } else if (!isChecked) {
+      } else if (!isChecked || (isChecked && savedUserId)) {
         const response = await login(data);
 
         showToast(response.meta.requestStatus);

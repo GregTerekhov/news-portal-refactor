@@ -1,6 +1,6 @@
 import { useDBRedux, useNewsAPIRedux, useFiltersRedux } from 'reduxStore/hooks';
 
-import { rebuildNewsArray } from 'helpers';
+import { rebuildingNewsArray } from 'helpers';
 
 import type { ActiveLinks } from './commonTypes';
 
@@ -16,13 +16,13 @@ const useChooseRenderingNews = (activeLinks: ActiveLinks) => {
       case !!filteredNews?.length:
         return filteredNews;
       case !!newsByKeyword?.length && isHomeActive:
-        return rebuildNewsArray(newsByKeyword) || [];
+        return rebuildingNewsArray(newsByKeyword) || [];
       case !!newsByCategory?.length && isHomeActive:
-        return rebuildNewsArray(newsByCategory) || [];
+        return rebuildingNewsArray(newsByCategory) || [];
       case !!newsByDate?.length && isHomeActive:
-        return rebuildNewsArray(newsByDate) || [];
+        return rebuildingNewsArray(newsByDate) || [];
       case !!popularNews?.length && isHomeActive:
-        return rebuildNewsArray(popularNews) || [];
+        return rebuildingNewsArray(popularNews) || [];
       case !!allFavourites?.length && isFavoriteActive:
         return allFavourites || [];
       case !!allReads?.length && isReadActive:
@@ -35,9 +35,9 @@ const useChooseRenderingNews = (activeLinks: ActiveLinks) => {
     }
   };
 
-  const rebuildedNews = chooseRenderingNews();
+  const rebuiltNews = chooseRenderingNews();
 
-  return { rebuildedNews };
+  return { rebuiltNews };
 };
 
 export default useChooseRenderingNews;

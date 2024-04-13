@@ -21,7 +21,7 @@ const ArchivePage: FC<{}> = () => {
 
   return (
     <PageTemplate>
-      <ArchiveHistoryLog logData={archiveHistoryLog} />
+      {archiveHistoryLog?.length > 0 ? <ArchiveHistoryLog logData={archiveHistoryLog} /> : null}
       {Object.entries(organisedNews)
         .reverse()
         .map(([monthYear, newsList]) => (

@@ -2,8 +2,8 @@ import axios, { AxiosResponse } from 'axios';
 
 import { axiosInstance, createAppAsyncThunk } from '../services';
 
-import { getDynamicUrl, getFinalUrl, transformDataResponse } from './helpers';
-import type { AsyncThunkTemplateOptions, UsedMethods } from './types';
+import { getDynamicUrl, getErrorMessage, getFinalUrl, transformDataResponse } from './helpers';
+import type { AsyncThunkTemplateOptions, UsedMethods } from 'types';
 
 export const requestTemplate = <Arg, Result>(
   name: string,
@@ -41,14 +41,9 @@ export const requestTemplate = <Arg, Result>(
       return response.data;
     } catch (error: any) {
       // console.log(`Error ${name}`, error.response);
+      const errorMessage = getErrorMessage(error);
 
-      if (
-        error.response.status &&
-        (error.response.status >= 500 || error.response.status === 429)
-      ) {
-        return rejectWithValue(error.response.status || 'Unknown error');
-      }
-      return rejectWithValue(error.response.data.message || 'Unknown error');
+      return rejectWithValue(errorMessage);
     }
   });
 };
@@ -68,10 +63,9 @@ export const requestWithInstanceTemplate = <Arg, Result>(
     } catch (error: any) {
       // console.log(`Error ${name}`, error.response);
 
-      if (error.response.status && error.response.status >= 500) {
-        return rejectWithValue(error.response.status || 'Unknown error');
-      }
-      return rejectWithValue(error.response.data.message || 'Unknown error');
+      const errorMessage = getErrorMessage(error);
+
+      return rejectWithValue(errorMessage);
     }
   });
 };

@@ -9,14 +9,14 @@ const useShowPlug = () => {
   const { allArchive, archiveHistoryLog, isLoadingDBData } = useDBRedux();
 
   const activeLinks = useActiveLinks();
-  const { rebuildedNews } = useChooseRenderingNews(activeLinks);
+  const { rebuiltNews } = useChooseRenderingNews(activeLinks);
   const { isHomeLoader, commonDBLoader } = useShowLoader();
 
   const { isHomeActive, isFavoriteActive, isReadActive, isArchiveActive } = activeLinks;
 
   const is429ErrorAPI = errorAPI?.toString().includes('429');
 
-  const commonPlug = rebuildedNews?.length === 0 || hasResults === 'empty';
+  const commonPlug = rebuiltNews?.length === 0 || hasResults === 'empty';
 
   const isHomePlug = commonPlug || is429ErrorAPI!;
   const isArchivePlug = allArchive.length === 0 && archiveHistoryLog.length === 0;

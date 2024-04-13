@@ -27,7 +27,6 @@ const Auth: FC<AuthButtonProps> = ({ passwordToken }) => {
 
   //Функція відкриття модалки при наявності збереженого Remember me та запиту шифрованого пароля
   const onOpenModal = () => {
-    console.log('onOpenModal in AUTH');
     if (isCredentialsRemembered) fetchCryptoPassword();
     toggleModal();
   };

@@ -14,13 +14,13 @@ const useShowToast = () => {
   const { setOpenToast } = useNotificationContext();
 
   const activeLinks = useActiveLinks();
-  const { rebuildedNews } = useChooseRenderingNews(activeLinks);
+  const { rebuiltNews } = useChooseRenderingNews(activeLinks);
   const { isHomeLoader, commonDBLoader } = useShowLoader();
 
   const { isArchiveActive, isFavoriteActive, isHomeActive, isReadActive } = activeLinks;
 
   useEffect(() => {
-    if ((isFavoriteActive || isReadActive) && rebuildedNews?.length > 0) setOpenToast(true);
+    if ((isFavoriteActive || isReadActive) && rebuiltNews?.length > 0) setOpenToast(true);
   }, []);
 
   const additionalRequests =

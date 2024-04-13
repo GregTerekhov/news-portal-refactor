@@ -1,3 +1,4 @@
+export { default as useError } from './useError';
 export { default as useHeadline } from './useHeadline';
 export { default as useShowContent } from './useShowContent';
 export { default as useShowLoader } from './useShowLoader';

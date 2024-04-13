@@ -15,7 +15,7 @@ const ReadPage: FC = () => {
 
   const activeLinks = useActiveLinks();
   const initialReadsList = useReadNewsContent();
-  const { rebuildedNews } = useChooseRenderingNews(activeLinks);
+  const { rebuiltNews } = useChooseRenderingNews(activeLinks);
 
   useEffect(() => {
     getReads();
@@ -29,7 +29,7 @@ const ReadPage: FC = () => {
         {readNews?.map((date) => (
           <Accordeon key={date} dateSeparator={date} position='readPage'>
             <NewsList
-              currentItems={rebuildedNews?.filter(
+              currentItems={rebuiltNews?.filter(
                 (news) => news?.publishDate !== undefined && news?.publishDate === date,
               )}
             />

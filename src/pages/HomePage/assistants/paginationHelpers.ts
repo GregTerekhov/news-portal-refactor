@@ -1,4 +1,4 @@
-import { FIRST_PAGE, QUANTITY } from './constants';
+import { COUNT, FIRST_PAGE, QUANTITY } from './constants';
 
 // Розрахунок кількості сторінок для кожного типу пристрою
 const calculatePagesArray = (
@@ -28,7 +28,7 @@ const calculateRemainingCards = (arrayItems: number[], totalItems: number): numb
 };
 
 // Розрахунок масива кількості сторінок для кожного типу пристрою
-export const calculatePagesForDevices = (
+const calculatePagesForDevices = (
   total: number,
   itemsPerFirstPage: number,
   itemsPerOtherPage: number,
@@ -46,6 +46,44 @@ export const calculateFirstIndexes = (pages: number[], total: number): number | 
     return console.error(error.message);
   }
 };
+
+//Отримання кількості новин на першій сторінці для кожного пристроя
+function getFirstPageCount(isLargeScreens: boolean, isTablet: boolean): number {
+  switch (true) {
+    case isLargeScreens:
+      return COUNT.FIRST_DESKTOP_PAGE_COUNT;
+    case isTablet:
+      return COUNT.FIRST_TABLET_PAGE_COUNT;
+
+    default:
+      return COUNT.FIRST_MOBILE_PAGE_COUNT;
+  }
+}
+
+//Отримання кількості новин на інших сторінках для кожного пристроя
+function getOtherPageCount(isLargeScreens: boolean, isTablet: boolean): number {
+  switch (true) {
+    case isLargeScreens:
+      return COUNT.OTHER_DESKTOP_PAGE_COUNT;
+    case isTablet:
+      return COUNT.OTHER_TABLET_PAGE_COUNT;
+
+    default:
+      return COUNT.OTHER_MOBILE_PAGE_COUNT;
+  }
+}
+// Визначення кількості об'єктів новин на сторінці в залежності від типу пристрою
+export function cardsPerPage(
+  totalPages: number,
+  isLargeScreens: boolean,
+  isTablet: boolean,
+): number[] {
+  return calculatePagesForDevices(
+    totalPages,
+    getFirstPageCount(isLargeScreens, isTablet),
+    getOtherPageCount(isLargeScreens, isTablet),
+  );
+}
 
 // Рендерінг відповідних кнопок для різних сторінок пагінації та різних значень ширини девайсів
 export const renderPagination = (

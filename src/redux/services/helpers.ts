@@ -6,8 +6,7 @@ import { CONFIG } from 'config';
 import { store, RootState } from '../store';
 import { setTokens } from '../auth';
 
-import type { RefreshTokensResponse } from 'types';
-import type { AsyncThunkTemplateOptions, QueryParams } from './types';
+import type { AsyncThunkTemplateOptions, QueryParams, RefreshTokensResponse } from 'types';
 
 function getBaseRequestUrl(name: string, url: string): string {
   let requestUrl = '';
@@ -24,10 +23,17 @@ function getBaseRequestUrl(name: string, url: string): string {
       break;
 
     default:
+      requestUrl = '';
       break;
   }
 
   return requestUrl;
+}
+
+function changeUrl(url: string, key: string, value: string | number, isTransform?: boolean) {
+  return isTransform
+    ? url.replace(`:${key}`, value.toString().toLowerCase())
+    : url.replace(`:${key}`, value.toString());
 }
 
 function replaceQueryStringInUrl(args: any, name: string, url: string): string {
@@ -38,12 +44,12 @@ function replaceQueryStringInUrl(args: any, name: string, url: string): string {
     if (typeof args === 'object') {
       Object.entries(args).forEach(([key, value]) => {
         if (typeof value === 'string' || typeof value === 'number') {
-          return (requestUrl = requestUrl.replace(`:${key}`, value.toString()));
+          return (requestUrl = changeUrl(requestUrl, key, value));
         }
         return requestUrl;
       });
     } else if (typeof args === 'string') {
-      return (requestUrl = requestUrl.replace(':section', args.toString().toLowerCase()));
+      return (requestUrl = changeUrl(requestUrl, 'section', args, true));
     }
   }
 
@@ -82,9 +88,9 @@ export function getFinalUrl(
 export function getDynamicUrl(args: any, url: string): string {
   let dynamicUrl = url;
 
-  if (args && typeof args === 'string' && url.includes('_id')) {
-    dynamicUrl = url.replace(/_id\b/, args.toString());
-  }
+  const shouldChangeUrl = args && typeof args === 'string' && url.includes('_id');
+
+  if (shouldChangeUrl) dynamicUrl = url.replace(/_id\b/, args.toString());
 
   return dynamicUrl;
 }
@@ -129,4 +135,14 @@ export const isTokenExpired = (tokenStatus: JwtPayload): boolean | undefined => 
   if (tokenExpiryTime) return currentTime > tokenExpiryTime;
 
   return undefined;
+};
+
+export const getErrorMessage = (error: any): string | number => {
+  if (error.response.status && (error.response.status >= 500 || error.response.status === 429)) {
+    return error.response.status;
+  } else if (error.response.data && error.response.data.message) {
+    return error.response.data.message;
+  } else {
+    return 'Unknown error';
+  }
 };

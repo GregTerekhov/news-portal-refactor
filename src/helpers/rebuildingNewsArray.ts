@@ -9,7 +9,7 @@ import type {
 
 import { convertDateStringToDDMMYYY } from 'helpers';
 
-function rebuildNewsArray(
+function rebuildingNewsArray(
   data: PartialPopularNewsArray | PartialArticleNewsArray | PartialNewsWireArray,
 ) {
   if (data) {
@@ -81,4 +81,4 @@ function rebuildNewsArray(
   return [];
 }
 
-export default rebuildNewsArray;
+export default rebuildingNewsArray;

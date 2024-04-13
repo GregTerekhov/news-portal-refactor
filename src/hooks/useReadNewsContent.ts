@@ -5,9 +5,9 @@ import useActiveLinks from './useActiveLinks';
 
 const useReadNewsContent = () => {
   const activeLinks = useActiveLinks();
-  const { rebuildedNews } = useChooseRenderingNews(activeLinks);
+  const { rebuiltNews } = useChooseRenderingNews(activeLinks);
 
-  const publishedDate = rebuildedNews
+  const publishedDate = rebuiltNews
     ?.map((news) => news.publishDate)
     .filter((date) => date !== undefined) as string[];
 

@@ -13,13 +13,13 @@ const useInfiniteScroll = () => {
   const { isMobile, isNotMobile } = useWindowWidthContext();
 
   const activeLinks = useActiveLinks();
-  const { rebuildedNews } = useChooseRenderingNews(activeLinks);
+  const { rebuiltNews } = useChooseRenderingNews(activeLinks);
 
   useEffect(() => {
-    if (rebuildedNews) {
-      setTotalNewsCount(rebuildedNews.length);
+    if (rebuiltNews) {
+      setTotalNewsCount(rebuiltNews.length);
     }
-  }, [rebuildedNews]);
+  }, [rebuiltNews]);
 
   const initialDisplayCount = useMemo(() => {
     if (isMobile) return MOBILE_NEWS_DISPLAYED_COUNT;
@@ -47,7 +47,7 @@ const useInfiniteScroll = () => {
     setIsLoadingMore(false);
   };
 
-  const displayedNews = rebuildedNews?.slice(0, displayedCount);
+  const displayedNews = rebuiltNews?.slice(0, displayedCount);
 
   return { displayedNews, handleLoadMore };
 };

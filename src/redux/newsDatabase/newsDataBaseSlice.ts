@@ -60,6 +60,9 @@ const newsDBSlice = createSlice({
       .addCase(newsDBOperations.fetchHistoryLog.fulfilled, (state, action) => {
         state.historyLog = action.payload.data;
       })
+      .addCase(newsDBOperations.clearHistoryLog.fulfilled, (state) => {
+        state.historyLog = [];
+      })
       .addCase(removeFromFavourites, (state, action) => {
         const newsUrl = action.payload;
         if (newsUrl !== '') {
