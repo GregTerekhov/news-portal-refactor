@@ -1,14 +1,13 @@
 import { useState } from 'react';
 import { isAfter, startOfToday } from 'date-fns';
 
-import { useFiltersStateContext, useSelectedDateContext } from 'contexts';
-
 import type { SelectedDate } from 'types';
+import { useFiltersStateContext, useSelectedDateContext } from 'contexts';
 
 import { determineNewSelectedDate } from 'helpers';
 
 const useFilterDateChange = () => {
-  const [beginDate, setBeginDate] = useState<Date | null>(null);
+  const [beginFilterDate, setBeginFilterDate] = useState<Date | null>(null);
   const today = startOfToday();
 
   const { filters, setFilters } = useFiltersStateContext();
@@ -23,12 +22,16 @@ const useFilterDateChange = () => {
     //Перевірка, якщо введена дата не пізніше сьогодняшньої
     if (!isAfter(date, today)) {
       //Перевірка, якщо немає початкової дати та її вставка в проміжковий стан початкової дати
-      if (!beginDate) {
-        setBeginDate(date);
+      if (!beginFilterDate) {
+        setBeginFilterDate(date);
       } else {
         try {
           //Нормалізація введених дат за послідовністю - спочатку ранішня дата, потім пізніша
-          const newSelectedDate: SelectedDate = determineNewSelectedDate(date, beginDate, 'filter');
+          const newSelectedDate: SelectedDate = determineNewSelectedDate(
+            date,
+            beginFilterDate,
+            'filter',
+          );
 
           //Додавання періода дат в об'єкт стану в контексті
           setSelectedFilterDate(newSelectedDate);
@@ -43,7 +46,7 @@ const useFilterDateChange = () => {
               },
             });
             //Видалення значення проміжкового стану початкової дати
-            setBeginDate(null);
+            setBeginFilterDate(null);
           }
         } catch (error) {
           console.error('An error occurred while updating the values: ', error);

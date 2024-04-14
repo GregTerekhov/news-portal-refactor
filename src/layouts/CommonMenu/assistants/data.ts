@@ -6,6 +6,13 @@ type MenuItemProps = {
   navId: string;
 };
 
+type MobileMenuLinks = {
+  id: string;
+  iconName: string;
+  path: string;
+  label: string;
+};
+
 export const renderMenuItem = ({ activeLinks, navId }: MenuItemProps): MenuItem[] => {
   const links: MenuItem[] =
     navId === 'main-navigation'
@@ -44,6 +51,37 @@ export const renderMenuItem = ({ activeLinks, navId }: MenuItemProps): MenuItem[
             activeLink: activeLinks.isManageAccountPage,
           },
         ];
+
+  return links;
+};
+
+export const getMenuLinks = () => {
+  const links: MobileMenuLinks[] = [
+    {
+      id: 'Go home',
+      iconName: 'home',
+      path: '/',
+      label: 'Home',
+    },
+    {
+      id: 'Go to Favourite Page',
+      iconName: 'heart',
+      path: '/favourite',
+      label: 'Favourite',
+    },
+    {
+      id: 'Go to Read Page',
+      iconName: 'open-book',
+      path: '/read',
+      label: 'Read',
+    },
+    {
+      id: 'Go to Archive Page',
+      iconName: 'archive',
+      path: '/archive',
+      label: 'Archive',
+    },
+  ];
 
   return links;
 };

@@ -1,13 +1,13 @@
 import React, { FC } from 'react';
 
-import { useWindowWidthContext } from 'contexts';
-
 import { VariantButton } from 'types';
-import { useActiveLinks } from 'hooks';
+import { useWindowWidthContext } from 'contexts';
 
 import { PrimaryButton } from 'ui';
 
+import { useActiveLinks } from 'hooks';
 import { useGoogleSettings } from './hooks';
+import { getAriaLabel, getButtonWrapperClass, getCallToActionText, getSvgSize } from './assistants';
 
 const LinkAccountsButtons: FC = () => {
   const { isMobile, isTV } = useWindowWidthContext();
@@ -30,25 +30,13 @@ const LinkAccountsButtons: FC = () => {
           key={account}
           className={`${isManageAccountPage ? 'flex items-center gap-3 lg:gap-6' : ''}`}
         >
-          <div
-            className={`${isManageAccountPage ? 'w-14' : isMobile ? 'w-14' : isTV ? 'w-36' : 'w-32'}`}
-          >
+          <div className={getButtonWrapperClass(isManageAccountPage, isMobile, isTV)}>
             <PrimaryButton
-              variant={
-                isManageAccountPage
-                  ? VariantButton.Small
-                  : isMobile
-                    ? VariantButton.Small
-                    : VariantButton.Other
-              }
+              variant={isManageAccountPage || isMobile ? VariantButton.Small : VariantButton.Other}
               hasIcon={true}
               svgName={svgName}
-              svgSize={
-                isMobile ? 'smIcon20' : isTV && isManageAccountPage ? 'mdIcon27' : 'mdIcon24'
-              }
-              ariaLabel={`${
-                isManageAccountPage ? account + 'account binding' : 'Enter with' + account
-              } `}
+              svgSize={getSvgSize(isManageAccountPage, isMobile, isTV)}
+              ariaLabel={getAriaLabel(account, isManageAccountPage)}
               classNameButton={`${accountButtonStyles}`}
               classNameIcon='fill-whiteBase group-hover:fill-accentAlt group-focus:fill-accentAlt dark:group-focus:fill-whiteBase dark:group-hover:fill-whiteBase'
               children={!isMobile && !isManageAccountPage ? account : ''}
@@ -57,11 +45,7 @@ const LinkAccountsButtons: FC = () => {
           </div>
           {isManageAccountPage ? (
             <p className='text-small leading-normal text-darkBase dark:text-whiteBase lg:text-medium hg:text-xl'>
-              {`${
-                hasAccount
-                  ? `Disconnect your ${account} account from News. You will no longer be able to use it to log in.`
-                  : `Connect your ${account} account to login to News.`
-              }`}
+              {getCallToActionText(hasAccount, account)}
             </p>
           ) : null}
         </li>

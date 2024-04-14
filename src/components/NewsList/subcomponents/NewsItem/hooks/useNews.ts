@@ -14,6 +14,7 @@ const useNews = ({ liveNews }: NewsItemProps) => {
 
   const { isDeleted, handleChangeFavourites, handleReadNews, handleDeleteNews } = useNewsActions({
     liveNews,
+    isFavourite,
     setIsFavourite,
     setHasRead,
   });

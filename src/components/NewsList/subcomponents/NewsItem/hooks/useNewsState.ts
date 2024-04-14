@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 
-import { useAuthRedux, useDBRedux } from 'reduxStore/hooks';
 import type { VotedItem } from 'types';
+import { useAuthRedux, useDBRedux } from 'reduxStore/hooks';
 
 import { useActiveLinks } from 'hooks';
 
@@ -17,24 +17,31 @@ const useNewsState = ({ liveNews }: NewsStateHookProps) => {
   const newsArray = isArchiveActive ? allArchive : savedNews;
   const allSavedNews = newsArray?.find((news) => news.newsUrl === liveNews?.newsUrl);
 
-  const [newsState, setNewsState] = useState({
-    isFavourite: allSavedNews?.isFavourite ?? false,
-    hasRead: allSavedNews?.hasRead ?? false,
-  });
+  // const [newsState, setNewsState] = useState({
+  //   isFavourite: allSavedNews?.isFavourite ?? false,
+  //   hasRead: allSavedNews?.hasRead ?? false,
+  // });
+
+  const [isFavourite, setIsFavourite] = useState<boolean>(allSavedNews?.isFavourite ?? false);
+  const [hasRead, setHasRead] = useState<boolean>(allSavedNews?.hasRead ?? false);
 
   useEffect(() => {
     if (isAuthenticated && allSavedNews) {
-      setNewsState({
-        isFavourite: allSavedNews.isFavourite ?? false,
-        hasRead: allSavedNews.hasRead ?? false,
-      });
+      // setNewsState({
+      setIsFavourite(allSavedNews.isFavourite ?? false);
+      setHasRead(allSavedNews.hasRead ?? false);
+      // });
     }
   }, [allSavedNews, isAuthenticated, liveNews]);
 
   return {
-    ...newsState,
-    setIsFavourite: (isFavourite: boolean) => setNewsState({ ...newsState, isFavourite }),
-    setHasRead: (hasRead: boolean) => setNewsState({ ...newsState, hasRead }),
+    isFavourite,
+    hasRead,
+    setIsFavourite,
+    setHasRead,
+    // ...newsState,
+    // setIsFavourite: (isFavourite: boolean) => setNewsState({ ...newsState, isFavourite }),
+    // setHasRead: (hasRead: boolean) => setNewsState({ ...newsState, hasRead }),
   };
 };
 

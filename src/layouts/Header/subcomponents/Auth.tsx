@@ -1,9 +1,9 @@
 import React, { FC } from 'react';
 
+import { VariantButton } from 'types';
 import { useAuthRedux } from 'reduxStore/hooks';
 import { useWindowWidthContext } from 'contexts';
 
-import { VariantButton } from 'types';
 import { useActiveLinks, useCrypto, useHeaderStyles, usePopUp, useSignOut } from 'hooks';
 
 import { AuthModal } from 'components';
@@ -43,11 +43,9 @@ const Auth: FC<AuthButtonProps> = ({ passwordToken }) => {
           svgName={`${isAuthenticated ? 'signout' : 'auth'}`}
           svgSize={wideScreens ? 'mdIcon28' : 'mdIcon24'}
           classNameIcon='fill-whiteBase'
-          classNameButton={`${
-            isHomeActive && authButtonClass
-          } border border-solid border-transparent dark:border-whiteBase bg-accentBase hocus:bg-accentAlt ${
+          classNameButton={`${isHomeActive && authButtonClass} ${
             wideScreens ? '' : 'border-transparent p-1.5'
-          }`}
+          } border border-solid border-transparent dark:border-whiteBase bg-accentBase hocus:bg-accentAlt`}
         >
           {wideScreens ? (isAuthenticated ? 'Sign Out' : 'Auth') : null}
         </PrimaryButton>

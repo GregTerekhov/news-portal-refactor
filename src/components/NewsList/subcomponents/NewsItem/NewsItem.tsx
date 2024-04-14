@@ -1,8 +1,7 @@
 import React, { FC } from 'react';
 
-import { useAuthRedux } from 'reduxStore/hooks';
-
 import type { VotedItem } from 'types';
+import { useAuthRedux } from 'reduxStore/hooks';
 
 import { useActiveLinks, usePopUp } from 'hooks';
 
@@ -21,7 +20,7 @@ const NewsItem: FC<Partial<NewsItemProps>> = ({ liveNews = {} }) => {
   const { isAuthenticated } = useAuthRedux();
 
   const { isOpenModal, toggleModal, popUpRef } = usePopUp();
-  const { isHomeActive, isArchiveActive, isReadActive } = useActiveLinks();
+  const { isHomeActive, isArchiveActive } = useActiveLinks();
   const { isFavourite, hasRead, handleChangeFavourites, handleReadNews, handleDeleteNews } =
     useNews({ liveNews });
 
@@ -35,7 +34,7 @@ const NewsItem: FC<Partial<NewsItemProps>> = ({ liveNews = {} }) => {
     }
   };
 
-  const locationShowHasReadStatus = isHomeActive || isArchiveActive;
+  const showHasReadStatus = isAuthenticated && hasRead && (isHomeActive || isArchiveActive);
 
   return (
     <>
@@ -49,9 +48,7 @@ const NewsItem: FC<Partial<NewsItemProps>> = ({ liveNews = {} }) => {
         >
           <div
             className={`${
-              isAuthenticated && hasRead && locationShowHasReadStatus
-                ? 'absolute z-20 h-full w-full bg-whiteBase/[.4]'
-                : 'hidden'
+              showHasReadStatus ? 'absolute z-20 h-full w-full bg-whiteBase/[.4]' : 'hidden'
             }`}
           ></div>
           {isArchiveActive ? (
@@ -63,12 +60,12 @@ const NewsItem: FC<Partial<NewsItemProps>> = ({ liveNews = {} }) => {
           <p className='absolute left-0 top-10 z-20 rounded-r bg-accentBase/[.7] px-2 py-1 text-small font-medium text-contrastWhite hg:text-medium'>
             {liveNews?.category} / {liveNews?.materialType}
           </p>
-          {isAuthenticated && hasRead && !isReadActive && (
+          {showHasReadStatus ? (
             <p className='absolute right-14 top-3.5 z-10 flex items-center gap-1 text-base font-bold text-readBase md:top-5'>
               Already read
               <SvgIcon svgName='check' sizeKey='smIcon18' className='fill-readBase' />
             </p>
-          )}
+          ) : null}
           <div className='relative flex h-395px items-center justify-center overflow-hidden rounded-[10px]'>
             <p className='absolute bottom-3 left-3 z-10 text-whiteBase opacity-0 drop-shadow-lg transition-opacity group-hover:opacity-100'>
               {liveNews?.edition}

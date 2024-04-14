@@ -6,7 +6,7 @@ interface ITooltipProps {
   label: string;
   ariaLabel: string;
   side: 'top' | 'right' | 'bottom' | 'left';
-  sideOffset: number;
+  sideOffset: 0 | 4 | 16;
   align?: 'start' | 'center' | 'end';
 }
 

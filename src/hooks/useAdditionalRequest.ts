@@ -37,18 +37,18 @@ const useAdditionalRequest = () => {
   const { resetRequestDay } = useSelectedDateContext();
   const { resetPagination } = usePaginationContext();
 
-  const showPopular =
-    (newsByKeyword && newsByKeyword?.length === 0) ||
-    (newsByCategory && newsByCategory?.length === 0) ||
-    (newsByDate && newsByDate?.length === 0);
+  const showPopular = !newsByKeyword?.length || !newsByCategory?.length || !newsByDate?.length;
 
   const hasAnotherRequestResults =
-    Object.values(searchParams).some((value) => value !== '') ||
-    (newsByDate && newsByDate?.length > 0);
+    Object.values(searchParams).some((value) => value !== '') || newsByDate?.length > 0;
 
-  const getCategoriesList = memoizeOne((): string[] => {
-    return categoriesList?.map((item) => item.display_name) || [];
-  });
+  const getCategoriesList = memoizeOne(
+    (): string[] => categoriesList?.map((item) => item.display_name) || [],
+  );
+
+  const resetRequest = () => {
+    if (filteredNews?.length > 0) resetPreviousRequest();
+  };
 
   const updateSearchParams = (value: string, key: keyof SearchParamsObject | string): void => {
     setSearchParams((prevParams) => ({ ...prevParams, [key]: value }));
@@ -62,36 +62,30 @@ const useAdditionalRequest = () => {
     e.preventDefault();
     if (searchParams.query) {
       resetPagination();
-
-      if (filteredNews?.length > 0) resetPreviousRequest();
-
-      await fetchByKeyword({ query: searchParams.query });
+      resetRequest();
       updateHeadline(`News by Keyword: ${searchParams.query}`);
       updateSearchParams('', 'query');
+
+      await fetchByKeyword({ query: searchParams.query });
     }
   };
 
   const getNewsByCategory = async (section: CategoryRequest): Promise<void> => {
     if (section) {
       resetPagination();
+      resetRequest();
       updateSearchParams(section, 'category');
-
-      if (filteredNews?.length > 0) {
-        resetPreviousRequest();
-      }
-      await fetchByCategory(section);
       updateHeadline(`Categorical Reviews by ${section}`);
+
+      await fetchByCategory(section);
     }
   };
 
   const getNewsByPeriod = async (selectedPeriod: string): Promise<void> => {
     if (selectedPeriod) {
       resetPagination();
+      resetRequest();
       updateSearchParams(selectedPeriod, 'period');
-
-      if (filteredNews && filteredNews.length > 0) {
-        resetPreviousRequest();
-      }
 
       switch (selectedPeriod) {
         case 'Today':
@@ -99,12 +93,9 @@ const useAdditionalRequest = () => {
           await fetchPopular({ period: TODAY_HOT_NEWS });
           break;
         case 'Week':
-          updateHeadline(`${selectedPeriod} News`);
-          await fetchPopular({ period: WEEKLY_NEWS });
-          break;
         case 'Month':
           updateHeadline(`${selectedPeriod} News`);
-          await fetchPopular({ period: MONTHLY_NEWS });
+          await fetchPopular({ period: selectedPeriod === 'Week' ? WEEKLY_NEWS : MONTHLY_NEWS });
           break;
         default:
           break;

@@ -30,7 +30,7 @@ const UpdateCredentials: FC<UpdateCredentialsProps> = ({ field }) => {
   const descriptionText = field === 'email' ? updateEmailDescription : updatePasswordDescription;
 
   return (
-    <Accordeon position='accountManagePage' filtersBlock={`Change your email ${field}`}>
+    <Accordeon position='accountManagePage' filtersBlock={`Change your ${field}`}>
       <form
         className='space-y-4 pt-4 lg:space-y-8'
         onSubmit={

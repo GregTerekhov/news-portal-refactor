@@ -1,9 +1,8 @@
 import React, { FC } from 'react';
 
+import type { HourlyWeatherData } from 'types';
 import { useWeatherAPIRedux } from 'reduxStore/hooks';
 import { useWindowWidthContext } from 'contexts';
-
-import type { HourlyWeatherData } from 'types';
 
 import { Hint, SvgIcon } from 'ui';
 

@@ -1,8 +1,7 @@
 import React, { FC } from 'react';
 
-import { useWeatherAPIRedux } from 'reduxStore/hooks';
-
 import type { PartialVotedNewsArray, VotedItem } from 'types';
+import { useWeatherAPIRedux } from 'reduxStore/hooks';
 
 import { useActiveLinks } from 'hooks';
 

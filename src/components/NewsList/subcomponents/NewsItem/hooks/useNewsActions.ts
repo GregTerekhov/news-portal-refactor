@@ -1,24 +1,29 @@
 import { useCallback, useEffect, useState } from 'react';
 
+import type { VotedItem } from 'types';
 import { useDBRedux } from 'reduxStore/hooks';
 import { useNotificationContext, useScrollBodyContext } from 'contexts';
 
-import type { VotedItem } from 'types';
 import { useActiveLinks } from 'hooks';
 
 type NewsActionHookProps = {
   liveNews: Partial<VotedItem>;
+  isFavourite: boolean;
   setIsFavourite: (isFavourite: boolean) => void;
   setHasRead: (hasRead: boolean) => void;
 };
 
-const useNewsActions = ({ liveNews, setIsFavourite, setHasRead }: NewsActionHookProps) => {
+const useNewsActions = ({
+  liveNews,
+  isFavourite,
+  setIsFavourite,
+  setHasRead,
+}: NewsActionHookProps) => {
   const [changesHappened, setChangesHappened] = useState<boolean>(false);
   const [isDeleted, setIsDeleted] = useState<boolean>(false);
 
   const { savedNews, updateSavedNews, addVotedNews, removeNews, removeFavouriteNews } =
     useDBRedux();
-
   const { showToast } = useNotificationContext();
   const { setIsScrollDisabled } = useScrollBodyContext();
 
@@ -28,6 +33,8 @@ const useNewsActions = ({ liveNews, setIsFavourite, setHasRead }: NewsActionHook
     savedNews && liveNews && liveNews?.newsUrl !== undefined && !isArchiveActive;
 
   useEffect(() => {
+    console.log('changesHappened', changesHappened);
+
     if (changesHappened && savedNews.length > 0) {
       addVotedNews(savedNews);
       setChangesHappened(false);
@@ -42,7 +49,7 @@ const useNewsActions = ({ liveNews, setIsFavourite, setHasRead }: NewsActionHook
   const clickDate = new Date().getTime();
 
   const handleAddToFavourites = (): void => {
-    setIsFavourite(true);
+    setIsFavourite(!isFavourite);
     setChangesHappened(true);
 
     const updatedData = {
@@ -55,10 +62,10 @@ const useNewsActions = ({ liveNews, setIsFavourite, setHasRead }: NewsActionHook
   };
 
   const handleToggleFavourites = (): void => {
-    setIsFavourite(!savedFavourite);
+    setIsFavourite(!isFavourite);
+    setChangesHappened(true);
 
     if (!savedFavourite && savedRead) {
-      setChangesHappened(true);
       const updatedData = {
         ...liveNews,
         isFavourite: !savedFavourite,
@@ -67,7 +74,6 @@ const useNewsActions = ({ liveNews, setIsFavourite, setHasRead }: NewsActionHook
       };
       updateSavedNews(updatedData);
     } else if (savedFavourite && !savedRead) {
-      setChangesHappened(true);
       const updatedData = {
         ...liveNews,
         isFavourite: !savedFavourite,
@@ -76,7 +82,6 @@ const useNewsActions = ({ liveNews, setIsFavourite, setHasRead }: NewsActionHook
       updateSavedNews(updatedData);
       removeFavouriteNews(liveNews?.newsUrl || '');
     } else if (savedFavourite && savedRead) {
-      setChangesHappened(true);
       const updatedData = {
         ...liveNews,
         isFavourite: !savedFavourite,
@@ -92,15 +97,8 @@ const useNewsActions = ({ liveNews, setIsFavourite, setHasRead }: NewsActionHook
     e.stopPropagation();
     e.preventDefault();
 
-    // setChangesHappened(true);
     if (shouldMakeChanges) {
-      if (savedNews.length === 0 || !existingNews) {
-        setChangesHappened(true);
-        handleAddToFavourites();
-      } else {
-        setChangesHappened(true);
-        handleToggleFavourites();
-      }
+      savedNews.length === 0 || !existingNews ? handleAddToFavourites() : handleToggleFavourites();
     }
   };
 

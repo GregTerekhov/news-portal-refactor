@@ -4,26 +4,13 @@ import { NavLink } from 'react-router-dom';
 import type { IMenuProps } from 'types';
 
 import { SvgIcon } from 'ui';
+import { getNavLinkStyles, getSvgWrapperStyles } from '../assistants';
 
 const MobileMenu: FC<IMenuProps> = ({ navId, links, handleLinkClick }) => {
-  const getNavLinkStyles = (isActiveLink: boolean | undefined): string => {
-    return `flex items-center p-1.5 text-medium font-medium transition-colors duration-500 md:font-bold lg:text-xl ${
-      isActiveLink
-        ? '[clip-path:inset(0 -100vmax)] justify-between bg-accentBase text-whiteBase'
-        : 'text-darkBase dark:text-whiteBase'
-    }`;
-  };
-
   const linksListStyles = `space-y-3 ${
     navId === 'account-navigation' &&
     'after:mt-3 after:block after:h-px after:w-full after:bg-accentBase after:content-[""]'
   }`;
-
-  const getSvgWrapperStyles = (isActiveLink: boolean | undefined): string => {
-    return `flex h-8 w-8 items-center justify-center rounded-full bg-accentBase transition-colors duration-500 ${
-      isActiveLink ? 'outline outline-1 outline-whiteBase' : ''
-    }`;
-  };
 
   return (
     <nav id={navId}>

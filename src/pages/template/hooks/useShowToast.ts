@@ -42,7 +42,10 @@ const useShowToast = () => {
 
   const favouritesToastInfo = isFavoriteActive && !commonDBLoader && allFavourites?.length > 0;
   const readsToastInfo = isReadActive && !commonDBLoader && allReads?.length > 0;
-  const archiveToast = isArchiveActive && dbSuccessMessage === 'Remove news success';
+  const archiveToast =
+    isArchiveActive &&
+    (dbSuccessMessage === 'Remove news success' ||
+      dbSuccessMessage === 'Your deleted news feed has been successfully cleared');
 
   const showHomeToast = isHomeActive && (homeToastError || homeToastSuccess || homeToastInfo);
 

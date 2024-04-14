@@ -5,13 +5,12 @@ import { useScrollBodyContext } from 'contexts';
 const usePopUp = () => {
   const [isOpenModal, setIsOpenModal] = useState<boolean>(false);
   const [isOpenCalendar, setIsOpenCalendar] = useState<boolean>(false);
+  const popUpRef = useRef<HTMLDivElement | null>(null);
 
   const { isScrollDisabled, setIsScrollDisabled } = useScrollBodyContext();
 
-  const popUpRef = useRef<HTMLDivElement | null>(null);
-
   const handleWindowClick = useCallback(
-    (event: MouseEvent) => {
+    (event: MouseEvent): void => {
       if (popUpRef.current && !popUpRef.current.contains(event.target as Node)) {
         if (isOpenModal) {
           setIsOpenModal(false);
@@ -26,7 +25,7 @@ const usePopUp = () => {
   );
 
   const handleKeyDown = useCallback(
-    (event: KeyboardEvent) => {
+    (event: KeyboardEvent): void => {
       if (event.key === 'Escape') {
         if (isOpenModal) {
           setIsOpenModal(false);
@@ -54,7 +53,10 @@ const usePopUp = () => {
     setIsOpenCalendar(!isOpenCalendar);
   }, [isOpenCalendar]);
 
-  const toggleModal = (e?: React.MouseEvent<HTMLButtonElement>, preventDefault: boolean = true) => {
+  const toggleModal = (
+    e?: React.MouseEvent<HTMLButtonElement>,
+    preventDefault: boolean = true,
+  ): void => {
     if (preventDefault) {
       e?.preventDefault();
       e?.stopPropagation();

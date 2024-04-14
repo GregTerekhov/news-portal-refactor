@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
 import { Location, useLocation } from 'react-router-dom';
 
-import { ActiveLinks } from './commonTypes';
+import type { ActiveLinks } from './commonTypes';
 
 const useActiveLinks = () => {
   const location: Location = useLocation();

@@ -1,10 +1,10 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import { SubmitHandler, useForm } from 'react-hook-form';
 
+import type { SendEmailRequest } from 'types';
+
 import { useAuthRedux } from 'reduxStore/hooks';
 import { useNotificationContext, useScrollBodyContext } from 'contexts';
-
-import type { SendEmailRequest } from 'types';
 
 import { recoveryPasswordSchema } from '../assistants';
 

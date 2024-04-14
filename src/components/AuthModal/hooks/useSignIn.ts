@@ -2,14 +2,13 @@ import { useEffect, useId, useState } from 'react';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { SubmitHandler, useForm } from 'react-hook-form';
 
+import type { AuthRequestWithoutName, EncryptedPasswordRequest } from 'types';
+
 import { useAuthRedux } from 'reduxStore/hooks';
 import { useNotificationContext, useScrollBodyContext } from 'contexts';
 
-import type { AuthRequestWithoutName, EncryptedPasswordRequest } from 'types';
-
 import { encryptPassword } from 'helpers';
 import { useCrypto, usePopUp } from 'hooks';
-
 import { signInDataInputs, signInSchema } from '../assistants';
 
 const useSignIn = () => {

@@ -1,14 +1,14 @@
+import { useNavigate } from 'react-router-dom';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { SubmitHandler, useForm } from 'react-hook-form';
+
+import type { ChangePasswordValues } from 'types';
 
 import { useAuthRedux } from 'reduxStore/hooks';
 import { useNotificationContext, useScrollBodyContext } from 'contexts';
 
-import type { ChangePasswordValues } from 'types';
 import { usePopUp } from 'hooks';
-
 import { changePasswordDataInputs, changePasswordSchema } from '../assistants';
-import { useNavigate } from 'react-router-dom';
 
 const useChangePassword = () => {
   const { changePassword } = useAuthRedux();
