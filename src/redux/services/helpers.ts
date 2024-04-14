@@ -30,7 +30,12 @@ function getBaseRequestUrl(name: string, url: string): string {
   return requestUrl;
 }
 
-function changeUrl(url: string, key: string, value: string | number, isTransform?: boolean) {
+function changeUrl(
+  url: string,
+  key: string,
+  value: string | number,
+  isTransform?: boolean,
+): string {
   return isTransform
     ? url.replace(`:${key}`, value.toString().toLowerCase())
     : url.replace(`:${key}`, value.toString());

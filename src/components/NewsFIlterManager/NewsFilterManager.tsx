@@ -1,7 +1,5 @@
 import React, { FC, useState } from 'react';
 
-import { useDBRedux } from 'reduxStore/hooks';
-
 import { useActiveLinks } from 'hooks';
 
 import { Accordeon, SvgIcon } from 'ui';
@@ -11,17 +9,9 @@ import { FiltersBlock, SearchBlock } from './subcomponents';
 const NewsFilterManager: FC<{}> = () => {
   const [showDropdown, setShowDropdown] = useState<boolean>(false);
 
-  const { allFavourites, allReads, allArchive } = useDBRedux();
+  const { isHomeActive } = useActiveLinks();
 
-  const { isHomeActive, isArchiveActive, isReadActive, isFavoriteActive } = useActiveLinks();
-
-  const noFavourites: boolean = isFavoriteActive && allFavourites && allFavourites?.length === 0;
-  const noReads: boolean = isReadActive && allReads && allReads?.length === 0;
-  const noArchives: boolean = isArchiveActive && allArchive && allArchive?.length === 0;
-
-  const shouldNotShowFilters: boolean = noFavourites || noReads || noArchives;
-
-  return !shouldNotShowFilters ? (
+  return (
     <div className='mb-10 w-full md:mb-12 lg:mb-[60px]'>
       <button
         id='Open filter service button'
@@ -57,7 +47,7 @@ const NewsFilterManager: FC<{}> = () => {
         </div>
       )}
     </div>
-  ) : null;
+  );
 };
 
 export default NewsFilterManager;

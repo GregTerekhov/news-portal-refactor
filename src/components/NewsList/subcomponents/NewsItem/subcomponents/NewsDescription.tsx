@@ -1,8 +1,7 @@
 import React, { FC } from 'react';
 
-import { useWindowWidthContext } from 'contexts';
-
 import type { VotedItem } from 'types';
+import { useWindowWidthContext } from 'contexts';
 
 import { SvgIcon } from 'ui';
 

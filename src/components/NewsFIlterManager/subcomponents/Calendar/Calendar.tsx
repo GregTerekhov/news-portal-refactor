@@ -1,48 +1,20 @@
 import React, { FC } from 'react';
-import { format, startOfToday } from 'date-fns';
 
-import { useFiltersStateContext, useSelectedDateContext } from 'contexts';
-
-import { convertDateStringToVariables } from 'helpers';
 import { useActiveLinks, usePopUp } from 'hooks';
 
 import { SvgIcon } from 'ui';
 
 import { CalendarContent } from './subcomponents';
+import { useCalendarText } from './hooks';
 
 interface CalendarProps {
   variant: string;
 }
 
 const Calendar: FC<CalendarProps> = ({ variant }) => {
-  const { filters } = useFiltersStateContext();
-  const { memoizedSelectedRequestDate } = useSelectedDateContext();
-
   const { popUpRef, toggleCalendar, isOpenCalendar } = usePopUp();
   const { isReadActive } = useActiveLinks();
-
-  const { beginDate, endDate } = memoizedSelectedRequestDate;
-
-  const today = startOfToday();
-
-  const showSelectedDateForFiltering: boolean =
-    filters?.selectedFilterDate?.startDate !== '' && filters?.selectedFilterDate?.endDate !== '';
-
-  const firstRequestDate = !!beginDate && convertDateStringToVariables(beginDate);
-  const lastRequestDate = !!endDate && convertDateStringToVariables(endDate);
-  const firstFilteredDate = filters.selectedFilterDate.startDate;
-  const lastFilteredDate = filters.selectedFilterDate.endDate;
-
-  //Функція відображення дат в кнопці календаря
-  const showButtonText = (variant: string): string => {
-    if (variant === 'SearchBlock' && beginDate && endDate) {
-      return `${firstRequestDate} - ${lastRequestDate}`;
-    }
-    if (variant === 'FiltersBlock' && showSelectedDateForFiltering) {
-      return `${firstFilteredDate} - ${lastFilteredDate}`;
-    }
-    return format(today, 'dd/MM/yyyy');
-  };
+  const { showButtonText } = useCalendarText();
 
   const calendarButtonStyles =
     'w-full bg-whiteBase dark:bg-darkBackground rounded-[20px] border border-solid border-accentBase dark:border-greyBase text-accentBase dark:text-greyAlt flex justify-between items-center py-2 px-3 group-hover:text-whiteBase group-focus:text-whiteBase group-focus:bg-accentBase group-hover:bg-accentBase group-hover:border-whiteBase group-focus:border-whiteBase transition-colors text-small md:text-base lg:text-medium leading-mediumRelaxed md:leading-moreRelaxed tracking-bigWide md:tracking-wider';

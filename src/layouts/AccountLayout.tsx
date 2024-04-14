@@ -4,7 +4,6 @@ import { Outlet } from 'react-router-dom';
 import { useWindowWidthContext } from 'contexts';
 
 import { SvgIcon } from 'ui';
-
 import CommonMenu from './CommonMenu/CommonMenu';
 
 const AccountLayout: FC = () => {

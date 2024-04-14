@@ -4,14 +4,11 @@ import { NavLink, useLocation } from 'react-router-dom';
 import { useAuthRedux } from 'reduxStore/hooks';
 
 import { useActiveLinks } from 'hooks';
-
 import { renderMenuItem } from '../assistants';
 
 const FooterMenu: FC = () => {
   const { isAuthenticated } = useAuthRedux();
-
   const { isAboutUs } = useActiveLinks();
-
   const location = useLocation();
 
   useEffect(() => {
@@ -23,6 +20,12 @@ const FooterMenu: FC = () => {
   }, [location]);
 
   const menuItems = renderMenuItem({ isAuthenticated, isAboutUs });
+
+  const linkStyles = `p-2 text-medium font-medium text-whiteBase lg:text-2xl ${
+    isAuthenticated
+      ? 'hocus:underline'
+      : 'block w-24 rounded-xl border border-solid border-whiteBase text-center transition-colors duration-500 hocus:bg-accentAlt lg:w-32'
+  }`;
 
   return (
     <>
@@ -37,14 +40,7 @@ const FooterMenu: FC = () => {
           {menuItems &&
             menuItems.map(({ path, label, liClasses }) => (
               <li key={path} className={`${liClasses} md:text-center`}>
-                <NavLink
-                  to={path}
-                  className={`p-2 text-medium font-medium text-whiteBase lg:text-2xl ${
-                    isAuthenticated
-                      ? 'hocus:underline'
-                      : 'block w-24 rounded-xl border border-solid border-whiteBase text-center transition-colors duration-500 hocus:bg-accentAlt lg:w-32'
-                  }`}
-                >
+                <NavLink to={path} className={`${linkStyles}`}>
                   {label}
                 </NavLink>
               </li>

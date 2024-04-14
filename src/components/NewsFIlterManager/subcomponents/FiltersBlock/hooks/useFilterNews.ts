@@ -6,12 +6,8 @@ import {
   useSelectedDateContext,
 } from 'contexts';
 
-import type { PartialVotedNewsArray } from 'types';
-
-import { useActiveLinks, useChooseRenderingNews, useReadNewsContent } from 'hooks';
-import { applyCrossFilters, formatSortedDate } from 'helpers';
-
-import { hasNonEmptyValue } from '../assistants';
+import { useActiveLinks, useChooseRenderingNews } from 'hooks';
+import { getCrossFilteredNews, hasNonEmptyValue } from '../assistants';
 
 const useFilterNews = () => {
   const {
@@ -31,13 +27,9 @@ const useFilterNews = () => {
   const { resetPagination } = usePaginationContext();
 
   const activeLinks = useActiveLinks();
-  const sortedAccordionDates = useReadNewsContent();
   const { rebuiltNews } = useChooseRenderingNews(activeLinks);
 
-  const { isHomeActive, isFavoriteActive, isReadActive } = activeLinks;
-
-  //Перевірка, чи є значення фільтрів
-  const hasFilterValue = hasNonEmptyValue(filters);
+  const { isHomeActive } = activeLinks;
 
   //Функція фільтрації по періодам дат
   const handleFiltration = async (event: React.FormEvent): Promise<void> => {
@@ -48,6 +40,8 @@ const useFilterNews = () => {
     if (isSorted) {
       alert(`YOU CAN'T FILTERING AFTER SORTING. RESET THE SETTINGS AND TRY AGAIN`);
     }
+    //Умова виходу з функції, якщо немає значень фільтрів
+    if (!filters || !rebuiltNews || rebuiltNews?.length === 0 || !hasNonEmptyValue(filters)) return;
 
     //Встановлення значення глобального стану завантаження новин
     showResultsState('loading');
@@ -58,20 +52,14 @@ const useFilterNews = () => {
       resetPagination();
     }
 
-    //Умова виходу з функції, якщо немає значень фільтрів
-    if (!filters || !rebuiltNews || rebuiltNews?.length === 0) return;
-    if (!hasFilterValue) return;
-
     //Крос-фільтрація по значенням фільтрів в залежності від локації
-    let filteredNews: PartialVotedNewsArray = [];
-
-    if (isHomeActive) {
-      filteredNews = applyCrossFilters(rebuiltNews, filters);
-    } else if (isFavoriteActive) {
-      filteredNews = applyCrossFilters(allFavourites, filters);
-    } else if (isReadActive) {
-      filteredNews = applyCrossFilters(allReads, filters);
-    }
+    const filteredNews = getCrossFilteredNews(
+      rebuiltNews,
+      filters,
+      activeLinks,
+      allFavourites,
+      allReads,
+    );
 
     //Якщо є значення фільтрів зміна глобальних станів фільтрованих новин
     if (filteredNews && filteredNews.length > 0) {
@@ -81,50 +69,6 @@ const useFilterNews = () => {
       showResultsState('empty');
     }
     sortResults(false);
-  };
-
-  //Функція сортування новин
-  const handleSort = (order: string): void => {
-    if (!rebuiltNews || rebuiltNews.length === 0) return;
-
-    sortResults(true);
-
-    //Створення нового масива об'єктів для сортованих новин в залежності від локації
-    let sortedNews: PartialVotedNewsArray = [];
-
-    if (isHomeActive) {
-      sortedNews = [...rebuiltNews];
-    } else if (isFavoriteActive) {
-      sortedNews = [...allFavourites];
-    } else if (isReadActive) {
-      sortedNews = [...allReads];
-    }
-
-    //Сортування нового масива об'єктів новин
-    sortedNews.sort((a, b) => {
-      const dateA = formatSortedDate(a.publishDate);
-      const dateB = formatSortedDate(b.publishDate);
-
-      return order === 'asc' ? dateA - dateB : dateB - dateA;
-    });
-
-    //Зміна глобального стану фільтрованих новин
-    getFilteredNews(sortedNews);
-  };
-
-  //Функція сортування акордеонів на сторінці Read
-  const handleSortRead = async (order: string): Promise<void> => {
-    if (!sortedAccordionDates) return;
-
-    //Створення нового масива акордеонів та сортування в залежності від напрямку сортування
-    const sortedDates =
-      order === 'asc'
-        ? Array.from(sortedAccordionDates).sort().reverse()
-        : Array.from(sortedAccordionDates).sort();
-
-    //Зміна глобального стану фільтрованих (сортованих) новин
-    setSortedDates(sortedDates);
-    sortResults(true);
   };
 
   //Скидання значень фільтрації
@@ -151,9 +95,7 @@ const useFilterNews = () => {
   return {
     isSorted,
     handleFiltration,
-    handleSort,
     handleReset,
-    handleSortRead,
   };
 };
 

@@ -1,4 +1,4 @@
-import { VariantButton } from 'types';
+import { Filters, VariantButton } from 'types';
 import type { IControlButtons } from '../types';
 
 type ButtonsDataProps = {
@@ -11,6 +11,12 @@ type ButtonsDataProps = {
   handleReset: () => Promise<void>;
   wideScreens: boolean;
 };
+
+interface FilterInputs {
+  name: string;
+  value: string;
+  placeholder: string;
+}
 
 export const getControlButtons = ({
   handleFiltration,
@@ -76,4 +82,31 @@ export const getControlButtons = ({
   ];
 
   return controlButtons;
+};
+
+export const getInputsData = (filters: Filters) => {
+  const filterInputs: FilterInputs[] = [
+    {
+      name: 'keyword',
+      value: filters.keyword,
+      placeholder: 'Keyword',
+    },
+    {
+      name: 'author',
+      value: filters.author,
+      placeholder: 'Author',
+    },
+    {
+      name: 'title',
+      value: filters.title,
+      placeholder: 'Title',
+    },
+    {
+      name: 'publisher',
+      value: filters.publisher,
+      placeholder: 'Publisher',
+    },
+  ];
+
+  return filterInputs;
 };

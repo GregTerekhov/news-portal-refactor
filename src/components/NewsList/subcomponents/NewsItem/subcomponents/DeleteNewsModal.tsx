@@ -3,6 +3,7 @@ import React, { FC } from 'react';
 import { VariantButton } from 'types';
 
 import { PrimaryButton } from 'ui';
+import { getButtonsData } from '../assistants';
 
 interface DeleteNewsButtonProps {
   handleDeleteNews: (
@@ -14,24 +15,11 @@ interface DeleteNewsButtonProps {
 }
 
 const DeleteNewsModal: FC<DeleteNewsButtonProps> = ({ handleDeleteNews, handleClose, newsId }) => {
-  const deleteNews = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+  const deleteNews = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>): Promise<void> => {
     await handleDeleteNews(e, newsId);
   };
 
-  const dialogButtons = [
-    {
-      onClick: (e: React.MouseEvent<HTMLButtonElement>) => handleClose(e, false),
-      id: 'Cancel deletion the news',
-      label: 'Cancel',
-      icon: 'reset',
-    },
-    {
-      onClick: deleteNews,
-      id: 'Delete selected news',
-      label: 'Delete',
-      icon: 'trash',
-    },
-  ];
+  const dialogButtons = getButtonsData(handleClose, deleteNews);
 
   return (
     <div>

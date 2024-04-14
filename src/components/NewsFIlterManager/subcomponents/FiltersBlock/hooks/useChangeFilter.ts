@@ -1,10 +1,5 @@
 import { useFiltersStateContext } from 'contexts';
-
-interface FilterInputs {
-  name: string;
-  value: string;
-  placeholder: string;
-}
+import { getInputsData } from '../assistants';
 
 const useChangeFilter = () => {
   const { filters, setFilters } = useFiltersStateContext();
@@ -27,28 +22,7 @@ const useChangeFilter = () => {
   };
 
   //Data для інпутів фільтрації
-  const filterInputs: FilterInputs[] = [
-    {
-      name: 'keyword',
-      value: filters.keyword,
-      placeholder: 'Keyword',
-    },
-    {
-      name: 'author',
-      value: filters.author,
-      placeholder: 'Author',
-    },
-    {
-      name: 'title',
-      value: filters.title,
-      placeholder: 'Title',
-    },
-    {
-      name: 'publisher',
-      value: filters.publisher,
-      placeholder: 'Publisher',
-    },
-  ];
+  const filterInputs = getInputsData(filters);
 
   return { filterInputs, handleChangeFilter, handleMaterialTypeChange };
 };

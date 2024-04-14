@@ -20,10 +20,8 @@ const calculatePagesArray = (
 const calculateRemainingCards = (arrayItems: number[], totalItems: number): number => {
   // Вираховуємо суму всіх чисел, окрім останнього елемента
   const sum = arrayItems && arrayItems.slice(0, -1).reduce((acc, num) => acc + num, 0);
-
   // Віднімаємо вираховану суму від загальної кількості карток
   const remainingCards = totalItems - sum;
-
   return remainingCards;
 };
 
@@ -36,52 +34,45 @@ const calculatePagesForDevices = (
   return calculatePagesArray(total, itemsPerFirstPage, itemsPerOtherPage);
 };
 
-//Калькуляція першого індексу новини для останніх сторінок
-export const calculateFirstIndexes = (pages: number[], total: number): number | void => {
-  try {
-    const firstIndexes = calculateRemainingCards(pages, total);
-
-    return firstIndexes;
-  } catch (error: any) {
-    return console.error(error.message);
-  }
-};
-
 //Отримання кількості новин на першій сторінці для кожного пристроя
-function getFirstPageCount(isLargeScreens: boolean, isTablet: boolean): number {
+function getFirstPageCount(isMobile: boolean, isTablet: boolean): number {
   switch (true) {
-    case isLargeScreens:
-      return COUNT.FIRST_DESKTOP_PAGE_COUNT;
+    case isMobile:
+      return COUNT.FIRST_MOBILE_PAGE_COUNT;
     case isTablet:
       return COUNT.FIRST_TABLET_PAGE_COUNT;
 
     default:
-      return COUNT.FIRST_MOBILE_PAGE_COUNT;
+      return COUNT.FIRST_DESKTOP_PAGE_COUNT;
   }
 }
 
 //Отримання кількості новин на інших сторінках для кожного пристроя
-function getOtherPageCount(isLargeScreens: boolean, isTablet: boolean): number {
+function getOtherPageCount(isMobile: boolean, isTablet: boolean): number {
   switch (true) {
-    case isLargeScreens:
-      return COUNT.OTHER_DESKTOP_PAGE_COUNT;
+    case isMobile:
+      return COUNT.OTHER_MOBILE_PAGE_COUNT;
     case isTablet:
       return COUNT.OTHER_TABLET_PAGE_COUNT;
 
     default:
-      return COUNT.OTHER_MOBILE_PAGE_COUNT;
+      return COUNT.OTHER_DESKTOP_PAGE_COUNT;
   }
 }
+
+//Калькуляція першого індексу новини для останніх сторінок
+export const calculateFirstIndexes = (pages: number[], total: number): number => {
+  const firstIndexes = calculateRemainingCards(pages, total);
+
+  return firstIndexes;
+};
+
 // Визначення кількості об'єктів новин на сторінці в залежності від типу пристрою
-export function cardsPerPage(
-  totalPages: number,
-  isLargeScreens: boolean,
-  isTablet: boolean,
-): number[] {
+export function cardsPerPage(totalPages: number, isMobile: boolean, isTablet: boolean): number[] {
   return calculatePagesForDevices(
     totalPages,
-    getFirstPageCount(isLargeScreens, isTablet),
-    getOtherPageCount(isLargeScreens, isTablet),
+    getFirstPageCount(isMobile, isTablet),
+    getOtherPageCount(isMobile, isTablet),
   );
 }
 

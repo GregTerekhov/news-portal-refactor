@@ -1,7 +1,7 @@
+import type { ResponseCryptoPassword } from 'types';
 import { useAuthRedux } from 'reduxStore/hooks';
 import { useNotificationContext } from 'contexts';
 
-import type { ResponseCryptoPassword } from 'types';
 import { decryptPassword } from 'helpers';
 
 const useCrypto = () => {

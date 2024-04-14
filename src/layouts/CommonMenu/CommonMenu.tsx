@@ -1,16 +1,16 @@
 import React, { FC } from 'react';
 import { Link } from 'react-router-dom';
 
+import { VariantSwitcher } from 'types';
 import { useAuthRedux, useFiltersRedux } from 'reduxStore/hooks';
 import { useFiltersStateContext, useWindowWidthContext } from 'contexts';
 
-import { VariantSwitcher } from 'types';
 import { useActiveLinks, useSignOut } from 'hooks';
 
 import { ThemeSwitcher } from 'ui';
+import { MenuLinks, MobileContainer, MobileMenu, SignOutButton, VersaMenu } from './subcomponents';
 
 import { renderMenuItem } from './assistants';
-import { MenuLinks, MobileContainer, MobileMenu, SignOutButton, VersaMenu } from './subcomponents';
 
 export interface CommonMenuProps {
   isOpen?: boolean | undefined;

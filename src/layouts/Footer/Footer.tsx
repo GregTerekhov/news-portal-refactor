@@ -1,11 +1,9 @@
 import React, { FC } from 'react';
 
+import { VariantSwitcher } from 'types';
 import { useAuthRedux } from 'reduxStore/hooks';
 
-import { VariantSwitcher } from 'types';
-
 import { ThemeSwitcher } from 'ui';
-
 import { FooterMenu, SocialLinks } from './subcomponents';
 import Container from '../Container';
 

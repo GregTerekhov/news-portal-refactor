@@ -1,8 +1,8 @@
 import React from 'react';
 
-import { PrimaryButton } from 'ui';
-
 import type { IControlButtons } from '../types';
+
+import { PrimaryButton } from 'ui';
 
 export const RenderButtons = (buttons: IControlButtons[]) => {
   return (

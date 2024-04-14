@@ -1,9 +1,8 @@
 import { isAfter, startOfToday } from 'date-fns';
 
+import type { SelectedDate } from 'types';
 import { useNewsAPIRedux, useFiltersRedux } from 'reduxStore/hooks';
 import { useFiltersStateContext, usePaginationContext, useSelectedDateContext } from 'contexts';
-
-import type { SelectedDate } from 'types';
 
 import { determineNewSelectedDate, formatDateRange } from 'helpers';
 
@@ -59,13 +58,13 @@ const useRequestByDate = () => {
         //Функція запиту
         await fetchByDate(newSelectedDate);
 
-        //Закриття календаря
-        if (isOpenCalendar) toggleCalendar();
-
         //Видалення значення проміжкового стану початкової дати
         setBeginDate(null);
       } catch (error) {
         console.error('An error occurred while updating the values: ', error);
+      } finally {
+        //Закриття календаря
+        if (isOpenCalendar) toggleCalendar();
       }
     }
   };

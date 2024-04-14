@@ -20,7 +20,7 @@ const Layout: FC = () => {
 
   const { fetchCategoriesList, errorAPI } = useNewsAPIRedux();
   const { isAuthenticated } = useAuthRedux();
-  const { allFavourites, allArchive, isLoadingDBData } = useDBRedux();
+  const { allFavourites, allReads, allArchive, isLoadingDBData } = useDBRedux();
 
   const activeLinks = useActiveLinks();
   const { rebuiltNews } = useChooseRenderingNews(activeLinks);
@@ -54,6 +54,8 @@ const Layout: FC = () => {
     isAccountPages ||
     isAboutUs ||
     isArchiveActive ||
+    (isFavoriteActive && allFavourites?.length === 0) ||
+    (isReadActive && allReads?.length === 0) ||
     isErrorPage ||
     (isHomeActive && is429ErrorAPI);
 
@@ -68,6 +70,9 @@ const Layout: FC = () => {
       ? 'h-screen'
       : 'h-full';
 
+  const hasLargeSection = () =>
+    isArchiveActive || isFavoriteActive || isReadActive || (isHomeActive && is429ErrorAPI);
+
   return (
     <div
       className={`flex max-h-sectionSmall
@@ -78,9 +83,7 @@ const Layout: FC = () => {
         {isHomeActive && <Hero />}
         <section
           className={`w-full bg-whiteBase pb-[60px] transition-colors duration-500 dark:bg-darkBackground md:pb-[100px] lg:pb-[150px] ${
-            isArchiveActive || isFavoriteActive || isReadActive || (isHomeActive && is429ErrorAPI)
-              ? 'pt-10 md:pt-12 lg:pt-[60px]'
-              : 'pt-6 md:pt-7 hg:pt-[60px]'
+            hasLargeSection() ? 'pt-10 md:pt-12 lg:pt-[60px]' : 'pt-6 md:pt-7 hg:pt-[60px]'
           }`}
         >
           <Container>

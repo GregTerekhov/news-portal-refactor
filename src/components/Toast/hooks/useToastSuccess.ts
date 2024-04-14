@@ -50,6 +50,10 @@ const useToastSuccess = () => {
         title = 'Delete news';
         description = 'News has been successfully deleted';
         break;
+      case 'Your deleted news feed has been successfully cleared':
+        title = 'Clearing log';
+        description = 'Your deleted news feed has been successfully cleared';
+        break;
       case `Account ${linkingAccount} linking successful`:
         title = 'Link Account';
         description = `Your ${linkingAccount} account is successfully linking`;

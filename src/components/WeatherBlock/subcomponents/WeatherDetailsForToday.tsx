@@ -12,7 +12,6 @@ const WeatherDetailsForToday: FC<{}> = () => {
   const { isMobile } = useWindowWidthContext();
 
   const { days, dateNow } = receiveCurrentDate();
-
   const weatherDetails = getWeatherDetailsForToday(isMobile, currentWeather);
 
   return (

@@ -1,9 +1,8 @@
 import { useEffect, useState } from 'react';
 
+import type { PartialVotedNewsArray } from 'types';
 import { useNewsAPIRedux, useFiltersRedux } from 'reduxStore/hooks';
 import { usePaginationContext, useWindowWidthContext } from 'contexts';
-
-import type { PartialVotedNewsArray } from 'types';
 
 import { calculateFirstIndexes, FIRST_PAGE, cardsPerPage } from '../assistants';
 
@@ -12,22 +11,19 @@ const usePagination = (rebuiltNews: PartialVotedNewsArray) => {
 
   const { popularNews, newsByKeyword, newsByCategory, newsByDate } = useNewsAPIRedux();
   const { filteredNews } = useFiltersRedux();
-  const { isMobile, isTablet, wideScreens } = useWindowWidthContext();
+  const { isMobile, isTablet } = useWindowWidthContext();
   const { currentPage } = usePaginationContext();
 
   const totalPages: number = (rebuiltNews && rebuiltNews?.length) || 0;
 
   // Розрахунок масива кількості сторінок для кожного типу пристрою
-  const cardsArrayPerPage: number[] = cardsPerPage(totalPages, wideScreens, isTablet);
+  const currentArrayPerPage: number[] = cardsPerPage(totalPages, isMobile, isTablet);
 
   // Визначення кількості об'єктів новин на сторінці в залежності від типу пристрою
-  const currentCardsPerPage: number = cardsArrayPerPage[currentPage - 1] || 0;
+  const currentCardsPerPage: number = currentArrayPerPage[currentPage - 1] || 0;
 
   //Вирахування першого індекса новини для останньої сторінки
-  const calculatedFirstIndexes: number | void = calculateFirstIndexes(
-    cardsArrayPerPage,
-    totalPages,
-  );
+  const calculatedFirstIndexes: number = calculateFirstIndexes(currentArrayPerPage, totalPages);
 
   useEffect(() => {
     if (rebuiltNews && rebuiltNews?.length > 0) {
@@ -40,22 +36,17 @@ const usePagination = (rebuiltNews: PartialVotedNewsArray) => {
       let indexOfLastItem: number;
       let indexOfFirstItem: number;
 
-      switch (true) {
-        case currentPage === FIRST_PAGE:
-          indexOfLastItem = currentPage * currentCardsPerPage;
-          indexOfFirstItem = indexOfLastItem - currentCardsPerPage;
-          break;
-        //Якщо перевірка вище спрацювала і є значення першого індекса для останній сторінці. Розрахунок для останній сторінки
-        case lastPage:
-          indexOfLastItem = currentPage * currentCardsPerPage;
-          indexOfFirstItem = indexOfLastItem - currentCardsPerPage;
-          break;
-
+      if (currentPage === FIRST_PAGE) {
+        indexOfLastItem = currentPage * currentCardsPerPage;
+        indexOfFirstItem = indexOfLastItem - currentCardsPerPage;
+      } else if (lastPage) {
+        //Якщо перевірка вище спрацювала і є значення першого індекса для останній сторінки. Розрахунок для останній сторінки
+        indexOfLastItem = currentPage * currentCardsPerPage;
+        indexOfFirstItem = indexOfLastItem - currentCardsPerPage - FIRST_PAGE;
+      } else {
         //Для всіх окрім першій та останній
-        default:
-          indexOfLastItem = currentPage * currentCardsPerPage - FIRST_PAGE;
-          indexOfFirstItem = indexOfLastItem - currentCardsPerPage;
-          break;
+        indexOfLastItem = currentPage * currentCardsPerPage - FIRST_PAGE;
+        indexOfFirstItem = indexOfLastItem - currentCardsPerPage;
       }
 
       const items = rebuiltNews.slice(indexOfFirstItem, indexOfLastItem);

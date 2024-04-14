@@ -61,6 +61,11 @@ const GridCalendar: FC<GridCalendarProps> = ({
       memoizedSelectedFilterDate?.endDate,
       evenDayToString,
     );
+
+    filterDate =
+      memoizedSelectedFilterDate?.beginDate !== null &&
+      memoizedSelectedFilterDate?.endDate !== null &&
+      isSameDay(day, filterDayToParse);
   }
 
   if (isSearchDayRangeSelected && isCurrentMonth) {
@@ -75,13 +80,6 @@ const GridCalendar: FC<GridCalendarProps> = ({
     memoizedSelectedRequestDate?.beginDate !== null &&
     memoizedSelectedRequestDate?.endDate !== null &&
     isSameDay(day, dayToParse);
-
-  if (variant === 'FiltersBlock') {
-    filterDate =
-      memoizedSelectedFilterDate?.beginDate !== null &&
-      memoizedSelectedFilterDate?.endDate !== null &&
-      isSameDay(day, filterDayToParse);
-  }
 
   const commonStyles =
     'flex h-7 w-7 cursor-pointer items-center justify-center rounded-full text-base font-medium leading-mostRelaxed tracking-widest hover:bg-accentBase hover:text-contrastWhite';

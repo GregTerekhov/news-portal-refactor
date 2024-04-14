@@ -1,18 +1,12 @@
 import axios from 'axios';
 import { useGoogleLogin } from '@react-oauth/google';
 
+import type { GoogleAuth } from 'types';
+import { CONFIG } from 'config';
 import { useAuthRedux } from 'reduxStore/hooks';
 import { useNotificationContext, useScrollBodyContext } from 'contexts';
 
-import { CONFIG } from 'config';
-import type { GoogleAuth } from 'types';
-
-type AccountsButton = {
-  svgName: string;
-  account: string;
-  hasAccount: boolean;
-  onClick: (() => Promise<void>) | (() => void);
-};
+import { getButtonsData } from '../assistants';
 
 const useGoogleSettings = () => {
   const { isAuthenticated, enterWithGoogle, bindGoogle, haveAccounts, unbindGoogle } =
@@ -50,7 +44,7 @@ const useGoogleSettings = () => {
   });
 
   //Функція обробки кліку по кнопці google-auth
-  const handleGoogleLinkClick = async () => {
+  const handleGoogleLinkClick = async (): Promise<void> => {
     if (haveAccounts.google) {
       const response = await unbindGoogle();
 
@@ -61,28 +55,7 @@ const useGoogleSettings = () => {
   };
 
   //Data для third-party-auth кнопок
-  const accountButtons: AccountsButton[] = [
-    {
-      svgName: 'google',
-      account: 'Google',
-      hasAccount: haveAccounts.google,
-      onClick: handleGoogleLinkClick,
-    },
-    {
-      svgName: 'facebook',
-      account: 'Facebook',
-      hasAccount: haveAccounts.facebook,
-      onClick: () => {
-        console.log('facebook');
-      },
-    },
-    {
-      svgName: 'apple',
-      account: 'Apple',
-      hasAccount: haveAccounts.apple,
-      onClick: () => console.log('apple'),
-    },
-  ];
+  const accountButtons = getButtonsData(haveAccounts, handleGoogleLinkClick);
 
   return { googleLogin, handleGoogleLinkClick, accountButtons };
 };
