@@ -146,11 +146,16 @@ const useNewsActions = ({
   ): Promise<void> => {
     e.stopPropagation();
     e.preventDefault();
-    const response = await removeNews(id);
+    try {
+      const response = await removeNews(id);
 
-    showToast(response.meta.requestStatus);
-    setIsDeleted(true);
-    setIsScrollDisabled(false);
+      showToast(response.meta.requestStatus);
+    } catch (error) {
+      console.error('Error during removeNews: ', error);
+    } finally {
+      setIsDeleted(true);
+      setIsScrollDisabled(false);
+    }
   };
 
   return {

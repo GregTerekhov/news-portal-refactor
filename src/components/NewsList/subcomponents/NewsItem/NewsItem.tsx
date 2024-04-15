@@ -5,8 +5,8 @@ import { useAuthRedux } from 'reduxStore/hooks';
 
 import { useActiveLinks, usePopUp } from 'hooks';
 
-import { Modal, PlugImage, SvgIcon } from 'ui';
-import { DeleteNewsButton, DeleteNewsModal, NewsDescription, VoteButton } from './subcomponents';
+import { DeleteModal, Modal, PlugImage, SvgIcon } from 'ui';
+import { DeleteNewsButton, NewsDescription, VoteButton } from './subcomponents';
 
 import { useNews } from './hooks';
 
@@ -92,10 +92,13 @@ const NewsItem: FC<Partial<NewsItemProps>> = ({ liveNews = {} }) => {
       )}
       {isOpenModal && (
         <Modal closeModal={toggleModal} modalRef={popUpRef}>
-          <DeleteNewsModal
-            handleDeleteNews={handleDeleteNewsWrapper}
+          <DeleteModal
+            title='Delete news'
+            agreementText='delete this news'
             newsId={liveNews._id}
-            handleClose={(e: React.MouseEvent<HTMLButtonElement>) => toggleModal(e)}
+            onClose={(e: React.MouseEvent<HTMLButtonElement>) => toggleModal(e)}
+            onDelete={handleDeleteNewsWrapper}
+            isDeleteModal={true}
           />
         </Modal>
       )}

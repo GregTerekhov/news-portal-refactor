@@ -1,17 +1,20 @@
 export const getButtonsData = (
   handleClose: (e: React.MouseEvent<HTMLButtonElement>, preventDefault: boolean) => void,
-  deleteNews: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => Promise<void>,
+  deleteItems:
+    | ((e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => Promise<void>)
+    | (() => Promise<void>),
+  isDeleteModal: boolean,
 ) => {
   const dialogButtons = [
     {
       onClick: (e: React.MouseEvent<HTMLButtonElement>) => handleClose(e, false),
-      id: 'Cancel deletion the news',
+      id: isDeleteModal ? 'Cancel deletion the news' : 'Cancel clearing log',
       label: 'Cancel',
       icon: 'reset',
     },
     {
-      onClick: deleteNews,
-      id: 'Delete selected news',
+      onClick: deleteItems,
+      id: isDeleteModal ? 'Delete selected news' : 'Clear deleted news log',
       label: 'Delete',
       icon: 'trash',
     },
