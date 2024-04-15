@@ -7,12 +7,12 @@ import { Notification } from 'ui';
 
 import { useToastBody } from './hooks';
 
-interface ToastSuccessProps {
+interface ToastProps {
   variant: ToastVariant;
   status: ToastStatus;
 }
 
-const Toast: FC<ToastSuccessProps> = ({ variant, status }) => {
+const Toast: FC<ToastProps> = ({ variant, status }) => {
   const { openToast, setOpenToast } = useNotificationContext();
   const { getToastTitle, getToastDescription } = useToastBody();
 

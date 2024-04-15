@@ -28,6 +28,7 @@ const newsDBSlice = createSlice({
         (news) => news.newsUrl === updatedVotedNews.newsUrl,
       );
       if (existingNewsIndex !== -1) {
+        console.log('synchronic update news');
         state.savedNews[existingNewsIndex] = {
           ...state.savedNews[existingNewsIndex],
           isFavourite: updatedVotedNews.isFavourite,

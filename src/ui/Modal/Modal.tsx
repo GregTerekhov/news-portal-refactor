@@ -26,6 +26,9 @@ const Modal: FC<ModalProps> = ({ children, closeModal, modalRef }) => {
   const modalContainerStyles =
     'w-full mx-auto transform rounded-xl border border-solid border-accentBase bg-whiteBase px-6 py-4 shadow-modal transition-colors dark:border-whiteBase dark:bg-darkBackground dark:shadow-darkCard md:w-600px md:px-8 md:pb-8 hg:px-9';
 
+  const iconStyles =
+    'stroke-darkBase hocus:stroke-accentBase dark:stroke-whiteBase dark:hover:stroke-accentBase dark:focus:stroke-accentBase';
+
   return (
     <>
       <RemoveScroll enabled={isOpenModal}>
@@ -42,7 +45,7 @@ const Modal: FC<ModalProps> = ({ children, closeModal, modalRef }) => {
                     <SvgIcon
                       svgName='close'
                       sizeKey={wideScreens ? 'mdIcon28' : 'smIcon20'}
-                      className='stroke-darkBase hocus:stroke-accentBase dark:stroke-whiteBase dark:hover:stroke-accentBase dark:focus:stroke-accentBase'
+                      className={iconStyles}
                     />
                   </button>
                   {children}

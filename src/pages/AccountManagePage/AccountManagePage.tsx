@@ -20,6 +20,12 @@ const AccountManagePage: FC<{}> = () => {
   //Загальні умови показування тостів на сторінці
   const shouldShowToast = showUpdatedToast || showErrorToast;
 
+  const getToast = (): JSX.Element | null => {
+    return shouldShowToast ? (
+      <Toast variant='interactive' status={showUpdatedToast ? 'success' : 'error'} />
+    ) : null;
+  };
+
   return (
     <div>
       <h2 className='mb-14 text-end text-3xl leading-tighter text-darkBase dark:text-whiteBase hg:text-5xl'>
@@ -45,9 +51,7 @@ const AccountManagePage: FC<{}> = () => {
           <LinkAccountsButtons />
         </div>
       </div>
-      {shouldShowToast ? (
-        <Toast variant='interactive' status={showUpdatedToast ? 'success' : 'error'} />
-      ) : null}
+      {getToast()}
     </div>
   );
 };

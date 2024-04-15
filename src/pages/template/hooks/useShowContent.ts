@@ -5,19 +5,28 @@ import useShowLoader from './useShowLoader';
 import useShowPlug from './useShowPlug';
 
 const useShowContent = () => {
-  const { allArchive, isLoadingDBData } = useDBRedux();
+  const { allArchive, isLoadingDBData } = useDBRedux(); // Отримання архіву та стану завантаження з бази даних
 
+  // Отримання активних сторінок
   const activeLinks = useActiveLinks();
-  const { isHomeLoader, commonDBLoader } = useShowLoader();
-  const { isHomePlug, commonPlug } = useShowPlug();
 
+  const { isHomeLoader, commonDBLoader } = useShowLoader(); // Визначення статусу завантаження для домашньої сторінки
+  const { isHomePlug, commonPlug } = useShowPlug(); // Визначення статусу плагіну
+
+  // Деструктуризація активних сторінок
   const { isArchiveActive, isFavoriteActive, isHomeActive, isReadActive } = activeLinks;
 
+  // Перевірка для відображення вмісту на домашній сторінці
   const showHomeContent = isHomeActive && !isHomeLoader && !isHomePlug;
+
+  // Перевірка для відображення вмісту для вибраних або прочитаних новин
   const showFavouritesContent =
     (isFavoriteActive || isReadActive) && !commonDBLoader && !commonPlug;
+
+  // Перевірка для відображення вмісту на сторінці архіву
   const showArchiveContent = isArchiveActive && !isLoadingDBData && allArchive?.length > 0;
 
+  // Перевірка, чи потрібно взагалі показувати вміст
   const shouldShowContent = showHomeContent || showFavouritesContent || showArchiveContent;
 
   return { shouldShowContent };

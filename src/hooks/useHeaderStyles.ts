@@ -1,11 +1,14 @@
 import { useEffect, useState } from 'react';
 
-import useHeaderHeight from './useHeaderHeight';
+import { useWindowWidthContext } from 'contexts';
+
+import { getHeaderHeight } from 'helpers';
 
 const useHeaderStyles = (isHomePage: boolean | undefined) => {
   const [isScrolled, setIsScrolled] = useState<boolean>(false);
 
-  const { getHeaderHeight } = useHeaderHeight();
+  const { isTablet, isDesktop, isTV } = useWindowWidthContext();
+  const headerHeight = getHeaderHeight(isTablet, isDesktop, isTV);
 
   const screenHeight = window.innerHeight;
 
@@ -14,7 +17,7 @@ const useHeaderStyles = (isHomePage: boolean | undefined) => {
       const handleScroll = () => {
         const currentScroll = window.scrollY;
 
-        const isScrolling = currentScroll > screenHeight - getHeaderHeight();
+        const isScrolling = currentScroll > screenHeight - headerHeight;
         setIsScrolled(isScrolling);
       };
 
@@ -27,46 +30,65 @@ const useHeaderStyles = (isHomePage: boolean | undefined) => {
     return () => {};
   }, [isHomePage, screenHeight]);
 
-  const headerClass = isScrolled
-    ? 'bg-whiteBase/[.8] dark:bg-darkBackground/[.8] border-b'
-    : 'bg-transparent border-0';
-
-  const textClass = isScrolled
-    ? 'text-darkBase dark:text-whiteBase drop-shadow-none'
-    : 'text-whiteBase [text-shadow:8px_10px_20px_rgba(17,19,33,.5)]';
-
-  const accountIconStyles = isScrolled
-    ? 'fill-darkBase dark:fill-whiteBase group-hover:fill-accentBase group-focus:fill-accentBase'
-    : 'fill-whiteBase group-hover:fill-accentBase group-focus:fill-accentBase';
-
-  const inputHomePage = {
-    inputBorder: isScrolled ? 'border-darkBase dark:border-whiteBase' : 'border-whiteBase',
-    svgFill: isScrolled ? 'fill-darkBase dark:fill-whiteBase' : 'fill-whiteBase',
-    caretColor: isScrolled ? 'caret-accentBase dark:caret-whiteBase' : 'caret-whiteBase',
-    textColor: isScrolled ? 'text-darkBase dark:text-whiteBase' : 'text-whiteBase',
-    placeholderColor: isScrolled
-      ? 'placeholder:text-darkBase/[.4] dark:placeholder:text-whiteBase/[.4]'
-      : 'placeholder:text-whiteBase',
+  const getHeaderClass = () => {
+    return isScrolled
+      ? 'bg-whiteBase/[.8] dark:bg-darkBackground/[.8] border-b'
+      : 'bg-transparent border-0';
   };
 
-  const inputClass = {
-    inputBorder: isHomePage ? inputHomePage.inputBorder : 'border-darkBase dark:border-whiteBase',
-    svgFill: isHomePage ? inputHomePage.svgFill : 'fill-darkBase dark:fill-whiteBase',
-    caretColor: isHomePage ? inputHomePage.caretColor : 'caret-accentBase dark:caret-whiteBase',
-    textColor: isHomePage ? inputHomePage.textColor : 'text-darkBase dark:text-whiteBase',
-    placeholderColor: isHomePage
-      ? inputHomePage.placeholderColor
-      : 'placeholder:text-darkBase/[.4] dark:placeholder:text-whiteBase/[.4]',
+  const getTextClass = () => {
+    return isScrolled
+      ? 'text-darkBase dark:text-whiteBase drop-shadow-none'
+      : 'text-whiteBase [text-shadow:8px_10px_20px_rgba(17,19,33,.5)]';
   };
 
-  const burgerMenuButtonClass = isScrolled
-    ? 'stroke-darkBase dark:stroke-whiteBase'
-    : 'stroke-whiteBase';
+  const getAccountIconStyles = () => {
+    return isScrolled
+      ? 'fill-darkBase dark:fill-whiteBase group-hover:fill-accentBase group-focus:fill-accentBase'
+      : 'fill-whiteBase group-hover:fill-accentBase group-focus:fill-accentBase';
+  };
 
-  const authButtonClass = isScrolled ? '' : 'shadow-darkCard';
+  const getInputStyles = () => {
+    const inputHomePage = {
+      inputBorder: isScrolled ? 'border-darkBase dark:border-whiteBase' : 'border-whiteBase',
+      svgFill: isScrolled ? 'fill-darkBase dark:fill-whiteBase' : 'fill-whiteBase',
+      caretColor: isScrolled ? 'caret-accentBase dark:caret-whiteBase' : 'caret-whiteBase',
+      textColor: isScrolled ? 'text-darkBase dark:text-whiteBase' : 'text-whiteBase',
+      placeholderColor: isScrolled
+        ? 'placeholder:text-darkBase/[.4] dark:placeholder:text-whiteBase/[.4]'
+        : 'placeholder:text-whiteBase',
+    };
 
-  const themeSwitcherTextClass =
-    isHomePage && isScrolled ? '' : '[text-shadow:8px_10px_20px_rgba(17,19,33,.5)]';
+    return isHomePage
+      ? inputHomePage
+      : {
+          inputBorder: 'border-darkBase dark:border-whiteBase',
+          svgFill: 'fill-darkBase dark:fill-whiteBase',
+          caretColor: 'caret-accentBase dark:caret-whiteBase',
+          textColor: 'text-darkBase dark:text-whiteBase',
+          placeholderColor: 'placeholder:text-darkBase/[.4] dark:placeholder:text-whiteBase/[.4]',
+        };
+  };
+
+  const getBurgerMenuButtonClass = () => {
+    return isScrolled ? 'stroke-darkBase dark:stroke-whiteBase' : 'stroke-whiteBase';
+  };
+
+  const getAuthButtonClass = () => {
+    return isScrolled ? '' : 'shadow-darkCard';
+  };
+
+  const getThemeSwitcherTextClass = () => {
+    return isHomePage && isScrolled ? '' : '[text-shadow:8px_10px_20px_rgba(17,19,33,.5)]';
+  };
+
+  const headerClass = getHeaderClass();
+  const textClass = getTextClass();
+  const accountIconStyles = getAccountIconStyles();
+  const inputClass = getInputStyles();
+  const burgerMenuButtonClass = getBurgerMenuButtonClass();
+  const authButtonClass = getAuthButtonClass();
+  const themeSwitcherTextClass = getThemeSwitcherTextClass();
 
   return {
     headerClass,

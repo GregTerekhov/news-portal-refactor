@@ -1,4 +1,4 @@
-import type { ToastMessage } from 'types';
+import type { ToastInfoTitle, ToastMessage } from 'types';
 
 import { ActiveLinks, useChooseRenderingNews } from 'hooks';
 
@@ -9,21 +9,21 @@ const useToastInfo = () => {
 
     const { isHomeActive, isFavoriteActive, isReadActive } = activeLinks;
 
-    let title = '';
+    let title: ToastInfoTitle;
     let description = '';
 
     switch (true) {
       case isHomeActive:
         title = 'Found news';
-        description = `There are ${rebuiltNews.length} news has been found`;
+        description = `There are ${rebuiltNews?.length ?? 'no'} news has been found`;
         break;
       case isFavoriteActive:
         title = 'Monthly statistics';
-        description = `${rebuiltNews.length} news added to Favourites`;
+        description = `${rebuiltNews?.length} news added to Favourites`;
         break;
       case isReadActive:
         title = 'Monthly statistics';
-        description = `${rebuiltNews.length} news added to Reads`;
+        description = `${rebuiltNews?.length} news added to Reads`;
         break;
       default:
         title = '';

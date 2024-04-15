@@ -1,27 +1,14 @@
-import React, { FC, useEffect, useState } from 'react';
+import React, { FC, useState } from 'react';
 import LiteYouTubeEmbed from 'react-lite-youtube-embed';
 
 import 'react-lite-youtube-embed/dist/LiteYouTubeEmbed.css';
 
 import { CONFIG } from 'config';
+import { useAspectRatio } from './hooks';
 
 const Hero: FC<{}> = () => {
   const [isVideoPlaying, setVideoPlaying] = useState<boolean>(false);
-  const [aspectWidth, setAspectWidth] = useState<number>(window.innerWidth);
-  const [aspectHeight, setAspectHeight] = useState<number>(window.innerHeight);
-
-  useEffect(() => {
-    const handleResize = () => {
-      setAspectWidth(window.innerWidth);
-      setAspectHeight(window.innerHeight);
-    };
-
-    window.addEventListener('resize', handleResize);
-
-    return () => {
-      window.removeEventListener('resize', handleResize);
-    };
-  }, []);
+  const { aspectHeight, aspectWidth } = useAspectRatio();
 
   const playerStyle = `h-16 md:h-20 w-16 md:w-20 rounded-xl shadow-darkCard border border-solid border-greyAlt/[.4] bg-whiteBase/[.9] bg-[url('/src/assets/images/right-button-100.png')] bg-center ${
     isVideoPlaying ? 'hidden' : ''

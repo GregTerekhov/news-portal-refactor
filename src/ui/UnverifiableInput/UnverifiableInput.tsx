@@ -66,49 +66,56 @@ const UnverifiableInput: FC<InputProps> = ({
   } = styles[variant];
 
   const inputFieldStyles = `${inputGeometry} rounded-3xl border border-solid font-header text-small leading-mediumRelaxed tracking-bigWide outline-0 transition-all focus:outline-0 md:text-base md:leading-moreRelaxed md:tracking-wide lg:text-medium ${placeholderColor} ${inputBorder} ${inputBg} ${caretColor} ${textColor} ${checkboxStyles}`;
+  const labelClass = `relative flex ${
+    variant === VariantInputs.FilterServiceBlock ||
+    (variant === VariantInputs.Header && 'gap-x-4') ||
+    (variant === VariantInputs.Checkbox && 'cursor-pointer items-center gap-x-4')
+  } ${hasIcon ? 'justify-center' : ''} ${labelCheckbox ? 'flex-row' : 'flex-col'}`;
+
+  const inputWrapperClass = `${variant === VariantInputs.FilterServiceBlock ? 'relative' : ''} ${
+    variant === VariantInputs.Checkbox
+      ? `flex h-4 w-4 cursor-pointer items-center justify-center rounded-sm border border-solid md:h-6 md:w-6 ${
+          isChecked ? 'border-whiteBase bg-accentBase' : 'border-accentBase bg-whiteBase'
+        }`
+      : ''
+  }`;
+
+  const generateLabelText = (): JSX.Element | null => {
+    return variant === VariantInputs.FilterServiceBlock ? (
+      <p className='mb-2 text-base text-darkBase dark:text-greyAlt lg:text-medium'>
+        {name === 'query' ? 'Search' : 'Filter'} by <span className='capitalize'>{name}:</span>
+      </p>
+    ) : null;
+  };
+
+  const showCheckbox = (): JSX.Element | null => {
+    return variant === VariantInputs.Checkbox ? (
+      <SvgIcon
+        svgName='check'
+        sizeKey='xsIcon16'
+        className={`${isChecked ? 'fill-whiteBase' : 'fill-none'}`}
+      />
+    ) : null;
+  };
+
+  const showIcon = (): JSX.Element | null => {
+    return hasIcon ? (
+      <SvgIcon
+        svgName={svgName}
+        sizeKey='smIcon20'
+        className={`${svgFill} ${
+          variant === VariantInputs.Header ? svgWrapperClass : 'left-3'
+        } absolute top-1/2 flex h-5 w-5 -translate-y-1/2 items-center justify-center`}
+      />
+    ) : null;
+  };
 
   return (
-    <label
-      htmlFor={name}
-      className={`relative flex ${hasIcon ? 'justify-center' : ''} ${
-        labelCheckbox ? 'flex-row' : 'flex-col'
-      }
-          ${
-            variant === VariantInputs.FilterServiceBlock ||
-            (variant === VariantInputs.Header && 'gap-x-4') ||
-            (variant === VariantInputs.Checkbox && 'cursor-pointer items-center gap-x-4')
-          }`}
-    >
-      {variant === VariantInputs.FilterServiceBlock && (
-        <p className='mb-2 text-base text-darkBase dark:text-greyAlt lg:text-medium'>
-          {name === 'query' ? 'Search' : 'Filter'} by <span className='capitalize'>{name}:</span>
-        </p>
-      )}
-      <div
-        className={`${variant === VariantInputs.FilterServiceBlock ? 'relative' : ''} ${
-          variant === VariantInputs.Checkbox
-            ? `flex h-4 w-4 cursor-pointer items-center justify-center rounded-sm border border-solid md:h-6 md:w-6 ${
-                isChecked ? 'border-whiteBase bg-accentBase' : 'border-accentBase bg-whiteBase'
-              }`
-            : ''
-        }`}
-      >
-        {variant === VariantInputs.Checkbox ? (
-          <SvgIcon
-            svgName='check'
-            sizeKey='xsIcon16'
-            className={`${isChecked ? 'fill-whiteBase' : 'fill-none'}`}
-          />
-        ) : null}
-        {hasIcon && (
-          <SvgIcon
-            svgName={svgName}
-            sizeKey='smIcon20'
-            className={`${svgFill} ${
-              variant === VariantInputs.Header ? svgWrapperClass : 'left-3'
-            } absolute top-1/2 flex h-5 w-5 -translate-y-1/2 items-center justify-center`}
-          />
-        )}
+    <label htmlFor={name} className={labelClass}>
+      {generateLabelText()}
+      <div className={inputWrapperClass}>
+        {showCheckbox()}
+        {showIcon()}
         <input
           className={`${inputFieldStyles}`}
           id={name}

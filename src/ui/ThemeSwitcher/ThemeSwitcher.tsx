@@ -10,6 +10,11 @@ import SvgIcon from '../SvgIcon/SvgIcon';
 
 import { generateSwitcherStyles } from './assistants';
 
+interface Styles {
+  labelStyles: string | undefined;
+  iconStyles: string | undefined;
+}
+
 const ThemeSwitcher: FC<{ variant: VariantSwitcher }> = ({ variant }) => {
   const { wideScreens } = useWindowWidthContext();
   const { enabled, setEnabled, handleThemeChange } = useThemeContext();
@@ -32,17 +37,42 @@ const ThemeSwitcher: FC<{ variant: VariantSwitcher }> = ({ variant }) => {
     enabled ? 'translate-x-5 bg-contrastWhite' : 'translate-x-[1px] bg-accentBase'
   } pointer-events-none inline-block h-4 w-4 transform rounded-full shadow-lg ring-0 transition ease-in-out hg:h-5 hg:w-5`;
 
+  const generatePointerThemeLabel = (themeType: string, svgName: string): JSX.Element => {
+    const getStyles = (): Styles => {
+      let labelStyles;
+      let iconStyles;
+
+      switch (themeType) {
+        case 'Light':
+          labelStyles = currentStyles.colorLeftLabel;
+          iconStyles = currentStyles.strokeLeftIcon;
+          break;
+        case 'Dark':
+          labelStyles = enabled ? 'text-whiteBase' : 'text-greyAlt';
+          iconStyles = enabled ? 'stroke-whiteBase' : 'stroke-greyAlt';
+          break;
+        default:
+          labelStyles = '';
+          iconStyles = '';
+          break;
+      }
+
+      return { labelStyles, iconStyles };
+    };
+    return wideScreens ? (
+      <p className={`${commonLabelStyles} ${getStyles().labelStyles}`}>{themeType}</p>
+    ) : (
+      <SvgIcon
+        svgName={svgName}
+        sizeKey='smIcon21'
+        className={`fill-transparent ${getStyles().iconStyles}`}
+      />
+    );
+  };
+
   return (
     <div className={`flex items-center gap-2 ${currentStyles.spacing}`}>
-      {wideScreens ? (
-        <p className={`${commonLabelStyles} ${currentStyles.colorLeftLabel}`}>Light</p>
-      ) : (
-        <SvgIcon
-          svgName='sun'
-          sizeKey='smIcon21'
-          className={`fill-transparent ${currentStyles.strokeLeftIcon}`}
-        />
-      )}
+      {generatePointerThemeLabel('Light', 'sun')}
       <Switch
         checked={enabled}
         onChange={setEnabled}
@@ -52,17 +82,7 @@ const ThemeSwitcher: FC<{ variant: VariantSwitcher }> = ({ variant }) => {
         <span className='sr-only'>Theme switcher</span>
         <span aria-hidden='true' className={`${switchSliderStyles}`} />
       </Switch>
-      {wideScreens ? (
-        <p className={`${commonLabelStyles} ${enabled ? 'text-whiteBase' : 'text-greyAlt'}`}>
-          Dark
-        </p>
-      ) : (
-        <SvgIcon
-          svgName='moon'
-          sizeKey='smIcon21'
-          className={`fill-transparent ${enabled ? 'stroke-whiteBase' : 'stroke-greyAlt'}`}
-        />
-      )}
+      {generatePointerThemeLabel('Dark', 'moon')}
     </div>
   );
 };

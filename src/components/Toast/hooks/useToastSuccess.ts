@@ -1,6 +1,6 @@
 import { useAuthRedux, useDBRedux } from 'reduxStore/hooks';
 
-import type { ToastMessage } from 'types';
+import type { HaveAccounts, ToastMessage, ToastSuccessDescription, ToastSuccessTitle } from 'types';
 
 const useToastSuccess = () => {
   const { statusMessage, haveAccounts } = useAuthRedux();
@@ -8,13 +8,13 @@ const useToastSuccess = () => {
 
   //Функція виведення заголовка та опису для тостів успіху
   const chooseSuccessToastText = (statusMessage: string): ToastMessage => {
-    let title = '';
-    let description = '';
+    let title: ToastSuccessTitle;
+    let description: ToastSuccessDescription<keyof HaveAccounts>;
 
     //Визначення наявності значення прив'язаного акаунту
     const linkingAccount = Object.keys(haveAccounts).find((key) =>
       haveAccounts.hasOwnProperty(key),
-    );
+    ) as keyof HaveAccounts;
 
     switch (statusMessage) {
       case 'User sign-in success':
@@ -63,8 +63,8 @@ const useToastSuccess = () => {
         description = `Your ${linkingAccount} account has unlinked successfully`;
         break;
       default:
-        title = '';
-        description = '';
+        title = 'Default title';
+        description = 'Default description';
         break;
     }
 

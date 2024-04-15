@@ -25,17 +25,16 @@ const PlugImage: FC<PlugImageProps> = ({ variant }) => {
   const plugImageTextStyles =
     'text-center text-2xl font-bold tracking-smallTight text-darkBase transition-colors dark:text-whiteBase md:w-548px md:text-5xl md:tracking-tighter';
 
+  const generateText = (): string => {
+    return isErrorAPI && isHomeActive
+      ? 'It seems you have been send too much requests then its needed'
+      : 'We haven’t found news from this category';
+  };
   return (
     <>
       {variant === 'page' ? (
         <div className='flex flex-col items-center justify-center space-y-10'>
-          <p className={`${plugImageTextStyles}`}>
-            {`${
-              isErrorAPI && isHomeActive
-                ? 'It seems you have been send too much requests then its needed'
-                : 'We haven’t found news from this category'
-            }`}
-          </p>
+          <p className={`${plugImageTextStyles}`}>{generateText()}</p>
           <img
             src={imageUrl}
             alt={`${isErrorAPI && isHomeActive ? 'Too much requests' : 'No found news'}`}

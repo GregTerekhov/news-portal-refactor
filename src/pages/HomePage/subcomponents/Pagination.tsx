@@ -5,6 +5,7 @@ import { usePaginationContext, useWindowWidthContext } from 'contexts';
 import DirectionButton from './DirectionButton';
 import PaginationButton from './PaginationButton';
 import { renderPagination } from '../assistants';
+import { useControls } from '../hooks';
 interface PaginationProps {
   pageNumbers: number[];
 }
@@ -12,33 +13,17 @@ interface PaginationProps {
 const Pagination: FC<PaginationProps> = ({ pageNumbers }) => {
   const { isNotMobile } = useWindowWidthContext();
   const { currentPage, setCurrentPage } = usePaginationContext();
+  const { handlePageNumberClick, handleNextClick, handlePrevClick } = useControls(
+    setCurrentPage,
+    currentPage,
+    pageNumbers,
+  );
 
   const renderEllipsis = (direction: string): JSX.Element => (
     <li key={direction} className='text-darkBase dark:text-whiteBase'>
       ...
     </li>
   );
-
-  //Функція обробки кліку по кнопках пагінації
-  const handlePageNumberClick = (pageNumber: number): void => {
-    setCurrentPage(pageNumber);
-    window.scrollTo({ top: 0 + window.innerHeight, left: 0, behavior: 'smooth' });
-  };
-
-  //Функції обробки кліку по кнопках навігації
-  const handlePrevClick = (): void => {
-    if (currentPage > 1) {
-      setCurrentPage(currentPage - 1);
-      window.scrollTo({ top: 0 + window.innerHeight, left: 0, behavior: 'smooth' });
-    }
-  };
-
-  const handleNextClick = (): void => {
-    if (currentPage < pageNumbers.length) {
-      setCurrentPage(currentPage + 1);
-      window.scrollTo({ top: 0 + window.innerHeight, left: 0, behavior: 'smooth' });
-    }
-  };
 
   const renderPaginationButton = (pageNumber: number): JSX.Element => (
     <PaginationButton pageNumber={pageNumber} onClick={handlePageNumberClick} />

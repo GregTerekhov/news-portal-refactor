@@ -31,6 +31,14 @@ const Auth: FC<AuthButtonProps> = ({ passwordToken }) => {
     toggleModal();
   };
 
+  const renderButtonText = () => {
+    return wideScreens ? (isAuthenticated ? 'Sign Out' : 'Auth') : null;
+  };
+
+  const buttonStyles = `${isHomeActive && authButtonClass} ${
+    wideScreens ? '' : 'border-transparent p-1.5'
+  } border border-solid border-transparent dark:border-whiteBase bg-accentBase hocus:bg-accentAlt`;
+
   return (
     <>
       <div className='max-lg:flex max-lg:items-center max-lg:justify-center'>
@@ -43,11 +51,9 @@ const Auth: FC<AuthButtonProps> = ({ passwordToken }) => {
           svgName={`${isAuthenticated ? 'signout' : 'auth'}`}
           svgSize={wideScreens ? 'mdIcon28' : 'mdIcon24'}
           classNameIcon='fill-whiteBase'
-          classNameButton={`${isHomeActive && authButtonClass} ${
-            wideScreens ? '' : 'border-transparent p-1.5'
-          } border border-solid border-transparent dark:border-whiteBase bg-accentBase hocus:bg-accentAlt`}
+          classNameButton={buttonStyles}
         >
-          {wideScreens ? (isAuthenticated ? 'Sign Out' : 'Auth') : null}
+          {renderButtonText()}
         </PrimaryButton>
       </div>
       {isOpenModal && (

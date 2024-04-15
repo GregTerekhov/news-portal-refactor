@@ -21,8 +21,7 @@ const calculateRemainingCards = (arrayItems: number[], totalItems: number): numb
   // Вираховуємо суму всіх чисел, окрім останнього елемента
   const sum = arrayItems && arrayItems.slice(0, -1).reduce((acc, num) => acc + num, 0);
   // Віднімаємо вираховану суму від загальної кількості карток
-  const remainingCards = totalItems - sum;
-  return remainingCards;
+  return totalItems - sum;
 };
 
 // Розрахунок масива кількості сторінок для кожного типу пристрою
@@ -62,9 +61,7 @@ function getOtherPageCount(isMobile: boolean, isTablet: boolean): number {
 
 //Калькуляція першого індексу новини для останніх сторінок
 export const calculateFirstIndexes = (pages: number[], total: number): number => {
-  const firstIndexes = calculateRemainingCards(pages, total);
-
-  return firstIndexes;
+  return calculateRemainingCards(pages, total);
 };
 
 // Визначення кількості об'єктів новин на сторінці в залежності від типу пристрою
@@ -84,49 +81,49 @@ export const renderPagination = (
   renderPaginationButton: (pageNumber: number) => JSX.Element,
   renderEllipsis: (direction: string) => JSX.Element,
 ) => {
-  const totalPages = pageNumbers.length;
-  const prevPage = currentPage - 1;
-  const nextPage = currentPage + 1;
+  const lastPage = pageNumbers.length;
+  const prevPage = currentPage - FIRST_PAGE;
+  const nextPage = currentPage + FIRST_PAGE;
   const visibleButtonsCount = !isNotMobile
     ? QUANTITY.DESKTOP_BUTTONS_QUANTITY
     : QUANTITY.MOBILE_BUTTONS_QUANTITY;
 
-  const paginationButtons = [];
+  const paginationButtons: JSX.Element[] = [];
 
-  if (totalPages <= visibleButtonsCount) {
-    for (let i = FIRST_PAGE; i <= totalPages; i += 1) {
+  if (lastPage <= visibleButtonsCount) {
+    for (let i = FIRST_PAGE; i <= lastPage; i += 1) {
       paginationButtons.push(renderPaginationButton(i));
     }
   } else if (currentPage === FIRST_PAGE) {
     paginationButtons.push(renderPaginationButton(currentPage));
     paginationButtons.push(renderPaginationButton(nextPage));
     paginationButtons.push(renderEllipsis('next'));
-    paginationButtons.push(renderPaginationButton(totalPages));
-  } else if (currentPage === totalPages) {
+    paginationButtons.push(renderPaginationButton(lastPage));
+  } else if (currentPage === lastPage) {
     paginationButtons.push(renderPaginationButton(FIRST_PAGE));
     paginationButtons.push(renderEllipsis('prev'));
     paginationButtons.push(renderPaginationButton(prevPage));
     paginationButtons.push(renderPaginationButton(currentPage));
-  } else if (currentPage > FIRST_PAGE && currentPage < totalPages) {
+  } else if (currentPage > FIRST_PAGE && currentPage < lastPage) {
     if (currentPage === 2) {
       paginationButtons.push(renderEllipsis('prev'));
       paginationButtons.push(renderPaginationButton(currentPage));
       paginationButtons.push(renderPaginationButton(nextPage));
       paginationButtons.push(renderEllipsis('next'));
-      paginationButtons.push(renderPaginationButton(totalPages));
+      paginationButtons.push(renderPaginationButton(lastPage));
     }
-    if (currentPage - 1 > FIRST_PAGE && currentPage + 1 !== totalPages) {
+    if (currentPage - FIRST_PAGE > FIRST_PAGE && currentPage + FIRST_PAGE !== lastPage) {
       paginationButtons.push(renderEllipsis('prev'));
       paginationButtons.push(renderPaginationButton(prevPage));
       paginationButtons.push(renderPaginationButton(currentPage));
       paginationButtons.push(renderPaginationButton(nextPage));
       paginationButtons.push(renderEllipsis('next'));
     }
-    if (currentPage + 1 === totalPages) {
+    if (currentPage + FIRST_PAGE === lastPage) {
       paginationButtons.push(renderEllipsis('prev'));
       paginationButtons.push(renderPaginationButton(prevPage));
       paginationButtons.push(renderPaginationButton(currentPage));
-      paginationButtons.push(renderPaginationButton(totalPages));
+      paginationButtons.push(renderPaginationButton(lastPage));
     }
   }
 

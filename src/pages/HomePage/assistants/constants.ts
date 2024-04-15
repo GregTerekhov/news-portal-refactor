@@ -9,5 +9,5 @@ export const COUNT = {
 export const FIRST_PAGE = 1;
 export const QUANTITY = {
   DESKTOP_BUTTONS_QUANTITY: 3,
-  MOBILE_BUTTONS_QUANTITY: 6,
+  MOBILE_BUTTONS_QUANTITY: 5,
 };

@@ -1,15 +1,14 @@
 import React, { FC, useEffect } from 'react';
 import { Outlet } from 'react-router-dom';
 
+import { VariantSwitcher } from 'types';
 import { useAuthRedux, useDBRedux, useNewsAPIRedux } from 'reduxStore/hooks';
 import { useWindowWidthContext } from 'contexts';
 
-import { VariantSwitcher } from 'types';
 import { useActiveLinks, useChooseRenderingNews } from 'hooks';
 
 import { NewsFilterManager } from 'components';
 import { ThemeSwitcher } from 'ui';
-
 import { Hero, PageScrollController } from './subcomponents';
 import Header from './Header/Header';
 import Footer from './Footer/Footer';
@@ -70,8 +69,39 @@ const Layout: FC = () => {
       ? 'h-screen'
       : 'h-full';
 
-  const hasLargeSection = () =>
+  const hasLargeSection = (): boolean | undefined =>
     isArchiveActive || isFavoriteActive || isReadActive || (isHomeActive && is429ErrorAPI);
+
+  const sectionStyles = `w-full bg-whiteBase pb-[60px] transition-colors duration-500 dark:bg-darkBackground md:pb-[100px] lg:pb-[150px] ${
+    hasLargeSection() ? 'pt-10 md:pt-12 lg:pt-[60px]' : 'pt-6 md:pt-7 hg:pt-[60px]'
+  }`;
+
+  const showThemeSwitcher = (): JSX.Element => {
+    return (
+      <div className='mb-10 flex justify-end'>
+        <ThemeSwitcher variant={VariantSwitcher.Header} />
+      </div>
+    );
+  };
+
+  const showFilterManager = (): JSX.Element | null => {
+    return isAuthenticated && !shouldNotShowFiltersManager ? <NewsFilterManager /> : null;
+  };
+
+  const showScrollController = (): JSX.Element | null => {
+    return shouldShowPageScrollController ? (
+      <>
+        <PageScrollController direction='top' label='Scroll up' position='top-36' icon='triangle' />
+        <PageScrollController
+          direction='down'
+          label='Scroll down'
+          position='bottom-12'
+          icon='triangle'
+          classIcon='rotate-180'
+        />
+      </>
+    ) : null;
+  };
 
   return (
     <div
@@ -81,40 +111,12 @@ const Layout: FC = () => {
       {!isErrorPage && <Header />}
       <main>
         {isHomeActive && <Hero />}
-        <section
-          className={`w-full bg-whiteBase pb-[60px] transition-colors duration-500 dark:bg-darkBackground md:pb-[100px] lg:pb-[150px] ${
-            hasLargeSection() ? 'pt-10 md:pt-12 lg:pt-[60px]' : 'pt-6 md:pt-7 hg:pt-[60px]'
-          }`}
-        >
+        <section className={sectionStyles}>
           <Container>
-            {!isNotMobile && !isErrorPage && (
-              <div className='mb-10 flex justify-end'>
-                <ThemeSwitcher variant={VariantSwitcher.Header} />
-              </div>
-            )}
-            {isAuthenticated && !shouldNotShowFiltersManager ? <NewsFilterManager /> : null}
-            {isErrorPage && (
-              <div className='mb-10 flex justify-end'>
-                <ThemeSwitcher variant={VariantSwitcher.Header} />
-              </div>
-            )}
-            {shouldShowPageScrollController ? (
-              <>
-                <PageScrollController
-                  direction='top'
-                  label='Scroll up'
-                  position='top-36'
-                  icon='triangle'
-                />
-                <PageScrollController
-                  direction='down'
-                  label='Scroll down'
-                  position='bottom-12'
-                  icon='triangle'
-                  classIcon='rotate-180'
-                />
-              </>
-            ) : null}
+            {!isNotMobile && !isErrorPage ? showThemeSwitcher() : null}
+            {showFilterManager()}
+            {isErrorPage ? showThemeSwitcher() : null}
+            {showScrollController()}
             <Outlet />
           </Container>
         </section>

@@ -16,7 +16,7 @@ const useInfiniteScroll = () => {
   const { rebuiltNews } = useChooseRenderingNews(activeLinks);
 
   useEffect(() => {
-    if (rebuiltNews) {
+    if (rebuiltNews?.length) {
       setTotalNewsCount(rebuiltNews.length);
     }
   }, [rebuiltNews]);

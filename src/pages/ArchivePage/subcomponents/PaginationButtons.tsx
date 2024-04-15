@@ -18,18 +18,20 @@ const PaginationButtons: FC<PaginationButtonsProps> = ({
   const renderPaginationButtons = (): JSX.Element[] => {
     const buttons: JSX.Element[] = [];
 
+    const getButtonStyles = (currentPage: number, index: number) => {
+      return currentPage === index
+        ? 'bg-accentBase text-whiteBase'
+        : 'bg-transparent text-darkBase dark:text-whiteBase';
+    };
+
     const addPageButtons = (start: number, end: number) => {
-      for (let i = start; i <= end; i++) {
+      for (let i = start; i <= end; i += 1) {
         buttons.push(
           <button
             key={i}
             type='button'
             aria-current='page'
-            className={`${tableButtonStyles} ${
-              currentPage === i
-                ? 'bg-accentBase text-whiteBase'
-                : 'bg-transparent text-darkBase dark:text-whiteBase'
-            }`}
+            className={`${tableButtonStyles} ${getButtonStyles(currentPage, i)}`}
             onClick={() => handlePageChange(i)}
           >
             {i}
@@ -55,11 +57,7 @@ const PaginationButtons: FC<PaginationButtonsProps> = ({
           key={totalPages}
           type='button'
           aria-current='page'
-          className={`${tableButtonStyles} ${
-            currentPage === totalPages
-              ? 'bg-accentBase text-whiteBase'
-              : 'bg-transparent text-darkBase dark:text-whiteBase'
-          }`}
+          className={`${tableButtonStyles} ${getButtonStyles(currentPage, totalPages)}`}
           onClick={() => handlePageChange(totalPages)}
         >
           {totalPages}

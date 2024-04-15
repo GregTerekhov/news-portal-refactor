@@ -1,27 +1,23 @@
-import React, { FC, useEffect, useState } from 'react';
-import { Link, useSearchParams } from 'react-router-dom';
+import React, { FC, useState } from 'react';
+import { Link } from 'react-router-dom';
 
+import { VariantSwitcher } from 'types';
 import { useAuthRedux, useFiltersRedux } from 'reduxStore/hooks';
 import { useScrollBodyContext, useWindowWidthContext } from 'contexts';
 
-import { VariantSwitcher } from 'types';
 import { useActiveLinks, useHeaderStyles, usePopUp } from 'hooks';
 
 import { AuthModal } from 'components';
 import { Modal, ThemeSwitcher } from 'ui';
-
-import { AuthButton, AuthenticatedHeaderContent } from './subcomponents';
 import Container from '../Container';
+import { AuthButton, AuthenticatedHeaderContent } from './subcomponents';
+
+import { useProcessingParams } from './hooks';
 
 const Header: FC<{}> = () => {
   const [isOpenMenu, setIsOpenMenu] = useState<boolean>(false);
-  const [passwordToken, setPasswordToken] = useState<boolean>(false);
 
-  const [searchParams] = useSearchParams();
-  const token: string | null = searchParams.get('token');
-  const openModal: string | null = searchParams.get('openModal');
-
-  const { isAuthenticated, user, writeTokens } = useAuthRedux();
+  const { isAuthenticated } = useAuthRedux();
   const { filteredNews, resetAllFiltersResults } = useFiltersRedux();
   const { isScrollDisabled, setIsScrollDisabled } = useScrollBodyContext();
   const { isNotMobile } = useWindowWidthContext();
@@ -29,15 +25,7 @@ const Header: FC<{}> = () => {
   const { isOpenModal, setIsOpenModal, toggleModal, popUpRef } = usePopUp();
   const { isHomeActive } = useActiveLinks();
   const { headerClass, textClass } = useHeaderStyles(isHomeActive);
-
-  useEffect(() => {
-    if (!user.id && token && openModal) {
-      setPasswordToken(true);
-      writeTokens({ accessToken: token, refreshToken: null });
-      setIsOpenModal(true);
-      setIsScrollDisabled(true);
-    }
-  }, [token, openModal, user]);
+  const { passwordToken } = useProcessingParams(setIsOpenModal, setIsScrollDisabled);
 
   //Функція toggle для мобільного меню
   const toggleMenu = (): void => {
@@ -47,48 +35,50 @@ const Header: FC<{}> = () => {
 
   //Скидання значень фільтрації новин
   const resetFilters = (): void => {
-    if (filteredNews && filteredNews.length > 0) {
+    if (filteredNews?.length > 0) {
       resetAllFiltersResults();
     }
   };
 
+  const headerStyles = `fixed left-0 top-0 flex min-h-81px w-full items-center justify-center md:min-h-106px lg:min-h-113px hg:min-h-136px ${
+    isHomeActive
+      ? headerClass
+      : 'border-b border-solid border-fullDark/[.2] bg-whiteBase/[.8] dark:border-whiteBase/[.2] dark:bg-darkBackground/[.8]'
+  } transition-all duration-100 ${isOpenMenu && 'border-b-0'} ${
+    isOpenModal ? 'pointer-events-none z-0' : 'pointer-events-auto z-50'
+  }`;
+
+  const logoLinkStyles = `${
+    isHomeActive && !isOpenMenu ? textClass : 'text-darkBase dark:text-whiteBase'
+  } z-50 text-3xl font-bold leading-tight transition-colors duration-500 sm:py-6 md:pb-[30px] md:pt-8 md:text-4xl lg:py-7 lg:text-giant lg:leading-[1.357144]`;
+
+  const generateHeaderContent = (): JSX.Element => {
+    return isAuthenticated ? (
+      <AuthenticatedHeaderContent
+        resetFilters={resetFilters}
+        isOpenMenu={isOpenMenu}
+        toggleMenu={toggleMenu}
+      />
+    ) : (
+      <div className={`${isNotMobile ? 'flex flex-col gap-3' : ''}`}>
+        <AuthButton passwordToken={passwordToken} />
+        {isNotMobile ? <ThemeSwitcher variant={VariantSwitcher.Header} /> : null}
+      </div>
+    );
+  };
+
   return (
     <>
-      <header
-        className={`fixed left-0 top-0 flex min-h-81px w-full items-center justify-center md:min-h-106px lg:min-h-113px hg:min-h-136px ${
-          isHomeActive
-            ? headerClass
-            : 'border-b border-solid border-fullDark/[.2] bg-whiteBase/[.8] dark:border-whiteBase/[.2] dark:bg-darkBackground/[.8]'
-        } transition-all duration-100 ${isOpenMenu && 'border-b-0'} ${
-          isOpenModal ? 'pointer-events-none z-0' : 'pointer-events-auto z-50'
-        }`}
-      >
+      <header className={headerStyles}>
         <Container
           className={`${
             isAuthenticated ? 'gap-3.5' : ''
           } relative flex items-center justify-between`}
         >
-          <Link
-            to='/'
-            className={`z-50 text-3xl font-bold leading-tight transition-colors duration-500 sm:py-6 md:pb-[30px] md:pt-8 md:text-4xl lg:py-7 lg:text-giant lg:leading-[1.357144] ${
-              isHomeActive && !isOpenMenu ? textClass : 'text-darkBase dark:text-whiteBase'
-            } 
-              `}
-          >
+          <Link to='/' className={logoLinkStyles}>
             News
           </Link>
-          {isAuthenticated ? (
-            <AuthenticatedHeaderContent
-              resetFilters={resetFilters}
-              isOpenMenu={isOpenMenu}
-              toggleMenu={toggleMenu}
-            />
-          ) : (
-            <div className={`${isNotMobile ? 'flex flex-col gap-3' : ''}`}>
-              <AuthButton passwordToken={passwordToken} />
-              {isNotMobile ? <ThemeSwitcher variant={VariantSwitcher.Header} /> : null}
-            </div>
-          )}
+          {generateHeaderContent()}
         </Container>
       </header>
       {isOpenModal && (

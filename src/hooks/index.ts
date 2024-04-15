@@ -4,7 +4,6 @@ export { default as useCacheIcon } from './useCacheIcon';
 export { default as useCacheImage } from './useCacheImage';
 export { default as useChooseRenderingNews } from './useChooseRenderingNews';
 export { default as useCrypto } from './useCrypto';
-export { default as useHeaderHeight } from './useHeaderHeight';
 export { default as useHeaderStyles } from './useHeaderStyles';
 export { default as useReadNewsContent } from './useReadNewsContent';
 export { default as usePopUp } from './usePopUp';

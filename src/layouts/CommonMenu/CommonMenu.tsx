@@ -44,28 +44,32 @@ const CommonMenu: FC<CommonMenuProps> = ({ isOpen, navId, closeMenu }) => {
     }
   };
 
+  const renderMenuContent = (): JSX.Element => {
+    return navId === 'account-navigation' ? (
+      <div>
+        <p className='mb-2 text-darkBase dark:text-whiteBase'>Main Menu</p>
+        <hr className='mb-4 !border-accentBase' />
+        <div className='grid grid-cols-2 grid-rows-2 gap-3'>
+          <MenuLinks handleLinkClick={handleLinkClick} />
+        </div>
+      </div>
+    ) : (
+      <Link
+        to='/account'
+        className='text-end text-darkBase transition-colors duration-500 dark:text-whiteBase'
+        onClick={closeMenu}
+      >
+        Your account, {user.name}
+      </Link>
+    );
+  };
+
   return (
     <>
       {isMobile && isOpen ? (
         <MobileContainer isOpen={isOpen}>
           <MobileMenu navId={navId} links={links} handleLinkClick={handleLinkClick} />
-          {navId === 'account-navigation' ? (
-            <div>
-              <p className='mb-2 text-darkBase dark:text-whiteBase'>Main Menu</p>
-              <hr className='mb-4 !border-accentBase' />
-              <div className='grid grid-cols-2 grid-rows-2 gap-3'>
-                <MenuLinks handleLinkClick={handleLinkClick} />
-              </div>
-            </div>
-          ) : (
-            <Link
-              to='/account'
-              className='text-end text-darkBase transition-colors duration-500 dark:text-whiteBase'
-              onClick={closeMenu}
-            >
-              Your account, {user.name}
-            </Link>
-          )}
+          {renderMenuContent()}
           <div className='flex justify-between'>
             <ThemeSwitcher variant={VariantSwitcher.Header} />
             <SignOutButton handleSignOut={handleSignOut} />
@@ -80,9 +84,11 @@ const CommonMenu: FC<CommonMenuProps> = ({ isOpen, navId, closeMenu }) => {
             activeLinks={activeLinks}
           />
           {navId === 'account-navigation' ? (
-            <hr className='!border-greyAlt transition-colors duration-500 dark:!border-accentBase' />
+            <>
+              <hr className='!border-greyAlt transition-colors duration-500 dark:!border-accentBase' />
+              <SignOutButton handleSignOut={handleSignOut} />
+            </>
           ) : null}
-          {navId === 'account-navigation' ? <SignOutButton handleSignOut={handleSignOut} /> : null}
         </>
       )}
     </>

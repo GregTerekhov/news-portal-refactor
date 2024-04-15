@@ -21,8 +21,7 @@ const NewsItem: FC<Partial<NewsItemProps>> = ({ liveNews = {} }) => {
 
   const { isOpenModal, toggleModal, popUpRef } = usePopUp();
   const { isHomeActive, isArchiveActive } = useActiveLinks();
-  const { isFavourite, hasRead, handleChangeFavourites, handleReadNews, handleDeleteNews } =
-    useNews({ liveNews });
+  const { isFavourite, hasRead, handleReadNews, handleDeleteNews } = useNews({ liveNews });
 
   //Функція видалення новини
   const handleDeleteNewsWrapper = async (
@@ -82,7 +81,7 @@ const NewsItem: FC<Partial<NewsItemProps>> = ({ liveNews = {} }) => {
             )}
             {isAuthenticated && (
               <VoteButton
-                onHandleClick={handleChangeFavourites}
+                liveNews={liveNews}
                 isFavourite={isFavourite}
                 buttonData={{ id: `Add ${liveNews?.title} to favourites or remove from them` }}
               />

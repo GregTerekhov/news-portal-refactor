@@ -1,5 +1,7 @@
+type TableLabel = 'Title' | 'Category' | 'Addition Date' | 'Deletion Date';
+
 type TableHeads = {
-  label: string;
+  label: TableLabel;
 };
 
 export const tableHeads: TableHeads[] = [

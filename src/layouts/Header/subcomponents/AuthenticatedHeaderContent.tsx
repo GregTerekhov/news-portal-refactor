@@ -7,8 +7,8 @@ import { useActiveLinks, useAdditionalRequest, useHeaderStyles } from 'hooks';
 
 import { SvgIcon, ThemeSwitcher, UnverifiableInput } from 'ui';
 import AuthButton from './Auth';
-import CommonMenu from '../../CommonMenu/CommonMenu';
 import UserAccountLink from './UserAccountLink';
+import CommonMenu from '../../CommonMenu/CommonMenu';
 
 interface HeaderContentProps {
   resetFilters: () => void;
@@ -54,30 +54,40 @@ const AuthenticatedHeaderContent: FC<HeaderContentProps> = ({
     return id;
   };
 
+  const renderMobileInput = (): JSX.Element | null => {
+    return !isOpenMenu && isHomeActive ? (
+      <search>
+        <form onSubmit={(e) => onHandleSearch(e)} className='max-md:overflow-hidden'>
+          <UnverifiableInput
+            inputData={{
+              name: 'query',
+              type: 'text',
+              value: query,
+              placeholder: 'Search |',
+            }}
+            svgName='search'
+            hasIcon={true}
+            variant={VariantInputs.Header}
+            hideInput={handleVisibilityChange}
+            onChange={(event: React.ChangeEvent<HTMLInputElement>) => onChangeInput(event)}
+            touched={touched}
+          />
+        </form>
+      </search>
+    ) : null;
+  };
+
+  const iconStyles = `hocus:stroke-accentBase dark:hocus:stroke-accentBase ${
+    !isOpenMenu && isHomeActive
+      ? burgerMenuButtonClass
+      : 'stroke-darkBase hocus:stroke-accentBase dark:stroke-whiteBase '
+  }`;
+
   return (
     <>
       {isMobile ? (
         <div className={`flex items-center ${isHomeActive ? 'gap-3.5' : ''}`}>
-          {!isOpenMenu && isHomeActive ? (
-            <search>
-              <form onSubmit={(e) => onHandleSearch(e)} className='max-md:overflow-hidden'>
-                <UnverifiableInput
-                  inputData={{
-                    name: 'query',
-                    type: 'text',
-                    value: query,
-                    placeholder: 'Search |',
-                  }}
-                  svgName='search'
-                  hasIcon={true}
-                  variant={VariantInputs.Header}
-                  hideInput={handleVisibilityChange}
-                  onChange={(event: React.ChangeEvent<HTMLInputElement>) => onChangeInput(event)}
-                  touched={touched}
-                />
-              </form>
-            </search>
-          ) : null}
+          {renderMobileInput()}
           <button
             aria-label={`${!isOpenMenu ? 'Open' : 'Close'} ${
               !isAccountPages ? 'mobile' : 'account'
@@ -92,11 +102,7 @@ const AuthenticatedHeaderContent: FC<HeaderContentProps> = ({
             <SvgIcon
               svgName={`${isOpenMenu ? 'close' : 'burger-menu'}`}
               sizeKey='mdIcon24'
-              className={`hocus:stroke-accentBase dark:hocus:stroke-accentBase ${
-                !isOpenMenu && isHomeActive
-                  ? burgerMenuButtonClass
-                  : 'stroke-darkBase hocus:stroke-accentBase dark:stroke-whiteBase '
-              }`}
+              className={iconStyles}
             />
           </button>
         </div>
