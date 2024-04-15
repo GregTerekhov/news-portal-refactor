@@ -1,5 +1,6 @@
 export { default as Accordeon } from './Accordeon/Accordeon';
 export { default as CustomScrollBar } from './CustomScrollBar/CustomScrollBar';
+export { default as DeleteModal } from './DeleteModal/DeleteModal';
 export { default as Dropdown } from './Dropdown/Dropdown';
 export { default as Hint } from './Hint/Hint';
 export { default as Loader } from './Loader/Loader';

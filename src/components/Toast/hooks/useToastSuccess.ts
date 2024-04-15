@@ -1,10 +1,12 @@
+import type { HaveAccounts, ToastMessage, ToastSuccessDescription, ToastSuccessTitle } from 'types';
 import { useAuthRedux, useDBRedux } from 'reduxStore/hooks';
 
-import type { HaveAccounts, ToastMessage, ToastSuccessDescription, ToastSuccessTitle } from 'types';
+import { useActiveLinks } from 'hooks';
 
 const useToastSuccess = () => {
   const { statusMessage, haveAccounts } = useAuthRedux();
   const { dbSuccessMessage } = useDBRedux();
+  const { isArchiveActive } = useActiveLinks();
 
   //Функція виведення заголовка та опису для тостів успіху
   const chooseSuccessToastText = (statusMessage: string): ToastMessage => {
@@ -70,9 +72,8 @@ const useToastSuccess = () => {
 
     return { title, description };
   };
-
   //Визначення статусу успіху в залежності від API
-  const responseMessage = statusMessage || dbSuccessMessage;
+  const responseMessage = !isArchiveActive ? statusMessage : dbSuccessMessage;
 
   //Функція-обгортка
   const showSuccessToast = (): ToastMessage => {

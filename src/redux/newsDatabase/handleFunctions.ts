@@ -18,10 +18,8 @@ export const handleFulfilled = (state: NewsDBState, action: PayloadAction<any, s
 
 export const handleRejected = (state: NewsDBState, action: PayloadAction<unknown, string, any>) => {
   state.isLoading = false;
-  if (typeof action.payload === 'number' || typeof action.payload === 'string') {
+  if (typeof action.payload === 'number' || typeof action.payload === 'string')
     state.hasError = action.payload;
-    console.log('ERROR DB with code or message', action.payload, action);
-  }
 };
 
 const extraActions = [
