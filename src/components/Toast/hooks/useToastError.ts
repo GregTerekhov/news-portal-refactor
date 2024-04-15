@@ -1,15 +1,15 @@
 import { useAuthRedux, useNewsAPIRedux } from 'reduxStore/hooks';
 
-import type { ToastMessage } from 'types';
+import type { ToastErrorDescription, ToastErrorTitle, ToastMessage } from 'types';
 
 const useToastError = () => {
   const { authError } = useAuthRedux();
   const { errorAPI } = useNewsAPIRedux();
 
   //Функція виведення заголовка та опису для тостів помилок
-  const chooseErrorToastText = (status: string | number | undefined): ToastMessage => {
-    let title = '';
-    let description = '';
+  const chooseErrorToastText = (status: string | number | null): ToastMessage => {
+    let title: ToastErrorTitle = 'UnknownError';
+    let description: ToastErrorDescription = 'Try to reload page';
 
     switch (status) {
       case 'Email already in use':
@@ -46,7 +46,7 @@ const useToastError = () => {
   };
 
   //Визначення статусу помилки в залежності від API
-  const status = authError ? authError : errorAPI ? errorAPI : undefined;
+  const status = authError || errorAPI || null;
 
   //Функція-обгортка
   const showErrorToast = (): ToastMessage => {

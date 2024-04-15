@@ -2,13 +2,13 @@ import React, { FC, useEffect } from 'react';
 
 import { useAuthRedux, useDBRedux, useNewsAPIRedux } from 'reduxStore/hooks';
 import { usePaginationContext } from 'contexts';
+import { PageTemplate } from '../template';
 
 import { useActiveLinks, useChooseRenderingNews } from 'hooks';
 
 import { NewsList } from 'components';
 
 import { usePagination } from './hooks';
-import { PageTemplate } from '../template';
 import { Pagination } from './subcomponents';
 
 const TODAY_HOT_NEWS = 1;

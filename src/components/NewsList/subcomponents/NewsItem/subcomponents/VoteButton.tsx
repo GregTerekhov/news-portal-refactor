@@ -1,21 +1,25 @@
 import React, { FC, useState } from 'react';
 
+import type { VotedItem } from 'types';
+
 import { useActiveLinks } from 'hooks';
 
 import { SvgIcon } from 'ui';
 
 import { getButtonLabel, getIconStyles } from '../assistants';
+import { useNews } from '../hooks';
 
 interface VBProps {
   buttonData: {
     id?: string;
   };
   isFavourite: boolean;
-  onHandleClick: (e: React.MouseEvent<HTMLButtonElement>) => void;
+  liveNews: Partial<VotedItem>;
 }
 
-const VoteButton: FC<VBProps> = ({ onHandleClick, isFavourite, buttonData }) => {
+const VoteButton: FC<VBProps> = ({ liveNews, isFavourite, buttonData }) => {
   const [isHovered, setIsHovered] = useState<boolean>(false);
+  const { handleChangeFavourites } = useNews({ liveNews });
   const { isArchiveActive } = useActiveLinks();
 
   const buttonStyles = `absolute bottom-3 right-2 z-20 flex items-center gap-x-1 rounded-3xl bg-contrastWhite px-3 py-1.5 text-small font-medium text-darkBase transition-colors duration-500 lg:text-medium ${
@@ -27,7 +31,7 @@ const VoteButton: FC<VBProps> = ({ onHandleClick, isFavourite, buttonData }) => 
       id={buttonData?.id}
       type='button'
       className={`${buttonStyles}`}
-      onClick={onHandleClick}
+      onClick={handleChangeFavourites}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >

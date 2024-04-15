@@ -1,12 +1,11 @@
 import React, { FC } from 'react';
 import { useNavigate } from 'react-router-dom';
 
+import { ErrorList, VariantButton } from 'types';
 import { useAuthRedux, useDBRedux, useNewsAPIRedux } from 'reduxStore/hooks';
 
-import { VariantButton } from 'types';
-
 import { PrimaryButton } from 'ui';
-import { ErrorList, serverErrorsList } from './assistants';
+import { serverErrorsList } from './assistants';
 
 const ErrorPage: FC<{}> = () => {
   const { isAuthenticated } = useAuthRedux();

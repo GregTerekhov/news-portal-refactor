@@ -1,8 +1,7 @@
 import React, { FC } from 'react';
 
-import { useAuthRedux } from 'reduxStore/hooks';
-
 import { UpdateCredentialsInput, VariantButton, VariantVerifiableInputs } from 'types';
+import { useAuthRedux } from 'reduxStore/hooks';
 
 import { Accordeon, PrimaryButton, VerifiableInput } from 'ui';
 
@@ -22,10 +21,8 @@ const UpdateCredentials: FC<UpdateCredentialsProps> = ({ field }) => {
   const credentialInputs: UpdateCredentialsInput[] =
     field === 'email' ? emailInputs : passwordInputs;
 
-  const updateEmailDescription = `and confirm by inputting your current
-          ${field} in the new field.`;
-  const updatePasswordDescription = `in the first field and repeat the
-          entry in the second field. In the third field, confirm the change by inputting your current ${field}.`;
+  const updateEmailDescription = `and confirm by inputting your current ${field} in the new field.`;
+  const updatePasswordDescription = `in the first field and repeat the entry in the second field. In the third field, confirm the change by inputting your current ${field}.`;
 
   const descriptionText = field === 'email' ? updateEmailDescription : updatePasswordDescription;
 

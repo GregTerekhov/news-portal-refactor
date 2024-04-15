@@ -1,4 +1,4 @@
-import type { ToastStatus } from 'types';
+import type { ToastDescription, ToastStatus, ToastTitle } from 'types';
 
 import { useActiveLinks } from 'hooks';
 import useToastError from './useToastError';
@@ -14,7 +14,7 @@ const useToastBody = () => {
   const showInfoToast = chooseInfoToastText(activeLinks);
 
   //Функція виведення заголовка тоста
-  const getToastTitle = (status: ToastStatus): string => {
+  const getToastTitle = (status: ToastStatus): ToastTitle => {
     switch (status) {
       case 'success':
         return showSuccessToast().title;
@@ -26,7 +26,7 @@ const useToastBody = () => {
   };
 
   //Функція виведення опису тоста
-  const getToastDescription = (status: ToastStatus): string => {
+  const getToastDescription = (status: ToastStatus): ToastDescription => {
     switch (status) {
       case 'success':
         return showSuccessToast().description;

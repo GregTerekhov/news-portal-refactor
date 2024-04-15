@@ -1,10 +1,12 @@
 import React, { FC } from 'react';
 import * as Toast from '@radix-ui/react-toast';
 
+import { ToastDescription, ToastTitle } from 'types';
+
 interface ToastProps {
   variant?: string;
-  title: string;
-  description: string;
+  title: ToastTitle;
+  description: ToastDescription;
   openToast: boolean;
   setOpenToast: (value: boolean) => void;
 }

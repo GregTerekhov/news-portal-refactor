@@ -1,10 +1,9 @@
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 
+import type { AuthRequestWithoutName } from 'types';
 import { useAuthRedux } from 'reduxStore/hooks';
 import { useNotificationContext } from 'contexts';
-
-import type { AuthRequestWithoutName } from 'types';
 
 import { renderEmailInputs, updateEmailSchema } from '../assistants';
 

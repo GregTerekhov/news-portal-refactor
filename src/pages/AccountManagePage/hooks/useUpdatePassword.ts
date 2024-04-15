@@ -1,10 +1,9 @@
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 
+import type { ExtendedUpdatePasswordRequest } from 'types';
 import { useAuthRedux } from 'reduxStore/hooks';
 import { useNotificationContext } from 'contexts';
-
-import type { ExtendedUpdatePasswordRequest } from 'types';
 
 import { renderPasswordInputs, updatePasswordSchema } from '../assistants';
 

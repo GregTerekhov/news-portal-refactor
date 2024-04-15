@@ -1,8 +1,4 @@
-export type ErrorList = {
-  code: number;
-  warning: string;
-  message: string;
-};
+import type { ErrorList } from 'types';
 
 export const serverErrorsList: ErrorList[] = [
   {

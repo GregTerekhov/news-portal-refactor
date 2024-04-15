@@ -3,7 +3,7 @@ import debounce from 'lodash.debounce';
 
 import { useWindowWidthContext } from 'contexts';
 
-import { useHeaderHeight } from 'hooks';
+import { getHeaderHeight } from 'helpers';
 
 const DOWN_MEASURE_BUTTON_VISIBILITY = 48;
 const DOWN_MEASURE_BUTTON_INVISIBILITY = 112;
@@ -13,9 +13,11 @@ const useScrollController = (direction: string) => {
   const [downButtonVisibility, setDownButtonVisibility] = useState<string>('hidden');
 
   const { isTablet, isDesktop, isTV } = useWindowWidthContext();
-  const { getHeaderHeight } = useHeaderHeight();
 
-  const headerHeight = useMemo<number>(() => getHeaderHeight(), [isDesktop, isTablet, isTV]);
+  const headerHeight = useMemo<number>(
+    () => getHeaderHeight(isTablet, isDesktop, isTV),
+    [isDesktop, isTablet, isTV],
+  );
 
   //Калькуляція та визначення позиції скролу
   const callScroll = debounce(() => {

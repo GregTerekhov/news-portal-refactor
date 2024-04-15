@@ -2,7 +2,7 @@ import { useCallback, useMemo, useState } from 'react';
 
 import type { IHistoryLog } from 'types';
 
-const ROWS_PER_PAGE = 4;
+const ROWS_PER_PAGE = 7;
 
 const useDeletedNewsControls = (logData: IHistoryLog[]) => {
   const [searchValue, setSearchValue] = useState<string>('');

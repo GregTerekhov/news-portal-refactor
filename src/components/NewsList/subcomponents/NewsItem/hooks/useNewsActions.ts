@@ -30,15 +30,19 @@ const useNewsActions = ({
   const { isArchiveActive } = useActiveLinks();
 
   const shouldMakeChanges =
-    savedNews && liveNews && liveNews?.newsUrl !== undefined && !isArchiveActive;
+    !!savedNews?.length && liveNews && liveNews?.newsUrl !== undefined && !isArchiveActive;
 
   useEffect(() => {
-    console.log('changesHappened', changesHappened);
+    const updateNews = async () => {
+      if (changesHappened && savedNews.length > 0) {
+        console.log('changesHappened', changesHappened);
+        await addVotedNews(savedNews);
+        setChangesHappened(false);
+        console.log('savedNews', savedNews);
+      }
+    };
 
-    if (changesHappened && savedNews.length > 0) {
-      addVotedNews(savedNews);
-      setChangesHappened(false);
-    }
+    updateNews();
   }, [changesHappened, addVotedNews]);
 
   const existingNews = savedNews?.find((news) => news.newsUrl === liveNews.newsUrl);
@@ -64,6 +68,7 @@ const useNewsActions = ({
   const handleToggleFavourites = (): void => {
     setIsFavourite(!isFavourite);
     setChangesHappened(true);
+    console.log('changesHappened', changesHappened);
 
     if (!savedFavourite && savedRead) {
       const updatedData = {
@@ -74,11 +79,13 @@ const useNewsActions = ({
       };
       updateSavedNews(updatedData);
     } else if (savedFavourite && !savedRead) {
+      console.log('savedFavourite && !savedRead');
       const updatedData = {
         ...liveNews,
         isFavourite: !savedFavourite,
         additionDate: null,
       };
+
       updateSavedNews(updatedData);
       removeFavouriteNews(liveNews?.newsUrl || '');
     } else if (savedFavourite && savedRead) {

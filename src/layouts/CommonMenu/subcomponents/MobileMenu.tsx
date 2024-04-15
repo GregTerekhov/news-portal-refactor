@@ -12,6 +12,10 @@ const MobileMenu: FC<IMenuProps> = ({ navId, links, handleLinkClick }) => {
     'after:mt-3 after:block after:h-px after:w-full after:bg-accentBase after:content-[""]'
   }`;
 
+  const iconStyles = `${
+    navId === 'main-navigation' ? 'fill-transparent stroke-whiteBase' : 'fill-whiteBase'
+  }`;
+
   return (
     <nav id={navId}>
       <ul className={`${linksListStyles}`}>
@@ -24,15 +28,7 @@ const MobileMenu: FC<IMenuProps> = ({ navId, links, handleLinkClick }) => {
             >
               <div className='flex items-center gap-3.5'>
                 <div className={getSvgWrapperStyles(link.activeLink)}>
-                  <SvgIcon
-                    svgName={link.icon}
-                    sizeKey='smIcon18'
-                    className={`${
-                      navId === 'main-navigation'
-                        ? 'fill-transparent stroke-whiteBase'
-                        : 'fill-whiteBase'
-                    }`}
-                  />
+                  <SvgIcon svgName={link.icon} sizeKey='smIcon18' className={iconStyles} />
                 </div>
                 {link.label}
               </div>

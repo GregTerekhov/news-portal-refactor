@@ -1,11 +1,10 @@
 import React, { FC } from 'react';
 import { useNavigate } from 'react-router-dom';
 
+import { VariantButton } from 'types';
 import { useAuthRedux } from 'reduxStore/hooks';
 
-import { VariantButton } from 'types';
 import { errorImages } from 'constants/images';
-
 import { generateContentImages } from 'helpers';
 import { useCacheImage } from 'hooks';
 

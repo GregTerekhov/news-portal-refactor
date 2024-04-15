@@ -24,6 +24,14 @@ const DirectionButton: FC<DirectionButtonProps> = ({
   const disabledPrevButton = currentPage - 1 === 0 ? true : false;
   const disableNextButton = currentPage === pageNumbers?.length ? true : false;
 
+  const getDirectionText = (): JSX.Element | null => {
+    return isNotMobile ? (
+      <span className='text-base font-medium text-contrastWhite md:text-medium hg:text-xl'>
+        {direction}
+      </span>
+    ) : null;
+  };
+
   return (
     <PrimaryButton
       id={`${direction} page button`}
@@ -34,14 +42,10 @@ const DirectionButton: FC<DirectionButtonProps> = ({
       hasIcon={true}
       svgName='arrow'
       svgSize='xsIcon14'
-      classNameIcon={`${direction === 'Prev' ? 'rotate-90' : '-rotate-90'}  fill-whiteBase`}
+      classNameIcon={`${direction === 'Prev' ? 'rotate-90' : '-rotate-90'} fill-whiteBase`}
       classNameButton={direction === 'Prev' ? 'flex-row-reverse' : ''}
     >
-      {isNotMobile ? (
-        <span className='text-base font-medium text-contrastWhite md:text-medium hg:text-xl'>
-          {direction}
-        </span>
-      ) : null}
+      {getDirectionText()}
     </PrimaryButton>
   );
 };

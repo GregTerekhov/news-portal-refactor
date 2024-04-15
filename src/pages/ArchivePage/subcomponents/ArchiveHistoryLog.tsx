@@ -25,24 +25,30 @@ const ArchiveHistoryLog: FC<IHistoryLogProps> = ({ logData }) => {
     handleSearchNews,
   } = useDeletedNewsControls(logData);
 
+  const getClearLogButton = (isMobile: boolean): JSX.Element => {
+    return isMobile ? (
+      <Hint
+        label='Clear deleted news log'
+        side='bottom'
+        ariaLabel='Button for clearing deleted news` log'
+        sideOffset={0}
+      >
+        <div>
+          <ClearLogButton />
+        </div>
+      </Hint>
+    ) : (
+      <ClearLogButton />
+    );
+  };
+
   return (
-    <div className='mb-6 flex flex-col overflow-hidden rounded-lg shadow-modal'>
+    <div className='mb-10 flex flex-col overflow-hidden rounded-lg shadow-modal'>
       <div className='inline-block min-w-full align-middle'>
         <div className='divide-y divide-greyAlt/[.4] overflow-hidden rounded-lg border dark:divide-greyBase/[.4] dark:border-greyBase/[.4]'>
           <div className='px-4 py-3 lg:px-6 lg:py-5'>
             <div className='relative max-md:w-[254px] md:flex  md:flex-row-reverse md:items-center md:justify-between'>
-              {isMobile ? (
-                <Hint
-                  label='Clear deleted news log'
-                  side='bottom'
-                  ariaLabel='Button for clearing deleted news` log'
-                  sideOffset={0}
-                >
-                  <div>
-                    <ClearLogButton />
-                  </div>
-                </Hint>
-              ) : null}
+              {isMobile ? getClearLogButton(isMobile) : null}
               <h3 className='mb-4 text-2xl font-medium text-darkBase dark:text-whiteBase'>
                 Deleted news
               </h3>
@@ -67,7 +73,7 @@ const ArchiveHistoryLog: FC<IHistoryLogProps> = ({ logData }) => {
               currentPage={currentPage}
               totalPages={totalPages}
             />
-            {isNotMobile ? <ClearLogButton /> : null}
+            {isNotMobile ? getClearLogButton(isMobile) : null}
           </div>
         </div>
       </div>
