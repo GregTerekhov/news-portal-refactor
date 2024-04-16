@@ -15,7 +15,7 @@ const DeletedNewsTable: FC<TableProps> = ({ displayedRows }) => {
   const { wideScreens } = useWindowWidthContext();
 
   const tableRowClass =
-    'whitespace-nowrap px-6 text-small font-medium text-darkBase dark:text-whiteBase lg:text-medium';
+    'whitespace-nowrap px-6 text-small font-medium text-darkBase dark:text-whiteBase lg:text-medium group-hover:text-whiteBase transition-colors duration-500';
 
   return (
     <CustomScrollBar isOpen={true} orientation='horizontal'>
@@ -36,13 +36,16 @@ const DeletedNewsTable: FC<TableProps> = ({ displayedRows }) => {
         <tbody className='divide-y divide-whiteBase transition-colors duration-500 dark:divide-gray-700'>
           {Array.isArray(displayedRows) &&
             displayedRows.map(({ title, newsUrl, category, additionDate, deletionDate }) => (
-              <tr key={newsUrl} className='group even:bg-greyAlt/[.1]'>
+              <tr
+                key={newsUrl}
+                className='group transition-colors duration-500 even:bg-greyAlt/[.1] hover:bg-accentBase/65'
+              >
                 <td className={`${tableRowClass}`}>
                   <a
                     href={newsUrl}
                     target='_blank'
                     rel='noopener noreferrer nofollow'
-                    className='block py-4 transition-colors duration-500 focus:text-accentBase group-hover:text-accentBase lg:text-medium'
+                    className='block py-4 lg:text-medium'
                   >
                     {getNewsTitle(title, wideScreens)}
                   </a>

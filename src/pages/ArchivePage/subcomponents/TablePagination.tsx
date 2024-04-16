@@ -15,7 +15,7 @@ const TablePagination: FC<TablePaginationProps> = ({
   totalPages,
 }) => {
   return (
-    <nav className='flex items-center space-x-1 px-4 py-2'>
+    <nav className='flex items-center space-x-1 py-2'>
       <ArrowButtonPagination
         handlePageChange={handlePageChange}
         currentPage={currentPage}
