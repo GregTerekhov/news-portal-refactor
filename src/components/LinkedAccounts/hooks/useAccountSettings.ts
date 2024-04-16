@@ -7,12 +7,14 @@ import { useAuthRedux } from 'reduxStore/hooks';
 import { useNotificationContext, useScrollBodyContext } from 'contexts';
 
 import { getButtonsData } from '../assistants';
+import { useNavigate } from 'react-router-dom';
 
-const useGoogleSettings = () => {
+const useAccountSettings = () => {
   const { isAuthenticated, enterWithGoogle, bindGoogle, haveAccounts, unbindGoogle } =
     useAuthRedux();
   const { setIsScrollDisabled } = useScrollBodyContext();
   const { showToast } = useNotificationContext();
+  const navigate = useNavigate();
 
   //Функція google-автентифікації або прив'зяки google-акаунту в залежності від стану isAuthenticated
   const googleLogin = useGoogleLogin({
@@ -54,10 +56,18 @@ const useGoogleSettings = () => {
     }
   };
 
+  const redirectOnDevelopmentPage = (): void => {
+    navigate('/development');
+  };
+
   //Data для third-party-auth кнопок
-  const accountButtons = getButtonsData(haveAccounts, handleGoogleLinkClick);
+  const accountButtons = getButtonsData(
+    haveAccounts,
+    handleGoogleLinkClick,
+    redirectOnDevelopmentPage,
+  );
 
   return { googleLogin, handleGoogleLinkClick, accountButtons };
 };
 
-export default useGoogleSettings;
+export default useAccountSettings;

@@ -10,6 +10,7 @@ type AccountsButton = {
 export const getButtonsData = (
   haveAccounts: HaveAccounts,
   handleGoogleLinkClick: () => Promise<void>,
+  redirectOnDevelopmentPage: () => void,
 ): AccountsButton[] => {
   const accountButtons: AccountsButton[] = [
     {
@@ -22,15 +23,13 @@ export const getButtonsData = (
       svgName: 'facebook',
       account: 'Facebook',
       hasAccount: haveAccounts.facebook,
-      onClick: () => {
-        console.log('facebook');
-      },
+      onClick: redirectOnDevelopmentPage,
     },
     {
       svgName: 'apple',
       account: 'Apple',
       hasAccount: haveAccounts.apple,
-      onClick: () => console.log('apple'),
+      onClick: redirectOnDevelopmentPage,
     },
   ];
 

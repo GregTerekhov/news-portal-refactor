@@ -6,14 +6,14 @@ import { useWindowWidthContext } from 'contexts';
 import { PrimaryButton } from 'ui';
 
 import { useActiveLinks } from 'hooks';
-import { useGoogleSettings } from './hooks';
+import { useAccountSettings } from './hooks';
 import { getAriaLabel, getButtonWrapperClass, getCallToActionText, getSvgSize } from './assistants';
 
 const LinkAccountsButtons: FC = () => {
   const { isMobile, isTV } = useWindowWidthContext();
 
   const { isManageAccountPage } = useActiveLinks();
-  const { accountButtons } = useGoogleSettings();
+  const { accountButtons } = useAccountSettings();
 
   const accountButtonStyles = `w-14 h-14 ${
     isManageAccountPage ? 'lg:w-12 lg:h-12 hg:w-16 hg:h-16' : 'md:w-full'
