@@ -15,6 +15,7 @@ const useActiveLinks = () => {
     '/account-manage',
     '/about-us',
     '/server-error',
+    '/development',
   ];
 
   const activeLinks: ActiveLinks = useMemo(
@@ -27,6 +28,7 @@ const useActiveLinks = () => {
       isManageAccountPage: location.pathname === '/account-manage',
       isAboutUs: location.pathname === '/about-us',
       isServerErrorPage: location.pathname === '/server-error',
+      isDevelopmentActive: location.pathname === '/development',
       isErrorPage: !validPaths.includes(location.pathname),
     }),
     [location.pathname],

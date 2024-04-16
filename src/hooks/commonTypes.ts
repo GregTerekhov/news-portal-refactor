@@ -8,4 +8,5 @@ export interface ActiveLinks {
   isAboutUs: boolean;
   isServerErrorPage: boolean;
   isErrorPage: boolean;
+  isDevelopmentActive: boolean;
 }

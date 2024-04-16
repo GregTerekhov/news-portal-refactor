@@ -34,6 +34,7 @@ const Layout: FC = () => {
     isManageAccountPage,
     isReadActive,
     isServerErrorPage,
+    isDevelopmentActive,
   } = activeLinks;
 
   useEffect(() => {
@@ -56,6 +57,8 @@ const Layout: FC = () => {
     (isFavoriteActive && allFavourites?.length === 0) ||
     (isReadActive && allReads?.length === 0) ||
     isErrorPage ||
+    isDevelopmentActive ||
+    isServerErrorPage ||
     (isHomeActive && is429ErrorAPI);
 
   const screenShow =
@@ -65,12 +68,17 @@ const Layout: FC = () => {
     (isFavoriteActive && isLoadingDBData) ||
     (isArchiveActive && isLoadingDBData) ||
     isReadActive ||
+    isDevelopmentActive ||
     (isArchiveActive && allArchive?.length === 0)
       ? 'h-screen'
       : 'h-full';
 
   const hasLargeSection = (): boolean | undefined =>
-    isArchiveActive || isFavoriteActive || isReadActive || (isHomeActive && is429ErrorAPI);
+    isArchiveActive ||
+    isFavoriteActive ||
+    isReadActive ||
+    isDevelopmentActive ||
+    (isHomeActive && is429ErrorAPI);
 
   const sectionStyles = `w-full bg-whiteBase pb-[60px] transition-colors duration-500 dark:bg-darkBackground md:pb-[100px] lg:pb-[150px] ${
     hasLargeSection() ? 'pt-10 md:pt-12 lg:pt-[60px]' : 'pt-6 md:pt-7 hg:pt-[60px]'
