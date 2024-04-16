@@ -71,7 +71,7 @@ const ArchiveHistoryLog: FC<IHistoryLogProps> = ({ logData }) => {
               </div>
             </div>
             <DeletedNewsTable displayedRows={displayedRows} />
-            <div className='flex max-w-xl justify-between'>
+            <div className='flex justify-between px-4 lg:px-6'>
               <TablePagination
                 handlePageChange={handlePageChange}
                 currentPage={currentPage}
