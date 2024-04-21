@@ -22,8 +22,13 @@ const useNewsActions = ({
   const [changesHappened, setChangesHappened] = useState<boolean>(false);
   const [isDeleted, setIsDeleted] = useState<boolean>(false);
 
-  const { savedNews, updateSavedNews, addVotedNews, removeNews, removeFavouriteNews } =
-    useDBRedux();
+  const {
+    savedNews,
+    updateSavedNews,
+    addVotedNews,
+    removeNews,
+    // removeFavouriteNews
+  } = useDBRedux();
   const { showToast } = useNotificationContext();
   const { setIsScrollDisabled } = useScrollBodyContext();
 
@@ -53,6 +58,8 @@ const useNewsActions = ({
   const clickDate = new Date().getTime();
 
   const handleAddToFavourites = (): void => {
+    console.log('HANDLE !FAV !READ'); //срабатывает только тогда, когда новости нет в базе
+
     setIsFavourite(!isFavourite);
     setChangesHappened(true);
 
@@ -61,14 +68,12 @@ const useNewsActions = ({
       isFavourite: !savedFavourite,
       additionDate: clickDate,
     };
-
     updateSavedNews(updatedData);
   };
 
   const handleToggleFavourites = (): void => {
     setIsFavourite(!isFavourite);
     setChangesHappened(true);
-    console.log('changesHappened', changesHappened);
 
     if (!savedFavourite && savedRead) {
       const updatedData = {
@@ -77,17 +82,18 @@ const useNewsActions = ({
         hasRead: savedRead,
         additionDate: savedClickDate,
       };
+      console.log('HANDLE !FAV READ'); //срабатывает, если новость есть в базе, прочитана, но не сохранена в избранное
       updateSavedNews(updatedData);
     } else if (savedFavourite && !savedRead) {
-      console.log('savedFavourite && !savedRead');
       const updatedData = {
         ...liveNews,
         isFavourite: !savedFavourite,
         additionDate: null,
       };
+      console.log('HANDLE FAV !READ'); //срабатывает, если новость есть в базе, сохранена в избранное, но не прочитана
 
       updateSavedNews(updatedData);
-      removeFavouriteNews(liveNews?.newsUrl || '');
+      // removeFavouriteNews(liveNews?.newsUrl || ''); //лишняя логика, из-за которой происходит двойной запрос
     } else if (savedFavourite && savedRead) {
       const updatedData = {
         ...liveNews,
@@ -95,8 +101,20 @@ const useNewsActions = ({
         hasRead: savedRead,
         additionDate: savedClickDate,
       };
+      console.log('HANDLE FAV READ'); //срабатывает, если новость есть в базе, сохранена в избранное и прочитана
+
       updateSavedNews(updatedData);
-      removeFavouriteNews(liveNews?.newsUrl || '');
+      // removeFavouriteNews(liveNews?.newsUrl || ''); //лишняя логика, из-за которой происходит двойной запрос
+    } else if (!savedFavourite && !savedRead) {
+      console.log('WE ARE HERE - HANDLE !FAV !READ'); //недостающее условие. срабатывает, если новость есть в базе, НО! НЕ сохранена в избранное, и  НЕ прочитана
+
+      const updatedData = {
+        ...liveNews,
+        isFavourite: !savedFavourite,
+        additionDate: null,
+      };
+
+      updateSavedNews(updatedData);
     }
   };
 
@@ -105,6 +123,10 @@ const useNewsActions = ({
     e.preventDefault();
 
     if (shouldMakeChanges) {
+      console.log(existingNews);
+      // При нажатии на кнопку избранного срабатывает данное распределение. На главной странице, первый раз страбатывает handleAddToFavourites, т.к. новости ещё нет в базе и savedNews.length > 0, а existingNews - undefined.
+      // При нажатии на кнопку новость добовляется в базу, а её данные, вместе с url, сэтятся в стэйт.
+      // При повторном нажатии будет всё время срабатывать функция handleToggleFavourites, т.к. existingNews всегда будет true, из-за стэёта.
       savedNews.length === 0 || !existingNews ? handleAddToFavourites() : handleToggleFavourites();
     }
   };
