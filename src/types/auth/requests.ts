@@ -38,11 +38,6 @@ export type ExtendedUpdatePasswordRequest = UpdatePasswordRequest & {
   confirmPassword: string;
 };
 
-export interface IThirdPartyAuth {
-  // треба видалити, або змінити, коли буде зроблена автентифікація через facebook та apple
-  tokenAuth: string | null;
-}
-
 export type GoogleAuth = SendEmailRequest & { sub: string };
 
 export type AuthRequestWithoutName = Omit<MainCredentials, 'name'>;

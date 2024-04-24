@@ -2,23 +2,26 @@ import React, { FC, useState } from 'react';
 import { Tab } from '@headlessui/react';
 import { RemoveScroll } from 'react-remove-scroll';
 
+import { useModalStateContext } from 'contexts';
+
 import { SignUpPanel, SignInPanel, ChangePassword } from './subcomponents';
 
 interface IAuthModalProps {
   passwordToken?: boolean | undefined;
-  isOpenModal: boolean;
 }
 
 const SIGN_IN_TAB_IDX = 1;
 const SIGN_UP_TAB_IDX = 0;
 
-const AuthModal: FC<IAuthModalProps> = ({ passwordToken, isOpenModal }) => {
+const AuthModal: FC<IAuthModalProps> = ({ passwordToken }) => {
   const isCredentialsRemembered = localStorage.getItem('rememberMe');
 
   const [isShowRecoveryInput, setIsShowRecoveryInput] = useState<boolean>(false);
   const [selectedTab, setSelectedTab] = useState<number>(
     isCredentialsRemembered ? SIGN_IN_TAB_IDX : SIGN_UP_TAB_IDX,
   );
+
+  const { isOpenModal } = useModalStateContext();
 
   //Функція зміни стану показування інпута для forgotPassword
   const handleShowRecoveryInput = (): void => {
@@ -37,38 +40,41 @@ const AuthModal: FC<IAuthModalProps> = ({ passwordToken, isOpenModal }) => {
     'text-xl text-darkBase transition-colors ui-selected:font-medium ui-selected:text-accentBase dark:text-whiteBase dark:ui-selected:text-accentBase hg:text-3xl';
 
   return (
-    <>
-      {passwordToken && isOpenModal ? (
-        <ChangePassword />
-      ) : (
-        <RemoveScroll enabled={isOpenModal}>
-          <Tab.Group
-            defaultIndex={SIGN_UP_TAB_IDX}
-            selectedIndex={selectedTab}
-            onChange={(index) => {
-              setSelectedTab(index);
-              hideForgotPasswordInput(index);
-            }}
-          >
-            <Tab.List className={`${tabListStyles}`}>
-              <Tab className={`${tabStyles}`}>Register</Tab>
-              <Tab className={`${tabStyles}`}>Log In</Tab>
-            </Tab.List>
-            <Tab.Panels className='pb-4'>
-              <Tab.Panel>
-                <SignUpPanel />
-              </Tab.Panel>
-              <Tab.Panel>
-                <SignInPanel
-                  isShowRecoveryInput={isShowRecoveryInput}
-                  handleShowRecoveryInput={handleShowRecoveryInput}
-                />
-              </Tab.Panel>
-            </Tab.Panels>
-          </Tab.Group>
-        </RemoveScroll>
+    <RemoveScroll enabled={isOpenModal}>
+      {isOpenModal && (
+        <>
+          {passwordToken ? (
+            <ChangePassword />
+          ) : (
+            <Tab.Group
+              manual
+              defaultIndex={SIGN_UP_TAB_IDX}
+              selectedIndex={selectedTab}
+              onChange={(index) => {
+                setSelectedTab(index);
+                hideForgotPasswordInput(index);
+              }}
+            >
+              <Tab.List className={`${tabListStyles}`}>
+                <Tab className={`${tabStyles}`}>Register</Tab>
+                <Tab className={`${tabStyles}`}>Log In</Tab>
+              </Tab.List>
+              <Tab.Panels className='pb-4'>
+                <Tab.Panel>
+                  <SignUpPanel />
+                </Tab.Panel>
+                <Tab.Panel>
+                  <SignInPanel
+                    isShowRecoveryInput={isShowRecoveryInput}
+                    handleShowRecoveryInput={handleShowRecoveryInput}
+                  />
+                </Tab.Panel>
+              </Tab.Panels>
+            </Tab.Group>
+          )}
+        </>
       )}
-    </>
+    </RemoveScroll>
   );
 };
 

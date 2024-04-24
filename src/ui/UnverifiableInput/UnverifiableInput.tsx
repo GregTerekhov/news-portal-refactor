@@ -1,9 +1,6 @@
-import React, { ReactNode, FC } from 'react';
+import React, { FC } from 'react';
 
 import { VariantInputs } from 'types';
-import { useWindowWidthContext } from 'contexts';
-
-import { useHeaderStyles, useActiveLinks } from 'hooks';
 
 import SvgIcon from '../SvgIcon/SvgIcon';
 
@@ -14,7 +11,6 @@ interface InputCollectedData {
   type: string;
   placeholder: string;
   value: string;
-  children: ReactNode;
 }
 
 interface InputProps {
@@ -34,16 +30,10 @@ const UnverifiableInput: FC<InputProps> = ({
   svgName,
   isChecked,
   variant,
-  touched,
   hideInput,
   onChange,
 }) => {
-  const { isMobile } = useWindowWidthContext();
-
-  const { name, type, value, placeholder, children } = inputData ?? {};
-
-  const { isHomeActive } = useActiveLinks();
-  const { inputClass } = useHeaderStyles(isHomeActive);
+  const { name, type, value, placeholder } = inputData ?? {};
 
   const onHideInput = (event: React.MouseEvent<HTMLInputElement>): void => {
     if (hideInput) {
@@ -51,10 +41,9 @@ const UnverifiableInput: FC<InputProps> = ({
     }
   };
 
-  const styles = generateInputStyles({ isMobile, touched, inputClass });
+  const styles = generateInputStyles();
   const {
     labelCheckbox,
-    svgWrapperClass,
     svgFill,
     inputGeometry,
     placeholderColor,
@@ -66,26 +55,25 @@ const UnverifiableInput: FC<InputProps> = ({
   } = styles[variant];
 
   const inputFieldStyles = `${inputGeometry} rounded-3xl border border-solid font-header text-small leading-mediumRelaxed tracking-bigWide outline-0 transition-all focus:outline-0 md:text-base md:leading-moreRelaxed md:tracking-wide lg:text-medium ${placeholderColor} ${inputBorder} ${inputBg} ${caretColor} ${textColor} ${checkboxStyles}`;
-  const labelClass = `relative flex ${
-    variant === VariantInputs.FilterServiceBlock ||
-    (variant === VariantInputs.Header && 'gap-x-4') ||
-    (variant === VariantInputs.Checkbox && 'cursor-pointer items-center gap-x-4')
-  } ${hasIcon ? 'justify-center' : ''} ${labelCheckbox ? 'flex-row' : 'flex-col'}`;
 
-  const inputWrapperClass = `${variant === VariantInputs.FilterServiceBlock ? 'relative' : ''} ${
+  const labelClass = `${variant === VariantInputs.Checkbox ? labelCheckbox : 'block mb-2'}`;
+
+  const inputWrapperClass = `relative ${
     variant === VariantInputs.Checkbox
-      ? `flex h-4 w-4 cursor-pointer items-center justify-center rounded-sm border border-solid md:h-6 md:w-6 ${
+      ? `flex items-center justify-center h-4 w-4 cursor-pointer rounded-sm border border-solid md:h-6 md:w-6 ${
           isChecked ? 'border-whiteBase bg-accentBase' : 'border-accentBase bg-whiteBase'
         }`
       : ''
   }`;
 
-  const generateLabelText = (): JSX.Element | null => {
+  const generateLabelText = (): JSX.Element => {
     return variant === VariantInputs.FilterServiceBlock ? (
-      <p className='mb-2 text-base text-darkBase dark:text-greyAlt lg:text-medium'>
-        {name === 'query' ? 'Search' : 'Filter'} by <span className='capitalize'>{name}:</span>
-      </p>
-    ) : null;
+      <span className='block text-base text-darkBase dark:text-greyAlt lg:text-medium'>
+        {name === 'query' ? 'Search' : 'Filter'} by {name}:
+      </span>
+    ) : (
+      <span className='font-medium text-accentBase hg:text-medium'>Remember me</span>
+    );
   };
 
   const showCheckbox = (): JSX.Element | null => {
@@ -103,16 +91,16 @@ const UnverifiableInput: FC<InputProps> = ({
       <SvgIcon
         svgName={svgName}
         sizeKey='smIcon20'
-        className={`${svgFill} ${
-          variant === VariantInputs.Header ? svgWrapperClass : 'left-3'
-        } absolute top-1/2 flex h-5 w-5 -translate-y-1/2 items-center justify-center`}
+        className={`${svgFill} absolute left-3 top-1/2 flex h-5 w-5 -translate-y-1/2 items-center justify-center`}
       />
     ) : null;
   };
 
   return (
-    <label htmlFor={name} className={labelClass}>
-      {generateLabelText()}
+    <>
+      <label htmlFor={name} className={labelClass}>
+        {generateLabelText()}
+      </label>
       <div className={inputWrapperClass}>
         {showCheckbox()}
         {showIcon()}
@@ -132,10 +120,7 @@ const UnverifiableInput: FC<InputProps> = ({
           }}
         />
       </div>
-      <span className={`${!hasIcon && 'block'} font-medium text-accentBase hg:text-medium`}>
-        {children}
-      </span>
-    </label>
+    </>
   );
 };
 

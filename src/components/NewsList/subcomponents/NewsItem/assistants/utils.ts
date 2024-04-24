@@ -1,3 +1,5 @@
+import type { VotedItem } from 'types';
+
 type ButtonLabel =
   | 'Remove from favorite'
   | 'Add to favorite'
@@ -42,5 +44,74 @@ export const getIconStyles = (
 
     default:
       return 'fill-none stroke-accentBase';
+  }
+};
+
+const clickDate = new Date().getTime();
+
+export const createUpdatedFavouritesObject = (
+  liveNews: Partial<VotedItem>,
+  savedFavourite: boolean | undefined,
+  savedRead: boolean | undefined,
+  savedClickDate: number | null | undefined,
+): Partial<VotedItem> | undefined => {
+  switch (true) {
+    case !savedFavourite && savedRead:
+      return {
+        ...liveNews,
+        isFavourite: !savedFavourite,
+        hasRead: savedRead,
+        additionDate: savedClickDate,
+      };
+    case savedFavourite && !savedRead:
+      return {
+        ...liveNews,
+        isFavourite: !savedFavourite,
+        additionDate: null,
+      };
+    case savedFavourite && savedRead:
+      return {
+        ...liveNews,
+        isFavourite: !savedFavourite,
+        hasRead: savedRead,
+        additionDate: savedClickDate,
+      };
+    case !savedFavourite && !savedRead:
+      return {
+        ...liveNews,
+        isFavourite: !savedFavourite,
+        additionDate: clickDate,
+      };
+
+    default:
+      return;
+  }
+};
+
+export const createUpdatedReadObject = (
+  liveNews: Partial<VotedItem>,
+  savedFavourite: boolean | undefined,
+  savedRead: boolean | undefined,
+  savedClickDate: number | null | undefined,
+): Partial<VotedItem> | undefined => {
+  switch (true) {
+    case !savedFavourite && !savedRead:
+      return {
+        ...liveNews,
+        hasRead: true,
+        additionDate: clickDate,
+      };
+    case savedFavourite && !savedRead:
+      return {
+        ...liveNews,
+        isFavourite: savedFavourite,
+        hasRead: true,
+        additionDate: savedClickDate,
+      };
+    case savedFavourite && savedRead:
+      return;
+
+    default:
+      return;
   }
 };

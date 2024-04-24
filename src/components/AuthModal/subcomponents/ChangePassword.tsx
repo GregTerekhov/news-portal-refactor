@@ -35,7 +35,6 @@ const ChangePassword: FC = () => {
                     errors={errors}
                     register={registerChangePassword}
                     label={label}
-                    svgName='password'
                     variant={VariantVerifiableInputs.Auth}
                     ariaInvalid={ariaInvalid}
                   />

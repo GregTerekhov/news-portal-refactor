@@ -1,18 +1,12 @@
-import { format, isAfter } from 'date-fns';
+import { format, isAfter, parse } from 'date-fns';
 
-import type { SelectedDate } from 'types';
-
-type FormattedDate = {
-  firstDate: string;
-  lastDate: string;
-};
+import type { CalendarVariant, DateRequest } from 'types';
 
 export function convertDateStringToDDMMYYY(inputDate: string): string {
   if (!inputDate) return '';
 
   const date = new Date(inputDate);
-  const formattedDate = format(date, 'dd/MM/yyyy');
-  return formattedDate;
+  return format(date, 'dd/MM/yyyy');
 }
 
 export function convertDateStringToVariables(inputDate: string, withoutYear?: boolean): string {
@@ -24,19 +18,11 @@ export function convertDateStringToVariables(inputDate: string, withoutYear?: bo
   return withoutYear ? `${day}.${month}` : `${day}/${month}/${year}`;
 }
 
-export const formatDateToYYYYMMDD = (filterDate: string): string => {
-  const day = filterDate.substring(0, 2);
-  const month = filterDate.substring(3, 5);
-  const year = filterDate.substring(6);
-
-  return `${year}${month}${day}`;
-};
-
 export function determineNewSelectedDate(
   date: Date,
   currentBeginDate: Date,
   position: string,
-): SelectedDate {
+): DateRequest {
   const formatPattern = position === 'request' ? 'yyyyMMdd' : 'dd/MM/yyyy';
 
   return isAfter(date, currentBeginDate)
@@ -70,14 +56,14 @@ export const compareDates = (dateA: string, dateB: string): number => {
   return 0;
 };
 
-export function formatDateRange(selectedDate: SelectedDate): FormattedDate {
+export function formatDateRange(selectedDate: DateRequest): DateRequest {
   return {
-    firstDate: selectedDate.beginDate && convertDateStringToVariables(selectedDate.beginDate, true),
-    lastDate: selectedDate.endDate && convertDateStringToVariables(selectedDate.endDate, true),
+    beginDate: selectedDate.beginDate && convertDateStringToVariables(selectedDate.beginDate, true),
+    endDate: selectedDate.endDate && convertDateStringToVariables(selectedDate.endDate, true),
   };
 }
 
-export const getStringDateToCalendar = (day: Date, variant: string): string => {
+export const getStringDateToCalendar = (day: Date, variant: CalendarVariant): string => {
   let dayToString = '';
 
   switch (variant) {
@@ -94,7 +80,20 @@ export const getStringDateToCalendar = (day: Date, variant: string): string => {
 };
 
 export const isDayInRange = (
-  beginDate: string | null,
-  endDate: string | null,
-  selectedDate: string,
-) => beginDate && endDate && beginDate <= selectedDate && endDate >= selectedDate;
+  beginDate: string,
+  endDate: string,
+  certainDayOfMonth: string,
+): boolean =>
+  !!beginDate && !!endDate && beginDate <= certainDayOfMonth && endDate >= certainDayOfMonth;
+
+export function parseStringToDate(date: string, variant?: string): Date {
+  switch (variant) {
+    case 'yearFirst':
+      return parse(date, 'yyyyMMdd', new Date());
+    case 'dayFirst':
+      return parse(date, 'dd/MM/yyyy', new Date());
+
+    default:
+      return parse(date, 'MMM-yyyy', new Date());
+  }
+}

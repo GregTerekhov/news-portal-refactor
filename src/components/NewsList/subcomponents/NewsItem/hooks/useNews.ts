@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import type { VotedItem } from 'types';
 import { useAuthRedux, useDBRedux } from 'reduxStore/hooks';
 import { useActiveLinks } from 'hooks';
+
 import useNewsActions from './useNewsActions';
 
 interface NewsItemProps {
@@ -22,8 +23,8 @@ const useNews = ({ liveNews }: NewsItemProps) => {
 
   useEffect(() => {
     if (isAuthenticated && allSavedNews) {
-      setIsFavourite(allSavedNews.isFavourite ?? false);
-      setHasRead(allSavedNews.hasRead ?? false);
+      setIsFavourite(allSavedNews?.isFavourite ?? false);
+      setHasRead(allSavedNews?.hasRead ?? false);
     }
   }, [allSavedNews, isAuthenticated, liveNews]);
 

@@ -80,11 +80,6 @@ export interface AuthInputs {
   disabled: boolean;
 }
 
-export interface SelectedDate {
-  beginDate: string;
-  endDate: string;
-}
-
 export type UpdateCredentialsInput = {
   type: string;
   placeholder: string;
@@ -95,3 +90,5 @@ export type UpdateCredentialsInput = {
   ariaInvalid?: boolean;
   autofill?: string;
 };
+
+export type CalendarVariant = 'SearchBlock' | 'FiltersBlock';

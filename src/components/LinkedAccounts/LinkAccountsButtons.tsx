@@ -17,7 +17,10 @@ const LinkAccountsButtons: FC = () => {
 
   const accountButtonStyles = `w-14 h-14 ${
     isManageAccountPage ? 'lg:w-12 lg:h-12 hg:w-16 hg:h-16' : 'md:w-full'
-  } rounded-xl border border-solid border-whiteBase dark:border-greyBase bg-accentBase dark:bg-transparent flex items-center justify-center group hocus:border-accentBase hocus:text-accentBase dark:hocus:text-whiteBase dark:hocus:border-whiteBase hocus:bg-whiteBase dark:hocus:bg-accentBase transition-colors duration-500 ring-whiteBase dark:ring-darkBase ring-2`;
+  } rounded-xl border-whiteBase dark:border-greyBase bg-accentBase dark:bg-transparent group hocus:border-accentBase hocus:text-accentBase dark:hocus:text-whiteBase dark:hocus:border-whiteBase hocus:bg-whiteBase dark:hocus:bg-accentBase ring-whiteBase dark:ring-darkBase ring-2`;
+
+  const accountIconStyles =
+    'fill-whiteBase group-hover:fill-accentAlt group-focus:fill-accentAlt dark:group-focus:fill-whiteBase dark:group-hover:fill-whiteBase';
 
   return (
     <ul
@@ -32,13 +35,14 @@ const LinkAccountsButtons: FC = () => {
         >
           <div className={getButtonWrapperClass(isManageAccountPage, isMobile, isTV)}>
             <PrimaryButton
+              type='submit'
               variant={isManageAccountPage || isMobile ? VariantButton.Small : VariantButton.Other}
               hasIcon={true}
               svgName={svgName}
               svgSize={getSvgSize(isManageAccountPage, isMobile, isTV)}
-              ariaLabel={getAriaLabel(account, isManageAccountPage)}
+              ariaLabel={getAriaLabel(account, isManageAccountPage, hasAccount)}
               classNameButton={`${accountButtonStyles}`}
-              classNameIcon='fill-whiteBase group-hover:fill-accentAlt group-focus:fill-accentAlt dark:group-focus:fill-whiteBase dark:group-hover:fill-whiteBase'
+              classNameIcon={accountIconStyles}
               children={!isMobile && !isManageAccountPage ? account : ''}
               onHandleClick={onClick}
             />

@@ -1,17 +1,5 @@
 import { VariantInputs } from 'types';
 
-type UnverifiableInputStylesProps = {
-  isMobile?: boolean | undefined;
-  touched?: boolean | undefined;
-  inputClass: {
-    inputBorder: string;
-    svgFill: string;
-    caretColor: string;
-    textColor: string;
-    placeholderColor: string;
-  };
-};
-
 interface Styles {
   [key: string]: {
     inputGeometry?: string;
@@ -27,28 +15,8 @@ interface Styles {
   };
 }
 
-export const generateInputStyles = ({
-  isMobile,
-  touched,
-  inputClass,
-}: UnverifiableInputStylesProps) => {
+export const generateInputStyles = () => {
   const inputStyles: Styles = {
-    [VariantInputs.Header]: {
-      inputGeometry: `md:w-48 lg:w-72 md:py-[5px] md:pl-11 md:pr-3 w-173px ring-color-whiteBase focus:border-whiteBase ${
-        isMobile
-          ? touched
-            ? 'translate-x-0 max-md:py-[5px] max-md:pl-11 max-md:pr-3'
-            : 'translate-x-full p-0'
-          : ''
-      }`,
-      inputBorder: `${inputClass.inputBorder} focus:ring-0`,
-      inputBg: 'bg-transparent',
-      svgWrapperClass: `${touched ? 'left-3' : 'right-3'}`,
-      svgFill: inputClass.svgFill,
-      caretColor: inputClass.caretColor,
-      textColor: inputClass.textColor,
-      placeholderColor: inputClass.placeholderColor,
-    },
     [VariantInputs.FilterServiceBlock]: {
       inputGeometry: 'w-full py-2 pl-11 pr-3',
       inputBorder: 'border-accentBase dark:border-greyBase',
@@ -59,7 +27,7 @@ export const generateInputStyles = ({
       placeholderColor: 'placeholder:text-darkBase/[.4] dark:placeholder:text-whiteBase/[.4]',
     },
     [VariantInputs.Checkbox]: {
-      labelCheckbox: 'flex items-center cursor-pointer gap-x-4',
+      labelCheckbox: 'cursor-pointer block',
       checkboxStyles: 'sr-only',
     },
   };

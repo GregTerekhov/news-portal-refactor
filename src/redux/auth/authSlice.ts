@@ -87,24 +87,6 @@ const authSlice = createSlice({
       .addCase(authOperations.googleUnbind.fulfilled, (state) => {
         state.haveAccounts.google = false;
       })
-      .addCase(authOperations.facebookAuth.fulfilled, (state, action) => {
-        state.isLoggedIn = true;
-        state.haveAccounts.facebook = true;
-        state.user = action.payload.user;
-        state.userTheme = action.payload.userTheme;
-        state.accessToken = action.payload.accessToken;
-        state.refreshToken = action.payload.refreshToken;
-        state.thirdPartyRegister = true;
-      })
-      .addCase(authOperations.appleAuth.fulfilled, (state, action) => {
-        state.isLoggedIn = true;
-        state.haveAccounts.apple = true;
-        state.user = action.payload.user;
-        state.userTheme = action.payload.userTheme;
-        state.accessToken = action.payload.accessToken;
-        state.refreshToken = action.payload.refreshToken;
-        state.thirdPartyRegister = true;
-      })
       .addCase(authOperations.updateTheme.fulfilled, (state, action) => {
         state.userTheme = action.payload.userTheme;
       })

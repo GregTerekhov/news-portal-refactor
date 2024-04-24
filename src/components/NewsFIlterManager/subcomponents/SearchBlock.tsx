@@ -1,25 +1,18 @@
 import React, { FC } from 'react';
 
 import { VariantButton, VariantInputs } from 'types';
-import { useWindowWidthContext } from 'contexts';
+import { useAdditionRequestContext, useWindowWidthContext } from 'contexts';
 
 import { useAdditionalRequest } from 'hooks';
 
 import { Dropdown, PrimaryButton, UnverifiableInput } from 'ui';
-
 import Calendar from './Calendar/Calendar';
 
 const SearchBlock: FC<{}> = () => {
-  const { isNotMobile, wideScreens } = useWindowWidthContext();
-
+  const { wideScreens } = useWindowWidthContext();
+  const { searchParams, hasRequestValue, updateSearchParams } = useAdditionRequestContext();
   const {
-    query,
-    period,
-    category,
-    hasAnotherRequestResults,
     categoriesForDropdown,
-    showPopular,
-    updateSearchParams,
     onChangeInput,
     onHandleSearch,
     getNewsByCategory,
@@ -29,45 +22,41 @@ const SearchBlock: FC<{}> = () => {
 
   return (
     <div className='relative p-3.5 after:block after:h-px after:w-full after:bg-fullDark/[.2] after:content-[""] after:dark:bg-whiteBase/[.2] max-md:space-y-4 max-md:after:mt-4 md:grid md:grid-cols-6 md:grid-rows-2 md:gap-4 md:after:col-span-full lg:grid-cols-13 lg:grid-rows-1 lg:gap-x-6'>
-      {isNotMobile ? (
-        <form
-          onSubmit={(e) => onHandleSearch(e)}
-          className='max-md:overflow-hidden md:col-span-2 lg:col-span-3'
-        >
-          <UnverifiableInput
-            inputData={{
-              name: 'query',
-              type: 'text',
-              value: query,
-              placeholder: 'Search |',
-            }}
-            svgName='search'
-            hasIcon={true}
-            variant={VariantInputs.FilterServiceBlock}
-            onChange={(event: React.ChangeEvent<HTMLInputElement>) => onChangeInput(event)}
-          />
-        </form>
-      ) : null}
+      <form
+        onSubmit={(e) => onHandleSearch(e)}
+        className='max-md:overflow-hidden md:col-span-2 lg:col-span-3'
+      >
+        <UnverifiableInput
+          inputData={{
+            name: 'query',
+            type: 'text',
+            value: searchParams.query,
+            placeholder: 'Search |',
+          }}
+          svgName='search'
+          hasIcon={true}
+          variant={VariantInputs.FilterServiceBlock}
+          onChange={(event: React.ChangeEvent<HTMLInputElement>) => onChangeInput(event)}
+        />
+      </form>
       <div className='md:col-span-2 lg:col-span-3'>
         <Dropdown
           options={categoriesForDropdown || []}
           getResults={getNewsByCategory}
-          selectedItem={category}
+          selectedItem={searchParams.category}
           onSelectItem={updateSearchParams}
           label='Categories'
         />
       </div>
-      {showPopular ? (
-        <div className='md:col-span-2 lg:col-span-3'>
-          <Dropdown
-            options={['Today', 'Week', 'Month']}
-            getResults={getNewsByPeriod}
-            selectedItem={period}
-            onSelectItem={updateSearchParams}
-            label='Time period'
-          />
-        </div>
-      ) : null}
+      <div className='md:col-span-2 lg:col-span-3'>
+        <Dropdown
+          options={['Today', 'Week', 'Month']}
+          getResults={getNewsByPeriod}
+          selectedItem={searchParams.period}
+          onSelectItem={updateSearchParams}
+          label='Time period'
+        />
+      </div>
 
       <div className='md:col-span-3 lg:col-span-3'>
         <Calendar variant='SearchBlock' />
@@ -86,7 +75,7 @@ const SearchBlock: FC<{}> = () => {
           classNameIcon='fill-whiteBase'
           classNameButton='py-3'
           onHandleClick={handleResetRequests}
-          disabled={!hasAnotherRequestResults ? true : false}
+          disabled={!hasRequestValue}
         >
           {wideScreens ? '' : 'Reset all requests'}
         </PrimaryButton>

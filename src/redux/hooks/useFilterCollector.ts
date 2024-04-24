@@ -20,8 +20,8 @@ const useFilterCollector = () => {
     (state: FilterResults) => dispatch(filters.results(state)),
     [dispatch],
   );
-  const sortResults = useCallback(
-    (state: boolean) => dispatch(filters.sortNews(state)),
+  const setIsSorted = useCallback(
+    (state: boolean) => dispatch(filters.changeSortState(state)),
     [dispatch],
   );
   const resetAllFiltersResults = useCallback(() => dispatch(filters.resetFilters()), [dispatch]);
@@ -33,7 +33,7 @@ const useFilterCollector = () => {
     getFilteredNews,
     resetAllFiltersResults,
     showResultsState,
-    sortResults,
+    setIsSorted,
   };
 };
 

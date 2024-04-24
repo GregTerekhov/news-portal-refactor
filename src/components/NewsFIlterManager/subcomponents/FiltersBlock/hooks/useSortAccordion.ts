@@ -4,7 +4,7 @@ import { useReadSortStateContext } from 'contexts';
 import { useReadNewsContent } from 'hooks';
 
 const useSortAccordion = () => {
-  const { sortResults } = useFiltersRedux();
+  const { setIsSorted } = useFiltersRedux();
   const { setSortedDates } = useReadSortStateContext();
 
   const sortedAccordionDates = useReadNewsContent();
@@ -21,7 +21,7 @@ const useSortAccordion = () => {
 
     //Зміна глобального стану фільтрованих (сортованих) новин
     setSortedDates(sortedDates);
-    sortResults(true);
+    setIsSorted(true);
   };
 
   return { handleSortRead };

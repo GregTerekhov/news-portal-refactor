@@ -109,7 +109,7 @@ const useSignIn = () => {
         password: '',
       });
 
-      toggleModal;
+      toggleModal();
       setIsScrollDisabled(false);
     }
   };

@@ -1,11 +1,6 @@
 import * as authTypes from 'types';
 
-import {
-  requestWithInstanceTemplate,
-  axiosInstance, // буде видалено після імплементування third-party facebook/apple authentication
-  createAppAsyncThunk, // буде видалено після імплементування third-party facebook/apple authentication
-  requestTemplate,
-} from '../services';
+import { requestWithInstanceTemplate, requestTemplate } from '../services';
 
 export const signUp = requestTemplate<
   authTypes.MainCredentials,
@@ -22,6 +17,10 @@ export const getSavedPassword = requestTemplate<
   authTypes.GetCryptoPassword,
   authTypes.ResponseCryptoPassword
 >('auth/getCryptoPassword', '/auth/get-password', 'get');
+// export const getSavedPassword = requestTemplate<
+//   authTypes.GetCryptoPassword,
+//   authTypes.ResponseCryptoPassword
+// >('auth/getCryptoPassword', '/auth/get-password', 'get', undefined, true);
 
 export const signOut = requestWithInstanceTemplate<void, authTypes.SignOutResponse>(
   'auth/signOut',
@@ -76,32 +75,3 @@ export const updateTheme = requestWithInstanceTemplate<
   authTypes.UpdateThemeRequest,
   authTypes.UpdateThemeResponse
 >('auth/updateTheme', '/auth/update-theme', 'patch');
-
-export const facebookAuth = createAppAsyncThunk(
-  'auth/facebook',
-  async (tokenAuth: authTypes.IThirdPartyAuth, { rejectWithValue }) => {
-    try {
-      const response = await axiosInstance.get('/auth/facebook');
-      response.data.accessToken = tokenAuth;
-      console.log(response.data);
-      return response.data;
-    } catch (error: any) {
-      console.log('Error facebookAuth', error.response.data);
-      return rejectWithValue(error.response.data);
-    }
-  },
-);
-export const appleAuth = createAppAsyncThunk(
-  'auth/apple',
-  async (tokenAuth: authTypes.IThirdPartyAuth, { rejectWithValue }) => {
-    try {
-      const response = await axiosInstance.get('/auth/apple');
-      response.data.accessToken = tokenAuth;
-      console.log(response.data);
-      return response.data;
-    } catch (error: any) {
-      console.log('Error appleAuth', error.response.data);
-      return rejectWithValue(error.response.data);
-    }
-  },
-);

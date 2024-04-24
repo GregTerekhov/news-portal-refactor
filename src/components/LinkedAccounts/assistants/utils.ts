@@ -32,18 +32,24 @@ export const getSvgSize = (
   }
 };
 
-export const getAriaLabel = (account: string, isManageAccountPage: boolean): string => {
+export const getAriaLabel = (
+  account: string,
+  isManageAccountPage: boolean,
+  hasAccount: boolean,
+): string => {
   switch (true) {
-    case isManageAccountPage:
-      return account + 'account binding';
+    case isManageAccountPage && hasAccount:
+      return account + ' account unbinding';
+    case isManageAccountPage && !hasAccount:
+      return account + ' account binding';
 
     default:
-      return 'Enter with' + account;
+      return 'Enter with ' + account;
   }
 };
 
 export const getCallToActionText = (hasAccount: boolean, account: string): string => {
   return hasAccount
-    ? `Disconnect your ${account} account from News. You will no longer be able to use it to log in.`
-    : `Connect your ${account} account to login to News.`;
+    ? `Disconnect your ${account.toLowerCase()} account from News. You will no longer be able to use it to log in.`
+    : `Connect your ${account.toLowerCase()} account to login to News.`;
 };

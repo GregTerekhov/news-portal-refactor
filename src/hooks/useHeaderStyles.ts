@@ -48,28 +48,6 @@ const useHeaderStyles = (isHomePage: boolean | undefined) => {
       : 'fill-whiteBase group-hover:fill-accentBase group-focus:fill-accentBase';
   };
 
-  const getInputStyles = () => {
-    const inputHomePage = {
-      inputBorder: isScrolled ? 'border-darkBase dark:border-whiteBase' : 'border-whiteBase',
-      svgFill: isScrolled ? 'fill-darkBase dark:fill-whiteBase' : 'fill-whiteBase',
-      caretColor: isScrolled ? 'caret-accentBase dark:caret-whiteBase' : 'caret-whiteBase',
-      textColor: isScrolled ? 'text-darkBase dark:text-whiteBase' : 'text-whiteBase',
-      placeholderColor: isScrolled
-        ? 'placeholder:text-darkBase/[.4] dark:placeholder:text-whiteBase/[.4]'
-        : 'placeholder:text-whiteBase',
-    };
-
-    return isHomePage
-      ? inputHomePage
-      : {
-          inputBorder: 'border-darkBase dark:border-whiteBase',
-          svgFill: 'fill-darkBase dark:fill-whiteBase',
-          caretColor: 'caret-accentBase dark:caret-whiteBase',
-          textColor: 'text-darkBase dark:text-whiteBase',
-          placeholderColor: 'placeholder:text-darkBase/[.4] dark:placeholder:text-whiteBase/[.4]',
-        };
-  };
-
   const getBurgerMenuButtonClass = () => {
     return isScrolled ? 'stroke-darkBase dark:stroke-whiteBase' : 'stroke-whiteBase';
   };
@@ -85,7 +63,6 @@ const useHeaderStyles = (isHomePage: boolean | undefined) => {
   const headerClass = getHeaderClass();
   const textClass = getTextClass();
   const accountIconStyles = getAccountIconStyles();
-  const inputClass = getInputStyles();
   const burgerMenuButtonClass = getBurgerMenuButtonClass();
   const authButtonClass = getAuthButtonClass();
   const themeSwitcherTextClass = getThemeSwitcherTextClass();
@@ -93,7 +70,6 @@ const useHeaderStyles = (isHomePage: boolean | undefined) => {
   return {
     headerClass,
     textClass,
-    inputClass,
     burgerMenuButtonClass,
     accountIconStyles,
     authButtonClass,

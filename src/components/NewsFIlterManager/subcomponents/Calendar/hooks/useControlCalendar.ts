@@ -5,19 +5,17 @@ import {
   endOfMonth,
   endOfWeek,
   format,
-  parse,
   startOfToday,
   startOfWeek,
 } from 'date-fns';
+
+import { parseStringToDate } from 'helpers';
 
 const useControlCalendar = () => {
   const today = startOfToday();
   const [currMonth, setCurrMonth] = useState<string>(getCurrentMonthState());
 
-  const firstDayOfMonth: Date = useMemo(
-    () => parse(currMonth, 'MMM-yyyy', new Date()),
-    [currMonth],
-  );
+  const firstDayOfMonth: Date = useMemo(() => parseStringToDate(currMonth), [currMonth]);
 
   const daysInMonth: Date[] = useMemo(() => {
     return eachDayOfInterval({

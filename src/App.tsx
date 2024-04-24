@@ -42,7 +42,7 @@ function App() {
         </Route>
         <Route path='/about-us' element={<AboutUs />} />
         <Route path='/server-error' element={<ServerErrorPage />} />
-        <Route path='/development' element={<DevelopmentPage />} />
+        <Route path='/in-development' element={<DevelopmentPage />} />
         <Route path='*' element={<ErrorPage />} />
       </Route>
     </Routes>

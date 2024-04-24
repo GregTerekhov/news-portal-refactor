@@ -6,6 +6,12 @@ export interface PopularRequest {
 export type KeywordRequest = { query: string };
 export type CategoryRequest = string;
 export interface DateRequest {
-  beginDate: string | null;
-  endDate: string | null;
+  beginDate: string;
+  endDate: string;
 }
+
+export type SearchParamsObject = {
+  query: string;
+  period: string;
+  category: string;
+};

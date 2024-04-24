@@ -5,7 +5,7 @@ import { useActiveLinks, useChooseRenderingNews } from 'hooks';
 import { formatSortedDate } from 'helpers';
 
 const useSortNews = () => {
-  const { getFilteredNews, sortResults } = useFiltersRedux();
+  const { getFilteredNews, setIsSorted } = useFiltersRedux();
   const { allFavourites, allReads } = useDBRedux();
 
   const activeLinks = useActiveLinks();
@@ -16,7 +16,7 @@ const useSortNews = () => {
   const handleSort = (order: string): void => {
     if (!rebuiltNews || rebuiltNews.length === 0) return;
 
-    sortResults(true);
+    setIsSorted(true);
 
     //Створення нового масива об'єктів для сортованих новин в залежності від локації
     let sortedNews: PartialVotedNewsArray = [];

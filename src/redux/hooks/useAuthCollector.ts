@@ -5,7 +5,6 @@ import { useAppDispatch, useAppSelector } from './reduxHooks';
 import type {
   MainCredentials,
   AuthRequestWithoutName,
-  IThirdPartyAuth,
   UpdateThemeRequest,
   TokensPayload,
   SendEmailRequest,
@@ -75,15 +74,6 @@ const useAuthCollector = () => {
 
   const unbindGoogle = useCallback(() => dispatch(auth.googleUnbind()), [dispatch]);
 
-  const enterWithFacebook = useCallback(
-    (tokenAuth: IThirdPartyAuth) => dispatch(auth.facebookAuth(tokenAuth)),
-    [dispatch],
-  );
-
-  const enterWithApple = useCallback(
-    (tokenAuth: IThirdPartyAuth) => dispatch(auth.appleAuth(tokenAuth)),
-    [dispatch],
-  );
   const unauthorisedChangeTheme = useCallback(
     (updatedTheme: UpdateThemeRequest) => dispatch(auth.changeNotAuthTheme(updatedTheme)),
     [dispatch],
@@ -120,8 +110,6 @@ const useAuthCollector = () => {
     enterWithGoogle,
     bindGoogle,
     unbindGoogle,
-    enterWithFacebook,
-    enterWithApple,
     changeTheme,
     unauthorisedChangeTheme,
     writeTokens,

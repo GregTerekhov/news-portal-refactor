@@ -2,7 +2,7 @@ import React, { FC } from 'react';
 
 import { VariantButton } from 'types';
 import { useAuthRedux } from 'reduxStore/hooks';
-import { useWindowWidthContext } from 'contexts';
+import { useModalStateContext, useWindowWidthContext } from 'contexts';
 
 import { useActiveLinks, useCrypto, useHeaderStyles, usePopUp, useSignOut } from 'hooks';
 
@@ -16,8 +16,9 @@ interface AuthButtonProps {
 const Auth: FC<AuthButtonProps> = ({ passwordToken }) => {
   const { isAuthenticated } = useAuthRedux();
   const { wideScreens } = useWindowWidthContext();
+  const { isOpenModal } = useModalStateContext();
 
-  const { isOpenModal, popUpRef, toggleModal } = usePopUp();
+  const { popUpRef, toggleModal } = usePopUp();
   const { isHomeActive } = useActiveLinks();
   const { authButtonClass } = useHeaderStyles(isHomeActive);
   const { fetchCryptoPassword } = useCrypto();
@@ -56,9 +57,9 @@ const Auth: FC<AuthButtonProps> = ({ passwordToken }) => {
           {renderButtonText()}
         </PrimaryButton>
       </div>
-      {isOpenModal && (
+      {isOpenModal && !isAuthenticated && (
         <Modal closeModal={toggleModal} modalRef={popUpRef}>
-          <AuthModal isOpenModal={isOpenModal} passwordToken={passwordToken} />
+          <AuthModal passwordToken={passwordToken} />
         </Modal>
       )}
     </>

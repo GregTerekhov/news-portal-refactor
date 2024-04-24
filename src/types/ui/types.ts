@@ -21,7 +21,6 @@ export enum VariantSwitcher {
 }
 
 export enum VariantInputs {
-  Header = 'header',
   FilterServiceBlock = 'filterServiceBlock',
   Checkbox = 'checkbox',
 }

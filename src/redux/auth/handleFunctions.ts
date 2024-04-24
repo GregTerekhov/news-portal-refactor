@@ -41,8 +41,6 @@ export const getActions = (type: DispatchActionType) => {
     authOperations.googleAuth, // реєстрація та авторизація через google-акаунт
     authOperations.googleBind, // прив'язка google-акаунта
     authOperations.googleUnbind, // відв'язка google-акаунта
-    authOperations.facebookAuth, // реєстрація та авторизація через facebook-акаунт
-    authOperations.appleAuth, // реєстрація та авторизація через apple-акаунт
   ];
   return extraActions?.map((action) => action[type]);
 };
