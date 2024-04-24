@@ -3,12 +3,11 @@ import { Link } from 'react-router-dom';
 
 import { VariantSwitcher } from 'types';
 import { useAuthRedux, useFiltersRedux } from 'reduxStore/hooks';
-import { useScrollBodyContext, useWindowWidthContext } from 'contexts';
+import { useModalStateContext, useScrollBodyContext, useWindowWidthContext } from 'contexts';
 
-import { useActiveLinks, useHeaderStyles, usePopUp } from 'hooks';
+import { useActiveLinks, useHeaderStyles } from 'hooks';
 
-import { AuthModal } from 'components';
-import { Modal, ThemeSwitcher } from 'ui';
+import { ThemeSwitcher } from 'ui';
 import Container from '../Container';
 import { AuthButton, AuthenticatedHeaderContent } from './subcomponents';
 
@@ -21,8 +20,8 @@ const Header: FC<{}> = () => {
   const { filteredNews, resetAllFiltersResults } = useFiltersRedux();
   const { isScrollDisabled, setIsScrollDisabled } = useScrollBodyContext();
   const { isNotMobile } = useWindowWidthContext();
+  const { isOpenModal, setIsOpenModal } = useModalStateContext();
 
-  const { isOpenModal, setIsOpenModal, toggleModal, popUpRef } = usePopUp();
   const { isHomeActive } = useActiveLinks();
   const { headerClass, textClass } = useHeaderStyles(isHomeActive);
   const { passwordToken } = useProcessingParams(setIsOpenModal, setIsScrollDisabled);
@@ -68,25 +67,16 @@ const Header: FC<{}> = () => {
   };
 
   return (
-    <>
-      <header className={headerStyles}>
-        <Container
-          className={`${
-            isAuthenticated ? 'gap-3.5' : ''
-          } relative flex items-center justify-between`}
-        >
-          <Link to='/' className={logoLinkStyles}>
-            News
-          </Link>
-          {generateHeaderContent()}
-        </Container>
-      </header>
-      {isOpenModal && (
-        <Modal closeModal={toggleModal} modalRef={popUpRef}>
-          <AuthModal passwordToken={passwordToken} isOpenModal={isOpenModal} />
-        </Modal>
-      )}
-    </>
+    <header className={headerStyles}>
+      <Container
+        className={`${isAuthenticated ? 'gap-3.5' : ''} relative flex items-center justify-between`}
+      >
+        <Link to='/' className={logoLinkStyles}>
+          News
+        </Link>
+        {generateHeaderContent()}
+      </Container>
+    </header>
   );
 };
 

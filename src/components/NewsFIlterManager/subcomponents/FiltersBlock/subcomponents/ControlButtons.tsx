@@ -8,7 +8,7 @@ import { useActiveLinks } from 'hooks';
 import { RenderButtons } from './RenderButtons';
 
 import { getControlButtons, hasNonEmptyValue } from '../assistants';
-import { useFilterNews, useSortAccordion, useSortNews } from '../hooks';
+import { useFilterNews, useResetFiltration, useSortAccordion, useSortNews } from '../hooks';
 
 const ControlButtons: FC = () => {
   const { isSorted } = useFiltersRedux();
@@ -16,7 +16,8 @@ const ControlButtons: FC = () => {
   const { filters } = useFiltersStateContext();
 
   const { isReadActive } = useActiveLinks();
-  const { handleFiltration, handleReset } = useFilterNews();
+  const { handleFiltration } = useFilterNews();
+  const { handleResetFiltration } = useResetFiltration();
   const { handleSort } = useSortNews();
   const { handleSortRead } = useSortAccordion();
 
@@ -25,7 +26,7 @@ const ControlButtons: FC = () => {
   const controlButtons = getControlButtons({
     handleFiltration,
     handleSort,
-    handleReset,
+    handleResetFiltration,
     handleSortRead,
     isSorted,
     hasFilterValue,

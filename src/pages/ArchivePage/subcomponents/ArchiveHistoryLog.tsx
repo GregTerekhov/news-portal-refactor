@@ -1,24 +1,30 @@
 import React, { FC } from 'react';
 
 import { IHistoryLog, VariantInputs } from 'types';
-import { useWindowWidthContext } from 'contexts';
+import { useDBRedux } from 'reduxStore/hooks';
+import { useModalStateContext, useNotificationContext, useWindowWidthContext } from 'contexts';
 
 import { usePopUp } from 'hooks';
 
-import { DeleteModal, Hint, Modal, UnverifiableInput } from 'ui';
+import { Hint, Modal, UnverifiableInput } from 'ui';
 import TablePagination from './TablePagination';
 import DeletedNewsTable from './DeletedNewsTable';
 import ClearLogButton from './ClearLogButton';
 
 import { useDeletedNewsControls } from '../hooks';
+import ClearLogModal from './ClearLogModal';
 
 interface IHistoryLogProps {
   logData: IHistoryLog[];
 }
 
 const ArchiveHistoryLog: FC<IHistoryLogProps> = ({ logData }) => {
+  const { clearLog, getHistoryLog } = useDBRedux();
+  const { showToast } = useNotificationContext();
   const { isMobile, isNotMobile } = useWindowWidthContext();
-  const { isOpenModal, toggleModal, popUpRef } = usePopUp();
+  const { isOpenModal, modalType } = useModalStateContext();
+
+  const { toggleModal, popUpRef } = usePopUp();
   const {
     searchValue,
     currentPage,
@@ -27,6 +33,19 @@ const ArchiveHistoryLog: FC<IHistoryLogProps> = ({ logData }) => {
     handlePageChange,
     handleSearchNews,
   } = useDeletedNewsControls(logData);
+
+  const handleClearing = async () => {
+    try {
+      const response = await clearLog();
+
+      await getHistoryLog();
+
+      showToast(response.meta.requestStatus);
+    } catch (error) {
+      console.error('Error during clearLog:', error);
+    }
+    toggleModal();
+  };
 
   const getClearLogButton = (isMobile: boolean): JSX.Element => {
     return isMobile ? (
@@ -37,11 +56,17 @@ const ArchiveHistoryLog: FC<IHistoryLogProps> = ({ logData }) => {
         sideOffset={0}
       >
         <div>
-          <ClearLogButton toggleModal={toggleModal} />
+          <ClearLogButton
+            toggleModal={(e: React.MouseEvent<HTMLButtonElement>) =>
+              toggleModal(e, true, 'clearLog')
+            }
+          />
         </div>
       </Hint>
     ) : (
-      <ClearLogButton toggleModal={toggleModal} />
+      <ClearLogButton
+        toggleModal={(e: React.MouseEvent<HTMLButtonElement>) => toggleModal(e, true, 'clearLog')}
+      />
     );
   };
 
@@ -51,23 +76,27 @@ const ArchiveHistoryLog: FC<IHistoryLogProps> = ({ logData }) => {
         <div className='inline-block min-w-full align-middle'>
           <div className='divide-y divide-greyAlt/[.4] overflow-hidden rounded-lg border dark:divide-greyBase/[.4] dark:border-greyBase/[.4]'>
             <div className='px-4 py-3 lg:px-6 lg:py-5'>
-              <div className='relative max-md:w-[254px] md:flex  md:flex-row-reverse md:items-center md:justify-between'>
+              <div className='relative max-md:w-[254px] md:flex md:flex-row-reverse md:items-center md:justify-between'>
                 {isMobile ? getClearLogButton(isMobile) : null}
                 <h3 className='mb-4 text-2xl font-medium text-darkBase dark:text-whiteBase'>
                   Deleted news
                 </h3>
-                <UnverifiableInput
-                  inputData={{
-                    name: 'Deleted news',
-                    type: 'text',
-                    value: searchValue,
-                    placeholder: 'Title',
-                  }}
-                  hasIcon={true}
-                  svgName='search'
-                  onChange={(event: React.ChangeEvent<HTMLInputElement>) => handleSearchNews(event)}
-                  variant={VariantInputs.FilterServiceBlock}
-                />
+                <div>
+                  <UnverifiableInput
+                    inputData={{
+                      name: 'Deleted news',
+                      type: 'text',
+                      value: searchValue,
+                      placeholder: 'Title',
+                    }}
+                    hasIcon={true}
+                    svgName='search'
+                    onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
+                      handleSearchNews(event)
+                    }
+                    variant={VariantInputs.FilterServiceBlock}
+                  />
+                </div>
               </div>
             </div>
             <DeletedNewsTable displayedRows={displayedRows} />
@@ -82,13 +111,11 @@ const ArchiveHistoryLog: FC<IHistoryLogProps> = ({ logData }) => {
           </div>
         </div>
       </div>
-      {isOpenModal && (
+      {isOpenModal && modalType === 'clearLog' && (
         <Modal closeModal={toggleModal} modalRef={popUpRef}>
-          <DeleteModal
-            title='Clear log'
-            agreementText='clear the log of deleted news'
-            onClose={(e: React.MouseEvent<HTMLButtonElement>) => toggleModal(e)}
-            isDeleteModal={false}
+          <ClearLogModal
+            handleClose={(e: React.MouseEvent<HTMLButtonElement>) => toggleModal(e)}
+            handleClearing={handleClearing}
           />
         </Modal>
       )}

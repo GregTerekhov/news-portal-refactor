@@ -50,8 +50,8 @@ const UpdateCredentials: FC<UpdateCredentialsProps> = ({ field }) => {
                     errors={errors}
                     register={field === 'email' ? updateEmailRegister : updatePasswordRegister}
                     label={label}
-                    svgName={iconName}
                     hasIcon={true}
+                    svgName={iconName}
                     variant={VariantVerifiableInputs.Account}
                     ariaInvalid={ariaInvalid}
                   />

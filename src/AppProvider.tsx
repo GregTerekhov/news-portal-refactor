@@ -18,6 +18,8 @@ import {
   ReadSortProvider,
   ScrollBodyProvider,
   PaginationProvider,
+  AdditionRequestProvider,
+  ModalStateProvider,
 } from 'contexts';
 
 const queryClient = new QueryClient();
@@ -31,29 +33,33 @@ type AppProviderProps = {
 const AppProvider: FC<AppProviderProps> = ({ children }) => (
   <Provider store={store}>
     <PersistGate persistor={persistor}>
-      <ThemeProvider>
-        <GoogleOAuthProvider clientId={clientGoogleID}>
-          <FacebookProvider appId={facebookID}>
-            <QueryClientProvider client={queryClient}>
-              <Tooltip.Provider delayDuration={500}>
-                <Toast.Provider>
-                  <NotificationProvider>
-                    <PaginationProvider>
-                      <ScrollBodyProvider>
-                        <SelectedDateProvider>
-                          <FiltersProvider>
-                            <ReadSortProvider>{children}</ReadSortProvider>
-                          </FiltersProvider>
-                        </SelectedDateProvider>
-                      </ScrollBodyProvider>
-                    </PaginationProvider>
-                  </NotificationProvider>
-                </Toast.Provider>
-              </Tooltip.Provider>
-            </QueryClientProvider>
-          </FacebookProvider>
-        </GoogleOAuthProvider>
-      </ThemeProvider>
+      <ModalStateProvider>
+        <ThemeProvider>
+          <GoogleOAuthProvider clientId={clientGoogleID}>
+            <FacebookProvider appId={facebookID}>
+              <QueryClientProvider client={queryClient}>
+                <Tooltip.Provider delayDuration={500}>
+                  <AdditionRequestProvider>
+                    <Toast.Provider>
+                      <NotificationProvider>
+                        <PaginationProvider>
+                          <ScrollBodyProvider>
+                            <SelectedDateProvider>
+                              <FiltersProvider>
+                                <ReadSortProvider>{children}</ReadSortProvider>
+                              </FiltersProvider>
+                            </SelectedDateProvider>
+                          </ScrollBodyProvider>
+                        </PaginationProvider>
+                      </NotificationProvider>
+                    </Toast.Provider>
+                  </AdditionRequestProvider>
+                </Tooltip.Provider>
+              </QueryClientProvider>
+            </FacebookProvider>
+          </GoogleOAuthProvider>
+        </ThemeProvider>
+      </ModalStateProvider>
     </PersistGate>
   </Provider>
 );

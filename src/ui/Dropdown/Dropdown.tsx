@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
 import { Menu, Transition } from '@headlessui/react';
 
-import type { SearchParamsObject } from 'hooks/useAdditionalRequest';
+import type { SearchParamsObject } from 'types';
 
 import CustomScrollBar from '../CustomScrollBar/CustomScrollBar';
 import SvgIcon from '../SvgIcon/SvgIcon';
@@ -29,6 +29,9 @@ const Dropdown: FC<DropdownProps> = ({
     );
   };
 
+  const buttonStyle =
+    'flex w-full items-center justify-center gap-2.5 rounded-[20px] border border-solid border-accentBase bg-whiteBase py-2.5 text-small font-normal text-accentBase transition-colors group-hover:underline group-focus:underline dark:border-greyBase dark:bg-darkBackground dark:text-whiteBase lg:text-medium';
+
   return (
     <Menu as='div' className='relative space-y-2'>
       {({ open }) => (
@@ -37,9 +40,7 @@ const Dropdown: FC<DropdownProps> = ({
             {label === 'Type' ? 'Filter' : 'Search'} {label === 'Time period' ? 'for popular' : ''}
             by <span className='capitalize'>{label}</span>
           </p>
-          <Menu.Button
-            className={`flex w-full items-center justify-center gap-2.5 rounded-[20px] border border-solid border-accentBase bg-whiteBase py-2.5 text-small font-normal text-accentBase transition-colors group-hover:underline group-focus:underline dark:border-greyBase dark:bg-darkBackground dark:text-whiteBase lg:text-medium `}
-          >
+          <Menu.Button className={buttonStyle}>
             {selectedItem || label}
             <SvgIcon
               svgName='arrow'
@@ -66,16 +67,16 @@ const Dropdown: FC<DropdownProps> = ({
                 leaveFrom='transform opacity-100 scale-100'
                 leaveTo='transform opacity-0 scale-95'
               >
-                <Menu.Items static>
+                <Menu.Items unmount>
                   <div className='grid h-full gap-2.5'>
                     {options?.map((item, index) => (
                       <Menu.Item key={index}>
                         {({ active }) => (
                           <button
                             type='button'
-                            className={`${
+                            className={`px-3.5 text-left text-base tracking-wide text-accentBase dark:text-whiteBase lg:text-medium ${
                               active ? 'underline' : ''
-                            } px-3.5 text-left text-base tracking-wide text-accentBase dark:text-whiteBase lg:text-medium`}
+                            }`}
                             onClick={() => handleItemClick(item)}
                           >
                             {item}

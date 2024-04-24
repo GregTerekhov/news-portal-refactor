@@ -2,11 +2,12 @@ import React, { FC } from 'react';
 
 import type { VotedItem } from 'types';
 import { useAuthRedux } from 'reduxStore/hooks';
+import { useModalStateContext } from 'contexts';
 
 import { useActiveLinks, usePopUp } from 'hooks';
 
-import { DeleteModal, Modal, PlugImage, SvgIcon } from 'ui';
-import { DeleteNewsButton, NewsDescription, VoteButton } from './subcomponents';
+import { Modal, PlugImage, SvgIcon } from 'ui';
+import { DeleteNewsButton, DeleteNewsModal, NewsDescription, VoteButton } from './subcomponents';
 
 import { useNews } from './hooks';
 
@@ -18,22 +19,25 @@ const NewsItem: FC<Partial<NewsItemProps>> = ({ liveNews = {} }) => {
   const myButtonRef = React.createRef<HTMLButtonElement>();
 
   const { isAuthenticated } = useAuthRedux();
+  const { isOpenModal, modalType } = useModalStateContext();
 
-  const { isOpenModal, toggleModal, popUpRef } = usePopUp();
-  const { isHomeActive, isArchiveActive } = useActiveLinks();
+  const { toggleModal, popUpRef, isOpenModalForItem } = usePopUp();
+  const { isHomeActive, isArchiveActive, isFavoriteActive } = useActiveLinks();
   const { isFavourite, hasRead, handleReadNews, handleDeleteNews } = useNews({ liveNews });
 
   //Функція видалення новини
   const handleDeleteNewsWrapper = async (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+    id?: string,
   ): Promise<void> => {
-    if (liveNews._id) {
-      toggleModal;
-      await handleDeleteNews(e, liveNews._id);
+    if (id) {
+      toggleModal();
+      await handleDeleteNews(e, id);
     }
   };
 
-  const showHasReadStatus = isAuthenticated && hasRead && (isHomeActive || isArchiveActive);
+  const showHasReadStatus =
+    isAuthenticated && hasRead && (isHomeActive || isArchiveActive || isFavoriteActive);
 
   return (
     <>
@@ -53,7 +57,9 @@ const NewsItem: FC<Partial<NewsItemProps>> = ({ liveNews = {} }) => {
           {isArchiveActive ? (
             <DeleteNewsButton
               myButtonRef={myButtonRef}
-              handleOpenConfirm={(e: React.MouseEvent<HTMLButtonElement>) => toggleModal(e, true)}
+              handleOpenConfirm={(e: React.MouseEvent<HTMLButtonElement>) =>
+                toggleModal(e, true, 'deleteNews')
+              }
             />
           ) : null}
           <p className='absolute left-0 top-10 z-20 rounded-r bg-accentBase/[.7] px-2 py-1 text-small font-medium text-contrastWhite hg:text-medium'>
@@ -90,18 +96,20 @@ const NewsItem: FC<Partial<NewsItemProps>> = ({ liveNews = {} }) => {
           <NewsDescription liveNews={liveNews} />
         </a>
       )}
-      {isOpenModal && (
-        <Modal closeModal={toggleModal} modalRef={popUpRef}>
-          <DeleteModal
-            title='Delete news'
-            agreementText='delete this news'
-            newsId={liveNews._id}
-            onClose={(e: React.MouseEvent<HTMLButtonElement>) => toggleModal(e)}
-            onDelete={handleDeleteNewsWrapper}
-            isDeleteModal={true}
-          />
-        </Modal>
-      )}
+      {isOpenModal &&
+        isOpenModalForItem &&
+        isAuthenticated &&
+        modalType === 'deleteNews' &&
+        liveNews?._id && (
+          <Modal closeModal={toggleModal} modalRef={popUpRef}>
+            <DeleteNewsModal
+              handleClose={(e: React.MouseEvent<HTMLButtonElement>) => toggleModal(e)}
+              handleDeleteNews={(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) =>
+                handleDeleteNewsWrapper(e, liveNews._id)
+              }
+            />
+          </Modal>
+        )}
     </>
   );
 };

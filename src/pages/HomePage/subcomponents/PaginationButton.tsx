@@ -13,10 +13,10 @@ interface PaginationButtonProps {
 const PaginationButton: FC<PaginationButtonProps> = ({ pageNumber, onClick }) => {
   const { currentPage } = usePaginationContext();
 
-  const paginationButtonStyles = `h-10 border-accentBase dark:border-whiteBase font-medium transition-colors duration-500 ${
+  const paginationButtonStyles = `h-10 font-medium ring-whiteBase border-accentBase dark:ring-darkBase ring-2 ${
     pageNumber === currentPage
-      ? 'bg-accentBase text-contrastWhite hocus:bg-accentAlt'
-      : 'text-darkBase dark:text-whiteBase'
+      ? 'bg-accentBase text-contrastWhite hocus:bg-accentAlt  dark:border-whiteBase'
+      : 'text-darkBase dark:text-whiteBase dark:border-greyBase'
   }`;
 
   return (

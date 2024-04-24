@@ -1,9 +1,7 @@
 import React, { FC, ReactNode } from 'react';
 import { createPortal } from 'react-dom';
-import { RemoveScroll } from 'react-remove-scroll';
 
 import { useWindowWidthContext } from 'contexts';
-import { usePopUp } from 'hooks';
 
 import SvgIcon from '../SvgIcon/SvgIcon';
 
@@ -18,7 +16,6 @@ interface ModalProps {
 
 const Modal: FC<ModalProps> = ({ children, closeModal, modalRef }) => {
   const { wideScreens } = useWindowWidthContext();
-  const { isOpenModal } = usePopUp();
 
   const backdropStyles =
     'fixed left-0 top-0 z-100 h-screen flex items-center justify-center w-full mx-auto overflow-auto bg-whiteBase/[.4] backdrop-blur-sm transition-colors before:fixed before:left-0 before:top-0 before:h-81px before:w-full before:content-[""] dark:bg-darkBackground/[.4]';
@@ -31,30 +28,28 @@ const Modal: FC<ModalProps> = ({ children, closeModal, modalRef }) => {
 
   return (
     <>
-      <RemoveScroll enabled={isOpenModal}>
-        {modalRoot &&
-          createPortal(
-            <div className={`${backdropStyles}`}>
-              <div className='flex w-full items-center justify-center max-md:px-10'>
-                <div ref={modalRef} className={`${modalContainerStyles}`}>
-                  <button
-                    aria-label='Modal close button'
-                    className='absolute right-4 top-4 flex items-center justify-center hg:right-5 hg:top-5'
-                    onClick={closeModal}
-                  >
-                    <SvgIcon
-                      svgName='close'
-                      sizeKey={wideScreens ? 'mdIcon28' : 'smIcon20'}
-                      className={iconStyles}
-                    />
-                  </button>
-                  {children}
-                </div>
+      {modalRoot &&
+        createPortal(
+          <div className={`${backdropStyles}`}>
+            <div className='flex w-full items-center justify-center max-md:px-10'>
+              <div ref={modalRef} className={`${modalContainerStyles}`}>
+                <button
+                  aria-label='Modal close button'
+                  className='absolute right-4 top-4 flex items-center justify-center hg:right-5 hg:top-5'
+                  onClick={closeModal}
+                >
+                  <SvgIcon
+                    svgName='close'
+                    sizeKey={wideScreens ? 'mdIcon28' : 'smIcon20'}
+                    className={iconStyles}
+                  />
+                </button>
+                {children}
               </div>
-            </div>,
-            modalRoot,
-          )}
-      </RemoveScroll>
+            </div>
+          </div>,
+          modalRoot,
+        )}
     </>
   );
 };

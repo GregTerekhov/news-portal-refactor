@@ -1,20 +1,17 @@
 import { PayloadAction, createAction, createSlice } from '@reduxjs/toolkit';
 
 import { RootState } from './store';
-
 import type { FilterResults, PartialVotedNewsArray } from 'types';
 
 export interface FiltersState {
   filters: PartialVotedNewsArray;
-  hasResults: FilterResults;
-  hasError: string | null;
+  resultsState: FilterResults;
   isSorted: boolean;
 }
 
 const initialState: FiltersState = {
   filters: [],
-  hasResults: 'idle',
-  hasError: null,
+  resultsState: 'idle',
   isSorted: false,
 };
 
@@ -28,13 +25,12 @@ const filterSlice = createSlice({
       state.filters.length = 0;
       state.filters.push(...action.payload);
       if (action.payload.length > 0) {
-        state.hasResults = 'full';
-        state.hasError = null;
+        state.resultsState = 'full';
       } else {
-        state.hasResults = 'empty';
+        state.resultsState = 'empty';
       }
     },
-    sortNews: (state, action: PayloadAction<boolean>) => {
+    changeSortState: (state, action: PayloadAction<boolean>) => {
       state.isSorted = action.payload;
     },
     resetFilters: () => {
@@ -43,13 +39,13 @@ const filterSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder.addCase(results, (state, action) => {
-      state.hasResults = action.payload;
+      state.resultsState = action.payload;
     });
   },
 });
 
 export const selectIsSorted = (state: RootState) => state.filters.isSorted;
 export const selectFilters = (state: RootState) => state.filters.filters;
-export const selectResults = (state: RootState) => state.filters.hasResults;
-export const { filterNews, resetFilters, sortNews } = filterSlice.actions;
+export const selectResults = (state: RootState) => state.filters.resultsState;
+export const { filterNews, resetFilters, changeSortState } = filterSlice.actions;
 export const filtersReducer = filterSlice.reducer;

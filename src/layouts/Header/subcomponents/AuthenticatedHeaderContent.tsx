@@ -1,11 +1,11 @@
-import React, { FC, useState } from 'react';
+import React, { FC } from 'react';
 
-import { VariantInputs, VariantSwitcher } from 'types';
+import { VariantSwitcher } from 'types';
 import { useWindowWidthContext } from 'contexts';
 
-import { useActiveLinks, useAdditionalRequest, useHeaderStyles } from 'hooks';
+import { useActiveLinks, useHeaderStyles } from 'hooks';
 
-import { SvgIcon, ThemeSwitcher, UnverifiableInput } from 'ui';
+import { SvgIcon, ThemeSwitcher } from 'ui';
 import AuthButton from './Auth';
 import UserAccountLink from './UserAccountLink';
 import CommonMenu from '../../CommonMenu/CommonMenu';
@@ -21,19 +21,12 @@ const AuthenticatedHeaderContent: FC<HeaderContentProps> = ({
   isOpenMenu,
   toggleMenu,
 }) => {
-  const [touched, setTouched] = useState<boolean>(false);
   const { isMobile } = useWindowWidthContext();
 
-  const { query, onChangeInput, onHandleSearch } = useAdditionalRequest();
   const { isHomeActive, isAccountPage, isManageAccountPage } = useActiveLinks();
   const { burgerMenuButtonClass } = useHeaderStyles(isHomeActive);
 
   const isAccountPages = isAccountPage || isManageAccountPage;
-
-  //Функція змінення стану показування/приховування інпуту пошуку по ключовому слову в хедері на мобільних девайсах
-  const handleVisibilityChange = (): void => {
-    setTouched(!touched);
-  };
 
   //Функція визначення id для меню в залежності від розміщення
   const getNavId = (): string => {
@@ -54,29 +47,6 @@ const AuthenticatedHeaderContent: FC<HeaderContentProps> = ({
     return id;
   };
 
-  const renderMobileInput = (): JSX.Element | null => {
-    return !isOpenMenu && isHomeActive ? (
-      <search>
-        <form onSubmit={(e) => onHandleSearch(e)} className='max-md:overflow-hidden'>
-          <UnverifiableInput
-            inputData={{
-              name: 'query',
-              type: 'text',
-              value: query,
-              placeholder: 'Search |',
-            }}
-            svgName='search'
-            hasIcon={true}
-            variant={VariantInputs.Header}
-            hideInput={handleVisibilityChange}
-            onChange={(event: React.ChangeEvent<HTMLInputElement>) => onChangeInput(event)}
-            touched={touched}
-          />
-        </form>
-      </search>
-    ) : null;
-  };
-
   const iconStyles = `hocus:stroke-accentBase dark:hocus:stroke-accentBase ${
     !isOpenMenu && isHomeActive
       ? burgerMenuButtonClass
@@ -87,7 +57,6 @@ const AuthenticatedHeaderContent: FC<HeaderContentProps> = ({
     <>
       {isMobile ? (
         <div className={`flex items-center ${isHomeActive ? 'gap-3.5' : ''}`}>
-          {renderMobileInput()}
           <button
             aria-label={`${!isOpenMenu ? 'Open' : 'Close'} ${
               !isAccountPages ? 'mobile' : 'account'

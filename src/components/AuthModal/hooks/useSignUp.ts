@@ -62,7 +62,7 @@ const useSignUp = () => {
         email: '',
         password: '',
       });
-      toggleModal;
+      toggleModal();
       setIsScrollDisabled(false);
     }
   };

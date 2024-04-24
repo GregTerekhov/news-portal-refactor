@@ -1,20 +1,24 @@
 import axios from 'axios';
 import { useGoogleLogin } from '@react-oauth/google';
+import { useNavigate } from 'react-router-dom';
 
 import type { GoogleAuth } from 'types';
 import { CONFIG } from 'config';
 import { useAuthRedux } from 'reduxStore/hooks';
 import { useNotificationContext, useScrollBodyContext } from 'contexts';
 
+import { usePopUp } from 'hooks';
 import { getButtonsData } from '../assistants';
-import { useNavigate } from 'react-router-dom';
 
 const useAccountSettings = () => {
   const { isAuthenticated, enterWithGoogle, bindGoogle, haveAccounts, unbindGoogle } =
     useAuthRedux();
   const { setIsScrollDisabled } = useScrollBodyContext();
   const { showToast } = useNotificationContext();
+
   const navigate = useNavigate();
+
+  const { toggleModal } = usePopUp();
 
   //Функція google-автентифікації або прив'зяки google-акаунту в залежності від стану isAuthenticated
   const googleLogin = useGoogleLogin({
@@ -57,7 +61,8 @@ const useAccountSettings = () => {
   };
 
   const redirectOnDevelopmentPage = (): void => {
-    navigate('/development');
+    if (!isAuthenticated) toggleModal();
+    navigate('/in-development');
   };
 
   //Data для third-party-auth кнопок

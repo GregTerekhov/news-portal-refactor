@@ -8,7 +8,7 @@ type ButtonsDataProps = {
   isSorted: boolean;
   handleSortRead: (order: string) => Promise<void>;
   handleSort: (order: string) => void;
-  handleReset: () => Promise<void>;
+  handleResetFiltration: () => Promise<void>;
   wideScreens: boolean;
 };
 
@@ -25,7 +25,7 @@ export const getControlButtons = ({
   isSorted,
   handleSortRead,
   handleSort,
-  handleReset,
+  handleResetFiltration,
   wideScreens,
 }: ButtonsDataProps) => {
   //Data для кнопок блока фільтрації новин
@@ -47,7 +47,7 @@ export const getControlButtons = ({
       onHandleClick: () => (isReadActive ? handleSortRead('asc') : handleSort('asc')),
       ariaLabel: 'Ascending sort button',
       classNameButtons:
-        'group border-whiteBase bg-accentBase hocus:bg-whiteBase dark:bg-transparent transition-colors duration-500 p-2 lg:w-12 lg:h-12 hocus:border-accentBase dark:hocus:bg-accentAlt dark:hocus:border-whiteBase',
+        'group border-whiteBase bg-accentBase hocus:bg-whiteBase dark:bg-transparent p-2 lg:w-12 lg:h-12 hocus:border-accentBase dark:hocus:bg-accentAlt dark:hocus:border-whiteBase ring-whiteBase dark:ring-darkBase ring-2 dark:border-greyBase',
       hasIcon: true,
       svgName: 'dateSort',
       svgSize: wideScreens ? 'mdIcon24' : 'smIcon20',
@@ -58,7 +58,7 @@ export const getControlButtons = ({
       type: 'reset',
       id: 'Filters reset button',
       variant: VariantButton.Primary,
-      onHandleClick: handleReset,
+      onHandleClick: handleResetFiltration,
       hasIcon: true,
       svgName: 'reset',
       svgSize: 'xsIcon16',
@@ -72,7 +72,7 @@ export const getControlButtons = ({
       onHandleClick: () => (isReadActive ? handleSortRead('desc') : handleSort('desc')),
       ariaLabel: 'Descending sort button',
       classNameButtons:
-        'group p-2 border-whiteBase bg-accentBase hocus:bg-whiteBase dark:bg-transparent transition-colors duration-500 lg:w-12 lg:h-12 hocus:border-accentBase dark:hocus:bg-accentAlt dark:hocus:border-whiteBase',
+        'group p-2 border-whiteBase bg-accentBase hocus:bg-whiteBase dark:bg-transparent lg:w-12 lg:h-12 hocus:border-accentBase dark:hocus:bg-accentAlt dark:hocus:border-whiteBase ring-whiteBase dark:ring-darkBase ring-2 dark:border-greyBase',
       hasIcon: true,
       svgName: 'dateSort',
       svgSize: wideScreens ? 'mdIcon24' : 'smIcon20',

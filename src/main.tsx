@@ -12,15 +12,15 @@ import { Loader } from 'ui';
 import './input.css';
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
-  <React.StrictMode>
-    <BrowserRouter>
-      <WindowWidthProvider>
-        <Suspense fallback={<Loader variant='page' />}>
-          <AppProvider>
-            <App />
-          </AppProvider>
-        </Suspense>
-      </WindowWidthProvider>
-    </BrowserRouter>
-  </React.StrictMode>,
+  // <React.StrictMode>
+  <BrowserRouter>
+    <WindowWidthProvider>
+      <Suspense fallback={<Loader variant='page' />}>
+        <AppProvider>
+          <App />
+        </AppProvider>
+      </Suspense>
+    </WindowWidthProvider>
+  </BrowserRouter>,
+  // </React.StrictMode>,
 );

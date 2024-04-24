@@ -1,12 +1,14 @@
 import React, { FC } from 'react';
 
+import type { CalendarVariant } from 'types';
+
 import CalendarControls from './CalendarControls';
 import GridCalendar from './GridCalendar';
 import WeekDays from './WeekDays';
 
 import { useControlCalendar, useFilterDateChange } from '../hooks';
 interface CalendarContentProps {
-  variant: string;
+  variant: CalendarVariant;
   isOpenCalendar: boolean;
   toggleCalendar: () => void;
 }

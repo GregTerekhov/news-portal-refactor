@@ -1,5 +1,6 @@
 import React, { FC } from 'react';
 
+import type { CalendarVariant } from 'types';
 import { useActiveLinks, usePopUp } from 'hooks';
 
 import { SvgIcon } from 'ui';
@@ -7,11 +8,7 @@ import { SvgIcon } from 'ui';
 import { CalendarContent } from './subcomponents';
 import { useCalendarText } from './hooks';
 
-interface CalendarProps {
-  variant: string;
-}
-
-const Calendar: FC<CalendarProps> = ({ variant }) => {
+const Calendar: FC<{ variant: CalendarVariant }> = ({ variant }) => {
   const { popUpRef, toggleCalendar, isOpenCalendar } = usePopUp();
   const { isReadActive } = useActiveLinks();
   const { showButtonText } = useCalendarText();

@@ -53,7 +53,7 @@ const useChangePassword = () => {
         newPassword: '',
         confirmPassword: '',
       });
-      toggleModal;
+      toggleModal();
       setIsScrollDisabled(false);
     }
   };

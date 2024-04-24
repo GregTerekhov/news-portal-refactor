@@ -1,4 +1,4 @@
-import type { Filters, PartialVotedNewsArray, VotedItem } from 'types';
+import type { Filters, PartialVotedNewsArray } from 'types';
 
 // Function to check if a date is within a given range
 function isDateWithinRange(
@@ -11,34 +11,41 @@ function isDateWithinRange(
   return dateString >= startDate && dateString <= endDate;
 }
 
-const applyKeywordFilter = (
-  news: Partial<VotedItem>,
-  regex: RegExp | null,
-): RegExpMatchArray | null | undefined =>
-  regex && (news?.title?.match(regex) || news?.description?.match(regex));
+// const applyKeywordFilter = (
+//   news: VotedPartial<VotedItem>,
+//   regex: RegExp | null,
+// ): RegExpMatchArray | null | undefined =>
+//   regex && (news?.title?.match(regex) || news?.description?.match(regex));
 
-const applyTitleFilter = (
-  news: Partial<VotedItem>,
-  regex: RegExp | null,
-): RegExpMatchArray | null | undefined => regex && news?.title?.match(regex);
+// const applyTitleFilter = (
+//   news: VotedPartial<VotedItem>,
+//   regex: RegExp | null,
+// ): RegExpMatchArray | null | undefined => regex && news?.title?.match(regex);
 
-const applyAuthorFilter = (
-  news: Partial<VotedItem>,
-  regex: RegExp | null,
-): RegExpMatchArray | null | undefined => regex && news?.author?.match(regex);
+// const applyAuthorFilter = (
+//   news: VotedPartial<VotedItem>,
+//   regex: RegExp | null,
+// ): RegExpMatchArray | null | undefined => regex && news?.author?.match(regex);
 
-const applyPublisherFilter = (
-  news: Partial<VotedItem>,
-  regex: RegExp | null,
-): RegExpMatchArray | null | undefined => regex && news?.edition?.match(regex);
+// const applyPublisherFilter = (
+//   news: VotedPartial<VotedItem>,
+//   regex: RegExp | null,
+// ): RegExpMatchArray | null | undefined => regex && news?.edition?.match(regex);
 
-const applyMaterialTypeFilter = (
-  news: Partial<VotedItem>,
-  regex: RegExp | null,
-): RegExpMatchArray | null | undefined => regex && news?.materialType?.match(regex);
+// const applyMaterialTypeFilter = (
+//   news: VotedPartial<VotedItem>,
+//   regex: RegExp | null,
+// ): RegExpMatchArray | null | undefined => regex && news?.materialType?.match(regex);
 
-const applyDateFilter = (news: Partial<VotedItem>, startDate: string, endDate: string): boolean =>
-  startDate !== '' && endDate !== '' && isDateWithinRange(news?.publishDate, startDate, endDate);
+// const applyDateFilter = (
+//   news: VotedPartial<VotedItem>,
+//   startDate: string,
+//   endDate: string,
+// ): boolean => {
+//   return (
+//     startDate !== '' && endDate !== '' && isDateWithinRange(news?.publishDate, startDate, endDate)
+//   );
+// };
 
 // Function to news' cross-filtering
 export default function applyCrossFilters(
@@ -60,11 +67,38 @@ export default function applyCrossFilters(
   };
 
   return newsArray.filter((news) => {
-    applyKeywordFilter(news, regexFilters.keyword) ||
-      applyTitleFilter(news, regexFilters.title) ||
-      applyAuthorFilter(news, regexFilters.author) ||
-      applyPublisherFilter(news, regexFilters.publisher) ||
-      applyMaterialTypeFilter(news, regexFilters.materialType) ||
-      applyDateFilter(news, selectedFilterDate.startDate, selectedFilterDate.endDate);
+    const keywordMatch =
+      regexFilters.keyword &&
+      (news?.title?.match(regexFilters.keyword) || news?.description?.match(regexFilters.keyword));
+    const matchesTitle = regexFilters.title && news?.title?.match(regexFilters.title);
+    const matchesAuthor = regexFilters.author && news?.author?.match(regexFilters.author);
+    const matchesPublisher = regexFilters.publisher && news?.edition?.match(regexFilters.publisher);
+    const matchMaterialType =
+      regexFilters.materialType && news?.materialType?.match(regexFilters.materialType);
+    const matchPublishedDate =
+      selectedFilterDate.startDate !== '' && selectedFilterDate.endDate !== ''
+        ? isDateWithinRange(
+            news?.publishDate,
+            selectedFilterDate.startDate,
+            selectedFilterDate.endDate,
+          )
+        : false;
+    return (
+      keywordMatch ||
+      matchesAuthor ||
+      matchesPublisher ||
+      matchesTitle ||
+      matchMaterialType ||
+      matchPublishedDate
+    );
   });
+
+  // return newsArray.filter((news) => {
+  //   applyKeywordFilter(news, regexFilters.keyword) ||
+  //     applyTitleFilter(news, regexFilters.title) ||
+  //     applyAuthorFilter(news, regexFilters.author) ||
+  //     applyPublisherFilter(news, regexFilters.publisher) ||
+  //     applyMaterialTypeFilter(news, regexFilters.materialType) ||
+  //     applyDateFilter(news, selectedFilterDate.startDate, selectedFilterDate.endDate);
+  // });
 }

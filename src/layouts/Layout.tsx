@@ -19,7 +19,7 @@ const Layout: FC = () => {
 
   const { fetchCategoriesList, errorAPI } = useNewsAPIRedux();
   const { isAuthenticated } = useAuthRedux();
-  const { allFavourites, allReads, allArchive, isLoadingDBData } = useDBRedux();
+  const { allFavourites, allReads, isLoadingDBData } = useDBRedux();
 
   const activeLinks = useActiveLinks();
   const { rebuiltNews } = useChooseRenderingNews(activeLinks);
@@ -69,7 +69,7 @@ const Layout: FC = () => {
     (isArchiveActive && isLoadingDBData) ||
     isReadActive ||
     isDevelopmentActive ||
-    (isArchiveActive && allArchive?.length === 0)
+    isArchiveActive
       ? 'h-screen'
       : 'h-full';
 

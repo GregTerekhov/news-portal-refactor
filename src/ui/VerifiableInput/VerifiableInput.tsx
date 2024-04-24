@@ -69,11 +69,12 @@ const VerifiableInput: FC<InputProps> = ({
         aria-label='Password visibility button'
         type='button'
         onClick={() => setIsPasswordVisibility(!isPasswordVisibility)}
+        className='absolute right-3 top-3 md:right-4'
       >
         <SvgIcon
           svgName={`${isPasswordVisibility ? 'eye-opened' : 'eye-closed'}`}
           sizeKey={wideScreens ? 'mdIcon24' : 'smIcon20'}
-          className='absolute bottom-[9px] right-3 cursor-pointer fill-greyBase md:right-4 hg:bottom-2.5'
+          className='fill-greyBase '
         />
       </button>
     ) : null;
@@ -116,13 +117,16 @@ const VerifiableInput: FC<InputProps> = ({
   };
 
   return (
-    <label
-      htmlFor={id + label}
-      className={`
-       ${variant === VariantVerifiableInputs.Auth ? 'w-full space-y-2 text-medium md:text-xl hg:text-2xl' : ''}`}
-    >
-      {showForgotPasswordLabelSpan()}
-      <div className={`relative ${variant === VariantVerifiableInputs.Auth ? '' : 'mb-4'}`}>
+    <>
+      <label
+        htmlFor={id + label}
+        className={` 
+       ${variant === VariantVerifiableInputs.Auth ? 'w-full space-y-2 text-medium md:text-xl hg:text-2xl' : 'flex items-center justify-center'}`}
+      >
+        {showForgotPasswordLabelSpan()}
+      </label>
+
+      <div className={`relative ${errors ? 'mb-3' : 'mb-0'}`}>
         {shouldPasswordShowIcon(type)}
         {showIcon()}
         {showRecoveryPasswordSubmitButton(placeholder)}
@@ -140,7 +144,7 @@ const VerifiableInput: FC<InputProps> = ({
         />
       </div>
       {showValidationErrorText()}
-    </label>
+    </>
   );
 };
 

@@ -1,20 +1,20 @@
 import React, { FC, ReactNode, createContext, useContext, useMemo, useState } from 'react';
-export interface SelectedDate {
-  beginDate: string | null;
-  endDate: string | null;
-}
+
+import type { DateRequest } from 'types';
 
 type SelectedDateContextProps = {
   children: ReactNode;
 };
 
 type SelectedDateContextValue = {
-  beginDate: Date | null;
-  memoizedSelectedRequestDate: SelectedDate;
-  memoizedSelectedFilterDate: SelectedDate;
-  setSelectedFilterDate: (date: SelectedDate) => void;
-  setSelectedRequestDate: (date: SelectedDate) => void;
-  setBeginDate: (value: Date | null) => void;
+  beginRequestDate: Date | null;
+  beginFilterDate: Date | null;
+  memoizedSelectedRequestDate: DateRequest;
+  memoizedSelectedFilterDate: DateRequest;
+  setSelectedFilterDate: (date: DateRequest) => void;
+  setSelectedRequestDate: (date: DateRequest) => void;
+  setBeginRequestDate: (value: Date | null) => void;
+  setBeginFilterDate: (value: Date | null) => void;
   resetFiltersDay: () => void;
   resetRequestDay: () => void;
 };
@@ -22,36 +22,41 @@ type SelectedDateContextValue = {
 export const SelectedDateContext = createContext<SelectedDateContextValue | undefined>(undefined);
 
 export const SelectedDateProvider: FC<SelectedDateContextProps> = ({ children }) => {
-  const [selectedRequestDate, setSelectedRequestDate] = useState<SelectedDate>({
-    beginDate: null,
-    endDate: null,
+  const [selectedRequestDate, setSelectedRequestDate] = useState<DateRequest>({
+    beginDate: '',
+    endDate: '',
   });
-  const [selectedFilterDate, setSelectedFilterDate] = useState<SelectedDate>({
-    beginDate: null,
-    endDate: null,
+  const [selectedFilterDate, setSelectedFilterDate] = useState<DateRequest>({
+    beginDate: '',
+    endDate: '',
   });
-  const [beginDate, setBeginDate] = useState<Date | null>(null);
+  const [beginRequestDate, setBeginRequestDate] = useState<Date | null>(null);
+  const [beginFilterDate, setBeginFilterDate] = useState<Date | null>(null);
+
+  // console.log('selectedFilterDate', selectedFilterDate);
 
   //Скидування значень дат для запиту
   const resetRequestDay = (): void => {
-    setSelectedRequestDate({ beginDate: null, endDate: null });
+    setSelectedRequestDate({ beginDate: '', endDate: '' });
   };
   //Скидування значень дат для фільтрації
   const resetFiltersDay = (): void => {
-    setSelectedFilterDate({ beginDate: null, endDate: null });
+    setSelectedFilterDate({ beginDate: '', endDate: '' });
   };
 
   //Мемоїзація значення глобального стану дати запита
-  const memoizedSelectedRequestDate: SelectedDate = useMemo(
+  const memoizedSelectedRequestDate: DateRequest = useMemo(
     () => selectedRequestDate,
     [selectedRequestDate, resetRequestDay],
   );
 
   //Мемоїзація значення глобального стану дати фільтрації
-  const memoizedSelectedFilterDate: SelectedDate = useMemo(
+  const memoizedSelectedFilterDate: DateRequest = useMemo(
     () => selectedFilterDate,
     [selectedFilterDate, resetFiltersDay],
   );
+
+  // console.log('memoizedSelectedFilterDate', memoizedSelectedFilterDate);
 
   return (
     <SelectedDateContext.Provider
@@ -60,8 +65,10 @@ export const SelectedDateProvider: FC<SelectedDateContextProps> = ({ children })
         setSelectedFilterDate,
         memoizedSelectedRequestDate,
         memoizedSelectedFilterDate,
-        beginDate,
-        setBeginDate,
+        beginRequestDate,
+        beginFilterDate,
+        setBeginRequestDate,
+        setBeginFilterDate,
         resetRequestDay,
         resetFiltersDay,
       }}

@@ -1,48 +1,53 @@
 import { isAfter, startOfToday } from 'date-fns';
 
-import type { SelectedDate } from 'types';
+import type { DateRequest } from 'types';
 import { useNewsAPIRedux, useFiltersRedux } from 'reduxStore/hooks';
 import { useFiltersStateContext, usePaginationContext, useSelectedDateContext } from 'contexts';
 
 import { determineNewSelectedDate, formatDateRange } from 'helpers';
+import { useHeadline } from 'hooks';
 
 const useRequestByDate = () => {
-  const { fetchByDate, resetPreviousRequest, updateHeadline } = useNewsAPIRedux();
+  const { fetchByDate, resetPreviousRequest } = useNewsAPIRedux();
   const { filteredNews, resetAllFiltersResults } = useFiltersRedux();
 
-  const { beginDate, setBeginDate, setSelectedRequestDate, resetFiltersDay } =
+  const { beginRequestDate, setBeginRequestDate, setSelectedRequestDate, resetFiltersDay } =
     useSelectedDateContext();
   const { resetPagination } = usePaginationContext();
   const { resetFilters } = useFiltersStateContext();
 
+  const { handleChangeHeadline } = useHeadline();
   const today = startOfToday();
 
   //Функція запиту за періодом дат
   const handleDateRequest = async (
-    date: Date,
+    selectedDate: Date,
     isOpenCalendar: boolean,
     toggleCalendar: () => void,
   ): Promise<void> => {
     //Перевірка, якщо введена дата не пізніше сьогодняшньої
-    if (isAfter(date, today)) return;
+    if (isAfter(selectedDate, today)) return;
 
     //Перевірка, якщо немає початкової дати та її вставка в проміжковий стан початкової дати
-    if (!beginDate) {
-      setBeginDate(date);
-      return;
+    if (!beginRequestDate) {
+      setBeginRequestDate(selectedDate);
     } else {
       try {
         //Нормалізація введених дат за послідовністю - спочатку ранішня дата, потім пізніша
-        const newSelectedDate: SelectedDate = determineNewSelectedDate(date, beginDate, 'request');
+        const selectedPeriod: DateRequest = determineNewSelectedDate(
+          selectedDate,
+          beginRequestDate,
+          'request',
+        );
 
         //Додавання періода дат в об'єкт стану в контексті
-        setSelectedRequestDate(newSelectedDate);
+        setSelectedRequestDate(selectedPeriod);
 
         //Функція конвертації дат для правильного запита
-        const { firstDate, lastDate } = formatDateRange(newSelectedDate);
+        const dateToHeadline = formatDateRange(selectedPeriod);
 
         //Створення заголовка для новин по періоду дат
-        updateHeadline(`News by Date: from ${firstDate} to ${lastDate}`);
+        handleChangeHeadline('date', dateToHeadline);
 
         //Скидання значення пагінації, якщо користувач знаходився не на першій сторінці пагінації
         resetPagination();
@@ -56,10 +61,10 @@ const useRequestByDate = () => {
         }
 
         //Функція запиту
-        await fetchByDate(newSelectedDate);
+        await fetchByDate(selectedPeriod);
 
         //Видалення значення проміжкового стану початкової дати
-        setBeginDate(null);
+        setBeginRequestDate(null);
       } catch (error) {
         console.error('An error occurred while updating the values: ', error);
       } finally {
