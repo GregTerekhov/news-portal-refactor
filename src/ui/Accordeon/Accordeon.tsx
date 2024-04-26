@@ -6,7 +6,7 @@ import SvgIcon from '../SvgIcon/SvgIcon';
 interface AccordeonProps {
   children: ReactElement | ReactNode;
   position: string;
-  dateSeparator?: string;
+  dateSeparator?: string | undefined;
   blockDefinition?: string;
 }
 
