@@ -11,9 +11,8 @@ const useSignOut = (closeMenu?: (() => void) | undefined) => {
 
   //Функція виходу з акаунту
   const handleSignOut = async (): Promise<void> => {
-    if (typeof closeMenu === 'function') {
-      closeMenu();
-    }
+    if (typeof closeMenu === 'function') closeMenu();
+
     const response = await logout();
 
     showToast(response.meta.requestStatus);

@@ -1,7 +1,7 @@
 import type { Filters, PartialVotedNewsArray } from 'types';
+import type { ActiveLinks } from 'hooks';
 
 import { applyCrossFilters } from 'helpers';
-import type { ActiveLinks } from 'hooks/commonTypes';
 
 //Функція перевірки на існуюче значення фільтрів
 export const hasNonEmptyValue = (filtersObject: Filters): boolean => {

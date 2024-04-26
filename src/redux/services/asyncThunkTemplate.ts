@@ -45,7 +45,7 @@ export const requestTemplate = <Arg, Result>(
         ],
       });
 
-      // console.log(`${name}Response`, response);
+      console.log(`${name}Response`, response);
       // після transformResponse сюди потрапляють всі необхідні дані в одному рівні вкладеності в об'єкт response.data
       return response.data;
     } catch (error: any) {

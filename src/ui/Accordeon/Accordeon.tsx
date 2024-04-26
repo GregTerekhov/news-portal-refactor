@@ -4,13 +4,13 @@ import * as Accordion from '@radix-ui/react-accordion';
 import SvgIcon from '../SvgIcon/SvgIcon';
 
 interface AccordeonProps {
-  dateSeparator?: string;
-  position: string;
-  filtersBlock?: string;
   children: ReactElement | ReactNode;
+  position: string;
+  dateSeparator?: string;
+  blockDefinition?: string;
 }
 
-const Accordeon: FC<AccordeonProps> = ({ children, dateSeparator, position, filtersBlock }) => {
+const Accordeon: FC<AccordeonProps> = ({ children, dateSeparator, position, blockDefinition }) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
   const handleClick = () => {
@@ -25,7 +25,7 @@ const Accordeon: FC<AccordeonProps> = ({ children, dateSeparator, position, filt
   return (
     <Accordion.Root type='single' collapsible className='w-full'>
       <Accordion.Item
-        value={showAccordeonPages ? dateSeparator || '' : filtersBlock || ''}
+        value={showAccordeonPages ? dateSeparator || '' : blockDefinition || ''}
         className={`${position === 'accountManagePage' ? 'lg:text-2xl' : ''}`}
       >
         <Accordion.Header
@@ -33,8 +33,8 @@ const Accordeon: FC<AccordeonProps> = ({ children, dateSeparator, position, filt
             showAccordeonPages ? 'mb-7 md:mb-[30px] lg:mb-10' : ''
           }`}
         >
-          <Accordion.Trigger className={`${accordionTriggerStyles}`} onClick={handleClick}>
-            {showAccordeonPages ? dateSeparator : filtersBlock}
+          <Accordion.Trigger className={accordionTriggerStyles} onClick={handleClick}>
+            {showAccordeonPages ? dateSeparator : blockDefinition}
             <SvgIcon
               svgName='arrow'
               sizeKey='smIcon18'

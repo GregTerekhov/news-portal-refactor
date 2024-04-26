@@ -19,7 +19,6 @@ const initialState: AuthState = {
     email: '',
     id: '',
   },
-  receivedCryptoPassword: {},
   haveAccounts: {
     google: false,
     facebook: false,
@@ -48,9 +47,6 @@ const authSlice = createSlice({
         state.accessToken = action.payload.accessToken;
         state.refreshToken = action.payload.refreshToken;
         state.haveAccounts = action.payload.haveAccounts;
-      })
-      .addCase(authOperations.getSavedPassword.fulfilled, (state, action) => {
-        state.receivedCryptoPassword = action.payload.cryptoData;
       })
       .addCase(authOperations.signOut.fulfilled, () => {
         return { ...initialState };

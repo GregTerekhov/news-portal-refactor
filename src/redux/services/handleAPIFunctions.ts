@@ -20,7 +20,5 @@ export const handleRejected = (
 ): void => {
   state.isLoading = false;
 
-  if (typeof action.payload === 'number' || typeof action.payload === 'string') {
-    state.hasError = action.payload;
-  }
+  if (typeof action.payload === 'number') state.hasError = action.payload;
 };

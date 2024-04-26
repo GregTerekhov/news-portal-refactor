@@ -77,10 +77,10 @@ const ThemeSwitcher: FC<{ variant: VariantSwitcher }> = ({ variant }) => {
         checked={enabled}
         onChange={setEnabled}
         onClick={handleThemeChange}
-        className={`${switchFieldStyles}`}
+        className={switchFieldStyles}
       >
         <span className='sr-only'>Theme switcher</span>
-        <span aria-hidden='true' className={`${switchSliderStyles}`} />
+        <span aria-hidden='true' className={switchSliderStyles} />
       </Switch>
       {generatePointerThemeLabel('Dark', 'moon')}
     </div>

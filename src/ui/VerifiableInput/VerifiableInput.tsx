@@ -84,11 +84,7 @@ const VerifiableInput: FC<InputProps> = ({
     placeholder: string | undefined,
   ): JSX.Element | null => {
     return placeholder === 'Enter your current email' ? (
-      <button
-        type='submit'
-        className={`${forgotSubmitButtonStyles}`}
-        onClick={handleSubmitRecovery}
-      >
+      <button type='submit' className={forgotSubmitButtonStyles} onClick={handleSubmitRecovery}>
         <SvgIcon svgName='arrow-right' sizeKey='smIcon20' className='fill-whiteBase' />
       </button>
     ) : null;
@@ -131,7 +127,7 @@ const VerifiableInput: FC<InputProps> = ({
         {showIcon()}
         {showRecoveryPasswordSubmitButton(placeholder)}
         <input
-          className={`${inputFieldStyles}`}
+          className={inputFieldStyles}
           id={id + label}
           autoFocus={autoFocus}
           {...register(label)}

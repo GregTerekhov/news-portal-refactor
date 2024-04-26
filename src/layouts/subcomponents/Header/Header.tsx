@@ -8,8 +8,8 @@ import { useModalStateContext, useScrollBodyContext, useWindowWidthContext } fro
 import { useActiveLinks, useHeaderStyles } from 'hooks';
 
 import { ThemeSwitcher } from 'ui';
-import Container from '../Container';
 import { AuthButton, AuthenticatedHeaderContent } from './subcomponents';
+import Container from '../Container';
 
 import { useProcessingParams } from './hooks';
 
@@ -34,9 +34,7 @@ const Header: FC<{}> = () => {
 
   //Скидання значень фільтрації новин
   const resetFilters = (): void => {
-    if (filteredNews?.length > 0) {
-      resetAllFiltersResults();
-    }
+    if (filteredNews?.length > 0) resetAllFiltersResults();
   };
 
   const headerStyles = `fixed left-0 top-0 flex min-h-81px w-full items-center justify-center md:min-h-106px lg:min-h-113px hg:min-h-136px ${
@@ -51,21 +49,6 @@ const Header: FC<{}> = () => {
     isHomeActive && !isOpenMenu ? textClass : 'text-darkBase dark:text-whiteBase'
   } z-50 text-3xl font-bold leading-tight transition-colors duration-500 sm:py-6 md:pb-[30px] md:pt-8 md:text-4xl lg:py-7 lg:text-giant lg:leading-[1.357144]`;
 
-  const generateHeaderContent = (): JSX.Element => {
-    return isAuthenticated ? (
-      <AuthenticatedHeaderContent
-        resetFilters={resetFilters}
-        isOpenMenu={isOpenMenu}
-        toggleMenu={toggleMenu}
-      />
-    ) : (
-      <div className={`${isNotMobile ? 'flex flex-col gap-3' : ''}`}>
-        <AuthButton passwordToken={passwordToken} />
-        {isNotMobile ? <ThemeSwitcher variant={VariantSwitcher.Header} /> : null}
-      </div>
-    );
-  };
-
   return (
     <header className={headerStyles}>
       <Container
@@ -74,7 +57,18 @@ const Header: FC<{}> = () => {
         <Link to='/' className={logoLinkStyles}>
           News
         </Link>
-        {generateHeaderContent()}
+        {isAuthenticated ? (
+          <AuthenticatedHeaderContent
+            resetFilters={resetFilters}
+            isOpenMenu={isOpenMenu}
+            toggleMenu={toggleMenu}
+          />
+        ) : (
+          <div className={`${isNotMobile ? 'flex flex-col gap-3' : ''}`}>
+            <AuthButton passwordToken={passwordToken} />
+            {isNotMobile ? <ThemeSwitcher variant={VariantSwitcher.Header} /> : null}
+          </div>
+        )}
       </Container>
     </header>
   );

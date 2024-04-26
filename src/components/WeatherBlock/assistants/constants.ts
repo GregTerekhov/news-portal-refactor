@@ -83,3 +83,31 @@ export const zoneList: ZoneList = {
 };
 
 export type TimezoneOffset = keyof ZoneList;
+
+// Шкала Бофорта з відповідними інтервалами швидкостей вітру
+export const beaufortScale = [
+  { min: 0, max: 0.2, scale: '0' }, // Штиль
+  { min: 0.3, max: 1.5, scale: '1' }, // Легкий вітер
+  { min: 1.6, max: 3.3, scale: '2' }, // Слабкий вітер
+  { min: 3.4, max: 5.4, scale: '3' }, // Слабкий бриз
+  { min: 5.5, max: 7.9, scale: '4' }, // Слабий бриз
+  { min: 8.0, max: 10.7, scale: '5' }, // Помірний бриз
+  { min: 10.8, max: 13.8, scale: '6' }, // Помірний вітер
+  { min: 13.9, max: 17.1, scale: '7' }, // Сильний вітер
+  { min: 17.2, max: 20.7, scale: '8' }, // Сильний вітер (шторм)
+  { min: 20.8, max: 24.4, scale: '9' }, // Сильний вітер (шторм)
+  { min: 24.5, max: 28.4, scale: '10' }, // Шторм
+  { min: 28.5, max: 32.6, scale: '11' }, // Сильний шторм
+  { min: 32.7, max: Number.MAX_SAFE_INTEGER, scale: '12' }, // Ураган
+];
+
+// Визначаємо повну назву дня за допомогою мапи
+export const daysMap = {
+  Sun: 'Sunday',
+  Mon: 'Monday',
+  Tue: 'Tuesday',
+  Wed: 'Wednesday',
+  Thu: 'Thursday',
+  Fri: 'Friday',
+  Sat: 'Saturday',
+};

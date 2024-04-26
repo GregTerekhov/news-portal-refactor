@@ -13,11 +13,6 @@ const createAxiosInstance = () => {
 
   axiosInstance.interceptors.request.use(
     async (config) => {
-      // try {
-      //   await axios.head(CONFIG.BASE_URL_DB);
-      // } catch (error) {
-      //   throw new Error('Server is not available');
-      // }
       const state = store.getState() as RootState;
       const accessToken = state.auth.accessToken;
 

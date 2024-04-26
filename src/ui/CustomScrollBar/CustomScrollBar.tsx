@@ -29,7 +29,7 @@ const CustomScrollBar: FC<CustomScrollProps> = ({ children, isOpen, orientation,
           className={`rounded-full bg-dropdownBase ${customScrollStyle}`}
           orientation={orientation}
         >
-          <ScrollArea.Thumb className={`${areaThumbStyles}`} />
+          <ScrollArea.Thumb className={areaThumbStyles} />
         </ScrollArea.Scrollbar>
         <ScrollArea.Corner asChild className='bg-accentBase' />
       </ScrollArea.Root>

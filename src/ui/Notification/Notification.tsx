@@ -34,16 +34,16 @@ const Notification: FC<ToastProps> = ({ variant, title, description, openToast, 
         open={openToast}
         defaultOpen={variant === 'non-interactive' ? true : false}
         onOpenChange={(isOpen) => setOpenToast(isOpen)}
-        className={`${toastRootStyles}`}
+        className={toastRootStyles}
       >
-        <Toast.Title className={`${toastTitleStyles}`}>{title}</Toast.Title>
-        <Toast.Description className={`${toastDescriptionStyles}`}>{description}</Toast.Description>
+        <Toast.Title className={toastTitleStyles}>{title}</Toast.Title>
+        <Toast.Description className={toastDescriptionStyles}>{description}</Toast.Description>
         <Toast.Action className='[grid-area:_action]' asChild altText='Goto schedule to undo'>
-          <button className={`${buttonUndoStyles}`}>Undo</button>
+          <button className={buttonUndoStyles}>Undo</button>
         </Toast.Action>
       </Toast.Root>
 
-      <Toast.Viewport className={`${toastViewportStyles}`} />
+      <Toast.Viewport className={toastViewportStyles} />
     </>
   );
 };

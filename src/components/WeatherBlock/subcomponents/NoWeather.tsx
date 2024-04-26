@@ -7,7 +7,7 @@ import { PrimaryButton, SvgIcon } from 'ui';
 import { useWeather } from '../hooks';
 
 type NoWeatherProps = {
-  showError: string | null;
+  showError: number | null;
 };
 
 const NoWeather: FC<NoWeatherProps> = ({ showError }) => {

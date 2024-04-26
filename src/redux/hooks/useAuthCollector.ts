@@ -1,7 +1,5 @@
 import { useCallback } from 'react';
 
-import * as auth from '../auth';
-import { useAppDispatch, useAppSelector } from './reduxHooks';
 import type {
   MainCredentials,
   AuthRequestWithoutName,
@@ -14,11 +12,12 @@ import type {
   GetCryptoPassword,
   SignInRequest,
 } from 'types';
+import { useAppDispatch, useAppSelector } from './reduxHooks';
+import * as auth from '../auth';
 
 const useAuthCollector = () => {
   const isAuthenticated = useAppSelector(auth.selectIsLoggedIn);
   const user = useAppSelector(auth.selectUser);
-  const savedCredentials = useAppSelector(auth.selectCredentials);
   const isRefreshingUser = useAppSelector(auth.selectCurrentUser);
   const userTheme = useAppSelector(auth.selectUserTheme);
   const authError = useAppSelector(auth.selectHasAuthError);
@@ -93,7 +92,6 @@ const useAuthCollector = () => {
     haveAccounts,
     isAuthenticated,
     user,
-    savedCredentials,
     isRefreshingUser,
     isThirdPartyRegister,
     userTheme,

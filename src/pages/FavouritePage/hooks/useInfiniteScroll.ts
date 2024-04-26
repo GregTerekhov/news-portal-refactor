@@ -4,7 +4,7 @@ import { useWindowWidthContext } from 'contexts';
 import { useActiveLinks, useChooseRenderingNews } from 'hooks';
 
 const MOBILE_NEWS_DISPLAYED_COUNT = 5;
-const NOT_MOBILE_NEWS_DISPLAYED_COUNT = 6;
+const WIDESCREEN_NEWS_DISPLAYED_COUNT = 6;
 
 const useInfiniteScroll = () => {
   const [totalNewsCount, setTotalNewsCount] = useState<number>(0);
@@ -23,7 +23,7 @@ const useInfiniteScroll = () => {
 
   const initialDisplayCount = useMemo(() => {
     if (isMobile) return MOBILE_NEWS_DISPLAYED_COUNT;
-    if (isNotMobile) return NOT_MOBILE_NEWS_DISPLAYED_COUNT;
+    if (isNotMobile) return WIDESCREEN_NEWS_DISPLAYED_COUNT;
 
     return 0;
   }, []);
@@ -41,7 +41,7 @@ const useInfiniteScroll = () => {
 
     setDisplayedCount(
       (prevCount) =>
-        prevCount + (isMobile ? MOBILE_NEWS_DISPLAYED_COUNT : NOT_MOBILE_NEWS_DISPLAYED_COUNT),
+        prevCount + (isMobile ? MOBILE_NEWS_DISPLAYED_COUNT : WIDESCREEN_NEWS_DISPLAYED_COUNT),
     );
 
     setIsLoadingMore(false);

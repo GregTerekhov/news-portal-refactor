@@ -1,17 +1,8 @@
-import type {
-  PartialArticleNewsArray,
-  PartialPopularNewsArray,
-  PartialNewsWireArray,
-  PopularNewsItem,
-  ArticleNewsItem,
-  NewsWireItem,
-} from 'types';
+import type { PopularNewsItem, ArticleNewsItem, NewsWireItem, GeneralNewsArray } from 'types';
 
 import { convertDateStringToDDMMYYY } from 'helpers';
 
-function rebuildingNewsArray(
-  data: PartialPopularNewsArray | PartialArticleNewsArray | PartialNewsWireArray,
-) {
+function rebuildingNewsArray(data: GeneralNewsArray) {
   if (data) {
     const modifiedNewsResults = data.map((item) => {
       const commonFields = {
@@ -21,7 +12,6 @@ function rebuildingNewsArray(
       };
 
       if ('media' in item) {
-        // Type: PartialPopularNewsArray
         const popularNewsItem = item as PopularNewsItem;
         return {
           ...commonFields,
@@ -37,7 +27,6 @@ function rebuildingNewsArray(
           materialType: popularNewsItem?.type || '',
         };
       } else if ('headline' in item) {
-        // Type: PartialArticleNewsArray
         const articleNewsItem = item as ArticleNewsItem;
         return {
           ...commonFields,
@@ -58,7 +47,6 @@ function rebuildingNewsArray(
           materialType: articleNewsItem?.type_of_material || '',
         };
       } else {
-        // Type: PartialNewsWireArray
         const newsWireItem = item as NewsWireItem;
         return {
           ...commonFields,

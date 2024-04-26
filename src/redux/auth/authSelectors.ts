@@ -1,7 +1,6 @@
 import type { RootState } from '../store';
 
 export const selectIsLoggedIn = (state: RootState) => state.auth.isLoggedIn;
-export const selectCredentials = (state: RootState) => state.auth.receivedCryptoPassword;
 export const selectUser = (state: RootState) => state.auth.user;
 export const selectHasAuthError = (state: RootState) => state.auth.hasError;
 export const selectCurrentUser = (state: RootState) => state.auth.isCurrentUser;

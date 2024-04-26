@@ -7,10 +7,15 @@ export type MainCredentials = {
 };
 
 export interface EncryptedPassword {
-  exportedCryptoKey: ArrayBuffer;
-  encryptedPassword: ArrayBuffer;
-  salt: Uint8Array;
+  exportedCryptoKey: string;
+  encryptedPassword: string;
+  salt: string;
 }
+// export interface EncryptedPassword {
+//   exportedCryptoKey: ArrayBuffer;
+//   encryptedPassword: ArrayBuffer;
+//   salt: Uint8Array;
+// }
 
 export interface GetCryptoPassword {
   userId: string;

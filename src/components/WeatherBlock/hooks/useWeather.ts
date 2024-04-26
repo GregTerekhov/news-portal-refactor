@@ -15,9 +15,19 @@ const useWeather = () => {
 
   const geolocation: boolean = 'geolocation' in navigator;
 
+  useEffect(() => {
+    const hasVisitedBefore = localStorage.getItem('geolocationPermission');
+
+    if (hasVisitedBefore) {
+      setHasGeolocationPermission(true);
+      setStatePermission('granted');
+    }
+  }, [statePermission]);
+
   const geolocationError: ErrorCallback = (error) => {
     setHasGeolocationPermission(false);
     setStatePermission('denied');
+
     switch (error.code) {
       case error.PERMISSION_DENIED:
         // Користувач відмовив у наданні доступу до геолокації
@@ -36,15 +46,6 @@ const useWeather = () => {
         break;
     }
   };
-
-  useEffect(() => {
-    const hasVisitedBefore = localStorage.getItem('geolocationPermission');
-
-    if (hasVisitedBefore) {
-      setHasGeolocationPermission(true);
-      setStatePermission('granted');
-    }
-  }, [statePermission]);
 
   const requestGeolocationPermission = (): void => {
     if (geolocation) {
@@ -100,32 +101,30 @@ const useWeather = () => {
 
   //Виведення тексту в кнопці виклику погоди
   const showButtonText = (): string => {
-    let buttonText = 'Give permission for your geolocation';
+    switch (true) {
+      case statePermission === 'prompt':
+        return 'Give permission for your geolocation';
+      case hasGeolocationPermission:
+        return 'Get the weather for your region';
+      case statePermission === 'denied':
+        return 'Permission denied';
 
-    if (statePermission === 'prompt') {
-      buttonText = 'Give permission for your geolocation';
-    } else if (hasGeolocationPermission) {
-      buttonText = 'Get the weather for your region';
-    } else if (statePermission === 'denied') {
-      buttonText = 'Permission denied';
-    } else {
-      return 'Give permission for your geolocation';
+      default:
+        return 'Give permission for your geolocation';
     }
-
-    return buttonText;
   };
 
   const flippingCard = isFlipped ? 'rotate-y-180' : 'rotate-y-0';
 
   return {
     isCelsius,
-    hasGeolocationPermission,
     flippingCard,
+    statePermission,
+    hasGeolocationPermission,
     requestGeolocationPermission,
     toggleTemperatureScale,
     flipWeatherDetails,
     showButtonText,
-    statePermission,
   };
 };
 

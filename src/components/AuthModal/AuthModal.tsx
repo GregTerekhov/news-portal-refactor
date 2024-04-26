@@ -30,10 +30,16 @@ const AuthModal: FC<IAuthModalProps> = ({ passwordToken }) => {
 
   //Функція приховування інпута forgotPassword при переключенні на інший таб
   const hideForgotPasswordInput = (index: number): void => {
-    if (index === 0) {
+    if (index === SIGN_UP_TAB_IDX) {
       setIsShowRecoveryInput(false);
     }
   };
+
+  const handleChangeTab = (index: number) => {
+    setSelectedTab(index);
+    hideForgotPasswordInput(index);
+  };
+
   const tabListStyles =
     'mb-4 flex h-60px w-full gap-x-3.5 hg:gap-x-5 border-b border-solid border-fullDark/[.2] transition-colors dark:border-whiteBase/[.2]';
   const tabStyles =
@@ -50,10 +56,7 @@ const AuthModal: FC<IAuthModalProps> = ({ passwordToken }) => {
               manual
               defaultIndex={SIGN_UP_TAB_IDX}
               selectedIndex={selectedTab}
-              onChange={(index) => {
-                setSelectedTab(index);
-                hideForgotPasswordInput(index);
-              }}
+              onChange={(index) => handleChangeTab(index)}
             >
               <Tab.List className={`${tabListStyles}`}>
                 <Tab className={`${tabStyles}`}>Register</Tab>

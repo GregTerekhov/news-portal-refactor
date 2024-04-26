@@ -33,8 +33,6 @@ export const SelectedDateProvider: FC<SelectedDateContextProps> = ({ children })
   const [beginRequestDate, setBeginRequestDate] = useState<Date | null>(null);
   const [beginFilterDate, setBeginFilterDate] = useState<Date | null>(null);
 
-  // console.log('selectedFilterDate', selectedFilterDate);
-
   //Скидування значень дат для запиту
   const resetRequestDay = (): void => {
     setSelectedRequestDate({ beginDate: '', endDate: '' });
@@ -55,8 +53,6 @@ export const SelectedDateProvider: FC<SelectedDateContextProps> = ({ children })
     () => selectedFilterDate,
     [selectedFilterDate, resetFiltersDay],
   );
-
-  // console.log('memoizedSelectedFilterDate', memoizedSelectedFilterDate);
 
   return (
     <SelectedDateContext.Provider

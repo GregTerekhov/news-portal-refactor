@@ -25,9 +25,9 @@ const NavigationErrorButtons: FC<NavigationErrorProps> = ({ anyServerError }) =>
 
   return (
     <div
-      className={`${
+      className={`flex items-center ${
         isAuthenticated ? 'justify-between gap-5 md:gap-x-20 lg:gap-x-36' : 'justify-center'
-      } flex items-center`}
+      }`}
     >
       {isAuthenticated && (
         <PrimaryButton

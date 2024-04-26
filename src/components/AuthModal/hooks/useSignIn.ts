@@ -3,7 +3,6 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { SubmitHandler, useForm } from 'react-hook-form';
 
 import type { AuthRequestWithoutName, EncryptedPasswordRequest } from 'types';
-
 import { useAuthRedux } from 'reduxStore/hooks';
 import { useNotificationContext, useScrollBodyContext } from 'contexts';
 
@@ -69,6 +68,7 @@ const useSignIn = () => {
   // Функція слідкування за станом чекбокса та його зміни
   const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const isRememberMe = event.target.checked;
+
     setIsChecked(isRememberMe);
     localStorage.setItem('rememberMe', isRememberMe.toString());
   };
@@ -114,16 +114,13 @@ const useSignIn = () => {
     }
   };
 
-  // Data для signIn-інпутів
-  const signInInputs = signInDataInputs(errors, email, password, isChecked);
-
   return {
+    isChecked,
+    signInInputs: signInDataInputs(errors, email, password, isChecked),
     handleSubmit,
     registration,
     handleCheckboxChange,
     signInSubmitHandler,
-    signInInputs,
-    isChecked,
   };
 };
 

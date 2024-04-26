@@ -34,7 +34,7 @@ const PlugImage: FC<PlugImageProps> = ({ variant }) => {
     <>
       {variant === 'page' ? (
         <div className='flex flex-col items-center justify-center space-y-10'>
-          <p className={`${plugImageTextStyles}`}>{generateText()}</p>
+          <p className={plugImageTextStyles}>{generateText()}</p>
           <img
             src={imageUrl}
             alt={`${isErrorAPI && isHomeActive ? 'Too much requests' : 'No found news'}`}

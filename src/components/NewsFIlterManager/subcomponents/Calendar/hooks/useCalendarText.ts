@@ -1,7 +1,7 @@
-import { format, startOfToday } from 'date-fns';
+import { startOfToday } from 'date-fns';
 
 import { useFiltersStateContext, useSelectedDateContext } from 'contexts';
-import { convertDateStringToVariables } from 'helpers';
+import { convertDateStringToVariables, formatDateToString } from 'helpers';
 
 const useCalendarText = () => {
   const { filters } = useFiltersStateContext();
@@ -27,7 +27,7 @@ const useCalendarText = () => {
     if (variant === 'FiltersBlock' && showSelectedDateForFiltering) {
       return `${firstFilteredDate} - ${lastFilteredDate}`;
     }
-    return format(today, 'dd/MM/yyyy');
+    return formatDateToString(today).dayMonthYear;
   };
 
   return { showButtonText };

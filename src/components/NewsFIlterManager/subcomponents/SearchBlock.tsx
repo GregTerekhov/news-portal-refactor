@@ -3,10 +3,12 @@ import React, { FC } from 'react';
 import { VariantButton, VariantInputs } from 'types';
 import { useAdditionRequestContext, useWindowWidthContext } from 'contexts';
 
-import { useAdditionalRequest } from 'hooks';
-
 import { Dropdown, PrimaryButton, UnverifiableInput } from 'ui';
 import Calendar from './Calendar/Calendar';
+
+import { useAdditionalRequest } from './hooks';
+
+const PERIOD = ['Today', 'Week', 'Month'];
 
 const SearchBlock: FC<{}> = () => {
   const { wideScreens } = useWindowWidthContext();
@@ -50,7 +52,7 @@ const SearchBlock: FC<{}> = () => {
       </div>
       <div className='md:col-span-2 lg:col-span-3'>
         <Dropdown
-          options={['Today', 'Week', 'Month']}
+          options={PERIOD}
           getResults={getNewsByPeriod}
           selectedItem={searchParams.period}
           onSelectItem={updateSearchParams}

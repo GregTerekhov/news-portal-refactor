@@ -2,7 +2,6 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { SubmitHandler, useForm } from 'react-hook-form';
 
 import type { SendEmailRequest } from 'types';
-
 import { useAuthRedux } from 'reduxStore/hooks';
 import { useNotificationContext, useScrollBodyContext } from 'contexts';
 
@@ -34,8 +33,8 @@ const useSendEmail = () => {
       console.error('Error during sending email for recovery password', error);
     } finally {
       resetField('email');
-      setIsScrollDisabled(false);
     }
+    setIsScrollDisabled(false);
   };
 
   return {

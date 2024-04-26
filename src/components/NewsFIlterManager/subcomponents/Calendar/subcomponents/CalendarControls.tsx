@@ -1,5 +1,6 @@
 import React, { FC } from 'react';
-import { format } from 'date-fns';
+
+import { formatDateToString } from 'helpers';
 
 import ArrowButton from './ArrowButton';
 
@@ -17,7 +18,7 @@ type ButtonsBlock = {
   id: string;
   onPrevClick: ControlFunction;
   onNextClick: ControlFunction;
-  formatSchemaString: string;
+  formattedDate: string;
 };
 
 const CalendarControls: FC<CalendarControlsProps> = ({
@@ -33,13 +34,13 @@ const CalendarControls: FC<CalendarControlsProps> = ({
       id: 'year',
       onPrevClick: getPrevYear,
       onNextClick: getNextYear,
-      formatSchemaString: 'yyyy',
+      formattedDate: formatDateToString(firstDayOfMonth).year,
     },
     {
       id: 'month',
       onPrevClick: getPrevMonth,
       onNextClick: getNextMonth,
-      formatSchemaString: 'MMMM',
+      formattedDate: formatDateToString(firstDayOfMonth).month,
     },
   ];
 
@@ -48,21 +49,26 @@ const CalendarControls: FC<CalendarControlsProps> = ({
 
   return (
     <div className='mb-5 flex items-center justify-between py-[7px]'>
-      {controlButtonsBlock.map(({ id, onPrevClick, onNextClick, formatSchemaString }) => (
-        <div className='flex items-center gap-x-2' key={id}>
-          <ArrowButton
-            ariaLabel={`Previous ${id} button`}
-            iconClass='rotate-90'
-            onClick={onPrevClick}
-          >
-            {`Previous ${id} button`}
-          </ArrowButton>
-          <p className={`${commonTextStyles}`}>{format(firstDayOfMonth, formatSchemaString)}</p>
-          <ArrowButton ariaLabel={`Next ${id} button`} onClick={onNextClick} iconClass='-rotate-90'>
-            {`Next ${id} button`}
-          </ArrowButton>
-        </div>
-      ))}
+      {Array.isArray(controlButtonsBlock) &&
+        controlButtonsBlock.map(({ id, onPrevClick, onNextClick, formattedDate }) => (
+          <div className='flex items-center gap-x-2' key={id}>
+            <ArrowButton
+              ariaLabel={`Previous ${id} button`}
+              iconClass='rotate-90'
+              onClick={onPrevClick}
+            >
+              {`Previous ${id} button`}
+            </ArrowButton>
+            <p className={`${commonTextStyles}`}>{formattedDate}</p>
+            <ArrowButton
+              ariaLabel={`Next ${id} button`}
+              onClick={onNextClick}
+              iconClass='-rotate-90'
+            >
+              {`Next ${id} button`}
+            </ArrowButton>
+          </div>
+        ))}
     </div>
   );
 };

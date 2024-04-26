@@ -39,6 +39,13 @@ const NewsItem: FC<Partial<NewsItemProps>> = ({ liveNews = {} }) => {
   const showHasReadStatus =
     isAuthenticated && hasRead && (isHomeActive || isArchiveActive || isFavoriteActive);
 
+  const shouldShowModal =
+    isOpenModal &&
+    isOpenModalForItem &&
+    isAuthenticated &&
+    modalType === 'deleteNews' &&
+    liveNews?._id;
+
   return (
     <>
       {liveNews?.newsUrl && (
@@ -48,6 +55,7 @@ const NewsItem: FC<Partial<NewsItemProps>> = ({ liveNews = {} }) => {
           href={liveNews.newsUrl}
           target='_blank'
           onClick={isAuthenticated ? handleReadNews : undefined}
+          aria-label='Click to read current news'
         >
           <div
             className={`${
@@ -96,20 +104,16 @@ const NewsItem: FC<Partial<NewsItemProps>> = ({ liveNews = {} }) => {
           <NewsDescription liveNews={liveNews} />
         </a>
       )}
-      {isOpenModal &&
-        isOpenModalForItem &&
-        isAuthenticated &&
-        modalType === 'deleteNews' &&
-        liveNews?._id && (
-          <Modal closeModal={toggleModal} modalRef={popUpRef}>
-            <DeleteNewsModal
-              handleClose={(e: React.MouseEvent<HTMLButtonElement>) => toggleModal(e)}
-              handleDeleteNews={(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) =>
-                handleDeleteNewsWrapper(e, liveNews._id)
-              }
-            />
-          </Modal>
-        )}
+      {shouldShowModal && (
+        <Modal closeModal={toggleModal} modalRef={popUpRef}>
+          <DeleteNewsModal
+            handleClose={(e: React.MouseEvent<HTMLButtonElement>) => toggleModal(e)}
+            handleDeleteNews={(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) =>
+              handleDeleteNewsWrapper(e, liveNews._id)
+            }
+          />
+        </Modal>
+      )}
     </>
   );
 };

@@ -93,7 +93,7 @@ export function getFinalUrl(
 export function getDynamicUrl(args: any, url: string): string {
   let dynamicUrl = url;
 
-  const shouldChangeUrl = args && typeof args === 'string' && url.includes('_id');
+  const shouldChangeUrl = typeof args === 'string' && url.includes('_id');
 
   if (shouldChangeUrl) dynamicUrl = url.replace(/_id\b/, args.toString());
 
@@ -110,9 +110,7 @@ export async function transformDataResponse(
   const resultData = options?.responsePath ? parsedData?.[options.responsePath] : parsedData;
 
   // Виводимо, якщо є nestedObjectName - для варіантів, коли є вкладеність необхідних даних на один рівень нижче response.data
-  const finalData = options?.nestedObjectName ? resultData?.[options.nestedObjectName] : resultData;
-
-  return finalData;
+  return options?.nestedObjectName ? resultData?.[options.nestedObjectName] : resultData;
 }
 
 export const updateTokens = async (): Promise<void> => {
@@ -147,6 +145,8 @@ export const getErrorMessage = (error: any): string | number => {
     return error.response.status;
   } else if (error.response.data && error.response.data.message) {
     return error.response.data.message;
+  } else if (error.response.cod && error.response.cod >= 500) {
+    return error.response.cod;
   } else {
     return 'Unknown error';
   }

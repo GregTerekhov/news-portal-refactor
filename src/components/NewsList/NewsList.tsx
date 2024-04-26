@@ -14,6 +14,9 @@ interface NewsListProps {
   currentPage?: number;
 }
 
+const FIRST_ITEM_IDX = 0;
+const SECOND_ITEM_IDX = 1;
+
 const NewsList: FC<Partial<NewsListProps>> = ({ currentItems, currentPage }) => {
   const { isWeatherLoading } = useWeatherAPIRedux();
 
@@ -22,9 +25,20 @@ const NewsList: FC<Partial<NewsListProps>> = ({ currentItems, currentPage }) => 
   const newsListStyles = `${!isFavoriteActive ? 'mb-10 md:mb-12 lg:mb-[60px]' : 'mb-0'} max-md:space-y-7 md:grid md:grid-cols-2 md:gap-[30px] lg:grid-cols-3 lg:gap-x-8 lg:gap-y-10 hg:gap-10`;
 
   const getNewsItemStyles = (index: number): string => {
-    return `relative h-655px w-72 overflow-hidden rounded-[10px] shadow-card transition-colors dark:shadow-darkCard md:h-700px md:w-353px lg:w-395px hg:w-442px ${
-      index === 0 && 'md:col-start-1 md:row-start-1 lg:col-start-1'
-    } ${index === 1 && 'lg:col-start-2 lg:row-start-1'}`;
+    let itemStyles = '';
+
+    switch (index) {
+      case FIRST_ITEM_IDX:
+        itemStyles = 'md:col-start-1 md:row-start-1 lg:col-start-1';
+        break;
+      case SECOND_ITEM_IDX:
+        itemStyles = 'lg:col-start-2 lg:row-start-1';
+        break;
+
+      default:
+        break;
+    }
+    return `relative h-655px w-72 overflow-hidden rounded-[10px] shadow-card transition-colors dark:shadow-darkCard md:h-700px md:w-353px lg:w-395px hg:w-442px ${itemStyles}`;
   };
 
   return (

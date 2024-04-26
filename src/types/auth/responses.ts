@@ -12,9 +12,12 @@ export type User = {
 };
 
 export interface ReceivedCryptoPassword {
-  exportedCryptoKey: ArrayBuffer;
-  encryptedPassword: ArrayBuffer;
-  salt: Uint8Array;
+  exportedCryptoKey: string;
+  encryptedPassword: string;
+  salt: string;
+  // exportedCryptoKey: ArrayBuffer;
+  // encryptedPassword: ArrayBuffer;
+  // salt: Uint8Array;
   email: string;
 }
 

@@ -1,12 +1,24 @@
 import { format, isAfter, parse } from 'date-fns';
+import { enUS } from 'date-fns/locale';
 
 import type { CalendarVariant, DateRequest } from 'types';
+
+interface FormattedDateObject {
+  dayMonthYear: string;
+  yearMonthDay: string;
+  monthYear: string;
+  year: string;
+  month: string;
+  day: string;
+  fullMonthYear: string;
+  dateStringWithPattern: string;
+}
 
 export function convertDateStringToDDMMYYY(inputDate: string): string {
   if (!inputDate) return '';
 
   const date = new Date(inputDate);
-  return format(date, 'dd/MM/yyyy');
+  return formatDateToString(date).dayMonthYear;
 }
 
 export function convertDateStringToVariables(inputDate: string, withoutYear?: boolean): string {
@@ -23,11 +35,15 @@ export function determineNewSelectedDate(
   currentBeginDate: Date,
   position: string,
 ): DateRequest {
-  const formatPattern = position === 'request' ? 'yyyyMMdd' : 'dd/MM/yyyy';
-
   return isAfter(date, currentBeginDate)
-    ? { beginDate: format(currentBeginDate, formatPattern), endDate: format(date, formatPattern) }
-    : { beginDate: format(date, formatPattern), endDate: format(currentBeginDate, formatPattern) };
+    ? {
+        beginDate: formatDateToString(currentBeginDate, position).dateStringWithPattern,
+        endDate: formatDateToString(date, position).dateStringWithPattern,
+      }
+    : {
+        beginDate: formatDateToString(date, position).dateStringWithPattern,
+        endDate: formatDateToString(currentBeginDate, position).dateStringWithPattern,
+      };
 }
 
 export const formatSortedDate = (dateStr: string | undefined): number => {
@@ -68,10 +84,10 @@ export const getStringDateToCalendar = (day: Date, variant: CalendarVariant): st
 
   switch (variant) {
     case 'SearchBlock':
-      dayToString = format(day, 'yyyyMMdd');
+      dayToString = formatDateToString(day).yearMonthDay;
       break;
     case 'FiltersBlock':
-      dayToString = format(day, 'dd/MM/yyyy');
+      dayToString = formatDateToString(day).dayMonthYear;
       break;
     default:
       break;
@@ -96,4 +112,17 @@ export function parseStringToDate(date: string, variant?: string): Date {
     default:
       return parse(date, 'MMM-yyyy', new Date());
   }
+}
+
+export function formatDateToString(date: Date | number, position?: string): FormattedDateObject {
+  return {
+    dayMonthYear: format(date, 'dd/MM/yyyy'),
+    yearMonthDay: format(date, 'yyyyMMdd'),
+    monthYear: format(date, 'MMM-yyyy'),
+    year: format(date, 'yyyy'),
+    month: format(date, 'MMMM'),
+    day: format(date, 'd'),
+    fullMonthYear: format(date, 'LLLL yyyy', { locale: enUS }),
+    dateStringWithPattern: format(date, position === 'request' ? 'yyyyMMdd' : 'dd/MM/yyyy'),
+  };
 }

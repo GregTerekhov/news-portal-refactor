@@ -65,14 +65,11 @@ const useAccountSettings = () => {
     navigate('/in-development');
   };
 
-  //Data для third-party-auth кнопок
-  const accountButtons = getButtonsData(
-    haveAccounts,
+  return {
+    googleLogin,
     handleGoogleLinkClick,
-    redirectOnDevelopmentPage,
-  );
-
-  return { googleLogin, handleGoogleLinkClick, accountButtons };
+    accountButtons: getButtonsData(haveAccounts, handleGoogleLinkClick, redirectOnDevelopmentPage),
+  };
 };
 
 export default useAccountSettings;

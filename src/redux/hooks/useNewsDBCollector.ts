@@ -1,9 +1,8 @@
 import { useCallback } from 'react';
 
+import type { PartialVotedNewsArray, VotedItem } from 'types';
 import { useAppDispatch, useAppSelector } from '../hooks';
 import * as newsDB from '../newsDatabase';
-
-import type { PartialVotedNewsArray, VotedItem } from 'types';
 
 const useNewsDBCollector = () => {
   const dbSuccessMessage = useAppSelector(newsDB.selectSuccessMessage);

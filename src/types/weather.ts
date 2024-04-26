@@ -52,5 +52,5 @@ export interface WeatherState {
   isLoading: boolean;
   data: WeatherData;
   weatherByHour: HourlyWeatherData | [];
-  hasError: string | null;
+  hasError: number | null;
 }

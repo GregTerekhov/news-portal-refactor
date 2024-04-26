@@ -40,8 +40,7 @@ const useShowToast = () => {
   ];
 
   const homeToastSuccess = homeToastSuccessMessages.includes(statusMessage);
-  const homeToastError =
-    (authError && typeof authError === 'string') || (errorAPI && typeof errorAPI === 'number');
+  const homeToastError = typeof authError === 'string' || typeof errorAPI === 'number';
 
   const homeToastInfo = (!isHomeLoader && additionalRequests) || filteredNews?.length > 0;
 

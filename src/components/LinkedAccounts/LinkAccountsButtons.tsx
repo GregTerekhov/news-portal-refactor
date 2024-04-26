@@ -41,7 +41,7 @@ const LinkAccountsButtons: FC = () => {
               svgName={svgName}
               svgSize={getSvgSize(isManageAccountPage, isMobile, isTV)}
               ariaLabel={getAriaLabel(account, isManageAccountPage, hasAccount)}
-              classNameButton={`${accountButtonStyles}`}
+              classNameButton={accountButtonStyles}
               classNameIcon={accountIconStyles}
               children={!isMobile && !isManageAccountPage ? account : ''}
               onHandleClick={onClick}

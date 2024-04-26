@@ -1,8 +1,9 @@
 import React, { FC } from 'react';
-import { format, getDay } from 'date-fns';
+import { getDay } from 'date-fns';
 
 import type { CalendarVariant } from 'types';
 
+import { formatDateToString } from 'helpers';
 import { COL_START_CLASSES } from '../assistants';
 import { useRequestByDate, useSelectedPeriod } from '../hooks';
 
@@ -58,7 +59,7 @@ const GridCalendar: FC<GridCalendarProps> = ({
         }
         onClick={handleDateClick}
       >
-        {format(day, 'd')}
+        {formatDateToString(day).day}
       </button>
     </div>
   );

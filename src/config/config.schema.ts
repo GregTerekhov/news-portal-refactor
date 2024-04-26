@@ -10,6 +10,7 @@ const configSchema = z.object({
   BASE_URL_NEWS: z.string(),
   BASE_URL_WEATHER: z.string(),
   YOUTUBE_ID: z.string(),
+  WEATHER_ICON_URL: z.string(),
 });
 
 export const parseConfig = (configObj: Record<string, unknown>) => {

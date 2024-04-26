@@ -5,7 +5,8 @@ import { useWindowWidthContext } from 'contexts';
 
 import { CustomScrollBar } from 'ui';
 
-import { formatTableDates, getNewsTitle, tableHeads } from '../assistants';
+import { formatDateToString } from 'helpers';
+import { getNewsTitle, tableHeads } from '../assistants';
 
 interface TableProps {
   displayedRows: IHistoryLog[];
@@ -51,8 +52,12 @@ const DeletedNewsTable: FC<TableProps> = ({ displayedRows }) => {
                   </a>
                 </td>
                 <td className={`${tableRowClass}`}>{category}</td>
-                <td className={`${tableRowClass}`}>{formatTableDates(additionDate)}</td>
-                <td className={`${tableRowClass}`}>{formatTableDates(deletionDate)}</td>
+                <td className={`${tableRowClass}`}>
+                  {formatDateToString(additionDate).dayMonthYear}
+                </td>
+                <td className={`${tableRowClass}`}>
+                  {formatDateToString(deletionDate).dayMonthYear}
+                </td>
               </tr>
             ))}
         </tbody>

@@ -1,11 +1,12 @@
 import React, { FC } from 'react';
 
 import type { CalendarVariant } from 'types';
+
 import { useActiveLinks, usePopUp } from 'hooks';
 
 import { SvgIcon } from 'ui';
-
 import { CalendarContent } from './subcomponents';
+
 import { useCalendarText } from './hooks';
 
 const Calendar: FC<{ variant: CalendarVariant }> = ({ variant }) => {

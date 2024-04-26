@@ -1,31 +1,25 @@
 import React, { FC } from 'react';
 
-import { memberFirstImages, memberSecondImages, memberThirdImages } from 'constants/images';
-import { generateContentImages } from 'helpers';
 import { useCacheImage } from 'hooks';
 
 import { MembersList } from './subcomponents';
-import { getMembersList } from './assistants';
+import { getMatchedImages, getMembersList } from './assistants';
 
 const AboutUs: FC<{}> = () => {
-  const devicePixelRatio = window.devicePixelRatio || 1;
+  const matchedMemberImages = getMatchedImages();
 
-  const matchedMemberImages = [memberFirstImages, memberSecondImages, memberThirdImages].map(
-    (images) => generateContentImages(images, devicePixelRatio, window.innerWidth),
+  const memberImageUrls = matchedMemberImages.map((matchedImage) =>
+    useCacheImage(matchedImage?.src || ''),
   );
 
-  const firstMemberImageUrl = useCacheImage(matchedMemberImages[0]?.src || '');
-  const secondMemberImageUrl = useCacheImage(matchedMemberImages[1]?.src || '');
-  const thirdMemberImageUrl = useCacheImage(matchedMemberImages[2]?.src || '');
-
-  const members = getMembersList(firstMemberImageUrl, secondMemberImageUrl, thirdMemberImageUrl);
+  const members = getMembersList(memberImageUrls);
 
   const commonTextMemberClass = 'text-darkBase dark:text-whiteBase transition-colors';
 
   return (
     <>
       <h1 className={`${commonTextMemberClass} mb-10 text-giant font-bold`}>About Us</h1>
-      {members &&
+      {Array.isArray(members) &&
         members.map((group) => (
           <div key={group.groupTitle}>
             <h2

@@ -1,4 +1,4 @@
-import { HaveAccounts } from 'types';
+import type { HaveAccounts } from 'types';
 
 type AccountsButton = {
   svgName: string;

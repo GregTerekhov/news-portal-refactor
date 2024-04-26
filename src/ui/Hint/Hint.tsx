@@ -20,7 +20,7 @@ const Hint: FC<ITooltipProps> = forwardRef<HTMLDivElement, ITooltipProps>(
         <Tooltip.Trigger asChild>{children}</Tooltip.Trigger>
         <Tooltip.Portal>
           <Tooltip.Content
-            className={`${tooltipContentStyles}`}
+            className={tooltipContentStyles}
             side={side}
             aria-label={ariaLabel}
             sideOffset={sideOffset}

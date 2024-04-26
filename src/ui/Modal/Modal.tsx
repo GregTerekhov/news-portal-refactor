@@ -30,9 +30,9 @@ const Modal: FC<ModalProps> = ({ children, closeModal, modalRef }) => {
     <>
       {modalRoot &&
         createPortal(
-          <div className={`${backdropStyles}`}>
+          <div className={backdropStyles}>
             <div className='flex w-full items-center justify-center max-md:px-10'>
-              <div ref={modalRef} className={`${modalContainerStyles}`}>
+              <div ref={modalRef} className={modalContainerStyles}>
                 <button
                   aria-label='Modal close button'
                   className='absolute right-4 top-4 flex items-center justify-center hg:right-5 hg:top-5'

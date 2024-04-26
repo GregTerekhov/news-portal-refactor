@@ -3,13 +3,7 @@ import { ReactElement } from 'react';
 import type { HourlyWeatherData, WeatherData } from 'types';
 import { ICON_SIZES } from 'constants/iconSizes';
 
-import {
-  convertTimezone,
-  convertUnixTimestampToHHMM,
-  formatKmToMetre,
-  getWindStrengthScale,
-  hPaToMmHg,
-} from './utils';
+import { getWeatherTodayObject } from './utils';
 
 import {
   RenderTemperatureCell,
@@ -41,11 +35,23 @@ export const getWeatherDetailsForToday = (
   isMobile: boolean | undefined,
   currentWeather: WeatherData,
 ): DetailsRows[] => {
+  const {
+    timezone,
+    humidityPercent,
+    pressureHpa,
+    pressureMmHg,
+    sunriseTime,
+    sunsetTime,
+    visibility,
+    windSpeed,
+    beaufortScale,
+  } = getWeatherTodayObject(currentWeather);
+
   const weatherDetails: DetailsRows[] = [
     {
       icon: 'earth',
       iconSize: isMobile ? 'xsIcon16' : 'mdIcon24',
-      value: `${convertTimezone(currentWeather?.timezone)}`,
+      value: `${timezone}`,
       label: 'Greenwich mean time',
       hint: 'GMT time',
       justifyItemClass: 'justify-start',
@@ -54,7 +60,7 @@ export const getWeatherDetailsForToday = (
     {
       icon: 'humidity',
       iconSize: isMobile ? 'smIcon18' : 'lgIcon30',
-      value: `${currentWeather?.main?.humidity}`,
+      value: `${humidityPercent}`,
       label: 'Humidity in percent',
       hint: 'Humidity (%)',
       justifyItemClass: 'justify-end',
@@ -63,7 +69,7 @@ export const getWeatherDetailsForToday = (
     {
       icon: 'pressure',
       iconSize: isMobile ? 'smIcon18' : 'lgIcon30',
-      value: `${hPaToMmHg(currentWeather?.main?.pressure)}`,
+      value: `${pressureMmHg}`,
       label: 'Atmospheric pressure in mm Hg',
       hint: 'Atmospheric pressure (mm.Hg)',
       justifyItemClass: 'justify-start',
@@ -72,7 +78,7 @@ export const getWeatherDetailsForToday = (
     {
       icon: 'pressure',
       iconSize: isMobile ? 'smIcon18' : 'lgIcon30',
-      value: `${currentWeather?.main?.pressure}`,
+      value: `${pressureHpa}`,
       label: 'Atmospheric pressure in hPa',
       hint: 'Atmospheric pressure (HPa)',
       justifyItemClass: 'justify-end',
@@ -81,7 +87,7 @@ export const getWeatherDetailsForToday = (
     {
       icon: 'sunrise',
       iconSize: isMobile ? 'smIcon20' : 'lgIcon30',
-      value: `${convertUnixTimestampToHHMM(currentWeather?.sys?.sunrise)}`,
+      value: `${sunriseTime}`,
       label: 'Sunrise time',
       hint: 'Sunrise time',
       justifyItemClass: 'justify-start',
@@ -90,7 +96,7 @@ export const getWeatherDetailsForToday = (
     {
       icon: 'sunset',
       iconSize: isMobile ? 'smIcon20' : 'lgIcon30',
-      value: `${convertUnixTimestampToHHMM(currentWeather?.sys?.sunset)}`,
+      value: `${sunsetTime}`,
       label: 'Sunset time',
       hint: 'Sunset time',
       justifyItemClass: 'justify-end',
@@ -99,7 +105,7 @@ export const getWeatherDetailsForToday = (
     {
       icon: 'eye-opened',
       iconSize: isMobile ? 'smIcon20' : 'lgIcon30',
-      value: `${formatKmToMetre(currentWeather?.visibility)}`,
+      value: `${visibility}`,
       label: 'Road visibility',
       hint: 'Road visibility',
       justifyItemClass: 'justify-start',
@@ -108,11 +114,9 @@ export const getWeatherDetailsForToday = (
     {
       icon: 'weather-wind',
       iconSize: isMobile ? 'smIcon20' : 'lgIcon30',
-      value: `${currentWeather?.wind?.speed}`,
+      value: `${windSpeed}`,
       label: 'Wind speed in metre per seconds',
-      hint: `Wind speed (m/s). (${getWindStrengthScale(
-        currentWeather?.wind?.speed,
-      )} on the Beaufort scale)`,
+      hint: `Wind speed (m/s). (${beaufortScale} on the Beaufort scale)`,
       justifyItemClass: 'justify-end',
       subTextValue: 'm/s',
     },

@@ -27,7 +27,7 @@ export const generateInputStyles = () => {
       placeholderColor: 'placeholder:text-darkBase/[.4] dark:placeholder:text-whiteBase/[.4]',
     },
     [VariantInputs.Checkbox]: {
-      labelCheckbox: 'cursor-pointer block',
+      labelCheckbox: 'cursor-pointer order-2',
       checkboxStyles: 'sr-only',
     },
   };

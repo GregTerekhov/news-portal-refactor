@@ -2,7 +2,6 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { SubmitHandler, useForm } from 'react-hook-form';
 
 import type { MainCredentials } from 'types';
-
 import { useAuthRedux } from 'reduxStore/hooks';
 import { useNotificationContext, useScrollBodyContext } from 'contexts';
 
@@ -30,18 +29,7 @@ const useSignUp = () => {
     try {
       const { name, email, password } = data;
 
-      const signUpCredentials = {
-        name,
-        email,
-        password,
-      };
-
-      const signInCredentials = {
-        email,
-        password,
-      };
-
-      const signUpResponse = await register(signUpCredentials);
+      const signUpResponse = await register({ name, email, password });
 
       if (signUpResponse.meta.requestStatus === 'rejected') {
         showToast(signUpResponse.meta.requestStatus);
@@ -49,7 +37,7 @@ const useSignUp = () => {
         setIsScrollDisabled(false);
         return;
       } else {
-        const response = await login(signInCredentials);
+        const response = await login({ email, password });
 
         showToast(response.meta.requestStatus);
       }
@@ -67,14 +55,11 @@ const useSignUp = () => {
     }
   };
 
-  // Data для signUp-інпутів
-  const signUpInputs = signUpDataInputs(errors);
-
   return {
     handleSubmit,
     registration,
     signUpSubmitHandler,
-    signUpInputs,
+    signUpInputs: signUpDataInputs(errors),
   };
 };
 

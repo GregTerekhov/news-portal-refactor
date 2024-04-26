@@ -1,39 +1,34 @@
-import React, { FC, ReactNode } from 'react';
+import React, { FC } from 'react';
 
 import { useWindowWidthContext } from 'contexts';
 import { useActiveLinks } from 'hooks';
 
+import Item from './Item';
 import SkeletonSection from './SkeletonSection';
+import SkeletonPagination from './SkeletonPagination';
 import {
-  commonPageItemClass,
   pageClass,
   headerContainerPageClass,
   logoPageClass,
   mainContentPageClass,
   menuWrapperClass,
+  commonPageItemClass,
 } from '../assistants';
-import SkeletonPagination from './SkeletonPagination';
 
 const SkeletonPage: FC = () => {
   const { isMobile, isTablet, wideScreens } = useWindowWidthContext();
   const { isHomeActive } = useActiveLinks();
 
-  const menuItems: ReactNode[] = Array(4)
-    .fill(null)
-    .map((_, index) => <div key={index} className={`${commonPageItemClass}`}></div>);
-
-  const headerRightBlockItems: ReactNode[] = Array(2)
-    .fill(null)
-    .map((_, index) => <div key={index} className={`${commonPageItemClass}`}></div>);
-
   return (
-    <div className={`${pageClass}`}>
-      <div className={`${headerContainerPageClass}`}>
-        <div className={`${logoPageClass}`}></div>
-        {!isMobile && <div className={`${menuWrapperClass}`}>{menuItems}</div>}
-        <div className='space-y-2'>{headerRightBlockItems}</div>
+    <div className={pageClass}>
+      <div className={headerContainerPageClass}>
+        <div className={logoPageClass}></div>
+        {!isMobile && (
+          <Item count={4} className={menuWrapperClass} itemClassName={commonPageItemClass} />
+        )}
+        <Item count={2} className='space-y-2' itemClassName={commonPageItemClass} />
       </div>
-      <div className={`${mainContentPageClass}`}>
+      <div className={mainContentPageClass}>
         {isMobile && <SkeletonSection />}
         {isTablet && (
           <>

@@ -54,8 +54,7 @@ export interface CategoriesItem {
 }
 
 export type PopularNewsArray = PopularNewsItem[];
-export type PartialPopularNewsArray = Partial<PopularNewsItem>[];
 export type ArticleNewsArray = ArticleNewsItem[];
-export type PartialArticleNewsArray = Partial<ArticleNewsItem>[];
 export type NewsWireArray = NewsWireItem[];
-export type PartialNewsWireArray = Partial<NewsWireItem>[];
+
+export type GeneralNewsArray = PopularNewsArray | ArticleNewsArray | NewsWireArray;
