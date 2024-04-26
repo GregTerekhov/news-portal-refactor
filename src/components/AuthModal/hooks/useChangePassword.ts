@@ -1,9 +1,7 @@
-import { useNavigate } from 'react-router-dom';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { SubmitHandler, useForm } from 'react-hook-form';
 
 import type { ChangePasswordValues } from 'types';
-
 import { useAuthRedux } from 'reduxStore/hooks';
 import { useNotificationContext, useScrollBodyContext } from 'contexts';
 
@@ -16,8 +14,6 @@ const useChangePassword = () => {
   const { setIsScrollDisabled } = useScrollBodyContext();
 
   const { toggleModal } = usePopUp();
-
-  const navigate = useNavigate();
 
   // хук useForm react-hook-form для changePassword-операції
   const {
@@ -41,10 +37,6 @@ const useChangePassword = () => {
       localStorage.removeItem('userId');
 
       showToast(response.meta.requestStatus);
-
-      if (response.meta.requestStatus === 'fulfilled') {
-        navigate('/');
-      }
     } catch (error) {
       console.error('Error during changing password', error);
     } finally {
@@ -58,11 +50,8 @@ const useChangePassword = () => {
     }
   };
 
-  // Data для changePassword-інпутів
-  const changePasswordInputs = changePasswordDataInputs(errors);
-
   return {
-    changePasswordInputs,
+    changePasswordInputs: changePasswordDataInputs(errors),
     handleChangePasswordSubmit,
     registerChangePassword,
     changePasswordSubmitHandler,

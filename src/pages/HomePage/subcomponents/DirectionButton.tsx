@@ -21,8 +21,8 @@ const DirectionButton: FC<DirectionButtonProps> = ({
   const { isNotMobile } = useWindowWidthContext();
   const { currentPage } = usePaginationContext();
 
-  const disabledPrevButton = currentPage - 1 === 0 ? true : false;
-  const disableNextButton = currentPage === pageNumbers?.length ? true : false;
+  const disabledPrevButton = currentPage - 1 === 0;
+  const disableNextButton = currentPage === pageNumbers?.length;
 
   const getDirectionText = (): JSX.Element | null => {
     return isNotMobile ? (

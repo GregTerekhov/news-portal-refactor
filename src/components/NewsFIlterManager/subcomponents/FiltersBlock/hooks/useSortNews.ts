@@ -13,11 +13,7 @@ const useSortNews = () => {
 
   const { isHomeActive, isFavoriteActive, isReadActive } = activeLinks;
 
-  const handleSort = (order: string): void => {
-    if (!rebuiltNews || rebuiltNews.length === 0) return;
-
-    setIsSorted(true);
-
+  const getSortedNewsArray = (): PartialVotedNewsArray => {
     //Створення нового масива об'єктів для сортованих новин в залежності від локації
     let sortedNews: PartialVotedNewsArray = [];
 
@@ -28,6 +24,17 @@ const useSortNews = () => {
     } else if (isReadActive) {
       sortedNews = [...allReads];
     }
+
+    return sortedNews;
+  };
+
+  const handleSort = (order: string): void => {
+    if (!rebuiltNews || rebuiltNews.length === 0) return;
+
+    setIsSorted(true);
+
+    //Створення нового масива об'єктів для сортованих новин в залежності від локації
+    const sortedNews = getSortedNewsArray();
 
     //Сортування нового масива об'єктів новин
     sortedNews.sort((a, b) => {

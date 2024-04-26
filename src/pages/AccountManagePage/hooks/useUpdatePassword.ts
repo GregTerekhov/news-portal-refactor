@@ -41,9 +41,8 @@ const useUpdatePassword = () => {
   ) => {
     try {
       const { newPassword, password } = data;
-      const dataToSend = { password, newPassword };
 
-      const response = await updatePassword(dataToSend);
+      const response = await updatePassword({ password, newPassword });
       localStorage.removeItem('rememberMe');
       localStorage.removeItem('userId');
 
@@ -60,19 +59,16 @@ const useUpdatePassword = () => {
     }
   };
 
-  // Data для updatePassword-інпутів
-  const passwordInputs = renderPasswordInputs({
-    newPassword,
-    confirmPassword,
-    password,
-    errors,
-  });
-
   return {
     passwordSubmit,
     updatePasswordRegister,
     handlePasswordSubmitHandler,
-    passwordInputs,
+    passwordInputs: renderPasswordInputs({
+      newPassword,
+      confirmPassword,
+      password,
+      errors,
+    }),
   };
 };
 

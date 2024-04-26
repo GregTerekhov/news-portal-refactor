@@ -1,5 +1,4 @@
 import type { ThemeValue } from './requests';
-import type { ReceivedCryptoPassword } from './responses';
 
 export interface AuthState {
   message: string;
@@ -15,7 +14,6 @@ export interface AuthState {
     email: string;
     id: string;
   };
-  receivedCryptoPassword: ReceivedCryptoPassword | {};
   haveAccounts: {
     google: boolean;
     facebook: boolean;

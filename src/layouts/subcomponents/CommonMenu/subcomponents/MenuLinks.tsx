@@ -21,7 +21,7 @@ const MenuLinks: FC<Partial<MenuLinksProps>> = ({ handleLinkClick }) => {
           key={iconName}
           to={path}
           id={id}
-          className={`${menuLinksStyles}`}
+          className={menuLinksStyles}
           onClick={handleLinkClick}
         >
           {label}

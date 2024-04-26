@@ -26,15 +26,16 @@ const ReadPage: FC = () => {
   return (
     <PageTemplate>
       <div>
-        {readNews?.map((date) => (
-          <Accordeon key={date} dateSeparator={date} position='readPage'>
-            <NewsList
-              currentItems={rebuiltNews?.filter(
-                (news) => news?.publishDate !== undefined && news?.publishDate === date,
-              )}
-            />
-          </Accordeon>
-        ))}
+        {Array.isArray(readNews) &&
+          readNews.map((date) => (
+            <Accordeon key={date} dateSeparator={date} position='readPage'>
+              <NewsList
+                currentItems={rebuiltNews?.filter(
+                  (news) => news?.publishDate !== undefined && news?.publishDate === date,
+                )}
+              />
+            </Accordeon>
+          ))}
       </div>
     </PageTemplate>
   );

@@ -27,7 +27,7 @@ export const AdditionRequestProvider: FC<AdditionRequestContextProps> = ({ child
   const { newsByDate } = useNewsAPIRedux();
 
   const updateSearchParams = (value: string, key: keyof SearchParamsObject | string): void => {
-    setSearchParams((prevParams) => ({ ...prevParams, [key]: value }));
+    setSearchParams((prevParams: SearchParamsObject) => ({ ...prevParams, [key]: value }));
   };
 
   const resetSearchParams = (): void => setSearchParams({ query: '', period: '', category: '' });

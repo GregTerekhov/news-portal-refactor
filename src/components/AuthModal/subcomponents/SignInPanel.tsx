@@ -65,18 +65,16 @@ const SignInPanel: FC<SignInProps> = ({ handleShowRecoveryInput, isShowRecoveryI
           handleShowRecoveryInput={handleShowRecoveryInput}
           isShowRecoveryInput={isShowRecoveryInput}
         />
-        <div className='flex flex-row-reverse gap-x-3'>
-          <UnverifiableInput
-            inputData={{
-              name: 'checkbox',
-              type: 'checkbox',
-            }}
-            isChecked={isChecked}
-            hasIcon={false}
-            variant={VariantInputs.Checkbox}
-            onChange={(event: React.ChangeEvent<HTMLInputElement>) => handleCheckboxChange(event)}
-          />
-        </div>
+        <UnverifiableInput
+          inputData={{
+            name: 'checkbox',
+            type: 'checkbox',
+          }}
+          isChecked={isChecked}
+          hasIcon={false}
+          variant={VariantInputs.Checkbox}
+          onChange={(event: React.ChangeEvent<HTMLInputElement>) => handleCheckboxChange(event)}
+        />
         <div className='flex items-center justify-between'>
           <PrimaryButton type='submit' id='Login button' variant={VariantButton.Other} width='w-32'>
             Sign In

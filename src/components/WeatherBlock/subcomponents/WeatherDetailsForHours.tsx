@@ -6,13 +6,9 @@ import { useWindowWidthContext } from 'contexts';
 
 import { Hint, SvgIcon } from 'ui';
 
-import { convertUnixTimestampToHHMM, getWeatherTableForHours } from '../assistants';
+import { getWeatherHoursObject, getWeatherTableForHours } from '../assistants';
 
-interface WeatherForHoursProps {
-  isCelsius: boolean;
-}
-
-const WeatherDetailsForHours: FC<WeatherForHoursProps> = ({ isCelsius }) => {
+const WeatherDetailsForHours: FC<{ isCelsius: boolean }> = ({ isCelsius }) => {
   const { hourlyWeather } = useWeatherAPIRedux();
   const { isMobile } = useWindowWidthContext();
 
@@ -33,20 +29,16 @@ const WeatherDetailsForHours: FC<WeatherForHoursProps> = ({ isCelsius }) => {
                   className='fill-whiteBase'
                 />
               </th>
-              {hourlyWeather &&
-                Array.isArray(hourlyWeather) &&
-                hourlyWeather?.map((item: HourlyWeatherData) => {
-                  const convertedTime = convertUnixTimestampToHHMM(item?.dt);
-                  return (
-                    <th
-                      key={item?.dt}
-                      scope='col'
-                      className='-rotate-90 whitespace-nowrap text-center text-small text-whiteBase md:text-base hg:text-xl'
-                    >
-                      {convertedTime}
-                    </th>
-                  );
-                })}
+              {Array.isArray(hourlyWeather) &&
+                hourlyWeather?.map((item: HourlyWeatherData) => (
+                  <th
+                    key={getWeatherHoursObject(item).timeScale}
+                    scope='col'
+                    className='-rotate-90 whitespace-nowrap text-center text-small text-whiteBase md:text-base hg:text-xl'
+                  >
+                    {getWeatherHoursObject(item).convertedTimeScale}
+                  </th>
+                ))}
             </tr>
           </Hint>
         </thead>
@@ -70,7 +62,9 @@ const WeatherDetailsForHours: FC<WeatherForHoursProps> = ({ isCelsius }) => {
                 {hourlyWeather &&
                   Array.isArray(hourlyWeather) &&
                   hourlyWeather.map((item: HourlyWeatherData) => (
-                    <React.Fragment key={item?.dt}>{renderCell(item, isCelsius)}</React.Fragment>
+                    <React.Fragment key={getWeatherHoursObject(item).timeScale}>
+                      {renderCell(item, isCelsius)}
+                    </React.Fragment>
                   ))}
               </tr>
             </Hint>

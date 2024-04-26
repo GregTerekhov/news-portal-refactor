@@ -3,12 +3,11 @@ import React, { FC } from 'react';
 import { useFiltersStateContext } from 'contexts';
 
 import { Dropdown } from 'ui';
+import Calendar from '../Calendar/Calendar';
+import { ControlButtons, FilterInputs } from './subcomponents';
 
 import { materialTypes } from './assistants';
 import { useChangeFilter } from './hooks';
-
-import Calendar from '../Calendar/Calendar';
-import { ControlButtons, FilterInputs } from './subcomponents';
 
 const FiltersBlock: FC<{}> = () => {
   const { selectedMaterialType, setSelectedMaterialType } = useFiltersStateContext();

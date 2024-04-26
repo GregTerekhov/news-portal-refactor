@@ -39,22 +39,23 @@ const ClearLogModal: FC<ClearLogModalProps> = ({ handleClearing, handleClose }) 
           Are you sure you want to clear the log of deleted news?
         </p>
         <ul className='max-md:space-y-4 md:flex md:items-center md:justify-between md:gap-8'>
-          {dialogButtons.map(({ onClick, id, label, icon }) => (
-            <li key={label} className='w-full'>
-              <PrimaryButton
-                variant={VariantButton.Primary}
-                onHandleClick={onClick}
-                hasIcon={true}
-                id={id}
-                svgName={icon}
-                svgSize='smIcon18'
-                classNameIcon='fill-whiteBase'
-                classNameButton='md:text-xl border border-whiteBase'
-              >
-                {label}
-              </PrimaryButton>
-            </li>
-          ))}
+          {Array.isArray(dialogButtons) &&
+            dialogButtons.map(({ onClick, id, label, icon }) => (
+              <li key={label} className='w-full'>
+                <PrimaryButton
+                  variant={VariantButton.Primary}
+                  onHandleClick={onClick}
+                  hasIcon={true}
+                  id={id}
+                  svgName={icon}
+                  svgSize='smIcon18'
+                  classNameIcon='fill-whiteBase'
+                  classNameButton='md:text-xl border border-whiteBase'
+                >
+                  {label}
+                </PrimaryButton>
+              </li>
+            ))}
         </ul>
       </div>
     </RemoveScroll>

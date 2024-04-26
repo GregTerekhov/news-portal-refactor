@@ -10,9 +10,9 @@ import { Hint, Modal, UnverifiableInput } from 'ui';
 import TablePagination from './TablePagination';
 import DeletedNewsTable from './DeletedNewsTable';
 import ClearLogButton from './ClearLogButton';
+import ClearLogModal from './ClearLogModal';
 
 import { useDeletedNewsControls } from '../hooks';
-import ClearLogModal from './ClearLogModal';
 
 interface IHistoryLogProps {
   logData: IHistoryLog[];

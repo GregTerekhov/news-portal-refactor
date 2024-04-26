@@ -1,6 +1,5 @@
-import { useAuthRedux, useNewsAPIRedux } from 'reduxStore/hooks';
-
 import type { ToastErrorDescription, ToastErrorTitle, ToastMessage } from 'types';
+import { useAuthRedux, useNewsAPIRedux } from 'reduxStore/hooks';
 
 const useToastError = () => {
   const { authError } = useAuthRedux();

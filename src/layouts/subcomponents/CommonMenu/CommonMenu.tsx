@@ -1,31 +1,35 @@
 import React, { FC } from 'react';
-import { Link } from 'react-router-dom';
 
 import { VariantSwitcher } from 'types';
-import { useAuthRedux, useFiltersRedux } from 'reduxStore/hooks';
-import { useFiltersStateContext, useWindowWidthContext } from 'contexts';
+import { useFiltersRedux, useNewsAPIRedux } from 'reduxStore/hooks';
+import { useFiltersStateContext, useSelectedDateContext, useWindowWidthContext } from 'contexts';
 
 import { useActiveLinks, useSignOut } from 'hooks';
 
 import { ThemeSwitcher } from 'ui';
-import { MenuLinks, MobileContainer, MobileMenu, SignOutButton, VersaMenu } from './subcomponents';
+import {
+  AdditionalContent,
+  MobileContainer,
+  MobileMenu,
+  SignOutButton,
+  VersaMenu,
+} from './subcomponents';
 
 import { renderMenuItem } from './assistants';
 
-export interface CommonMenuProps {
+interface CommonMenuProps {
   isOpen?: boolean | undefined;
   navId: string;
   closeMenu?: (() => void) | undefined;
 }
 
-export type MobileMenu = Omit<CommonMenuProps, 'navId'>;
-
 const CommonMenu: FC<CommonMenuProps> = ({ isOpen, navId, closeMenu }) => {
   const { resetAllFiltersResults } = useFiltersRedux();
-  const { user } = useAuthRedux();
+  const { resetPreviousRequest } = useNewsAPIRedux();
 
   const { isMobile } = useWindowWidthContext();
   const { resetFilters } = useFiltersStateContext();
+  const { resetRequestDay } = useSelectedDateContext();
 
   const activeLinks = useActiveLinks();
   const { handleSignOut } = useSignOut(closeMenu);
@@ -34,34 +38,14 @@ const CommonMenu: FC<CommonMenuProps> = ({ isOpen, navId, closeMenu }) => {
 
   //Функція обробки кліку по пунктам меню та скидання значень фільтрів та результатів фільтрації, якщо вони є
   const handleLinkClick = (): void => {
-    if (typeof closeMenu === 'function') {
-      closeMenu();
-    }
+    if (typeof closeMenu === 'function') closeMenu();
 
     if (navId === 'main-navigation') {
       resetAllFiltersResults();
       resetFilters();
+      resetRequestDay();
+      resetPreviousRequest();
     }
-  };
-
-  const renderMenuContent = (): JSX.Element => {
-    return navId === 'account-navigation' ? (
-      <div>
-        <p className='mb-2 text-darkBase dark:text-whiteBase'>Main Menu</p>
-        <hr className='mb-4 !border-accentBase' />
-        <div className='grid grid-cols-2 grid-rows-2 gap-3'>
-          <MenuLinks handleLinkClick={handleLinkClick} />
-        </div>
-      </div>
-    ) : (
-      <Link
-        to='/account'
-        className='text-end text-darkBase transition-colors duration-500 dark:text-whiteBase'
-        onClick={closeMenu}
-      >
-        Your account, {user.name}
-      </Link>
-    );
   };
 
   return (
@@ -69,7 +53,11 @@ const CommonMenu: FC<CommonMenuProps> = ({ isOpen, navId, closeMenu }) => {
       {isMobile && isOpen ? (
         <MobileContainer isOpen={isOpen}>
           <MobileMenu navId={navId} links={links} handleLinkClick={handleLinkClick} />
-          {renderMenuContent()}
+          <AdditionalContent
+            navId={navId}
+            handleLinkClick={handleLinkClick}
+            closeMenu={closeMenu}
+          />
           <div className='flex justify-between'>
             <ThemeSwitcher variant={VariantSwitcher.Header} />
             <SignOutButton handleSignOut={handleSignOut} />

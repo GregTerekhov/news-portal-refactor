@@ -54,9 +54,9 @@ const UnverifiableInput: FC<InputProps> = ({
     textColor,
   } = styles[variant];
 
-  const inputFieldStyles = `${inputGeometry} rounded-3xl border border-solid font-header text-small leading-mediumRelaxed tracking-bigWide outline-0 transition-all focus:outline-0 md:text-base md:leading-moreRelaxed md:tracking-wide lg:text-medium ${placeholderColor} ${inputBorder} ${inputBg} ${caretColor} ${textColor} ${checkboxStyles}`;
+  const inputFieldStyles = `${inputGeometry} rounded-3xl border border-solid font-header text-small leading-mediumRelaxed tracking-bigWide outline-0 transition-colors duration-500 focus:outline-0 md:text-base md:leading-moreRelaxed md:tracking-wide lg:text-medium ${placeholderColor} ${inputBorder} ${inputBg} ${caretColor} ${textColor} ${checkboxStyles}`;
 
-  const labelClass = `${variant === VariantInputs.Checkbox ? labelCheckbox : 'block mb-2'}`;
+  const labelClass = `block ${variant === VariantInputs.Checkbox ? labelCheckbox : 'mb-2'}`;
 
   const inputWrapperClass = `relative ${
     variant === VariantInputs.Checkbox
@@ -97,7 +97,7 @@ const UnverifiableInput: FC<InputProps> = ({
   };
 
   return (
-    <>
+    <div className={variant === VariantInputs.Checkbox ? 'flex items-center gap-x-2' : ''}>
       <label htmlFor={name} className={labelClass}>
         {generateLabelText()}
       </label>
@@ -105,11 +105,12 @@ const UnverifiableInput: FC<InputProps> = ({
         {showCheckbox()}
         {showIcon()}
         <input
-          className={`${inputFieldStyles}`}
+          className={inputFieldStyles}
           id={name}
           name={name}
           type={type}
           value={value}
+          checked={isChecked}
           placeholder={placeholder}
           autoComplete='off'
           onClick={onHideInput}
@@ -120,7 +121,7 @@ const UnverifiableInput: FC<InputProps> = ({
           }}
         />
       </div>
-    </>
+    </div>
   );
 };
 

@@ -1,11 +1,4 @@
-interface Image {
-  type: string;
-  dpi: number;
-  src: string;
-  screenSize: number;
-  width: number;
-  height: number;
-}
+import type { MemberImage } from 'types';
 
 const MOBILE_WIDTH = 320;
 
@@ -17,25 +10,25 @@ const isWebPSupported: boolean = (() => {
 })();
 
 //Перевірка на формат webP
-const isWebPImage = (image: Image, devicePixelRatio: number): boolean =>
+const isWebPImage = (image: MemberImage, devicePixelRatio: number): boolean =>
   isWebPSupported && image.type === 'image/webp' && devicePixelRatio === image.dpi;
 
 //Перевірка на формат jpg/png
-const isRegularImage = (image: Image, devicePixelRatio: number): boolean =>
+const isRegularImage = (image: MemberImage, devicePixelRatio: number): boolean =>
   (image.type === 'image/png' || image.type === 'image/jpg') && devicePixelRatio === image.dpi;
 
 //Фільтрація зображень
-const filterSuitableImage = (images: Image[], screenSize: number): Image[] =>
+const filterSuitableImage = (images: MemberImage[], screenSize: number): MemberImage[] =>
   images.filter((image) =>
     screenSize < MOBILE_WIDTH ? image.screenSize === MOBILE_WIDTH : screenSize >= image.screenSize,
   );
 
 //Функція генерації контентних зображень під відповідні розміри екрану, значень devicePixelRatio та (не-)підтримки формату webp
 export default function generateContentImages(
-  images: Image[],
+  images: MemberImage[],
   devicePixelRatio: number,
   screenSize: number,
-): Image {
+): MemberImage {
   const suitableImages = filterSuitableImage(images, screenSize);
 
   for (const image of suitableImages) {

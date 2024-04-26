@@ -68,13 +68,15 @@ export default function applyCrossFilters(
 
   return newsArray.filter((news) => {
     const keywordMatch =
-      regexFilters.keyword &&
-      (news?.title?.match(regexFilters.keyword) || news?.description?.match(regexFilters.keyword));
-    const matchesTitle = regexFilters.title && news?.title?.match(regexFilters.title);
-    const matchesAuthor = regexFilters.author && news?.author?.match(regexFilters.author);
-    const matchesPublisher = regexFilters.publisher && news?.edition?.match(regexFilters.publisher);
+      regexFilters?.keyword &&
+      (news?.title?.match(regexFilters?.keyword) ||
+        news?.description?.match(regexFilters?.keyword));
+    const matchesTitle = regexFilters?.title && news?.title?.match(regexFilters?.title);
+    const matchesAuthor = regexFilters?.author && news?.author?.match(regexFilters?.author);
+    const matchesPublisher =
+      regexFilters?.publisher && news?.edition?.match(regexFilters?.publisher);
     const matchMaterialType =
-      regexFilters.materialType && news?.materialType?.match(regexFilters.materialType);
+      regexFilters?.materialType && news?.materialType?.match(regexFilters?.materialType);
     const matchPublishedDate =
       selectedFilterDate.startDate !== '' && selectedFilterDate.endDate !== ''
         ? isDateWithinRange(
@@ -94,11 +96,11 @@ export default function applyCrossFilters(
   });
 
   // return newsArray.filter((news) => {
-  //   applyKeywordFilter(news, regexFilters.keyword) ||
-  //     applyTitleFilter(news, regexFilters.title) ||
-  //     applyAuthorFilter(news, regexFilters.author) ||
-  //     applyPublisherFilter(news, regexFilters.publisher) ||
-  //     applyMaterialTypeFilter(news, regexFilters.materialType) ||
+  //   applyKeywordFilter(news, regexFilters?.keyword) ||
+  //     applyTitleFilter(news, regexFilters?.title) ||
+  //     applyAuthorFilter(news, regexFilters?.author) ||
+  //     applyPublisherFilter(news, regexFilters?.publisher) ||
+  //     applyMaterialTypeFilter(news, regexFilters?.materialType) ||
   //     applyDateFilter(news, selectedFilterDate.startDate, selectedFilterDate.endDate);
   // });
 }

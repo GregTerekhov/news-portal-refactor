@@ -16,7 +16,7 @@ const VersaMenu: FC<IMenuProps> = ({ navId, links, activeLinks, handleLinkClick 
 
   return (
     <nav id={navId}>
-      <ul className={`${linksListStyles}`}>
+      <ul className={linksListStyles}>
         {links.map((link) => (
           <li key={link.path}>
             <NavLink

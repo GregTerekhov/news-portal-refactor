@@ -30,21 +30,15 @@ const AuthenticatedHeaderContent: FC<HeaderContentProps> = ({
 
   //Функція визначення id для меню в залежності від розміщення
   const getNavId = (): string => {
-    let id = '';
+    return isAccountPages ? 'account-navigation' : 'main-navigation';
+  };
 
-    switch (true) {
-      case isAccountPages:
-        id = 'account-navigation';
-        break;
-      case !isAccountPages:
-        id = 'main-navigation';
-        break;
-      default:
-        id = '';
-        break;
-    }
-
-    return id;
+  const getAriaLabel = (): string => {
+    return (
+      (!isOpenMenu ? 'Open ' : 'Close ') +
+      (!isAccountPages ? 'mobile ' : 'account ') +
+      'menu button'
+    );
   };
 
   const iconStyles = `hocus:stroke-accentBase dark:hocus:stroke-accentBase ${
@@ -58,9 +52,7 @@ const AuthenticatedHeaderContent: FC<HeaderContentProps> = ({
       {isMobile ? (
         <div className={`flex items-center ${isHomeActive ? 'gap-3.5' : ''}`}>
           <button
-            aria-label={`${!isOpenMenu ? 'Open' : 'Close'} ${
-              !isAccountPages ? 'mobile' : 'account'
-            } menu button`}
+            aria-label={getAriaLabel()}
             type='button'
             className={`${isOpenMenu ? 'z-50' : 'h-6 w-6 md:hidden'}`}
             onClick={() => {

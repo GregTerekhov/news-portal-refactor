@@ -7,20 +7,15 @@ const useReadNewsContent = () => {
   const activeLinks = useActiveLinks();
   const { rebuiltNews } = useChooseRenderingNews(activeLinks);
 
+  if (rebuiltNews?.length === 0) return;
+
   const publishedDate = rebuiltNews
-    ?.map((news) => news.publishDate)
-    .filter((date) => date !== undefined) as string[];
+    .map((news) => news.publishDate)
+    .filter((date) => date !== undefined);
 
-  // Створення списка унікальних дат
-  const uniqueDatesSet = new Set(publishedDate);
+  const readNews = Array.from(new Set(publishedDate)).sort(compareDates).reverse();
 
-  const readNews = Array.from(uniqueDatesSet).sort(compareDates).reverse();
-
-  if (readNews) {
-    return readNews as string[];
-  }
-
-  return null;
+  return readNews;
 };
 
 export default useReadNewsContent;

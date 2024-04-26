@@ -4,28 +4,31 @@ import { useNotificationContext } from 'contexts';
 
 import { decryptPassword } from 'helpers';
 
+interface DecryptedData {
+  savedPassword: string;
+  email: string;
+}
+
 const useCrypto = () => {
   const { getCryptoPassword } = useAuthRedux();
   const { showToast } = useNotificationContext();
 
   const savedUserId = localStorage.getItem('userId');
 
-  const fetchCryptoPassword = async () => {
-    if (savedUserId) {
-      const response = await getCryptoPassword({
-        userId: savedUserId,
-      });
-      const { cryptoData } = response.payload as ResponseCryptoPassword;
-      const { exportedCryptoKey, encryptedPassword, salt, email } = cryptoData;
+  const fetchCryptoPassword = async (): Promise<DecryptedData | null> => {
+    if (!savedUserId) return null;
 
-      const savedPassword = await decryptPassword(exportedCryptoKey, encryptedPassword, salt);
+    const response = await getCryptoPassword({
+      userId: savedUserId,
+    });
+    const { cryptoData } = response.payload as ResponseCryptoPassword;
+    const { exportedCryptoKey, encryptedPassword, salt, email } = cryptoData;
 
-      showToast(response.meta.requestStatus);
+    const savedPassword = await decryptPassword(exportedCryptoKey, encryptedPassword, salt);
 
-      return { savedPassword, email };
-    }
+    showToast(response.meta.requestStatus);
 
-    return null;
+    return { savedPassword, email };
   };
 
   return { fetchCryptoPassword };

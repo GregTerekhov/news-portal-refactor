@@ -1,15 +1,7 @@
 import { useCallback, useMemo, useState } from 'react';
-import {
-  add,
-  eachDayOfInterval,
-  endOfMonth,
-  endOfWeek,
-  format,
-  startOfToday,
-  startOfWeek,
-} from 'date-fns';
+import { add, eachDayOfInterval, endOfMonth, endOfWeek, startOfToday, startOfWeek } from 'date-fns';
 
-import { parseStringToDate } from 'helpers';
+import { formatDateToString, parseStringToDate } from 'helpers';
 
 const useControlCalendar = () => {
   const today = startOfToday();
@@ -28,7 +20,7 @@ const useControlCalendar = () => {
     (event: React.MouseEvent<HTMLButtonElement>): void => {
       event.preventDefault();
       const firstDayOfPrevMonth = add(firstDayOfMonth, { months: -1 });
-      setCurrMonth(format(firstDayOfPrevMonth, 'MMM-yyyy'));
+      setCurrMonth(formatDateToString(firstDayOfPrevMonth).monthYear);
     },
     [firstDayOfMonth],
   );
@@ -37,7 +29,7 @@ const useControlCalendar = () => {
     (event: React.MouseEvent<HTMLButtonElement>): void => {
       event.preventDefault();
       const firstDayOfNextMonth = add(firstDayOfMonth, { months: 1 });
-      setCurrMonth(format(firstDayOfNextMonth, 'MMM-yyyy'));
+      setCurrMonth(formatDateToString(firstDayOfNextMonth).monthYear);
     },
     [firstDayOfMonth],
   );
@@ -46,7 +38,7 @@ const useControlCalendar = () => {
     (event: React.MouseEvent<HTMLButtonElement>): void => {
       event.preventDefault();
       const firstDayOfPrevYear = add(firstDayOfMonth, { years: -1 });
-      setCurrMonth(format(firstDayOfPrevYear, 'MMM-yyyy'));
+      setCurrMonth(formatDateToString(firstDayOfPrevYear).monthYear);
     },
     [firstDayOfMonth],
   );
@@ -55,13 +47,13 @@ const useControlCalendar = () => {
     (event: React.MouseEvent<HTMLButtonElement>): void => {
       event.preventDefault();
       const firstDayOfNextYear = add(firstDayOfMonth, { years: 1 });
-      setCurrMonth(format(firstDayOfNextYear, 'MMM-yyyy'));
+      setCurrMonth(formatDateToString(firstDayOfNextYear).monthYear);
     },
     [firstDayOfMonth],
   );
 
   function getCurrentMonthState(): string {
-    return format(today, 'MMM-yyyy');
+    return formatDateToString(today).monthYear;
   }
 
   return {

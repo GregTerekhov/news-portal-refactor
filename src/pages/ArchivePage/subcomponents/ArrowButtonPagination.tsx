@@ -26,7 +26,7 @@ const ArrowButtonPagination: FC<ArrowButtonProps> = ({
       type='button'
       onClick={() => handlePageChange(isLeftArrow ? currentPage - 1 : currentPage + 1)}
       disabled={currentPage === position}
-      className={`${buttonStyles}`}
+      className={buttonStyles}
     >
       <span aria-hidden='true'>
         <SvgIcon

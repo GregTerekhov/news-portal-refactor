@@ -1,4 +1,4 @@
-type VotedPartial<T> = { [P in keyof T]?: T[P] };
+export type VotedPartial<T> = { [P in keyof T]?: T[P] };
 
 export interface VotedItem {
   _id?: string;

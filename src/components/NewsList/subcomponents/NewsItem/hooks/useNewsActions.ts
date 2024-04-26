@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
 
-import type { VotedItem } from 'types';
+import type { VotedItem, VotedPartial } from 'types';
 import { useDBRedux } from 'reduxStore/hooks';
 import { useNotificationContext, useScrollBodyContext } from 'contexts';
 
@@ -35,9 +35,6 @@ const useNewsActions = ({
 
   const { isArchiveActive } = useActiveLinks();
 
-  const shouldMakeChanges =
-    !!savedNews?.length && liveNews && liveNews?.newsUrl !== undefined && !isArchiveActive;
-
   useEffect(() => {
     const updateNews = async () => {
       if (changesHappened && savedNews.length > 0) {
@@ -49,10 +46,23 @@ const useNewsActions = ({
     updateNews();
   }, [changesHappened, addVotedNews]);
 
-  const existingNews = savedNews?.find((news) => news.newsUrl === liveNews.newsUrl);
-  const savedFavourite = existingNews?.isFavourite;
-  const savedRead = existingNews?.hasRead;
-  const savedClickDate = existingNews?.additionDate;
+  const shouldMakeChanges =
+    !!savedNews?.length && liveNews && liveNews?.newsUrl !== undefined && !isArchiveActive;
+
+  const getExistingNews = (): VotedPartial<VotedItem> => {
+    const existingNews = savedNews?.find((news) => news.newsUrl === liveNews?.newsUrl);
+    const isFavourite = existingNews?.isFavourite;
+    const hasRead = existingNews?.hasRead;
+    const additionDate = existingNews?.additionDate;
+
+    return { isFavourite, hasRead, additionDate };
+  };
+
+  const {
+    isFavourite: savedFavourite,
+    hasRead: savedRead,
+    additionDate: savedClickDate,
+  } = getExistingNews();
 
   const handleChangeFavourites = (e: React.MouseEvent<HTMLButtonElement>): void => {
     e.stopPropagation();

@@ -23,7 +23,6 @@ export const handleRejected = (state: AuthState, action: PayloadAction<unknown, 
     (typeof action.payload === 'number' && action.payload >= 500)
   ) {
     state.hasError = action.payload;
-    console.log('AuthError', state.hasError);
   }
 };
 
@@ -31,7 +30,6 @@ export const getActions = (type: DispatchActionType) => {
   const extraActions = [
     authOperations.signUp,
     authOperations.signIn,
-    authOperations.getSavedPassword, // отримання зашифрованого пароля користувача при Remember me
     authOperations.signOut,
     authOperations.fetchCurrentUser,
     authOperations.updateUserEmail, // оновлення потчоної пошти зареєстрованого користувача

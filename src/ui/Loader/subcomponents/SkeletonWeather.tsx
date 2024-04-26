@@ -1,5 +1,6 @@
-import React, { FC, ReactNode } from 'react';
+import React, { FC } from 'react';
 
+import Item from './Item';
 import {
   gridWeatherClass,
   gridWeatherItemClass,
@@ -16,26 +17,22 @@ import {
 } from '../assistants';
 
 const SkeletonWeather: FC = () => {
-  const gridItems: ReactNode[] = Array(8)
-    .fill(null)
-    .map((_, index) => <div key={index} className={gridWeatherItemClass}></div>);
-
   return (
-    <div className={`${weatherWrapperClass}`}>
+    <div className={weatherWrapperClass}>
       <div className='flex gap-x-4 lg:gap-x-6'>
-        <div className={`${weatherCurrentTemperatureClass}`}></div>
-        <div className={`${weatherInfoWrapperClass}`}>
-          <div className={`${currentWeatherInfoClass}`}></div>
-          <div className={`${weatherFeelsLikeClass}`}></div>
-          <div className={`${weatherCurrentLocationClass}`}></div>
+        <div className={weatherCurrentTemperatureClass}></div>
+        <div className={weatherInfoWrapperClass}>
+          <div className={currentWeatherInfoClass}></div>
+          <div className={weatherFeelsLikeClass}></div>
+          <div className={weatherCurrentLocationClass}></div>
         </div>
       </div>
-      <div className={`${weatherIconClass}`}></div>
-      <div className={`${weatherDetailsBlockClass}`}>
-        <div className={`${weatherDayTextClass}`}></div>
-        <div className={`${weatherCurrentDateTextClass}`}></div>
+      <div className={weatherIconClass}></div>
+      <div className={weatherDetailsBlockClass}>
+        <div className={weatherDayTextClass}></div>
+        <div className={weatherCurrentDateTextClass}></div>
         <div className='lg:w-full lg:px-6'>
-          <div className={`${gridWeatherClass}`}>{gridItems}</div>
+          <Item count={8} className={gridWeatherClass} itemClassName={gridWeatherItemClass} />
         </div>
       </div>
     </div>

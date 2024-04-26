@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 
-import type { VotedItem } from 'types';
+import type { VotedItem, VotedPartial } from 'types';
 import { useAuthRedux, useDBRedux } from 'reduxStore/hooks';
 import { useActiveLinks } from 'hooks';
 
@@ -12,21 +12,18 @@ interface NewsItemProps {
 
 const useNews = ({ liveNews }: NewsItemProps) => {
   const { savedNews, allArchive } = useDBRedux();
-  const { isAuthenticated } = useAuthRedux();
   const { isArchiveActive } = useActiveLinks();
+  const [isFavourite, setIsFavourite] = useState<boolean>(getNewsState().isFavourite ?? false);
+  const [hasRead, setHasRead] = useState<boolean>(getNewsState().hasRead ?? false);
 
-  const newsArray = isArchiveActive ? allArchive : savedNews;
-  const allSavedNews = newsArray?.find((news) => news.newsUrl === liveNews?.newsUrl);
-
-  const [isFavourite, setIsFavourite] = useState<boolean>(allSavedNews?.isFavourite ?? false);
-  const [hasRead, setHasRead] = useState<boolean>(allSavedNews?.hasRead ?? false);
+  const { isAuthenticated } = useAuthRedux();
 
   useEffect(() => {
-    if (isAuthenticated && allSavedNews) {
-      setIsFavourite(allSavedNews?.isFavourite ?? false);
-      setHasRead(allSavedNews?.hasRead ?? false);
+    if (isAuthenticated && getNewsState()) {
+      setIsFavourite(getNewsState().isFavourite ?? false);
+      setHasRead(getNewsState().hasRead ?? false);
     }
-  }, [allSavedNews, isAuthenticated, liveNews]);
+  }, [getNewsState, isAuthenticated, liveNews]);
 
   const { isDeleted, handleChangeFavourites, handleReadNews, handleDeleteNews } = useNewsActions({
     liveNews,
@@ -34,6 +31,16 @@ const useNews = ({ liveNews }: NewsItemProps) => {
     setIsFavourite,
     setHasRead,
   });
+
+  function getNewsState(): VotedPartial<VotedItem> {
+    const newsArray = isArchiveActive ? allArchive : savedNews;
+    const allSavedNews = newsArray?.find((news) => news.newsUrl === liveNews?.newsUrl);
+
+    const isFavourite = allSavedNews?.isFavourite;
+    const hasRead = allSavedNews?.hasRead;
+
+    return { isFavourite, hasRead };
+  }
 
   return {
     isFavourite,

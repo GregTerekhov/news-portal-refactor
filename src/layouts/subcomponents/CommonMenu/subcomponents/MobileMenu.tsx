@@ -8,8 +8,9 @@ import { getNavLinkStyles, getSvgWrapperStyles } from '../assistants';
 
 const MobileMenu: FC<IMenuProps> = ({ navId, links, handleLinkClick }) => {
   const linksListStyles = `space-y-3 ${
-    navId === 'account-navigation' &&
-    'after:mt-3 after:block after:h-px after:w-full after:bg-accentBase after:content-[""]'
+    navId === 'account-navigation'
+      ? 'after:mt-3 after:block after:h-px after:w-full after:bg-accentBase after:content-[""]'
+      : ''
   }`;
 
   const iconStyles = `${
@@ -18,7 +19,7 @@ const MobileMenu: FC<IMenuProps> = ({ navId, links, handleLinkClick }) => {
 
   return (
     <nav id={navId}>
-      <ul className={`${linksListStyles}`}>
+      <ul className={linksListStyles}>
         {links.map((link) => (
           <li key={link.path}>
             <NavLink

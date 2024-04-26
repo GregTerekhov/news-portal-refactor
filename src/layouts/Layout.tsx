@@ -9,10 +9,7 @@ import { useActiveLinks, useChooseRenderingNews } from 'hooks';
 
 import { NewsFilterManager } from 'components';
 import { ThemeSwitcher } from 'ui';
-import { Hero, PageScrollController } from './subcomponents';
-import Header from './Header/Header';
-import Footer from './Footer/Footer';
-import Container from './Container';
+import { Hero, Header, Footer, PageScrollController, Container } from './subcomponents';
 
 const Layout: FC = () => {
   const { isNotMobile } = useWindowWidthContext();
@@ -26,14 +23,11 @@ const Layout: FC = () => {
 
   const {
     isAboutUs,
-    isAccountPage,
     isArchiveActive,
     isErrorPage,
     isFavoriteActive,
     isHomeActive,
-    isManageAccountPage,
     isReadActive,
-    isServerErrorPage,
     isDevelopmentActive,
   } = activeLinks;
 
@@ -49,29 +43,20 @@ const Layout: FC = () => {
     (isHomeActive && isNotMobile && rebuiltNews?.length > 0) ||
     (isArchiveActive && isNotMobile && rebuiltNews?.length > 0);
 
-  const isAccountPages = isAccountPage || isManageAccountPage;
-  const shouldNotShowFiltersManager =
-    isAccountPages ||
-    isAboutUs ||
-    isArchiveActive ||
-    (isFavoriteActive && allFavourites?.length === 0) ||
-    (isReadActive && allReads?.length === 0) ||
-    isErrorPage ||
-    isDevelopmentActive ||
-    isServerErrorPage ||
-    (isHomeActive && is429ErrorAPI);
+  const shouldShowFilterManager =
+    (isHomeActive && !is429ErrorAPI) ||
+    (isFavoriteActive && !!allFavourites?.length) ||
+    (isReadActive && !!allReads?.length);
 
-  const screenShow =
-    isServerErrorPage ||
-    isAccountPages ||
-    (isFavoriteActive && allFavourites?.length === 0) ||
-    (isFavoriteActive && isLoadingDBData) ||
-    (isArchiveActive && isLoadingDBData) ||
-    isReadActive ||
-    isDevelopmentActive ||
-    isArchiveActive
-      ? 'h-screen'
-      : 'h-full';
+  const isFullHeightSection =
+    isHomeActive ||
+    (isFavoriteActive && !!allFavourites?.length) ||
+    (isFavoriteActive && !isLoadingDBData) ||
+    (isArchiveActive && !isLoadingDBData) ||
+    isAboutUs ||
+    isErrorPage
+      ? 'h-full'
+      : 'h-screen';
 
   const hasLargeSection = (): boolean | undefined =>
     isArchiveActive ||
@@ -84,47 +69,44 @@ const Layout: FC = () => {
     hasLargeSection() ? 'pt-10 md:pt-12 lg:pt-[60px]' : 'pt-6 md:pt-7 hg:pt-[60px]'
   }`;
 
-  const showThemeSwitcher = (): JSX.Element => {
-    return (
-      <div className='mb-10 flex justify-end'>
-        <ThemeSwitcher variant={VariantSwitcher.Header} />
-      </div>
-    );
-  };
-
-  const showFilterManager = (): JSX.Element | null => {
-    return isAuthenticated && !shouldNotShowFiltersManager ? <NewsFilterManager /> : null;
-  };
-
-  const showScrollController = (): JSX.Element | null => {
-    return shouldShowPageScrollController ? (
-      <>
-        <PageScrollController direction='top' label='Scroll up' position='top-36' icon='triangle' />
-        <PageScrollController
-          direction='down'
-          label='Scroll down'
-          position='bottom-12'
-          icon='triangle'
-          classIcon='rotate-180'
-        />
-      </>
-    ) : null;
-  };
-
   return (
     <div
       className={`flex max-h-sectionSmall
-        flex-col justify-between md:max-h-sectionMedium lg:max-h-sectionLarge hg:max-h-sectionHuge ${screenShow}`}
+        flex-col justify-between md:max-h-sectionMedium lg:max-h-sectionLarge hg:max-h-sectionHuge ${isFullHeightSection}`}
     >
       {!isErrorPage && <Header />}
       <main>
         {isHomeActive && <Hero />}
         <section className={sectionStyles}>
           <Container>
-            {!isNotMobile && !isErrorPage ? showThemeSwitcher() : null}
-            {showFilterManager()}
-            {isErrorPage ? showThemeSwitcher() : null}
-            {showScrollController()}
+            {!isNotMobile && !isErrorPage ? (
+              <div className='mb-10 flex justify-end'>
+                <ThemeSwitcher variant={VariantSwitcher.Header} />
+              </div>
+            ) : null}
+            {isAuthenticated && shouldShowFilterManager ? <NewsFilterManager /> : null}
+            {isErrorPage ? (
+              <div className='mb-10 flex justify-end'>
+                <ThemeSwitcher variant={VariantSwitcher.Header} />
+              </div>
+            ) : null}
+            {shouldShowPageScrollController ? (
+              <>
+                <PageScrollController
+                  direction='top'
+                  label='Scroll up'
+                  position='top-36'
+                  icon='triangle'
+                />
+                <PageScrollController
+                  direction='down'
+                  label='Scroll down'
+                  position='bottom-12'
+                  icon='triangle'
+                  classIcon='rotate-180'
+                />
+              </>
+            ) : null}
             <Outlet />
           </Container>
         </section>

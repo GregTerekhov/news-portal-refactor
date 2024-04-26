@@ -42,13 +42,14 @@ const useFilterNews = () => {
       allReads,
     );
 
-    //Якщо є значення фільтрів зміна глобальних станів фільтрованих новин
-    if (filteredNews && filteredNews.length > 0) {
-      getFilteredNews(filteredNews);
-      showResultsState('full');
-    } else {
+    if (filteredNews?.length === 0) {
       showResultsState('empty');
+      return;
     }
+
+    //Якщо є значення фільтрів зміна глобальних станів фільтрованих новин
+    getFilteredNews(filteredNews);
+    showResultsState('full');
   };
 
   return { handleFiltration };

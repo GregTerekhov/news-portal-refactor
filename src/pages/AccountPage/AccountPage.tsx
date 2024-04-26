@@ -26,14 +26,15 @@ const AccountPage: FC<{}> = () => {
       </h2>
       <div className='flex flex-col items-end'>
         <ul className='mb-6 w-52 space-y-6 md:mb-10 md:w-80 md:space-y-10 lg:w-600px'>
-          {userInfoList.map(({ label, value }) => (
-            <li key={label}>
-              <h3 className={`${commonHeadlineClass} mb-2 md:text-2xl hg:text-3xl`}>{label}</h3>
-              <p className='text-end text-accentBase dark:text-greyAlt md:text-medium hg:text-xl'>
-                {value}
-              </p>
-            </li>
-          ))}
+          {Array.isArray(userInfoList) &&
+            userInfoList.map(({ label, value }) => (
+              <li key={label}>
+                <h3 className={`${commonHeadlineClass} mb-2 md:text-2xl hg:text-3xl`}>{label}</h3>
+                <p className='text-end text-accentBase dark:text-greyAlt md:text-medium hg:text-xl'>
+                  {value}
+                </p>
+              </li>
+            ))}
         </ul>
         {haveLinkedAccount && (
           <>
@@ -41,18 +42,19 @@ const AccountPage: FC<{}> = () => {
               Connected accounts
             </h3>
             <ul className='flex items-center justify-end gap-x-4 md:gap-x-6'>
-              {accountIcons.map(({ iconName }) => (
-                <li
-                  key={iconName}
-                  className='rounded-[10px] border border-solid bg-accentBase p-2 dark:border-whiteBase'
-                >
-                  <SvgIcon
-                    svgName={iconName}
-                    sizeKey={isMobile ? 'smIcon20' : 'mdIcon24'}
-                    className='fill-whiteBase'
-                  />
-                </li>
-              ))}
+              {Array.isArray(accountIcons) &&
+                accountIcons.map(({ iconName }) => (
+                  <li
+                    key={iconName}
+                    className='rounded-[10px] border border-solid bg-accentBase p-2 dark:border-whiteBase'
+                  >
+                    <SvgIcon
+                      svgName={iconName}
+                      sizeKey={isMobile ? 'smIcon20' : 'mdIcon24'}
+                      className='fill-whiteBase'
+                    />
+                  </li>
+                ))}
             </ul>
           </>
         )}

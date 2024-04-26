@@ -14,17 +14,8 @@ const AccountManagePage: FC<{}> = () => {
     statusMessage === 'Password is successfully updated' ||
     statusMessage.includes('linking');
 
-  //Умови показування тостів помилки запитів
-  const showErrorToast = authError && typeof authError === 'string';
-
   //Загальні умови показування тостів на сторінці
-  const shouldShowToast = showUpdatedToast || showErrorToast;
-
-  const getToast = (): JSX.Element | null => {
-    return shouldShowToast ? (
-      <Toast variant='interactive' status={showUpdatedToast ? 'success' : 'error'} />
-    ) : null;
-  };
+  const shouldShowToast = showUpdatedToast || typeof authError === 'string';
 
   return (
     <div>
@@ -51,7 +42,9 @@ const AccountManagePage: FC<{}> = () => {
           <LinkAccountsButtons />
         </div>
       </div>
-      {getToast()}
+      {shouldShowToast ? (
+        <Toast variant='interactive' status={showUpdatedToast ? 'success' : 'error'} />
+      ) : null}
     </div>
   );
 };

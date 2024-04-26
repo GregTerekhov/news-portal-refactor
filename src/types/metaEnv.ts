@@ -8,6 +8,7 @@ interface ImportMetaEnv {
   readonly VITE_BASE_URL_NEWS: string;
   readonly VITE_BASE_URL_WEATHER: string;
   readonly VITE_YOUTUBE_ID: string;
+  readonly VITE_WEATHER_ICON_URL: string;
 }
 
 interface ImportMeta {

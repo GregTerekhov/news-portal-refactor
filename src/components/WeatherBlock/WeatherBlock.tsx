@@ -1,17 +1,19 @@
 import React, { FC } from 'react';
 
+import { CONFIG } from 'config';
 import { useWeatherAPIRedux } from 'reduxStore/hooks';
 
 import { useWeather } from './hooks';
 
 import { Loader } from 'ui';
-
 import {
   NoWeather,
   TopWeatherBlock,
   WeatherDetailsForHours,
   WeatherDetailsForToday,
 } from './subcomponents';
+
+import { getWeatherTodayObject } from './assistants';
 
 const WeatherBlock: FC<{}> = () => {
   const {
@@ -30,6 +32,8 @@ const WeatherBlock: FC<{}> = () => {
   const showNoWeather = (!isWeatherLoading && emptyWeather) || showError;
   const showLoader = isWeatherLoading && hasGeolocationPermission;
   const showWeather = !isWeatherLoading && !emptyWeather && hasGeolocationPermission;
+
+  const { iconWeather, iconAlt } = getWeatherTodayObject(currentWeather);
 
   const getContainerStyles = () => {
     switch (true) {
@@ -56,11 +60,11 @@ const WeatherBlock: FC<{}> = () => {
             currentWeather={currentWeather}
             isCelsius={isCelsius}
           />
-          {currentWeather?.weather && currentWeather?.weather[0]['icon'] && (
+          {iconWeather && (
             <img
               className='m-auto h-32 w-32 md:h-165px md:w-165px hg:h-180px hg:w-180px'
-              src={`https://openweathermap.org/img/wn/${currentWeather?.weather[0]['icon']}@2x.png`}
-              alt={currentWeather?.weather?.[0]?.description}
+              src={`${CONFIG.WEATHER_ICON_URL}/${iconWeather}@2x.png`}
+              alt={iconAlt}
             />
           )}
           <div

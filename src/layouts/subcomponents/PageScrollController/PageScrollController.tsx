@@ -32,7 +32,7 @@ const PageScrollController: FC<ScrollDirection> = ({
           aria-label={`Page scroll controller button in direction ${direction}`}
           onClick={onHandleClick}
           type='button'
-          className={`${buttonStyles} `}
+          className={buttonStyles}
         >
           <SvgIcon
             svgName={icon}

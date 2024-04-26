@@ -49,16 +49,13 @@ const useUpdateEmail = () => {
     }
   };
 
-  // Data для updateEmail-інпутів
-  const emailInputs = renderEmailInputs({ email, password, errors });
-
   return {
     emailSubmit,
     updateEmailRegister,
     errors,
     email,
     handleEmailSubmitHandler,
-    emailInputs,
+    emailInputs: renderEmailInputs({ email, password, errors }),
   };
 };
 

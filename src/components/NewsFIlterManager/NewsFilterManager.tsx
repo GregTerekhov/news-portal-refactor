@@ -1,15 +1,19 @@
-import React, { FC, useState } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 
 import { useActiveLinks } from 'hooks';
 
 import { Accordeon, SvgIcon } from 'ui';
-
 import { FiltersBlock, SearchBlock } from './subcomponents';
 
 const NewsFilterManager: FC<{}> = () => {
   const [showDropdown, setShowDropdown] = useState<boolean>(false);
+  const activeLinks = useActiveLinks();
 
-  const { isHomeActive } = useActiveLinks();
+  useEffect(() => {
+    setShowDropdown(false);
+  }, [activeLinks]);
+
+  const { isHomeActive } = activeLinks;
 
   return (
     <div className='mb-10 w-full md:mb-12 lg:mb-[60px]'>
@@ -23,24 +27,24 @@ const NewsFilterManager: FC<{}> = () => {
         <SvgIcon
           svgName='arrow'
           sizeKey='smIcon18'
-          className={`fill-darkBase dark:fill-whiteBase ${
+          className={`fill-darkBase transition-transform dark:fill-whiteBase ${
             showDropdown ? 'rotate-180' : 'rotate-0'
-          } transition-transform`}
+          }`}
         />
       </button>
       {showDropdown && (
         <div className={`${showDropdown ? 'animate-accordion-down' : 'animate-accordion-up'}`}>
           {isHomeActive ? (
             <>
-              <Accordeon position='filtersService' filtersBlock='Additional requests'>
+              <Accordeon position='filtersService' blockDefinition='Additional requests'>
                 <SearchBlock />
               </Accordeon>
-              <Accordeon position='filtersService' filtersBlock='Filtering news'>
+              <Accordeon position='filtersService' blockDefinition='Filtering news'>
                 <FiltersBlock />
               </Accordeon>
             </>
           ) : (
-            <Accordeon position='filtersService' filtersBlock='Filtering news'>
+            <Accordeon position='filtersService' blockDefinition='Filtering news'>
               <FiltersBlock />
             </Accordeon>
           )}

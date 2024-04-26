@@ -57,7 +57,7 @@ const PrimaryButton = forwardRef<
       <button
         id={id}
         aria-label={ariaLabel}
-        className={`${primaryButtonStyles}`}
+        className={primaryButtonStyles}
         type={type}
         onClick={onHandleClick}
         ref={ref}

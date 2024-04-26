@@ -20,7 +20,7 @@ const usePagination = (rebuiltNews: PartialVotedNewsArray) => {
   const currentArrayPerPage: number[] = cardsPerPage(totalPages, isMobile, isTablet);
 
   // Визначення кількості об'єктів новин на сторінці в залежності від типу пристрою
-  const currentCardsPerPage: number = currentArrayPerPage[currentPage - 1] || 0;
+  const currentCardsPerPage: number = currentArrayPerPage[currentPage - FIRST_PAGE] || 0;
 
   //Вирахування першого індекса новини для останньої сторінки
   const calculatedFirstIndexes: number = calculateFirstIndexes(currentArrayPerPage, totalPages);
@@ -56,11 +56,14 @@ const usePagination = (rebuiltNews: PartialVotedNewsArray) => {
 
   // Розрахунок необхідної кількості кнопок пагінації
   const pageQuantity: number =
-    currentPage !== 1 && isMobile
-      ? Math.ceil(totalPages / currentCardsPerPage + 1)
+    currentPage !== FIRST_PAGE && isMobile
+      ? Math.ceil(totalPages / currentCardsPerPage + FIRST_PAGE)
       : Math.ceil(totalPages / currentCardsPerPage);
 
-  const pageNumbers: number[] = Array.from({ length: pageQuantity }, (_, index) => index + 1);
+  const pageNumbers: number[] = Array.from(
+    { length: pageQuantity },
+    (_, index) => index + FIRST_PAGE,
+  );
 
   return {
     currentItems,

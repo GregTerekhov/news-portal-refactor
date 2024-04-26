@@ -21,10 +21,7 @@ const useChangeFilter = () => {
     });
   };
 
-  //Data для інпутів фільтрації
-  const filterInputs = getInputsData(filters);
-
-  return { filterInputs, handleChangeFilter, handleMaterialTypeChange };
+  return { filterInputs: getInputsData(filters), handleChangeFilter, handleMaterialTypeChange };
 };
 
 export default useChangeFilter;

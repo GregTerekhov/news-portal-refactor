@@ -1,7 +1,5 @@
-import { format } from 'date-fns';
-import { enUS } from 'date-fns/locale';
-
 import type { PartialVotedNewsArray } from 'types';
+import { formatDateToString } from 'helpers';
 
 const DEFAULT_TITLE_LENGTH = 56;
 const WIDE_SCREENS_TITLE_LENGTH = 87;
@@ -17,7 +15,7 @@ export const organiseNewsByMonth = (
       const additionDate = news?.additionDate;
 
       if (additionDate) {
-        const key = format(additionDate, 'LLLL yyyy', { locale: enUS });
+        const key = formatDateToString(additionDate).fullMonthYear;
 
         if (!organisedNews[key]) {
           organisedNews[key] = [];
@@ -29,11 +27,6 @@ export const organiseNewsByMonth = (
   }
 
   return organisedNews;
-};
-
-//Функція форматування дати додавання та видалення новини в таблиці видалених з архиву новин
-export const formatTableDates = (changingDate: number): string => {
-  return format(changingDate, 'dd/MM/yyyy');
 };
 
 //Функція калькуляції довжини назви видалених новин в таблиці

@@ -4,7 +4,7 @@ import { Outlet } from 'react-router-dom';
 import { useWindowWidthContext } from 'contexts';
 
 import { SvgIcon } from 'ui';
-import CommonMenu from './CommonMenu/CommonMenu';
+import { CommonMenu } from './subcomponents';
 
 const AccountLayout: FC = () => {
   const { isNotMobile } = useWindowWidthContext();

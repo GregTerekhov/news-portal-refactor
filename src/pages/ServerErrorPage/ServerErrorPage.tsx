@@ -11,29 +11,23 @@ const ErrorPage: FC<{}> = () => {
   const { errorDB } = useDBRedux();
   const { authError } = useAuthRedux();
 
-  const APIServerError = errorAPI && typeof errorAPI === 'number' && errorAPI >= 500;
-  const DBServerError = errorDB && typeof errorDB === 'number' && errorDB >= 500;
-  const authErrorDB = authError && typeof authError === 'number' && authError >= 500;
-  const anyServerError = APIServerError || DBServerError || authErrorDB;
+  const errorCodes = [errorAPI, errorDB, authError];
+  const anyServerError = errorCodes.some((code) => typeof code === 'number' && code >= 500);
 
-  const renderPageContent = serverErrorsList.find((value: ErrorList) => {
-    if (APIServerError) return value.code === errorAPI;
-    if (DBServerError) return value.code === errorDB;
-    if (authErrorDB) return value.code === authError;
-
-    return [];
+  const renderedPageContent: ErrorList | undefined = serverErrorsList.find((value: ErrorList) => {
+    return errorCodes.some((code) => typeof code === 'number' && value.code === code);
   });
 
   return (
     <div className='space-y-10 text-center lg:mx-auto lg:w-900px'>
       <h1 className='text-[100px] text-darkBase transition-colors duration-500 dark:text-whiteBase'>
-        {renderPageContent?.code}
+        {renderedPageContent?.code}
       </h1>
       <h2 className='text-5xl text-darkBase transition-colors duration-500 dark:text-whiteBase'>
-        {renderPageContent?.warning}
+        {renderedPageContent?.warning}
       </h2>
       <p className='text-justify text-xl text-darkBase transition-colors duration-500 dark:text-whiteBase md:text-center'>
-        {renderPageContent?.message}
+        {renderedPageContent?.message}
       </p>
       <NavigationErrorButtons anyServerError={anyServerError} />
     </div>

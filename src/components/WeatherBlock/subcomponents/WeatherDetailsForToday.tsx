@@ -7,7 +7,7 @@ import { Hint, SvgIcon } from 'ui';
 
 import { receiveCurrentDate, getWeatherDetailsForToday } from '../assistants';
 
-const WeatherDetailsForToday: FC<{}> = () => {
+const WeatherDetailsForToday: FC = () => {
   const { currentWeather } = useWeatherAPIRedux();
   const { isMobile } = useWindowWidthContext();
 

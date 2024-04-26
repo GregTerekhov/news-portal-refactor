@@ -2,11 +2,12 @@ import { useCallback, useMemo, useState } from 'react';
 
 import type { IHistoryLog } from 'types';
 
+const FIRST_PAGE = 1;
 const ROWS_PER_PAGE = 7;
 
 const useDeletedNewsControls = (logData: IHistoryLog[]) => {
   const [searchValue, setSearchValue] = useState<string>('');
-  const [currentPage, setCurrentPage] = useState<number>(1);
+  const [currentPage, setCurrentPage] = useState<number>(FIRST_PAGE);
 
   const filteredLogData: IHistoryLog[] = useMemo(() => {
     return searchValue
@@ -17,7 +18,7 @@ const useDeletedNewsControls = (logData: IHistoryLog[]) => {
   const totalRows = filteredLogData.length;
   const totalPages = Math.ceil(totalRows / ROWS_PER_PAGE);
 
-  const startIndex = (currentPage - 1) * ROWS_PER_PAGE;
+  const startIndex = (currentPage - FIRST_PAGE) * ROWS_PER_PAGE;
   const endIndex = startIndex + ROWS_PER_PAGE;
   const displayedRows = filteredLogData.slice(startIndex, endIndex);
 
@@ -25,13 +26,13 @@ const useDeletedNewsControls = (logData: IHistoryLog[]) => {
   const handleSearchNews = useCallback((event: React.ChangeEvent<HTMLInputElement>): void => {
     const query = event.target.value;
     setSearchValue(query);
-    setCurrentPage(1);
+    setCurrentPage(FIRST_PAGE);
   }, []);
 
   //Змінення значення стану пагінації
   const handlePageChange = useCallback(
     (newPage: number): void => {
-      if (newPage >= 1 && newPage <= totalPages) {
+      if (newPage >= FIRST_PAGE && newPage <= totalPages) {
         setCurrentPage(newPage);
       }
     },

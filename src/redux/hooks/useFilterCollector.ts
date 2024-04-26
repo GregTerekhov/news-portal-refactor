@@ -1,9 +1,8 @@
 import { useCallback } from 'react';
 
+import type { FilterResults, PartialVotedNewsArray } from 'types';
 import { useAppDispatch, useAppSelector } from '../hooks';
 import * as filters from '../filterSlice';
-
-import type { FilterResults, PartialVotedNewsArray } from 'types';
 
 const useFilterCollector = () => {
   const filteredNews = useAppSelector(filters.selectFilters);

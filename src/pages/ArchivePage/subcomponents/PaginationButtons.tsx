@@ -8,6 +8,12 @@ interface PaginationButtonsProps {
   totalPages: number;
 }
 
+const MAXIMUM_MOBILE_BUTTONS_COUNT = 4;
+const MAXIMUM_WIDESCREEN_BUTTONS_COUNT = 5;
+const MOBILE_REFERENCE_COUNT = 2;
+const WIDESCREEN_REFERENCE_COUNT = 3;
+const FIRST_PAGE = 1;
+
 const PaginationButtons: FC<PaginationButtonsProps> = ({
   currentPage,
   handlePageChange,
@@ -25,7 +31,7 @@ const PaginationButtons: FC<PaginationButtonsProps> = ({
     };
 
     const addPageButtons = (start: number, end: number) => {
-      for (let i = start; i <= end; i += 1) {
+      for (let i = start; i <= end; i += FIRST_PAGE) {
         buttons.push(
           <button
             key={i}
@@ -66,45 +72,45 @@ const PaginationButtons: FC<PaginationButtonsProps> = ({
     };
 
     const mobileLastPages =
-      currentPage + 2 === totalPages ||
-      currentPage + 1 === totalPages ||
+      currentPage + MOBILE_REFERENCE_COUNT === totalPages ||
+      currentPage + FIRST_PAGE === totalPages ||
       currentPage === totalPages;
 
     const wideScreensLastPages =
-      currentPage + 3 === totalPages ||
-      currentPage + 2 === totalPages ||
-      currentPage + 1 === totalPages ||
+      currentPage + WIDESCREEN_REFERENCE_COUNT === totalPages ||
+      currentPage + MOBILE_REFERENCE_COUNT === totalPages ||
+      currentPage + FIRST_PAGE === totalPages ||
       currentPage === totalPages;
 
     if (isMobile) {
-      if (totalPages <= 4) {
-        addPageButtons(1, totalPages);
-      } else if (currentPage === 1) {
-        addPageButtons(1, 2);
+      if (totalPages <= MAXIMUM_MOBILE_BUTTONS_COUNT) {
+        addPageButtons(FIRST_PAGE, totalPages);
+      } else if (currentPage === FIRST_PAGE) {
+        addPageButtons(FIRST_PAGE, MOBILE_REFERENCE_COUNT);
         addDots('next');
         addLastPageButton();
       } else if (mobileLastPages) {
         addDots('prev');
-        addPageButtons(totalPages - 2, totalPages);
-      } else if (currentPage + 2 < totalPages) {
+        addPageButtons(totalPages - MOBILE_REFERENCE_COUNT, totalPages);
+      } else if (currentPage + MOBILE_REFERENCE_COUNT < totalPages) {
         addDots('prev');
         addPageButtons(currentPage, currentPage);
         addDots('next');
         addLastPageButton();
       }
     } else {
-      if (totalPages <= 5) {
-        addPageButtons(1, totalPages);
-      } else if (currentPage === 1) {
-        addPageButtons(1, 3);
+      if (totalPages <= MAXIMUM_WIDESCREEN_BUTTONS_COUNT) {
+        addPageButtons(FIRST_PAGE, totalPages);
+      } else if (currentPage === FIRST_PAGE) {
+        addPageButtons(FIRST_PAGE, WIDESCREEN_REFERENCE_COUNT);
         addDots('next');
         addLastPageButton();
       } else if (wideScreensLastPages) {
         addDots('prev');
-        addPageButtons(totalPages - 3, totalPages);
-      } else if (currentPage + 3 < totalPages) {
+        addPageButtons(totalPages - WIDESCREEN_REFERENCE_COUNT, totalPages);
+      } else if (currentPage + WIDESCREEN_REFERENCE_COUNT < totalPages) {
         addDots('prev');
-        addPageButtons(currentPage, currentPage + 1);
+        addPageButtons(currentPage, currentPage + FIRST_PAGE);
         addDots('next');
         addLastPageButton();
       }
