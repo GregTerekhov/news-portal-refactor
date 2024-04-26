@@ -9,8 +9,8 @@ const useReadNewsContent = () => {
 
   if (rebuiltNews?.length === 0) return;
 
-  const publishedDate: string[] = rebuiltNews
-    ?.map((news) => news.publishDate)
+  const publishedDate = rebuiltNews
+    .map((news) => news.publishDate)
     .filter((date) => date !== undefined);
 
   const readNews = Array.from(new Set(publishedDate)).sort(compareDates).reverse();
