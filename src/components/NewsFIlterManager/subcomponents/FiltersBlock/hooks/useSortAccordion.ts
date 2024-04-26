@@ -11,7 +11,7 @@ const useSortAccordion = () => {
 
   //Функція сортування акордеонів на сторінці Read
   const handleSortRead = async (order: string): Promise<void> => {
-    if (!sortedAccordionDates) return;
+    if (!sortedAccordionDates?.length) return;
 
     //Створення нового масива акордеонів та сортування в залежності від напрямку сортування
     const sortedDates =
