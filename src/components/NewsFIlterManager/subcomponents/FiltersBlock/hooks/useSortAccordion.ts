@@ -22,8 +22,10 @@ const useSortAccordion = () => {
     //Створення нового масива акордеонів та сортування в залежності від напрямку сортування
     const sortedDates = order === 'asc' ? filteredDates.sort().reverse() : filteredDates.sort();
 
+    const filteredAndDefinedDates = sortedDates as string[];
+
     //Зміна глобального стану фільтрованих (сортованих) новин
-    setSortedDates(sortedDates);
+    setSortedDates(filteredAndDefinedDates);
     setIsSorted(true);
   };
 
