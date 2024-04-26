@@ -16,6 +16,9 @@ const useSortAccordion = () => {
     // Фільтрація масиву для уникнення значень undefined в масиві
     const filteredDates =
       sortedAccordionDates && sortedAccordionDates?.filter((date) => typeof date === 'string');
+
+    if (!filteredDates.length) return;
+
     //Створення нового масива акордеонів та сортування в залежності від напрямку сортування
     const sortedDates = order === 'asc' ? filteredDates.sort().reverse() : filteredDates.sort();
 
