@@ -40,6 +40,9 @@ const authSlice = createSlice({
         state.user.name = name;
         state.user.email = email;
       })
+      .addCase(authOperations.getSavedPassword.fulfilled, (state, action) => {
+        state.message = action.payload.message;
+      })
       .addCase(authOperations.signIn.fulfilled, (state, action) => {
         state.isLoggedIn = true;
         state.user = action.payload.user;

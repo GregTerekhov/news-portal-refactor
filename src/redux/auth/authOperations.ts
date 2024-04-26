@@ -16,11 +16,7 @@ export const signIn = requestTemplate<authTypes.SignInRequest, authTypes.Credent
 export const getSavedPassword = requestTemplate<
   authTypes.GetCryptoPassword,
   authTypes.ResponseCryptoPassword
->('auth/getCryptoPassword', '/auth/get-password', 'get');
-// export const getSavedPassword = requestTemplate<
-//   authTypes.GetCryptoPassword,
-//   authTypes.ResponseCryptoPassword
-// >('auth/getCryptoPassword', '/auth/get-password', 'get', undefined, true);
+>('auth/getCryptoPassword', '/auth/get-password', 'post');
 
 export const signOut = requestWithInstanceTemplate<void, authTypes.SignOutResponse>(
   'auth/signOut',

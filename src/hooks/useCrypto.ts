@@ -16,19 +16,25 @@ const useCrypto = () => {
   const savedUserId = localStorage.getItem('userId');
 
   const fetchCryptoPassword = async (): Promise<DecryptedData | null> => {
-    if (!savedUserId) return null;
+    try {
+      if (!savedUserId) return null;
 
-    const response = await getCryptoPassword({
-      userId: savedUserId,
-    });
-    const { cryptoData } = response.payload as ResponseCryptoPassword;
-    const { exportedCryptoKey, encryptedPassword, salt, email } = cryptoData;
+      const response = await getCryptoPassword({
+        userId: savedUserId,
+      });
 
-    const savedPassword = await decryptPassword(exportedCryptoKey, encryptedPassword, salt);
+      const { cryptoData } = response.payload as ResponseCryptoPassword;
+      const { exportedCryptoKey, encryptedPassword, salt, email } = cryptoData;
 
-    showToast(response.meta.requestStatus);
+      const savedPassword = await decryptPassword(exportedCryptoKey, encryptedPassword, salt);
 
-    return { savedPassword, email };
+      showToast(response.meta.requestStatus);
+
+      return { savedPassword, email };
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
   };
 
   return { fetchCryptoPassword };

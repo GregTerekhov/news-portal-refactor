@@ -15,9 +15,6 @@ export interface ReceivedCryptoPassword {
   exportedCryptoKey: string;
   encryptedPassword: string;
   salt: string;
-  // exportedCryptoKey: ArrayBuffer;
-  // encryptedPassword: ArrayBuffer;
-  // salt: Uint8Array;
   email: string;
 }
 

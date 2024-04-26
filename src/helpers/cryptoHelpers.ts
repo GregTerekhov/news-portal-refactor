@@ -21,17 +21,15 @@ export async function encryptPassword(password: string): Promise<EncryptedPasswo
 
   const exportedCryptoKey = await exportEncryptionKey(encryptionKey);
 
-  //toBase64String
   const base64EncryptedPassword = arrayBufferToBase64String(encryptedPassword);
   const base64ExportedCryptoKey = arrayBufferToBase64String(exportedCryptoKey);
   const base64Salt = arrayBufferToBase64String(salt);
 
   return {
-    exportedCryptoKey: base64EncryptedPassword,
-    encryptedPassword: base64ExportedCryptoKey,
+    exportedCryptoKey: base64ExportedCryptoKey,
+    encryptedPassword: base64EncryptedPassword,
     salt: base64Salt,
   };
-  //  return { exportedCryptoKey, encryptedPassword, salt };
 }
 
 //Функція дешифрування користувацького пароля
@@ -39,30 +37,23 @@ export async function decryptPassword(
   base64ExportedKey: string,
   base64EncryptedPassword: string,
   base64Salt: string,
-  // exportedKey: ArrayBuffer,
-  // encryptedPassword: ArrayBuffer,
-  // salt: Uint8Array,
 ): Promise<string> {
   if (!base64ExportedKey) {
     throw new Error('Encryption key is missing');
   }
-  // if (!exportedKey) {
-  //   throw new Error('Encryption key is missing');
-  // }
 
-  //toArrayBuffer
   const exportedKey = base64StringToArrayBuffer(base64ExportedKey);
   const encryptedPassword = base64StringToArrayBuffer(base64EncryptedPassword);
   const salt = base64StringToArrayBuffer(base64Salt);
 
-  const encryptionKey = await importEncryptionKey(exportedKey);
+  const decryptionKey = await importEncryptionKey(exportedKey);
 
   const decryptedPassword = await window.crypto.subtle.decrypt(
     {
       name: 'AES-GCM',
       iv: salt,
     },
-    encryptionKey,
+    decryptionKey,
     encryptedPassword,
   );
 
@@ -92,10 +83,10 @@ function base64StringToArrayBuffer(base64String: string): ArrayBuffer | Uint8Arr
     bytes[index] = binaryString.charCodeAt(index);
   }
 
-  if (base64String.endsWith('=') || base64String.endsWith('==')) {
-    return bytes.buffer;
-  } else {
+  if (base64String.endsWith('==')) {
     return bytes;
+  } else {
+    return bytes.buffer;
   }
 }
 

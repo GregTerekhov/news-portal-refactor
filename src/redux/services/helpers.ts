@@ -151,21 +151,3 @@ export const getErrorMessage = (error: any): string | number => {
     return 'Unknown error';
   }
 };
-
-export const createFormData = (args: any) => {
-  const formData = new FormData();
-
-  for (const key in args) {
-    if (Object.prototype.hasOwnProperty.call(args, key)) {
-      const value = args[key];
-      if (value instanceof ArrayBuffer || value instanceof Uint8Array) {
-        const blob = new Blob([value]);
-        formData.append(key, blob);
-      } else {
-        formData.append(key, value);
-      }
-    }
-  }
-
-  return formData;
-};

@@ -2,13 +2,7 @@ import axios, { AxiosResponse } from 'axios';
 
 import { axiosInstance, createAppAsyncThunk } from '../services';
 
-import {
-  createFormData,
-  getDynamicUrl,
-  getErrorMessage,
-  getFinalUrl,
-  transformDataResponse,
-} from './helpers';
+import { getDynamicUrl, getErrorMessage, getFinalUrl, transformDataResponse } from './helpers';
 import type { AsyncThunkTemplateOptions, UsedMethods } from 'types';
 
 export const requestTemplate = <Arg, Result>(
@@ -16,23 +10,20 @@ export const requestTemplate = <Arg, Result>(
   url: string,
   method: UsedMethods,
   options?: AsyncThunkTemplateOptions,
-  useFormData: boolean = false,
 ) => {
   return createAppAsyncThunk<Result, Arg>(name, async (args, { rejectWithValue }) => {
     try {
       let requestUrl = getFinalUrl(name, url, args, options);
-
-      const requestData = useFormData ? createFormData(args) : args;
 
       const dynamicRow = url.includes('period') || url.includes('section');
 
       const response: AxiosResponse = await axios({
         method,
         url: requestUrl,
-        data: method !== 'get' ? requestData : undefined,
-        params: method === 'get' && !dynamicRow ? requestData : undefined,
+        data: method !== 'get' ? args : undefined,
+        params: method === 'get' && !dynamicRow ? args : undefined,
         headers: {
-          'Content-Type': useFormData ? 'multipart/form-data' : 'application/json',
+          'Content-Type': 'application/json',
         },
         transformResponse: [
           async (data) => {
@@ -45,7 +36,7 @@ export const requestTemplate = <Arg, Result>(
         ],
       });
 
-      console.log(`${name}Response`, response);
+      // console.log(`${name}Response`, response);
       // після transformResponse сюди потрапляють всі необхідні дані в одному рівні вкладеності в об'єкт response.data
       return response.data;
     } catch (error: any) {

@@ -11,12 +11,6 @@ export interface EncryptedPassword {
   encryptedPassword: string;
   salt: string;
 }
-// export interface EncryptedPassword {
-//   exportedCryptoKey: ArrayBuffer;
-//   encryptedPassword: ArrayBuffer;
-//   salt: Uint8Array;
-// }
-
 export interface GetCryptoPassword {
   userId: string;
 }
