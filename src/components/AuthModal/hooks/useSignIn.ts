@@ -15,6 +15,7 @@ const useSignIn = () => {
   const [isChecked, setIsChecked] = useState<boolean>(
     rememberMe && rememberMe === 'true' ? true : false,
   );
+  const [cryptoDataFetched, setCryptoDataFetched] = useState(false);
 
   const { login } = useAuthRedux();
   const { showToast } = useNotificationContext();
@@ -25,28 +26,6 @@ const useSignIn = () => {
 
   const uniqueUserId = useId();
   const savedUserId = localStorage.getItem('userId');
-
-  // Отримання розшифрованого пароля та пошти, збережених раніше на бекенді та вставка їх в інпути авторизаційних даних
-  useEffect(() => {
-    const fetchPassword = async () => {
-      const cryptoData = await fetchCryptoPassword();
-
-      if (cryptoData && cryptoData.savedPassword) {
-        setValue('email', cryptoData.email);
-        setValue('password', cryptoData.savedPassword);
-      }
-    };
-
-    fetchPassword();
-  }, []);
-
-  // Видалення даних з localStorage при умові незаповненого чекбоксу Remember me
-  useEffect(() => {
-    if (!isChecked) {
-      localStorage.removeItem('rememberMe');
-      localStorage.removeItem('userId');
-    }
-  }, [isChecked]);
 
   // хук useForm react-hook-form для signIn-операції
   const {
@@ -64,6 +43,32 @@ const useSignIn = () => {
       password: '',
     },
   });
+
+  // Отримання розшифрованого пароля та пошти, збережених раніше на бекенді та вставка їх в інпути авторизаційних даних
+  useEffect(() => {
+    if (!cryptoDataFetched) {
+      const fetchPassword = async () => {
+        const cryptoData = await fetchCryptoPassword();
+
+        if (cryptoData && cryptoData.savedPassword) {
+          setValue('email', cryptoData.email);
+          setValue('password', cryptoData.savedPassword);
+        }
+
+        setCryptoDataFetched(true);
+      };
+
+      fetchPassword();
+    }
+  }, [fetchCryptoPassword, setValue]);
+
+  // Видалення даних з localStorage при умові незаповненого чекбоксу Remember me
+  useEffect(() => {
+    if (!isChecked) {
+      localStorage.removeItem('rememberMe');
+      localStorage.removeItem('userId');
+    }
+  }, [isChecked]);
 
   // Функція слідкування за станом чекбокса та його зміни
   const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
