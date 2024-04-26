@@ -7,7 +7,7 @@ const useReadNewsContent = () => {
   const activeLinks = useActiveLinks();
   const { rebuiltNews } = useChooseRenderingNews(activeLinks);
 
-  if (!rebuiltNews?.length) return;
+  if (rebuiltNews?.length === 0) return;
 
   const publishedDate: string[] = rebuiltNews
     ?.map((news) => news.publishDate)
