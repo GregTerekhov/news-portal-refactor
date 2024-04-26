@@ -5,14 +5,14 @@ type ReadSortProviderProps = {
 };
 
 type ReadSortValue = {
-  sortedDates: string[] | undefined;
+  sortedDates: string[];
   setSortedDates: (value: string[]) => void;
 };
 
 const ReadSortContext = createContext<ReadSortValue | undefined>(undefined);
 
 export const ReadSortProvider: FC<ReadSortProviderProps> = ({ children }) => {
-  const [sortedDates, setSortedDates] = useState<string[] | undefined>(undefined);
+  const [sortedDates, setSortedDates] = useState<string[]>([]);
 
   return (
     <ReadSortContext.Provider value={{ sortedDates, setSortedDates }}>

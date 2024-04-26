@@ -62,6 +62,8 @@ const parseDate = (dateString: string): number[] => {
 
 // Порівняння двох дат за принципом календаря
 export const compareDates = (dateA: string, dateB: string): number => {
+  if (!dateA && !dateB) return 0;
+
   const parsedDateA = parseDate(dateA);
   const parsedDateB = parseDate(dateB);
   for (let i = 0; i < 3; i++) {
