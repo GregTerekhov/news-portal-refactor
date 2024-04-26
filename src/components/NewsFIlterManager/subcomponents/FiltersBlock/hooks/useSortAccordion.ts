@@ -13,11 +13,10 @@ const useSortAccordion = () => {
   const handleSortRead = async (order: string): Promise<void> => {
     if (!sortedAccordionDates?.length) return;
 
+    // Фільтрація масиву для уникнення значень undefined в масиві
+    const filteredDates = sortedAccordionDates.filter((date) => typeof date === 'string');
     //Створення нового масива акордеонів та сортування в залежності від напрямку сортування
-    const sortedDates =
-      order === 'asc'
-        ? Array.from(sortedAccordionDates).sort().reverse()
-        : Array.from(sortedAccordionDates).sort();
+    const sortedDates = order === 'asc' ? filteredDates.sort().reverse() : filteredDates.sort();
 
     //Зміна глобального стану фільтрованих (сортованих) новин
     setSortedDates(sortedDates);
