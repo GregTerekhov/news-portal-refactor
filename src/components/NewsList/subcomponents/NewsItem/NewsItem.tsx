@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
 
 import type { VotedItem } from 'types';
-import { useAuthRedux, useDBRedux } from 'reduxStore/hooks';
+import { useAuthRedux } from 'reduxStore/hooks';
 import { useModalStateContext } from 'contexts';
 
 import { useActiveLinks, usePopUp } from 'hooks';
@@ -20,7 +20,7 @@ const NewsItem: FC<Partial<NewsItemProps>> = ({ liveNews = {} }) => {
   const myButtonRef = React.createRef<HTMLButtonElement>();
 
   const { isAuthenticated } = useAuthRedux();
-  const { getHistoryLog } = useDBRedux();
+  // const { getHistoryLog } = useDBRedux();
   const { isOpenModal, modalType } = useModalStateContext();
 
   const { toggleModal, popUpRef, isOpenModalForItem } = usePopUp();
