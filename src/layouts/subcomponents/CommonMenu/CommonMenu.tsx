@@ -24,8 +24,8 @@ interface CommonMenuProps {
 }
 
 const CommonMenu: FC<CommonMenuProps> = ({ isOpen, navId, closeMenu }) => {
-  const { resetAllFiltersResults } = useFiltersRedux();
-  const { resetPreviousRequest } = useNewsAPIRedux();
+  const { resetAllFiltersResults, filteredNews } = useFiltersRedux();
+  const { resetPreviousRequest, newsByCategory, newsByDate, newsByKeyword } = useNewsAPIRedux();
 
   const { isMobile } = useWindowWidthContext();
   const { resetFilters } = useFiltersStateContext();
@@ -36,11 +36,18 @@ const CommonMenu: FC<CommonMenuProps> = ({ isOpen, navId, closeMenu }) => {
 
   const links = renderMenuItem({ activeLinks, navId });
 
+  const { isHomeActive, isFavoriteActive, isReadActive } = activeLinks;
+
   //Функція обробки кліку по пунктам меню та скидання значень фільтрів та результатів фільтрації, якщо вони є
   const handleLinkClick = (): void => {
     if (typeof closeMenu === 'function') closeMenu();
 
-    if (navId === 'main-navigation') {
+    if (
+      (navId === 'main-navigation' &&
+        isHomeActive &&
+        (newsByCategory?.length || newsByDate?.length || newsByKeyword?.length)) ||
+      (filteredNews?.length && (isHomeActive || isFavoriteActive || isReadActive))
+    ) {
       resetAllFiltersResults();
       resetFilters();
       resetRequestDay();
