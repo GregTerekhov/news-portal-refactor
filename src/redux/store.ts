@@ -1,4 +1,5 @@
 import { AnyAction, configureStore } from '@reduxjs/toolkit';
+import logger from 'redux-logger';
 import {
   FLUSH,
   PAUSE,
@@ -18,7 +19,7 @@ const middleware = (getDefaultMiddleware: any) =>
     serializableCheck: {
       ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
     },
-  });
+  }).concat(logger);
 
 export const store = configureStore({
   reducer: persistedReducer,
@@ -27,7 +28,8 @@ export const store = configureStore({
 
 export const persistor: Persistor = persistStore(store);
 
-export type RootState = ReturnType<typeof store.getState>;
+export type RootState = ReturnType<typeof persistedReducer>;
+// export type RootState = ReturnType<typeof store.getState>;
 export type TypedDispatch<T> = ThunkDispatch<T, any, AnyAction>;
 export type AppDispatch = typeof store.dispatch;
 export type DispatchActionType = 'pending' | 'fulfilled' | 'rejected';

@@ -6,7 +6,12 @@ import { CONFIG } from 'config';
 import { store, RootState } from '../store';
 import { setTokens } from '../auth';
 
-import type { AsyncThunkTemplateOptions, QueryParams, RefreshTokensResponse } from 'types';
+import type {
+  AsyncThunkTemplateOptions,
+  QueryParams,
+  RefreshTokensResponse,
+  TokensPayload,
+} from 'types';
 
 function getBaseRequestUrl(name: string, url: string): string {
   let requestUrl = '';
@@ -113,7 +118,7 @@ export async function transformDataResponse(
   return options?.nestedObjectName ? resultData?.[options.nestedObjectName] : resultData;
 }
 
-export const updateTokens = async (): Promise<void> => {
+export const updateTokens = async (): Promise<TokensPayload> => {
   const state = store.getState() as RootState;
   const persistedToken = state.auth.refreshToken;
 
@@ -126,8 +131,11 @@ export const updateTokens = async (): Promise<void> => {
       refreshToken: persistedToken,
     });
     store.dispatch(setTokens(response.data.data));
+
+    return response.data.data;
   } catch (error) {
     console.error('Token refreshing error', error);
+    setTimeout(() => updateTokens(), 3000);
     throw error;
   }
 };

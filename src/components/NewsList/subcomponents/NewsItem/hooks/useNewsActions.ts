@@ -12,6 +12,7 @@ type NewsActionHookProps = {
   isFavourite: boolean;
   setIsFavourite: (isFavourite: boolean) => void;
   setHasRead: (hasRead: boolean) => void;
+  getNewsState: () => VotedPartial<VotedItem>;
 };
 
 const useNewsActions = ({
@@ -19,50 +20,38 @@ const useNewsActions = ({
   isFavourite,
   setIsFavourite,
   setHasRead,
+  getNewsState,
 }: NewsActionHookProps) => {
   const [changesHappened, setChangesHappened] = useState<boolean>(false);
-  const [isDeleted, setIsDeleted] = useState<boolean>(false);
 
-  const {
-    savedNews,
-    updateSavedNews,
-    addVotedNews,
-    removeNews,
-    // removeFavouriteNews
-  } = useDBRedux();
+  const { savedNews, updateSavedNews, addVotedNews, removeNews, removeFavouriteNews } =
+    useDBRedux();
   const { showToast } = useNotificationContext();
   const { setIsScrollDisabled } = useScrollBodyContext();
 
-  const { isArchiveActive } = useActiveLinks();
+  const { isArchiveActive, isFavoriteActive } = useActiveLinks();
 
   useEffect(() => {
     const updateNews = async () => {
       if (changesHappened && savedNews.length > 0) {
         await addVotedNews(savedNews);
         setChangesHappened(false);
+
+        if (isFavoriteActive && liveNews?.newsUrl) removeFavouriteNews(liveNews.newsUrl);
       }
     };
 
     updateNews();
-  }, [changesHappened, addVotedNews]);
+  }, [changesHappened, addVotedNews, isFavoriteActive]);
 
   const shouldMakeChanges =
     !!savedNews?.length && liveNews && liveNews?.newsUrl !== undefined && !isArchiveActive;
-
-  const getExistingNews = (): VotedPartial<VotedItem> => {
-    const existingNews = savedNews?.find((news) => news.newsUrl === liveNews?.newsUrl);
-    const isFavourite = existingNews?.isFavourite;
-    const hasRead = existingNews?.hasRead;
-    const additionDate = existingNews?.additionDate;
-
-    return { isFavourite, hasRead, additionDate };
-  };
 
   const {
     isFavourite: savedFavourite,
     hasRead: savedRead,
     additionDate: savedClickDate,
-  } = getExistingNews();
+  } = getNewsState();
 
   const handleChangeFavourites = (e: React.MouseEvent<HTMLButtonElement>): void => {
     e.stopPropagation();
@@ -106,18 +95,15 @@ const useNewsActions = ({
     e.preventDefault();
     try {
       const response = await removeNews(id);
-
       showToast(response.meta.requestStatus);
     } catch (error) {
       console.error('Error during removeNews: ', error);
     } finally {
-      setIsDeleted(true);
       setIsScrollDisabled(false);
     }
   };
 
   return {
-    isDeleted,
     handleChangeFavourites,
     handleReadNews,
     handleDeleteNews,

@@ -4,7 +4,7 @@ import { useDBRedux } from 'reduxStore/hooks';
 import { PageTemplate } from '../template';
 
 import { NewsList } from 'components';
-import { InfiniteScroll } from './subcomponents';
+import { ScrollSentinel } from './subcomponents';
 
 import { useInfiniteScroll } from './hooks';
 
@@ -20,7 +20,7 @@ const FavouritePage: FC<{}> = () => {
   return (
     <PageTemplate>
       <NewsList currentItems={displayedNews} />
-      <InfiniteScroll onLoadMore={handleLoadMore} />
+      <ScrollSentinel onLoadMore={handleLoadMore} />
     </PageTemplate>
   );
 };

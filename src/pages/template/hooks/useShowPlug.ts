@@ -10,7 +10,7 @@ const useShowPlug = () => {
 
   const activeLinks = useActiveLinks(); // Активні сторінки
   const { rebuiltNews } = useChooseRenderingNews(activeLinks); // Отримання новин для відображення
-  const { isHomeLoader, commonDBLoader } = useShowLoader(); // Визначення статусу завантаження для домашньої сторінки
+  const { isHomeLoader } = useShowLoader(); // Визначення статусу завантаження для домашньої сторінки
 
   // Деструктуризація активних сторінок
   const { isHomeActive, isFavoriteActive, isReadActive, isArchiveActive } = activeLinks;
@@ -32,7 +32,7 @@ const useShowPlug = () => {
 
   // Перевірка, чи потрібно показувати PlugImage для вибраних або прочитаних новин
   const showFavouritesAndReadsPlug =
-    (isFavoriteActive || isReadActive) && commonPlug && !commonDBLoader;
+    (isFavoriteActive || isReadActive) && commonPlug && !isLoadingDBData;
 
   // Перевірка, чи потрібно показувати PlugImage на сторінці архіву
   const showArchivePlug = isArchiveActive && isArchivePlug && !isLoadingDBData;

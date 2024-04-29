@@ -1,6 +1,6 @@
 import React, { FC, useEffect, useRef } from 'react';
 
-const InfiniteScroll: FC<{ onLoadMore: () => void }> = ({ onLoadMore }) => {
+const ScrollSentinel: FC<{ onLoadMore: () => void }> = ({ onLoadMore }) => {
   const sentinelRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -27,4 +27,4 @@ const InfiniteScroll: FC<{ onLoadMore: () => void }> = ({ onLoadMore }) => {
   return <div ref={sentinelRef}></div>;
 };
 
-export default InfiniteScroll;
+export default ScrollSentinel;

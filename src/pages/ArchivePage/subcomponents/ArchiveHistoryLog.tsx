@@ -6,11 +6,11 @@ import { useModalStateContext, useNotificationContext, useWindowWidthContext } f
 
 import { usePopUp } from 'hooks';
 
-import { Hint, Modal, UnverifiableInput } from 'ui';
-import TablePagination from './TablePagination';
+import { DeleteModal } from 'components';
+import { Modal, UnverifiableInput } from 'ui';
+import ControlButtons from './ControlButtons';
 import DeletedNewsTable from './DeletedNewsTable';
-import ClearLogButton from './ClearLogButton';
-import ClearLogModal from './ClearLogModal';
+import TablePagination from './TablePagination';
 
 import { useDeletedNewsControls } from '../hooks';
 
@@ -19,7 +19,7 @@ interface IHistoryLogProps {
 }
 
 const ArchiveHistoryLog: FC<IHistoryLogProps> = ({ logData }) => {
-  const { clearLog, getHistoryLog } = useDBRedux();
+  const { clearLog } = useDBRedux();
   const { showToast } = useNotificationContext();
   const { isMobile, isNotMobile } = useWindowWidthContext();
   const { isOpenModal, modalType } = useModalStateContext();
@@ -37,37 +37,11 @@ const ArchiveHistoryLog: FC<IHistoryLogProps> = ({ logData }) => {
   const handleClearing = async () => {
     try {
       const response = await clearLog();
-
-      await getHistoryLog();
-
       showToast(response.meta.requestStatus);
     } catch (error) {
       console.error('Error during clearLog:', error);
     }
     toggleModal();
-  };
-
-  const getClearLogButton = (isMobile: boolean): JSX.Element => {
-    return isMobile ? (
-      <Hint
-        label='Clear deleted news log'
-        side='bottom'
-        ariaLabel='Button for clearing deleted news` log'
-        sideOffset={0}
-      >
-        <div>
-          <ClearLogButton
-            toggleModal={(e: React.MouseEvent<HTMLButtonElement>) =>
-              toggleModal(e, true, 'clearLog')
-            }
-          />
-        </div>
-      </Hint>
-    ) : (
-      <ClearLogButton
-        toggleModal={(e: React.MouseEvent<HTMLButtonElement>) => toggleModal(e, true, 'clearLog')}
-      />
-    );
   };
 
   return (
@@ -77,7 +51,13 @@ const ArchiveHistoryLog: FC<IHistoryLogProps> = ({ logData }) => {
           <div className='divide-y divide-greyAlt/[.4] overflow-hidden rounded-lg border dark:divide-greyBase/[.4] dark:border-greyBase/[.4]'>
             <div className='px-4 py-3 lg:px-6 lg:py-5'>
               <div className='relative max-md:w-[254px] md:flex md:flex-row-reverse md:items-center md:justify-between'>
-                {isMobile ? getClearLogButton(isMobile) : null}
+                {isMobile ? (
+                  <ControlButtons
+                    toggleModal={(e: React.MouseEvent<HTMLButtonElement>) =>
+                      toggleModal(e, true, 'clearLog')
+                    }
+                  />
+                ) : null}
                 <h3 className='mb-4 text-2xl font-medium text-darkBase dark:text-whiteBase'>
                   Deleted news
                 </h3>
@@ -106,16 +86,27 @@ const ArchiveHistoryLog: FC<IHistoryLogProps> = ({ logData }) => {
                 currentPage={currentPage}
                 totalPages={totalPages}
               />
-              {isNotMobile ? getClearLogButton(isMobile) : null}
+              {isNotMobile ? (
+                <div className='flex gap-x-7'>
+                  <ControlButtons
+                    toggleModal={(e: React.MouseEvent<HTMLButtonElement>) =>
+                      toggleModal(e, true, 'clearLog')
+                    }
+                  />
+                </div>
+              ) : null}
             </div>
           </div>
         </div>
       </div>
       {isOpenModal && modalType === 'clearLog' && (
         <Modal closeModal={toggleModal} modalRef={popUpRef}>
-          <ClearLogModal
+          <DeleteModal
             handleClose={(e: React.MouseEvent<HTMLButtonElement>) => toggleModal(e)}
-            handleClearing={handleClearing}
+            handleDelete={handleClearing}
+            position='clearLog'
+            title='Clear log'
+            agreementText='clear the log of deleted'
           />
         </Modal>
       )}

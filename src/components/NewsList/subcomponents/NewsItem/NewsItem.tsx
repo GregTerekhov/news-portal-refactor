@@ -7,7 +7,8 @@ import { useModalStateContext } from 'contexts';
 import { useActiveLinks, usePopUp } from 'hooks';
 
 import { Modal, PlugImage, SvgIcon } from 'ui';
-import { DeleteNewsButton, DeleteNewsModal, NewsDescription, VoteButton } from './subcomponents';
+import { DeleteNewsButton, NewsDescription, VoteButton } from './subcomponents';
+import DeleteModal from '../../../DeleteModal/DeleteModal';
 
 import { useNews } from './hooks';
 
@@ -19,11 +20,14 @@ const NewsItem: FC<Partial<NewsItemProps>> = ({ liveNews = {} }) => {
   const myButtonRef = React.createRef<HTMLButtonElement>();
 
   const { isAuthenticated } = useAuthRedux();
+  // const { getHistoryLog } = useDBRedux();
   const { isOpenModal, modalType } = useModalStateContext();
 
   const { toggleModal, popUpRef, isOpenModalForItem } = usePopUp();
   const { isHomeActive, isArchiveActive, isFavoriteActive } = useActiveLinks();
-  const { isFavourite, hasRead, handleReadNews, handleDeleteNews } = useNews({ liveNews });
+  const { isFavourite, hasRead, handleReadNews, handleDeleteNews } = useNews({
+    liveNews,
+  });
 
   //Функція видалення новини
   const handleDeleteNewsWrapper = async (
@@ -33,6 +37,7 @@ const NewsItem: FC<Partial<NewsItemProps>> = ({ liveNews = {} }) => {
     if (id) {
       toggleModal();
       await handleDeleteNews(e, id);
+      // await getHistoryLog();
     }
   };
 
@@ -51,7 +56,7 @@ const NewsItem: FC<Partial<NewsItemProps>> = ({ liveNews = {} }) => {
       {liveNews?.newsUrl && (
         <a
           rel='noopener noreferrer nofollow'
-          className='group block transition-colors'
+          className='group block transition-all'
           href={liveNews.newsUrl}
           target='_blank'
           onClick={isAuthenticated ? handleReadNews : undefined}
@@ -106,11 +111,14 @@ const NewsItem: FC<Partial<NewsItemProps>> = ({ liveNews = {} }) => {
       )}
       {shouldShowModal && (
         <Modal closeModal={toggleModal} modalRef={popUpRef}>
-          <DeleteNewsModal
+          <DeleteModal
             handleClose={(e: React.MouseEvent<HTMLButtonElement>) => toggleModal(e)}
-            handleDeleteNews={(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) =>
+            handleDelete={(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) =>
               handleDeleteNewsWrapper(e, liveNews._id)
             }
+            position='deleteNews'
+            title='Delete news'
+            agreementText='delete this'
           />
         </Modal>
       )}

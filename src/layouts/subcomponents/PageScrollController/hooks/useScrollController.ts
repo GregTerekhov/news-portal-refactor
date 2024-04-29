@@ -4,13 +4,11 @@ import debounce from 'lodash.debounce';
 import { useWindowWidthContext } from 'contexts';
 
 import { getHeaderHeight } from 'helpers';
-
-const DOWN_MEASURE_BUTTON_VISIBILITY = 48;
-const DOWN_MEASURE_BUTTON_INVISIBILITY = 112;
+import { calculateButtonVisibility } from '../assistants';
 
 const useScrollController = (direction: string) => {
-  const [upButtonVisibility, setUpButtonVisibility] = useState<string>('hidden');
-  const [downButtonVisibility, setDownButtonVisibility] = useState<string>('hidden');
+  const [upButtonVisibility, setUpButtonVisibility] = useState<string>('');
+  const [downButtonVisibility, setDownButtonVisibility] = useState<string>('');
 
   const { isTablet, isDesktop, isTV } = useWindowWidthContext();
 
@@ -22,21 +20,15 @@ const useScrollController = (direction: string) => {
   //Калькуляція та визначення позиції скролу
   const callScroll = debounce(() => {
     const currentScroll = window.scrollY;
-    const screenHeight = window.innerHeight;
-    const oneAndHalfScreenHeight = screenHeight * 1.5;
-    const bodyHeight = document.documentElement.scrollHeight - currentScroll;
-    const isTopVisible = currentScroll > screenHeight - headerHeight;
-    const isBottomHide = bodyHeight < oneAndHalfScreenHeight;
-    const isTopHide = currentScroll < DOWN_MEASURE_BUTTON_INVISIBILITY;
-    const isTopVisibleFrontier = currentScroll > DOWN_MEASURE_BUTTON_VISIBILITY;
 
-    if (direction === 'top') {
-      setUpButtonVisibility(isTopVisible ? 'flex' : 'hidden');
-    } else if (direction === 'down') {
-      setDownButtonVisibility(
-        isBottomHide || isTopHide ? 'hidden' : isTopVisibleFrontier ? 'flex' : 'hidden',
-      );
-    }
+    const { topButtonVisibility, bottomButtonVisibility } = calculateButtonVisibility(
+      currentScroll,
+      headerHeight,
+    );
+
+    direction === 'top'
+      ? setUpButtonVisibility(topButtonVisibility)
+      : setDownButtonVisibility(bottomButtonVisibility);
   }, 200);
 
   useEffect(() => {
