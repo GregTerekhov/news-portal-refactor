@@ -8,12 +8,12 @@ interface ITooltipProps {
   side: 'top' | 'right' | 'bottom' | 'left';
   sideOffset: 0 | 4 | 16;
   align?: 'start' | 'center' | 'end';
+  className?: string;
 }
 
 const Hint: FC<ITooltipProps> = forwardRef<HTMLDivElement, ITooltipProps>(
-  ({ children, label, ariaLabel, side, sideOffset, align = 'center' }, forwardedRef) => {
-    const tooltipContentStyles =
-      'z-40 rounded-xl border border-solid border-whiteBase bg-accentAlt/[.8] px-2 text-small text-whiteBase transition-colors duration-500 md:text-medium hg:text-2xl';
+  ({ children, label, ariaLabel, side, sideOffset, align = 'center', className }, forwardedRef) => {
+    const tooltipContentStyles = `${className ? className : ''} z-40 rounded-xl border border-solid border-whiteBase bg-accentAlt/[.8] px-2 text-small text-whiteBase transition-colors duration-500 md:text-medium hg:text-2xl`;
 
     return (
       <Tooltip.Root>

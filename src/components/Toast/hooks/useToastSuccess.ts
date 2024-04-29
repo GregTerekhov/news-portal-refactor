@@ -52,7 +52,7 @@ const useToastSuccess = () => {
         title = 'Delete news';
         description = 'News has been successfully deleted';
         break;
-      case 'Your deleted news feed has been successfully cleared':
+      case 'Your History Log news feed has been successfully cleared':
         title = 'Clearing log';
         description = 'Your deleted news feed has been successfully cleared';
         break;

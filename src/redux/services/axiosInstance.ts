@@ -5,10 +5,9 @@ import { store, RootState } from '../store';
 import { CONFIG } from 'config';
 import { isTokenExpired, updateTokens } from './helpers';
 
-const createAxiosInstance = () => {
+const createAxiosInstance = (): AxiosInstance => {
   const axiosInstance: AxiosInstance = axios.create({
     baseURL: CONFIG.BASE_URL_DB,
-    timeout: 15000,
   });
 
   axiosInstance.interceptors.request.use(
@@ -26,24 +25,29 @@ const createAxiosInstance = () => {
         throw new Error('User is not authenticated');
       }
 
-      if (!isAuthenticated && accessToken)
-        config.headers['Authorization'] = `Bearer ${accessToken}`;
-
-      const tokenStatus = jwtDecode<JwtPayload>(accessToken!);
-
-      if (tokenStatus && tokenStatus.exp) {
-        if (isTokenExpired(tokenStatus)) {
-          await updateTokens();
-        } else {
+      if (accessToken) {
+        if (config.url?.endsWith('/auth/forgot-password-change')) {
           config.headers['Authorization'] = `Bearer ${accessToken}`;
         }
-      }
 
-      if (config.url?.endsWith('/auth/sign-out')) {
-        const refreshToken = state.auth.refreshToken;
+        const tokenStatus = jwtDecode<JwtPayload>(accessToken);
 
-        if (refreshToken) {
-          document.cookie = `rftoken=${refreshToken}; path=/`;
+        if (tokenStatus && tokenStatus.exp) {
+          if (isTokenExpired(tokenStatus)) {
+            const response = await updateTokens();
+            const { accessToken: newAccessToken } = response;
+            config.headers['Authorization'] = `Bearer ${newAccessToken}`;
+          } else {
+            config.headers['Authorization'] = `Bearer ${accessToken}`;
+          }
+        }
+
+        if (config.url?.endsWith('/auth/sign-out')) {
+          const refreshToken = state.auth.refreshToken;
+
+          if (refreshToken) {
+            document.cookie = `rftoken=${refreshToken}; path=/`;
+          }
         }
       }
       return config;

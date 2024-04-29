@@ -6,7 +6,10 @@ import { LinkAccountsButtons, Toast } from 'components';
 import { UpdateCredentials } from './subcomponents';
 
 const AccountManagePage: FC<{}> = () => {
-  const { authError, statusMessage, isThirdPartyRegister } = useAuthRedux();
+  const { authError, statusMessage } = useAuthRedux();
+  // const { authError, statusMessage, isThirdPartyRegister, haveAccounts } = useAuthRedux();
+
+  // const hasAccount = Object.values(haveAccounts).some((value) => value === true);
 
   //Умови показування тостів успіху запитів
   const showUpdatedToast =
@@ -22,14 +25,13 @@ const AccountManagePage: FC<{}> = () => {
       <h2 className='mb-14 text-end text-3xl leading-tighter text-darkBase dark:text-whiteBase hg:text-5xl'>
         Account settings
       </h2>
+      {/* {!isThirdPartyRegister && !hasAccount && ( */}
       <div className='flex items-center justify-end'>
         <div className='w-52 space-y-2 md:w-80 md:space-y-6 lg:w-600px'>
-          {!isThirdPartyRegister && (
-            <>
-              <UpdateCredentials field='email' />
-              <UpdateCredentials field='password' />
-            </>
-          )}
+          <>
+            <UpdateCredentials field='email' />
+            <UpdateCredentials field='password' />
+          </>
           <h3 className='text-darkBase dark:text-whiteBase md:text-2xl lg:mb-4 hg:text-3xl'>
             Connected accounts
           </h3>
@@ -42,6 +44,7 @@ const AccountManagePage: FC<{}> = () => {
           <LinkAccountsButtons />
         </div>
       </div>
+      {/* )} */}
       {shouldShowToast ? (
         <Toast variant='interactive' status={showUpdatedToast ? 'success' : 'error'} />
       ) : null}

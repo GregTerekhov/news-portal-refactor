@@ -52,7 +52,7 @@ const useShowToast = () => {
   const archiveToast =
     isArchiveActive &&
     (dbSuccessMessage === 'Remove news success' ||
-      dbSuccessMessage === 'Your deleted news feed has been successfully cleared') &&
+      dbSuccessMessage === 'Your History Log news feed has been successfully cleared') &&
     !commonDBLoader;
 
   // Перевірка, чи потрібно показувати тост

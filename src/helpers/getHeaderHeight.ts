@@ -3,16 +3,23 @@ const TABLET_HEADER_HEIGHT = 106;
 const DESKTOP_HEADER_HEIGHT = 113;
 const TV_HEADER_HEIGHT = 136;
 
-const getHeaderHeight = (isTablet: boolean, isDesktop: boolean, isTV: boolean) => {
+const getHeaderHeight = (isTablet: boolean, isDesktop: boolean, isTV: boolean): number => {
+  const headerHeight = {
+    mobileHeight: MOBILE_HEADER_HEIGHT,
+    tabletHeight: TABLET_HEADER_HEIGHT,
+    desktopHeight: DESKTOP_HEADER_HEIGHT,
+    widescreenHeight: TV_HEADER_HEIGHT,
+  };
+
   switch (true) {
     case isTablet:
-      return TABLET_HEADER_HEIGHT;
+      return headerHeight.tabletHeight;
     case isDesktop:
-      return DESKTOP_HEADER_HEIGHT;
+      return headerHeight.desktopHeight;
     case isTV:
-      return TV_HEADER_HEIGHT;
+      return headerHeight.widescreenHeight;
     default:
-      return MOBILE_HEADER_HEIGHT;
+      return headerHeight.mobileHeight;
   }
 };
 

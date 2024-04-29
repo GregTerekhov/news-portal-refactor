@@ -25,11 +25,12 @@ const useNews = ({ liveNews }: NewsItemProps) => {
     }
   }, [getNewsState, isAuthenticated, liveNews]);
 
-  const { isDeleted, handleChangeFavourites, handleReadNews, handleDeleteNews } = useNewsActions({
+  const { handleChangeFavourites, handleReadNews, handleDeleteNews } = useNewsActions({
     liveNews,
     isFavourite,
     setIsFavourite,
     setHasRead,
+    getNewsState,
   });
 
   function getNewsState(): VotedPartial<VotedItem> {
@@ -38,14 +39,14 @@ const useNews = ({ liveNews }: NewsItemProps) => {
 
     const isFavourite = allSavedNews?.isFavourite;
     const hasRead = allSavedNews?.hasRead;
+    const additionDate = allSavedNews?.additionDate;
 
-    return { isFavourite, hasRead };
+    return { isFavourite, hasRead, additionDate };
   }
 
   return {
     isFavourite,
     hasRead,
-    isDeleted,
     handleChangeFavourites,
     handleReadNews,
     handleDeleteNews,

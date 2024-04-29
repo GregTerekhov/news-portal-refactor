@@ -37,59 +37,54 @@ const Layout: FC = () => {
     }
   }, [isAuthenticated, fetchCategoriesList, isHomeActive]);
 
-  const is429ErrorAPI = errorAPI?.toString().includes('429');
+  // const is429ErrorAPI = errorAPI && errorAPI === 429;
+  const is429ErrorAPI = errorAPI?.toString().includes('429') ?? false;
 
   const shouldShowPageScrollController =
-    (isHomeActive && isNotMobile && rebuiltNews?.length > 0) ||
-    (isArchiveActive && isNotMobile && rebuiltNews?.length > 0);
+    (isNotMobile && isHomeActive && rebuiltNews?.length > 0) ||
+    (isNotMobile && isFavoriteActive && allFavourites?.length >= 8);
 
-  const shouldShowFilterManager =
+  const shouldShowFilterManager = (): boolean =>
     (isHomeActive && !is429ErrorAPI) ||
     (isFavoriteActive && !!allFavourites?.length) ||
     (isReadActive && !!allReads?.length);
 
-  const isFullHeightSection =
+  const isFullHeightSection = (): boolean =>
     isHomeActive ||
     (isFavoriteActive && !!allFavourites?.length) ||
     (isFavoriteActive && !isLoadingDBData) ||
-    (isArchiveActive && !isLoadingDBData) ||
     isAboutUs ||
-    isErrorPage
-      ? 'h-full'
-      : 'h-screen';
+    isErrorPage;
 
-  const hasLargeSection = (): boolean | undefined =>
+  const shouldRenderLargeSection = (): boolean =>
     isArchiveActive ||
     isFavoriteActive ||
     isReadActive ||
     isDevelopmentActive ||
-    (isHomeActive && is429ErrorAPI);
+    (isHomeActive && !!is429ErrorAPI);
 
-  const sectionStyles = `w-full bg-whiteBase pb-[60px] transition-colors duration-500 dark:bg-darkBackground md:pb-[100px] lg:pb-[150px] ${
-    hasLargeSection() ? 'pt-10 md:pt-12 lg:pt-[60px]' : 'pt-6 md:pt-7 hg:pt-[60px]'
+  const sectionStyles = `relative w-full bg-whiteBase pb-[60px] transition-colors duration-500 dark:bg-darkBackground md:pb-[100px] lg:pb-[150px] ${
+    shouldRenderLargeSection() ? 'pt-10 md:pt-12 lg:pt-[60px]' : 'pt-6 md:pt-7 hg:pt-[60px]'
   }`;
 
   return (
     <div
       className={`flex max-h-sectionSmall
-        flex-col justify-between md:max-h-sectionMedium lg:max-h-sectionLarge hg:max-h-sectionHuge ${isFullHeightSection}`}
+        flex-col justify-between md:max-h-sectionMedium lg:max-h-sectionLarge hg:max-h-sectionHuge ${
+          isFullHeightSection() ? 'h-full' : 'h-screen'
+        }`}
     >
       {!isErrorPage && <Header />}
       <main>
         {isHomeActive && <Hero />}
         <section className={sectionStyles}>
-          <Container>
-            {!isNotMobile && !isErrorPage ? (
+          <Container className='relative'>
+            {(!isNotMobile && !isErrorPage) || isErrorPage ? (
               <div className='mb-10 flex justify-end'>
                 <ThemeSwitcher variant={VariantSwitcher.Header} />
               </div>
             ) : null}
-            {isAuthenticated && shouldShowFilterManager ? <NewsFilterManager /> : null}
-            {isErrorPage ? (
-              <div className='mb-10 flex justify-end'>
-                <ThemeSwitcher variant={VariantSwitcher.Header} />
-              </div>
-            ) : null}
+            {isAuthenticated && shouldShowFilterManager() ? <NewsFilterManager /> : null}
             {shouldShowPageScrollController ? (
               <>
                 <PageScrollController

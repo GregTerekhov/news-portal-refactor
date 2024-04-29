@@ -35,6 +35,7 @@ const useAccountSettings = () => {
 
           showToast(response.meta.requestStatus);
           setIsScrollDisabled(false);
+          toggleModal();
         } else {
           const response = await bindGoogle({ email: userInfo.email });
 
