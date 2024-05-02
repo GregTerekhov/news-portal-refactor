@@ -14,15 +14,8 @@ interface CalendarContentProps {
 }
 
 const CalendarContent: FC<CalendarContentProps> = ({ variant, isOpenCalendar, toggleCalendar }) => {
-  const {
-    firstDayOfMonth,
-    currMonth,
-    daysInMonth,
-    getPrevMonth,
-    getNextMonth,
-    getPrevYear,
-    getNextYear,
-  } = useControlCalendar();
+  const { firstDayOfMonth, currMonth, daysInMonth, handleChangeMonth, handleChangeYear } =
+    useControlCalendar();
 
   const { handleFilterDate } = useFilterDateChange();
 
@@ -30,17 +23,15 @@ const CalendarContent: FC<CalendarContentProps> = ({ variant, isOpenCalendar, to
     <div className='absolute z-40 w-full rounded-[20px] bg-dropdownBase px-4 pb-5 pt-4 shadow-card dark:bg-darkDropdown dark:shadow-darkCard'>
       <CalendarControls
         firstDayOfMonth={firstDayOfMonth}
-        getPrevMonth={getPrevMonth}
-        getNextMonth={getNextMonth}
-        getPrevYear={getPrevYear}
-        getNextYear={getNextYear}
+        handleChangeMonth={handleChangeMonth}
+        handleChangeYear={handleChangeYear}
       />
       <WeekDays />
       <div className='mt-3.5 grid grid-cols-7 place-items-center gap-x-[18px] gap-y-3'>
-        {daysInMonth &&
-          daysInMonth.map((day, idx) => (
+        {Array.isArray(daysInMonth) &&
+          daysInMonth.map((day, index) => (
             <GridCalendar
-              key={idx}
+              key={index}
               day={day}
               currMonth={currMonth}
               handleFilterDate={handleFilterDate}

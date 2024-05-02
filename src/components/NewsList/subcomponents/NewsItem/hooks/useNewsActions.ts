@@ -33,7 +33,7 @@ const useNewsActions = ({
 
   useEffect(() => {
     const updateNews = async () => {
-      if (changesHappened && savedNews.length > 0) {
+      if (changesHappened) {
         await addVotedNews(savedNews);
         setChangesHappened(false);
 
@@ -44,8 +44,7 @@ const useNewsActions = ({
     updateNews();
   }, [changesHappened, addVotedNews, isFavoriteActive]);
 
-  const shouldMakeChanges =
-    !!savedNews?.length && liveNews && liveNews?.newsUrl !== undefined && !isArchiveActive;
+  const shouldMakeChanges = liveNews && liveNews?.newsUrl !== undefined && !isArchiveActive;
 
   const {
     isFavourite: savedFavourite,
@@ -72,7 +71,7 @@ const useNewsActions = ({
   };
 
   const handleReadNews = useCallback((): void => {
-    if (shouldMakeChanges) {
+    if (shouldMakeChanges && !savedRead) {
       setHasRead(true);
       setChangesHappened(true);
 

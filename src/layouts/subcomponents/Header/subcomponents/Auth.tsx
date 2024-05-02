@@ -5,6 +5,7 @@ import { useAuthRedux } from 'reduxStore/hooks';
 import { useModalStateContext, useWindowWidthContext } from 'contexts';
 
 import { useActiveLinks, useCrypto, useHeaderStyles, usePopUp, useSignOut } from 'hooks';
+import { localStorageOperation } from 'helpers';
 
 import { AuthModal } from 'components';
 import { Modal, PrimaryButton } from 'ui';
@@ -24,7 +25,7 @@ const Auth: FC<AuthButtonProps> = ({ passwordToken }) => {
   const { fetchCryptoPassword } = useCrypto();
   const { handleSignOut } = useSignOut();
 
-  const isCredentialsRemembered = localStorage.getItem('rememberMe');
+  const isCredentialsRemembered = localStorageOperation('get', 'rememberMe');
 
   //Функція відкриття модалки при наявності збереженого Remember me та запиту шифрованого пароля
   const onOpenModal = () => {

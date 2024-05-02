@@ -1,38 +1,41 @@
 import React, { FC } from 'react';
 
-import Item from './Item';
-import {
-  gridWeatherClass,
-  gridWeatherItemClass,
-  weatherCurrentDateTextClass,
-  weatherCurrentLocationClass,
-  weatherCurrentTemperatureClass,
-  weatherDayTextClass,
-  weatherDetailsBlockClass,
-  weatherFeelsLikeClass,
-  weatherIconClass,
-  weatherInfoWrapperClass,
-  weatherWrapperClass,
-  currentWeatherInfoClass,
-} from '../assistants';
+import SkeletonItem from './SkeletonItem';
+
+import { weatherStyles } from '../assistants';
 
 const SkeletonWeather: FC = () => {
+  const {
+    wrapper,
+    currentDateText,
+    currentLocation,
+    currentTemperature,
+    currentWeatherInfo,
+    icon,
+    infoWrapper,
+    feelsLike,
+    dayText,
+    detailsBlock,
+    grid,
+    gridItem,
+  } = weatherStyles;
+
   return (
-    <div className={weatherWrapperClass}>
+    <div className={wrapper}>
       <div className='flex gap-x-4 lg:gap-x-6'>
-        <div className={weatherCurrentTemperatureClass}></div>
-        <div className={weatherInfoWrapperClass}>
-          <div className={currentWeatherInfoClass}></div>
-          <div className={weatherFeelsLikeClass}></div>
-          <div className={weatherCurrentLocationClass}></div>
+        <div className={currentTemperature}></div>
+        <div className={infoWrapper}>
+          <div className={currentWeatherInfo}></div>
+          <div className={feelsLike}></div>
+          <div className={currentLocation}></div>
         </div>
       </div>
-      <div className={weatherIconClass}></div>
-      <div className={weatherDetailsBlockClass}>
-        <div className={weatherDayTextClass}></div>
-        <div className={weatherCurrentDateTextClass}></div>
+      <div className={icon}></div>
+      <div className={detailsBlock}>
+        <div className={dayText}></div>
+        <div className={currentDateText}></div>
         <div className='lg:w-full lg:px-6'>
-          <Item count={8} className={gridWeatherClass} itemClassName={gridWeatherItemClass} />
+          <SkeletonItem count={8} className={grid} itemClassName={gridItem} />
         </div>
       </div>
     </div>

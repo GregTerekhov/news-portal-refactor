@@ -30,3 +30,18 @@ export const getNavLinkVersaStyles = (
         }`
   }`;
 };
+
+export const getMobileLinksListStyles = (navId: string) =>
+  `space-y-3 ${
+    navId === 'account-navigation'
+      ? 'after:mt-3 after:block after:h-px after:w-full after:bg-accentBase after:content-[""]'
+      : ''
+  }`;
+
+export const getMobileIconStyles = (navId: string) =>
+  `${navId === 'main-navigation' ? 'fill-transparent stroke-whiteBase' : 'fill-whiteBase'}`;
+
+export const getMobileContainerWrapperStyles = (isOpen: boolean) =>
+  `before:h-81px fixed top-0 z-45 h-screen w-screen overflow-auto bg-whiteBase pb-[18px] pt-[147px] transition-all duration-500 before:fixed before:left-0 before:top-0 before:z-[8] before:w-full before:content-[""] dark:bg-darkBackground ${
+    isOpen ? 'left-0' : '-left-full'
+  }`;

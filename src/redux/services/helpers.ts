@@ -4,7 +4,7 @@ import { JwtPayload } from 'jwt-decode';
 
 import { CONFIG } from 'config';
 import { store, RootState } from '../store';
-import { setTokens } from '../auth';
+// import { setTokens } from '../auth';
 
 import type {
   AsyncThunkTemplateOptions,
@@ -130,7 +130,7 @@ export const updateTokens = async (): Promise<TokensPayload> => {
     const response = await axios.post<RefreshTokensResponse>(`${CONFIG.BASE_URL_DB}/auth/refresh`, {
       refreshToken: persistedToken,
     });
-    store.dispatch(setTokens(response.data.data));
+    // store.dispatch(setTokens(response.data.data));
 
     return response.data.data;
   } catch (error) {
@@ -151,7 +151,7 @@ export const isTokenExpired = (tokenStatus: JwtPayload): boolean | undefined => 
 export const getErrorMessage = (error: any): string | number => {
   if (error.response.status && (error.response.status >= 500 || error.response.status === 429)) {
     return error.response.status;
-  } else if (error.response.data && error.response.data.message) {
+  } else if (error.response.data && typeof error.response.data.message === 'string') {
     return error.response.data.message;
   } else if (error.response.cod && error.response.cod >= 500) {
     return error.response.cod;

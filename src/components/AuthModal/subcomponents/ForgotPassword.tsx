@@ -25,7 +25,7 @@ const ForgotPassword: FC<SignInProps> = ({ handleShowRecoveryInput, isShowRecove
         id='Show password recovery input'
         type='button'
         className={`py-2 text-medium text-darkBase dark:text-whiteBase ${
-          isShowRecoveryInput && 'mb-3'
+          isShowRecoveryInput ? 'mb-3' : 'mb-0'
         }`}
         onClick={handleShowRecoveryInput}
       >

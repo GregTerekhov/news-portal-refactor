@@ -59,7 +59,7 @@ const authSlice = createSlice({
         state.user = action.payload.user;
         state.userTheme = action.payload.userTheme;
         state.haveAccounts = action.payload.haveAccounts;
-        if (action.payload.thirdPartyRegister) state.thirdPartyRegister = true;
+        state.thirdPartyRegister = action.payload.thirdPartyRegister;
       })
       .addCase(authOperations.updateUserEmail.fulfilled, (state, action) => {
         state.user.email = action.payload.newEmail;
@@ -78,7 +78,8 @@ const authSlice = createSlice({
         state.userTheme = action.payload.userTheme;
         state.accessToken = action.payload.accessToken;
         state.refreshToken = action.payload.refreshToken;
-        state.thirdPartyRegister = true;
+        state.thirdPartyRegister = action.payload.thirdPartyRegister;
+        if (action.payload.haveAccounts) state.haveAccounts = action.payload.haveAccounts;
       })
       .addCase(authOperations.googleBind.fulfilled, (state) => {
         state.haveAccounts.google = true;

@@ -4,12 +4,14 @@ type SwitcherStylesProps = {
   enabled?: boolean | undefined;
 };
 
+type CurrentStyles = {
+  spacing?: string;
+  colorLeftLabel?: string;
+  strokeLeftIcon?: string;
+};
+
 interface Styles {
-  [key: string]: {
-    spacing?: string;
-    colorLeftLabel?: string;
-    strokeLeftIcon?: string;
-  };
+  [key: string]: CurrentStyles;
 }
 
 export const generateSwitcherStyles = ({ enabled }: SwitcherStylesProps): Styles => {
@@ -34,3 +36,22 @@ export const generateSwitcherStyles = ({ enabled }: SwitcherStylesProps): Styles
 
   return styles;
 };
+
+export const getCommonLabelStyles = (
+  isHomeActive: boolean,
+  variant: VariantSwitcher,
+  themeSwitcherTextClass: string,
+): string =>
+  `${
+    isHomeActive && variant !== VariantSwitcher.Modal && themeSwitcherTextClass
+  } font-header text-xl leading-tighter hg:text-3xl`;
+
+export const getSwitchFieldStyles = (enabled: boolean): string =>
+  `${
+    enabled ? 'border-contrastWhite bg-accentBase' : 'border-accentBase bg-contrastWhite'
+  } relative inline-flex h-5 w-10 shrink-0 cursor-pointer items-center rounded-full border transition-colors ease-in-out focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 hg:h-6 hg:w-11`;
+
+export const getSwitchSliderStyles = (enabled: boolean): string =>
+  `${
+    enabled ? 'translate-x-5 bg-contrastWhite' : 'translate-x-[1px] bg-accentBase'
+  } pointer-events-none inline-block h-4 w-4 transform rounded-full shadow-lg ring-0 transition ease-in-out hg:h-5 hg:w-5`;

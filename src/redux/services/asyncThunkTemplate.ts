@@ -39,7 +39,7 @@ export const requestTemplate = <Arg, Result>(
       // console.log(`${name}Response`, response);
       // після transformResponse сюди потрапляють всі необхідні дані в одному рівні вкладеності в об'єкт response.data
       return response.data;
-    } catch (error: any) {
+    } catch (error: unknown) {
       // console.log(`Error ${name}`, error.response);
       const errorMessage = getErrorMessage(error);
 
@@ -58,7 +58,7 @@ export const requestWithInstanceTemplate = <Arg, Result>(
       let dynamicUrl = getDynamicUrl(args, url);
 
       const response = await axiosInstance[method]<Result>(dynamicUrl, args);
-      // console.log(`${name}Response`, response.data);
+      // console.log(`${name}Response`, response);
       return response.data;
     } catch (error: any) {
       // console.log(`Error ${name}`, error.response);

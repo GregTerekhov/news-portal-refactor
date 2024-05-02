@@ -5,6 +5,7 @@ import type { AuthRequestWithoutName } from 'types';
 import { useAuthRedux } from 'reduxStore/hooks';
 import { useNotificationContext } from 'contexts';
 
+import { handleRemoveFromLocalStorage } from 'helpers';
 import { renderEmailInputs, updateEmailSchema } from '../assistants';
 
 const useUpdateEmail = () => {
@@ -34,12 +35,12 @@ const useUpdateEmail = () => {
   const handleEmailSubmitHandler: SubmitHandler<AuthRequestWithoutName> = async (data) => {
     try {
       const response = await updateEmail(data);
-      localStorage.removeItem('rememberMe');
-      localStorage.removeItem('userId');
+      handleRemoveFromLocalStorage();
 
       showToast(response.meta.requestStatus);
     } catch (error) {
       console.error('Error during updateEmail:', error);
+      throw error;
     } finally {
       reset({
         ...getValues,

@@ -20,7 +20,6 @@ const NewsItem: FC<Partial<NewsItemProps>> = ({ liveNews = {} }) => {
   const myButtonRef = React.createRef<HTMLButtonElement>();
 
   const { isAuthenticated } = useAuthRedux();
-  // const { getHistoryLog } = useDBRedux();
   const { isOpenModal, modalType } = useModalStateContext();
 
   const { toggleModal, popUpRef, isOpenModalForItem } = usePopUp();
@@ -37,7 +36,6 @@ const NewsItem: FC<Partial<NewsItemProps>> = ({ liveNews = {} }) => {
     if (id) {
       toggleModal();
       await handleDeleteNews(e, id);
-      // await getHistoryLog();
     }
   };
 

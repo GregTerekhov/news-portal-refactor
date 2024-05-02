@@ -1,5 +1,4 @@
 import type { FieldErrors } from 'react-hook-form';
-
 import type {
   AuthInputs,
   AuthRequestWithoutName,
@@ -34,7 +33,6 @@ export const signInDataInputs = (
       errors: errors?.password?.message,
       label: 'password',
       ariaInvalid: errors?.password ? true : false,
-      autoFocus: false,
       disabled: isChecked && password !== '' ? true : false,
     },
   ];
@@ -52,7 +50,6 @@ export const changePasswordDataInputs = (errors: FieldErrors<ChangePasswordValue
       label: 'newPassword',
       ariaInvalid: errors?.newPassword ? true : false,
       autoFocus: true,
-      disabled: false,
     },
     {
       type: 'password',
@@ -61,8 +58,6 @@ export const changePasswordDataInputs = (errors: FieldErrors<ChangePasswordValue
       errors: errors?.confirmPassword?.message,
       label: 'confirmPassword',
       ariaInvalid: errors?.confirmPassword ? true : false,
-      autoFocus: false,
-      disabled: false,
     },
   ];
 
@@ -79,7 +74,6 @@ export const signUpDataInputs = (errors: FieldErrors<MainCredentials>) => {
       label: 'name',
       ariaInvalid: errors?.name ? true : false,
       autoFocus: true,
-      disabled: false,
     },
     {
       type: 'email',
@@ -88,9 +82,7 @@ export const signUpDataInputs = (errors: FieldErrors<MainCredentials>) => {
       errors: errors?.email?.message,
       label: 'email',
       ariaInvalid: errors?.email ? true : false,
-      autoFocus: false,
       autofill: 'email',
-      disabled: false,
     },
     {
       type: 'password',
@@ -99,8 +91,6 @@ export const signUpDataInputs = (errors: FieldErrors<MainCredentials>) => {
       errors: errors?.password?.message,
       label: 'password',
       ariaInvalid: errors?.password ? true : false,
-      autoFocus: false,
-      disabled: false,
     },
   ];
 

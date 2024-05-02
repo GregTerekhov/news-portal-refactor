@@ -18,6 +18,7 @@ export const handleFulfilled = (state: AuthState, action: PayloadAction<any, str
 
 export const handleRejected = (state: AuthState, action: PayloadAction<unknown, string, any>) => {
   state.isCurrentUser = false;
+
   if (
     typeof action.payload === 'string' ||
     (typeof action.payload === 'number' && action.payload >= 500)
@@ -32,13 +33,13 @@ export const getActions = (type: DispatchActionType) => {
     authOperations.signIn,
     authOperations.signOut,
     authOperations.fetchCurrentUser,
-    authOperations.updateUserEmail, // оновлення потчоної пошти зареєстрованого користувача
-    authOperations.updateUserPassword, // оновлення потчоного пароля зареєстрованого користувача
-    authOperations.recoveryPasswordRequest, // відправка пошти для відновлення пароля користувача при forgotPassword
-    authOperations.recoveryPasswordChange, // заміна пароля користувача при forgotPassword
-    authOperations.googleAuth, // реєстрація та авторизація через google-акаунт
-    authOperations.googleBind, // прив'язка google-акаунта
-    authOperations.googleUnbind, // відв'язка google-акаунта
+    authOperations.updateUserEmail,
+    authOperations.updateUserPassword,
+    authOperations.recoveryPasswordRequest,
+    authOperations.recoveryPasswordChange,
+    authOperations.googleAuth,
+    authOperations.googleBind,
+    authOperations.googleUnbind,
   ];
   return extraActions?.map((action) => action[type]);
 };

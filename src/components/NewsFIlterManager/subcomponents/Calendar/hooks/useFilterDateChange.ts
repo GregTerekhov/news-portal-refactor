@@ -17,7 +17,6 @@ const useFilterDateChange = () => {
     isOpenCalendar: boolean,
     toggleCalendar: () => void,
   ): void => {
-    // console.log('date', date);
     //Перевірка, якщо введена дата не пізніше сьогодняшньої
     if (isAfter(selectedDate, today)) return;
 
@@ -36,13 +35,15 @@ const useFilterDateChange = () => {
         //Додавання періода дат в об'єкт стану в контексті
         setSelectedFilterDate(selectedPeriod);
 
+        const { beginDate: firstDate, endDate: lastDate } = selectedPeriod;
+
         //Перевірка на існування обох введених дат та зміна стану фільтрів для відображення значень дат
-        if (selectedPeriod.beginDate && selectedPeriod.endDate) {
+        if (firstDate && lastDate) {
           setFilters({
             ...filters,
             selectedFilterDate: {
-              startDate: selectedPeriod.beginDate,
-              endDate: selectedPeriod.endDate,
+              startDate: firstDate,
+              endDate: lastDate,
             },
           });
           //Видалення значення проміжкового стану початкової дати

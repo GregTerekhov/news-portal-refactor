@@ -30,23 +30,23 @@ const PaginationButtons: FC<PaginationButtonsProps> = ({
         : 'bg-transparent text-darkBase dark:text-whiteBase';
     };
 
-    const addPageButtons = (start: number, end: number) => {
-      for (let i = start; i <= end; i += FIRST_PAGE) {
+    const addPageButtons = (start: number, end: number): void => {
+      for (let index = start; index <= end; index += FIRST_PAGE) {
         buttons.push(
           <button
-            key={i}
+            key={index}
             type='button'
             aria-current='page'
-            className={`${tableButtonStyles} ${getButtonStyles(currentPage, i)}`}
-            onClick={() => handlePageChange(i)}
+            className={`${tableButtonStyles} ${getButtonStyles(currentPage, index)}`}
+            onClick={() => handlePageChange(index)}
           >
-            {i}
+            {index}
           </button>,
         );
       }
     };
 
-    const addDots = (direction: string) => {
+    const addDots = (direction: string): void => {
       buttons.push(
         <span
           key={'dots' + `${direction}`}
@@ -57,7 +57,7 @@ const PaginationButtons: FC<PaginationButtonsProps> = ({
       );
     };
 
-    const addLastPageButton = () => {
+    const addLastPageButton = (): void => {
       buttons.push(
         <button
           key={totalPages}

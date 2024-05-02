@@ -8,7 +8,12 @@ import { useActiveLinks, useHeaderStyles } from 'hooks';
 
 import SvgIcon from '../SvgIcon/SvgIcon';
 
-import { generateSwitcherStyles } from './assistants';
+import {
+  generateSwitcherStyles,
+  getCommonLabelStyles,
+  getSwitchFieldStyles,
+  getSwitchSliderStyles,
+} from './assistants';
 
 interface Styles {
   labelStyles: string | undefined;
@@ -24,18 +29,6 @@ const ThemeSwitcher: FC<{ variant: VariantSwitcher }> = ({ variant }) => {
 
   const styles = generateSwitcherStyles({ enabled });
   const currentStyles = styles[variant];
-
-  const commonLabelStyles = `${
-    isHomeActive && variant !== VariantSwitcher.Modal && themeSwitcherTextClass
-  } font-header text-xl leading-tighter hg:text-3xl`;
-
-  const switchFieldStyles = `${
-    enabled ? 'border-contrastWhite bg-accentBase' : 'border-accentBase bg-contrastWhite'
-  } relative inline-flex h-5 w-10 shrink-0 cursor-pointer items-center rounded-full border transition-colors ease-in-out focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 hg:h-6 hg:w-11`;
-
-  const switchSliderStyles = `${
-    enabled ? 'translate-x-5 bg-contrastWhite' : 'translate-x-[1px] bg-accentBase'
-  } pointer-events-none inline-block h-4 w-4 transform rounded-full shadow-lg ring-0 transition ease-in-out hg:h-5 hg:w-5`;
 
   const generatePointerThemeLabel = (themeType: string, svgName: string): JSX.Element => {
     const getStyles = (): Styles => {
@@ -60,7 +53,11 @@ const ThemeSwitcher: FC<{ variant: VariantSwitcher }> = ({ variant }) => {
       return { labelStyles, iconStyles };
     };
     return wideScreens ? (
-      <p className={`${commonLabelStyles} ${getStyles().labelStyles}`}>{themeType}</p>
+      <p
+        className={`${getCommonLabelStyles(isHomeActive, variant, themeSwitcherTextClass)} ${getStyles().labelStyles}`}
+      >
+        {themeType}
+      </p>
     ) : (
       <SvgIcon
         svgName={svgName}
@@ -77,10 +74,10 @@ const ThemeSwitcher: FC<{ variant: VariantSwitcher }> = ({ variant }) => {
         checked={enabled}
         onChange={setEnabled}
         onClick={handleThemeChange}
-        className={switchFieldStyles}
+        className={getSwitchFieldStyles(enabled)}
       >
         <span className='sr-only'>Theme switcher</span>
-        <span aria-hidden='true' className={switchSliderStyles} />
+        <span aria-hidden='true' className={getSwitchSliderStyles(enabled)} />
       </Switch>
       {generatePointerThemeLabel('Dark', 'moon')}
     </div>

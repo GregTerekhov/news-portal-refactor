@@ -41,7 +41,7 @@ const Header: FC<{}> = () => {
     isHomeActive
       ? headerClass
       : 'border-b border-solid border-fullDark/[.2] bg-whiteBase/[.8] dark:border-whiteBase/[.2] dark:bg-darkBackground/[.8]'
-  } transition-all duration-100 ${isOpenMenu && 'border-b-0'} ${
+  } transition-all duration-100 ${isOpenMenu ? 'border-b-0' : ''} ${
     isOpenModal ? 'pointer-events-none z-0' : 'pointer-events-auto z-50'
   }`;
 
@@ -64,7 +64,7 @@ const Header: FC<{}> = () => {
             toggleMenu={toggleMenu}
           />
         ) : (
-          <div className={`${isNotMobile ? 'flex flex-col gap-3' : ''}`}>
+          <div className={isNotMobile ? 'flex flex-col gap-3' : ''}>
             <AuthButton passwordToken={passwordToken} />
             {isNotMobile ? <ThemeSwitcher variant={VariantSwitcher.Header} /> : null}
           </div>

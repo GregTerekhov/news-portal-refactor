@@ -6,12 +6,13 @@ import type { AuthRequestWithoutName, EncryptedPasswordRequest } from 'types';
 import { useAuthRedux } from 'reduxStore/hooks';
 import { useNotificationContext, useScrollBodyContext } from 'contexts';
 
-import { encryptPassword } from 'helpers';
+import { encryptPassword, handleRemoveFromLocalStorage, localStorageOperation } from 'helpers';
 import { useCrypto, usePopUp } from 'hooks';
 import { signInDataInputs, signInSchema } from '../assistants';
 
 const useSignIn = () => {
-  const rememberMe = localStorage.getItem('rememberMe');
+  const rememberMe = localStorageOperation('get', 'rememberMe');
+
   const [isChecked, setIsChecked] = useState<boolean>(
     rememberMe && rememberMe === 'true' ? true : false,
   );
@@ -25,7 +26,7 @@ const useSignIn = () => {
   const { fetchCryptoPassword } = useCrypto();
 
   const uniqueUserId = useId();
-  const savedUserId = localStorage.getItem('userId');
+  const savedUserId = localStorageOperation('get', 'userId');
 
   // хук useForm react-hook-form для signIn-операції
   const {
@@ -65,8 +66,7 @@ const useSignIn = () => {
   // Видалення даних з localStorage при умові незаповненого чекбоксу Remember me
   useEffect(() => {
     if (!isChecked) {
-      localStorage.removeItem('rememberMe');
-      localStorage.removeItem('userId');
+      handleRemoveFromLocalStorage();
     }
   }, [isChecked]);
 
@@ -75,11 +75,14 @@ const useSignIn = () => {
     const isRememberMe = event.target.checked;
 
     setIsChecked(isRememberMe);
-    localStorage.setItem('rememberMe', isRememberMe.toString());
+    localStorageOperation('set', 'rememberMe', isRememberMe.toString());
   };
 
   // споглядання за відповідними полями, щоб зберігати введені валідні значення для RememberMe
   const [email, password] = watch(['email', 'password']);
+
+  const shouldEncryptPassword = isChecked && password !== '' && !savedUserId && !errors.password;
+  const shouldSendSimpleCredentials = !isChecked || (isChecked && !!savedUserId);
 
   //Функція-submit
   const signInSubmitHandler: SubmitHandler<
@@ -89,9 +92,9 @@ const useSignIn = () => {
     try {
       const { email, password } = data;
 
-      if (isChecked && password != '' && !savedUserId && !errors.password) {
+      if (shouldEncryptPassword) {
         const { exportedCryptoKey, encryptedPassword, salt } = await encryptPassword(password);
-        localStorage.setItem('userId', uniqueUserId);
+        localStorageOperation('set', 'userId', uniqueUserId);
 
         const response = await login({
           email,
@@ -100,13 +103,14 @@ const useSignIn = () => {
         });
 
         showToast(response.meta.requestStatus);
-      } else if (!isChecked || (isChecked && savedUserId)) {
+      } else if (shouldSendSimpleCredentials) {
         const response = await login(data);
 
         showToast(response.meta.requestStatus);
       }
     } catch (error) {
       console.error('Error during signIn:', error);
+      throw error;
     } finally {
       reset({
         ...getValues,

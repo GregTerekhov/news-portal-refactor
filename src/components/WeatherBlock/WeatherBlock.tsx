@@ -29,7 +29,7 @@ const WeatherBlock: FC<{}> = () => {
   const emptyWeather = currentWeather && Object.keys(currentWeather).length === 0;
   const showError = weatherError && weatherError;
 
-  const showNoWeather = (!isWeatherLoading && emptyWeather) || showError;
+  const showNoWeather = (!isWeatherLoading && emptyWeather) || !!showError;
   const showLoader = isWeatherLoading && hasGeolocationPermission;
   const showWeather = !isWeatherLoading && !emptyWeather && hasGeolocationPermission;
 
@@ -50,7 +50,7 @@ const WeatherBlock: FC<{}> = () => {
   const weatherContainerStyles = `${getContainerStyles()} h-[515px] md:h-700px flex flex-col justify-between w-full bg-accentBase hg:w-442px`;
 
   return (
-    <div className={`${weatherContainerStyles}`}>
+    <div className={weatherContainerStyles}>
       {showNoWeather && <NoWeather showError={showError} />}
       {showLoader && <Loader variant='element' />}
       {showWeather && (

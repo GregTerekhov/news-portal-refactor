@@ -43,6 +43,7 @@ const useSignUp = () => {
       }
     } catch (error) {
       console.error('Error during signUp:', error);
+      throw error;
     } finally {
       reset({
         ...getValues,

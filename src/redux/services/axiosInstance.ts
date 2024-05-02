@@ -4,6 +4,7 @@ import { jwtDecode, JwtPayload } from 'jwt-decode';
 import { store, RootState } from '../store';
 import { CONFIG } from 'config';
 import { isTokenExpired, updateTokens } from './helpers';
+import { setTokens } from '../auth';
 
 const createAxiosInstance = (): AxiosInstance => {
   const axiosInstance: AxiosInstance = axios.create({
@@ -35,7 +36,12 @@ const createAxiosInstance = (): AxiosInstance => {
         if (tokenStatus && tokenStatus.exp) {
           if (isTokenExpired(tokenStatus)) {
             const response = await updateTokens();
-            const { accessToken: newAccessToken } = response;
+            const { accessToken: newAccessToken, refreshToken: newRefreshToken } = response;
+
+            store.dispatch(
+              setTokens({ accessToken: newAccessToken, refreshToken: newRefreshToken }),
+            );
+
             config.headers['Authorization'] = `Bearer ${newAccessToken}`;
           } else {
             config.headers['Authorization'] = `Bearer ${accessToken}`;

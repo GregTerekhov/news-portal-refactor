@@ -50,6 +50,12 @@ export const getAriaLabel = (
 
 export const getCallToActionText = (hasAccount: boolean, account: string): string => {
   return hasAccount
-    ? `Disconnect your ${account.toLowerCase()} account from News. You will no longer be able to use it to log in.`
-    : `Connect your ${account.toLowerCase()} account to login to News.`;
+    ? `Disconnect your ${account} account from News. You will no longer be able to use it to log in.`
+    : `Connect your ${account} account to login to News.`;
+};
+
+export const getButtonStyles = (isManageAccountPage: boolean): string => {
+  return `w-14 h-14 ${
+    isManageAccountPage ? 'lg:w-12 lg:h-12 hg:w-16 hg:h-16' : 'md:w-full'
+  } rounded-xl border-whiteBase dark:border-greyBase bg-accentBase dark:bg-transparent group hocus:border-accentBase hocus:text-accentBase dark:hocus:text-whiteBase dark:hocus:border-whiteBase hocus:bg-whiteBase dark:hocus:bg-accentBase ring-whiteBase dark:ring-darkBase ring-2`;
 };

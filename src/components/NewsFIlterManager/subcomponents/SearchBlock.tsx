@@ -22,6 +22,8 @@ const SearchBlock: FC<{}> = () => {
     handleResetRequests,
   } = useAdditionalRequest();
 
+  const { query, category, period } = searchParams;
+
   return (
     <div className='relative p-3.5 after:block after:h-px after:w-full after:bg-fullDark/[.2] after:content-[""] after:dark:bg-whiteBase/[.2] max-md:space-y-4 max-md:after:mt-4 md:grid md:grid-cols-6 md:grid-rows-2 md:gap-4 md:after:col-span-full lg:grid-cols-13 lg:grid-rows-1 lg:gap-x-6'>
       <form
@@ -32,7 +34,7 @@ const SearchBlock: FC<{}> = () => {
           inputData={{
             name: 'query',
             type: 'text',
-            value: searchParams.query,
+            value: query,
             placeholder: 'Search |',
           }}
           svgName='search'
@@ -45,7 +47,7 @@ const SearchBlock: FC<{}> = () => {
         <Dropdown
           options={categoriesForDropdown || []}
           getResults={getNewsByCategory}
-          selectedItem={searchParams.category}
+          selectedItem={category}
           onSelectItem={updateSearchParams}
           label='Categories'
         />
@@ -54,7 +56,7 @@ const SearchBlock: FC<{}> = () => {
         <Dropdown
           options={PERIOD}
           getResults={getNewsByPeriod}
-          selectedItem={searchParams.period}
+          selectedItem={period}
           onSelectItem={updateSearchParams}
           label='Time period'
         />

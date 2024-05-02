@@ -1,6 +1,11 @@
 import memoizeOne from 'memoize-one';
 import * as yup from 'yup';
 
+//Мемоїзація схеми валідації користувацького імені
+export const createNameValidation = memoizeOne(() =>
+  yup.string().min(4).max(20).required('Name is required'),
+);
+
 //Мемоїзація схеми валідації користувацької пошти
 export const createEmailValidation = memoizeOne(() =>
   yup

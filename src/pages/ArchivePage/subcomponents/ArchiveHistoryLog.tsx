@@ -34,12 +34,13 @@ const ArchiveHistoryLog: FC<IHistoryLogProps> = ({ logData }) => {
     handleSearchNews,
   } = useDeletedNewsControls(logData);
 
-  const handleClearing = async () => {
+  const handleClearing = async (): Promise<void> => {
     try {
       const response = await clearLog();
       showToast(response.meta.requestStatus);
     } catch (error) {
       console.error('Error during clearLog:', error);
+      throw error;
     }
     toggleModal();
   };

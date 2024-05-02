@@ -1,4 +1,6 @@
-export const DAYS = ['su', 'mo', 'tu', 'we', 'th', 'fr', 'sa'];
+type Days = ['su', 'mo', 'tu', 'we', 'th', 'fr', 'sa'];
+
+export const DAYS: Days = ['su', 'mo', 'tu', 'we', 'th', 'fr', 'sa'];
 
 export const COL_START_CLASSES = [
   '',

@@ -8,10 +8,11 @@ import { getStringDateToCalendar, isDayInRange, parseStringToDate } from 'helper
 const useSelectedPeriod = (day: Date, currentMonth: string, variant: CalendarVariant) => {
   const { memoizedSelectedRequestDate, memoizedSelectedFilterDate } = useSelectedDateContext();
 
-  const isRequestPeriod =
-    !!memoizedSelectedRequestDate.beginDate && !!memoizedSelectedRequestDate.endDate;
-  const isFilterPeriod =
-    !!memoizedSelectedFilterDate.beginDate && !!memoizedSelectedFilterDate.endDate;
+  const { beginDate: firstRequestDate, endDate: lastRequestDate } = memoizedSelectedRequestDate;
+  const { beginDate: firstFilterDate, endDate: lastFilterDate } = memoizedSelectedFilterDate;
+
+  const isRequestPeriod = !!firstRequestDate && !!lastRequestDate;
+  const isFilterPeriod = !!firstFilterDate && !!lastFilterDate;
 
   const isCurrentMonth = isSameMonth(day, parseStringToDate(currentMonth));
   const isTodayDate = isToday(day);
@@ -19,16 +20,8 @@ const useSelectedPeriod = (day: Date, currentMonth: string, variant: CalendarVar
 
   const getSelectedRange = (position: string): boolean => {
     return position === 'FiltersBlock'
-      ? isDayInRange(
-          memoizedSelectedFilterDate.beginDate,
-          memoizedSelectedFilterDate.endDate,
-          evenDayToString,
-        )
-      : isDayInRange(
-          memoizedSelectedRequestDate.beginDate,
-          memoizedSelectedRequestDate.endDate,
-          evenDayToString,
-        );
+      ? isDayInRange(firstFilterDate, lastFilterDate, evenDayToString)
+      : isDayInRange(firstRequestDate, lastRequestDate, evenDayToString);
   };
 
   const getParsedDate = (position: string): Date | 0 => {

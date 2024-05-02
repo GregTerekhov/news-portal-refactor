@@ -24,19 +24,18 @@ const useResetFiltration = () => {
   const { isHomeActive } = useActiveLinks();
   const { handleChangeHeadline } = useHeadline();
 
+  const { query, category, period } = searchParams;
+  const { beginDate, endDate } = memoizedSelectedRequestDate;
+
   const resetHeadline = () => {
     if (filteredNews?.length > 0) {
       if (newsByKeyword?.length > 0) {
-        handleChangeHeadline('keyword', searchParams.query);
+        handleChangeHeadline('keyword', query);
       } else if (newsByCategory?.length > 0) {
-        handleChangeHeadline('category', searchParams.category);
-      } else if (searchParams.period) {
-        handleChangeHeadline('period', searchParams.period);
-      } else if (
-        newsByDate?.length > 0 &&
-        !!memoizedSelectedRequestDate.beginDate &&
-        !!memoizedSelectedRequestDate.endDate
-      ) {
+        handleChangeHeadline('category', category);
+      } else if (period) {
+        handleChangeHeadline('period', period);
+      } else if (newsByDate?.length > 0 && !!beginDate && !!endDate) {
         const dateToHeading = formatDateRange(memoizedSelectedRequestDate);
         handleChangeHeadline('date', dateToHeading);
       } else {

@@ -40,7 +40,7 @@ const Layout: FC = () => {
   // const is429ErrorAPI = errorAPI && errorAPI === 429;
   const is429ErrorAPI = errorAPI?.toString().includes('429') ?? false;
 
-  const shouldShowPageScrollController =
+  const shouldShowPageScrollController = (): boolean =>
     (isNotMobile && isHomeActive && rebuiltNews?.length > 0) ||
     (isNotMobile && isFavoriteActive && allFavourites?.length >= 8);
 
@@ -63,6 +63,8 @@ const Layout: FC = () => {
     isDevelopmentActive ||
     (isHomeActive && !!is429ErrorAPI);
 
+  const shouldShowThemeSwitcher = (): boolean => (!isNotMobile && !isErrorPage) || isErrorPage;
+
   const sectionStyles = `relative w-full bg-whiteBase pb-[60px] transition-colors duration-500 dark:bg-darkBackground md:pb-[100px] lg:pb-[150px] ${
     shouldRenderLargeSection() ? 'pt-10 md:pt-12 lg:pt-[60px]' : 'pt-6 md:pt-7 hg:pt-[60px]'
   }`;
@@ -79,13 +81,13 @@ const Layout: FC = () => {
         {isHomeActive && <Hero />}
         <section className={sectionStyles}>
           <Container className='relative'>
-            {(!isNotMobile && !isErrorPage) || isErrorPage ? (
+            {shouldShowThemeSwitcher() ? (
               <div className='mb-10 flex justify-end'>
                 <ThemeSwitcher variant={VariantSwitcher.Header} />
               </div>
             ) : null}
             {isAuthenticated && shouldShowFilterManager() ? <NewsFilterManager /> : null}
-            {shouldShowPageScrollController ? (
+            {shouldShowPageScrollController() ? (
               <>
                 <PageScrollController
                   direction='top'

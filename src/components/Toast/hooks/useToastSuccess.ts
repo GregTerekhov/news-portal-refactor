@@ -20,12 +20,13 @@ const useToastSuccess = () => {
 
     switch (statusMessage) {
       case 'User sign-in success':
+      case 'User sign-up and sign-in success':
         title = 'Welcome';
         description = 'Welcome to New York Times News Viewer';
         break;
       case 'Your saved password has been successfully retrieved':
         title = 'Paste credentials';
-        description = 'Your credentials have been successfully inserted';
+        description = 'Your credentials have been successfully inserted. Please push Sign in';
         break;
       case 'Sign-out success':
         title = 'Goodbye';

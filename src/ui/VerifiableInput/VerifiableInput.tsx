@@ -15,7 +15,7 @@ interface InputCollectedData {
   autoFocus?: boolean | undefined;
   labelName?: ReactNode;
   autofill?: string;
-  disabled?: boolean;
+  disabled?: boolean | undefined;
 }
 
 type AriaInvalid = boolean | 'false' | 'true' | 'grammar' | 'spelling' | undefined;
