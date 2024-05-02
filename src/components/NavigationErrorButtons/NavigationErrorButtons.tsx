@@ -7,7 +7,7 @@ import { useAuthRedux } from 'reduxStore/hooks';
 import { PrimaryButton } from 'ui';
 
 interface NavigationErrorProps {
-  anyServerError?: boolean | '' | 0 | null;
+  anyServerError?: boolean;
 }
 
 const NavigationErrorButtons: FC<NavigationErrorProps> = ({ anyServerError }) => {

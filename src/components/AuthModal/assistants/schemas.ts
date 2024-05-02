@@ -3,11 +3,12 @@ import * as yup from 'yup';
 import {
   createConfirmPasswordValidation,
   createEmailValidation,
+  createNameValidation,
   createPasswordValidation,
 } from 'helpers'; // мемоїзовані функції схеми
 
 export const signUpSchema = yup.object({
-  name: yup.string().min(4).max(20).required('Name is required'),
+  name: createNameValidation(),
   email: createEmailValidation(),
   password: createPasswordValidation(),
 });

@@ -12,7 +12,7 @@ const cellCommonStyles =
 export const RenderTemperatureCell = (item: HourlyWeatherData, isCelsius: boolean): JSX.Element => {
   const { mainTemperature } = getWeatherHoursObject(item, isCelsius);
 
-  return <td className={`${cellCommonStyles}`}>{mainTemperature}</td>;
+  return <td className={cellCommonStyles}>{mainTemperature}</td>;
 };
 
 //Компонент виведення відповідних іконок погоди
@@ -34,19 +34,19 @@ export const RenderWeatherIconCell = (item: HourlyWeatherData): JSX.Element => {
 export const RenderHumidityCell = (item: HourlyWeatherData): JSX.Element => {
   const { humidityPercent } = getWeatherHoursObject(item);
 
-  return <td className={`${cellCommonStyles}`}>{humidityPercent}</td>;
+  return <td className={cellCommonStyles}>{humidityPercent}</td>;
 };
 
 //Компонент виведення значення атмосферного тиску
 export const RenderPressureCell = (item: HourlyWeatherData): JSX.Element => {
   const { pressureMmHg } = getWeatherHoursObject(item);
 
-  return <td className={`${cellCommonStyles}`}>{pressureMmHg}</td>;
+  return <td className={cellCommonStyles}>{pressureMmHg}</td>;
 };
 
 //Компонент виведення значення сили вітра
 export const RenderWindSpeedCell = (item: HourlyWeatherData): JSX.Element => {
   const { windSpeed } = getWeatherHoursObject(item);
 
-  return <td className={`${cellCommonStyles}`}>{windSpeed}</td>;
+  return <td className={cellCommonStyles}>{windSpeed}</td>;
 };

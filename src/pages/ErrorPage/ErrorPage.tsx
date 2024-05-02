@@ -21,9 +21,9 @@ const ErrorPage: FC<{}> = () => {
         width={matchedErrorImage.width}
         height={matchedErrorImage.height}
       />
-      <h2 className='text-5xl text-darkBase transition-colors duration-500 dark:text-whiteBase'>
+      <h1 className='text-5xl text-darkBase transition-colors duration-500 dark:text-whiteBase'>
         Page not found
-      </h2>
+      </h1>
       <p className='text-justify text-xl text-darkBase transition-colors duration-500 dark:text-whiteBase md:text-center'>
         Looks like you'we lost a bit. The page you requested could not be found or maybe don't even
         exist. How about to make a step back and try again?

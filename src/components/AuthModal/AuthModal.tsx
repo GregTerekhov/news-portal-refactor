@@ -4,6 +4,8 @@ import { RemoveScroll } from 'react-remove-scroll';
 
 import { useModalStateContext } from 'contexts';
 
+import { localStorageOperation } from 'helpers';
+
 import { SignUpPanel, SignInPanel, ChangePassword } from './subcomponents';
 
 interface IAuthModalProps {
@@ -14,7 +16,7 @@ const SIGN_IN_TAB_IDX = 1;
 const SIGN_UP_TAB_IDX = 0;
 
 const AuthModal: FC<IAuthModalProps> = ({ passwordToken }) => {
-  const isCredentialsRemembered = localStorage.getItem('rememberMe');
+  const isCredentialsRemembered = localStorageOperation('get', 'rememberMe');
 
   const [isShowRecoveryInput, setIsShowRecoveryInput] = useState<boolean>(false);
   const [selectedTab, setSelectedTab] = useState<number>(
@@ -58,9 +60,9 @@ const AuthModal: FC<IAuthModalProps> = ({ passwordToken }) => {
               selectedIndex={selectedTab}
               onChange={(index) => handleChangeTab(index)}
             >
-              <Tab.List className={`${tabListStyles}`}>
-                <Tab className={`${tabStyles}`}>Register</Tab>
-                <Tab className={`${tabStyles}`}>Log In</Tab>
+              <Tab.List className={tabListStyles}>
+                <Tab className={tabStyles}>Register</Tab>
+                <Tab className={tabStyles}>Log In</Tab>
               </Tab.List>
               <Tab.Panels className='pb-4'>
                 <Tab.Panel>

@@ -7,17 +7,19 @@ import { PrimaryButton } from 'ui';
 
 import { useActiveLinks } from 'hooks';
 import { useAccountSettings } from './hooks';
-import { getAriaLabel, getButtonWrapperClass, getCallToActionText, getSvgSize } from './assistants';
+import {
+  getAriaLabel,
+  getButtonStyles,
+  getButtonWrapperClass,
+  getCallToActionText,
+  getSvgSize,
+} from './assistants';
 
 const LinkAccountsButtons: FC = () => {
   const { isMobile, isTV } = useWindowWidthContext();
 
   const { isManageAccountPage } = useActiveLinks();
   const { accountButtons } = useAccountSettings();
-
-  const accountButtonStyles = `w-14 h-14 ${
-    isManageAccountPage ? 'lg:w-12 lg:h-12 hg:w-16 hg:h-16' : 'md:w-full'
-  } rounded-xl border-whiteBase dark:border-greyBase bg-accentBase dark:bg-transparent group hocus:border-accentBase hocus:text-accentBase dark:hocus:text-whiteBase dark:hocus:border-whiteBase hocus:bg-whiteBase dark:hocus:bg-accentBase ring-whiteBase dark:ring-darkBase ring-2`;
 
   const accountIconStyles =
     'fill-whiteBase group-hover:fill-accentAlt group-focus:fill-accentAlt dark:group-focus:fill-whiteBase dark:group-hover:fill-whiteBase';
@@ -41,7 +43,7 @@ const LinkAccountsButtons: FC = () => {
               svgName={svgName}
               svgSize={getSvgSize(isManageAccountPage, isMobile, isTV)}
               ariaLabel={getAriaLabel(account, isManageAccountPage, hasAccount)}
-              classNameButton={accountButtonStyles}
+              classNameButton={getButtonStyles(isManageAccountPage)}
               classNameIcon={accountIconStyles}
               children={!isMobile && !isManageAccountPage ? account : ''}
               onHandleClick={onClick}

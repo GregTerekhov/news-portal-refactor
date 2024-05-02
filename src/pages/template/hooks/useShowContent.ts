@@ -20,14 +20,13 @@ const useShowContent = () => {
   const showHomeContent = isHomeActive && !isHomeLoader && !isHomePlug;
 
   // Перевірка для відображення вмісту для вибраних або прочитаних новин
-  const showFavouritesContent =
-    (isFavoriteActive || isReadActive) && !commonDBLoader && !commonPlug;
+  const showVotedContent = (isFavoriteActive || isReadActive) && !commonDBLoader && !commonPlug;
 
   // Перевірка для відображення вмісту на сторінці архіву
   const showArchiveContent = isArchiveActive && !isLoadingDBData && allArchive?.length > 0;
 
   // Перевірка, чи потрібно взагалі показувати вміст
-  const shouldShowContent = showHomeContent || showFavouritesContent || showArchiveContent;
+  const shouldShowContent = showHomeContent || showVotedContent || showArchiveContent;
 
   return { shouldShowContent };
 };

@@ -1,11 +1,11 @@
-import { useCallback, useMemo, useState } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import { add, eachDayOfInterval, endOfMonth, endOfWeek, startOfToday, startOfWeek } from 'date-fns';
 
 import { formatDateToString, parseStringToDate } from 'helpers';
 
 const useControlCalendar = () => {
   const today = startOfToday();
-  const [currMonth, setCurrMonth] = useState<string>(getCurrentMonthState());
+  const [currMonth, setCurrMonth] = useState<string>(formatDateToString(today).monthYear);
 
   const firstDayOfMonth: Date = useMemo(() => parseStringToDate(currMonth), [currMonth]);
 
@@ -16,54 +16,30 @@ const useControlCalendar = () => {
     });
   }, [firstDayOfMonth]);
 
-  const getPrevMonth = useCallback(
-    (event: React.MouseEvent<HTMLButtonElement>): void => {
+  const handleChangeMonth = useCallback(
+    (event: React.MouseEvent<HTMLButtonElement>, amount: number): void => {
       event.preventDefault();
-      const firstDayOfPrevMonth = add(firstDayOfMonth, { months: -1 });
-      setCurrMonth(formatDateToString(firstDayOfPrevMonth).monthYear);
+      const newFirstDay = add(firstDayOfMonth, { months: amount });
+      setCurrMonth(formatDateToString(newFirstDay).monthYear);
     },
     [firstDayOfMonth],
   );
 
-  const getNextMonth = useCallback(
-    (event: React.MouseEvent<HTMLButtonElement>): void => {
+  const handleChangeYear = useCallback(
+    (event: React.MouseEvent<HTMLButtonElement>, amount: number) => {
       event.preventDefault();
-      const firstDayOfNextMonth = add(firstDayOfMonth, { months: 1 });
-      setCurrMonth(formatDateToString(firstDayOfNextMonth).monthYear);
+      const newFirstDay = add(firstDayOfMonth, { years: amount });
+      setCurrMonth(formatDateToString(newFirstDay).monthYear);
     },
     [firstDayOfMonth],
   );
-
-  const getPrevYear = useCallback(
-    (event: React.MouseEvent<HTMLButtonElement>): void => {
-      event.preventDefault();
-      const firstDayOfPrevYear = add(firstDayOfMonth, { years: -1 });
-      setCurrMonth(formatDateToString(firstDayOfPrevYear).monthYear);
-    },
-    [firstDayOfMonth],
-  );
-
-  const getNextYear = useCallback(
-    (event: React.MouseEvent<HTMLButtonElement>): void => {
-      event.preventDefault();
-      const firstDayOfNextYear = add(firstDayOfMonth, { years: 1 });
-      setCurrMonth(formatDateToString(firstDayOfNextYear).monthYear);
-    },
-    [firstDayOfMonth],
-  );
-
-  function getCurrentMonthState(): string {
-    return formatDateToString(today).monthYear;
-  }
 
   return {
     currMonth,
     firstDayOfMonth,
     daysInMonth,
-    getPrevMonth,
-    getNextMonth,
-    getPrevYear,
-    getNextYear,
+    handleChangeMonth,
+    handleChangeYear,
   };
 };
 

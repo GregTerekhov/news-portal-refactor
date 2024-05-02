@@ -30,7 +30,7 @@ const VoteButton: FC<VBProps> = ({ liveNews, isFavourite, buttonData }) => {
     <button
       id={buttonData?.id}
       type='button'
-      className={`${buttonStyles}`}
+      className={buttonStyles}
       onClick={handleChangeFavourites}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}

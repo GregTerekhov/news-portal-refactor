@@ -48,8 +48,8 @@ const useFilterNews = () => {
     }
 
     //Якщо є значення фільтрів зміна глобальних станів фільтрованих новин
-    getFilteredNews(filteredNews);
     showResultsState('full');
+    getFilteredNews(filteredNews);
   };
 
   return { handleFiltration };

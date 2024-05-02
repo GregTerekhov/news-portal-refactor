@@ -3,32 +3,26 @@ import React, { FC } from 'react';
 import { useWindowWidthContext } from 'contexts';
 import { useActiveLinks } from 'hooks';
 
-import Item from './Item';
+import SkeletonItem from './SkeletonItem';
 import SkeletonSection from './SkeletonSection';
 import SkeletonPagination from './SkeletonPagination';
-import {
-  pageClass,
-  headerContainerPageClass,
-  logoPageClass,
-  mainContentPageClass,
-  menuWrapperClass,
-  commonPageItemClass,
-} from '../assistants';
+
+import { pageStyles } from '../assistants';
 
 const SkeletonPage: FC = () => {
   const { isMobile, isTablet, wideScreens } = useWindowWidthContext();
   const { isHomeActive } = useActiveLinks();
 
+  const { page, pageItem, headerContainer, logo, menuWrapper, content } = pageStyles;
+
   return (
-    <div className={pageClass}>
-      <div className={headerContainerPageClass}>
-        <div className={logoPageClass}></div>
-        {!isMobile && (
-          <Item count={4} className={menuWrapperClass} itemClassName={commonPageItemClass} />
-        )}
-        <Item count={2} className='space-y-2' itemClassName={commonPageItemClass} />
+    <div className={page}>
+      <div className={headerContainer}>
+        <div className={logo}></div>
+        {!isMobile && <SkeletonItem count={4} className={menuWrapper} itemClassName={pageItem} />}
+        <SkeletonItem count={2} className='space-y-2' itemClassName={pageItem} />
       </div>
-      <div className={mainContentPageClass}>
+      <div className={content}>
         {isMobile && <SkeletonSection />}
         {isTablet && (
           <>

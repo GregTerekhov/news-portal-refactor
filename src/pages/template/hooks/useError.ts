@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { useAuthRedux, useDBRedux, useNewsAPIRedux } from 'reduxStore/hooks';
+import { isServerError } from '../assistants';
 
 const useError = () => {
   const { errorDB } = useDBRedux();
@@ -19,10 +20,6 @@ const useError = () => {
       navigate('/server-error');
     }
   }, [errorDB, errorAPI, authError]);
-
-  function isServerError(error: unknown): boolean {
-    return typeof error === 'number' && error >= 500;
-  }
 };
 
 export default useError;

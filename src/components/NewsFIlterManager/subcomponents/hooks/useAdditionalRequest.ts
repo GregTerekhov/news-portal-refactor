@@ -3,7 +3,8 @@ import memoizeOne from 'memoize-one';
 import type { CategoryRequest } from 'types';
 import { useNewsAPIRedux, useFiltersRedux } from 'reduxStore/hooks';
 import { useAdditionRequestContext, usePaginationContext, useSelectedDateContext } from 'contexts';
-import useHeadline from '../../../../hooks/useHeadline';
+
+import { useHeadline } from 'hooks';
 
 const TODAY_HOT_NEWS = 1;
 const WEEKLY_NEWS = 7;

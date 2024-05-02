@@ -2,6 +2,11 @@ import React, { FC, ReactElement, ReactNode, useState } from 'react';
 import * as Accordion from '@radix-ui/react-accordion';
 
 import SvgIcon from '../SvgIcon/SvgIcon';
+import {
+  accordionHeaderStyles,
+  accordionTriggerIconStyles,
+  accordionTriggerStyles,
+} from './assistants';
 
 interface AccordeonProps {
   children: ReactElement | ReactNode;
@@ -19,28 +24,19 @@ const Accordeon: FC<AccordeonProps> = ({ children, dateSeparator, position, bloc
 
   const showAccordeonPages = position === 'readPage' || position === 'archivePage';
 
-  const accordionTriggerStyles =
-    'flex w-full items-center gap-1.5 py-3 leading-moreRelaxed tracking-wider text-darkBase dark:text-whiteBase md:gap-2 lg:text-xl hg:text-2xl';
-
   return (
     <Accordion.Root type='single' collapsible className='w-full'>
       <Accordion.Item
         value={showAccordeonPages ? dateSeparator || '' : blockDefinition || ''}
-        className={`${position === 'accountManagePage' ? 'lg:text-2xl' : ''}`}
+        className={position === 'accountManagePage' ? 'lg:text-2xl' : ''}
       >
-        <Accordion.Header
-          className={`border-b border-solid border-lineAlt ${
-            showAccordeonPages ? 'mb-7 md:mb-[30px] lg:mb-10' : ''
-          }`}
-        >
+        <Accordion.Header className={accordionHeaderStyles(showAccordeonPages)}>
           <Accordion.Trigger className={accordionTriggerStyles} onClick={handleClick}>
             {showAccordeonPages ? dateSeparator : blockDefinition}
             <SvgIcon
               svgName='arrow'
               sizeKey='smIcon18'
-              className={`fill-darkBase dark:fill-whiteBase ${
-                isOpen ? 'rotate-180' : 'rotate-0'
-              } transition-transform`}
+              className={accordionTriggerIconStyles(isOpen)}
             />
           </Accordion.Trigger>
         </Accordion.Header>

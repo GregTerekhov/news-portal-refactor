@@ -35,7 +35,7 @@ export type ToastSuccessDescription<T extends keyof HaveAccounts> =
 
 type ToastSuccessDescriptionWithoutAccount =
   | 'Welcome to New York Times News Viewer'
-  | 'Your credentials have been successfully inserted'
+  | 'Your credentials have been successfully inserted. Please push Sign in'
   | 'See you soon! We will be waiting for you with new news'
   | 'Your email address has been successfully updated'
   | 'Your password has been successfully updated'
@@ -77,7 +77,7 @@ export interface AuthInputs {
   fieldValue?: string | undefined;
   autoFocus?: boolean;
   autofill?: string;
-  disabled: boolean;
+  disabled?: boolean;
 }
 
 export type UpdateCredentialsInput = {

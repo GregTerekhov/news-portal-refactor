@@ -5,6 +5,7 @@ import type { ExtendedUpdatePasswordRequest } from 'types';
 import { useAuthRedux } from 'reduxStore/hooks';
 import { useNotificationContext } from 'contexts';
 
+import { handleRemoveFromLocalStorage } from 'helpers';
 import { renderPasswordInputs, updatePasswordSchema } from '../assistants';
 
 const useUpdatePassword = () => {
@@ -43,12 +44,12 @@ const useUpdatePassword = () => {
       const { newPassword, password } = data;
 
       const response = await updatePassword({ password, newPassword });
-      localStorage.removeItem('rememberMe');
-      localStorage.removeItem('userId');
+      handleRemoveFromLocalStorage();
 
       showToast(response.meta.requestStatus);
     } catch (error) {
       console.error('Error during updatePassword:', error);
+      throw error;
     } finally {
       reset({
         ...getValues,

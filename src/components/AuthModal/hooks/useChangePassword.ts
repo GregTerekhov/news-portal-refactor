@@ -5,6 +5,7 @@ import type { ChangePasswordValues } from 'types';
 import { useAuthRedux } from 'reduxStore/hooks';
 import { useNotificationContext, useScrollBodyContext } from 'contexts';
 
+import { handleRemoveFromLocalStorage } from 'helpers';
 import { usePopUp } from 'hooks';
 import { changePasswordDataInputs, changePasswordSchema } from '../assistants';
 
@@ -30,15 +31,14 @@ const useChangePassword = () => {
   const changePasswordSubmitHandler: SubmitHandler<ChangePasswordValues> = async (data) => {
     try {
       const { newPassword } = data;
-      const dataToSend = { newPassword };
 
-      const response = await changePassword(dataToSend);
-      localStorage.removeItem('rememberMe');
-      localStorage.removeItem('userId');
+      const response = await changePassword({ newPassword });
+      handleRemoveFromLocalStorage();
 
       showToast(response.meta.requestStatus);
     } catch (error) {
       console.error('Error during changing password', error);
+      throw error;
     } finally {
       reset({
         ...getValues,

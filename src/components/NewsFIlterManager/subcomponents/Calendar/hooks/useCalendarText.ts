@@ -8,26 +8,27 @@ const useCalendarText = () => {
   const { memoizedSelectedRequestDate } = useSelectedDateContext();
 
   const { beginDate, endDate } = memoizedSelectedRequestDate;
-
-  const showSelectedDateForFiltering: boolean =
-    filters?.selectedFilterDate?.startDate !== '' && filters?.selectedFilterDate?.endDate !== '';
+  const { startDate: firstFilteredDate, endDate: lastFilteredDate } = filters.selectedFilterDate;
 
   const today = startOfToday();
 
-  const firstRequestDate = !!beginDate && convertDateStringToVariables(beginDate);
-  const lastRequestDate = !!endDate && convertDateStringToVariables(endDate);
-  const firstFilteredDate = filters.selectedFilterDate.startDate;
-  const lastFilteredDate = filters.selectedFilterDate.endDate;
+  const firstRequestDate = convertDateStringToVariables(beginDate);
+  const lastRequestDate = convertDateStringToVariables(endDate);
 
   //Функція відображення дат в кнопці календаря
   const showButtonText = (variant: string): string => {
-    if (variant === 'SearchBlock' && beginDate && endDate) {
-      return `${firstRequestDate} - ${lastRequestDate}`;
+    const hasRequestPeriod = variant === 'SearchBlock' && !!beginDate && !!endDate;
+    const hasFilterPeriod = variant === 'FiltersBlock' && !!firstFilteredDate && !!lastFilteredDate;
+
+    switch (true) {
+      case hasRequestPeriod:
+        return `${firstRequestDate} - ${lastRequestDate}`;
+      case hasFilterPeriod:
+        return `${firstFilteredDate} - ${lastFilteredDate}`;
+
+      default:
+        return formatDateToString(today).dayMonthYear;
     }
-    if (variant === 'FiltersBlock' && showSelectedDateForFiltering) {
-      return `${firstFilteredDate} - ${lastFilteredDate}`;
-    }
-    return formatDateToString(today).dayMonthYear;
   };
 
   return { showButtonText };

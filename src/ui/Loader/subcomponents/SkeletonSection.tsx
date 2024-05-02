@@ -2,23 +2,16 @@ import React, { FC } from 'react';
 
 import { useActiveLinks } from 'hooks';
 
-import {
-  sectionItemWrapperClass,
-  sectionLineClasses,
-  sectionAbsoluteLineClasses,
-  sectionGroups,
-} from '../assistants';
+import { sectionStyles, skeletonLineStyles } from '../assistants';
 
 const SkeletonSection: FC<{}> = () => {
   const { isHomeActive } = useActiveLinks();
 
+  const { itemWrapper, sectionGroups } = sectionStyles;
+
   return (
     <>
-      <div
-        className={`${
-          isHomeActive ? 'mb-10 md:mb-12 lg:mb-[60px]' : ''
-        } ${sectionItemWrapperClass}`}
-      >
+      <div className={`${isHomeActive ? 'mb-10 md:mb-12 lg:mb-[60px]' : ''} ${itemWrapper}`}>
         {Array.isArray(sectionGroups) &&
           sectionGroups.map(({ lines, className }, groupIndex) => (
             <div key={groupIndex} className={className}>
@@ -26,13 +19,7 @@ const SkeletonSection: FC<{}> = () => {
                 lines.map(({ width, height }, index) => (
                   <div
                     key={index}
-                    className={`${width} ${height} ${
-                      groupIndex === 0
-                        ? index === 0
-                          ? 'left-0 top-10 rounded-r'
-                          : 'bottom-3 right-2 rounded-3xl'
-                        : ''
-                    } ${groupIndex === 0 ? sectionAbsoluteLineClasses : sectionLineClasses}`}
+                    className={skeletonLineStyles(width, height, groupIndex, index)}
                   ></div>
                 ))}
             </div>

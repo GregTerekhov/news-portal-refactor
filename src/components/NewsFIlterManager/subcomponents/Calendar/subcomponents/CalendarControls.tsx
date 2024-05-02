@@ -4,14 +4,15 @@ import { formatDateToString } from 'helpers';
 
 import ArrowButton from './ArrowButton';
 
-type ControlFunction = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
+type ControlFunction = (
+  event: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+  amount: number,
+) => void;
 
 interface CalendarControlsProps {
   firstDayOfMonth: Date;
-  getPrevYear: ControlFunction;
-  getNextYear: ControlFunction;
-  getPrevMonth: ControlFunction;
-  getNextMonth: ControlFunction;
+  handleChangeMonth: ControlFunction;
+  handleChangeYear: ControlFunction;
 }
 
 type ButtonsBlock = {
@@ -23,23 +24,21 @@ type ButtonsBlock = {
 
 const CalendarControls: FC<CalendarControlsProps> = ({
   firstDayOfMonth,
-  getPrevYear,
-  getNextYear,
-  getPrevMonth,
-  getNextMonth,
+  handleChangeMonth,
+  handleChangeYear,
 }) => {
   //Data для кнопок переключення місяців та років
   const controlButtonsBlock: ButtonsBlock[] = [
     {
       id: 'year',
-      onPrevClick: getPrevYear,
-      onNextClick: getNextYear,
+      onPrevClick: handleChangeYear,
+      onNextClick: handleChangeYear,
       formattedDate: formatDateToString(firstDayOfMonth).year,
     },
     {
       id: 'month',
-      onPrevClick: getPrevMonth,
-      onNextClick: getNextMonth,
+      onPrevClick: handleChangeMonth,
+      onNextClick: handleChangeMonth,
       formattedDate: formatDateToString(firstDayOfMonth).month,
     },
   ];
@@ -55,14 +54,18 @@ const CalendarControls: FC<CalendarControlsProps> = ({
             <ArrowButton
               ariaLabel={`Previous ${id} button`}
               iconClass='rotate-90'
-              onClick={onPrevClick}
+              onClick={(event: React.MouseEvent<HTMLButtonElement, MouseEvent>) =>
+                onPrevClick(event, -1)
+              }
             >
               {`Previous ${id} button`}
             </ArrowButton>
             <p className={`${commonTextStyles}`}>{formattedDate}</p>
             <ArrowButton
               ariaLabel={`Next ${id} button`}
-              onClick={onNextClick}
+              onClick={(event: React.MouseEvent<HTMLButtonElement, MouseEvent>) =>
+                onNextClick(event, 1)
+              }
               iconClass='-rotate-90'
             >
               {`Next ${id} button`}

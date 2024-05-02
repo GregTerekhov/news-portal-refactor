@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
 
 import { VariantSwitcher } from 'types';
-import { useFiltersRedux, useNewsAPIRedux } from 'reduxStore/hooks';
+import { useAuthRedux, useFiltersRedux, useNewsAPIRedux } from 'reduxStore/hooks';
 import { useFiltersStateContext, useSelectedDateContext, useWindowWidthContext } from 'contexts';
 
 import { useActiveLinks, useSignOut } from 'hooks';
@@ -24,6 +24,7 @@ interface CommonMenuProps {
 }
 
 const CommonMenu: FC<CommonMenuProps> = ({ isOpen, navId, closeMenu }) => {
+  const { isThirdPartyRegister } = useAuthRedux();
   const { resetAllFiltersResults, filteredNews } = useFiltersRedux();
   const { resetPreviousRequest, newsByCategory, newsByDate, newsByKeyword } = useNewsAPIRedux();
 
@@ -34,7 +35,7 @@ const CommonMenu: FC<CommonMenuProps> = ({ isOpen, navId, closeMenu }) => {
   const activeLinks = useActiveLinks();
   const { handleSignOut } = useSignOut(closeMenu);
 
-  const links = renderMenuItem({ activeLinks, navId });
+  const links = renderMenuItem({ activeLinks, navId, isThirdPartyRegister });
 
   const { isHomeActive, isFavoriteActive, isReadActive } = activeLinks;
 
@@ -42,12 +43,13 @@ const CommonMenu: FC<CommonMenuProps> = ({ isOpen, navId, closeMenu }) => {
   const handleLinkClick = (): void => {
     if (typeof closeMenu === 'function') closeMenu();
 
-    if (
+    const shouldReset =
       (navId === 'main-navigation' &&
         isHomeActive &&
-        (newsByCategory?.length || newsByDate?.length || newsByKeyword?.length)) ||
-      (filteredNews?.length && (isHomeActive || isFavoriteActive || isReadActive))
-    ) {
+        (newsByCategory?.length > 0 || newsByDate?.length > 0 || newsByKeyword?.length > 0)) ||
+      (filteredNews?.length > 0 && (isHomeActive || isFavoriteActive || isReadActive));
+
+    if (shouldReset) {
       resetAllFiltersResults();
       resetFilters();
       resetRequestDay();

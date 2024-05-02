@@ -6,7 +6,7 @@ interface MenuItemProps {
   itemClassName: string;
 }
 
-const Item: FC<MenuItemProps> = ({ count, className, itemClassName }) => {
+const SkeletonItem: FC<MenuItemProps> = ({ count, className, itemClassName }) => {
   const items: ReactNode[] = Array(count)
     .fill(null)
     .map((_, index) => <div key={index} className={itemClassName}></div>);
@@ -14,4 +14,4 @@ const Item: FC<MenuItemProps> = ({ count, className, itemClassName }) => {
   return <div className={className}>{items}</div>;
 };
 
-export default Item;
+export default SkeletonItem;

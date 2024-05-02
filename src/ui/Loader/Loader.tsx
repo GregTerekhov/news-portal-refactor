@@ -23,6 +23,10 @@ interface LoaderProps {
   variant: keyof typeof variants;
 }
 
+const MOBILE_WEATHER_POSITION_IDX = 0;
+const TABLET_WEATHER_POSITION_IDX = 2;
+const DESKTOP_WEATHER_POSITION_IDX = 3;
+
 const Loader: FC<LoaderProps> = ({ variant }) => {
   const { isMobile, isTablet, wideScreens } = useWindowWidthContext();
   const { isHomeActive } = useActiveLinks();
@@ -37,11 +41,14 @@ const Loader: FC<LoaderProps> = ({ variant }) => {
     return (
       <>
         <div className='grid md:grid-cols-2 md:gap-[30px] lg:grid-cols-3 lg:gap-x-8 hg:gap-x-10'>
-          {sections.map((_, index) =>
-            (isMobile && index === 0) || (isTablet && index < 2) || (wideScreens && index < 3) ? (
-              <SkeletonSection key={index} />
-            ) : null,
-          )}
+          {Array.isArray(sections) &&
+            sections.map((_, index) =>
+              (isMobile && index === MOBILE_WEATHER_POSITION_IDX) ||
+              (isTablet && index < TABLET_WEATHER_POSITION_IDX) ||
+              (wideScreens && index < DESKTOP_WEATHER_POSITION_IDX) ? (
+                <SkeletonSection key={index} />
+              ) : null,
+            )}
         </div>
         {showPagination && isHomeActive && <SkeletonPagination />}
       </>

@@ -31,6 +31,7 @@ const useSendEmail = () => {
       showToast(response.meta.requestStatus);
     } catch (error) {
       console.error('Error during sending email for recovery password', error);
+      throw error;
     } finally {
       resetField('email');
     }
