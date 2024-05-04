@@ -1,50 +1,26 @@
-import { useFiltersRedux, useNewsAPIRedux } from 'reduxStore/hooks';
+import { useFiltersRedux } from 'reduxStore/hooks';
 import {
-  useAdditionRequestContext,
   useFiltersStateContext,
   usePaginationContext,
   useReadSortStateContext,
   useSelectedDateContext,
 } from 'contexts';
 
-import { formatDateRange } from 'helpers';
-import { useActiveLinks, useHeadline } from 'hooks';
+import { useActiveLinks } from 'hooks';
+import useResetHeadline from './useResetHeadline';
 
 const useResetFiltration = () => {
   const { filteredNews } = useFiltersRedux();
-  const { newsByKeyword, newsByCategory, newsByDate } = useNewsAPIRedux();
   const { resetAllFiltersResults, setIsSorted } = useFiltersRedux();
 
-  const { searchParams } = useAdditionRequestContext();
-  const { memoizedSelectedRequestDate, resetFiltersDay } = useSelectedDateContext();
+  const { resetFiltersDay } = useSelectedDateContext();
   const { setSortedDates } = useReadSortStateContext();
   const { resetPagination } = usePaginationContext();
-  const { setSelectedMaterialType, resetFilters } = useFiltersStateContext();
+  const { setSelectedMaterialType, resetFiltersState } = useFiltersStateContext();
 
   const { isHomeActive } = useActiveLinks();
-  const { handleChangeHeadline } = useHeadline();
 
-  const { query, category, period } = searchParams;
-  const { beginDate, endDate } = memoizedSelectedRequestDate;
-
-  const resetHeadline = () => {
-    if (filteredNews?.length > 0) {
-      if (newsByKeyword?.length > 0) {
-        handleChangeHeadline('keyword', query);
-      } else if (newsByCategory?.length > 0) {
-        handleChangeHeadline('category', category);
-      } else if (period) {
-        handleChangeHeadline('period', period);
-      } else if (newsByDate?.length > 0 && !!beginDate && !!endDate) {
-        const dateToHeading = formatDateRange(memoizedSelectedRequestDate);
-        handleChangeHeadline('date', dateToHeading);
-      } else {
-        handleChangeHeadline('reset');
-      }
-    } else {
-      handleChangeHeadline('reset');
-    }
-  };
+  const { resetHeadline } = useResetHeadline();
 
   //Скидання значень фільтрації
   const handleResetFiltration = async (): Promise<void> => {
@@ -56,13 +32,16 @@ const useResetFiltration = () => {
       resetPagination();
     }
 
+    if (filteredNews?.length > 0) {
+      setIsSorted(false);
+    }
+
     //Скидання інших значень
-    resetFilters();
     setSelectedMaterialType('');
+    resetFiltersState();
     resetAllFiltersResults();
     resetFiltersDay();
     setSortedDates([]);
-    setIsSorted(false);
   };
   return { handleResetFiltration };
 };

@@ -29,7 +29,7 @@ const CommonMenu: FC<CommonMenuProps> = ({ isOpen, navId, closeMenu }) => {
   const { resetPreviousRequest, newsByCategory, newsByDate, newsByKeyword } = useNewsAPIRedux();
 
   const { isMobile } = useWindowWidthContext();
-  const { resetFilters } = useFiltersStateContext();
+  const { resetFiltersState } = useFiltersStateContext();
   const { resetRequestDay } = useSelectedDateContext();
 
   const activeLinks = useActiveLinks();
@@ -43,15 +43,17 @@ const CommonMenu: FC<CommonMenuProps> = ({ isOpen, navId, closeMenu }) => {
   const handleLinkClick = (): void => {
     if (typeof closeMenu === 'function') closeMenu();
 
+    const pagesWithFilters = isHomeActive || isFavoriteActive || isReadActive;
+    const additionalRequestResults =
+      newsByCategory?.length > 0 || newsByDate?.length > 0 || newsByKeyword?.length > 0;
+
     const shouldReset =
-      (navId === 'main-navigation' &&
-        isHomeActive &&
-        (newsByCategory?.length > 0 || newsByDate?.length > 0 || newsByKeyword?.length > 0)) ||
-      (filteredNews?.length > 0 && (isHomeActive || isFavoriteActive || isReadActive));
+      (navId === 'main-navigation' && isHomeActive && additionalRequestResults) ||
+      (filteredNews?.length > 0 && pagesWithFilters);
 
     if (shouldReset) {
       resetAllFiltersResults();
-      resetFilters();
+      resetFiltersState();
       resetRequestDay();
       resetPreviousRequest();
     }

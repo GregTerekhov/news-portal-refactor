@@ -14,7 +14,7 @@ const useRequestByDate = () => {
   const { beginRequestDate, setBeginRequestDate, setSelectedRequestDate, resetFiltersDay } =
     useSelectedDateContext();
   const { resetPagination } = usePaginationContext();
-  const { resetFilters } = useFiltersStateContext();
+  const { resetFiltersState } = useFiltersStateContext();
 
   const { handleChangeHeadline } = useHeadline();
   const today = startOfToday();
@@ -57,7 +57,7 @@ const useRequestByDate = () => {
           resetPreviousRequest();
           resetFiltersDay();
           resetAllFiltersResults();
-          resetFilters();
+          resetFiltersState();
         }
 
         //Функція запиту
