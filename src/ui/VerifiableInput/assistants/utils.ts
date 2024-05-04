@@ -2,15 +2,17 @@ const commonGeometry = 'w-full py-2';
 const commonBorderStyle = 'border-accentBase dark:border-greyBase';
 const commonCaretStyle = 'caret-accentBase';
 
+interface InputProperties {
+  geometry: string;
+  border: string;
+  bg: string;
+  caret: string;
+  text: string;
+  placeholderStyle?: string | undefined;
+}
+
 type VerifiableInputStyles = {
-  [key: string]: {
-    geometry: string;
-    border: string;
-    bg: string;
-    caret: string;
-    text: string;
-    placeholderStyle?: string;
-  };
+  [key: string]: InputProperties;
 };
 
 export const inputStyles: VerifiableInputStyles = {

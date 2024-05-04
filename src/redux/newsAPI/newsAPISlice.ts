@@ -15,6 +15,7 @@ const initialState: newsAPIState = {
   isLoading: false,
   hasError: null,
   headline: 'Today`s Hot News',
+  hasResults: 'idle',
 };
 
 export const changeHeadline = createAction<string>('newsAPI/changeHeadline');
@@ -29,30 +30,37 @@ const newsAPISlice = createSlice({
       }
       if (state.categories.length > 0) {
         state.categories = initialState.categories;
+        state.hasResults = initialState.hasResults;
       }
       if (state.searchByDate.length > 0) {
         state.searchByDate = initialState.searchByDate;
+        state.hasResults = initialState.hasResults;
       }
       if (state.searchByWord.length > 0) {
         state.searchByWord = initialState.searchByWord;
+        state.hasResults = initialState.hasResults;
       }
     },
   },
   extraReducers: (builder) => {
     builder
       .addCase(newsAPIOperations.fetchPopularNews.fulfilled, (state, action) => {
+        state.hasResults = 'full';
         state.popular = action.payload;
       })
       .addCase(newsAPIOperations.fetchNewsByKeyword.fulfilled, (state, action) => {
+        action.payload.length ? (state.hasResults = 'full') : (state.hasResults = 'empty');
         state.searchByWord = action.payload;
       })
       .addCase(newsAPIOperations.fetchAllCategories.fulfilled, (state, action) => {
         state.categoriesList = action.payload;
       })
       .addCase(newsAPIOperations.fetchNewsByCategory.fulfilled, (state, action) => {
+        action.payload.length ? (state.hasResults = 'full') : (state.hasResults = 'empty');
         state.categories = action.payload;
       })
       .addCase(newsAPIOperations.fetchNewsByDate.fulfilled, (state, action) => {
+        action.payload.length ? (state.hasResults = 'full') : (state.hasResults = 'empty');
         state.searchByDate = action.payload;
       })
       .addCase(changeHeadline, (state, action) => {

@@ -16,7 +16,6 @@ const useChangePassword = () => {
 
   const { toggleModal } = usePopUp();
 
-  // хук useForm react-hook-form для changePassword-операції
   const {
     handleSubmit: handleChangePasswordSubmit,
     register: registerChangePassword,
@@ -27,7 +26,6 @@ const useChangePassword = () => {
     resolver: yupResolver(changePasswordSchema),
   });
 
-  //Функція-submit
   const changePasswordSubmitHandler: SubmitHandler<ChangePasswordValues> = async (data) => {
     try {
       const { newPassword } = data;

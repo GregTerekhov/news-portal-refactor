@@ -13,6 +13,7 @@ const useNewsAPICollector = () => {
   const categoriesList = useAppSelector(newsAPI.selectAllCategories);
   const headline = useAppSelector(newsAPI.selectHeadline);
   const errorAPI = useAppSelector(newsAPI.selectHasAPIError);
+  const hasRequestResults = useAppSelector(newsAPI.selectHasResults);
 
   const dispatch = useAppDispatch();
 
@@ -43,6 +44,7 @@ const useNewsAPICollector = () => {
   );
 
   return {
+    hasRequestResults,
     isLoadingAPIData,
     popularNews,
     newsByKeyword,

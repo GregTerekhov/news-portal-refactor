@@ -91,12 +91,12 @@ const useAdditionalRequest = () => {
 
   const handleResetRequests = async (): Promise<void> => {
     resetPagination();
+    resetPreviousRequest();
+
+    await fetchPopular({ period: TODAY_HOT_NEWS });
 
     if (hasAnotherRequest) {
-      resetPreviousRequest();
       resetRequestDay();
-
-      await fetchPopular({ period: TODAY_HOT_NEWS });
     }
     if (hasRequestValue) {
       filteredNews?.length === 0

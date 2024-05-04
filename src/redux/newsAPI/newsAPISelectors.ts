@@ -8,3 +8,4 @@ export const selectByDate = (state: RootState) => state.newsAPI.searchByDate;
 export const selectHasAPIError = (state: RootState) => state.newsAPI.hasError;
 export const selectAllCategories = (state: RootState) => state.newsAPI.categoriesList;
 export const selectHeadline = (state: RootState) => state.newsAPI.headline;
+export const selectHasResults = (state: RootState) => state.newsAPI.hasResults;
