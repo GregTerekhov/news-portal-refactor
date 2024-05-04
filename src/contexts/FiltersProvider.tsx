@@ -10,7 +10,7 @@ type FiltersContextValue = {
   setFilters: (value: Filters) => void;
   selectedMaterialType: string;
   setSelectedMaterialType: (value: string) => void;
-  resetFilters: () => void;
+  resetFiltersState: () => void;
 };
 
 export const FiltersContext = createContext<FiltersContextValue | undefined>(undefined);
@@ -29,7 +29,7 @@ export const FiltersProvider: FC<FiltersProviderProps> = ({ children }) => {
     },
   });
 
-  const resetFilters = (): void => {
+  const resetFiltersState = (): void => {
     setFilters({
       keyword: '',
       title: '',
@@ -45,7 +45,13 @@ export const FiltersProvider: FC<FiltersProviderProps> = ({ children }) => {
 
   return (
     <FiltersContext.Provider
-      value={{ filters, setFilters, selectedMaterialType, setSelectedMaterialType, resetFilters }}
+      value={{
+        filters,
+        setFilters,
+        selectedMaterialType,
+        setSelectedMaterialType,
+        resetFiltersState,
+      }}
     >
       {children}
     </FiltersContext.Provider>

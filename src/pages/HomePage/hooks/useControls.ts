@@ -9,16 +9,20 @@ const useControls = (
   };
 
   const handlePrevClick = (): void => {
-    if (currentPage > 1) {
+    if (currentPage >= 1) {
       setCurrentPage(currentPage - 1);
-      window.scrollTo({ top: 0 + window.innerHeight, left: 0, behavior: 'smooth' });
+      setTimeout(() => {
+        window.scrollTo({ top: 0 + window.innerHeight, left: 0, behavior: 'smooth' });
+      }, 100);
     }
   };
 
   const handleNextClick = (): void => {
-    if (currentPage < pageNumbers.length) {
+    if (currentPage <= pageNumbers.length) {
       setCurrentPage(currentPage + 1);
-      window.scrollTo({ top: 0 + window.innerHeight, left: 0, behavior: 'smooth' });
+      setTimeout(() => {
+        window.scrollTo({ top: 0 + window.innerHeight, left: 0, behavior: 'smooth' });
+      }, 100);
     }
   };
 

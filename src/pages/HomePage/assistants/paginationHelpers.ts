@@ -88,18 +88,24 @@ export const renderPagination = (
     ? QUANTITY.DESKTOP_BUTTONS_QUANTITY
     : QUANTITY.MOBILE_BUTTONS_QUANTITY;
 
+  const isFirstPage = currentPage === FIRST_PAGE;
+  const isLastPage = currentPage === lastPage;
+  const isPenultimatePage = currentPage + FIRST_PAGE === lastPage;
+  const isRemainingPages =
+    currentPage - FIRST_PAGE > FIRST_PAGE && currentPage + FIRST_PAGE !== lastPage;
+
   const paginationButtons: JSX.Element[] = [];
 
   if (lastPage <= visibleButtonsCount) {
     for (let i = FIRST_PAGE; i <= lastPage; i += 1) {
       paginationButtons.push(renderPaginationButton(i));
     }
-  } else if (currentPage === FIRST_PAGE) {
+  } else if (isFirstPage) {
     paginationButtons.push(renderPaginationButton(currentPage));
     paginationButtons.push(renderPaginationButton(nextPage));
     paginationButtons.push(renderEllipsis('next'));
     paginationButtons.push(renderPaginationButton(lastPage));
-  } else if (currentPage === lastPage) {
+  } else if (isLastPage) {
     paginationButtons.push(renderPaginationButton(FIRST_PAGE));
     paginationButtons.push(renderEllipsis('prev'));
     paginationButtons.push(renderPaginationButton(prevPage));
@@ -112,14 +118,14 @@ export const renderPagination = (
       paginationButtons.push(renderEllipsis('next'));
       paginationButtons.push(renderPaginationButton(lastPage));
     }
-    if (currentPage - FIRST_PAGE > FIRST_PAGE && currentPage + FIRST_PAGE !== lastPage) {
+    if (isRemainingPages) {
       paginationButtons.push(renderEllipsis('prev'));
       paginationButtons.push(renderPaginationButton(prevPage));
       paginationButtons.push(renderPaginationButton(currentPage));
       paginationButtons.push(renderPaginationButton(nextPage));
       paginationButtons.push(renderEllipsis('next'));
     }
-    if (currentPage + FIRST_PAGE === lastPage) {
+    if (isPenultimatePage) {
       paginationButtons.push(renderEllipsis('prev'));
       paginationButtons.push(renderPaginationButton(prevPage));
       paginationButtons.push(renderPaginationButton(currentPage));

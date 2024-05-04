@@ -12,6 +12,7 @@ import { AuthButton, AuthenticatedHeaderContent } from './subcomponents';
 import Container from '../Container';
 
 import { useProcessingParams } from './hooks';
+import { getHeaderStyles, getLogoLinkStyles } from './assistants';
 
 const Header: FC<{}> = () => {
   const [isOpenMenu, setIsOpenMenu] = useState<boolean>(false);
@@ -37,24 +38,12 @@ const Header: FC<{}> = () => {
     if (filteredNews?.length > 0) resetAllFiltersResults();
   };
 
-  const headerStyles = `fixed left-0 top-0 flex min-h-81px w-full items-center justify-center md:min-h-106px lg:min-h-113px hg:min-h-136px ${
-    isHomeActive
-      ? headerClass
-      : 'border-b border-solid border-fullDark/[.2] bg-whiteBase/[.8] dark:border-whiteBase/[.2] dark:bg-darkBackground/[.8]'
-  } transition-all duration-100 ${isOpenMenu ? 'border-b-0' : ''} ${
-    isOpenModal ? 'pointer-events-none z-0' : 'pointer-events-auto z-50'
-  }`;
-
-  const logoLinkStyles = `${
-    isHomeActive && !isOpenMenu ? textClass : 'text-darkBase dark:text-whiteBase'
-  } z-50 text-3xl font-bold leading-tight transition-colors duration-500 sm:py-6 md:pb-[30px] md:pt-8 md:text-4xl lg:py-7 lg:text-giant lg:leading-[1.357144]`;
-
   return (
-    <header className={headerStyles}>
+    <header className={getHeaderStyles(isHomeActive, headerClass, isOpenMenu, isOpenModal)}>
       <Container
         className={`${isAuthenticated ? 'gap-3.5' : ''} relative flex items-center justify-between`}
       >
-        <Link to='/' className={logoLinkStyles}>
+        <Link to='/' className={getLogoLinkStyles(isHomeActive, textClass, isOpenMenu)}>
           News
         </Link>
         {isAuthenticated ? (

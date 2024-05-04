@@ -10,6 +10,8 @@ import AuthButton from './Auth';
 import UserAccountLink from './UserAccountLink';
 import CommonMenu from '../../CommonMenu/CommonMenu';
 
+import { getAriaLabel, getIconStyles, getNavId } from '../assistants';
+
 interface HeaderContentProps {
   resetFilters: () => void;
   isOpenMenu: boolean;
@@ -28,31 +30,12 @@ const AuthenticatedHeaderContent: FC<HeaderContentProps> = ({
 
   const isAccountPages = isAccountPage || isManageAccountPage;
 
-  //Функція визначення id для меню в залежності від розміщення
-  const getNavId = (): string => {
-    return isAccountPages ? 'account-navigation' : 'main-navigation';
-  };
-
-  const getAriaLabel = (): string => {
-    return (
-      (!isOpenMenu ? 'Open ' : 'Close ') +
-      (!isAccountPages ? 'mobile ' : 'account ') +
-      'menu button'
-    );
-  };
-
-  const iconStyles = `hocus:stroke-accentBase dark:hocus:stroke-accentBase ${
-    !isOpenMenu && isHomeActive
-      ? burgerMenuButtonClass
-      : 'stroke-darkBase hocus:stroke-accentBase dark:stroke-whiteBase '
-  }`;
-
   return (
     <>
       {isMobile ? (
         <div className={`flex items-center ${isHomeActive ? 'gap-3.5' : ''}`}>
           <button
-            aria-label={getAriaLabel()}
+            aria-label={`${getAriaLabel(isOpenMenu, isAccountPages)} menu button`}
             type='button'
             className={`${isOpenMenu ? 'z-50' : 'h-6 w-6 md:hidden'}`}
             onClick={() => {
@@ -63,7 +46,7 @@ const AuthenticatedHeaderContent: FC<HeaderContentProps> = ({
             <SvgIcon
               svgName={`${isOpenMenu ? 'close' : 'burger-menu'}`}
               sizeKey='mdIcon24'
-              className={iconStyles}
+              className={getIconStyles(isOpenMenu, isHomeActive, burgerMenuButtonClass)}
             />
           </button>
         </div>
@@ -77,7 +60,9 @@ const AuthenticatedHeaderContent: FC<HeaderContentProps> = ({
           </div>
         </>
       )}
-      {isOpenMenu && <CommonMenu isOpen={isOpenMenu} navId={getNavId()} closeMenu={toggleMenu} />}
+      {isOpenMenu && (
+        <CommonMenu isOpen={isOpenMenu} navId={getNavId(isAccountPages)} closeMenu={toggleMenu} />
+      )}
     </>
   );
 };
