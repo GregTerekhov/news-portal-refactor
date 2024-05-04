@@ -23,7 +23,7 @@ export const signInDataInputs = (
       ariaInvalid: errors?.email ? true : false,
       autoFocus: true,
       autofill: 'email',
-      disabled: isChecked && email !== '' ? true : false,
+      disabled: isChecked && !errors?.email?.message && email ? true : false,
     },
     {
       type: 'password',

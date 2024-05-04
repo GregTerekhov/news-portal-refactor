@@ -6,6 +6,8 @@ import type {
   PopularNewsArray,
 } from './newsAPIResponse';
 
+type additionalResultsState = 'idle' | 'full' | 'empty';
+
 export interface newsAPIState {
   popular: PopularNewsArray;
   searchByWord: ArticleNewsArray;
@@ -15,6 +17,7 @@ export interface newsAPIState {
   isLoading: boolean;
   hasError: number | null;
   headline: string;
+  hasResults: additionalResultsState;
 }
 
 export interface NewsDBState {

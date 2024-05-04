@@ -2,11 +2,15 @@ import React, { ReactNode, FC, useId, useState } from 'react';
 import { UseFormRegister } from 'react-hook-form';
 
 import { InputLabel, VariantVerifiableInputs, VerifiableInputValues } from 'types';
-import { useWindowWidthContext } from 'contexts';
-
-import SvgIcon from '../SvgIcon/SvgIcon';
 
 import { inputStyles } from './assistants';
+import {
+  showIcon,
+  shouldShowForgotPasswordLabelSpan,
+  shouldShowPasswordIcon,
+  shouldShowRecoveryPasswordSubmitButton,
+  shouldShowValidationErrorText,
+} from './subcomponents';
 
 interface InputCollectedData {
   type?: string;
@@ -46,9 +50,11 @@ const VerifiableInput: FC<InputProps> = ({
 }) => {
   const [isPasswordVisibility, setIsPasswordVisibility] = useState<boolean>(false);
 
-  const { wideScreens } = useWindowWidthContext();
-
   const id = useId();
+
+  const togglePasswordVisibility = (): void => {
+    setIsPasswordVisibility(!isPasswordVisibility);
+  };
 
   const { type, fieldValue, placeholder, labelName, autoFocus, autofill, disabled } = inputData;
 
@@ -63,55 +69,6 @@ const VerifiableInput: FC<InputProps> = ({
   const forgotPasswordLabelCondition =
     variant === VariantVerifiableInputs.Auth && placeholder !== 'Enter your current email';
 
-  const shouldPasswordShowIcon = (type: string | undefined): JSX.Element | null => {
-    return type === 'password' ? (
-      <button
-        aria-label='Password visibility button'
-        type='button'
-        onClick={() => setIsPasswordVisibility(!isPasswordVisibility)}
-        className='absolute right-3 top-3 md:right-4'
-      >
-        <SvgIcon
-          svgName={`${isPasswordVisibility ? 'eye-opened' : 'eye-closed'}`}
-          sizeKey={wideScreens ? 'mdIcon24' : 'smIcon20'}
-          className='fill-greyBase '
-        />
-      </button>
-    ) : null;
-  };
-
-  const showRecoveryPasswordSubmitButton = (
-    placeholder: string | undefined,
-  ): JSX.Element | null => {
-    return placeholder === 'Enter your current email' ? (
-      <button type='submit' className={forgotSubmitButtonStyles} onClick={handleSubmitRecovery}>
-        <SvgIcon svgName='arrow-right' sizeKey='smIcon20' className='fill-whiteBase' />
-      </button>
-    ) : null;
-  };
-
-  const showForgotPasswordLabelSpan = (): JSX.Element | null => {
-    return forgotPasswordLabelCondition ? (
-      <span className='mb-1.5 block font-medium text-accentBase'>{labelName}</span>
-    ) : null;
-  };
-
-  const showValidationErrorText = (): JSX.Element | null => {
-    return fieldValue?.length !== 0 && errors ? (
-      <p className='text-small text-darkBase dark:text-whiteBase md:text-medium'>{errors}</p>
-    ) : null;
-  };
-
-  const showIcon = (): JSX.Element | null => {
-    return hasIcon ? (
-      <SvgIcon
-        svgName={svgName}
-        sizeKey='smIcon20'
-        className='absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 transform items-center justify-center fill-accentBase'
-      />
-    ) : null;
-  };
-
   return (
     <>
       <label
@@ -119,13 +76,17 @@ const VerifiableInput: FC<InputProps> = ({
         className={` 
        ${variant === VariantVerifiableInputs.Auth ? 'w-full space-y-2 text-medium md:text-xl hg:text-2xl' : 'flex items-center justify-center'}`}
       >
-        {showForgotPasswordLabelSpan()}
+        {shouldShowForgotPasswordLabelSpan(forgotPasswordLabelCondition, labelName)}
       </label>
 
       <div className={`relative ${errors ? 'mb-3' : 'mb-0'}`}>
-        {shouldPasswordShowIcon(type)}
-        {showIcon()}
-        {showRecoveryPasswordSubmitButton(placeholder)}
+        {shouldShowPasswordIcon(type, isPasswordVisibility, togglePasswordVisibility)}
+        {showIcon(hasIcon, svgName)}
+        {shouldShowRecoveryPasswordSubmitButton(
+          forgotSubmitButtonStyles,
+          placeholder,
+          handleSubmitRecovery,
+        )}
         <input
           className={inputFieldStyles}
           id={id + label}
@@ -139,7 +100,7 @@ const VerifiableInput: FC<InputProps> = ({
           disabled={disabled}
         />
       </div>
-      {showValidationErrorText()}
+      {shouldShowValidationErrorText(fieldValue, errors)}
     </>
   );
 };

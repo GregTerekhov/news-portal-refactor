@@ -5,6 +5,7 @@ import type { SendEmailRequest } from 'types';
 import { useAuthRedux } from 'reduxStore/hooks';
 import { useNotificationContext, useScrollBodyContext } from 'contexts';
 
+import { usePopUp } from 'hooks';
 import { recoveryPasswordSchema } from '../assistants';
 
 const useSendEmail = () => {
@@ -12,7 +13,8 @@ const useSendEmail = () => {
   const { showToast } = useNotificationContext();
   const { setIsScrollDisabled } = useScrollBodyContext();
 
-  // хук useForm react-hook-form для sendEmailForRecovery-операції
+  const { toggleModal } = usePopUp();
+
   const {
     handleSubmit: handleRecoveryPasswordSubmit,
     register: registerRecovery,
@@ -20,7 +22,6 @@ const useSendEmail = () => {
     formState: { errors: recoveryPasswordErrors },
   } = useForm<SendEmailRequest>({ resolver: yupResolver(recoveryPasswordSchema) });
 
-  //Функція-submit
   const recoveryPasswordSubmitHandler: SubmitHandler<SendEmailRequest> = async (data, e) => {
     e?.stopPropagation();
     e?.preventDefault();
@@ -35,6 +36,7 @@ const useSendEmail = () => {
     } finally {
       resetField('email');
     }
+    toggleModal();
     setIsScrollDisabled(false);
   };
 

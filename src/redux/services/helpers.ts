@@ -50,6 +50,10 @@ function replaceQueryStringInUrl(args: any, name: string, url: string): string {
   let requestUrl = getBaseRequestUrl(name, url);
 
   if (args) {
+    if (args === 'Multimedia/Photos') {
+      args = 'Multimedia';
+    }
+
     // Додавання динамічних даних до URL
     if (typeof args === 'object') {
       Object.entries(args).forEach(([key, value]) => {

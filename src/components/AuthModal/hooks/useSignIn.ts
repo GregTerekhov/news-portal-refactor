@@ -13,9 +13,7 @@ import { signInDataInputs, signInSchema } from '../assistants';
 const useSignIn = () => {
   const rememberMe = localStorageOperation('get', 'rememberMe');
 
-  const [isChecked, setIsChecked] = useState<boolean>(
-    rememberMe && rememberMe === 'true' ? true : false,
-  );
+  const [isChecked, setIsChecked] = useState<boolean>(rememberMe ? rememberMe === 'true' : false);
   const [cryptoDataFetched, setCryptoDataFetched] = useState(false);
 
   const { login } = useAuthRedux();
@@ -36,6 +34,7 @@ const useSignIn = () => {
     watch,
     setValue,
     getValues,
+    trigger,
     formState: { errors },
   } = useForm<AuthRequestWithoutName>({
     resolver: yupResolver(signInSchema),
@@ -70,16 +69,21 @@ const useSignIn = () => {
     }
   }, [isChecked]);
 
+  // споглядання за відповідними полями, щоб зберігати введені валідні значення для RememberMe
+  const [email, password] = watch(['email', 'password']);
+
   // Функція слідкування за станом чекбокса та його зміни
-  const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleCheckboxChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const isRememberMe = event.target.checked;
 
+    const hasNotError = await trigger(['email', 'password']);
+
+    if (!hasNotError) {
+      return;
+    }
     setIsChecked(isRememberMe);
     localStorageOperation('set', 'rememberMe', isRememberMe.toString());
   };
-
-  // споглядання за відповідними полями, щоб зберігати введені валідні значення для RememberMe
-  const [email, password] = watch(['email', 'password']);
 
   const shouldEncryptPassword = isChecked && password !== '' && !savedUserId && !errors.password;
   const shouldSendSimpleCredentials = !isChecked || (isChecked && !!savedUserId);
