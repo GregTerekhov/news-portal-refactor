@@ -23,19 +23,22 @@ const AuthenticatedHeaderContent: FC<HeaderContentProps> = ({
   isOpenMenu,
   toggleMenu,
 }) => {
-  const { isMobile } = useWindowWidthContext();
+  const { isSmallScreens } = useWindowWidthContext();
 
   const { isHomeActive, isAccountPage, isManageAccountPage } = useActiveLinks();
   const { burgerMenuButtonClass } = useHeaderStyles(isHomeActive);
 
   const isAccountPages = isAccountPage || isManageAccountPage;
 
+  const ariaLabel = getAriaLabel(isOpenMenu, isAccountPages);
+  const iconClass = getIconStyles(isOpenMenu, isHomeActive, burgerMenuButtonClass);
+
   return (
     <>
-      {isMobile ? (
+      {isSmallScreens ? (
         <div className={`flex items-center ${isHomeActive ? 'gap-3.5' : ''}`}>
           <button
-            aria-label={`${getAriaLabel(isOpenMenu, isAccountPages)} menu button`}
+            aria-label={`${ariaLabel} menu button`}
             type='button'
             className={`${isOpenMenu ? 'z-50' : 'h-6 w-6 md:hidden'}`}
             onClick={() => {
@@ -46,7 +49,7 @@ const AuthenticatedHeaderContent: FC<HeaderContentProps> = ({
             <SvgIcon
               svgName={`${isOpenMenu ? 'close' : 'burger-menu'}`}
               sizeKey='mdIcon24'
-              className={getIconStyles(isOpenMenu, isHomeActive, burgerMenuButtonClass)}
+              className={iconClass}
             />
           </button>
         </div>

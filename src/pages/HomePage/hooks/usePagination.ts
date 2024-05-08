@@ -11,13 +11,13 @@ const usePagination = (rebuiltNews: PartialVotedNewsArray) => {
 
   const { popularNews, newsByKeyword, newsByCategory, newsByDate } = useNewsAPIRedux();
   const { filteredNews } = useFiltersRedux();
-  const { isMobile, isTablet } = useWindowWidthContext();
+  const { isSmallScreens, isTablet } = useWindowWidthContext();
   const { currentPage } = usePaginationContext();
 
   const totalPages: number = (rebuiltNews && rebuiltNews?.length) || 0;
 
   // Розрахунок масива кількості сторінок для кожного типу пристрою
-  const currentArrayPerPage: number[] = cardsPerPage(totalPages, isMobile, isTablet);
+  const currentArrayPerPage: number[] = cardsPerPage(totalPages, isSmallScreens, isTablet);
 
   // Визначення кількості об'єктів новин на сторінці в залежності від типу пристрою
   const currentCardsPerPage: number = currentArrayPerPage[currentPage - FIRST_PAGE] || 0;
@@ -56,7 +56,7 @@ const usePagination = (rebuiltNews: PartialVotedNewsArray) => {
 
   // Розрахунок необхідної кількості кнопок пагінації
   const pageQuantity: number =
-    currentPage !== FIRST_PAGE && isMobile
+    currentPage !== FIRST_PAGE && isSmallScreens
       ? Math.ceil(totalPages / currentCardsPerPage + FIRST_PAGE)
       : Math.ceil(totalPages / currentCardsPerPage);
 

@@ -17,7 +17,7 @@ interface ModalProps {
 }
 
 const Modal: FC<ModalProps> = ({ children, closeModal, modalRef }) => {
-  const { wideScreens } = useWindowWidthContext();
+  const { isWideScreens } = useWindowWidthContext();
 
   const { backdrop, container, icon } = modalStyles;
 
@@ -35,7 +35,7 @@ const Modal: FC<ModalProps> = ({ children, closeModal, modalRef }) => {
                 >
                   <SvgIcon
                     svgName='close'
-                    sizeKey={wideScreens ? 'mdIcon28' : 'smIcon20'}
+                    sizeKey={isWideScreens ? 'mdIcon28' : 'smIcon20'}
                     className={icon}
                   />
                 </button>

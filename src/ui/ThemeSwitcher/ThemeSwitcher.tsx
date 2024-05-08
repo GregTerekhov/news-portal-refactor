@@ -21,14 +21,14 @@ interface Styles {
 }
 
 const ThemeSwitcher: FC<{ variant: VariantSwitcher }> = ({ variant }) => {
-  const { wideScreens } = useWindowWidthContext();
+  const { isWideScreens } = useWindowWidthContext();
   const { enabled, setEnabled, handleThemeChange } = useThemeContext();
 
   const { isHomeActive } = useActiveLinks();
   const { themeSwitcherTextClass } = useHeaderStyles(isHomeActive);
 
   const styles = generateSwitcherStyles({ enabled });
-  const currentStyles = styles[variant];
+  const { colorLeftLabel, spacing, strokeLeftIcon } = styles[variant];
 
   const generatePointerThemeLabel = (themeType: string, svgName: string): JSX.Element => {
     const getStyles = (): Styles => {
@@ -37,8 +37,8 @@ const ThemeSwitcher: FC<{ variant: VariantSwitcher }> = ({ variant }) => {
 
       switch (themeType) {
         case 'Light':
-          labelStyles = currentStyles.colorLeftLabel;
-          iconStyles = currentStyles.strokeLeftIcon;
+          labelStyles = colorLeftLabel;
+          iconStyles = strokeLeftIcon;
           break;
         case 'Dark':
           labelStyles = enabled ? 'text-whiteBase' : 'text-greyAlt';
@@ -52,7 +52,7 @@ const ThemeSwitcher: FC<{ variant: VariantSwitcher }> = ({ variant }) => {
 
       return { labelStyles, iconStyles };
     };
-    return wideScreens ? (
+    return isWideScreens ? (
       <p
         className={`${getCommonLabelStyles(isHomeActive, variant, themeSwitcherTextClass)} ${getStyles().labelStyles}`}
       >
@@ -68,7 +68,7 @@ const ThemeSwitcher: FC<{ variant: VariantSwitcher }> = ({ variant }) => {
   };
 
   return (
-    <div className={`flex items-center gap-2 ${currentStyles.spacing}`}>
+    <div className={`flex items-center gap-2 ${spacing}`}>
       {generatePointerThemeLabel('Light', 'sun')}
       <Switch
         checked={enabled}

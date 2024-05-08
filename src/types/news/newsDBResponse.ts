@@ -25,7 +25,6 @@ export interface IHistoryLog {
   deletionDate: number;
 }
 
-export type VotedNewsArray = VotedItem[];
 export type PartialVotedNewsArray = VotedPartial<VotedItem>[];
 
 export interface SavedNewsResponse {

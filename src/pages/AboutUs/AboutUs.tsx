@@ -5,7 +5,7 @@ import { useCacheImage } from 'hooks';
 import { MembersList } from './subcomponents';
 import { getMatchedImages, getMembersList } from './assistants';
 
-const AboutUs: FC<{}> = () => {
+const AboutUs: FC = () => {
   const matchedMemberImages = getMatchedImages();
 
   const memberImageUrls = matchedMemberImages.map((matchedImage) =>
@@ -20,15 +20,15 @@ const AboutUs: FC<{}> = () => {
     <>
       <h1 className={`${commonTextMemberClass} mb-10 text-giant font-bold`}>About Us</h1>
       {Array.isArray(members) &&
-        members.map((group) => (
-          <div key={group.groupTitle}>
+        members.map(({ groupTitle, groupMembers }) => (
+          <div key={groupTitle}>
             <h2
               className={`${commonTextMemberClass} mb-2 text-3.5xl after:mt-2 after:block after:h-px after:w-full after:bg-greyAlt after:content-[""] md:mb-6`}
             >
-              {group.groupTitle}
+              {groupTitle}
             </h2>
             <MembersList
-              groupMembers={group.groupMembers}
+              groupMembers={groupMembers}
               commonTextMemberClass={commonTextMemberClass}
             />
           </div>

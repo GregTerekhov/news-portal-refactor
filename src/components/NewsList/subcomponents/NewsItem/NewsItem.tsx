@@ -114,9 +114,7 @@ const NewsItem: FC<Partial<NewsItemProps>> = ({ liveNews = {} }) => {
             handleDelete={(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) =>
               handleDeleteNewsWrapper(e, liveNews._id)
             }
-            position='deleteNews'
             title='Delete news'
-            agreementText='delete this'
           />
         </Modal>
       )}

@@ -10,14 +10,16 @@ type PaginationContextValue = {
   resetPagination: () => void;
 };
 
+const DEFAULT_PAGE = 1;
+
 const PaginationContext = createContext<PaginationContextValue | undefined>(undefined);
 
 export const PaginationProvider = ({ children }: PaginationContextProps) => {
-  const [currentPage, setCurrentPage] = useState(1);
+  const [currentPage, setCurrentPage] = useState(DEFAULT_PAGE);
 
   //Скидування глобального стану пагінації
   const resetPagination = (): void => {
-    setCurrentPage(1);
+    setCurrentPage(DEFAULT_PAGE);
   };
 
   return (

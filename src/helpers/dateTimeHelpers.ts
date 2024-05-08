@@ -18,7 +18,9 @@ export function convertDateStringToDDMMYYY(inputDate: string): string {
   if (!inputDate) return '';
 
   const date = new Date(inputDate);
-  return formatDateToString(date).dayMonthYear;
+  const { dayMonthYear } = formatDateToString(date);
+
+  return dayMonthYear;
 }
 
 export function convertDateStringToVariables(inputDate: string, withoutYear?: boolean): string {
@@ -35,15 +37,14 @@ export function determineNewSelectedDate(
   currentBeginDate: Date,
   position: string,
 ): DateRequest {
-  return isAfter(date, currentBeginDate)
-    ? {
-        beginDate: formatDateToString(currentBeginDate, position).dateStringWithPattern,
-        endDate: formatDateToString(date, position).dateStringWithPattern,
-      }
-    : {
-        beginDate: formatDateToString(date, position).dateStringWithPattern,
-        endDate: formatDateToString(currentBeginDate, position).dateStringWithPattern,
-      };
+  const [earlierDate, laterDate] = isAfter(date, currentBeginDate)
+    ? [currentBeginDate, date]
+    : [date, currentBeginDate];
+
+  return {
+    beginDate: formatDateToString(earlierDate, position).dateStringWithPattern,
+    endDate: formatDateToString(laterDate, position).dateStringWithPattern,
+  };
 }
 
 export const formatSortedDate = (dateStr: string | undefined): number => {
@@ -75,21 +76,27 @@ export const compareDates = (dateA: string | undefined, dateB: string | undefine
 };
 
 export function formatDateRange(selectedDate: DateRequest): DateRequest {
+  const { beginDate, endDate } = selectedDate;
+  const selectedBeginDate = convertDateStringToVariables(beginDate, true);
+  const selectedEndDate = convertDateStringToVariables(endDate, true);
+
   return {
-    beginDate: selectedDate.beginDate && convertDateStringToVariables(selectedDate.beginDate, true),
-    endDate: selectedDate.endDate && convertDateStringToVariables(selectedDate.endDate, true),
+    beginDate: selectedBeginDate,
+    endDate: selectedEndDate,
   };
 }
 
 export const getStringDateToCalendar = (day: Date, variant: CalendarVariant): string => {
   let dayToString = '';
 
+  const { yearMonthDay, dayMonthYear } = formatDateToString(day);
+
   switch (variant) {
     case 'SearchBlock':
-      dayToString = formatDateToString(day).yearMonthDay;
+      dayToString = yearMonthDay;
       break;
     case 'FiltersBlock':
-      dayToString = formatDateToString(day).dayMonthYear;
+      dayToString = dayMonthYear;
       break;
     default:
       break;

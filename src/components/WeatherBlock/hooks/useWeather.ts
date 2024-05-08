@@ -2,6 +2,8 @@ import { useEffect, useState } from 'react';
 
 import { useWeatherAPIRedux } from 'reduxStore/hooks';
 
+import { localStorageOperation } from 'helpers';
+
 type StatePermission = 'granted' | 'prompt' | 'denied';
 type ErrorCallback = (error: GeolocationPositionError) => void;
 
@@ -16,7 +18,7 @@ const useWeather = () => {
   const geolocation: boolean = 'geolocation' in navigator;
 
   useEffect(() => {
-    const hasVisitedBefore = localStorage.getItem('geolocationPermission');
+    const hasVisitedBefore = localStorageOperation('get', 'geolocationPermission');
 
     if (hasVisitedBefore) {
       setHasGeolocationPermission(true);
@@ -54,12 +56,14 @@ const useWeather = () => {
           setStatePermission('granted');
           setHasGeolocationPermission(true);
 
-          localStorage.setItem('geolocationPermission', 'granted');
+          localStorageOperation('set', 'geolocationPermission', 'granted');
 
-          navigator.geolocation.getCurrentPosition((position) => {
+          navigator.geolocation.getCurrentPosition(({ coords }) => {
+            const { latitude, longitude } = coords;
+
             const sendGeolocation = {
-              lat: position.coords.latitude,
-              lon: position.coords.longitude,
+              lat: latitude,
+              lon: longitude,
             };
 
             getCurrentWeather(sendGeolocation);
@@ -68,14 +72,16 @@ const useWeather = () => {
         } else if (result.state === 'prompt') {
           setStatePermission('prompt');
 
-          navigator.geolocation.getCurrentPosition((position) => {
+          navigator.geolocation.getCurrentPosition(({ coords }) => {
             setHasGeolocationPermission(true);
 
-            localStorage.setItem('geolocationPermission', 'granted');
+            localStorageOperation('set', 'geolocationPermission', 'granted');
+
+            const { latitude, longitude } = coords;
 
             const sendGeolocation = {
-              lat: position.coords.latitude,
-              lon: position.coords.longitude,
+              lat: latitude,
+              lon: longitude,
             };
 
             getCurrentWeather(sendGeolocation);
@@ -85,7 +91,7 @@ const useWeather = () => {
           setHasGeolocationPermission(false);
           setStatePermission('denied');
 
-          localStorage.removeItem('geolocationPermission');
+          localStorageOperation('remove', 'geolocationPermission');
         }
       });
     }

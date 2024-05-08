@@ -12,11 +12,11 @@ const FilterInputs: FC = () => {
   return (
     <>
       {Array.isArray(filterInputs) &&
-        filterInputs.map(({ name, value, placeholder }) => (
-          <div key={name} className='md:col-span-3 lg:col-span-4'>
+        filterInputs.map(({ value, placeholder }) => (
+          <div key={placeholder} className='md:col-span-3 lg:col-span-4'>
             <UnverifiableInput
               inputData={{
-                name,
+                name: placeholder.toLowerCase(),
                 type: 'text',
                 value,
                 placeholder,

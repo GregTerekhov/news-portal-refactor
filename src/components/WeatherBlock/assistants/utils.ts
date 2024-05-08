@@ -1,5 +1,5 @@
 import type { HourlyWeatherData, WeatherData } from 'types';
-import { beaufortScale, daysMap, TimezoneOffset, zoneList } from './constants';
+import { beaufortScale, daysMap, ScaleObject, TimezoneOffset, zoneList } from './constants';
 
 type WeatherCurrentTime = {
   days: string;
@@ -47,7 +47,7 @@ function formatKmToMetre(distance: number): number {
 }
 //Виведення значення сили ветра за шкалою Бофорта
 function getWindStrengthScale(windSpeed: number): string {
-  let interval;
+  let interval: ScaleObject | undefined;
 
   if (windSpeed) {
     // Знаходимо відповідний інтервал вітрової швидкості в шкалі Бофорта
@@ -126,8 +126,8 @@ export function getWeatherTodayObject(
       ? convertTemperature(currentWeather?.main?.temp, true)
       : convertTemperature(currentWeather?.main?.temp, false),
     feelsLike: isCelsius
-      ? convertTemperature(currentWeather?.main?.feels_like, true) + 'C'
-      : convertTemperature(currentWeather?.main?.feels_like, false) + 'F',
+      ? `${convertTemperature(currentWeather?.main?.feels_like, true)} C`
+      : `${convertTemperature(currentWeather?.main?.feels_like, false)} F`,
     prevailingWeather: currentWeather?.weather?.[0]?.main ?? '',
     location: currentWeather?.name ?? '',
     timezone: convertTimezone(currentWeather?.timezone),
@@ -152,8 +152,8 @@ export function getWeatherHoursObject(
     timeScale: currentWeather?.dt,
     convertedTimeScale: convertUnixTimestampToHHMM(currentWeather?.dt),
     mainTemperature: isCelsius
-      ? convertTemperature(currentWeather?.main?.temp, true) + 'C'
-      : convertTemperature(currentWeather?.main?.temp, false) + 'F',
+      ? `${convertTemperature(currentWeather?.main?.temp, true)} C`
+      : `${convertTemperature(currentWeather?.main?.temp, false)} F`,
     iconWeather: currentWeather?.weather?.[0]?.['icon'],
     iconAlt: currentWeather?.weather?.[0]?.description,
     humidityPercent: currentWeather?.main?.humidity,

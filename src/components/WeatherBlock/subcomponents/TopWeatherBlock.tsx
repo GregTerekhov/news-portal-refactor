@@ -18,7 +18,7 @@ const TopWeatherBlock: FC<TopWeatherProps> = ({
   currentWeather,
   isCelsius,
 }) => {
-  const { isMobile } = useWindowWidthContext();
+  const { isSmallScreens } = useWindowWidthContext();
 
   const { currentTemperature, prevailingWeather, feelsLike, location } = getWeatherTodayObject(
     currentWeather,
@@ -47,7 +47,7 @@ const TopWeatherBlock: FC<TopWeatherProps> = ({
         <div className='flex items-center gap-1 rounded-lg bg-weatherForeground px-2 py-[9px] text-contrastWhite md:gap-2 md:pb-[9px] md:pl-[7px] md:pr-[17px] md:pt-[10px]'>
           <SvgIcon
             svgName='location'
-            sizeKey={isMobile ? 'smIcon20' : 'mdIcon27'}
+            sizeKey={isSmallScreens ? 'smIcon20' : 'mdIcon27'}
             className='fill-whiteBase'
           />
           <p className='font-weather text-base text-contrastWhite md:text-medium'>{location}</p>

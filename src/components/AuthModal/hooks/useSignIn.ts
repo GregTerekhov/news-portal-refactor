@@ -13,7 +13,7 @@ import { signInDataInputs, signInSchema } from '../assistants';
 const useSignIn = () => {
   const rememberMe = localStorageOperation('get', 'rememberMe');
 
-  const [isChecked, setIsChecked] = useState<boolean>(rememberMe ? rememberMe === 'true' : false);
+  const [isChecked, setIsChecked] = useState<boolean>(rememberMe === 'true' ?? false);
   const [cryptoDataFetched, setCryptoDataFetched] = useState(false);
 
   const { login } = useAuthRedux();
@@ -26,7 +26,6 @@ const useSignIn = () => {
   const uniqueUserId = useId();
   const savedUserId = localStorageOperation('get', 'userId');
 
-  // хук useForm react-hook-form для signIn-операції
   const {
     handleSubmit,
     register: registration,

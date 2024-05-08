@@ -4,7 +4,7 @@ import { useWindowWidthContext } from 'contexts';
 
 import { getHeaderHeight } from 'helpers';
 
-const useHeaderStyles = (isHomePage: boolean | undefined) => {
+const useHeaderStyles = (isHomePage: boolean) => {
   const [isScrolled, setIsScrolled] = useState<boolean>(false);
 
   const { isTablet, isDesktop, isTV } = useWindowWidthContext();
@@ -60,20 +60,13 @@ const useHeaderStyles = (isHomePage: boolean | undefined) => {
     return isHomePage && isScrolled ? '' : '[text-shadow:8px_10px_20px_rgba(17,19,33,.5)]';
   };
 
-  const headerClass = getHeaderClass();
-  const textClass = getTextClass();
-  const accountIconStyles = getAccountIconStyles();
-  const burgerMenuButtonClass = getBurgerMenuButtonClass();
-  const authButtonClass = getAuthButtonClass();
-  const themeSwitcherTextClass = getThemeSwitcherTextClass();
-
   return {
-    headerClass,
-    textClass,
-    burgerMenuButtonClass,
-    accountIconStyles,
-    authButtonClass,
-    themeSwitcherTextClass,
+    headerClass: getHeaderClass(),
+    textClass: getTextClass(),
+    burgerMenuButtonClass: getBurgerMenuButtonClass(),
+    accountIconStyles: getAccountIconStyles(),
+    authButtonClass: getAuthButtonClass(),
+    themeSwitcherTextClass: getThemeSwitcherTextClass(),
   };
 };
 

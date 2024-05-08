@@ -16,7 +16,7 @@ import {
 type DetailsRows = {
   icon: string;
   iconSize: keyof typeof ICON_SIZES;
-  value: string;
+  value: string | number;
   label: string;
   hint: string;
   justifyItemClass: string;
@@ -51,7 +51,7 @@ export const getWeatherDetailsForToday = (
     {
       icon: 'earth',
       iconSize: isMobile ? 'xsIcon16' : 'mdIcon24',
-      value: `${timezone}`,
+      value: timezone ?? '',
       label: 'Greenwich mean time',
       hint: 'GMT time',
       justifyItemClass: 'justify-start',
@@ -60,7 +60,7 @@ export const getWeatherDetailsForToday = (
     {
       icon: 'humidity',
       iconSize: isMobile ? 'smIcon18' : 'lgIcon30',
-      value: `${humidityPercent}`,
+      value: humidityPercent,
       label: 'Humidity in percent',
       hint: 'Humidity (%)',
       justifyItemClass: 'justify-end',
@@ -69,7 +69,7 @@ export const getWeatherDetailsForToday = (
     {
       icon: 'pressure',
       iconSize: isMobile ? 'smIcon18' : 'lgIcon30',
-      value: `${pressureMmHg}`,
+      value: pressureMmHg,
       label: 'Atmospheric pressure in mm Hg',
       hint: 'Atmospheric pressure (mm.Hg)',
       justifyItemClass: 'justify-start',
@@ -78,7 +78,7 @@ export const getWeatherDetailsForToday = (
     {
       icon: 'pressure',
       iconSize: isMobile ? 'smIcon18' : 'lgIcon30',
-      value: `${pressureHpa}`,
+      value: pressureHpa,
       label: 'Atmospheric pressure in hPa',
       hint: 'Atmospheric pressure (HPa)',
       justifyItemClass: 'justify-end',
@@ -87,7 +87,7 @@ export const getWeatherDetailsForToday = (
     {
       icon: 'sunrise',
       iconSize: isMobile ? 'smIcon20' : 'lgIcon30',
-      value: `${sunriseTime}`,
+      value: sunriseTime,
       label: 'Sunrise time',
       hint: 'Sunrise time',
       justifyItemClass: 'justify-start',
@@ -96,7 +96,7 @@ export const getWeatherDetailsForToday = (
     {
       icon: 'sunset',
       iconSize: isMobile ? 'smIcon20' : 'lgIcon30',
-      value: `${sunsetTime}`,
+      value: sunsetTime,
       label: 'Sunset time',
       hint: 'Sunset time',
       justifyItemClass: 'justify-end',
@@ -105,7 +105,7 @@ export const getWeatherDetailsForToday = (
     {
       icon: 'eye-opened',
       iconSize: isMobile ? 'smIcon20' : 'lgIcon30',
-      value: `${visibility}`,
+      value: visibility,
       label: 'Road visibility',
       hint: 'Road visibility',
       justifyItemClass: 'justify-start',
@@ -114,7 +114,7 @@ export const getWeatherDetailsForToday = (
     {
       icon: 'weather-wind',
       iconSize: isMobile ? 'smIcon20' : 'lgIcon30',
-      value: `${windSpeed}`,
+      value: windSpeed,
       label: 'Wind speed in metre per seconds',
       hint: `Wind speed (m/s). (${beaufortScale} on the Beaufort scale)`,
       justifyItemClass: 'justify-end',

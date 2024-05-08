@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 
-import type { VotedItem, VotedPartial } from 'types';
+import type { SavedNewsOptions, VotedItem } from 'types';
 import { useAuthRedux, useDBRedux } from 'reduxStore/hooks';
 import { useActiveLinks } from 'hooks';
 
@@ -13,15 +13,18 @@ interface NewsItemProps {
 const useNews = ({ liveNews }: NewsItemProps) => {
   const { savedNews, allArchive } = useDBRedux();
   const { isArchiveActive } = useActiveLinks();
-  const [isFavourite, setIsFavourite] = useState<boolean>(getNewsState().isFavourite ?? false);
-  const [hasRead, setHasRead] = useState<boolean>(getNewsState().hasRead ?? false);
+
+  const { savedFavourite, savedRead } = getNewsState();
+
+  const [isFavourite, setIsFavourite] = useState<boolean>(savedFavourite ?? false);
+  const [hasRead, setHasRead] = useState<boolean>(savedRead ?? false);
 
   const { isAuthenticated } = useAuthRedux();
 
   useEffect(() => {
     if (isAuthenticated && getNewsState()) {
-      setIsFavourite(getNewsState().isFavourite ?? false);
-      setHasRead(getNewsState().hasRead ?? false);
+      setIsFavourite(savedFavourite ?? false);
+      setHasRead(savedRead ?? false);
     }
   }, [getNewsState, isAuthenticated, liveNews]);
 
@@ -33,15 +36,15 @@ const useNews = ({ liveNews }: NewsItemProps) => {
     getNewsState,
   });
 
-  function getNewsState(): VotedPartial<VotedItem> {
+  function getNewsState(): SavedNewsOptions {
     const newsArray = isArchiveActive ? allArchive : savedNews;
     const allSavedNews = newsArray?.find((news) => news.newsUrl === liveNews?.newsUrl);
 
-    const isFavourite = allSavedNews?.isFavourite;
-    const hasRead = allSavedNews?.hasRead;
-    const additionDate = allSavedNews?.additionDate;
-
-    return { isFavourite, hasRead, additionDate };
+    return {
+      savedFavourite: allSavedNews?.isFavourite,
+      savedRead: allSavedNews?.hasRead,
+      savedAdditionDate: allSavedNews?.additionDate,
+    };
   }
 
   return {

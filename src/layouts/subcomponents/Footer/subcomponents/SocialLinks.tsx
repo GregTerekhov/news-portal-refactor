@@ -7,8 +7,8 @@ import { SvgIcon } from 'ui';
 import { renderSocialLinks } from '../assistants';
 
 const SocialLinks: FC = () => {
-  const { wideScreens } = useWindowWidthContext();
-  const socialLinks = renderSocialLinks(wideScreens);
+  const { isWideScreens } = useWindowWidthContext();
+  const socialLinks = renderSocialLinks(isWideScreens);
 
   return (
     <ul className='flex items-center justify-center gap-x-3 hg:gap-x-4'>

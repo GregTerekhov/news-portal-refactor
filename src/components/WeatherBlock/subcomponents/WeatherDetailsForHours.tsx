@@ -10,14 +10,12 @@ import { getWeatherHoursObject, getWeatherTableForHours } from '../assistants';
 
 const WeatherDetailsForHours: FC<{ isCelsius: boolean }> = ({ isCelsius }) => {
   const { hourlyWeather } = useWeatherAPIRedux();
-  const { isMobile } = useWindowWidthContext();
+  const { isSmallScreens } = useWindowWidthContext();
 
   const rows = getWeatherTableForHours(isCelsius);
 
   return (
-    <div
-      className={`rows-[1/1] col-[1/1] flex h-full w-full bg-accentBase duration-500 ease-in backface-hidden rotate-y-180`}
-    >
+    <div className='rows-[1/1] col-[1/1] flex h-full w-full bg-accentBase duration-500 ease-in backface-hidden rotate-y-180'>
       <table className='h-full min-w-full border-separate border border-transparent bg-accentBase'>
         <thead className='h-10'>
           <Hint label='Time' side='top' sideOffset={0} ariaLabel='Time interval (3 hours)'>
@@ -25,7 +23,7 @@ const WeatherDetailsForHours: FC<{ isCelsius: boolean }> = ({ isCelsius }) => {
               <th className='w-10 pr-2'>
                 <SvgIcon
                   svgName='time'
-                  sizeKey={isMobile ? 'smIcon20' : 'mdIcon24'}
+                  sizeKey={isSmallScreens ? 'smIcon20' : 'mdIcon24'}
                   className='fill-whiteBase'
                 />
               </th>
@@ -55,7 +53,7 @@ const WeatherDetailsForHours: FC<{ isCelsius: boolean }> = ({ isCelsius }) => {
                 <th scope='row' className='w-10 pr-2'>
                   <SvgIcon
                     svgName={icon}
-                    sizeKey={isMobile ? 'smIcon20' : iconSize}
+                    sizeKey={isSmallScreens ? 'smIcon20' : iconSize}
                     className={iconColorStyles}
                   />
                 </th>

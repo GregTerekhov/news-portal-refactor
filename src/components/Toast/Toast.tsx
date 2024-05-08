@@ -16,14 +16,17 @@ const Toast: FC<ToastProps> = ({ variant, status }) => {
   const { openToast, setOpenToast } = useNotificationContext();
   const { getToastTitle, getToastDescription } = useToastBody();
 
+  const toastTitle = getToastTitle(status);
+  const toastDescription = getToastDescription(status);
+
   return (
     <>
       <Notification
         variant={variant}
         openToast={openToast}
         setOpenToast={setOpenToast}
-        title={getToastTitle(status)}
-        description={getToastDescription(status)}
+        title={toastTitle}
+        description={toastDescription}
       />
     </>
   );

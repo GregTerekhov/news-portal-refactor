@@ -4,25 +4,18 @@ import { useDBRedux } from 'reduxStore/hooks';
 import { useWindowWidthContext } from 'contexts';
 
 import { SvgIcon } from 'ui';
-import { getButtonsData } from '../assistants';
+import { getButtonsData, getButtonStyles, getIconStyles } from '../assistants';
 
 const ControlButtons: FC<{ toggleModal: (e: React.MouseEvent<HTMLButtonElement>) => void }> = ({
   toggleModal,
 }) => {
-  const { getHistoryLog, dbSuccessMessage } = useDBRedux();
+  const { getHistoryLog, dbSuccessMessage, archiveHistoryLog } = useDBRedux();
   const { isNotMobile } = useWindowWidthContext();
 
-  const getButtonStyles = (iconName: string, disabled: boolean | undefined): string => {
-    return `${disabled ? 'text-greyAlt dark:text-greyBase' : 'text-accentBase hocus:text-accentAlt dark:text-whiteBase dark:hocus:text-accentBase'} ${iconName === 'reset' ? 'max-md:right-12' : 'max-md:right-0'} group flex items-center gap-x-4 transition-colors duration-500 max-md:absolute max-md:top-0 max-md:h-10 max-md:w-10 max-md:justify-center`;
-  };
+  const isDisabledUpdateButton = dbSuccessMessage !== 'Remove news success';
+  const isDisabledClearButton = archiveHistoryLog?.length === 0;
 
-  const getIconStyles = (disabled: boolean | undefined): string => {
-    return `${disabled ? 'fill-greyAlt dark:fill-greyBase' : 'fill-accentBase group-hover:fill-accentAlt group-focus:fill-accentAlt dark:fill-whiteBase dark:group-hover:fill-accentBase dark:group-focus:fill-accentBase'}`;
-  };
-
-  const isDisabledButton = dbSuccessMessage !== 'Remove news success';
-
-  const buttonData = getButtonsData(isDisabledButton);
+  const buttonData = getButtonsData(isDisabledUpdateButton, isDisabledClearButton);
 
   return (
     <>

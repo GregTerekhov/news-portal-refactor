@@ -44,6 +44,7 @@ const useScrollController = (direction: string) => {
   //Функція обробки кліку по кнопкам швидкого скролу
   const onHandleClick = (): void => {
     const topPosition = direction === 'top' ? 0 : document.documentElement.scrollHeight;
+
     window.scrollTo({
       top: topPosition,
       behavior: 'smooth',

@@ -2,6 +2,7 @@ import type { HaveAccounts, ToastMessage, ToastSuccessDescription, ToastSuccessT
 import { useAuthRedux, useDBRedux } from 'reduxStore/hooks';
 
 import { useActiveLinks } from 'hooks';
+import { getHasAccount } from '../assistants';
 
 const useToastSuccess = () => {
   const { statusMessage, haveAccounts } = useAuthRedux();
@@ -14,9 +15,7 @@ const useToastSuccess = () => {
     let description: ToastSuccessDescription<keyof HaveAccounts>;
 
     //Визначення наявності значення прив'язаного акаунту
-    const linkingAccount = Object.keys(haveAccounts).find((key) =>
-      haveAccounts.hasOwnProperty(key),
-    ) as keyof HaveAccounts;
+    const linkingAccount = getHasAccount(haveAccounts);
 
     switch (statusMessage) {
       case 'User sign-in success':

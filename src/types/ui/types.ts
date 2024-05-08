@@ -1,5 +1,3 @@
-import type { ActiveLinks } from 'hooks';
-
 export type ClickHandler =
   | ((() => void) | undefined)
   | ((event: React.FormEvent) => void)
@@ -26,6 +24,7 @@ export enum VariantInputs {
 }
 
 export type InputLabel = 'name' | 'email' | 'password' | 'newPassword' | 'confirmPassword';
+export type NavId = 'account-navigation' | 'main-navigation';
 
 export enum VariantVerifiableInputs {
   Auth = 'auth',
@@ -41,8 +40,8 @@ export type MenuItem = {
 };
 
 export interface IMenuProps {
-  navId: string;
+  navId: NavId;
   links: MenuItem[];
   handleLinkClick: () => void;
-  activeLinks?: ActiveLinks;
+  isHomeActive: boolean;
 }

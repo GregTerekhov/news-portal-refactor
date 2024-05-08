@@ -84,8 +84,14 @@ export const zoneList: ZoneList = {
 
 export type TimezoneOffset = keyof ZoneList;
 
+export type ScaleObject = {
+  min: number;
+  max: number;
+  scale: string;
+};
+
 // Шкала Бофорта з відповідними інтервалами швидкостей вітру
-export const beaufortScale = [
+export const beaufortScale: ScaleObject[] = [
   { min: 0, max: 0.2, scale: '0' }, // Штиль
   { min: 0.3, max: 1.5, scale: '1' }, // Легкий вітер
   { min: 1.6, max: 3.3, scale: '2' }, // Слабкий вітер

@@ -1,9 +1,8 @@
 import axios, { AxiosResponse } from 'axios';
 
-import { axiosInstance, createAppAsyncThunk } from '../services';
-
-import { getDynamicUrl, getErrorMessage, getFinalUrl, transformDataResponse } from './helpers';
 import type { AsyncThunkTemplateOptions, UsedMethods } from 'types';
+import { getDynamicUrl, getErrorMessage, getFinalUrl, transformDataResponse } from './helpers';
+import { axiosInstance, createAppAsyncThunk } from '../services';
 
 export const requestTemplate = <Arg, Result>(
   name: string,
@@ -36,11 +35,9 @@ export const requestTemplate = <Arg, Result>(
         ],
       });
 
-      // console.log(`${name}Response`, response);
       // після transformResponse сюди потрапляють всі необхідні дані в одному рівні вкладеності в об'єкт response.data
       return response.data;
     } catch (error: any) {
-      console.log(`Error ${name}`, error.response);
       const errorMessage = getErrorMessage(error);
 
       return rejectWithValue(errorMessage);
@@ -58,11 +55,8 @@ export const requestWithInstanceTemplate = <Arg, Result>(
       let dynamicUrl = getDynamicUrl(args, url);
 
       const response = await axiosInstance[method]<Result>(dynamicUrl, args);
-      // console.log(`${name}Response`, response);
       return response.data;
     } catch (error: any) {
-      // console.log(`Error ${name}`, error.response);
-
       const errorMessage = getErrorMessage(error);
 
       return rejectWithValue(errorMessage);

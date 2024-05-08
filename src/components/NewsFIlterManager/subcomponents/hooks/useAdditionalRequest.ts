@@ -4,7 +4,7 @@ import type { CategoryRequest } from 'types';
 import { useNewsAPIRedux, useFiltersRedux } from 'reduxStore/hooks';
 import { useAdditionRequestContext, usePaginationContext, useSelectedDateContext } from 'contexts';
 
-import { useHeadline } from 'hooks';
+import { TriggerType, useHeadline } from 'hooks';
 
 const TODAY_HOT_NEWS = 1;
 const WEEKLY_NEWS = 7;
@@ -53,7 +53,7 @@ const useAdditionalRequest = () => {
     e.preventDefault();
     if (searchParams.query) {
       resetRequest();
-      handleChangeHeadline('keyword', searchParams.query);
+      handleChangeHeadline(TriggerType.Keyword, searchParams.query);
 
       await fetchByKeyword({ query: searchParams.query });
     }
@@ -63,7 +63,7 @@ const useAdditionalRequest = () => {
     if (section) {
       resetRequest();
       updateSearchParams(section, 'category');
-      handleChangeHeadline('category', section);
+      handleChangeHeadline(TriggerType.Category, section);
 
       await fetchByCategory(section);
     }
@@ -73,7 +73,7 @@ const useAdditionalRequest = () => {
     if (selectedPeriod) {
       resetRequest();
       updateSearchParams(selectedPeriod, 'period');
-      handleChangeHeadline('period', selectedPeriod);
+      handleChangeHeadline(TriggerType.Period, selectedPeriod);
 
       switch (selectedPeriod) {
         case 'Today':
@@ -100,8 +100,8 @@ const useAdditionalRequest = () => {
     }
     if (hasRequestValue) {
       filteredNews?.length === 0
-        ? handleChangeHeadline('reset')
-        : handleChangeHeadline('filtering');
+        ? handleChangeHeadline(TriggerType.Reset)
+        : handleChangeHeadline(TriggerType.Filtering);
 
       resetSearchParams();
     }

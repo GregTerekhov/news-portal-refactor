@@ -1,10 +1,9 @@
 import { createSlice, isAnyOf } from '@reduxjs/toolkit';
 
-import type { DispatchActionType } from 'reduxStore/store';
+import type { DispatchActionType } from '../store';
 import type { WeatherState } from 'types';
 
 import { fetchWeather, fetchHourlyForecastWeather } from './weatherOperations';
-
 import { handleFulfilled, handlePending, handleRejected } from '../services';
 
 const initialState = {
@@ -20,11 +19,11 @@ const weatherSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
-      .addCase(fetchWeather.fulfilled, (state, action) => {
-        state.data = action.payload;
+      .addCase(fetchWeather.fulfilled, (state, { payload }) => {
+        state.data = payload;
       })
-      .addCase(fetchHourlyForecastWeather.fulfilled, (state, action) => {
-        state.weatherByHour = action.payload;
+      .addCase(fetchHourlyForecastWeather.fulfilled, (state, { payload }) => {
+        state.weatherByHour = payload;
       })
       .addMatcher(isAnyOf(...getActions('pending')), handlePending)
       .addMatcher(isAnyOf(...getActions('fulfilled')), handleFulfilled)

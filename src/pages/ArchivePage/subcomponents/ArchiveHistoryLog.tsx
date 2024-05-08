@@ -19,9 +19,9 @@ interface IHistoryLogProps {
 }
 
 const ArchiveHistoryLog: FC<IHistoryLogProps> = ({ logData }) => {
-  const { clearLog } = useDBRedux();
+  const { clearLog, archiveHistoryLog } = useDBRedux();
   const { showToast } = useNotificationContext();
-  const { isMobile, isNotMobile } = useWindowWidthContext();
+  const { isSmallScreens, isNotMobile } = useWindowWidthContext();
   const { isOpenModal, modalType } = useModalStateContext();
 
   const { toggleModal, popUpRef } = usePopUp();
@@ -47,12 +47,14 @@ const ArchiveHistoryLog: FC<IHistoryLogProps> = ({ logData }) => {
 
   return (
     <>
-      <div className='mb-10 flex flex-col overflow-hidden rounded-lg shadow-modal'>
+      <div
+        className={`${archiveHistoryLog?.length === 0 ? 'mb-5' : 'mb-10'} flex flex-col overflow-hidden rounded-lg shadow-modal`}
+      >
         <div className='inline-block min-w-full align-middle'>
           <div className='divide-y divide-greyAlt/[.4] overflow-hidden rounded-lg border dark:divide-greyBase/[.4] dark:border-greyBase/[.4]'>
             <div className='px-4 py-3 lg:px-6 lg:py-5'>
               <div className='relative max-md:w-[254px] md:flex md:flex-row-reverse md:items-center md:justify-between'>
-                {isMobile ? (
+                {isSmallScreens ? (
                   <ControlButtons
                     toggleModal={(e: React.MouseEvent<HTMLButtonElement>) =>
                       toggleModal(e, true, 'clearLog')
@@ -62,22 +64,24 @@ const ArchiveHistoryLog: FC<IHistoryLogProps> = ({ logData }) => {
                 <h3 className='mb-4 text-2xl font-medium text-darkBase dark:text-whiteBase'>
                   Deleted news
                 </h3>
-                <div>
-                  <UnverifiableInput
-                    inputData={{
-                      name: 'Deleted news',
-                      type: 'text',
-                      value: searchValue,
-                      placeholder: 'Title',
-                    }}
-                    hasIcon={true}
-                    svgName='search'
-                    onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-                      handleSearchNews(event)
-                    }
-                    variant={VariantInputs.FilterServiceBlock}
-                  />
-                </div>
+                {archiveHistoryLog?.length > 0 ? (
+                  <div>
+                    <UnverifiableInput
+                      inputData={{
+                        name: 'Deleted news',
+                        type: 'text',
+                        value: searchValue,
+                        placeholder: 'Title',
+                      }}
+                      hasIcon={true}
+                      svgName='search'
+                      onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
+                        handleSearchNews(event)
+                      }
+                      variant={VariantInputs.FilterServiceBlock}
+                    />
+                  </div>
+                ) : null}
               </div>
             </div>
             <DeletedNewsTable displayedRows={displayedRows} />
@@ -105,9 +109,7 @@ const ArchiveHistoryLog: FC<IHistoryLogProps> = ({ logData }) => {
           <DeleteModal
             handleClose={(e: React.MouseEvent<HTMLButtonElement>) => toggleModal(e)}
             handleDelete={handleClearing}
-            position='clearLog'
             title='Clear log'
-            agreementText='clear the log of deleted'
           />
         </Modal>
       )}

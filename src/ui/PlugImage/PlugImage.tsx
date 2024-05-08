@@ -19,9 +19,13 @@ const PlugImage: FC<PlugImageProps> = ({ variant }) => {
 
   const devicePixelRatio = window.devicePixelRatio || 1;
 
-  const matchedPlugImage = generateContentImages(plugImages, devicePixelRatio, window.innerWidth);
+  const { width, height, src } = generateContentImages(
+    plugImages,
+    devicePixelRatio,
+    window.innerWidth,
+  );
 
-  const imageUrl = useCacheImage(matchedPlugImage?.src || '');
+  const imageUrl = useCacheImage(src || '');
 
   return (
     <>
@@ -30,18 +34,13 @@ const PlugImage: FC<PlugImageProps> = ({ variant }) => {
           <p className={plugImageTextStyles}>{generateText(isHomeActive, isErrorAPI)}</p>
           <img
             src={imageUrl}
-            alt={`${isErrorAPI && isHomeActive ? 'Too much requests' : 'No found news'}`}
-            width={matchedPlugImage.width}
-            height={matchedPlugImage.height}
+            alt={isErrorAPI && isHomeActive ? 'Too much requests' : 'No found news'}
+            width={width}
+            height={height}
           />
         </div>
       ) : (
-        <img
-          src={imageUrl}
-          alt='No found an image for news'
-          width={matchedPlugImage.width}
-          height={matchedPlugImage.height}
-        />
+        <img src={imageUrl} alt='No found an image for news' width={width} height={height} />
       )}
     </>
   );

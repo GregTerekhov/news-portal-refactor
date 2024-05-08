@@ -10,7 +10,7 @@ import SkeletonPagination from './SkeletonPagination';
 import { pageStyles } from '../assistants';
 
 const SkeletonPage: FC = () => {
-  const { isMobile, isTablet, wideScreens } = useWindowWidthContext();
+  const { isSmallScreens, isTablet, isWideScreens } = useWindowWidthContext();
   const { isHomeActive } = useActiveLinks();
 
   const { page, pageItem, headerContainer, logo, menuWrapper, content } = pageStyles;
@@ -19,18 +19,20 @@ const SkeletonPage: FC = () => {
     <div className={page}>
       <div className={headerContainer}>
         <div className={logo}></div>
-        {!isMobile && <SkeletonItem count={4} className={menuWrapper} itemClassName={pageItem} />}
+        {!isSmallScreens && (
+          <SkeletonItem count={4} className={menuWrapper} itemClassName={pageItem} />
+        )}
         <SkeletonItem count={2} className='space-y-2' itemClassName={pageItem} />
       </div>
       <div className={content}>
-        {isMobile && <SkeletonSection />}
+        {isSmallScreens && <SkeletonSection />}
         {isTablet && (
           <>
             <SkeletonSection />
             <SkeletonSection />
           </>
         )}
-        {wideScreens && (
+        {isWideScreens && (
           <>
             <SkeletonSection /> <SkeletonSection /> <SkeletonSection />
           </>

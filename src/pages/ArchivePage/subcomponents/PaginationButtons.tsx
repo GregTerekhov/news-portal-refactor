@@ -19,7 +19,7 @@ const PaginationButtons: FC<PaginationButtonsProps> = ({
   handlePageChange,
   totalPages,
 }) => {
-  const { isMobile } = useWindowWidthContext();
+  const { isSmallScreens } = useWindowWidthContext();
 
   const renderPaginationButtons = (): JSX.Element[] => {
     const buttons: JSX.Element[] = [];
@@ -49,7 +49,7 @@ const PaginationButtons: FC<PaginationButtonsProps> = ({
     const addDots = (direction: string): void => {
       buttons.push(
         <span
-          key={'dots' + `${direction}`}
+          key={`dots ${direction}`}
           className='flex w-10 items-center justify-center text-darkBase dark:text-whiteBase'
         >
           ...
@@ -71,25 +71,25 @@ const PaginationButtons: FC<PaginationButtonsProps> = ({
       );
     };
 
-    const mobileLastPages =
+    const isMobileLastPages =
       currentPage + MOBILE_REFERENCE_COUNT === totalPages ||
       currentPage + FIRST_PAGE === totalPages ||
       currentPage === totalPages;
 
-    const wideScreensLastPages =
+    const isWideScreensLastPages =
       currentPage + WIDESCREEN_REFERENCE_COUNT === totalPages ||
       currentPage + MOBILE_REFERENCE_COUNT === totalPages ||
       currentPage + FIRST_PAGE === totalPages ||
       currentPage === totalPages;
 
-    if (isMobile) {
+    if (isSmallScreens) {
       if (totalPages <= MAXIMUM_MOBILE_BUTTONS_COUNT) {
         addPageButtons(FIRST_PAGE, totalPages);
       } else if (currentPage === FIRST_PAGE) {
         addPageButtons(FIRST_PAGE, MOBILE_REFERENCE_COUNT);
         addDots('next');
         addLastPageButton();
-      } else if (mobileLastPages) {
+      } else if (isMobileLastPages) {
         addDots('prev');
         addPageButtons(totalPages - MOBILE_REFERENCE_COUNT, totalPages);
       } else if (currentPage + MOBILE_REFERENCE_COUNT < totalPages) {
@@ -105,7 +105,7 @@ const PaginationButtons: FC<PaginationButtonsProps> = ({
         addPageButtons(FIRST_PAGE, WIDESCREEN_REFERENCE_COUNT);
         addDots('next');
         addLastPageButton();
-      } else if (wideScreensLastPages) {
+      } else if (isWideScreensLastPages) {
         addDots('prev');
         addPageButtons(totalPages - WIDESCREEN_REFERENCE_COUNT, totalPages);
       } else if (currentPage + WIDESCREEN_REFERENCE_COUNT < totalPages) {

@@ -18,7 +18,7 @@ interface AuthButtonProps {
 
 const Auth: FC<AuthButtonProps> = ({ passwordToken }) => {
   const { isAuthenticated } = useAuthRedux();
-  const { wideScreens } = useWindowWidthContext();
+  const { isWideScreens } = useWindowWidthContext();
   const { isOpenModal } = useModalStateContext();
 
   const { popUpRef, toggleModal } = usePopUp();
@@ -35,21 +35,24 @@ const Auth: FC<AuthButtonProps> = ({ passwordToken }) => {
     toggleModal();
   };
 
+  const buttonStyles = getButtonStyles(isHomeActive, authButtonClass, isWideScreens);
+  const buttonText = renderButtonText(isWideScreens, isAuthenticated);
+
   return (
     <>
       <div className='max-lg:flex max-lg:items-center max-lg:justify-center'>
         <PrimaryButton
-          id={wideScreens ? 'Auth button for signin and signout' : ''}
-          ariaLabel={!wideScreens ? 'Auth button for signin and signout' : ''}
-          variant={wideScreens ? VariantButton.Primary : VariantButton.Small}
+          id={isWideScreens ? 'Auth button for signin and signout' : ''}
+          ariaLabel={!isWideScreens ? 'Auth button for signin and signout' : ''}
+          variant={isWideScreens ? VariantButton.Primary : VariantButton.Small}
           onHandleClick={!isAuthenticated ? onOpenModal : handleSignOut}
           hasIcon={true}
-          svgName={`${isAuthenticated ? 'signout' : 'auth'}`}
-          svgSize={wideScreens ? 'mdIcon28' : 'mdIcon24'}
+          svgName={isAuthenticated ? 'signout' : 'auth'}
+          svgSize={isWideScreens ? 'mdIcon28' : 'mdIcon24'}
           classNameIcon='fill-whiteBase'
-          classNameButton={getButtonStyles(isHomeActive, authButtonClass, wideScreens)}
+          classNameButton={buttonStyles}
         >
-          {renderButtonText(wideScreens, isAuthenticated)}
+          {buttonText}
         </PrimaryButton>
       </div>
       {isOpenModal && !isAuthenticated && (

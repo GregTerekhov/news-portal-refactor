@@ -1,6 +1,6 @@
 import { PayloadAction, createAction, createSlice } from '@reduxjs/toolkit';
 
-import { RootState } from './store';
+import type { RootState } from './store';
 import type { FilterResults, PartialVotedNewsArray } from 'types';
 
 export interface FiltersState {
@@ -23,7 +23,7 @@ const filterSlice = createSlice({
   reducers: {
     filterNews: (state, action: PayloadAction<PartialVotedNewsArray>) => {
       state.filters.length = 0;
-      if (!action.payload.length) state.resultsState = 'empty';
+      if (action.payload.length === 0) state.resultsState = 'empty';
 
       state.filters.push(...action.payload);
       state.resultsState = 'full';
@@ -45,5 +45,6 @@ const filterSlice = createSlice({
 export const selectIsSorted = (state: RootState) => state.filters.isSorted;
 export const selectFilters = (state: RootState) => state.filters.filters;
 export const selectResults = (state: RootState) => state.filters.resultsState;
+
 export const { filterNews, resetFilters, changeSortState } = filterSlice.actions;
 export const filtersReducer = filterSlice.reducer;

@@ -21,10 +21,18 @@ const UpdateCredentials: FC<UpdateCredentialsProps> = ({ field }) => {
   const credentialInputs: UpdateCredentialsInput[] =
     field === 'email' ? emailInputs : passwordInputs;
 
-  const updateEmailDescription = `and confirm by inputting your current ${field} in the new field.`;
-  const updatePasswordDescription = `in the first field and repeat the entry in the second field. In the third field, confirm the change by inputting your current ${field}.`;
+  let descriptionText = '';
+  switch (field) {
+    case 'email':
+      descriptionText = `and confirm by inputting your current password in the new field.`;
+      break;
+    case 'password':
+      descriptionText = `in the first field and repeat the entry in the second field. In the third field, confirm the change by inputting your current password.`;
+      break;
 
-  const descriptionText = field === 'email' ? updateEmailDescription : updatePasswordDescription;
+    default:
+      break;
+  }
 
   return (
     <Accordeon position='accountManagePage' blockDefinition={`Change your ${field}`}>

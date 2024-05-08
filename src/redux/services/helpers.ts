@@ -4,7 +4,6 @@ import { JwtPayload } from 'jwt-decode';
 
 import { CONFIG } from 'config';
 import { store, RootState } from '../store';
-// import { setTokens } from '../auth';
 
 import type {
   AsyncThunkTemplateOptions,
@@ -18,13 +17,13 @@ function getBaseRequestUrl(name: string, url: string): string {
 
   switch (true) {
     case name.includes('auth'):
-      requestUrl = `${CONFIG.BASE_URL_DB}` + url;
+      requestUrl = `${CONFIG.BASE_URL_DB}${url}`;
       break;
     case name.includes('apiNews'):
-      requestUrl = `${CONFIG.BASE_URL_NEWS}` + url;
+      requestUrl = `${CONFIG.BASE_URL_NEWS}${url}`;
       break;
     case name.includes('weather'):
-      requestUrl = `${CONFIG.BASE_URL_WEATHER}` + url;
+      requestUrl = `${CONFIG.BASE_URL_WEATHER}${url}`;
       break;
 
     default:
@@ -96,7 +95,7 @@ export function getFinalUrl(
   args: any,
   options?: AsyncThunkTemplateOptions | undefined,
 ): string {
-  return (replaceQueryStringInUrl(args, name, url) + addQueryParams(options)).trim();
+  return `${replaceQueryStringInUrl(args, name, url)}${addQueryParams(options)}`.trim();
 }
 
 export function getDynamicUrl(args: any, url: string): string {
@@ -134,7 +133,6 @@ export const updateTokens = async (): Promise<TokensPayload> => {
     const response = await axios.post<RefreshTokensResponse>(`${CONFIG.BASE_URL_DB}/auth/refresh`, {
       refreshToken: persistedToken,
     });
-    // store.dispatch(setTokens(response.data.data));
 
     return response.data.data;
   } catch (error) {

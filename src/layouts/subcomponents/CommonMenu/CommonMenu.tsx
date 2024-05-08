@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 
-import { VariantSwitcher } from 'types';
+import { NavId, VariantSwitcher } from 'types';
 import { useAuthRedux, useFiltersRedux, useNewsAPIRedux } from 'reduxStore/hooks';
 import { useFiltersStateContext, useSelectedDateContext, useWindowWidthContext } from 'contexts';
 
@@ -19,7 +19,7 @@ import { renderMenuItem } from './assistants';
 
 interface CommonMenuProps {
   isOpen?: boolean | undefined;
-  navId: string;
+  navId: NavId;
   closeMenu?: (() => void) | undefined;
 }
 
@@ -28,7 +28,7 @@ const CommonMenu: FC<CommonMenuProps> = ({ isOpen, navId, closeMenu }) => {
   const { resetAllFiltersResults, filteredNews } = useFiltersRedux();
   const { resetPreviousRequest, newsByCategory, newsByDate, newsByKeyword } = useNewsAPIRedux();
 
-  const { isMobile } = useWindowWidthContext();
+  const { isSmallScreens } = useWindowWidthContext();
   const { resetFiltersState } = useFiltersStateContext();
   const { resetRequestDay } = useSelectedDateContext();
 
@@ -39,17 +39,16 @@ const CommonMenu: FC<CommonMenuProps> = ({ isOpen, navId, closeMenu }) => {
 
   const { isHomeActive, isFavoriteActive, isReadActive } = activeLinks;
 
+  const pagesWithFilters = isHomeActive || isFavoriteActive || isReadActive;
+  const additionalRequestResults =
+    newsByCategory?.length > 0 || newsByDate?.length > 0 || newsByKeyword?.length > 0;
+  const shouldReset =
+    (navId === 'main-navigation' && isHomeActive && additionalRequestResults) ||
+    (filteredNews?.length > 0 && pagesWithFilters);
+
   //Функція обробки кліку по пунктам меню та скидання значень фільтрів та результатів фільтрації, якщо вони є
   const handleLinkClick = (): void => {
     if (typeof closeMenu === 'function') closeMenu();
-
-    const pagesWithFilters = isHomeActive || isFavoriteActive || isReadActive;
-    const additionalRequestResults =
-      newsByCategory?.length > 0 || newsByDate?.length > 0 || newsByKeyword?.length > 0;
-
-    const shouldReset =
-      (navId === 'main-navigation' && isHomeActive && additionalRequestResults) ||
-      (filteredNews?.length > 0 && pagesWithFilters);
 
     if (shouldReset) {
       resetAllFiltersResults();
@@ -61,9 +60,14 @@ const CommonMenu: FC<CommonMenuProps> = ({ isOpen, navId, closeMenu }) => {
 
   return (
     <>
-      {isMobile && isOpen ? (
+      {isSmallScreens && isOpen ? (
         <MobileContainer isOpen={isOpen}>
-          <MobileMenu navId={navId} links={links} handleLinkClick={handleLinkClick} />
+          <MobileMenu
+            navId={navId}
+            links={links}
+            isHomeActive={false}
+            handleLinkClick={handleLinkClick}
+          />
           <AdditionalContent
             navId={navId}
             handleLinkClick={handleLinkClick}
@@ -80,7 +84,7 @@ const CommonMenu: FC<CommonMenuProps> = ({ isOpen, navId, closeMenu }) => {
             navId={navId}
             links={links}
             handleLinkClick={handleLinkClick}
-            activeLinks={activeLinks}
+            isHomeActive={isHomeActive}
           />
           {navId === 'account-navigation' ? (
             <>

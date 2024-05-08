@@ -3,22 +3,17 @@ import { useNavigate } from 'react-router-dom';
 
 import { VariantButton } from 'types';
 import { useAuthRedux } from 'reduxStore/hooks';
+import { Paths } from 'hooks';
 
 import { PrimaryButton } from 'ui';
 
-interface NavigationErrorProps {
-  anyServerError?: boolean;
-}
-
-const NavigationErrorButtons: FC<NavigationErrorProps> = ({ anyServerError }) => {
+const NavigationErrorButtons: FC = () => {
   const { isAuthenticated } = useAuthRedux();
 
   const navigate = useNavigate();
 
   const handleGoHome = () => {
-    if (anyServerError) return;
-
-    navigate('/');
+    navigate(Paths.Home);
   };
 
   const handleGoBack = () => navigate(-1);

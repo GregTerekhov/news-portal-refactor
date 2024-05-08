@@ -1,8 +1,9 @@
 import { useEffect } from 'react';
+
+import type { ToastStatus, ToastVariant } from 'types';
 import { useAuthRedux, useDBRedux, useFiltersRedux, useNewsAPIRedux } from 'reduxStore/hooks';
 import { useNotificationContext } from 'contexts';
 
-import type { ToastStatus, ToastVariant } from 'types';
 import { useActiveLinks, useChooseRenderingNews } from 'hooks';
 import useShowLoader from './useShowLoader';
 

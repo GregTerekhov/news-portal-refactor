@@ -1,9 +1,9 @@
-import type { MenuItem } from 'types';
+import type { MenuItem, NavId } from 'types';
 import type { ActiveLinks } from 'hooks';
 
 type MenuItemProps = {
   activeLinks: ActiveLinks;
-  navId: string;
+  navId: NavId;
   isThirdPartyRegister: boolean;
 };
 

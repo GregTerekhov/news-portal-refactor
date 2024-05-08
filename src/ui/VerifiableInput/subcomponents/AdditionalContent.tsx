@@ -9,7 +9,7 @@ export const shouldShowPasswordIcon = (
   isPasswordVisibility: boolean,
   toggleVisibility: () => void,
 ): JSX.Element | null => {
-  const { wideScreens } = useWindowWidthContext();
+  const { isWideScreens } = useWindowWidthContext();
 
   return type === 'password' ? (
     <button
@@ -20,7 +20,7 @@ export const shouldShowPasswordIcon = (
     >
       <SvgIcon
         svgName={isPasswordVisibility ? 'eye-opened' : 'eye-closed'}
-        sizeKey={wideScreens ? 'mdIcon24' : 'smIcon20'}
+        sizeKey={isWideScreens ? 'mdIcon24' : 'smIcon20'}
         className='fill-greyBase '
       />
     </button>

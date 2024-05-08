@@ -32,7 +32,7 @@ const useCrypto = () => {
 
       return { savedPassword, email };
     } catch (error) {
-      console.error(error);
+      console.error('Error during getCryptoPassword', error);
       throw error;
     }
   };

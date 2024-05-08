@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
 
-import type { VotedItem, VotedPartial } from 'types';
+import type { SavedNewsOptions, VotedItem } from 'types';
 import { useDBRedux } from 'reduxStore/hooks';
 import { useNotificationContext, useScrollBodyContext } from 'contexts';
 
@@ -12,7 +12,7 @@ type NewsActionHookProps = {
   isFavourite: boolean;
   setIsFavourite: (isFavourite: boolean) => void;
   setHasRead: (hasRead: boolean) => void;
-  getNewsState: () => VotedPartial<VotedItem>;
+  getNewsState: () => SavedNewsOptions;
 };
 
 const useNewsActions = ({
@@ -31,6 +31,7 @@ const useNewsActions = ({
 
   const { isArchiveActive, isFavoriteActive } = useActiveLinks();
 
+  //Запит toggle новини до фаворитів, або додавання до прочитанних
   useEffect(() => {
     const updateNews = async () => {
       if (changesHappened) {
@@ -46,11 +47,7 @@ const useNewsActions = ({
 
   const shouldMakeChanges = liveNews && liveNews?.newsUrl !== undefined && !isArchiveActive;
 
-  const {
-    isFavourite: savedFavourite,
-    hasRead: savedRead,
-    additionDate: savedClickDate,
-  } = getNewsState();
+  const { savedFavourite, savedRead, savedAdditionDate } = getNewsState();
 
   const handleChangeFavourites = (e: React.MouseEvent<HTMLButtonElement>): void => {
     e.stopPropagation();
@@ -60,12 +57,12 @@ const useNewsActions = ({
       setIsFavourite(!isFavourite);
       setChangesHappened(true);
 
-      const updatedData = createUpdatedFavouritesObject(
+      const updatedData = createUpdatedFavouritesObject({
         liveNews,
         savedFavourite,
         savedRead,
-        savedClickDate,
-      );
+        savedAdditionDate,
+      });
       if (updatedData) updateSavedNews(updatedData);
     }
   };
@@ -75,12 +72,12 @@ const useNewsActions = ({
       setHasRead(true);
       setChangesHappened(true);
 
-      const updatedData = createUpdatedReadObject(
+      const updatedData = createUpdatedReadObject({
         liveNews,
         savedFavourite,
         savedRead,
-        savedClickDate,
-      );
+        savedAdditionDate,
+      });
 
       if (updatedData) updateSavedNews(updatedData);
     }

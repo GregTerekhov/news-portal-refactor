@@ -7,8 +7,8 @@ import { useHeaderStyles } from 'hooks';
 import { SvgIcon } from 'ui';
 import { getNavLinkVersaStyles } from '../assistants';
 
-const VersaMenu: FC<IMenuProps> = ({ navId, links, activeLinks, handleLinkClick }) => {
-  const { textClass } = useHeaderStyles(activeLinks?.isHomeActive);
+const VersaMenu: FC<IMenuProps> = ({ navId, links, isHomeActive, handleLinkClick }) => {
+  const { textClass } = useHeaderStyles(isHomeActive);
 
   const linksListStyles = `${
     navId === 'main-navigation' ? 'flex gap-5 md:gap-14 lg:gap-[69px]' : 'space-y-2'
@@ -22,12 +22,7 @@ const VersaMenu: FC<IMenuProps> = ({ navId, links, activeLinks, handleLinkClick 
             <NavLink
               to={link.path}
               onClick={handleLinkClick}
-              className={getNavLinkVersaStyles(
-                link.activeLink,
-                activeLinks?.isHomeActive,
-                navId,
-                textClass,
-              )}
+              className={getNavLinkVersaStyles(link.activeLink, isHomeActive, navId, textClass)}
             >
               {link.label}
               {navId === 'account-navigation' && link.activeLink ? (

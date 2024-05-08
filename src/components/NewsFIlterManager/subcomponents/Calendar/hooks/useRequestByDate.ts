@@ -5,7 +5,7 @@ import { useNewsAPIRedux, useFiltersRedux } from 'reduxStore/hooks';
 import { useFiltersStateContext, usePaginationContext, useSelectedDateContext } from 'contexts';
 
 import { determineNewSelectedDate, formatDateRange } from 'helpers';
-import { useHeadline } from 'hooks';
+import { TriggerType, useHeadline } from 'hooks';
 
 const useRequestByDate = () => {
   const { fetchByDate, resetPreviousRequest } = useNewsAPIRedux();
@@ -47,7 +47,7 @@ const useRequestByDate = () => {
         const dateToHeadline = formatDateRange(selectedPeriod);
 
         //Створення заголовка для новин по періоду дат
-        handleChangeHeadline('date', dateToHeadline);
+        handleChangeHeadline(TriggerType.Date, dateToHeadline);
 
         //Скидання значення пагінації, якщо користувач знаходився не на першій сторінці пагінації
         resetPagination();

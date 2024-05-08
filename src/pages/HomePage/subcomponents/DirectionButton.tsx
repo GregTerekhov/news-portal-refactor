@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
 
-import { usePaginationContext, useWindowWidthContext } from 'contexts';
 import { VariantButton } from 'types';
+import { usePaginationContext, useWindowWidthContext } from 'contexts';
 
 import { PrimaryButton } from 'ui';
 

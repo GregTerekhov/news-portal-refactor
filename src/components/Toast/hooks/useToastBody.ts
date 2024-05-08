@@ -11,17 +11,19 @@ const useToastBody = () => {
   const { chooseInfoToastText } = useToastInfo();
 
   const activeLinks = useActiveLinks();
-  const showInfoToast = chooseInfoToastText(activeLinks);
+  const { title: infoTitle, description: infoDescription } = chooseInfoToastText(activeLinks);
+  const { title: successTitle, description: successDescription } = showSuccessToast();
+  const { title: errorTitle, description: errorDescription } = showErrorToast();
 
   //Функція виведення заголовка тоста
   const getToastTitle = (status: ToastStatus): ToastTitle => {
     switch (status) {
       case 'success':
-        return showSuccessToast().title;
+        return successTitle;
       case 'error':
-        return showErrorToast().title;
+        return errorTitle;
       default:
-        return showInfoToast.title;
+        return infoTitle;
     }
   };
 
@@ -29,11 +31,11 @@ const useToastBody = () => {
   const getToastDescription = (status: ToastStatus): ToastDescription => {
     switch (status) {
       case 'success':
-        return showSuccessToast().description;
+        return successDescription;
       case 'error':
-        return showErrorToast().description;
+        return errorDescription;
       default:
-        return showInfoToast.description;
+        return infoDescription;
     }
   };
 

@@ -37,6 +37,8 @@ const GridCalendar: FC<GridCalendarProps> = ({
       : handleFilterDate(day, isOpenCalendar, toggleCalendar);
   };
 
+  const { day: calendarDay } = formatDateToString(day);
+
   const commonStyles =
     'flex h-7 w-7 cursor-pointer items-center justify-center rounded-full text-base font-medium leading-mostRelaxed tracking-widest hover:bg-accentBase hover:text-contrastWhite';
 
@@ -48,18 +50,11 @@ const GridCalendar: FC<GridCalendarProps> = ({
     <div className={COL_START_CLASSES[getDay(day)]}>
       <button
         type='button'
-        className={
-          commonStyles +
-          ' ' +
-          currentMonthDatesStyle +
-          ' ' +
-          getSelectedStyles() +
-          ' ' +
-          getDefaultStyles()
-        }
+        className={`
+          ${commonStyles} ${currentMonthDatesStyle} ${getSelectedStyles()} ${getDefaultStyles()}`}
         onClick={handleDateClick}
       >
-        {formatDateToString(day).day}
+        {calendarDay}
       </button>
     </div>
   );
