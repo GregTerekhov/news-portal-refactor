@@ -9,8 +9,10 @@ interface MobileContainerProps {
 }
 
 const MobileContainer: FC<MobileContainerProps> = ({ isOpen, children }) => {
+  const wrapperClass = getMobileContainerWrapperStyles(isOpen);
+
   return (
-    <div className={getMobileContainerWrapperStyles(isOpen)}>
+    <div className={wrapperClass}>
       <Container className='flex h-full flex-col justify-between'>{children}</Container>
     </div>
   );

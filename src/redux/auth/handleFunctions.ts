@@ -1,6 +1,6 @@
 import { PayloadAction } from '@reduxjs/toolkit';
 
-import type { DispatchActionType } from 'reduxStore/store';
+import type { DispatchActionType } from '../store';
 import type { AuthState } from 'types';
 
 import * as authOperations from './authOperations';

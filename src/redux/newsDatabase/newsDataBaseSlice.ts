@@ -23,48 +23,47 @@ const newsDBSlice = createSlice({
   initialState,
   reducers: {
     addOrUpdateVotedNews: (state, action: PayloadAction<Partial<VotedItem>>) => {
-      const updatedVotedNews = action.payload;
-      const existingNewsIndex = state.savedNews.findIndex(
-        (news) => news.newsUrl === updatedVotedNews.newsUrl,
-      );
+      const { newsUrl, isFavourite, hasRead, additionDate } = action.payload;
+
+      const existingNewsIndex = state.savedNews.findIndex((news) => news.newsUrl === newsUrl);
       if (existingNewsIndex !== -1) {
         state.savedNews[existingNewsIndex] = {
           ...state.savedNews[existingNewsIndex],
-          isFavourite: updatedVotedNews.isFavourite,
-          hasRead: updatedVotedNews.hasRead,
-          additionDate: updatedVotedNews.additionDate,
+          isFavourite: isFavourite,
+          hasRead: hasRead,
+          additionDate: additionDate,
         };
       } else {
-        state.savedNews.unshift(updatedVotedNews);
+        state.savedNews.unshift(action.payload);
       }
     },
   },
   extraReducers: (builder) => {
     builder
-      .addCase(newsDBOperations.fetchAllNews.fulfilled, (state, action) => {
-        state.savedNews = action.payload.data;
+      .addCase(newsDBOperations.fetchAllNews.fulfilled, (state, { payload }) => {
+        state.savedNews = payload.data;
       })
-      .addCase(newsDBOperations.fetchFavourites.fulfilled, (state, action) => {
-        state.favourites = action.payload.data;
+      .addCase(newsDBOperations.fetchFavourites.fulfilled, (state, { payload }) => {
+        state.favourites = payload.data;
       })
-      .addCase(newsDBOperations.fetchRead.fulfilled, (state, action) => {
-        state.reads = action.payload.data;
+      .addCase(newsDBOperations.fetchRead.fulfilled, (state, { payload }) => {
+        state.reads = payload.data;
       })
-      .addCase(newsDBOperations.fetchArchivedNews.fulfilled, (state, action) => {
-        state.archivedNews = action.payload.data;
+      .addCase(newsDBOperations.fetchArchivedNews.fulfilled, (state, { payload }) => {
+        state.archivedNews = payload.data;
       })
-      .addCase(newsDBOperations.deleteNews.fulfilled, (state, action) => {
-        const { _id: id } = action.payload;
+      .addCase(newsDBOperations.deleteNews.fulfilled, (state, { payload }) => {
+        const { _id: id } = payload;
         state.archivedNews = state.archivedNews.filter((news) => news._id !== id);
       })
-      .addCase(newsDBOperations.fetchHistoryLog.fulfilled, (state, action) => {
-        state.historyLog = action.payload.data;
+      .addCase(newsDBOperations.fetchHistoryLog.fulfilled, (state, { payload }) => {
+        state.historyLog = payload.data;
       })
       .addCase(newsDBOperations.clearHistoryLog.fulfilled, (state) => {
         state.historyLog = [];
       })
-      .addCase(removeFromFavourites, (state, action) => {
-        const newsUrl = action.payload;
+      .addCase(removeFromFavourites, (state, { payload }) => {
+        const newsUrl = payload;
         if (newsUrl !== '') {
           state.favourites = state.favourites.filter((fav) => fav.newsUrl !== newsUrl);
         }

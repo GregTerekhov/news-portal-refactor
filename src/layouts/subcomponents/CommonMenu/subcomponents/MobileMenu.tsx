@@ -15,30 +15,25 @@ import {
 const MobileMenu: FC<IMenuProps> = ({ navId, links, handleLinkClick }) => {
   const { isThirdPartyRegister } = useAuthRedux();
 
+  const listClass = getMobileLinksListStyles(navId);
+  const iconClass = getMobileIconStyles(navId);
+
   return (
     <nav
       id={navId}
-      className={`${isThirdPartyRegister && navId !== 'main-navigation' ? 'hidden' : 'block'}`}
+      className={isThirdPartyRegister && navId !== 'main-navigation' ? 'hidden' : 'block'}
     >
-      <ul className={getMobileLinksListStyles(navId)}>
-        {links.map((link) => (
-          <li key={link.path}>
-            <NavLink
-              to={link.path}
-              onClick={handleLinkClick}
-              className={getNavLinkStyles(link.activeLink)}
-            >
+      <ul className={listClass}>
+        {links.map(({ path, activeLink, icon, label }) => (
+          <li key={path}>
+            <NavLink to={path} onClick={handleLinkClick} className={getNavLinkStyles(activeLink)}>
               <div className='flex items-center gap-3.5'>
-                <div className={getSvgWrapperStyles(link.activeLink)}>
-                  <SvgIcon
-                    svgName={link.icon}
-                    sizeKey='smIcon18'
-                    className={getMobileIconStyles(navId)}
-                  />
+                <div className={getSvgWrapperStyles(activeLink)}>
+                  <SvgIcon svgName={icon} sizeKey='smIcon18' className={iconClass} />
                 </div>
-                {link.label}
+                {label}
               </div>
-              {link.activeLink && (
+              {activeLink && (
                 <SvgIcon svgName='arrow' sizeKey='xsIcon14' className='-rotate-90 fill-whiteBase' />
               )}
             </NavLink>

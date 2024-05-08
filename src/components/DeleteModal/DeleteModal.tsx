@@ -6,35 +6,32 @@ import { useModalStateContext } from 'contexts';
 
 import { PrimaryButton } from 'ui';
 
+import { getButtonId, getDynamicDescription } from './assistants';
+
 interface DeleteModalProps {
   handleDelete:
     | ((e: React.MouseEvent<HTMLButtonElement, MouseEvent>, id?: string) => Promise<void>)
     | (() => Promise<void>);
   handleClose: (e: React.MouseEvent<HTMLButtonElement>, preventDefault: boolean) => void;
-  position: string;
   title: string;
-  agreementText: string;
 }
 
-const DeleteModal: FC<DeleteModalProps> = ({
-  handleClose,
-  handleDelete,
-  position,
-  title,
-  agreementText,
-}) => {
+const DeleteModal: FC<DeleteModalProps> = ({ handleClose, handleDelete, title }) => {
   const { isOpenModal } = useModalStateContext();
+
+  const { cancelButtonId, deleteButtonId } = getButtonId(title);
+  const dynamicDescription = getDynamicDescription(title);
 
   const dialogButtons = [
     {
       onClick: (e: React.MouseEvent<HTMLButtonElement>) => handleClose(e, true),
-      id: position === 'deleteNews' ? 'Cancel deletion the news' : 'Cancel clearing log',
+      id: cancelButtonId,
       label: 'Cancel',
       icon: 'reset',
     },
     {
       onClick: handleDelete,
-      id: position === 'deleteNews' ? 'Delete selected news' : 'Clear deleted news log',
+      id: deleteButtonId,
       label: 'Delete',
       icon: 'trash',
     },
@@ -47,7 +44,7 @@ const DeleteModal: FC<DeleteModalProps> = ({
           {title}
         </h3>
         <p className='mb-6 text-medium text-darkBase dark:text-whiteBase md:mb-10 md:text-xl'>
-          {`Are you sure you want to ${agreementText} news?`}
+          {`Are you sure you want to ${dynamicDescription} news?`}
         </p>
         <ul className='max-md:space-y-4 md:flex md:items-center md:justify-between md:gap-8'>
           {Array.isArray(dialogButtons) &&

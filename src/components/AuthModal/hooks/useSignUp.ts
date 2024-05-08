@@ -15,7 +15,6 @@ const useSignUp = () => {
 
   const { toggleModal } = usePopUp();
 
-  // хук useForm react-hook-form для signUp-операції
   const {
     handleSubmit,
     register: registration,
@@ -24,7 +23,6 @@ const useSignUp = () => {
     formState: { errors },
   } = useForm<MainCredentials>({ resolver: yupResolver(signUpSchema) });
 
-  //Функція-submit
   const signUpSubmitHandler: SubmitHandler<MainCredentials> = async (data) => {
     try {
       const { name, email, password } = data;

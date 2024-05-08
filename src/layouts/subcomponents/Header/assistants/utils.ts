@@ -1,5 +1,7 @@
+import type { NavId } from 'types';
+
 //Функція визначення id для меню в залежності від розміщення
-export const getNavId = (isAccountPages: boolean): string => {
+export const getNavId = (isAccountPages: boolean): NavId => {
   return isAccountPages ? 'account-navigation' : 'main-navigation';
 };
 
@@ -27,17 +29,17 @@ export const getIconStyles = (
       : 'stroke-darkBase hocus:stroke-accentBase dark:stroke-whiteBase '
   }`;
 
-export const renderButtonText = (wideScreens: boolean, isAuthenticated: boolean) => {
-  return wideScreens ? (isAuthenticated ? 'Sign Out' : 'Auth') : null;
+export const renderButtonText = (isWideScreens: boolean, isAuthenticated: boolean) => {
+  return isWideScreens ? (isAuthenticated ? 'Sign Out' : 'Auth') : null;
 };
 
 export const getButtonStyles = (
   isHomeActive: boolean,
   authButtonClass: string,
-  wideScreens: boolean,
+  isWideScreens: boolean,
 ): string =>
   `${isHomeActive && authButtonClass} ${
-    wideScreens ? '' : 'border-transparent p-1.5'
+    isWideScreens ? '' : 'border-transparent p-1.5'
   } border border-solid border-transparent dark:border-whiteBase bg-accentBase hocus:bg-accentAlt`;
 
 export const getHeaderStyles = (

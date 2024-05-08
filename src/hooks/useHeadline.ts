@@ -1,29 +1,36 @@
 import type { DateRequest } from 'types';
 import { useNewsAPIRedux } from 'reduxStore/hooks';
 
-type TriggerType = 'keyword' | 'category' | 'period' | 'date' | 'filtering' | 'reset';
+enum TriggerType {
+  Keyword = 'keyword',
+  Category = 'category',
+  Period = 'period',
+  Date = 'date',
+  Filtering = 'filtering',
+  Reset = 'reset',
+}
 
 const useHeadline = () => {
   const { updateHeadline } = useNewsAPIRedux();
 
   const handleChangeHeadline = (trigger: TriggerType, value?: string | DateRequest): void => {
     switch (true) {
-      case trigger === 'keyword':
+      case trigger === TriggerType.Keyword:
         updateHeadline(`News by Keyword: ${value}`);
         break;
-      case trigger === 'category':
+      case trigger === TriggerType.Category:
         updateHeadline(`Categorical Reviews by ${value}`);
         break;
-      case trigger === 'period':
+      case trigger === TriggerType.Period:
         value === 'Today' ? updateHeadline(`${value}'s Hot News`) : updateHeadline(`${value} News`);
         break;
-      case typeof value === 'object' && trigger === 'date':
+      case typeof value === 'object' && trigger === TriggerType.Date:
         updateHeadline(`News by Date: from ${value.beginDate} to ${value.endDate}`);
         break;
-      case trigger === 'filtering':
+      case trigger === TriggerType.Filtering:
         updateHeadline('Filtered News');
         break;
-      case trigger === 'reset':
+      case trigger === TriggerType.Reset:
         updateHeadline('Today`s Hot News');
         break;
       default:

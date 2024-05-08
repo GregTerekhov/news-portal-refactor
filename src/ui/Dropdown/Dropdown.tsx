@@ -8,6 +8,7 @@ import SvgIcon from '../SvgIcon/SvgIcon';
 
 import {
   buttonStyle,
+  getItemKey,
   getLabelText,
   getMenuButtonIconStyles,
   getMenuItemStyles,
@@ -31,10 +32,7 @@ const Dropdown: FC<DropdownProps> = ({
 }) => {
   const handleItemClick = (item: string): void => {
     if (getResults) getResults(item);
-    onSelectItem(
-      item,
-      label === 'Category' ? 'category' : label === 'Time period' ? 'period' : item,
-    );
+    onSelectItem(item, getItemKey(label, item));
   };
 
   return (

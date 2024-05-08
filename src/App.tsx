@@ -4,7 +4,9 @@ import { Route, Routes } from 'react-router-dom';
 import { ProtectedRoute } from 'routes';
 import { useAuthRedux } from 'reduxStore/hooks';
 
+import { Paths } from './hooks';
 import { AccountLayout, Layout } from 'layouts';
+
 import { Loader } from 'ui';
 
 const HomePage = lazy(() => import('./pages/HomePage/HomePage'));
@@ -29,20 +31,20 @@ function App() {
     <Loader variant='page' />
   ) : (
     <Routes>
-      <Route path='/' element={<Layout />}>
+      <Route path={Paths.Home} element={<Layout />}>
         <Route index element={<HomePage />} />
         <Route element={<ProtectedRoute />}>
-          <Route path='/favourite' element={<FavouritePage />} />
-          <Route path='/read' element={<ReadPage />} />
-          <Route path='/archive' element={<ArchivePage />} />
+          <Route path={Paths.Favourite} element={<FavouritePage />} />
+          <Route path={Paths.Read} element={<ReadPage />} />
+          <Route path={Paths.Archive} element={<ArchivePage />} />
           <Route element={<AccountLayout />}>
-            <Route path='/account' element={<AccountPage />} />
-            <Route path='/account-manage' element={<AccountManagePage />} />
+            <Route path={Paths.Account} element={<AccountPage />} />
+            <Route path={Paths.AccountSettings} element={<AccountManagePage />} />
           </Route>
         </Route>
-        <Route path='/about-us' element={<AboutUs />} />
-        <Route path='/server-error' element={<ServerErrorPage />} />
-        <Route path='/in-development' element={<DevelopmentPage />} />
+        <Route path={Paths.About} element={<AboutUs />} />
+        <Route path={Paths.ServerError} element={<ServerErrorPage />} />
+        <Route path={Paths.InDevelopment} element={<DevelopmentPage />} />
         <Route path='*' element={<ErrorPage />} />
       </Route>
     </Routes>

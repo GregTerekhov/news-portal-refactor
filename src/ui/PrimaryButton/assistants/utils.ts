@@ -1,8 +1,8 @@
 import { VariantButton } from 'types';
 
 type ButtonStylesProps = {
-  disabled?: boolean | undefined;
   width: string;
+  disabled?: boolean | undefined;
 };
 
 type Styles = {

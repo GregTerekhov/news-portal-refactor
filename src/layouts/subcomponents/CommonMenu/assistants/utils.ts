@@ -1,3 +1,5 @@
+import type { NavId } from 'types';
+
 export const getNavLinkStyles = (isActiveLink: boolean | undefined): string => {
   return `flex items-center p-1.5 text-medium font-medium transition-colors duration-500 md:font-bold lg:text-xl ${
     isActiveLink
@@ -14,8 +16,8 @@ export const getSvgWrapperStyles = (isActiveLink: boolean | undefined): string =
 
 export const getNavLinkVersaStyles = (
   isActiveLink: boolean | undefined,
-  isHomeActive: boolean | undefined,
-  navId: string,
+  isHomeActive: boolean,
+  navId: NavId,
   textClass: string,
 ): string => {
   return `text-medium font-medium transition-colors duration-500 md:font-bold lg:text-xl hg:text-3xl ${

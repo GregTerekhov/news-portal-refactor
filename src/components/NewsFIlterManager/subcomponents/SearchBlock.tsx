@@ -10,8 +10,8 @@ import { useAdditionalRequest } from './hooks';
 
 const PERIOD = ['Today', 'Week', 'Month'];
 
-const SearchBlock: FC<{}> = () => {
-  const { wideScreens } = useWindowWidthContext();
+const SearchBlock: FC = () => {
+  const { isWideScreens } = useWindowWidthContext();
   const { searchParams, hasRequestValue, updateSearchParams } = useAdditionRequestContext();
   const {
     categoriesForDropdown,
@@ -66,7 +66,7 @@ const SearchBlock: FC<{}> = () => {
         <Calendar variant='SearchBlock' />
       </div>
       <div className='md:col-span-3 md:mt-auto lg:col-span-1 lg:space-y-2'>
-        {wideScreens ? (
+        {isWideScreens ? (
           <p className='text-base text-darkBase dark:text-whiteBase lg:text-medium'>Reset</p>
         ) : null}
         <PrimaryButton
@@ -75,13 +75,13 @@ const SearchBlock: FC<{}> = () => {
           hasIcon={true}
           variant={VariantButton.Primary}
           svgName='reset'
-          svgSize={wideScreens ? 'smIcon21' : 'xsIcon16'}
+          svgSize={isWideScreens ? 'smIcon21' : 'xsIcon16'}
           classNameIcon='fill-whiteBase'
           classNameButton='py-3'
           onHandleClick={handleResetRequests}
           disabled={!hasRequestValue}
         >
-          {wideScreens ? '' : 'Reset all requests'}
+          {isWideScreens ? '' : 'Reset all requests'}
         </PrimaryButton>
       </div>
     </div>

@@ -1,7 +1,6 @@
 import React, { FC } from 'react';
 
 import { useWindowWidthContext } from 'contexts';
-import { useActiveLinks } from 'hooks';
 
 import {
   SkeletonPage,
@@ -9,6 +8,8 @@ import {
   SkeletonSection,
   SkeletonWeather,
 } from './subcomponents';
+
+import { useActiveLinks } from 'hooks';
 import { variants } from './assistants';
 
 interface GeneralSectionVariant {
@@ -28,7 +29,7 @@ const TABLET_WEATHER_POSITION_IDX = 2;
 const DESKTOP_WEATHER_POSITION_IDX = 3;
 
 const Loader: FC<LoaderProps> = ({ variant }) => {
-  const { isMobile, isTablet, wideScreens } = useWindowWidthContext();
+  const { isSmallScreens, isTablet, isWideScreens } = useWindowWidthContext();
   const { isHomeActive } = useActiveLinks();
 
   const variantConfig = variants[variant];
@@ -43,9 +44,9 @@ const Loader: FC<LoaderProps> = ({ variant }) => {
         <div className='grid md:grid-cols-2 md:gap-[30px] lg:grid-cols-3 lg:gap-x-8 hg:gap-x-10'>
           {Array.isArray(sections) &&
             sections.map((_, index) =>
-              (isMobile && index === MOBILE_WEATHER_POSITION_IDX) ||
+              (isSmallScreens && index === MOBILE_WEATHER_POSITION_IDX) ||
               (isTablet && index < TABLET_WEATHER_POSITION_IDX) ||
-              (wideScreens && index < DESKTOP_WEATHER_POSITION_IDX) ? (
+              (isWideScreens && index < DESKTOP_WEATHER_POSITION_IDX) ? (
                 <SkeletonSection key={index} />
               ) : null,
             )}

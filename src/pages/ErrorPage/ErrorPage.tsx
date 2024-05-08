@@ -1,19 +1,22 @@
 import React, { FC } from 'react';
 
+import { ErrorTemplate } from '../template';
 import { errorImages } from 'constants/images';
 import { generateContentImages } from 'helpers';
 import { useCacheImage } from 'hooks';
 
-import { NavigationErrorButtons } from 'components';
-
-const ErrorPage: FC<{}> = () => {
+const ErrorPage: FC = () => {
   const devicePixelRatio = window.devicePixelRatio || 1;
 
   const matchedErrorImage = generateContentImages(errorImages, devicePixelRatio, window.innerWidth);
   const imageUrl = useCacheImage(matchedErrorImage?.src || '');
 
   return (
-    <div className='space-y-10 text-center lg:mx-auto lg:w-900px'>
+    <ErrorTemplate
+      title='Page not found'
+      description='Looks like you`we lost a bit. The page you requested could not be found or maybe don`t even exist. How about to make a step back and try again?'
+      titleStyles='text-5xl'
+    >
       <img
         className='mx-auto'
         src={imageUrl}
@@ -21,15 +24,7 @@ const ErrorPage: FC<{}> = () => {
         width={matchedErrorImage.width}
         height={matchedErrorImage.height}
       />
-      <h1 className='text-5xl text-darkBase transition-colors duration-500 dark:text-whiteBase'>
-        Page not found
-      </h1>
-      <p className='text-justify text-xl text-darkBase transition-colors duration-500 dark:text-whiteBase md:text-center'>
-        Looks like you'we lost a bit. The page you requested could not be found or maybe don't even
-        exist. How about to make a step back and try again?
-      </p>
-      <NavigationErrorButtons />
-    </div>
+    </ErrorTemplate>
   );
 };
 

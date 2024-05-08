@@ -39,12 +39,12 @@ export const getAriaLabel = (
 ): string => {
   switch (true) {
     case isManageAccountPage && hasAccount:
-      return account + ' account unbinding';
+      return `${account} account unbinding`;
     case isManageAccountPage && !hasAccount:
-      return account + ' account binding';
+      return `${account} account binding`;
 
     default:
-      return 'Enter with ' + account;
+      return `Enter with ${account}`;
   }
 };
 

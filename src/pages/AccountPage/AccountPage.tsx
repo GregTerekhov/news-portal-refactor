@@ -9,7 +9,7 @@ import { renderInfoItems, renderAccountIcons } from './assistants';
 
 const AccountPage: FC<{}> = () => {
   const { user, haveAccounts } = useAuthRedux();
-  const { isMobile } = useWindowWidthContext();
+  const { isSmallScreens } = useWindowWidthContext();
 
   const userInfoList = renderInfoItems(user);
   const accountIcons = renderAccountIcons(haveAccounts);
@@ -50,7 +50,7 @@ const AccountPage: FC<{}> = () => {
                   >
                     <SvgIcon
                       svgName={iconName}
-                      sizeKey={isMobile ? 'smIcon20' : 'mdIcon24'}
+                      sizeKey={isSmallScreens ? 'smIcon20' : 'mdIcon24'}
                       className='fill-whiteBase'
                     />
                   </li>

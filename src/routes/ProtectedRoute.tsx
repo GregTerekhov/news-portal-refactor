@@ -2,12 +2,13 @@ import React, { FC, ReactElement, useEffect, useState } from 'react';
 import { Navigate, Outlet, useLocation } from 'react-router-dom';
 
 import { useAuthRedux } from 'reduxStore/hooks';
+import { Paths } from 'hooks';
 
 export type ProtectedRouteProps = {
   children?: ReactElement;
 } & { redirectPath?: string };
 
-const ProtectedRoute: FC<ProtectedRouteProps> = ({ children, redirectPath = '/' }) => {
+const ProtectedRoute: FC<ProtectedRouteProps> = ({ children, redirectPath = Paths.Home }) => {
   const { isAuthenticated, isRefreshingUser } = useAuthRedux();
   const [isAuthChecked, setIsAuthChecked] = useState(false);
   const location = useLocation();

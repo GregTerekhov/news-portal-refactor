@@ -23,3 +23,22 @@ export const getLabelText = (label: string): string => {
     return `Search by ${label}`;
   }
 };
+
+export const getItemKey = (label: string, item: string): string => {
+  let key = '';
+
+  switch (label) {
+    case 'Category':
+      key = 'category';
+      break;
+    case 'Time period':
+      key = 'period';
+      break;
+
+    default:
+      key = item;
+      break;
+  }
+
+  return key;
+};

@@ -13,7 +13,7 @@ interface TableProps {
 }
 
 const DeletedNewsTable: FC<TableProps> = ({ displayedRows }) => {
-  const { wideScreens } = useWindowWidthContext();
+  const { isWideScreens } = useWindowWidthContext();
 
   const tableRowClass =
     'whitespace-nowrap px-6 text-small font-medium text-darkBase dark:text-whiteBase lg:text-medium group-hover:text-whiteBase transition-colors duration-500';
@@ -49,7 +49,7 @@ const DeletedNewsTable: FC<TableProps> = ({ displayedRows }) => {
                     rel='noopener noreferrer nofollow'
                     className='block py-4 lg:text-medium'
                   >
-                    {getNewsTitle(title, wideScreens)}
+                    {getNewsTitle(title, isWideScreens)}
                   </a>
                 </td>
                 <td className={tableRowClass}>{category}</td>

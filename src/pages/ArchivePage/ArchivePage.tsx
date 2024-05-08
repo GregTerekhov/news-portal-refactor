@@ -5,9 +5,9 @@ import { PageTemplate } from '../template';
 
 import { NewsList } from 'components';
 import { Accordeon } from 'ui';
+import { ArchiveHistoryLog } from './subcomponents';
 
 import { organiseNewsByMonth } from './assistants';
-import { ArchiveHistoryLog } from './subcomponents';
 
 const ArchivePage: FC<{}> = () => {
   const { allArchive, archiveHistoryLog, getHistoryLog, getArchives } = useDBRedux();
@@ -21,7 +21,12 @@ const ArchivePage: FC<{}> = () => {
 
   return (
     <PageTemplate>
-      {archiveHistoryLog?.length > 0 ? <ArchiveHistoryLog logData={archiveHistoryLog} /> : null}
+      <ArchiveHistoryLog logData={archiveHistoryLog} />
+      {archiveHistoryLog?.length === 0 ? (
+        <p className='mb-5 text-right text-darkBase dark:text-whiteBase'>
+          This log will include your deleted news
+        </p>
+      ) : null}
       {Object.entries(organisedNews)
         .reverse()
         .map(([monthYear, newsList]) => (

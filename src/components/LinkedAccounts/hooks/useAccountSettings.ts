@@ -7,7 +7,7 @@ import { CONFIG } from 'config';
 import { useAuthRedux } from 'reduxStore/hooks';
 import { useNotificationContext, useScrollBodyContext } from 'contexts';
 
-import { usePopUp } from 'hooks';
+import { Paths, usePopUp } from 'hooks';
 import { getButtonsData } from '../assistants';
 
 const useAccountSettings = () => {
@@ -63,7 +63,7 @@ const useAccountSettings = () => {
 
   const redirectOnDevelopmentPage = (): void => {
     if (!isAuthenticated) toggleModal();
-    navigate('/in-development');
+    navigate(Paths.InDevelopment);
   };
 
   return {

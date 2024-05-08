@@ -13,7 +13,9 @@ const useReadNewsContent = () => {
     .map((news) => news.publishDate)
     .filter((date) => date !== undefined);
 
-  const readNews = Array.from(new Set(publishedDate)).sort(compareDates).reverse();
+  const uniqueDateList = new Set(publishedDate);
+
+  const readNews = Array.from(uniqueDateList).sort(compareDates).reverse();
 
   return readNews;
 };

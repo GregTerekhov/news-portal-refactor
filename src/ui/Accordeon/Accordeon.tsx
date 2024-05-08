@@ -23,6 +23,8 @@ const Accordeon: FC<AccordeonProps> = ({ children, dateSeparator, position, bloc
   };
 
   const showAccordeonPages = position === 'readPage' || position === 'archivePage';
+  const accordionHeaderClass = accordionHeaderStyles(showAccordeonPages);
+  const iconClass = accordionTriggerIconStyles(isOpen);
 
   return (
     <Accordion.Root type='single' collapsible className='w-full'>
@@ -30,19 +32,13 @@ const Accordeon: FC<AccordeonProps> = ({ children, dateSeparator, position, bloc
         value={showAccordeonPages ? dateSeparator || '' : blockDefinition || ''}
         className={position === 'accountManagePage' ? 'lg:text-2xl' : ''}
       >
-        <Accordion.Header className={accordionHeaderStyles(showAccordeonPages)}>
+        <Accordion.Header className={accordionHeaderClass}>
           <Accordion.Trigger className={accordionTriggerStyles} onClick={handleClick}>
             {showAccordeonPages ? dateSeparator : blockDefinition}
-            <SvgIcon
-              svgName='arrow'
-              sizeKey='smIcon18'
-              className={accordionTriggerIconStyles(isOpen)}
-            />
+            <SvgIcon svgName='arrow' sizeKey='smIcon18' className={iconClass} />
           </Accordion.Trigger>
         </Accordion.Header>
-        <Accordion.Content
-          className={`${isOpen ? 'animate-accordion-down' : 'animate-accordion-up'}`}
-        >
+        <Accordion.Content className={isOpen ? 'animate-accordion-down' : 'animate-accordion-up'}>
           {children}
         </Accordion.Content>
       </Accordion.Item>

@@ -10,22 +10,23 @@ const useInfiniteScroll = () => {
   const [totalNewsCount, setTotalNewsCount] = useState<number>(0);
   const [isLoadingMore, setIsLoadingMore] = useState<boolean>(false);
 
-  const { isMobile, isNotMobile } = useWindowWidthContext();
+  const { isSmallScreens } = useWindowWidthContext();
 
   const activeLinks = useActiveLinks();
   const { rebuiltNews } = useChooseRenderingNews(activeLinks);
 
   useEffect(() => {
-    if (rebuiltNews?.length) {
+    if (rebuiltNews?.length > 0) {
       setTotalNewsCount(rebuiltNews.length);
     }
   }, [rebuiltNews]);
 
   const initialDisplayCount = useMemo(() => {
-    if (isMobile) return MOBILE_NEWS_DISPLAYED_COUNT;
-    if (isNotMobile) return WIDESCREEN_NEWS_DISPLAYED_COUNT;
-
-    return 0;
+    if (isSmallScreens) {
+      return MOBILE_NEWS_DISPLAYED_COUNT;
+    } else {
+      return WIDESCREEN_NEWS_DISPLAYED_COUNT;
+    }
   }, []);
 
   const [displayedCount, setDisplayedCount] = useState<number>(initialDisplayCount);
@@ -41,7 +42,8 @@ const useInfiniteScroll = () => {
 
     setDisplayedCount(
       (prevCount) =>
-        prevCount + (isMobile ? MOBILE_NEWS_DISPLAYED_COUNT : WIDESCREEN_NEWS_DISPLAYED_COUNT),
+        prevCount +
+        (isSmallScreens ? MOBILE_NEWS_DISPLAYED_COUNT : WIDESCREEN_NEWS_DISPLAYED_COUNT),
     );
 
     setIsLoadingMore(false);

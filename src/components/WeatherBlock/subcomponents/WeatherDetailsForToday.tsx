@@ -9,10 +9,10 @@ import { receiveCurrentDate, getWeatherDetailsForToday } from '../assistants';
 
 const WeatherDetailsForToday: FC = () => {
   const { currentWeather } = useWeatherAPIRedux();
-  const { isMobile } = useWindowWidthContext();
+  const { isSmallScreens } = useWindowWidthContext();
 
   const { days, dateNow } = receiveCurrentDate();
-  const weatherDetails = getWeatherDetailsForToday(isMobile, currentWeather);
+  const weatherDetails = getWeatherDetailsForToday(isSmallScreens, currentWeather);
 
   return (
     <div className='rows-[1/1] col-[1/1] flex h-full w-full flex-col justify-between gap-3 backface-hidden'>
@@ -37,9 +37,7 @@ const WeatherDetailsForToday: FC = () => {
                   <div
                     className={`flex items-center gap-3 text-base text-contrastWhite md:text-medium hg:text-2xl ${justifyItemClass}`}
                   >
-                    <div
-                      className={`${justifyItemClass === 'justify-end' ? 'order-last' : 'order-1'}`}
-                    >
+                    <div className={justifyItemClass === 'justify-end' ? 'order-last' : 'order-1'}>
                       <SvgIcon svgName={icon} sizeKey={iconSize} className='fill-whiteBase' />
                     </div>
                     <p className='flex items-baseline gap-x-1 even:order-1'>

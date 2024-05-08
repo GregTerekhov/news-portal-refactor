@@ -1,7 +1,7 @@
 import { useCallback } from 'react';
 
 import type { FilterResults, PartialVotedNewsArray } from 'types';
-import { useAppDispatch, useAppSelector } from '../hooks';
+import { useAppDispatch, useAppSelector } from './reduxHooks';
 import * as filters from '../filterSlice';
 
 const useFilterCollector = () => {

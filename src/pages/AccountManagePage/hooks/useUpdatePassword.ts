@@ -12,7 +12,6 @@ const useUpdatePassword = () => {
   const { updatePassword } = useAuthRedux();
   const { showToast } = useNotificationContext();
 
-  // хук useForm react-hook-form для updatePassword-операції
   const {
     handleSubmit: passwordSubmit,
     register: updatePasswordRegister,
@@ -36,7 +35,6 @@ const useUpdatePassword = () => {
     'password',
   ]);
 
-  //Функція-submit
   const handlePasswordSubmitHandler: SubmitHandler<ExtendedUpdatePasswordRequest> = async (
     data,
   ) => {

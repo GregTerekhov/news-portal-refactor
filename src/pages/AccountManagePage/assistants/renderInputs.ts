@@ -32,7 +32,7 @@ export const renderPasswordInputs = ({
       fieldValue: newPassword,
       errors: errors?.newPassword?.message,
       label: 'newPassword',
-      ariaInvalid: errors?.newPassword ? true : false,
+      ariaInvalid: !!errors?.newPassword ?? false,
       iconName: 'password',
     },
     {
@@ -41,18 +41,16 @@ export const renderPasswordInputs = ({
       fieldValue: confirmPassword,
       errors: errors?.confirmPassword?.message,
       label: 'confirmPassword',
-      ariaInvalid: errors?.confirmPassword ? true : false,
+      ariaInvalid: !!errors?.confirmPassword ?? false,
       iconName: 'password',
     },
   ];
 
   const showCurrentPasswordInput =
-    newPassword &&
-    confirmPassword &&
+    !!newPassword &&
+    !!confirmPassword &&
     !errors?.newPassword?.message &&
-    !errors?.confirmPassword?.message &&
-    newPassword.length !== 0 &&
-    confirmPassword.length !== 0;
+    !errors?.confirmPassword?.message;
 
   if (showCurrentPasswordInput) {
     passwordInputs.push({
@@ -61,7 +59,7 @@ export const renderPasswordInputs = ({
       fieldValue: password,
       errors: errors?.password?.message,
       label: 'password',
-      ariaInvalid: errors && errors?.password ? true : false,
+      ariaInvalid: !!errors?.password ?? false,
       iconName: 'password',
     });
   }
@@ -83,7 +81,7 @@ export const renderEmailInputs = ({
       errors: errors?.email?.message,
       label: 'email',
       iconName: 'envelop',
-      ariaInvalid: errors?.email ? true : false,
+      ariaInvalid: !!errors?.email ?? false,
       autofill: 'email',
     },
   ];
@@ -98,7 +96,7 @@ export const renderEmailInputs = ({
       errors: errors?.password?.message,
       label: 'password',
       iconName: 'password',
-      ariaInvalid: errors?.password ? true : false,
+      ariaInvalid: !!errors?.password ?? false,
     });
   }
 

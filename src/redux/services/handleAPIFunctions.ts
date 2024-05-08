@@ -2,20 +2,20 @@ import { PayloadAction } from '@reduxjs/toolkit';
 
 import type { WeatherState, newsAPIState } from 'types';
 
-type AppState = newsAPIState | WeatherState;
+type APIState = newsAPIState | WeatherState;
 
-export const handlePending = (state: AppState): void => {
+export const handlePending = (state: APIState): void => {
   state.isLoading = true;
   state.hasError = null;
 };
 
-export const handleFulfilled = (state: AppState): void => {
+export const handleFulfilled = (state: APIState): void => {
   state.isLoading = false;
   state.hasError = null;
 };
 
 export const handleRejected = (
-  state: AppState,
+  state: APIState,
   action: PayloadAction<unknown, string, any>,
 ): void => {
   state.isLoading = false;

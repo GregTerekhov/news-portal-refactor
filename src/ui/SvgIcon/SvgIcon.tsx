@@ -21,7 +21,7 @@ const SvgIcon: FC<SvgIncomingData> = ({ svgName, sizeKey, className }) => {
       height={typeof size === 'number' ? size : size.height}
       className={`transition-colors duration-500 ${className}`}
     >
-      <use href={icons + `#${cachedIconName}`}></use>
+      <use href={`${icons}#${cachedIconName}`}></use>
     </svg>
   );
 };

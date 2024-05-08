@@ -12,7 +12,6 @@ const useUpdateEmail = () => {
   const { updateEmail } = useAuthRedux();
   const { showToast } = useNotificationContext();
 
-  // хук useForm react-hook-form для updateEmail-операції
   const {
     handleSubmit: emailSubmit,
     register: updateEmailRegister,
@@ -31,7 +30,6 @@ const useUpdateEmail = () => {
   // споглядання за відповідними полями
   const [email, password] = watch(['email', 'password']);
 
-  //Функція-submit
   const handleEmailSubmitHandler: SubmitHandler<AuthRequestWithoutName> = async (data) => {
     try {
       const response = await updateEmail(data);

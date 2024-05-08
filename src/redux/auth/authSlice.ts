@@ -35,51 +35,61 @@ const authSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
-      .addCase(authOperations.signUp.fulfilled, (state, action) => {
-        const { name, email } = action.payload.user;
+      .addCase(authOperations.signUp.fulfilled, (state, { payload }) => {
+        const { name, email } = payload.user;
         state.user.name = name;
         state.user.email = email;
       })
-      .addCase(authOperations.getSavedPassword.fulfilled, (state, action) => {
-        state.message = action.payload.message;
+      .addCase(authOperations.getSavedPassword.fulfilled, (state, { payload }) => {
+        state.message = payload.message;
       })
-      .addCase(authOperations.signIn.fulfilled, (state, action) => {
+      .addCase(authOperations.signIn.fulfilled, (state, { payload }) => {
+        const { user, userTheme, accessToken, refreshToken, haveAccounts } = payload;
+
         state.isLoggedIn = true;
-        state.user = action.payload.user;
-        state.userTheme = action.payload.userTheme;
-        state.accessToken = action.payload.accessToken;
-        state.refreshToken = action.payload.refreshToken;
-        state.haveAccounts = action.payload.haveAccounts;
+        state.user = user;
+        state.userTheme = userTheme;
+        state.accessToken = accessToken;
+        state.refreshToken = refreshToken;
+        state.haveAccounts = haveAccounts;
       })
       .addCase(authOperations.signOut.fulfilled, () => {
         return { ...initialState };
       })
-      .addCase(authOperations.fetchCurrentUser.fulfilled, (state, action) => {
+      .addCase(authOperations.fetchCurrentUser.fulfilled, (state, { payload }) => {
+        const { user, userTheme, haveAccounts, thirdPartyRegister } = payload;
+
         state.isLoggedIn = true;
-        state.user = action.payload.user;
-        state.userTheme = action.payload.userTheme;
-        state.haveAccounts = action.payload.haveAccounts;
-        state.thirdPartyRegister = action.payload.thirdPartyRegister;
+        state.user = user;
+        state.userTheme = userTheme;
+        state.haveAccounts = haveAccounts;
+        state.thirdPartyRegister = thirdPartyRegister;
       })
-      .addCase(authOperations.updateUserEmail.fulfilled, (state, action) => {
-        state.user.email = action.payload.newEmail;
+      .addCase(authOperations.updateUserEmail.fulfilled, (state, { payload }) => {
+        const { newEmail } = payload;
+        state.user.email = newEmail;
       })
-      .addCase(authOperations.recoveryPasswordChange.fulfilled, (state, action) => {
+      .addCase(authOperations.recoveryPasswordChange.fulfilled, (state, { payload }) => {
+        const { user, userTheme, accessToken, refreshToken, haveAccounts } = payload;
+
         state.isLoggedIn = true;
-        state.user = action.payload.user;
-        state.userTheme = action.payload.userTheme;
-        state.accessToken = action.payload.accessToken;
-        state.refreshToken = action.payload.refreshToken;
-        state.haveAccounts = action.payload.haveAccounts;
+        state.user = user;
+        state.userTheme = userTheme;
+        state.accessToken = accessToken;
+        state.refreshToken = refreshToken;
+        state.haveAccounts = haveAccounts;
       })
-      .addCase(authOperations.googleAuth.fulfilled, (state, action) => {
+      .addCase(authOperations.googleAuth.fulfilled, (state, { payload }) => {
+        const { user, userTheme, accessToken, refreshToken, thirdPartyRegister, haveAccounts } =
+          payload;
+
         state.isLoggedIn = true;
-        state.user = action.payload.user;
-        state.userTheme = action.payload.userTheme;
-        state.accessToken = action.payload.accessToken;
-        state.refreshToken = action.payload.refreshToken;
-        state.thirdPartyRegister = action.payload.thirdPartyRegister;
-        if (action.payload.haveAccounts) state.haveAccounts = action.payload.haveAccounts;
+        state.user = user;
+        state.userTheme = userTheme;
+        state.accessToken = accessToken;
+        state.refreshToken = refreshToken;
+        state.thirdPartyRegister = thirdPartyRegister;
+        if (haveAccounts) state.haveAccounts = haveAccounts;
       })
       .addCase(authOperations.googleBind.fulfilled, (state) => {
         state.haveAccounts.google = true;
@@ -87,16 +97,18 @@ const authSlice = createSlice({
       .addCase(authOperations.googleUnbind.fulfilled, (state) => {
         state.haveAccounts.google = false;
       })
-      .addCase(authOperations.updateTheme.fulfilled, (state, action) => {
-        state.userTheme = action.payload.userTheme;
+      .addCase(authOperations.updateTheme.fulfilled, (state, { payload }) => {
+        const { userTheme } = payload;
+        state.userTheme = userTheme;
       })
-      .addCase(setTokens, (state, action) => {
-        const { accessToken, refreshToken } = action.payload;
+      .addCase(setTokens, (state, { payload }) => {
+        const { accessToken, refreshToken } = payload;
+
         state.accessToken = accessToken;
         state.refreshToken = refreshToken;
       })
-      .addCase(changeNotAuthTheme, (state, action) => {
-        const { updatedTheme }: UpdateThemeRequest = action.payload;
+      .addCase(changeNotAuthTheme, (state, { payload }) => {
+        const { updatedTheme }: UpdateThemeRequest = payload;
         state.userTheme = updatedTheme;
       })
       .addMatcher(isAnyOf(...getActions('pending')), handlePending)

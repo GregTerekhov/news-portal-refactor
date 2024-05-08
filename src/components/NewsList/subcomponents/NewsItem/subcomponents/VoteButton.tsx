@@ -22,6 +22,9 @@ const VoteButton: FC<VBProps> = ({ liveNews, isFavourite, buttonData }) => {
   const { handleChangeFavourites } = useNews({ liveNews });
   const { isArchiveActive } = useActiveLinks();
 
+  const buttonText = getButtonLabel(isArchiveActive, isFavourite);
+  const iconStyles = getIconStyles(isFavourite, isHovered, isArchiveActive);
+
   const buttonStyles = `absolute bottom-3 right-2 z-20 flex items-center gap-x-1 rounded-3xl bg-contrastWhite px-3 py-1.5 text-small font-medium text-darkBase transition-colors duration-500 lg:text-medium ${
     !isArchiveActive ? 'group hocus:bg-accentBase hocus:text-whiteBase' : ''
   }`;
@@ -35,12 +38,8 @@ const VoteButton: FC<VBProps> = ({ liveNews, isFavourite, buttonData }) => {
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
-      {getButtonLabel(isArchiveActive, isFavourite)}
-      <SvgIcon
-        svgName='heart'
-        sizeKey='xsIcon16'
-        className={getIconStyles(isFavourite, isHovered, isArchiveActive)}
-      />
+      {buttonText}
+      <SvgIcon svgName='heart' sizeKey='xsIcon16' className={iconStyles} />
     </button>
   );
 };

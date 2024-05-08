@@ -1,12 +1,13 @@
 import React, { FC } from 'react';
 import { Link } from 'react-router-dom';
 
+import type { NavId } from 'types';
 import { useAuthRedux } from 'reduxStore/hooks';
 
 import MenuLinks from './MenuLinks';
 
 interface AdditionalContentProps {
-  navId: string;
+  navId: NavId;
   handleLinkClick: () => void;
   closeMenu?: (() => void) | undefined;
 }

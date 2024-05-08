@@ -9,11 +9,10 @@ type ButtonsDataProps = {
   handleSortRead: (order: string) => Promise<void>;
   handleSort: (order: string) => void;
   handleResetFiltration: () => Promise<void>;
-  wideScreens: boolean;
+  isWideScreens: boolean;
 };
 
 interface FilterInputs {
-  name: string;
   value: string;
   placeholder: string;
 }
@@ -26,7 +25,7 @@ export const getControlButtons = ({
   handleSortRead,
   handleSort,
   handleResetFiltration,
-  wideScreens,
+  isWideScreens,
 }: ButtonsDataProps) => {
   //Data для кнопок блока фільтрації новин
   const controlButtons: IControlButtons[] = [
@@ -39,7 +38,7 @@ export const getControlButtons = ({
       hasIcon: false,
       svgName: '',
       children: 'Apply',
-      disabled: !hasFilterValue ? true : false,
+      disabled: !hasFilterValue ?? false,
     },
     {
       type: 'button',
@@ -50,7 +49,7 @@ export const getControlButtons = ({
         'group border-whiteBase bg-accentBase hocus:bg-whiteBase dark:bg-transparent p-2 lg:w-12 lg:h-12 hocus:border-accentBase dark:hocus:bg-accentAlt dark:hocus:border-whiteBase ring-whiteBase dark:ring-darkBase ring-2 dark:border-greyBase',
       hasIcon: true,
       svgName: 'dateSort',
-      svgSize: wideScreens ? 'mdIcon24' : 'smIcon20',
+      svgSize: isWideScreens ? 'mdIcon24' : 'smIcon20',
       classNameIcon:
         'fill-whiteBase group-hover:fill-accentBase  group-focus:fill-accentBase dark:group-hover:fill-whiteBase dark:group-focus:fill-whiteBase',
     },
@@ -64,7 +63,7 @@ export const getControlButtons = ({
       svgSize: 'xsIcon16',
       classNameIcon: 'fill-whiteBase',
       children: 'Reset',
-      disabled: !hasFilterValue && !isSorted ? true : false,
+      disabled: (!hasFilterValue && !isSorted) ?? false,
     },
     {
       type: 'button',
@@ -75,7 +74,7 @@ export const getControlButtons = ({
         'group p-2 border-whiteBase bg-accentBase hocus:bg-whiteBase dark:bg-transparent lg:w-12 lg:h-12 hocus:border-accentBase dark:hocus:bg-accentAlt dark:hocus:border-whiteBase ring-whiteBase dark:ring-darkBase ring-2 dark:border-greyBase',
       hasIcon: true,
       svgName: 'dateSort',
-      svgSize: wideScreens ? 'mdIcon24' : 'smIcon20',
+      svgSize: isWideScreens ? 'mdIcon24' : 'smIcon20',
       classNameIcon:
         'fill-whiteBase rotate-180 group-hover:fill-accentBase dark:group-hover:fill-whiteBase group-focus:fill-accentBase dark:group-focus:fill-whiteBase',
     },
@@ -87,22 +86,18 @@ export const getControlButtons = ({
 export const getInputsData = (filters: Filters) => {
   const filterInputs: FilterInputs[] = [
     {
-      name: 'keyword',
       value: filters.keyword,
       placeholder: 'Keyword',
     },
     {
-      name: 'author',
       value: filters.author,
       placeholder: 'Author',
     },
     {
-      name: 'title',
       value: filters.title,
       placeholder: 'Title',
     },
     {
-      name: 'publisher',
       value: filters.publisher,
       placeholder: 'Publisher',
     },

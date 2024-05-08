@@ -12,7 +12,7 @@ import { useFilterNews, useResetFiltration, useSortAccordion, useSortNews } from
 
 const ControlButtons: FC = () => {
   const { isSorted } = useFiltersRedux();
-  const { isMobile, isTablet, wideScreens } = useWindowWidthContext();
+  const { isSmallScreens, isTablet, isWideScreens } = useWindowWidthContext();
   const { filters } = useFiltersStateContext();
 
   const { isReadActive } = useActiveLinks();
@@ -31,7 +31,7 @@ const ControlButtons: FC = () => {
     isSorted,
     hasFilterValue,
     isReadActive,
-    wideScreens,
+    isWideScreens,
   });
 
   const renderHintText = (): JSX.Element => (
@@ -39,7 +39,7 @@ const ControlButtons: FC = () => {
   );
   return (
     <>
-      {isMobile ? (
+      {isSmallScreens ? (
         <>
           <div className='flex gap-3.5'>{RenderButtons(controlButtons.slice(0, 2))}</div>
           <div className='flex gap-3.5'>{RenderButtons(controlButtons.slice(2))}</div>
@@ -57,7 +57,7 @@ const ControlButtons: FC = () => {
           </div>
           <div className='md:col-start-8 md:flex md:items-center md:justify-end lg:col-start-[15] lg:row-start-2 lg:items-end'>
             <div className='lg:space-y-2'>
-              {wideScreens && renderHintText()}
+              {isWideScreens && renderHintText()}
               {RenderButtons([controlButtons[1]])}
             </div>
           </div>

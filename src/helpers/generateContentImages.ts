@@ -32,7 +32,10 @@ export default function generateContentImages(
   const suitableImages = filterSuitableImage(images, screenSize);
 
   for (const image of suitableImages) {
-    if (isWebPImage(image, devicePixelRatio) || isRegularImage(image, devicePixelRatio)) {
+    const isWebP = isWebPImage(image, devicePixelRatio);
+    const isRegular = isRegularImage(image, devicePixelRatio);
+
+    if (isWebP || isRegular) {
       return image;
     }
   }

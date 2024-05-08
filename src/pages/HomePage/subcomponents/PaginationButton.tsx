@@ -24,7 +24,7 @@ const PaginationButton: FC<PaginationButtonProps> = ({ pageNumber, onClick }) =>
       <PrimaryButton
         aria-current='page'
         aria-label={`Page ${pageNumber.toString()} button`}
-        classNameButton={`${paginationButtonStyles}`}
+        classNameButton={paginationButtonStyles}
         variant={VariantButton.Small}
       >
         {pageNumber}

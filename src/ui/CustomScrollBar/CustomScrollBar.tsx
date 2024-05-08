@@ -11,15 +11,18 @@ interface CustomScrollProps {
 }
 
 const CustomScrollBar: FC<CustomScrollProps> = ({ children, isOpen, orientation, className }) => {
+  const scrollStyles = customScrollStyle(orientation);
+  const thumbStyles = areaThumbStyles(orientation);
+
   return (
     isOpen && (
       <ScrollArea.Root type='auto' className={className}>
         <ScrollArea.Viewport className='h-full w-full rounded'>{children}</ScrollArea.Viewport>
         <ScrollArea.Scrollbar
-          className={`rounded-full bg-dropdownBase ${customScrollStyle(orientation)}`}
+          className={`rounded-full bg-dropdownBase ${scrollStyles}`}
           orientation={orientation}
         >
-          <ScrollArea.Thumb className={areaThumbStyles(orientation)} />
+          <ScrollArea.Thumb className={thumbStyles} />
         </ScrollArea.Scrollbar>
         <ScrollArea.Corner asChild className='bg-accentBase' />
       </ScrollArea.Root>

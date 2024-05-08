@@ -92,3 +92,9 @@ export type UpdateCredentialsInput = {
 };
 
 export type CalendarVariant = 'SearchBlock' | 'FiltersBlock';
+
+export interface SavedNewsOptions {
+  savedFavourite: boolean | undefined;
+  savedRead: boolean | undefined;
+  savedAdditionDate: number | null | undefined;
+}

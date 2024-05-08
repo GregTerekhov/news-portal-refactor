@@ -16,22 +16,23 @@ const MenuLinks: FC<Partial<MenuLinksProps>> = ({ handleLinkClick }) => {
 
   return (
     <>
-      {links.map(({ id, iconName, path, label }) => (
-        <Link
-          key={iconName}
-          to={path}
-          id={id}
-          className={menuLinksStyles}
-          onClick={handleLinkClick}
-        >
-          {label}
-          <SvgIcon
-            svgName={iconName}
-            sizeKey='smIcon20'
-            className='fill-transparent stroke-whiteBase'
-          />
-        </Link>
-      ))}
+      {Array.isArray(links) &&
+        links.map(({ id, iconName, path, label }) => (
+          <Link
+            key={iconName}
+            to={path}
+            id={id}
+            className={menuLinksStyles}
+            onClick={handleLinkClick}
+          >
+            {label}
+            <SvgIcon
+              svgName={iconName}
+              sizeKey='smIcon20'
+              className='fill-transparent stroke-whiteBase'
+            />
+          </Link>
+        ))}
     </>
   );
 };

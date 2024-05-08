@@ -72,7 +72,7 @@ const VerifiableInput: FC<InputProps> = ({
   return (
     <>
       <label
-        htmlFor={id + label}
+        htmlFor={`${id}${label}`}
         className={` 
        ${variant === VariantVerifiableInputs.Auth ? 'w-full space-y-2 text-medium md:text-xl hg:text-2xl' : 'flex items-center justify-center'}`}
       >
@@ -89,7 +89,7 @@ const VerifiableInput: FC<InputProps> = ({
         )}
         <input
           className={inputFieldStyles}
-          id={id + label}
+          id={`${id}${label}`}
           autoFocus={autoFocus}
           {...register(label)}
           type={isPasswordVisibility ? 'text' : type}

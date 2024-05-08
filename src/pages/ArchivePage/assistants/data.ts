@@ -8,7 +8,7 @@ interface ButtonsData {
   type: 'submit' | 'reset' | 'button' | undefined;
   iconName: string;
   label: string;
-  disabled?: boolean;
+  disabled: boolean;
 }
 
 export const tableHeads: TableHeads[] = [
@@ -26,18 +26,19 @@ export const tableHeads: TableHeads[] = [
   },
 ];
 
-export const getButtonsData = (isDisabledButton: boolean) => {
+export const getButtonsData = (isDisabledUpdateButton: boolean, isDisabledClearButton: boolean) => {
   const buttonData: ButtonsData[] = [
     {
       type: 'submit',
       iconName: 'reset',
       label: 'Update log',
-      disabled: isDisabledButton,
+      disabled: isDisabledUpdateButton,
     },
     {
       type: 'button',
       iconName: 'trash',
       label: 'Clear log',
+      disabled: isDisabledClearButton,
     },
   ];
 

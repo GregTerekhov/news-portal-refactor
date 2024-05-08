@@ -27,19 +27,20 @@ const CalendarControls: FC<CalendarControlsProps> = ({
   handleChangeMonth,
   handleChangeYear,
 }) => {
+  const { year, month } = formatDateToString(firstDayOfMonth);
   //Data для кнопок переключення місяців та років
   const controlButtonsBlock: ButtonsBlock[] = [
     {
       id: 'year',
       onPrevClick: handleChangeYear,
       onNextClick: handleChangeYear,
-      formattedDate: formatDateToString(firstDayOfMonth).year,
+      formattedDate: year,
     },
     {
       id: 'month',
       onPrevClick: handleChangeMonth,
       onNextClick: handleChangeMonth,
-      formattedDate: formatDateToString(firstDayOfMonth).month,
+      formattedDate: month,
     },
   ];
 

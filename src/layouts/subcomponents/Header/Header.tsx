@@ -38,12 +38,15 @@ const Header: FC<{}> = () => {
     if (filteredNews?.length > 0) resetAllFiltersResults();
   };
 
+  const headerStyles = getHeaderStyles(isHomeActive, headerClass, isOpenMenu, isOpenModal);
+  const logoClass = getLogoLinkStyles(isHomeActive, textClass, isOpenMenu);
+
   return (
-    <header className={getHeaderStyles(isHomeActive, headerClass, isOpenMenu, isOpenModal)}>
+    <header className={headerStyles}>
       <Container
         className={`${isAuthenticated ? 'gap-3.5' : ''} relative flex items-center justify-between`}
       >
-        <Link to='/' className={getLogoLinkStyles(isHomeActive, textClass, isOpenMenu)}>
+        <Link to='/' className={logoClass}>
           News
         </Link>
         {isAuthenticated ? (

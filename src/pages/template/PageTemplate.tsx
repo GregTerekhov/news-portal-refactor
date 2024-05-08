@@ -3,14 +3,7 @@ import React, { FC, ReactElement, ReactNode } from 'react';
 import { Toast } from 'components';
 import { Loader, PlugImage } from 'ui';
 
-import {
-  useShowLoader,
-  useShowPlug,
-  useShowContent,
-  useShowToast,
-  useHeadline,
-  useError,
-} from './hooks';
+import { useShowLoader, useShowPlug, useShowContent, useShowToast, useHeadline } from './hooks';
 
 interface PageTemplateProps {
   children: ReactElement | ReactNode;
@@ -22,8 +15,6 @@ const PageTemplate: FC<PageTemplateProps> = ({ children }) => {
   const { shouldShowContent } = useShowContent();
   const { shouldShowToast, statusToast, toastType } = useShowToast();
   const { getHeadline } = useHeadline();
-
-  useError();
 
   return (
     <>

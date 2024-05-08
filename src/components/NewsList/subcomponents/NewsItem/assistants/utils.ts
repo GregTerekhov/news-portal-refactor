@@ -7,6 +7,13 @@ type ButtonLabel =
   | 'Not in favourites'
   | undefined;
 
+interface CreatedNewsObject {
+  liveNews: Partial<VotedItem>;
+  savedFavourite: boolean | undefined;
+  savedRead: boolean | undefined;
+  savedAdditionDate: number | null | undefined;
+}
+
 //Функція виведення label для VoteButton
 export const getButtonLabel = (isArchiveActive: boolean, isFavourite: boolean): ButtonLabel => {
   switch (true) {
@@ -49,19 +56,19 @@ export const getIconStyles = (
 
 const clickDate = new Date().getTime();
 
-export const createUpdatedFavouritesObject = (
-  liveNews: Partial<VotedItem>,
-  savedFavourite: boolean | undefined,
-  savedRead: boolean | undefined,
-  savedClickDate: number | null | undefined,
-): Partial<VotedItem> | undefined => {
+export const createUpdatedFavouritesObject = ({
+  liveNews,
+  savedFavourite,
+  savedRead,
+  savedAdditionDate,
+}: CreatedNewsObject): Partial<VotedItem> | undefined => {
   switch (true) {
     case !savedFavourite && savedRead:
       return {
         ...liveNews,
         isFavourite: !savedFavourite,
         hasRead: savedRead,
-        additionDate: savedClickDate,
+        additionDate: savedAdditionDate,
       };
     case savedFavourite && !savedRead:
       return {
@@ -74,7 +81,7 @@ export const createUpdatedFavouritesObject = (
         ...liveNews,
         isFavourite: !savedFavourite,
         hasRead: savedRead,
-        additionDate: savedClickDate,
+        additionDate: savedAdditionDate,
       };
     case !savedFavourite && !savedRead:
       return {
@@ -88,12 +95,12 @@ export const createUpdatedFavouritesObject = (
   }
 };
 
-export const createUpdatedReadObject = (
-  liveNews: Partial<VotedItem>,
-  savedFavourite: boolean | undefined,
-  savedRead: boolean | undefined,
-  savedClickDate: number | null | undefined,
-): Partial<VotedItem> | undefined => {
+export const createUpdatedReadObject = ({
+  liveNews,
+  savedFavourite,
+  savedRead,
+  savedAdditionDate,
+}: CreatedNewsObject): Partial<VotedItem> | undefined => {
   switch (true) {
     case !savedFavourite && !savedRead:
       return {
@@ -106,7 +113,7 @@ export const createUpdatedReadObject = (
         ...liveNews,
         isFavourite: savedFavourite,
         hasRead: true,
-        additionDate: savedClickDate,
+        additionDate: savedAdditionDate,
       };
     case savedFavourite && savedRead:
       return;

@@ -1,6 +1,6 @@
 import { createAction, createSlice, isAnyOf } from '@reduxjs/toolkit';
 
-import type { DispatchActionType } from 'reduxStore/store';
+import type { DispatchActionType } from '../store';
 import type { newsAPIState } from 'types';
 
 import * as newsAPIOperations from './newsAPIOperations';
@@ -25,46 +25,48 @@ const newsAPISlice = createSlice({
   initialState,
   reducers: {
     resetOtherRequests: (state) => {
+      const { popular, categories, hasResults, searchByDate, searchByWord } = initialState;
+
       if (state.popular.length > 0) {
-        state.popular = initialState.popular;
+        state.popular = popular;
       }
       if (state.categories.length > 0) {
-        state.categories = initialState.categories;
-        state.hasResults = initialState.hasResults;
+        state.categories = categories;
+        state.hasResults = hasResults;
       }
       if (state.searchByDate.length > 0) {
-        state.searchByDate = initialState.searchByDate;
-        state.hasResults = initialState.hasResults;
+        state.searchByDate = searchByDate;
+        state.hasResults = hasResults;
       }
       if (state.searchByWord.length > 0) {
-        state.searchByWord = initialState.searchByWord;
-        state.hasResults = initialState.hasResults;
+        state.searchByWord = searchByWord;
+        state.hasResults = hasResults;
       }
     },
   },
   extraReducers: (builder) => {
     builder
-      .addCase(newsAPIOperations.fetchPopularNews.fulfilled, (state, action) => {
+      .addCase(newsAPIOperations.fetchPopularNews.fulfilled, (state, { payload }) => {
         state.hasResults = 'full';
-        state.popular = action.payload;
+        state.popular = payload;
       })
-      .addCase(newsAPIOperations.fetchNewsByKeyword.fulfilled, (state, action) => {
-        action.payload.length ? (state.hasResults = 'full') : (state.hasResults = 'empty');
-        state.searchByWord = action.payload;
+      .addCase(newsAPIOperations.fetchNewsByKeyword.fulfilled, (state, { payload }) => {
+        payload.length > 0 ? (state.hasResults = 'full') : (state.hasResults = 'empty');
+        state.searchByWord = payload;
       })
-      .addCase(newsAPIOperations.fetchAllCategories.fulfilled, (state, action) => {
-        state.categoriesList = action.payload;
+      .addCase(newsAPIOperations.fetchAllCategories.fulfilled, (state, { payload }) => {
+        state.categoriesList = payload;
       })
-      .addCase(newsAPIOperations.fetchNewsByCategory.fulfilled, (state, action) => {
-        action.payload.length ? (state.hasResults = 'full') : (state.hasResults = 'empty');
-        state.categories = action.payload;
+      .addCase(newsAPIOperations.fetchNewsByCategory.fulfilled, (state, { payload }) => {
+        payload.length > 0 ? (state.hasResults = 'full') : (state.hasResults = 'empty');
+        state.categories = payload;
       })
-      .addCase(newsAPIOperations.fetchNewsByDate.fulfilled, (state, action) => {
-        action.payload.length ? (state.hasResults = 'full') : (state.hasResults = 'empty');
-        state.searchByDate = action.payload;
+      .addCase(newsAPIOperations.fetchNewsByDate.fulfilled, (state, { payload }) => {
+        payload.length > 0 ? (state.hasResults = 'full') : (state.hasResults = 'empty');
+        state.searchByDate = payload;
       })
-      .addCase(changeHeadline, (state, action) => {
-        state.headline = action.payload;
+      .addCase(changeHeadline, (state, { payload }) => {
+        state.headline = payload;
       })
       .addMatcher(isAnyOf(...getActions('pending')), handlePending)
       .addMatcher(isAnyOf(...getActions('fulfilled')), handleFulfilled)

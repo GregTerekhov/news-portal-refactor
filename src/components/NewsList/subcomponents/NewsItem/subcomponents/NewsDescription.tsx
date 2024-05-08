@@ -10,7 +10,7 @@ interface NewsDescriptionProps {
 }
 
 const NewsDescription: FC<NewsDescriptionProps> = ({ liveNews }) => {
-  const { wideScreens } = useWindowWidthContext();
+  const { isWideScreens } = useWindowWidthContext();
 
   return (
     <div className='mt-4 px-4'>
@@ -28,7 +28,7 @@ const NewsDescription: FC<NewsDescriptionProps> = ({ liveNews }) => {
         <div className='flex translate-x-full items-center gap-2 rounded-2xl bg-accentAlt pr-2 transition-all group-hover:translate-x-0 group-hover:bg-accentAlt dark:bg-transparent'>
           <SvgIcon
             svgName='triangle-double'
-            sizeKey={wideScreens ? 'smIcon20' : 'xsIcon16'}
+            sizeKey={isWideScreens ? 'smIcon20' : 'xsIcon16'}
             className='fill-whiteBase'
           />
           <p className='text-base text-whiteBase transition-colors md:text-medium hg:py-px hg:text-xl'>

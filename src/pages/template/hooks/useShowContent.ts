@@ -8,13 +8,10 @@ const useShowContent = () => {
   const { allArchive, isLoadingDBData } = useDBRedux(); // Отримання архіву та стану завантаження з бази даних
 
   // Отримання активних сторінок
-  const activeLinks = useActiveLinks();
+  const { isArchiveActive, isFavoriteActive, isHomeActive, isReadActive } = useActiveLinks();
 
   const { isHomeLoader, commonDBLoader } = useShowLoader(); // Визначення статусу завантаження для домашньої сторінки
   const { isHomePlug, commonPlug } = useShowPlug(); // Визначення статусу плагіну
-
-  // Деструктуризація активних сторінок
-  const { isArchiveActive, isFavoriteActive, isHomeActive, isReadActive } = activeLinks;
 
   // Перевірка для відображення вмісту на домашній сторінці
   const showHomeContent = isHomeActive && !isHomeLoader && !isHomePlug;

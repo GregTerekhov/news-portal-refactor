@@ -1,7 +1,7 @@
 import { useCallback } from 'react';
 
 import type { PartialVotedNewsArray, VotedItem } from 'types';
-import { useAppDispatch, useAppSelector } from '../hooks';
+import { useAppDispatch, useAppSelector } from './reduxHooks';
 import * as newsDB from '../newsDatabase';
 
 const useNewsDBCollector = () => {

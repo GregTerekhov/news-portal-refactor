@@ -1,4 +1,5 @@
 import React, { FC } from 'react';
+import { useDBRedux } from 'reduxStore/hooks';
 
 import { SvgIcon } from 'ui';
 
@@ -17,7 +18,10 @@ const ArrowButtonPagination: FC<ArrowButtonProps> = ({
   position,
   iconClass,
 }) => {
+  const { archiveHistoryLog } = useDBRedux();
+
   const isLeftArrow = position < currentPage;
+  const disabledCondition = currentPage === position || archiveHistoryLog?.length === 0;
   const buttonStyles =
     'group inline-flex items-center gap-x-2 rounded-full p-2.5 transition-colors duration-500 hocus:bg-accentBase disabled:pointer-events-none disabled:opacity-50 dark:hocus:bg-accentBase dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600';
 
@@ -25,7 +29,7 @@ const ArrowButtonPagination: FC<ArrowButtonProps> = ({
     <button
       type='button'
       onClick={() => handlePageChange(isLeftArrow ? currentPage - 1 : currentPage + 1)}
-      disabled={currentPage === position}
+      disabled={disabledCondition}
       className={buttonStyles}
     >
       <span aria-hidden='true'>
