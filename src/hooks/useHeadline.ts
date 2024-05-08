@@ -1,14 +1,6 @@
 import type { DateRequest } from 'types';
+import { TriggerType } from './commonTypes';
 import { useNewsAPIRedux } from 'reduxStore/hooks';
-
-enum TriggerType {
-  Keyword = 'keyword',
-  Category = 'category',
-  Period = 'period',
-  Date = 'date',
-  Filtering = 'filtering',
-  Reset = 'reset',
-}
 
 const useHeadline = () => {
   const { updateHeadline } = useNewsAPIRedux();

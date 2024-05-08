@@ -2,7 +2,7 @@ import { useFiltersRedux, useNewsAPIRedux } from 'reduxStore/hooks';
 import { useAdditionRequestContext, useSelectedDateContext } from 'contexts';
 
 import { formatDateRange } from 'helpers';
-import { useHeadline } from 'hooks';
+import { TriggerType, useHeadline } from 'hooks';
 
 const useResetHeadline = () => {
   const { filteredNews } = useFiltersRedux();
@@ -18,16 +18,16 @@ const useResetHeadline = () => {
   const resetHeadline = () => {
     if (filteredNews?.length > 0) {
       if (newsByKeyword?.length > 0) {
-        handleChangeHeadline('keyword', query);
+        handleChangeHeadline(TriggerType.Keyword, query);
       } else if (newsByCategory?.length > 0) {
-        handleChangeHeadline('category', category);
+        handleChangeHeadline(TriggerType.Category, category);
       } else if (period) {
-        handleChangeHeadline('period', period);
+        handleChangeHeadline(TriggerType.Period, period);
       } else if (newsByDate?.length > 0 && !!beginDate && !!endDate) {
         const dateToHeading = formatDateRange(memoizedSelectedRequestDate);
-        handleChangeHeadline('date', dateToHeading);
+        handleChangeHeadline(TriggerType.Date, dateToHeading);
       } else {
-        handleChangeHeadline('reset');
+        handleChangeHeadline(TriggerType.Reset);
       }
     } else {
       return;

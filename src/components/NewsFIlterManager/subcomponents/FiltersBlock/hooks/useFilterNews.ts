@@ -1,7 +1,7 @@
 import { useDBRedux, useFiltersRedux } from 'reduxStore/hooks';
 import { useFiltersStateContext, usePaginationContext } from 'contexts';
 
-import { useActiveLinks, useChooseRenderingNews, useHeadline } from 'hooks';
+import { TriggerType, useActiveLinks, useChooseRenderingNews, useHeadline } from 'hooks';
 import { getCrossFilteredNews, hasNonEmptyValue } from '../assistants';
 
 const useFilterNews = () => {
@@ -30,7 +30,7 @@ const useFilterNews = () => {
 
     //Визначення заголовка, якщо локація - Домашня сторінка та скидання значення пагінації, якщо користувач знаходиться не на першій сторінці пагінації
     if (isHomeActive) {
-      handleChangeHeadline('filtering');
+      handleChangeHeadline(TriggerType.Filtering);
       resetPagination();
     }
 

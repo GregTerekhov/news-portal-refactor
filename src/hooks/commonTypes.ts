@@ -22,3 +22,12 @@ export enum Paths {
   ServerError = '/server-error',
   InDevelopment = '/in-development',
 }
+
+export enum TriggerType {
+  Keyword = 'keyword',
+  Category = 'category',
+  Period = 'period',
+  Date = 'date',
+  Filtering = 'filtering',
+  Reset = 'reset',
+}
