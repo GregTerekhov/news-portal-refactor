@@ -1,4 +1,4 @@
-import React, { FC, ReactNode, SetStateAction, createContext, useContext, useState } from 'react';
+import React, { FC, ReactNode, createContext, useContext, useState } from 'react';
 
 interface IReadSortProviderProps {
   children: ReactNode;
@@ -6,7 +6,7 @@ interface IReadSortProviderProps {
 
 interface IReadSortContext {
   sortedDates: string[];
-  setSortedDates: (value: SetStateAction<string[]>) => void;
+  setSortedDates: (value: string[]) => void;
 }
 
 const ReadSortContext = createContext<IReadSortContext | undefined>(undefined);
