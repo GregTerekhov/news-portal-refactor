@@ -1,18 +1,19 @@
 import React, { FC } from 'react';
 
-import { VariantButton } from 'types';
+import { IconName, IconSizes, PrimaryButtonId, VariantButton } from 'types';
+
 import { usePaginationContext, useWindowWidthContext } from 'contexts';
 
 import { PrimaryButton } from 'ui';
 
-interface DirectionButtonProps {
+interface IDirectionButtonProps {
   direction: string;
   pageNumbers?: number[];
   handlePrevClick?: () => void;
   handleNextClick?: () => void;
 }
 
-const DirectionButton: FC<DirectionButtonProps> = ({
+const DirectionButton: FC<IDirectionButtonProps> = ({
   direction,
   pageNumbers,
   handlePrevClick,
@@ -34,14 +35,14 @@ const DirectionButton: FC<DirectionButtonProps> = ({
 
   return (
     <PrimaryButton
-      id={`${direction} page button`}
+      id={direction === 'Prev' ? PrimaryButtonId.PreviousPage : PrimaryButtonId.NextPage}
       variant={VariantButton.Other}
       onHandleClick={direction === 'Prev' ? handlePrevClick : handleNextClick}
       width='w-32'
       disabled={direction === 'Prev' ? disabledPrevButton : disableNextButton}
       hasIcon={true}
-      svgName='arrow'
-      svgSize='xsIcon14'
+      svgName={IconName.Arrow}
+      svgSize={IconSizes.xsIcon14}
       classNameIcon={`${direction === 'Prev' ? 'rotate-90' : '-rotate-90'} fill-whiteBase`}
       classNameButton={direction === 'Prev' ? 'flex-row-reverse' : ''}
     >

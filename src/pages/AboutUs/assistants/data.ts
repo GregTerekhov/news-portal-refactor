@@ -1,30 +1,18 @@
-import { ICON_SIZES } from 'constants/iconSizes';
+import { IconName, IconSizes, type MemberItem } from 'types';
 
-export type MemberItem = {
-  memberImage: string;
-  imageDescription: string;
-  memberName: string;
-  memberRole: string;
-  memberCV: string;
-  githubLink: string;
-  linkedinLink: string;
-  emailLink: string;
-  telegramLink: string;
-};
-
-interface Members {
+interface IMembers {
   groupTitle: string;
   groupMembers: MemberItem[];
 }
 
 interface ILink {
   link: string;
-  icon: string;
-  iconSize: keyof typeof ICON_SIZES;
+  icon: IconName;
+  iconSize: IconSizes;
 }
 
-export const getMembersList = (memberImageUrls: string[]): Members[] => {
-  const members: Members[] = [
+export const getMembersList = (memberImageUrls: string[]): IMembers[] => {
+  return [
     {
       groupTitle: 'Front-end',
       groupMembers: [
@@ -72,8 +60,6 @@ export const getMembersList = (memberImageUrls: string[]): Members[] => {
       ],
     },
   ];
-
-  return members;
 };
 
 export const getMembersLink = (
@@ -82,27 +68,26 @@ export const getMembersLink = (
   emailLink: string,
   telegramLink: string,
 ): ILink[] => {
-  const links: ILink[] = [
+  return [
     {
       link: githubLink,
-      icon: 'github',
-      iconSize: 'mdIcon28',
+      icon: IconName.Github,
+      iconSize: IconSizes.mdIcon28,
     },
     {
       link: linkedinLink,
-      icon: 'linkedin',
-      iconSize: 'mdIcon28',
+      icon: IconName.Linkedin,
+      iconSize: IconSizes.mdIcon28,
     },
     {
       link: emailLink,
-      icon: 'gmail',
-      iconSize: 'lgIcon30',
+      icon: IconName.Gmail,
+      iconSize: IconSizes.lgIcon30,
     },
     {
       link: telegramLink,
-      icon: 'telegram',
-      iconSize: 'mdIcon28',
+      icon: IconName.Telegram,
+      iconSize: IconSizes.mdIcon28,
     },
   ];
-  return links;
 };

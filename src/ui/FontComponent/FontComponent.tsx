@@ -1,7 +1,8 @@
 import React, { FC } from 'react';
 
-import { fonts } from './assistants';
 import { FontFaceRule } from './subcomponents';
+
+import { fonts } from './assistants';
 
 const FontComponent: FC = () => {
   return (
@@ -11,9 +12,10 @@ const FontComponent: FC = () => {
           font-family: 'Manrope', sans-serif; /* Основний шрифт за замовчуванням */
         }
       `}
-      {fonts.map(({ fontName, weight }) => (
-        <FontFaceRule key={fontName} fontName={fontName} weight={weight} />
-      ))}
+      {Array.isArray(fonts) &&
+        fonts.map(({ fontName, weight }) => (
+          <FontFaceRule key={fontName} fontName={fontName} weight={weight} />
+        ))}
     </style>
   );
 };

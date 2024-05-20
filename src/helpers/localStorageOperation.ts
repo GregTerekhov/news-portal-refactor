@@ -1,21 +1,25 @@
-export type LocalStorageOperation = 'get' | 'set' | 'remove';
+export enum OperationType {
+  Get = 'get',
+  Set = 'set',
+  Remove = 'remove',
+}
 
 export const localStorageOperation = (
-  operation: LocalStorageOperation,
+  operation: OperationType,
   key: string,
   value: string | null = null,
 ): string | null => {
   try {
-    if (operation === 'get') {
+    if (operation === OperationType.Get) {
       return localStorage.getItem(key);
-    } else if (operation === 'set') {
+    } else if (operation === OperationType.Set) {
       if (value !== null) {
         localStorage.setItem(key, value);
         return null;
       } else {
         throw new Error('Value is required for set operation');
       }
-    } else if (operation === 'remove') {
+    } else if (operation === OperationType.Remove) {
       localStorage.removeItem(key);
       return null;
     } else {
@@ -28,6 +32,6 @@ export const localStorageOperation = (
 };
 
 export const handleRemoveFromLocalStorage = () => {
-  localStorageOperation('remove', 'rememberMe');
-  localStorageOperation('remove', 'userId');
+  localStorageOperation(OperationType.Remove, 'rememberMe');
+  localStorageOperation(OperationType.Remove, 'userId');
 };

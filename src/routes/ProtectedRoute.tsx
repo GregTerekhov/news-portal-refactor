@@ -1,16 +1,18 @@
 import React, { FC, ReactElement, useEffect, useState } from 'react';
 import { Navigate, Outlet, useLocation } from 'react-router-dom';
 
-import { useAuthRedux } from 'reduxStore/hooks';
-import { Paths } from 'hooks';
+import { Paths } from 'types';
 
-export type ProtectedRouteProps = {
+import { useAuthRedux } from 'reduxStore/hooks';
+
+type ProtectedRouteProps = {
   children?: ReactElement;
-} & { redirectPath?: string };
+} & { redirectPath?: Paths };
 
 const ProtectedRoute: FC<ProtectedRouteProps> = ({ children, redirectPath = Paths.Home }) => {
-  const { isAuthenticated, isRefreshingUser } = useAuthRedux();
   const [isAuthChecked, setIsAuthChecked] = useState(false);
+
+  const { isAuthenticated, isRefreshingUser } = useAuthRedux();
   const location = useLocation();
 
   //перевірка асинхронної isRefreshingUser, щоб була можливість повертатись на попередню сторінку з ErrorPage та оновлювати поточну сторінку без redirect на HomePage

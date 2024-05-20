@@ -1,6 +1,7 @@
 import { useCallback } from 'react';
 
 import type { PartialVotedNewsArray, VotedItem } from 'types';
+
 import { useAppDispatch, useAppSelector } from './reduxHooks';
 import * as newsDB from '../newsDatabase';
 
@@ -13,6 +14,7 @@ const useNewsDBCollector = () => {
   const allArchive = useAppSelector(newsDB.selectAllArchives);
   const archiveHistoryLog = useAppSelector(newsDB.selectHistoryLog);
   const errorDB = useAppSelector(newsDB.selectHasDBError);
+  const requestStatus = useAppSelector(newsDB.selectRequestStatus);
 
   const dispatch = useAppDispatch();
 
@@ -38,6 +40,7 @@ const useNewsDBCollector = () => {
   const clearLog = useCallback(() => dispatch(newsDB.clearHistoryLog()), [dispatch]);
 
   return {
+    requestStatus,
     dbSuccessMessage,
     isLoadingDBData,
     savedNews,

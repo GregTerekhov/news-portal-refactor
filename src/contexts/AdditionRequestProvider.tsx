@@ -1,24 +1,23 @@
 import React, { FC, ReactNode, createContext, useContext, useState } from 'react';
 
 import type { SearchParamsObject } from 'types';
+
 import { useNewsAPIRedux } from 'reduxStore/hooks';
 
-type AdditionRequestContextProps = {
+interface IAdditionRequestContextProps {
   children: ReactNode;
-};
+}
 
-type AdditionRequestContextValue = {
+interface IAdditionRequestContext {
   searchParams: SearchParamsObject;
   updateSearchParams: (value: string, key: keyof SearchParamsObject | string) => void;
   resetSearchParams: () => void;
   hasRequestValue: boolean;
-};
+}
 
-export const AdditionRequestContext = createContext<AdditionRequestContextValue | undefined>(
-  undefined,
-);
+const AdditionRequestContext = createContext<IAdditionRequestContext | undefined>(undefined);
 
-export const AdditionRequestProvider: FC<AdditionRequestContextProps> = ({ children }) => {
+export const AdditionRequestProvider: FC<IAdditionRequestContextProps> = ({ children }) => {
   const [searchParams, setSearchParams] = useState<SearchParamsObject>({
     query: '',
     period: '',

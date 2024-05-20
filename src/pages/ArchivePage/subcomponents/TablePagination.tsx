@@ -3,13 +3,13 @@ import React, { FC } from 'react';
 import ArrowButtonPagination from './ArrowButtonPagination';
 import PaginationButtons from './PaginationButtons';
 
-interface TablePaginationProps {
+interface ITablePaginationProps {
   handlePageChange: (newPage: number) => void;
   currentPage: number;
   totalPages: number;
 }
 
-const TablePagination: FC<TablePaginationProps> = ({
+const TablePagination: FC<ITablePaginationProps> = ({
   handlePageChange,
   currentPage,
   totalPages,

@@ -1,3 +1,4 @@
+import { ResultsState } from 'types';
 import { useDBRedux, useFiltersRedux, useNewsAPIRedux } from 'reduxStore/hooks';
 
 import { useActiveLinks } from 'hooks';
@@ -6,10 +7,11 @@ const useShowLoader = () => {
   const { hasResults } = useFiltersRedux(); // Статус фільтрів (результати є чи ні)
   const { isLoadingAPIData } = useNewsAPIRedux(); // Завантаження даних з зовнішнього API
   const { isLoadingDBData } = useDBRedux(); // Завантаження даних з бази даних
+
   const { isHomeActive, isFavoriteActive, isReadActive, isArchiveActive } = useActiveLinks(); // Активні сторінки
 
   // Перевірка, чи триває загальне завантаження з бази даних
-  const commonDBLoader = isLoadingDBData || hasResults === 'loading';
+  const commonDBLoader = isLoadingDBData || hasResults === ResultsState.Loading;
 
   // Перевірка, чи триває завантаження на домашній сторінці
   const isHomeLoader = isLoadingAPIData || commonDBLoader;

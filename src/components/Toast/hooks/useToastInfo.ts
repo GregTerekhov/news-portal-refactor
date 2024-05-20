@@ -1,33 +1,31 @@
-import type { ToastInfoTitle, ToastMessage } from 'types';
+import { ToastInfoTitle, type ToastMessage } from 'types';
 
-import { ActiveLinks, useChooseRenderingNews } from 'hooks';
+import { useActiveLinks, useChooseRenderingNews } from 'hooks';
 
 const useToastInfo = () => {
   //Функція виведення заголовка та опису для інформаційних тостів
-  const chooseInfoToastText = (activeLinks: ActiveLinks): ToastMessage => {
-    const { rebuiltNews } = useChooseRenderingNews(activeLinks);
+  const chooseInfoToastText = (): ToastMessage => {
+    const { rebuiltNews } = useChooseRenderingNews();
 
-    const { isHomeActive, isFavoriteActive, isReadActive } = activeLinks;
+    const { isHomeActive, isFavoriteActive, isReadActive } = useActiveLinks();
 
-    let title: ToastInfoTitle;
+    let title: ToastInfoTitle = ToastInfoTitle.Unknown;
     let description = '';
 
     switch (true) {
       case isHomeActive:
-        title = 'Found news';
+        title = ToastInfoTitle.FoundNews;
         description = `There are ${rebuiltNews?.length ?? 'no'} news has been found`;
         break;
       case isFavoriteActive:
-        title = 'Monthly statistics';
+        title = ToastInfoTitle.MonthStatistics;
         description = `${rebuiltNews?.length} news added to Favourites`;
         break;
       case isReadActive:
-        title = 'Monthly statistics';
+        title = ToastInfoTitle.MonthStatistics;
         description = `${rebuiltNews?.length} news added to Reads`;
         break;
       default:
-        title = '';
-        description = '';
         break;
     }
 

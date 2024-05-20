@@ -1,11 +1,18 @@
 import React, { FC } from 'react';
 import { Menu, Transition } from '@headlessui/react';
 
-import type { SearchParamsObject } from 'types';
+import {
+  ButtonType,
+  IconName,
+  IconSizes,
+  ScrollOrientation,
+  type DropdownType,
+  type SearchParamsObject,
+} from 'types';
 
-import CustomScrollBar from '../CustomScrollBar/CustomScrollBar';
-import SvgIcon from '../SvgIcon/SvgIcon';
+import { CustomScrollBar, SvgIcon } from '..';
 
+import { ReadonlyMaterialTypes, ReadonlyPeriodType } from 'constants/dropdownArrays';
 import {
   buttonStyle,
   getItemKey,
@@ -15,15 +22,15 @@ import {
   scrollBarStyles,
 } from './assistants';
 
-interface DropdownProps {
-  label: string;
-  options: string[] | undefined;
+interface IDropdownProps {
+  label: DropdownType;
+  options: string[] | ReadonlyMaterialTypes | ReadonlyPeriodType;
   selectedItem: string;
   getResults: (value: string) => void;
   onSelectItem: (value: string, key: keyof SearchParamsObject | string) => void;
 }
 
-const Dropdown: FC<DropdownProps> = ({
+const Dropdown: FC<IDropdownProps> = ({
   label,
   options,
   selectedItem,
@@ -31,8 +38,11 @@ const Dropdown: FC<DropdownProps> = ({
   onSelectItem,
 }) => {
   const handleItemClick = (item: string): void => {
-    if (getResults) getResults(item);
-    onSelectItem(item, getItemKey(label, item));
+    if (getResults) {
+      getResults(item);
+    }
+    const key = getItemKey(label, item);
+    onSelectItem(item, key);
   };
 
   return (
@@ -44,12 +54,16 @@ const Dropdown: FC<DropdownProps> = ({
           </p>
           <Menu.Button className={buttonStyle}>
             {selectedItem || label}
-            <SvgIcon svgName='arrow' sizeKey='xsIcon14' className={getMenuButtonIconStyles(open)} />
+            <SvgIcon
+              svgName={IconName.Arrow}
+              sizeKey={IconSizes.xsIcon14}
+              className={getMenuButtonIconStyles(open)}
+            />
           </Menu.Button>
           {open && (
             <CustomScrollBar
               isOpen={open}
-              orientation='vertical'
+              orientation={ScrollOrientation.Vertical}
               className={scrollBarStyles(label)}
             >
               <Transition
@@ -64,11 +78,11 @@ const Dropdown: FC<DropdownProps> = ({
                 <Menu.Items unmount>
                   <div className='grid h-full gap-2.5'>
                     {Array.isArray(options) &&
-                      options.map((item, index) => (
-                        <Menu.Item key={index}>
+                      options.map((item) => (
+                        <Menu.Item key={item}>
                           {({ active }) => (
                             <button
-                              type='button'
+                              type={ButtonType.Button}
                               className={getMenuItemStyles(active)}
                               onClick={() => handleItemClick(item)}
                             >

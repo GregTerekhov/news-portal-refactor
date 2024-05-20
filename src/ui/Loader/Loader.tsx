@@ -20,7 +20,7 @@ interface GeneralSectionVariant {
 interface ElementVariant {
   showWeather: boolean;
 }
-interface LoaderProps {
+interface ILoaderProps {
   variant: keyof typeof variants;
 }
 
@@ -28,7 +28,7 @@ const MOBILE_WEATHER_POSITION_IDX = 0;
 const TABLET_WEATHER_POSITION_IDX = 2;
 const DESKTOP_WEATHER_POSITION_IDX = 3;
 
-const Loader: FC<LoaderProps> = ({ variant }) => {
+const Loader: FC<ILoaderProps> = ({ variant }) => {
   const { isSmallScreens, isTablet, isWideScreens } = useWindowWidthContext();
   const { isHomeActive } = useActiveLinks();
 

@@ -1,58 +1,64 @@
-import type { MenuItem } from 'types';
-import { ICON_SIZES } from 'constants/iconSizes';
+import { IconName, IconSizes, Pages, Paths, type MenuItem } from 'types';
 
 interface MenuItemProps {
   isAuthenticated: boolean;
   isAboutUs: boolean;
 }
 
+interface SocialLinks {
+  link: string;
+  iconName: IconName;
+  label: string;
+  size: IconSizes;
+}
+
 export const renderMenuItem = ({ isAuthenticated, isAboutUs }: MenuItemProps): MenuItem[] => {
   const menuItems: MenuItem[] = isAuthenticated
     ? [
         {
-          path: '/',
-          label: 'Home',
+          path: Paths.Home,
+          label: Pages.Home,
           liClasses: 'row-start-1 col-start-1',
         },
         {
-          path: '/favourite',
-          label: 'Favourite',
+          path: Paths.Favourite,
+          label: Pages.Favourite,
           liClasses: 'row-start-2 col-start-1 md:row-start-1 md:col-start-2',
         },
         {
-          path: '/read',
-          label: 'Read',
+          path: Paths.Read,
+          label: Pages.Read,
           liClasses: 'row-start-1 col-start-2 md:col-start-3 md:row-start-1',
         },
         {
-          path: '/archive',
-          label: 'Archive',
+          path: Paths.Archive,
+          label: Pages.Archive,
           liClasses: 'row-start-2 col-start-2 md:col-start-4 md:row-start-1',
         },
         {
-          path: '/account',
-          label: 'Account',
+          path: Paths.Account,
+          label: Pages.Account,
           liClasses: 'row-start-1 col-start-3 md:col-start-5 md:row-start-1',
         },
       ]
     : [
         {
-          path: '/',
-          label: 'Home',
+          path: Paths.Home,
+          label: Pages.Home,
         },
       ];
 
   if (!isAboutUs) {
     if (isAuthenticated) {
       menuItems.push({
-        path: '/about-us',
-        label: 'About Us',
+        path: Paths.About,
+        label: Pages.About,
         liClasses: 'row-start-2 col-start-3 md:col-start-6 md:row-start-1',
       });
     } else {
       menuItems.push({
-        path: '/about-us',
-        label: 'About Us',
+        path: Paths.About,
+        label: Pages.About,
       });
     }
   }
@@ -60,40 +66,31 @@ export const renderMenuItem = ({ isAuthenticated, isAboutUs }: MenuItemProps): M
   return menuItems;
 };
 
-type SocialLinks = {
-  link: string;
-  iconName: string;
-  label: string;
-  size: keyof typeof ICON_SIZES;
-};
-
 export const renderSocialLinks = (isWideScreens: boolean): Array<SocialLinks> => {
-  const links: SocialLinks[] = [
+  return [
     {
       link: 'https://www.facebook.com/nytimes',
-      iconName: 'facebook',
+      iconName: IconName.Facebook,
       label: 'Facebook',
-      size: isWideScreens ? 'mdIcon28' : 'smIcon20',
+      size: isWideScreens ? IconSizes.mdIcon28 : IconSizes.smIcon20,
     },
     {
       link: 'https://twitter.com/nytimes',
-      iconName: 'twitter',
+      iconName: IconName.Twitter,
       label: 'Twitter',
-      size: isWideScreens ? 'mdIcon28' : 'smIcon20',
+      size: isWideScreens ? IconSizes.mdIcon28 : IconSizes.smIcon20,
     },
     {
       link: 'https://www.youtube.com/@nytimes',
-      iconName: 'youtube',
+      iconName: IconName.Youtube,
       label: 'YouTube',
-      size: isWideScreens ? 'lgIcon36' : 'mdIcon28',
+      size: isWideScreens ? IconSizes.lgIcon36 : IconSizes.mdIcon28,
     },
     {
       link: 'https://www.linkedin.com/company/the-new-york-times/',
-      iconName: 'linkedin',
+      iconName: IconName.Linkedin,
       label: 'LinkedIn',
-      size: isWideScreens ? 'mdIcon28' : 'smIcon20',
+      size: isWideScreens ? IconSizes.mdIcon28 : IconSizes.smIcon20,
     },
   ];
-
-  return links;
 };

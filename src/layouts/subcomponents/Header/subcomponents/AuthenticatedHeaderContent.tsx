@@ -1,24 +1,24 @@
 import React, { FC } from 'react';
 
-import { VariantSwitcher } from 'types';
-import { useWindowWidthContext } from 'contexts';
+import { ButtonType, IconName, IconSizes, NavId, VariantSwitcher } from 'types';
 
-import { useActiveLinks, useHeaderStyles } from 'hooks';
+import { useWindowWidthContext } from 'contexts';
 
 import { SvgIcon, ThemeSwitcher } from 'ui';
 import AuthButton from './Auth';
 import UserAccountLink from './UserAccountLink';
-import CommonMenu from '../../CommonMenu/CommonMenu';
+import { CommonMenu } from '../..';
 
+import { useActiveLinks, useHeaderStyles } from 'hooks';
 import { getAriaLabel, getIconStyles, getNavId } from '../assistants';
 
-interface HeaderContentProps {
+interface IHeaderContentProps {
   resetFilters: () => void;
   isOpenMenu: boolean;
   toggleMenu: () => void;
 }
 
-const AuthenticatedHeaderContent: FC<HeaderContentProps> = ({
+const AuthenticatedHeaderContent: FC<IHeaderContentProps> = ({
   resetFilters,
   isOpenMenu,
   toggleMenu,
@@ -39,16 +39,16 @@ const AuthenticatedHeaderContent: FC<HeaderContentProps> = ({
         <div className={`flex items-center ${isHomeActive ? 'gap-3.5' : ''}`}>
           <button
             aria-label={`${ariaLabel} menu button`}
-            type='button'
-            className={`${isOpenMenu ? 'z-50' : 'h-6 w-6 md:hidden'}`}
+            type={ButtonType.Button}
+            className={isOpenMenu ? 'z-50' : 'h-6 w-6 md:hidden'}
             onClick={() => {
               toggleMenu();
               resetFilters();
             }}
           >
             <SvgIcon
-              svgName={`${isOpenMenu ? 'close' : 'burger-menu'}`}
-              sizeKey='mdIcon24'
+              svgName={isOpenMenu ? IconName.Close : IconName.Burger}
+              sizeKey={IconSizes.mdIcon24}
               className={iconClass}
             />
           </button>
@@ -56,7 +56,7 @@ const AuthenticatedHeaderContent: FC<HeaderContentProps> = ({
       ) : (
         <>
           {!isAccountPages ? <UserAccountLink isHomeActive={isHomeActive} /> : null}
-          <CommonMenu navId='main-navigation' />
+          <CommonMenu navId={NavId.Main} />
           <div className='flex flex-col gap-3'>
             {!isAccountPages && <AuthButton />}
             <ThemeSwitcher variant={VariantSwitcher.Header} />

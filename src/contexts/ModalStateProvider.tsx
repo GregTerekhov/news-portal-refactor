@@ -1,21 +1,23 @@
-import React, { ReactNode, SetStateAction, createContext, useContext, useState } from 'react';
+import React, { FC, ReactNode, SetStateAction, createContext, useContext, useState } from 'react';
 
-type ModalStateContextProps = {
+import { ModalType } from 'types';
+
+interface IModalStateContextProps {
   children: ReactNode;
-};
+}
 
-type ModalStateContextValue = {
+interface IModalStateContext {
   isOpenModal: boolean;
-  modalType: string;
-  setModalType: (value: SetStateAction<string>) => void;
+  modalType: ModalType;
+  setModalType: (value: SetStateAction<ModalType>) => void;
   setIsOpenModal: (value: SetStateAction<boolean>) => void;
-};
+}
 
-const ModalStateContext = createContext<ModalStateContextValue | undefined>(undefined);
+const ModalStateContext = createContext<IModalStateContext | undefined>(undefined);
 
-export const ModalStateProvider = ({ children }: ModalStateContextProps) => {
-  const [isOpenModal, setIsOpenModal] = useState<boolean>(false);
-  const [modalType, setModalType] = useState<string>('');
+export const ModalStateProvider: FC<IModalStateContextProps> = ({ children }) => {
+  const [isOpenModal, setIsOpenModal] = useState(false);
+  const [modalType, setModalType] = useState<ModalType>(ModalType.Unknown);
 
   return (
     <ModalStateContext.Provider value={{ isOpenModal, modalType, setModalType, setIsOpenModal }}>

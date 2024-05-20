@@ -1,25 +1,26 @@
 import type { ResponseCryptoPassword } from 'types';
+
 import { useAuthRedux } from 'reduxStore/hooks';
 import { useNotificationContext } from 'contexts';
 
-import { decryptPassword } from 'helpers';
+import { decryptPassword, localStorageOperation, OperationType } from 'helpers';
 
-interface DecryptedData {
+interface IDecryptedData {
   savedPassword: string;
   email: string;
 }
 
 const useCrypto = () => {
-  const { getCryptoPassword } = useAuthRedux();
+  const { requestStatus, fetchCryptoCredentials } = useAuthRedux();
   const { showToast } = useNotificationContext();
 
-  const savedUserId = localStorage.getItem('userId');
+  const savedUserId = localStorageOperation(OperationType.Get, 'userId');
 
-  const fetchCryptoPassword = async (): Promise<DecryptedData | null> => {
+  const retrieveDecryptedData = async (): Promise<IDecryptedData | null> => {
     try {
       if (!savedUserId) return null;
 
-      const response = await getCryptoPassword({
+      const response = await fetchCryptoCredentials({
         userId: savedUserId,
       });
 
@@ -28,16 +29,16 @@ const useCrypto = () => {
 
       const savedPassword = await decryptPassword(exportedCryptoKey, encryptedPassword, salt);
 
-      showToast(response.meta.requestStatus);
+      requestStatus && showToast(requestStatus);
 
       return { savedPassword, email };
     } catch (error) {
-      console.error('Error during getCryptoPassword', error);
+      console.error('Error during getCryptoPassword: ', error);
       throw error;
     }
   };
 
-  return { fetchCryptoPassword };
+  return { retrieveDecryptedData };
 };
 
 export default useCrypto;

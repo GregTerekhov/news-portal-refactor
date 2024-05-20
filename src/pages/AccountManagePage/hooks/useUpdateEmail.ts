@@ -1,7 +1,8 @@
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 
-import type { AuthRequestWithoutName } from 'types';
+import { InputLabel, type AuthRequestWithoutName } from 'types';
+
 import { useAuthRedux } from 'reduxStore/hooks';
 import { useNotificationContext } from 'contexts';
 
@@ -9,7 +10,7 @@ import { handleRemoveFromLocalStorage } from 'helpers';
 import { renderEmailInputs, updateEmailSchema } from '../assistants';
 
 const useUpdateEmail = () => {
-  const { updateEmail } = useAuthRedux();
+  const { requestStatus, updateEmail } = useAuthRedux();
   const { showToast } = useNotificationContext();
 
   const {
@@ -28,16 +29,16 @@ const useUpdateEmail = () => {
   });
 
   // споглядання за відповідними полями
-  const [email, password] = watch(['email', 'password']);
+  const [email, password] = watch([InputLabel.Email, InputLabel.Password]);
 
   const handleEmailSubmitHandler: SubmitHandler<AuthRequestWithoutName> = async (data) => {
     try {
-      const response = await updateEmail(data);
+      await updateEmail(data);
       handleRemoveFromLocalStorage();
 
-      showToast(response.meta.requestStatus);
+      requestStatus && showToast(requestStatus);
     } catch (error) {
-      console.error('Error during updateEmail:', error);
+      console.error('Error during updateEmail: ', error);
       throw error;
     } finally {
       reset({

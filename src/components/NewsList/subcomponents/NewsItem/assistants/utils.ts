@@ -1,33 +1,25 @@
-import type { VotedItem } from 'types';
-
-type ButtonLabel =
-  | 'Remove from favorite'
-  | 'Add to favorite'
-  | 'Favourited'
-  | 'Not in favourites'
-  | undefined;
-
-interface CreatedNewsObject {
-  liveNews: Partial<VotedItem>;
-  savedFavourite: boolean | undefined;
-  savedRead: boolean | undefined;
-  savedAdditionDate: number | null | undefined;
+enum ButtonLabel {
+  RemoveFromFavorite = 'Remove from favorite',
+  AddToFavorite = 'Add to favorite',
+  Favourites = 'Favourites',
+  NotInFavourites = 'Not in favourites',
+  Undefined = '',
 }
 
 //Функція виведення label для VoteButton
 export const getButtonLabel = (isArchiveActive: boolean, isFavourite: boolean): ButtonLabel => {
   switch (true) {
     case !isArchiveActive && isFavourite:
-      return 'Remove from favorite';
+      return ButtonLabel.RemoveFromFavorite;
     case !isArchiveActive && !isFavourite:
-      return 'Add to favorite';
+      return ButtonLabel.AddToFavorite;
     case isArchiveActive && isFavourite:
-      return 'Favourited';
+      return ButtonLabel.Favourites;
     case isArchiveActive && !isFavourite:
-      return 'Not in favourites';
+      return ButtonLabel.NotInFavourites;
 
     default:
-      return;
+      return ButtonLabel.Undefined;
   }
 };
 
@@ -51,74 +43,5 @@ export const getIconStyles = (
 
     default:
       return 'fill-none stroke-accentBase';
-  }
-};
-
-const clickDate = new Date().getTime();
-
-export const createUpdatedFavouritesObject = ({
-  liveNews,
-  savedFavourite,
-  savedRead,
-  savedAdditionDate,
-}: CreatedNewsObject): Partial<VotedItem> | undefined => {
-  switch (true) {
-    case !savedFavourite && savedRead:
-      return {
-        ...liveNews,
-        isFavourite: !savedFavourite,
-        hasRead: savedRead,
-        additionDate: savedAdditionDate,
-      };
-    case savedFavourite && !savedRead:
-      return {
-        ...liveNews,
-        isFavourite: !savedFavourite,
-        additionDate: null,
-      };
-    case savedFavourite && savedRead:
-      return {
-        ...liveNews,
-        isFavourite: !savedFavourite,
-        hasRead: savedRead,
-        additionDate: savedAdditionDate,
-      };
-    case !savedFavourite && !savedRead:
-      return {
-        ...liveNews,
-        isFavourite: !savedFavourite,
-        additionDate: clickDate,
-      };
-
-    default:
-      return;
-  }
-};
-
-export const createUpdatedReadObject = ({
-  liveNews,
-  savedFavourite,
-  savedRead,
-  savedAdditionDate,
-}: CreatedNewsObject): Partial<VotedItem> | undefined => {
-  switch (true) {
-    case !savedFavourite && !savedRead:
-      return {
-        ...liveNews,
-        hasRead: true,
-        additionDate: clickDate,
-      };
-    case savedFavourite && !savedRead:
-      return {
-        ...liveNews,
-        isFavourite: savedFavourite,
-        hasRead: true,
-        additionDate: savedAdditionDate,
-      };
-    case savedFavourite && savedRead:
-      return;
-
-    default:
-      return;
   }
 };

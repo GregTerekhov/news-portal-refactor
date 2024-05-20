@@ -1,18 +1,20 @@
-import * as yup from 'yup';
+import { object, ObjectSchema } from 'yup';
+
+import type { AuthRequestWithoutName, ExtendedUpdatePassword } from 'types';
 
 import {
   createEmailValidation,
   createPasswordValidation,
-  createCurrentPassword,
+  createCurrentPasswordValidation,
   createConfirmPasswordValidation,
 } from 'helpers'; // мемоїзовані функції схеми
 
-export const updateEmailSchema = yup.object({
+export const updateEmailSchema: ObjectSchema<AuthRequestWithoutName> = object({
   email: createEmailValidation(),
-  password: createCurrentPassword(),
+  password: createCurrentPasswordValidation(),
 });
-export const updatePasswordSchema = yup.object({
+export const updatePasswordSchema: ObjectSchema<ExtendedUpdatePassword> = object({
   newPassword: createPasswordValidation(),
   confirmPassword: createConfirmPasswordValidation(createPasswordValidation()),
-  password: createCurrentPassword(),
+  password: createCurrentPasswordValidation(),
 });

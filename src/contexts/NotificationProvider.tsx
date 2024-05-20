@@ -1,29 +1,32 @@
-import React, { ReactNode, createContext, useContext, useState } from 'react';
+import React, { FC, ReactNode, SetStateAction, createContext, useContext, useState } from 'react';
+import { RequestStatus } from 'types';
 
-type NotificationContextProps = {
+interface INotificationContextProps {
   children: ReactNode;
-};
+}
 
-type NotificationContextValue = {
+interface INotificationContext {
   openToast: boolean;
-  setOpenToast: (value: boolean) => void;
+  setOpenToast: (value: SetStateAction<boolean>) => void;
   showToast: (requestStatus: RequestStatus) => void;
-};
+}
 
-type RequestStatus = 'fulfilled' | 'rejected';
+const NotificationContext = createContext<INotificationContext | undefined>(undefined);
 
-const NotificationContext = createContext<NotificationContextValue | undefined>(undefined);
-
-export const NotificationProvider = ({ children }: NotificationContextProps) => {
-  const [openToast, setOpenToast] = useState<boolean>(false);
+export const NotificationProvider: FC<INotificationContextProps> = ({ children }) => {
+  const [openToast, setOpenToast] = useState(false);
 
   //Функція показування тосту в залежності від статусу відповіді
   const showToast = (requestStatus: RequestStatus): void => {
-    if (requestStatus === 'rejected') {
-      setOpenToast(true);
+    if (requestStatus === RequestStatus.Undefined) {
       return;
     } else {
-      setOpenToast(true);
+      if (requestStatus === RequestStatus.Rejected) {
+        setOpenToast(true);
+        return;
+      } else {
+        setOpenToast(true);
+      }
     }
   };
 

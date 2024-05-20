@@ -1,6 +1,8 @@
 import React, { FC } from 'react';
 import { Outlet } from 'react-router-dom';
 
+import { IconName, IconSizes, NavId } from 'types';
+
 import { useWindowWidthContext } from 'contexts';
 
 import { SvgIcon } from 'ui';
@@ -13,11 +15,11 @@ const AccountLayout: FC = () => {
     <div className='flex justify-between gap-2'>
       <div className='md:space-y-6'>
         <SvgIcon
-          svgName='logo'
-          sizeKey={isNotMobile ? 'ultraIcon195' : 'xlIcon80'}
+          svgName={IconName.Logo}
+          sizeKey={isNotMobile ? IconSizes.ultraIcon195 : IconSizes.xlIcon80}
           className='fill-darkBase dark:fill-whiteBase'
         />
-        {isNotMobile ? <CommonMenu navId='account-navigation' /> : null}
+        {isNotMobile ? <CommonMenu navId={NavId.Account} /> : null}
       </div>
       <Outlet />
     </div>

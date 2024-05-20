@@ -2,36 +2,34 @@ import axios from 'axios';
 import dayjs from 'dayjs';
 import { JwtPayload } from 'jwt-decode';
 
-import { CONFIG } from 'config';
+import { Config, CONFIG } from 'config';
 import { store, RootState } from '../store';
 
-import type {
-  AsyncThunkTemplateOptions,
-  QueryParams,
-  RefreshTokensResponse,
-  TokensPayload,
+import {
+  ErrorCase,
+  OperationName,
+  Routes,
+  SliceName,
+  type AsyncThunkTemplateOptions,
+  type QueryParams,
+  type RefreshTokensResponse,
+  type TokensPayload,
 } from 'types';
 
-function getBaseRequestUrl(name: string, url: string): string {
-  let requestUrl = '';
+const { BASE_URL_DB, BASE_URL_NEWS, BASE_URL_WEATHER }: Config = CONFIG;
 
+function getBaseRequestUrl(name: OperationName, url: Routes): string {
   switch (true) {
-    case name.includes('auth'):
-      requestUrl = `${CONFIG.BASE_URL_DB}${url}`;
-      break;
-    case name.includes('apiNews'):
-      requestUrl = `${CONFIG.BASE_URL_NEWS}${url}`;
-      break;
-    case name.includes('weather'):
-      requestUrl = `${CONFIG.BASE_URL_WEATHER}${url}`;
-      break;
+    case name.includes(SliceName.Auth):
+      return `${BASE_URL_DB}${url}`;
+    case name.includes(SliceName.APINews):
+      return `${BASE_URL_NEWS}${url}`;
+    case name.includes(SliceName.Weather):
+      return `${BASE_URL_WEATHER}${url}`;
 
     default:
-      requestUrl = '';
-      break;
+      return '';
   }
-
-  return requestUrl;
 }
 
 function changeUrl(
@@ -45,7 +43,7 @@ function changeUrl(
     : url.replace(`:${key}`, value.toString());
 }
 
-function replaceQueryStringInUrl(args: any, name: string, url: string): string {
+function replaceQueryStringInUrl(args: any, name: OperationName, url: Routes): string {
   let requestUrl = getBaseRequestUrl(name, url);
 
   if (args) {
@@ -90,22 +88,22 @@ function addQueryParams(options?: AsyncThunkTemplateOptions | undefined): string
 }
 
 export function getFinalUrl(
-  name: string,
-  url: string,
+  name: OperationName,
+  url: Routes,
   args: any,
   options?: AsyncThunkTemplateOptions | undefined,
 ): string {
   return `${replaceQueryStringInUrl(args, name, url)}${addQueryParams(options)}`.trim();
 }
 
-export function getDynamicUrl(args: any, url: string): string {
-  let dynamicUrl = url;
+export function getDynamicUrl(args: any, url: Routes): Routes | string {
+  let dynamicUrl = '';
 
   const shouldChangeUrl = typeof args === 'string' && url.includes('_id');
 
   if (shouldChangeUrl) dynamicUrl = url.replace(/_id\b/, args.toString());
 
-  return dynamicUrl;
+  return !shouldChangeUrl ? url : dynamicUrl;
 }
 
 export async function transformDataResponse(
@@ -121,7 +119,12 @@ export async function transformDataResponse(
   return options?.nestedObjectName ? resultData?.[options.nestedObjectName] : resultData;
 }
 
-export const updateTokens = async (): Promise<TokensPayload> => {
+const MAX_RETRY_COUNT = 3; // кількість спроб рекурсивного виклику фукнції запиту токенів
+const RETRY_DELAY = 3000; //затримка перед наступним запитом
+
+let retryTimeout: NodeJS.Timeout | null = null;
+
+export const updateTokens = async (retryCount = 0): Promise<TokensPayload> => {
   const state = store.getState() as RootState;
   const persistedToken = state.auth.refreshToken;
 
@@ -130,15 +133,29 @@ export const updateTokens = async (): Promise<TokensPayload> => {
   }
 
   try {
-    const response = await axios.post<RefreshTokensResponse>(`${CONFIG.BASE_URL_DB}/auth/refresh`, {
+    const response = await axios.post<RefreshTokensResponse>(`${BASE_URL_DB}${Routes.Refresh}`, {
       refreshToken: persistedToken,
     });
 
     return response.data.data;
   } catch (error) {
     console.error('Token refreshing error', error);
-    setTimeout(() => updateTokens(), 3000);
-    throw error;
+
+    // Очищення таймера перед наступним спробою
+    if (retryTimeout) {
+      clearTimeout(retryTimeout);
+    }
+    // Перевірка, чи є ще спроби ретримування і якщо є, робимо рекурсивний виклик з затримкою
+    if (retryCount < MAX_RETRY_COUNT) {
+      retryTimeout = setTimeout(() => {
+        retryTimeout = null; // Очищення таймера після його виклику
+        updateTokens(retryCount + 1);
+      }, RETRY_DELAY);
+      return updateTokens(retryCount + 1);
+    } else {
+      // Досягнуто максимальну кількість спроб, кидаємо помилку
+      throw new Error('Maximum retry attempts reached');
+    }
   }
 };
 
@@ -151,7 +168,10 @@ export const isTokenExpired = (tokenStatus: JwtPayload): boolean | undefined => 
 };
 
 export const getErrorMessage = (error: any): string | number => {
-  if (error.response.status && (error.response.status >= 500 || error.response.status === 429)) {
+  if (
+    error.response.status &&
+    (error.response.status >= 500 || error.response.status === ErrorCase.TooManyRequest)
+  ) {
     return error.response.status;
   } else if (error.response.data && typeof error.response.data.message === 'string') {
     return error.response.data.message;

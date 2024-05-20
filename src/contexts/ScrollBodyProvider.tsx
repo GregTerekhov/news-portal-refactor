@@ -1,18 +1,26 @@
-import React, { ReactNode, createContext, useContext, useEffect, useState } from 'react';
+import React, {
+  FC,
+  ReactNode,
+  SetStateAction,
+  createContext,
+  useContext,
+  useEffect,
+  useState,
+} from 'react';
 
-type ScrollBodyContextProps = {
+interface IScrollBodyContextProps {
   children: ReactNode;
-};
+}
 
-type ScrollBodyContextValue = {
+interface IScrollBodyContext {
   isScrollDisabled: boolean;
-  setIsScrollDisabled: (value: boolean) => void;
-};
+  setIsScrollDisabled: (value: SetStateAction<boolean>) => void;
+}
 
-const ScrollBodyContext = createContext<ScrollBodyContextValue | undefined>(undefined);
+const ScrollBodyContext = createContext<IScrollBodyContext | undefined>(undefined);
 
-export const ScrollBodyProvider = ({ children }: ScrollBodyContextProps) => {
-  const [isScrollDisabled, setIsScrollDisabled] = useState<boolean>(false);
+export const ScrollBodyProvider: FC<IScrollBodyContextProps> = ({ children }) => {
+  const [isScrollDisabled, setIsScrollDisabled] = useState(false);
 
   //Надавання стиля body в залежності від стану скрола
   useEffect(() => {

@@ -1,3 +1,5 @@
+import { SortDirection } from 'types';
+
 import { useFiltersRedux } from 'reduxStore/hooks';
 import { useReadSortStateContext } from 'contexts';
 
@@ -5,31 +7,25 @@ import { useReadNewsContent } from 'hooks';
 
 const useSortAccordion = () => {
   const { setIsSorted } = useFiltersRedux();
+
   const { setSortedDates } = useReadSortStateContext();
 
   const sortedAccordionDates = useReadNewsContent();
 
   //Функція сортування акордеонів на сторінці Read
-  const handleSortRead = async (order: string): Promise<void> => {
-    if (sortedAccordionDates?.length === 0) return;
-
-    // Фільтрація масиву для уникнення значень undefined в масиві
-    const filteredDates =
-      sortedAccordionDates && sortedAccordionDates?.filter((date) => typeof date === 'string');
-
-    if (filteredDates?.length === 0) return;
+  const handleSortAccordion = async (order: SortDirection): Promise<void> => {
+    const filteredDates = sortedAccordionDates.filter((date): date is string => date !== undefined);
 
     //Створення нового масива акордеонів та сортування в залежності від напрямку сортування
-    const sortedDates = order === 'asc' ? filteredDates?.sort().reverse() : filteredDates?.sort();
-
-    const filteredAndDefinedDates = sortedDates as string[];
+    const sortedDates =
+      order === SortDirection.Ascending ? filteredDates.sort().reverse() : filteredDates.sort();
 
     //Зміна глобального стану фільтрованих (сортованих) новин
-    setSortedDates(filteredAndDefinedDates);
+    setSortedDates(sortedDates);
     setIsSorted(true);
   };
 
-  return { handleSortRead };
+  return { handleSortAccordion };
 };
 
 export default useSortAccordion;

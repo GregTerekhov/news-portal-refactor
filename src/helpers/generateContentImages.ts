@@ -1,34 +1,34 @@
-import type { MemberImage } from 'types';
-
-const MOBILE_WIDTH = 320;
+import { BreakpointValue, ImageType, type StaticImage } from 'types';
 
 // Перевірка, чи підтримує браузер формат WEBP
 const isWebPSupported: boolean = (() => {
   const elem = document.createElement('canvas');
 
-  return elem.toDataURL('image/webp').indexOf('data:image/webp') === 0;
+  return elem.toDataURL(ImageType.WebP).indexOf(`data:${ImageType.WebP}`) === 0;
 })();
 
 //Перевірка на формат webP
-const isWebPImage = (image: MemberImage, devicePixelRatio: number): boolean =>
-  isWebPSupported && image.type === 'image/webp' && devicePixelRatio === image.dpi;
+const isWebPImage = (image: StaticImage, devicePixelRatio: number): boolean =>
+  isWebPSupported && image.type === ImageType.WebP && devicePixelRatio === image.dpi;
 
 //Перевірка на формат jpg/png
-const isRegularImage = (image: MemberImage, devicePixelRatio: number): boolean =>
-  (image.type === 'image/png' || image.type === 'image/jpg') && devicePixelRatio === image.dpi;
+const isRegularImage = (image: StaticImage, devicePixelRatio: number): boolean =>
+  (image.type === ImageType.Png || image.type === ImageType.Jpg) && devicePixelRatio === image.dpi;
 
 //Фільтрація зображень
-const filterSuitableImage = (images: MemberImage[], screenSize: number): MemberImage[] =>
+const filterSuitableImage = (images: StaticImage[], screenSize: number): StaticImage[] =>
   images.filter((image) =>
-    screenSize < MOBILE_WIDTH ? image.screenSize === MOBILE_WIDTH : screenSize >= image.screenSize,
+    screenSize < BreakpointValue.Mobile
+      ? image.screenSize === BreakpointValue.Mobile
+      : screenSize >= image.screenSize,
   );
 
 //Функція генерації контентних зображень під відповідні розміри екрану, значень devicePixelRatio та (не-)підтримки формату webp
 export default function generateContentImages(
-  images: MemberImage[],
+  images: StaticImage[],
   devicePixelRatio: number,
   screenSize: number,
-): MemberImage {
+): StaticImage {
   const suitableImages = filterSuitableImage(images, screenSize);
 
   for (const image of suitableImages) {

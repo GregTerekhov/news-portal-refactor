@@ -1,3 +1,5 @@
+import { ErrorCase, ResultsState } from 'types';
+
 import { useDBRedux, useFiltersRedux, useNewsAPIRedux } from 'reduxStore/hooks';
 
 import { useActiveLinks, useChooseRenderingNews } from 'hooks';
@@ -8,19 +10,18 @@ const useShowPlug = () => {
   const { errorAPI, hasRequestResults } = useNewsAPIRedux(); // Помилка від зовнішнього API
   const { allArchive, archiveHistoryLog, isLoadingDBData } = useDBRedux(); // Дані з бази даних та стан її завантаження
 
-  const activeLinks = useActiveLinks(); // Активні сторінки
-  const { rebuiltNews } = useChooseRenderingNews(activeLinks); // Отримання новин для відображення
+  const { isHomeActive, isFavoriteActive, isReadActive, isArchiveActive } = useActiveLinks(); // Активні сторінки
+  const { rebuiltNews } = useChooseRenderingNews(); // Отримання новин для відображення
   const { isHomeLoader } = useShowLoader(); // Визначення статусу завантаження для домашньої сторінки
 
-  // Деструктуризація активних сторінок
-  const { isHomeActive, isFavoriteActive, isReadActive, isArchiveActive } = activeLinks;
-
   // Перевірка, чи виникла помилка 429 (забагато запитів) від зовнішнього API
-  const is429ErrorAPI = errorAPI?.toString().includes('429');
+  const is429ErrorAPI = errorAPI?.toString().includes(ErrorCase.TooManyRequest.toString());
 
   // Перевірка загальної відсутності даних для відображення
   const commonPlug =
-    rebuiltNews?.length === 0 || hasRequestResults === 'empty' || hasResults === 'empty';
+    rebuiltNews?.length === 0 ||
+    hasRequestResults === ResultsState.Empty ||
+    hasResults === ResultsState.Empty;
 
   // Перевірка для відображення PlugImage на домашній сторінці
   const isHomePlug = commonPlug || is429ErrorAPI!;

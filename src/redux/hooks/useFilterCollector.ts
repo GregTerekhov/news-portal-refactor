@@ -1,6 +1,7 @@
 import { useCallback } from 'react';
 
-import type { FilterResults, PartialVotedNewsArray } from 'types';
+import { ResultsState, type PartialVotedNewsArray } from 'types';
+
 import { useAppDispatch, useAppSelector } from './reduxHooks';
 import * as filters from '../filterSlice';
 
@@ -16,7 +17,7 @@ const useFilterCollector = () => {
     [dispatch],
   );
   const showResultsState = useCallback(
-    (state: FilterResults) => dispatch(filters.results(state)),
+    (state: ResultsState) => dispatch(filters.results(state)),
     [dispatch],
   );
   const setIsSorted = useCallback(

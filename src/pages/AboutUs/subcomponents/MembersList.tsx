@@ -1,14 +1,15 @@
 import React, { FC } from 'react';
 
-import MembersLink from './MembersLink';
-import type { MemberItem } from '../assistants';
+import type { MemberItem } from 'types';
 
-interface MemberListProps {
+import MembersLink from './MembersLink';
+
+interface IMemberListProps {
   groupMembers: MemberItem[];
   commonTextMemberClass: string;
 }
 
-const MembersList: FC<MemberListProps> = ({ groupMembers, commonTextMemberClass }) => {
+const MembersList: FC<IMemberListProps> = ({ groupMembers, commonTextMemberClass }) => {
   return (
     <ul className='mb-12 max-lg:space-y-10 md:mb-20 lg:grid lg:grid-cols-2 lg:grid-rows-1 lg:gap-x-10'>
       {Array.isArray(groupMembers) &&

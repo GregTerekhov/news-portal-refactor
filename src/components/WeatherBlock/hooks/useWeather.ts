@@ -2,49 +2,71 @@ import { useEffect, useState } from 'react';
 
 import { useWeatherAPIRedux } from 'reduxStore/hooks';
 
-import { localStorageOperation } from 'helpers';
+import { localStorageOperation, OperationType } from 'helpers';
 
-type StatePermission = 'granted' | 'prompt' | 'denied';
+enum StatePermission {
+  Granted = 'granted',
+  Prompt = 'prompt',
+  Denied = 'denied',
+}
+
+enum WeatherButtonText {
+  GivePermission = 'Give permission for your geolocation',
+  GetWeather = 'Get the weather for your region',
+  Denied = 'Permission denied',
+}
+
+enum ErrorConsoleText {
+  Denied = 'User denied access to geolocation',
+  Unavailable = 'Geolocation information is unavailable',
+  Timeout = 'Geolocation access request timed out',
+  Unknown = 'An unknown error occurred while getting geolocation',
+}
+
 type ErrorCallback = (error: GeolocationPositionError) => void;
 
 const useWeather = () => {
-  const [isCelsius, setIsCelsius] = useState<boolean>(true);
-  const [isFlipped, setIsFlipped] = useState<boolean>(false);
+  const [isCelsius, setIsCelsius] = useState(true);
+  const [isFlipped, setIsFlipped] = useState(false);
   const [statePermission, setStatePermission] = useState<StatePermission | null>(null);
-  const [hasGeolocationPermission, setHasGeolocationPermission] = useState<boolean>(false);
+  const [hasGeolocationPermission, setHasGeolocationPermission] = useState(false);
 
   const { getCurrentWeather, getHourlyWeather } = useWeatherAPIRedux();
 
   const geolocation: boolean = 'geolocation' in navigator;
 
-  useEffect(() => {
-    const hasVisitedBefore = localStorageOperation('get', 'geolocationPermission');
+  const hasVisitedBefore = localStorageOperation(OperationType.Get, 'geolocationPermission');
 
+  useEffect(() => {
     if (hasVisitedBefore) {
       setHasGeolocationPermission(true);
-      setStatePermission('granted');
+      setStatePermission(StatePermission.Granted);
     }
   }, [statePermission]);
 
   const geolocationError: ErrorCallback = (error) => {
     setHasGeolocationPermission(false);
-    setStatePermission('denied');
+    setStatePermission(StatePermission.Denied);
+
+    if (hasVisitedBefore) {
+      localStorageOperation(OperationType.Remove, 'geolocationPermission');
+    }
 
     switch (error.code) {
       case error.PERMISSION_DENIED:
         // Користувач відмовив у наданні доступу до геолокації
-        console.error('User denied access to geolocation');
+        console.error(ErrorConsoleText.Denied);
         break;
       case error.POSITION_UNAVAILABLE:
         // Інформація про геолокацію недоступна
-        console.error('Geolocation information is unavailable');
+        console.error(ErrorConsoleText.Unavailable);
         break;
       case error.TIMEOUT:
         // Запит на доступ до геолокації завершився таймаутом
-        console.error('Geolocation access request timed out');
+        console.error(ErrorConsoleText.Timeout);
         break;
       default:
-        console.error('An unknown error occurred while getting geolocation');
+        console.error(ErrorConsoleText.Unknown);
         break;
     }
   };
@@ -52,11 +74,15 @@ const useWeather = () => {
   const requestGeolocationPermission = (): void => {
     if (geolocation) {
       navigator.permissions.query({ name: 'geolocation' }).then((result) => {
-        if (result.state === 'granted') {
-          setStatePermission('granted');
+        if (result.state === StatePermission.Granted) {
+          setStatePermission(StatePermission.Granted);
           setHasGeolocationPermission(true);
 
-          localStorageOperation('set', 'geolocationPermission', 'granted');
+          localStorageOperation(
+            OperationType.Set,
+            'geolocationPermission',
+            StatePermission.Granted,
+          );
 
           navigator.geolocation.getCurrentPosition(({ coords }) => {
             const { latitude, longitude } = coords;
@@ -69,13 +95,17 @@ const useWeather = () => {
             getCurrentWeather(sendGeolocation);
             getHourlyWeather(sendGeolocation);
           });
-        } else if (result.state === 'prompt') {
-          setStatePermission('prompt');
+        } else if (result.state === StatePermission.Prompt) {
+          setStatePermission(StatePermission.Prompt);
 
           navigator.geolocation.getCurrentPosition(({ coords }) => {
             setHasGeolocationPermission(true);
 
-            localStorageOperation('set', 'geolocationPermission', 'granted');
+            localStorageOperation(
+              OperationType.Set,
+              'geolocationPermission',
+              StatePermission.Granted,
+            );
 
             const { latitude, longitude } = coords;
 
@@ -89,9 +119,9 @@ const useWeather = () => {
           }, geolocationError);
         } else {
           setHasGeolocationPermission(false);
-          setStatePermission('denied');
+          setStatePermission(StatePermission.Denied);
 
-          localStorageOperation('remove', 'geolocationPermission');
+          localStorageOperation(OperationType.Remove, 'geolocationPermission');
         }
       });
     }
@@ -106,17 +136,17 @@ const useWeather = () => {
   };
 
   //Виведення тексту в кнопці виклику погоди
-  const showButtonText = (): string => {
+  const showButtonText = (): WeatherButtonText => {
     switch (true) {
-      case statePermission === 'prompt':
-        return 'Give permission for your geolocation';
+      case statePermission === StatePermission.Prompt || !hasGeolocationPermission:
+        return WeatherButtonText.GivePermission;
       case hasGeolocationPermission:
-        return 'Get the weather for your region';
-      case statePermission === 'denied':
-        return 'Permission denied';
+        return WeatherButtonText.GetWeather;
+      case statePermission === StatePermission.Denied:
+        return WeatherButtonText.Denied;
 
       default:
-        return 'Give permission for your geolocation';
+        return WeatherButtonText.GivePermission;
     }
   };
 

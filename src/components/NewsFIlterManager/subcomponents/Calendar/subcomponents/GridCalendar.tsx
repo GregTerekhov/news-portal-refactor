@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
 import { getDay } from 'date-fns';
 
-import type { CalendarVariant } from 'types';
+import { ButtonType, CalendarVariant } from 'types';
 
 import { formatDateToString } from 'helpers';
 import { COL_START_CLASSES } from '../assistants';
@@ -32,7 +32,7 @@ const GridCalendar: FC<GridCalendarProps> = ({
   );
 
   const handleDateClick = () => {
-    variant === 'SearchBlock'
+    variant === CalendarVariant.Search
       ? handleDateRequest(day, isOpenCalendar, toggleCalendar)
       : handleFilterDate(day, isOpenCalendar, toggleCalendar);
   };
@@ -49,7 +49,7 @@ const GridCalendar: FC<GridCalendarProps> = ({
   return (
     <div className={COL_START_CLASSES[getDay(day)]}>
       <button
-        type='button'
+        type={ButtonType.Button}
         className={`
           ${commonStyles} ${currentMonthDatesStyle} ${getSelectedStyles()} ${getDefaultStyles()}`}
         onClick={handleDateClick}

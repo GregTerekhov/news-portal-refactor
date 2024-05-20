@@ -1,5 +1,7 @@
 import React, { FC } from 'react';
 
+import { IconSizes } from 'types';
+
 import { useAuthRedux } from 'reduxStore/hooks';
 import { useWindowWidthContext } from 'contexts';
 
@@ -7,7 +9,7 @@ import { SvgIcon } from 'ui';
 
 import { renderInfoItems, renderAccountIcons } from './assistants';
 
-const AccountPage: FC<{}> = () => {
+const AccountPage: FC = () => {
   const { user, haveAccounts } = useAuthRedux();
   const { isSmallScreens } = useWindowWidthContext();
 
@@ -50,7 +52,7 @@ const AccountPage: FC<{}> = () => {
                   >
                     <SvgIcon
                       svgName={iconName}
-                      sizeKey={isSmallScreens ? 'smIcon20' : 'mdIcon24'}
+                      sizeKey={isSmallScreens ? IconSizes.smIcon20 : IconSizes.mdIcon24}
                       className='fill-whiteBase'
                     />
                   </li>

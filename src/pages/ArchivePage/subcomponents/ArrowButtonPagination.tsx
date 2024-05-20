@@ -1,9 +1,12 @@
 import React, { FC } from 'react';
+
+import { ButtonType, IconName, IconSizes } from 'types';
+
 import { useDBRedux } from 'reduxStore/hooks';
 
 import { SvgIcon } from 'ui';
 
-interface ArrowButtonProps {
+interface IArrowButtonProps {
   handlePageChange: (newPage: number) => void;
   currentPage: number;
   label: string;
@@ -11,7 +14,7 @@ interface ArrowButtonProps {
   iconClass: string;
 }
 
-const ArrowButtonPagination: FC<ArrowButtonProps> = ({
+const ArrowButtonPagination: FC<IArrowButtonProps> = ({
   handlePageChange,
   currentPage,
   label,
@@ -27,15 +30,15 @@ const ArrowButtonPagination: FC<ArrowButtonProps> = ({
 
   return (
     <button
-      type='button'
+      type={ButtonType.Button}
       onClick={() => handlePageChange(isLeftArrow ? currentPage - 1 : currentPage + 1)}
       disabled={disabledCondition}
       className={buttonStyles}
     >
       <span aria-hidden='true'>
         <SvgIcon
-          svgName='arrow'
-          sizeKey='xsIcon14'
+          svgName={IconName.Arrow}
+          sizeKey={IconSizes.xsIcon14}
           className={`${iconClass} fill-accentBase group-hover:fill-whiteBase group-focus:fill-whiteBase dark:fill-whiteBase`}
         />
       </span>

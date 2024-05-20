@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 
-import type { ToastStatus, ToastVariant } from 'types';
+import { SuccessCaseWithoutAccount, ToastStatus, ToastVariant } from 'types';
+
 import { useAuthRedux, useDBRedux, useFiltersRedux, useNewsAPIRedux } from 'reduxStore/hooks';
 import { useNotificationContext } from 'contexts';
 
@@ -14,12 +15,9 @@ const useShowToast = () => {
   const { allFavourites, allReads, dbSuccessMessage } = useDBRedux(); // Отримання всіх обраних та прочитаних новин, а також повідомлення успіху з бази даних з Redux
   const { setOpenToast } = useNotificationContext(); // Отримання функції відкриття тосту з контексту повідомлень
 
-  const activeLinks = useActiveLinks(); // Отримання активних сторінок
-  const { rebuiltNews } = useChooseRenderingNews(activeLinks); // Отримання перебудованих новин
+  const { isArchiveActive, isFavoriteActive, isHomeActive, isReadActive } = useActiveLinks(); // Отримання активних сторінок
+  const { rebuiltNews } = useChooseRenderingNews(); // Отримання перебудованих новин
   const { isHomeLoader, commonDBLoader } = useShowLoader(); // Отримання статусу завантаження для домашньої сторінки та спільного завантажувача
-
-  // Деструктуризація активних сторінок
-  const { isArchiveActive, isFavoriteActive, isHomeActive, isReadActive } = activeLinks;
 
   useEffect(() => {
     if ((isFavoriteActive || isReadActive) && rebuiltNews?.length > 0) setOpenToast(true);
@@ -33,14 +31,17 @@ const useShowToast = () => {
 
   // Перевірка для визначення типу і статусу тостів для домашньої сторінки
   const homeToastSuccessMessages = [
-    'Email sent successfully',
-    'Password has successfully changed',
-    'User sign-in success',
-    'Your saved password has been successfully retrieved',
-    'Sign-out success',
+    SuccessCaseWithoutAccount.RecoveryPasswordSent,
+    SuccessCaseWithoutAccount.PasswordChange,
+    SuccessCaseWithoutAccount.SignIn,
+    SuccessCaseWithoutAccount.SignUp,
+    SuccessCaseWithoutAccount.RememberMe,
+    SuccessCaseWithoutAccount.SignOut,
   ];
 
-  const homeToastSuccess = homeToastSuccessMessages.includes(statusMessage);
+  const homeToastSuccess = homeToastSuccessMessages.includes(
+    statusMessage as SuccessCaseWithoutAccount,
+  );
   const homeToastError = typeof authError === 'string' || typeof errorAPI === 'number';
 
   const homeToastInfo = (!isHomeLoader && additionalRequests) || filteredNews?.length > 0;
@@ -52,8 +53,8 @@ const useShowToast = () => {
   // Перевірка наявності тосту для архіву
   const archiveToast =
     isArchiveActive &&
-    (dbSuccessMessage === 'Remove news success' ||
-      dbSuccessMessage === 'Your History Log news feed has been successfully cleared') &&
+    (dbSuccessMessage === SuccessCaseWithoutAccount.DeleteNews ||
+      dbSuccessMessage === SuccessCaseWithoutAccount.ClearLog) &&
     !commonDBLoader;
 
   // Перевірка, чи потрібно показувати тост
@@ -66,33 +67,33 @@ const useShowToast = () => {
 
   switch (true) {
     case isHomeActive && homeToastSuccess:
-      statusToast = 'success';
-      toastType = 'non-interactive';
+      statusToast = ToastStatus.Success;
+      toastType = ToastVariant.Background;
       break;
     case isHomeActive && homeToastError:
-      statusToast = 'error';
-      toastType = 'interactive';
+      statusToast = ToastStatus.Error;
+      toastType = ToastVariant.Foreground;
       break;
     case isHomeActive && homeToastInfo:
-      statusToast = 'info';
-      toastType = 'non-interactive';
+      statusToast = ToastStatus.Info;
+      toastType = ToastVariant.Background;
       break;
     case favouritesToastInfo:
-      statusToast = 'info';
-      toastType = 'non-interactive';
+      statusToast = ToastStatus.Info;
+      toastType = ToastVariant.Background;
       break;
     case readsToastInfo:
-      statusToast = 'info';
-      toastType = 'non-interactive';
+      statusToast = ToastStatus.Info;
+      toastType = ToastVariant.Background;
       break;
     case archiveToast:
-      statusToast = 'success';
-      toastType = 'interactive';
+      statusToast = ToastStatus.Success;
+      toastType = ToastVariant.Foreground;
       break;
 
     default:
-      statusToast = 'info';
-      toastType = 'non-interactive';
+      statusToast = ToastStatus.Info;
+      toastType = ToastVariant.Background;
       break;
   }
 

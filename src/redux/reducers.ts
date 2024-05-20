@@ -2,6 +2,7 @@ import { combineReducers } from '@reduxjs/toolkit';
 import { persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 
+import { SliceName } from 'types';
 import { authReducer } from './auth';
 import { filtersReducer } from './filterSlice';
 import { newsAPIReducer } from './newsAPI';
@@ -11,11 +12,11 @@ import { weatherReducer } from './weather';
 const persistConfig = {
   key: 'root',
   storage,
-  blacklist: ['auth', 'newsAPI', 'newsDB', 'weather', 'filters'],
+  blacklist: [SliceName.Auth, SliceName.APINews, SliceName.DB, SliceName.Weather, SliceName.Filter],
 };
 
 const authPersistConfig = {
-  key: 'auth',
+  key: SliceName.Auth,
   storage,
   whitelist: ['userTheme', 'accessToken', 'refreshToken', 'isLoggedIn'],
 };

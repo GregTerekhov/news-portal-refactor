@@ -1,10 +1,9 @@
 import React, { FC } from 'react';
 
 import { NavId, VariantSwitcher } from 'types';
+
 import { useAuthRedux, useFiltersRedux, useNewsAPIRedux } from 'reduxStore/hooks';
 import { useFiltersStateContext, useSelectedDateContext, useWindowWidthContext } from 'contexts';
-
-import { useActiveLinks, useSignOut } from 'hooks';
 
 import { ThemeSwitcher } from 'ui';
 import {
@@ -15,15 +14,16 @@ import {
   VersaMenu,
 } from './subcomponents';
 
+import { useActiveLinks, useSignOut } from 'hooks';
 import { renderMenuItem } from './assistants';
 
-interface CommonMenuProps {
+interface ICommonMenuProps {
   isOpen?: boolean | undefined;
   navId: NavId;
   closeMenu?: (() => void) | undefined;
 }
 
-const CommonMenu: FC<CommonMenuProps> = ({ isOpen, navId, closeMenu }) => {
+const CommonMenu: FC<ICommonMenuProps> = ({ isOpen, navId, closeMenu }) => {
   const { isThirdPartyRegister } = useAuthRedux();
   const { resetAllFiltersResults, filteredNews } = useFiltersRedux();
   const { resetPreviousRequest, newsByCategory, newsByDate, newsByKeyword } = useNewsAPIRedux();
@@ -43,7 +43,7 @@ const CommonMenu: FC<CommonMenuProps> = ({ isOpen, navId, closeMenu }) => {
   const additionalRequestResults =
     newsByCategory?.length > 0 || newsByDate?.length > 0 || newsByKeyword?.length > 0;
   const shouldReset =
-    (navId === 'main-navigation' && isHomeActive && additionalRequestResults) ||
+    (navId === NavId.Main && isHomeActive && additionalRequestResults) ||
     (filteredNews?.length > 0 && pagesWithFilters);
 
   //Функція обробки кліку по пунктам меню та скидання значень фільтрів та результатів фільтрації, якщо вони є
@@ -86,7 +86,7 @@ const CommonMenu: FC<CommonMenuProps> = ({ isOpen, navId, closeMenu }) => {
             handleLinkClick={handleLinkClick}
             isHomeActive={isHomeActive}
           />
-          {navId === 'account-navigation' ? (
+          {navId === NavId.Account ? (
             <>
               <hr className='!border-greyAlt transition-colors duration-500 dark:!border-accentBase' />
               <SignOutButton handleSignOut={handleSignOut} />

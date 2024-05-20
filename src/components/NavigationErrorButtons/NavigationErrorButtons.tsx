@@ -1,9 +1,9 @@
 import React, { FC } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import { VariantButton } from 'types';
+import { Paths, PrimaryButtonId, VariantButton } from 'types';
+
 import { useAuthRedux } from 'reduxStore/hooks';
-import { Paths } from 'hooks';
 
 import { PrimaryButton } from 'ui';
 
@@ -27,7 +27,7 @@ const NavigationErrorButtons: FC = () => {
       {isAuthenticated && (
         <PrimaryButton
           variant={VariantButton.Primary}
-          id='Redirect to previous page button'
+          id={PrimaryButtonId.RedirectToPrevious}
           onHandleClick={handleGoBack}
         >
           Go back
@@ -35,7 +35,7 @@ const NavigationErrorButtons: FC = () => {
       )}
       <PrimaryButton
         variant={VariantButton.Primary}
-        id='Redirect to home page button'
+        id={PrimaryButtonId.RedirectToHome}
         onHandleClick={handleGoHome}
       >
         {isAuthenticated ? 'or Go Home' : 'Just Go Home'}

@@ -1,6 +1,7 @@
 import { isSameDay, isSameMonth, isToday } from 'date-fns';
 
-import type { CalendarVariant } from 'types';
+import { CalendarVariant } from 'types';
+
 import { useSelectedDateContext } from 'contexts';
 
 import { getStringDateToCalendar, isDayInRange, parseStringToDate } from 'helpers';
@@ -18,17 +19,21 @@ const useSelectedPeriod = (day: Date, currentMonth: string, variant: CalendarVar
   const isTodayDate = isToday(day);
   const evenDayToString = getStringDateToCalendar(day, variant);
 
-  const getSelectedRange = (position: string): boolean => {
-    return position === 'FiltersBlock'
+  const getSelectedRange = (position: CalendarVariant): boolean => {
+    return position === CalendarVariant.Filter
       ? isDayInRange(firstFilterDate, lastFilterDate, evenDayToString)
       : isDayInRange(firstRequestDate, lastRequestDate, evenDayToString);
   };
 
-  const getParsedDate = (position: string): Date | 0 => {
+  const getParsedDate = (position: CalendarVariant): Date | 0 => {
     const requestParsingCondition =
-      position === 'SearchBlock' && getSelectedRange('SearchBlock') && isCurrentMonth;
+      position === CalendarVariant.Search &&
+      getSelectedRange(CalendarVariant.Search) &&
+      isCurrentMonth;
     const filterParsingCondition =
-      position === 'FiltersBlock' && getSelectedRange('FiltersBlock') && isCurrentMonth;
+      position === CalendarVariant.Filter &&
+      getSelectedRange(CalendarVariant.Filter) &&
+      isCurrentMonth;
 
     switch (true) {
       case requestParsingCondition:
@@ -41,17 +46,19 @@ const useSelectedPeriod = (day: Date, currentMonth: string, variant: CalendarVar
     }
   };
 
-  const getValidRange = (position: string): boolean => {
-    const validFilterRange = isFilterPeriod && isSameDay(day, getParsedDate('FiltersBlock'));
-    const validRequestRange = isRequestPeriod && isSameDay(day, getParsedDate('SearchBlock'));
+  const getValidRange = (position: CalendarVariant): boolean => {
+    const validFilterRange =
+      isFilterPeriod && isSameDay(day, getParsedDate(CalendarVariant.Filter));
+    const validRequestRange =
+      isRequestPeriod && isSameDay(day, getParsedDate(CalendarVariant.Search));
 
-    return position === 'FiltersBlock' ? validFilterRange : validRequestRange;
+    return position === CalendarVariant.Filter ? validFilterRange : validRequestRange;
   };
 
   const getSelectedStyles = () => {
     switch (true) {
       case getValidRange(variant):
-        return variant === 'SearchBlock'
+        return variant === CalendarVariant.Search
           ? 'text-whiteBase bg-accentBase'
           : 'border-2 border-solid border-accentBase dark:border-whiteBase';
 
@@ -62,15 +69,17 @@ const useSelectedPeriod = (day: Date, currentMonth: string, variant: CalendarVar
 
   const getDefaultStyles = () => {
     const defaultRequestCondition =
-      variant === 'SearchBlock' && !isRequestPeriod && isTodayDate && !getValidRange('SearchBlock');
+      variant === CalendarVariant.Search &&
+      !isRequestPeriod &&
+      !getValidRange(CalendarVariant.Search);
 
     const defaultFilterCondition =
-      variant === 'FiltersBlock' &&
+      variant === CalendarVariant.Filter &&
       !isFilterPeriod &&
-      isTodayDate &&
-      !getValidRange('FiltersBlock');
+      !getValidRange(CalendarVariant.Filter);
 
-    if (defaultRequestCondition || defaultFilterCondition) return 'bg-accentBase text-whiteBase';
+    if (isTodayDate && (defaultRequestCondition || defaultFilterCondition))
+      return 'bg-accentBase text-whiteBase';
 
     return '';
   };

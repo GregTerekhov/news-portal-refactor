@@ -1,15 +1,17 @@
 import React, { FC, ReactElement, ReactNode } from 'react';
 
+import { VariantPlug } from 'types';
+
 import { Toast } from 'components';
 import { Loader, PlugImage } from 'ui';
 
 import { useShowLoader, useShowPlug, useShowContent, useShowToast, useHeadline } from './hooks';
 
-interface PageTemplateProps {
+interface IPageTemplateProps {
   children: ReactElement | ReactNode;
 }
 
-const PageTemplate: FC<PageTemplateProps> = ({ children }) => {
+const PageTemplate: FC<IPageTemplateProps> = ({ children }) => {
   const { shouldShowLoader } = useShowLoader();
   const { shouldShowPlug } = useShowPlug();
   const { shouldShowContent } = useShowContent();
@@ -20,7 +22,7 @@ const PageTemplate: FC<PageTemplateProps> = ({ children }) => {
     <>
       {shouldShowLoader && <Loader variant='generalSection' />}
       {shouldShowToast && <Toast variant={toastType} status={statusToast} />}
-      {shouldShowPlug && <PlugImage variant='page' />}
+      {shouldShowPlug && <PlugImage variant={VariantPlug.Page} />}
       {shouldShowContent && (
         <h1 className='mb-6 text-giant font-bold dark:text-whiteBase'>{getHeadline()}</h1>
       )}

@@ -1,16 +1,16 @@
 import { isAfter, startOfToday } from 'date-fns';
 
-import type { DateRequest } from 'types';
+import { TriggerType, type DateRequest } from 'types';
+
 import { useNewsAPIRedux, useFiltersRedux } from 'reduxStore/hooks';
 import { useFiltersStateContext, usePaginationContext, useSelectedDateContext } from 'contexts';
 
-import { determineNewSelectedDate, formatDateRange } from 'helpers';
-import { TriggerType, useHeadline } from 'hooks';
+import { DatePosition, determineNewSelectedDate, formatDateRange } from 'helpers';
+import { useHeadline } from 'hooks';
 
 const useRequestByDate = () => {
   const { fetchByDate, resetPreviousRequest } = useNewsAPIRedux();
   const { filteredNews, resetAllFiltersResults } = useFiltersRedux();
-
   const { beginRequestDate, setBeginRequestDate, setSelectedRequestDate, resetFiltersDay } =
     useSelectedDateContext();
   const { resetPagination } = usePaginationContext();
@@ -18,6 +18,17 @@ const useRequestByDate = () => {
 
   const { handleChangeHeadline } = useHeadline();
   const today = startOfToday();
+
+  const reset = (): void => {
+    resetPagination();
+
+    if (filteredNews?.length > 0) {
+      resetPreviousRequest();
+      resetFiltersDay();
+      resetAllFiltersResults();
+      resetFiltersState();
+    }
+  };
 
   //Функція запиту за періодом дат
   const handleDateRequest = async (
@@ -37,7 +48,7 @@ const useRequestByDate = () => {
         const selectedPeriod: DateRequest = determineNewSelectedDate(
           selectedDate,
           beginRequestDate,
-          'request',
+          DatePosition.Request,
         );
 
         //Додавання періода дат в об'єкт стану в контексті
@@ -49,16 +60,8 @@ const useRequestByDate = () => {
         //Створення заголовка для новин по періоду дат
         handleChangeHeadline(TriggerType.Date, dateToHeadline);
 
-        //Скидання значення пагінації, якщо користувач знаходився не на першій сторінці пагінації
-        resetPagination();
-
-        //Скидання значень, якщо присутні фільтровані новини
-        if (filteredNews?.length > 0) {
-          resetPreviousRequest();
-          resetFiltersDay();
-          resetAllFiltersResults();
-          resetFiltersState();
-        }
+        //Скидання значень, якщо присутні фільтровані новини і якщо користувач знаходився не на першій сторінці пагінації
+        reset();
 
         //Функція запиту
         await fetchByDate(selectedPeriod);

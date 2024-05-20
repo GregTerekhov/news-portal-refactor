@@ -6,7 +6,7 @@ const FIRST_PAGE = 1;
 const ROWS_PER_PAGE = 7;
 
 const useDeletedNewsControls = (logData: IHistoryLog[]) => {
-  const [searchValue, setSearchValue] = useState<string>('');
+  const [searchValue, setSearchValue] = useState('');
   const [currentPage, setCurrentPage] = useState<number>(FIRST_PAGE);
 
   const filteredLogData: IHistoryLog[] = useMemo(() => {

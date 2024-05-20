@@ -1,73 +1,102 @@
-import * as authTypes from 'types';
+import {
+  Routes,
+  HTTPMethods,
+  OperationName,
+  type MainCredentials,
+  type CredentialSignUpResponse,
+  type SignInRequest,
+  type CredentialSignInResponse,
+  type GetCryptoPassword,
+  type ResponseCryptoPassword,
+  type CurrentUserResponse,
+  type AuthRequestWithoutName,
+  type UpdateCredentialsResponse,
+  type UpdatePasswordRequest,
+  type ServicesInfo,
+  type SendEmailRequest,
+  type RecoveryPasswordChange,
+  type PasswordChangeResponse,
+  type GoogleAuth,
+  type GoogleAuthResponse,
+  type BindSocialsResponse,
+  type UpdateThemeRequest,
+  type UpdateThemeResponse,
+} from 'types';
 
 import { requestWithInstanceTemplate, requestTemplate } from '../services';
 
-export const signUp = requestTemplate<
-  authTypes.MainCredentials,
-  authTypes.CredentialSignUpResponse
->('auth/signUp', '/auth/sign-up', 'post');
-
-export const signIn = requestTemplate<authTypes.SignInRequest, authTypes.CredentialSignInResponse>(
-  'auth/signIn',
-  '/auth/sign-in',
-  'post',
+export const signUp = requestTemplate<MainCredentials, CredentialSignUpResponse>(
+  OperationName.SignUp,
+  Routes.SignUp,
+  HTTPMethods.POST,
 );
 
-export const getSavedPassword = requestTemplate<
-  authTypes.GetCryptoPassword,
-  authTypes.ResponseCryptoPassword
->('auth/getCryptoPassword', '/auth/get-password', 'post');
-
-export const signOut = requestWithInstanceTemplate<void, authTypes.SignOutResponse>(
-  'auth/signOut',
-  '/auth/sign-out',
-  'post',
+export const signIn = requestTemplate<SignInRequest, CredentialSignInResponse>(
+  OperationName.SignIn,
+  Routes.SignIn,
+  HTTPMethods.POST,
 );
 
-export const fetchCurrentUser = requestWithInstanceTemplate<void, authTypes.CurrentUserResponse>(
-  'auth/current',
-  '/auth/current-user',
-  'get',
+export const getSavedCredentials = requestTemplate<GetCryptoPassword, ResponseCryptoPassword>(
+  OperationName.CryptoData,
+  Routes.CryptoData,
+  HTTPMethods.POST,
+);
+
+export const signOut = requestWithInstanceTemplate<void, ServicesInfo>(
+  OperationName.SignOut,
+  Routes.SignOut,
+  HTTPMethods.POST,
+);
+
+export const fetchCurrentUser = requestWithInstanceTemplate<void, CurrentUserResponse>(
+  OperationName.CurrentUser,
+  Routes.CurrentUser,
+  HTTPMethods.GET,
 );
 
 export const updateUserEmail = requestWithInstanceTemplate<
-  authTypes.AuthRequestWithoutName,
-  authTypes.UpdateCredentialsResponse
->('auth/updateEmail', '/auth/update-email', 'patch');
+  AuthRequestWithoutName,
+  UpdateCredentialsResponse
+>(OperationName.UpdateEmail, Routes.UpdateEmail, HTTPMethods.PATCH);
 
-export const updateUserPassword = requestWithInstanceTemplate<
-  authTypes.UpdatePasswordRequest,
-  authTypes.ServicesInfo
->('auth/updatePassword', '/auth/update-password', 'patch');
+export const updateUserPassword = requestWithInstanceTemplate<UpdatePasswordRequest, ServicesInfo>(
+  OperationName.UpdatePassword,
+  Routes.UpdatePassword,
+  HTTPMethods.PATCH,
+);
 
-export const recoveryPasswordRequest = requestTemplate<
-  authTypes.SendEmailRequest,
-  authTypes.ServicesInfo
->('auth/recoveryPasswordRequest', '/auth/forgot-password-request', 'post');
+export const recoveryPasswordRequest = requestTemplate<SendEmailRequest, ServicesInfo>(
+  OperationName.SendRecoveryEmail,
+  Routes.SendRecoveryEmail,
+  HTTPMethods.POST,
+);
 
 export const recoveryPasswordChange = requestWithInstanceTemplate<
-  authTypes.RecoveryPasswordChange,
-  authTypes.PasswordChangeResponse
->('auth/recoveryPasswordChange', '/auth/forgot-password-change', 'post');
+  RecoveryPasswordChange,
+  PasswordChangeResponse
+>(OperationName.PasswordChange, Routes.PasswordChange, HTTPMethods.POST);
 
-export const googleAuth = requestTemplate<authTypes.GoogleAuth, authTypes.GoogleAuthResponse>(
-  'auth/googleAuth',
-  '/auth/google/auth',
-  'post',
+export const googleAuth = requestTemplate<GoogleAuth, GoogleAuthResponse>(
+  OperationName.GoogleAuth,
+  Routes.GoogleAuth,
+  HTTPMethods.POST,
 );
 
-export const googleBind = requestWithInstanceTemplate<
-  authTypes.SendEmailRequest,
-  authTypes.BindSocialsResponse
->('auth/googleBind', '/auth/google/bind', 'patch');
-
-export const googleUnbind = requestWithInstanceTemplate<void, authTypes.BindSocialsResponse>(
-  'auth/googleUnbind',
-  '/auth/google/unbind',
-  'patch',
+export const googleBind = requestWithInstanceTemplate<SendEmailRequest, BindSocialsResponse>(
+  OperationName.GoogleBind,
+  Routes.GoogleBind,
+  HTTPMethods.PATCH,
 );
 
-export const updateTheme = requestWithInstanceTemplate<
-  authTypes.UpdateThemeRequest,
-  authTypes.UpdateThemeResponse
->('auth/updateTheme', '/auth/update-theme', 'patch');
+export const googleUnbind = requestWithInstanceTemplate<void, BindSocialsResponse>(
+  OperationName.GoogleUnbind,
+  Routes.GoogleUnbind,
+  HTTPMethods.PATCH,
+);
+
+export const updateTheme = requestWithInstanceTemplate<UpdateThemeRequest, UpdateThemeResponse>(
+  OperationName.UpdateTheme,
+  Routes.UpdateTheme,
+  HTTPMethods.PATCH,
+);

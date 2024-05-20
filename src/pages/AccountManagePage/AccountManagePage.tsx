@@ -1,17 +1,20 @@
 import React, { FC } from 'react';
 
+import { InputLabel, SuccessCaseWithoutAccount, ToastStatus, ToastVariant } from 'types';
+
 import { useAuthRedux } from 'reduxStore/hooks';
 
-import { LinkAccountsButtons, Toast } from 'components';
+import { Toast } from 'components';
+import { LinkAccountsButtons } from 'ui';
 import { UpdateCredentials } from './subcomponents';
 
-const AccountManagePage: FC<{}> = () => {
+const AccountManagePage: FC = () => {
   const { authError, statusMessage } = useAuthRedux();
 
   //Умови показування тостів успіху запитів
   const showUpdatedToast =
-    statusMessage === 'Email is successfully updated' ||
-    statusMessage === 'Password is successfully updated' ||
+    statusMessage === SuccessCaseWithoutAccount.UpdateEmail ||
+    statusMessage === SuccessCaseWithoutAccount.UpdatePassword ||
     statusMessage.includes('linking');
 
   //Загальні умови показування тостів на сторінці
@@ -25,8 +28,8 @@ const AccountManagePage: FC<{}> = () => {
       <div className='flex items-center justify-end'>
         <div className='w-52 space-y-2 md:w-80 md:space-y-6 lg:w-600px'>
           <>
-            <UpdateCredentials field='email' />
-            <UpdateCredentials field='password' />
+            <UpdateCredentials field={InputLabel.Email} />
+            <UpdateCredentials field={InputLabel.Password} />
           </>
           <h3 className='text-darkBase dark:text-whiteBase md:text-2xl lg:mb-4 hg:text-3xl'>
             Connected accounts
@@ -41,7 +44,10 @@ const AccountManagePage: FC<{}> = () => {
         </div>
       </div>
       {shouldShowToast ? (
-        <Toast variant='interactive' status={showUpdatedToast ? 'success' : 'error'} />
+        <Toast
+          variant={ToastVariant.Foreground}
+          status={showUpdatedToast ? ToastStatus.Success : ToastStatus.Error}
+        />
       ) : null}
     </div>
   );

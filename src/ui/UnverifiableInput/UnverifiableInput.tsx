@@ -1,96 +1,52 @@
 import React, { FC } from 'react';
 
-import { VariantInputs } from 'types';
+import { IconName, IconSizes, InputName, InputType, VariantsPlaceholder } from 'types';
 
-import { generateInputStyles } from './assistants';
-import { generateLabelText, showCheckbox, showIcon } from './subcomponents';
+import { SvgIcon } from '..';
 
 interface InputCollectedData {
-  name: string;
-  type: string;
-  placeholder: string;
-  value: string;
+  name: InputName;
+  type: InputType;
+  placeholder?: VariantsPlaceholder;
+  value?: string;
 }
 
 interface InputProps {
-  inputData?: Partial<InputCollectedData>;
-  isChecked?: boolean;
+  inputData: InputCollectedData;
   hasIcon: boolean;
-  svgName?: string;
-  variant: VariantInputs;
-  hideInput?: (event: React.MouseEvent<HTMLInputElement>) => void;
+  svgName?: IconName;
   touched?: boolean;
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-const UnverifiableInput: FC<InputProps> = ({
-  inputData,
-  hasIcon,
-  svgName,
-  isChecked,
-  variant,
-  hideInput,
-  onChange,
-}) => {
+const UnverifiableInput: FC<InputProps> = ({ inputData, hasIcon, svgName, onChange }) => {
   const { name, type, value, placeholder } = inputData ?? {};
 
-  const onHideInput = (event: React.MouseEvent<HTMLInputElement>): void => {
-    if (hideInput) {
-      hideInput(event);
-    }
-  };
-
-  const styles = generateInputStyles();
-  const {
-    labelCheckbox,
-    svgFill,
-    inputGeometry,
-    placeholderColor,
-    inputBg,
-    inputBorder,
-    caretColor,
-    checkboxStyles,
-    textColor,
-  } = styles[variant];
-
-  const inputFieldStyles = `${inputGeometry} rounded-3xl border border-solid font-header text-small leading-mediumRelaxed tracking-bigWide outline-0 transition-colors duration-500 focus:outline-0 md:text-base md:leading-moreRelaxed md:tracking-wide lg:text-medium ${placeholderColor} ${inputBorder} ${inputBg} ${caretColor} ${textColor} ${checkboxStyles}`;
-
-  const labelClass = `block ${variant === VariantInputs.Checkbox ? labelCheckbox : 'mb-2'}`;
-
-  const inputWrapperClass = `relative ${
-    variant === VariantInputs.Checkbox
-      ? `flex items-center justify-center h-4 w-4 cursor-pointer rounded-sm border border-solid md:h-6 md:w-6 ${
-          isChecked ? 'border-whiteBase bg-accentBase' : 'border-accentBase bg-whiteBase'
-        }`
-      : ''
-  }`;
+  const inputFieldStyles = `border border-solid outline-0 transition-colors duration-500 focus:outline-0 w-full py-2 pl-11 pr-3 placeholder:text-darkBase/[.4] dark:placeholder:text-whiteBase/[.4] border-accentBase dark:border-greyBase bg-whiteBase dark:bg-darkBackground $caret-accentBase dark:caret-whiteBase text-accentBase dark:text-whiteBase rounded-3xl font-header text-small leading-mediumRelaxed tracking-bigWide md:text-base md:leading-moreRelaxed md:tracking-wide lg:text-medium`;
 
   return (
-    <div className={variant === VariantInputs.Checkbox ? 'flex items-center gap-x-2' : ''}>
-      <label htmlFor={name} className={labelClass}>
-        {generateLabelText(variant, name)}
-      </label>
-      <div className={inputWrapperClass}>
-        {showCheckbox(variant, isChecked)}
-        {showIcon(hasIcon, svgFill, svgName)}
-        <input
-          className={inputFieldStyles}
-          id={name}
-          name={name}
-          type={type}
-          value={value}
-          checked={isChecked}
-          placeholder={placeholder}
-          autoComplete='off'
-          onClick={onHideInput}
-          onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-            if (onChange) {
-              onChange(event);
-            }
-          }}
+    <label htmlFor={name} className='relative block space-y-2'>
+      <span className='block text-base text-darkBase dark:text-greyAlt lg:text-medium'>
+        {name === InputName.Query ? 'Search' : 'Filter'} by {name}:
+      </span>
+      {hasIcon ? (
+        <SvgIcon
+          svgName={svgName}
+          sizeKey={IconSizes.smIcon20}
+          className='absolute bottom-3 left-3 fill-accentBase'
         />
-      </div>
-    </div>
+      ) : null}
+      <input
+        id={name}
+        name={name}
+        type={type}
+        value={value}
+        placeholder={placeholder}
+        autoComplete='off'
+        className={inputFieldStyles}
+        onChange={(event: React.ChangeEvent<HTMLInputElement>) => onChange(event)}
+      />
+    </label>
   );
 };
 

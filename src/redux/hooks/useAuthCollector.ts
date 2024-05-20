@@ -12,6 +12,7 @@ import type {
   GetCryptoPassword,
   SignInRequest,
 } from 'types';
+
 import { useAppDispatch, useAppSelector } from './reduxHooks';
 import * as auth from '../auth';
 
@@ -24,6 +25,7 @@ const useAuthCollector = () => {
   const haveAccounts = useAppSelector(auth.selectBoundAccounts);
   const isThirdPartyRegister = useAppSelector(auth.selectThirdPartyRegister);
   const statusMessage = useAppSelector(auth.selectStatusMessage);
+  const requestStatus = useAppSelector(auth.selectRequestStatus);
 
   const dispatch = useAppDispatch();
 
@@ -35,8 +37,8 @@ const useAuthCollector = () => {
     (credentials: SignInRequest) => dispatch(auth.signIn(credentials)),
     [dispatch],
   );
-  const getCryptoPassword = useCallback(
-    (userId: GetCryptoPassword) => dispatch(auth.getSavedPassword(userId)),
+  const fetchCryptoCredentials = useCallback(
+    (userId: GetCryptoPassword) => dispatch(auth.getSavedCredentials(userId)),
     [dispatch],
   );
   const logout = useCallback(() => dispatch(auth.signOut()), [dispatch]);
@@ -88,6 +90,7 @@ const useAuthCollector = () => {
   );
 
   return {
+    requestStatus,
     statusMessage,
     haveAccounts,
     isAuthenticated,
@@ -98,7 +101,7 @@ const useAuthCollector = () => {
     authError,
     register,
     login,
-    getCryptoPassword,
+    fetchCryptoCredentials,
     logout,
     fetchCurrentAuthUser,
     updateEmail,

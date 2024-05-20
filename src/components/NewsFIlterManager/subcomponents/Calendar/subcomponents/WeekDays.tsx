@@ -1,6 +1,7 @@
 import React from 'react';
 
-import { DAYS, capitalizeFirstLetter } from '../assistants';
+import { capitalizeFirstLetter } from 'helpers';
+import { DAYS } from '../assistants';
 
 const WeekDays = () => {
   return (

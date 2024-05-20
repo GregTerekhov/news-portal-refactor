@@ -1,14 +1,11 @@
 import memoizeOne from 'memoize-one';
 
-import type { CategoryRequest } from 'types';
+import { TimePeriodRequest, TriggerType, type CategoryRequest } from 'types';
+
 import { useNewsAPIRedux, useFiltersRedux } from 'reduxStore/hooks';
 import { useAdditionRequestContext, usePaginationContext, useSelectedDateContext } from 'contexts';
 
-import { TriggerType, useHeadline } from 'hooks';
-
-const TODAY_HOT_NEWS = 1;
-const WEEKLY_NEWS = 7;
-const MONTHLY_NEWS = 30;
+import { useHeadline } from 'hooks';
 
 const useAdditionalRequest = () => {
   const {
@@ -22,6 +19,7 @@ const useAdditionalRequest = () => {
     resetPreviousRequest,
   } = useNewsAPIRedux();
   const { filteredNews, resetAllFiltersResults } = useFiltersRedux();
+
   const { resetRequestDay } = useSelectedDateContext();
   const { resetPagination } = usePaginationContext();
   const { searchParams, updateSearchParams, resetSearchParams, hasRequestValue } =
@@ -33,7 +31,7 @@ const useAdditionalRequest = () => {
     newsByKeyword?.length > 0 || newsByCategory?.length > 0 || newsByDate?.length > 0;
 
   const getCategoriesList = memoizeOne(
-    (): string[] => categoriesList?.map((item) => item.display_name) || [],
+    (): string[] => categoriesList.map((item) => item.display_name) || [],
   );
 
   const resetRequest = (): void => {
@@ -77,11 +75,13 @@ const useAdditionalRequest = () => {
 
       switch (selectedPeriod) {
         case 'Today':
-          await fetchPopular({ period: TODAY_HOT_NEWS });
+          await fetchPopular({ period: TimePeriodRequest.Today });
           break;
         case 'Week':
         case 'Month':
-          await fetchPopular({ period: selectedPeriod === 'Week' ? WEEKLY_NEWS : MONTHLY_NEWS });
+          await fetchPopular({
+            period: selectedPeriod === 'Week' ? TimePeriodRequest.Week : TimePeriodRequest.Month,
+          });
           break;
         default:
           break;
@@ -93,7 +93,7 @@ const useAdditionalRequest = () => {
     resetPagination();
     resetPreviousRequest();
 
-    await fetchPopular({ period: TODAY_HOT_NEWS });
+    await fetchPopular({ period: TimePeriodRequest.Today });
 
     if (hasAnotherRequest) {
       resetRequestDay();

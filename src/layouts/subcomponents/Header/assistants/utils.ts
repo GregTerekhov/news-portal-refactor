@@ -1,21 +1,32 @@
-import type { NavId } from 'types';
+import { NavId } from 'types';
+
+enum AriaLabel {
+  OpenMobile = 'Open mobile',
+  CloseMobile = 'Close mobile',
+  OpenAccount = 'Open account',
+  CloseAccount = 'Close account',
+  Undefined = '',
+}
 
 //Функція визначення id для меню в залежності від розміщення
 export const getNavId = (isAccountPages: boolean): NavId => {
-  return isAccountPages ? 'account-navigation' : 'main-navigation';
+  return isAccountPages ? NavId.Account : NavId.Main;
 };
 
-export const getAriaLabel = (isOpenMenu: boolean, isAccountPages: boolean): string => {
-  if (!isOpenMenu && !isAccountPages) {
-    return 'Open mobile';
-  } else if (isOpenMenu && !isAccountPages) {
-    return 'Close mobile';
-  } else if (!isOpenMenu && isAccountPages) {
-    return 'Open account';
-  } else if (isOpenMenu && isAccountPages) {
-    return 'Close account';
+export const getAriaLabel = (isOpenMenu: boolean, isAccountPages: boolean): AriaLabel => {
+  switch (true) {
+    case !isOpenMenu && !isAccountPages:
+      return AriaLabel.OpenMobile;
+    case isOpenMenu && !isAccountPages:
+      return AriaLabel.CloseMobile;
+    case !isOpenMenu && isAccountPages:
+      return AriaLabel.OpenAccount;
+    case isOpenMenu && isAccountPages:
+      return AriaLabel.CloseAccount;
+
+    default:
+      return AriaLabel.Undefined;
   }
-  return '';
 };
 
 export const getIconStyles = (

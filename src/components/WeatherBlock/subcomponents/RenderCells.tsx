@@ -1,9 +1,12 @@
 import React from 'react';
 
 import type { HourlyWeatherData } from 'types';
-import { CONFIG } from 'config';
+
+import { Config, CONFIG } from 'config';
 
 import { getWeatherHoursObject } from '../assistants';
+
+const { WEATHER_ICON_URL }: Config = CONFIG;
 
 const cellCommonStyles =
   'py-1.5 text-center text-small text-whiteBase md:py-4 md:text-base hg:text-medium';
@@ -21,11 +24,7 @@ export const RenderWeatherIconCell = (item: HourlyWeatherData): JSX.Element => {
 
   return (
     <td className='h-35px'>
-      <img
-        className='cover'
-        src={`${CONFIG.WEATHER_ICON_URL}/${iconWeather}@2x.png`}
-        alt={iconAlt}
-      />
+      <img className='cover' src={`${WEATHER_ICON_URL}/${iconWeather}@2x.png`} alt={iconAlt} />
     </td>
   );
 };

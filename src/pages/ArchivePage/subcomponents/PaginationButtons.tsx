@@ -1,8 +1,10 @@
 import React, { FC } from 'react';
 
+import { ButtonType, PaginationDots } from 'types';
+
 import { useWindowWidthContext } from 'contexts';
 
-interface PaginationButtonsProps {
+interface IPaginationButtonsProps {
   currentPage: number;
   handlePageChange: (newPage: number) => void;
   totalPages: number;
@@ -14,7 +16,7 @@ const MOBILE_REFERENCE_COUNT = 2;
 const WIDESCREEN_REFERENCE_COUNT = 3;
 const FIRST_PAGE = 1;
 
-const PaginationButtons: FC<PaginationButtonsProps> = ({
+const PaginationButtons: FC<IPaginationButtonsProps> = ({
   currentPage,
   handlePageChange,
   totalPages,
@@ -35,7 +37,7 @@ const PaginationButtons: FC<PaginationButtonsProps> = ({
         buttons.push(
           <button
             key={index}
-            type='button'
+            type={ButtonType.Button}
             aria-current='page'
             className={`${tableButtonStyles} ${getButtonStyles(currentPage, index)}`}
             onClick={() => handlePageChange(index)}
@@ -46,7 +48,7 @@ const PaginationButtons: FC<PaginationButtonsProps> = ({
       }
     };
 
-    const addDots = (direction: string): void => {
+    const addDots = (direction: PaginationDots): void => {
       buttons.push(
         <span
           key={`dots ${direction}`}
@@ -61,7 +63,7 @@ const PaginationButtons: FC<PaginationButtonsProps> = ({
       buttons.push(
         <button
           key={totalPages}
-          type='button'
+          type={ButtonType.Button}
           aria-current='page'
           className={`${tableButtonStyles} ${getButtonStyles(currentPage, totalPages)}`}
           onClick={() => handlePageChange(totalPages)}
@@ -82,38 +84,42 @@ const PaginationButtons: FC<PaginationButtonsProps> = ({
       currentPage + FIRST_PAGE === totalPages ||
       currentPage === totalPages;
 
-    if (isSmallScreens) {
-      if (totalPages <= MAXIMUM_MOBILE_BUTTONS_COUNT) {
+    const isWithinMobilePageLimit = totalPages <= MAXIMUM_MOBILE_BUTTONS_COUNT;
+    const isWithinWidescreensPageLimit = totalPages <= MAXIMUM_WIDESCREEN_BUTTONS_COUNT;
+    const isFirstPage = currentPage === FIRST_PAGE;
+    const isMiddlePagesInRange =
+      currentPage + (isSmallScreens ? MOBILE_REFERENCE_COUNT : WIDESCREEN_REFERENCE_COUNT) <
+      totalPages;
+
+    switch (true) {
+      case isWithinMobilePageLimit || isWithinWidescreensPageLimit:
         addPageButtons(FIRST_PAGE, totalPages);
-      } else if (currentPage === FIRST_PAGE) {
-        addPageButtons(FIRST_PAGE, MOBILE_REFERENCE_COUNT);
-        addDots('next');
+        break;
+      case isFirstPage:
+        addPageButtons(
+          FIRST_PAGE,
+          isSmallScreens ? MOBILE_REFERENCE_COUNT : WIDESCREEN_REFERENCE_COUNT,
+        );
+        addDots(PaginationDots.Next);
         addLastPageButton();
-      } else if (isMobileLastPages) {
-        addDots('prev');
+        break;
+      case isMobileLastPages && isSmallScreens:
+        addDots(PaginationDots.Previous);
         addPageButtons(totalPages - MOBILE_REFERENCE_COUNT, totalPages);
-      } else if (currentPage + MOBILE_REFERENCE_COUNT < totalPages) {
-        addDots('prev');
-        addPageButtons(currentPage, currentPage);
-        addDots('next');
-        addLastPageButton();
-      }
-    } else {
-      if (totalPages <= MAXIMUM_WIDESCREEN_BUTTONS_COUNT) {
-        addPageButtons(FIRST_PAGE, totalPages);
-      } else if (currentPage === FIRST_PAGE) {
-        addPageButtons(FIRST_PAGE, WIDESCREEN_REFERENCE_COUNT);
-        addDots('next');
-        addLastPageButton();
-      } else if (isWideScreensLastPages) {
-        addDots('prev');
+        break;
+      case isWideScreensLastPages && !isSmallScreens:
+        addDots(PaginationDots.Previous);
         addPageButtons(totalPages - WIDESCREEN_REFERENCE_COUNT, totalPages);
-      } else if (currentPage + WIDESCREEN_REFERENCE_COUNT < totalPages) {
-        addDots('prev');
-        addPageButtons(currentPage, currentPage + FIRST_PAGE);
-        addDots('next');
+        break;
+      case isMiddlePagesInRange && isSmallScreens:
+        addDots(PaginationDots.Previous);
+        addPageButtons(currentPage, currentPage + (isSmallScreens ? 0 : FIRST_PAGE));
+        addDots(PaginationDots.Next);
         addLastPageButton();
-      }
+        break;
+
+      default:
+        break;
     }
 
     return buttons;

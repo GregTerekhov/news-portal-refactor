@@ -1,48 +1,32 @@
 import React, { FC } from 'react';
 
-import { formatDateToString } from 'helpers';
+import type { ControlCalendar } from 'types';
 
 import ArrowButton from './ArrowButton';
 
-type ControlFunction = (
-  event: React.MouseEvent<HTMLButtonElement, MouseEvent>,
-  amount: number,
-) => void;
+import { formatDateToString } from 'helpers';
+import { getControlButtons } from '../assistants';
 
-interface CalendarControlsProps {
-  firstDayOfMonth: Date;
-  handleChangeMonth: ControlFunction;
-  handleChangeYear: ControlFunction;
+enum DirectionalStep {
+  Previous = -1,
+  Next = 1,
 }
 
-type ButtonsBlock = {
-  id: string;
-  onPrevClick: ControlFunction;
-  onNextClick: ControlFunction;
-  formattedDate: string;
-};
+interface ICalendarControlsProps {
+  firstDayOfMonth: Date;
+  handleChangeMonth: ControlCalendar;
+  handleChangeYear: ControlCalendar;
+}
 
-const CalendarControls: FC<CalendarControlsProps> = ({
+const CalendarControls: FC<ICalendarControlsProps> = ({
   firstDayOfMonth,
   handleChangeMonth,
   handleChangeYear,
 }) => {
   const { year, month } = formatDateToString(firstDayOfMonth);
+
   //Data для кнопок переключення місяців та років
-  const controlButtonsBlock: ButtonsBlock[] = [
-    {
-      id: 'year',
-      onPrevClick: handleChangeYear,
-      onNextClick: handleChangeYear,
-      formattedDate: year,
-    },
-    {
-      id: 'month',
-      onPrevClick: handleChangeMonth,
-      onNextClick: handleChangeMonth,
-      formattedDate: month,
-    },
-  ];
+  const controlButtonsBlock = getControlButtons(year, month, handleChangeYear, handleChangeMonth);
 
   const commonTextStyles =
     'ext-center text-medium font-medium leading-tight tracking-tightest text-fullDark dark:text-contrastWhite';
@@ -56,21 +40,17 @@ const CalendarControls: FC<CalendarControlsProps> = ({
               ariaLabel={`Previous ${id} button`}
               iconClass='rotate-90'
               onClick={(event: React.MouseEvent<HTMLButtonElement, MouseEvent>) =>
-                onPrevClick(event, -1)
+                onPrevClick(event, DirectionalStep.Previous)
               }
-            >
-              {`Previous ${id} button`}
-            </ArrowButton>
-            <p className={`${commonTextStyles}`}>{formattedDate}</p>
+            />
+            <p className={commonTextStyles}>{formattedDate}</p>
             <ArrowButton
               ariaLabel={`Next ${id} button`}
               onClick={(event: React.MouseEvent<HTMLButtonElement, MouseEvent>) =>
-                onNextClick(event, 1)
+                onNextClick(event, DirectionalStep.Next)
               }
               iconClass='-rotate-90'
-            >
-              {`Next ${id} button`}
-            </ArrowButton>
+            />
           </div>
         ))}
     </div>

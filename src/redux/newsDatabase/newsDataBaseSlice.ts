@@ -1,6 +1,13 @@
 import { PayloadAction, createAction, createSlice, isAnyOf } from '@reduxjs/toolkit';
 
-import type { NewsDBState, VotedItem } from 'types';
+import {
+  DispatchActionType,
+  OperationName,
+  RequestStatus,
+  SliceName,
+  type NewsDBState,
+  type VotedItem,
+} from 'types';
 
 import * as newsDBOperations from './newsDatabaseOperations';
 import { getActions, handleFulfilled, handlePending, handleRejected } from './handleFunctions';
@@ -14,12 +21,13 @@ const initialState: NewsDBState = {
   historyLog: [],
   isLoading: false,
   hasError: null,
+  status: RequestStatus.Undefined,
 };
 
-export const removeFromFavourites = createAction<string>('newsDB/removeFromFavourites');
+export const removeFromFavourites = createAction<string>(OperationName.RemoveFavourite);
 
 const newsDBSlice = createSlice({
-  name: 'newsDB',
+  name: SliceName.DB,
   initialState,
   reducers: {
     addOrUpdateVotedNews: (state, action: PayloadAction<Partial<VotedItem>>) => {
@@ -52,15 +60,21 @@ const newsDBSlice = createSlice({
       .addCase(newsDBOperations.fetchArchivedNews.fulfilled, (state, { payload }) => {
         state.archivedNews = payload.data;
       })
-      .addCase(newsDBOperations.deleteNews.fulfilled, (state, { payload }) => {
+      .addCase(newsDBOperations.deleteNews.fulfilled, (state, { payload, meta }) => {
         const { _id: id } = payload;
+        const { requestStatus } = meta;
+
         state.archivedNews = state.archivedNews.filter((news) => news._id !== id);
+        state.status = requestStatus as RequestStatus;
       })
       .addCase(newsDBOperations.fetchHistoryLog.fulfilled, (state, { payload }) => {
         state.historyLog = payload.data;
       })
-      .addCase(newsDBOperations.clearHistoryLog.fulfilled, (state) => {
+      .addCase(newsDBOperations.clearHistoryLog.fulfilled, (state, { meta }) => {
+        const { requestStatus } = meta;
+
         state.historyLog = [];
+        state.status = requestStatus as RequestStatus;
       })
       .addCase(removeFromFavourites, (state, { payload }) => {
         const newsUrl = payload;
@@ -68,9 +82,9 @@ const newsDBSlice = createSlice({
           state.favourites = state.favourites.filter((fav) => fav.newsUrl !== newsUrl);
         }
       })
-      .addMatcher(isAnyOf(...getActions('pending')), handlePending)
-      .addMatcher(isAnyOf(...getActions('fulfilled')), handleFulfilled)
-      .addMatcher(isAnyOf(...getActions('rejected')), handleRejected);
+      .addMatcher(isAnyOf(...getActions(DispatchActionType.Pending)), handlePending)
+      .addMatcher(isAnyOf(...getActions(DispatchActionType.Fulfilled)), handleFulfilled)
+      .addMatcher(isAnyOf(...getActions(DispatchActionType.Rejected)), handleRejected);
   },
 });
 

@@ -4,7 +4,7 @@ import { RemoveScroll } from 'react-remove-scroll';
 
 import { useModalStateContext } from 'contexts';
 
-import { localStorageOperation } from 'helpers';
+import { localStorageOperation, OperationType } from 'helpers';
 
 import { SignUpPanel, SignInPanel, ChangePassword } from './subcomponents';
 
@@ -16,10 +16,10 @@ const SIGN_IN_TAB_IDX = 1;
 const SIGN_UP_TAB_IDX = 0;
 
 const AuthModal: FC<IAuthModalProps> = ({ passwordToken }) => {
-  const isCredentialsRemembered = localStorageOperation('get', 'rememberMe');
+  const isCredentialsRemembered = localStorageOperation(OperationType.Get, 'rememberMe');
 
-  const [isShowRecoveryInput, setIsShowRecoveryInput] = useState<boolean>(false);
-  const [selectedTab, setSelectedTab] = useState<number>(
+  const [showRecoveryInput, setShowRecoveryInput] = useState(false);
+  const [selectedTab, setSelectedTab] = useState(
     isCredentialsRemembered ? SIGN_IN_TAB_IDX : SIGN_UP_TAB_IDX,
   );
 
@@ -27,13 +27,13 @@ const AuthModal: FC<IAuthModalProps> = ({ passwordToken }) => {
 
   //Функція зміни стану показування інпута для forgotPassword
   const handleShowRecoveryInput = (): void => {
-    setIsShowRecoveryInput(!isShowRecoveryInput);
+    setShowRecoveryInput(!showRecoveryInput);
   };
 
   //Функція приховування інпута forgotPassword при переключенні на інший таб
   const hideForgotPasswordInput = (index: number): void => {
     if (index === SIGN_UP_TAB_IDX) {
-      setIsShowRecoveryInput(false);
+      setShowRecoveryInput(false);
     }
   };
 
@@ -64,13 +64,13 @@ const AuthModal: FC<IAuthModalProps> = ({ passwordToken }) => {
                 <Tab className={tabStyles}>Register</Tab>
                 <Tab className={tabStyles}>Log In</Tab>
               </Tab.List>
-              <Tab.Panels className='pb-4'>
+              <Tab.Panels>
                 <Tab.Panel>
                   <SignUpPanel />
                 </Tab.Panel>
                 <Tab.Panel>
                   <SignInPanel
-                    isShowRecoveryInput={isShowRecoveryInput}
+                    showRecoveryInput={showRecoveryInput}
                     handleShowRecoveryInput={handleShowRecoveryInput}
                   />
                 </Tab.Panel>

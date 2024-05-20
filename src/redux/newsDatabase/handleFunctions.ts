@@ -1,8 +1,6 @@
 import { PayloadAction } from '@reduxjs/toolkit';
 
-import type { DispatchActionType } from '../store';
-import type { NewsDBState } from 'types';
-
+import { DispatchActionType, type NewsDBState } from 'types';
 import * as newsDBOperations from './newsDatabaseOperations';
 
 export const handlePending = (state: NewsDBState) => {

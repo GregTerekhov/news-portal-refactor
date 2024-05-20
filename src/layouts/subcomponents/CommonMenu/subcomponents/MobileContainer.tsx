@@ -1,14 +1,15 @@
 import React, { FC, ReactNode } from 'react';
 
-import Container from '../../Container';
+import { Container } from '../..';
+
 import { getMobileContainerWrapperStyles } from '../assistants';
 
-interface MobileContainerProps {
+interface IMobileContainerProps {
   isOpen: boolean;
   children: ReactNode;
 }
 
-const MobileContainer: FC<MobileContainerProps> = ({ isOpen, children }) => {
+const MobileContainer: FC<IMobileContainerProps> = ({ isOpen, children }) => {
   const wrapperClass = getMobileContainerWrapperStyles(isOpen);
 
   return (

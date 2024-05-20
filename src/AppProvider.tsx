@@ -7,7 +7,7 @@ import * as Tooltip from '@radix-ui/react-tooltip';
 import * as Toast from '@radix-ui/react-toast';
 
 import { store, persistor } from 'reduxStore/store';
-import { CONFIG } from 'config';
+import { Config, CONFIG } from 'config';
 
 import {
   ThemeProvider,
@@ -22,18 +22,18 @@ import {
 } from 'contexts';
 
 const queryClient = new QueryClient();
-const clientGoogleID = CONFIG.APP_GOOGLE_API_TOKEN;
+const { APP_GOOGLE_API_TOKEN }: Config = CONFIG;
 
-type AppProviderProps = {
+interface IAppProviderProps {
   children: ReactNode;
-};
+}
 
-const AppProvider: FC<AppProviderProps> = ({ children }) => (
+const AppProvider: FC<IAppProviderProps> = ({ children }) => (
   <Provider store={store}>
     <PersistGate persistor={persistor}>
       <ModalStateProvider>
         <ThemeProvider>
-          <GoogleOAuthProvider clientId={clientGoogleID}>
+          <GoogleOAuthProvider clientId={APP_GOOGLE_API_TOKEN}>
             <QueryClientProvider client={queryClient}>
               <Tooltip.Provider delayDuration={500}>
                 <AdditionRequestProvider>

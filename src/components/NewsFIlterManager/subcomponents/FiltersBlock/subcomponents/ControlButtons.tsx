@@ -3,10 +3,9 @@ import React, { FC } from 'react';
 import { useFiltersRedux } from 'reduxStore/hooks';
 import { useFiltersStateContext, useWindowWidthContext } from 'contexts';
 
-import { useActiveLinks } from 'hooks';
-
 import { RenderButtons } from './RenderButtons';
 
+import { useActiveLinks } from 'hooks';
 import { getControlButtons, hasNonEmptyValue } from '../assistants';
 import { useFilterNews, useResetFiltration, useSortAccordion, useSortNews } from '../hooks';
 
@@ -18,16 +17,16 @@ const ControlButtons: FC = () => {
   const { isReadActive } = useActiveLinks();
   const { handleFiltration } = useFilterNews();
   const { handleResetFiltration } = useResetFiltration();
-  const { handleSort } = useSortNews();
-  const { handleSortRead } = useSortAccordion();
+  const { handleSortNews } = useSortNews();
+  const { handleSortAccordion } = useSortAccordion();
 
   const hasFilterValue = hasNonEmptyValue(filters);
 
   const controlButtons = getControlButtons({
     handleFiltration,
-    handleSort,
+    handleSortNews,
     handleResetFiltration,
-    handleSortRead,
+    handleSortAccordion,
     isSorted,
     hasFilterValue,
     isReadActive,

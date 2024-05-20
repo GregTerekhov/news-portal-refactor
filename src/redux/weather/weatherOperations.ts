@@ -1,21 +1,32 @@
-import { CONFIG } from 'config';
+import { Config, CONFIG } from 'config';
 
 import { requestTemplate } from '../services';
 
-import type { HourlyWeatherData, Position, WeatherData } from 'types';
+import {
+  HTTPMethods,
+  NestedAPIObject,
+  OperationName,
+  Routes,
+  type HourlyWeatherData,
+  type Position,
+  type WeatherData,
+} from 'types';
 
-const API_KEY = CONFIG.WEATHER_API_KEY;
+const { WEATHER_API_KEY }: Config = CONFIG;
 
 export const fetchWeather = requestTemplate<Position, WeatherData>(
-  'weather/fetch',
-  '/data/2.5/weather',
-  'get',
-  { queryParams: { appid: API_KEY, units: 'metric' } },
+  OperationName.CurrentWeather,
+  Routes.CurrentWeather,
+  HTTPMethods.GET,
+  { queryParams: { appid: WEATHER_API_KEY, units: 'metric' } },
 );
 
 export const fetchHourlyForecastWeather = requestTemplate<Position, HourlyWeatherData>(
-  'weather/hourlyForecast',
-  '/data/2.5/forecast',
-  'get',
-  { queryParams: { appid: API_KEY, units: 'metric', cnt: 6 }, nestedObjectName: 'list' },
+  OperationName.WeatherByHours,
+  Routes.WeatherByHours,
+  HTTPMethods.GET,
+  {
+    queryParams: { appid: WEATHER_API_KEY, units: 'metric', cnt: 6 },
+    nestedObjectName: NestedAPIObject.WeatherByHour,
+  },
 );

@@ -8,6 +8,7 @@ const configSchema = z.object({
   BASE_URL_DB: z.string(),
   BASE_URL_NEWS: z.string(),
   BASE_URL_WEATHER: z.string(),
+  YOUTUBE_IMAGE_URL: z.string(),
   YOUTUBE_ID: z.string(),
   WEATHER_ICON_URL: z.string(),
 });

@@ -1,9 +1,10 @@
 import { isAfter, startOfToday } from 'date-fns';
 
 import type { DateRequest } from 'types';
+
 import { useFiltersStateContext, useSelectedDateContext } from 'contexts';
 
-import { determineNewSelectedDate } from 'helpers';
+import { DatePosition, determineNewSelectedDate } from 'helpers';
 
 const useFilterDateChange = () => {
   const today = startOfToday();
@@ -29,7 +30,7 @@ const useFilterDateChange = () => {
         const selectedPeriod: DateRequest = determineNewSelectedDate(
           selectedDate,
           beginFilterDate,
-          'filter',
+          DatePosition.Filter,
         );
 
         //Додавання періода дат в об'єкт стану в контексті
@@ -50,7 +51,7 @@ const useFilterDateChange = () => {
           setBeginFilterDate(null);
         }
       } catch (error) {
-        console.error('An error occurred while updating the values: ', error);
+        console.error('An error occurred while updating the filter date values: ', error);
       } finally {
         //Закриття календаря
         if (isOpenCalendar) toggleCalendar();

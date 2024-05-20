@@ -1,16 +1,18 @@
 import React, { FC } from 'react';
 import { Link } from 'react-router-dom';
 
+import { IconName, IconSizes, Paths } from 'types';
+
 import { useAuthRedux } from 'reduxStore/hooks';
 import { useHeaderStyles } from 'hooks';
 
 import { SvgIcon } from 'ui';
 
-type UserAccountLinkProps = {
+type IUserAccountLinkProps = {
   isHomeActive: boolean;
 };
 
-const UserAccountLink: FC<UserAccountLinkProps> = ({ isHomeActive }) => {
+const UserAccountLink: FC<IUserAccountLinkProps> = ({ isHomeActive }) => {
   const { user } = useAuthRedux();
   const { textClass, accountIconStyles } = useHeaderStyles(isHomeActive);
 
@@ -23,9 +25,9 @@ const UserAccountLink: FC<UserAccountLinkProps> = ({ isHomeActive }) => {
   }`;
 
   return (
-    <Link to='/account' className={accountLinkStyles}>
+    <Link to={Paths.Account} className={accountLinkStyles}>
       {user.name}
-      <SvgIcon svgName='account' sizeKey='smIcon18' className={iconStyles} />
+      <SvgIcon svgName={IconName.Account} sizeKey={IconSizes.smIcon18} className={iconStyles} />
     </Link>
   );
 };

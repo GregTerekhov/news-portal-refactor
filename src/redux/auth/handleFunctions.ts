@@ -1,8 +1,6 @@
 import { PayloadAction } from '@reduxjs/toolkit';
 
-import type { DispatchActionType } from '../store';
-import type { AuthState } from 'types';
-
+import { type AuthState, DispatchActionType } from 'types';
 import * as authOperations from './authOperations';
 
 export const handlePending = (state: AuthState) => {
@@ -14,10 +12,12 @@ export const handleFulfilled = (state: AuthState, action: PayloadAction<any, str
   state.isCurrentUser = false;
   state.hasError = null;
   state.message = action.payload.message;
+  state.status = action.meta.requestStatus;
 };
 
 export const handleRejected = (state: AuthState, action: PayloadAction<unknown, string, any>) => {
   state.isCurrentUser = false;
+  state.status = action.meta.requestStatus;
 
   if (
     typeof action.payload === 'string' ||

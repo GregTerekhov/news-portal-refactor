@@ -1,9 +1,7 @@
 import React, { FC } from 'react';
 
-import { CONFIG } from 'config';
+import { Config, CONFIG } from 'config';
 import { useWeatherAPIRedux } from 'reduxStore/hooks';
-
-import { useWeather } from './hooks';
 
 import { Loader } from 'ui';
 import {
@@ -13,9 +11,12 @@ import {
   WeatherDetailsForToday,
 } from './subcomponents';
 
+import { useWeather } from './hooks';
 import { getWeatherTodayObject } from './assistants';
 
-const WeatherBlock: FC<{}> = () => {
+const { WEATHER_ICON_URL }: Config = CONFIG;
+
+const WeatherBlock: FC = () => {
   const {
     hasGeolocationPermission,
     isCelsius,
@@ -63,7 +64,7 @@ const WeatherBlock: FC<{}> = () => {
           {iconWeather && (
             <img
               className='m-auto h-32 w-32 md:h-165px md:w-165px hg:h-180px hg:w-180px'
-              src={`${CONFIG.WEATHER_ICON_URL}/${iconWeather}@2x.png`}
+              src={`${WEATHER_ICON_URL}/${iconWeather}@2x.png`}
               alt={iconAlt}
             />
           )}

@@ -1,8 +1,9 @@
-import type { MemberImage } from 'types';
+import type { StaticImage } from 'types';
+
 import { memberFirstImages, memberSecondImages, memberThirdImages } from 'constants/images';
 import { generateContentImages } from 'helpers';
 
-export const getMatchedImages = (): MemberImage[] => {
+export const getMatchedImages = (): StaticImage[] => {
   const devicePixelRatio = window.devicePixelRatio || 1;
   const memberImages = [memberFirstImages, memberSecondImages, memberThirdImages];
 

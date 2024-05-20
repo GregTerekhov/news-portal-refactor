@@ -8,6 +8,7 @@ import { getElementStyles, renderMenuItem } from '../assistants';
 
 const FooterMenu: FC = () => {
   const { isAuthenticated } = useAuthRedux();
+
   const { isAboutUs } = useActiveLinks();
   const location = useLocation();
 
@@ -29,7 +30,7 @@ const FooterMenu: FC = () => {
     <>
       <nav className='mb-8 w-full md:mb-10'>
         <ul className={listStyles}>
-          {menuItems &&
+          {Array.isArray(menuItems) &&
             menuItems.map(({ path, label, liClasses }) => (
               <li key={path} className={`${liClasses} md:text-center`}>
                 <NavLink to={path} className={linkStyles}>

@@ -1,51 +1,63 @@
-import { CONFIG } from 'config';
+import {
+  type ArticleNewsArray,
+  type NewsWireArray,
+  type PopularNewsArray,
+  type CategoriesItem,
+  type PopularRequest,
+  type KeywordRequest,
+  type CategoryRequest,
+  type DateRequest,
+  OperationName,
+  HTTPMethods,
+  NestedAPIObject,
+  Routes,
+} from 'types';
+
+import { Config, CONFIG } from 'config';
 
 import { requestTemplate } from '../services';
 
-import type {
-  ArticleNewsArray,
-  NewsWireArray,
-  PopularNewsArray,
-  CategoriesItem,
-  PopularRequest,
-  KeywordRequest,
-  CategoryRequest,
-  DateRequest,
-} from 'types';
-
-const API_KEY = CONFIG.NEWS_API_KEY;
+const { NEWS_API_KEY }: Config = CONFIG;
 
 export const fetchPopularNews = requestTemplate<PopularRequest, PopularNewsArray>(
-  'apiNews/popular/fetch',
-  '/mostpopular/v2/viewed/:period.json',
-  'get',
-  { queryParams: { 'api-key': API_KEY }, responsePath: 'results' },
+  OperationName.FetchPopular,
+  Routes.PopularNews,
+  HTTPMethods.GET,
+  { queryParams: { 'api-key': NEWS_API_KEY }, responsePath: NestedAPIObject.NewsResults },
 );
 
 export const fetchNewsByKeyword = requestTemplate<KeywordRequest, ArticleNewsArray>(
-  'apiNews/article/fetch',
-  '/search/v2/articlesearch.json',
-  'get',
-  { queryParams: { 'api-key': API_KEY }, responsePath: 'response', nestedObjectName: 'docs' },
+  OperationName.FetchByKeyword,
+  Routes.NewsByKeyword,
+  HTTPMethods.GET,
+  {
+    queryParams: { 'api-key': NEWS_API_KEY },
+    responsePath: NestedAPIObject.NewsArticle,
+    nestedObjectName: NestedAPIObject.NewsArticleDocs,
+  },
 );
 
 export const fetchAllCategories = requestTemplate<void, CategoriesItem[]>(
-  'apiNews/categories/list',
-  '/news/v3/content/section-list.json',
-  'get',
-  { queryParams: { 'api-key': API_KEY }, nestedObjectName: 'results' },
+  OperationName.GetCategoriesList,
+  Routes.CategoriesList,
+  HTTPMethods.GET,
+  { queryParams: { 'api-key': NEWS_API_KEY }, nestedObjectName: NestedAPIObject.NewsResults },
 );
 
 export const fetchNewsByCategory = requestTemplate<CategoryRequest, NewsWireArray>(
-  'apiNews/categories/fetch',
-  '/news/v3/content/all/:section.json',
-  'get',
-  { queryParams: { 'api-key': API_KEY }, nestedObjectName: 'results' },
+  OperationName.FetchByCategory,
+  Routes.NewsByCategory,
+  HTTPMethods.GET,
+  { queryParams: { 'api-key': NEWS_API_KEY }, nestedObjectName: NestedAPIObject.NewsResults },
 );
 
 export const fetchNewsByDate = requestTemplate<DateRequest, ArticleNewsArray>(
-  'apiNews/article/fetchByDate',
-  '/search/v2/articlesearch.json',
-  'get',
-  { queryParams: { 'api-key': API_KEY }, responsePath: 'response', nestedObjectName: 'docs' },
+  OperationName.FetchByDate,
+  Routes.NewsByDate,
+  HTTPMethods.GET,
+  {
+    queryParams: { 'api-key': NEWS_API_KEY },
+    responsePath: NestedAPIObject.NewsArticle,
+    nestedObjectName: NestedAPIObject.NewsArticleDocs,
+  },
 );

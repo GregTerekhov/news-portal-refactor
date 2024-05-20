@@ -1,19 +1,18 @@
 import { useEffect, useMemo, useState } from 'react';
 
 import { useWindowWidthContext } from 'contexts';
-import { useActiveLinks, useChooseRenderingNews } from 'hooks';
+import { useChooseRenderingNews } from 'hooks';
 
 const MOBILE_NEWS_DISPLAYED_COUNT = 5;
 const WIDESCREEN_NEWS_DISPLAYED_COUNT = 6;
 
 const useInfiniteScroll = () => {
-  const [totalNewsCount, setTotalNewsCount] = useState<number>(0);
-  const [isLoadingMore, setIsLoadingMore] = useState<boolean>(false);
+  const [totalNewsCount, setTotalNewsCount] = useState(0);
+  const [isLoadingMore, setIsLoadingMore] = useState(false);
 
   const { isSmallScreens } = useWindowWidthContext();
 
-  const activeLinks = useActiveLinks();
-  const { rebuiltNews } = useChooseRenderingNews(activeLinks);
+  const { rebuiltNews } = useChooseRenderingNews();
 
   useEffect(() => {
     if (rebuiltNews?.length > 0) {

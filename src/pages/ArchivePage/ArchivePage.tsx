@@ -1,5 +1,7 @@
 import React, { FC, useEffect } from 'react';
 
+import { VariantsAccordion } from 'types';
+
 import { useDBRedux } from 'reduxStore/hooks';
 import { PageTemplate } from '../template';
 
@@ -9,7 +11,7 @@ import { ArchiveHistoryLog } from './subcomponents';
 
 import { organiseNewsByMonth } from './assistants';
 
-const ArchivePage: FC<{}> = () => {
+const ArchivePage: FC = () => {
   const { allArchive, archiveHistoryLog, getHistoryLog, getArchives } = useDBRedux();
 
   useEffect(() => {
@@ -30,7 +32,7 @@ const ArchivePage: FC<{}> = () => {
       {Object.entries(organisedNews)
         .reverse()
         .map(([monthYear, newsList]) => (
-          <Accordeon key={monthYear} dateSeparator={monthYear} position='archivePage'>
+          <Accordeon key={monthYear} dateSeparator={monthYear} position={VariantsAccordion.Archive}>
             <NewsList currentItems={newsList} />
           </Accordeon>
         ))}
