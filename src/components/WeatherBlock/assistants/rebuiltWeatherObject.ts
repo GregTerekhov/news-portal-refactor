@@ -1,4 +1,4 @@
-import type { WeatherData, HourlyWeatherData } from 'types/weather';
+import type { WeatherData, HourlyWeatherData } from 'types';
 import {
   convertPressure,
   convertTemperature,

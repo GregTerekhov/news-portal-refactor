@@ -17,8 +17,8 @@ const useSortAccordion = () => {
     //Створення нового масива акордеонів та сортування в залежності від напрямку сортування
     const sortedDates =
       order === SortDirection.Ascending
-        ? sortedAccordionDates?.sort().reverse()
-        : sortedAccordionDates?.sort();
+        ? sortedAccordionDates.sort().reverse()
+        : sortedAccordionDates.sort();
 
     //Зміна глобального стану фільтрованих (сортованих) новин
     setSortedDates(sortedDates);
