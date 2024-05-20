@@ -14,11 +14,11 @@ const useSortAccordion = () => {
 
   //Функція сортування акордеонів на сторінці Read
   const handleSortAccordion = async (order: SortDirection): Promise<void> => {
+    const filteredDates = sortedAccordionDates.filter((date): date is string => date !== undefined);
+
     //Створення нового масива акордеонів та сортування в залежності від напрямку сортування
     const sortedDates =
-      order === SortDirection.Ascending
-        ? sortedAccordionDates.sort().reverse()
-        : sortedAccordionDates.sort();
+      order === SortDirection.Ascending ? filteredDates.sort().reverse() : filteredDates.sort();
 
     //Зміна глобального стану фільтрованих (сортованих) новин
     setSortedDates(sortedDates);

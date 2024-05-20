@@ -7,7 +7,7 @@ const useReadNewsContent = () => {
   if (rebuiltNews?.length === 0) return [];
 
   const publishedDate = rebuiltNews
-    .map((news) => news.publishDate)
+    .map((news) => news?.publishDate)
     .filter((date) => date !== undefined);
 
   const uniqueDateList = new Set(publishedDate);
