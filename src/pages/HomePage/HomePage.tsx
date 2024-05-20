@@ -1,17 +1,16 @@
 import React, { FC, useEffect } from 'react';
 
+import { TimePeriodRequest } from 'types';
+
 import { useAuthRedux, useDBRedux, useNewsAPIRedux } from 'reduxStore/hooks';
 import { usePaginationContext } from 'contexts';
 import { PageTemplate } from '../template';
 
-import { useActiveLinks, useChooseRenderingNews } from 'hooks';
-
 import { NewsList } from 'components';
-
-import { usePagination } from './hooks';
 import { Pagination } from './subcomponents';
 
-const TODAY_HOT_NEWS = 1;
+import { useChooseRenderingNews } from 'hooks';
+import { usePagination } from './hooks';
 
 const HomePage: FC = () => {
   const { fetchPopular } = useNewsAPIRedux();
@@ -20,12 +19,11 @@ const HomePage: FC = () => {
 
   const { currentPage } = usePaginationContext();
 
-  const activeLinks = useActiveLinks();
-  const { rebuiltNews } = useChooseRenderingNews(activeLinks);
+  const { rebuiltNews } = useChooseRenderingNews();
   const { currentItems, pageNumbers } = usePagination(rebuiltNews ?? []);
 
   useEffect(() => {
-    fetchPopular({ period: TODAY_HOT_NEWS });
+    fetchPopular({ period: TimePeriodRequest.Today });
     if (isAuthenticated) getSavedNews();
   }, [fetchPopular, getSavedNews, isAuthenticated]);
 

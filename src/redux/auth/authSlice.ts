@@ -1,6 +1,15 @@
 import { createAction, createSlice, isAnyOf } from '@reduxjs/toolkit';
 
-import type { AuthState, TokensPayload, UpdateThemeRequest } from 'types';
+import {
+  DispatchActionType,
+  OperationName,
+  RequestStatus,
+  SliceName,
+  ThemeValue,
+  type AuthState,
+  type TokensPayload,
+  type UpdateThemeRequest,
+} from 'types';
 
 import * as authOperations from './authOperations';
 import { getActions, handleFulfilled, handlePending, handleRejected } from './handleFunctions';
@@ -10,7 +19,7 @@ const initialState: AuthState = {
   isLoggedIn: false,
   hasError: null,
   isCurrentUser: false,
-  userTheme: 'light',
+  userTheme: ThemeValue.Light,
   accessToken: null,
   refreshToken: null,
   thirdPartyRegister: false,
@@ -24,13 +33,16 @@ const initialState: AuthState = {
     facebook: false,
     apple: false,
   },
+  status: RequestStatus.Undefined,
 };
 
-export const setTokens = createAction<TokensPayload>('auth/setTokens');
-export const changeNotAuthTheme = createAction<UpdateThemeRequest>('notAuth/changeTheme');
+export const setTokens = createAction<TokensPayload>(OperationName.SetTokens);
+export const changeNotAuthTheme = createAction<UpdateThemeRequest>(
+  OperationName.NotAuthToggleTheme,
+);
 
 const authSlice = createSlice({
-  name: 'auth',
+  name: SliceName.Auth,
   initialState,
   reducers: {},
   extraReducers: (builder) => {
@@ -40,7 +52,7 @@ const authSlice = createSlice({
         state.user.name = name;
         state.user.email = email;
       })
-      .addCase(authOperations.getSavedPassword.fulfilled, (state, { payload }) => {
+      .addCase(authOperations.getSavedCredentials.fulfilled, (state, { payload }) => {
         state.message = payload.message;
       })
       .addCase(authOperations.signIn.fulfilled, (state, { payload }) => {
@@ -111,9 +123,9 @@ const authSlice = createSlice({
         const { updatedTheme }: UpdateThemeRequest = payload;
         state.userTheme = updatedTheme;
       })
-      .addMatcher(isAnyOf(...getActions('pending')), handlePending)
-      .addMatcher(isAnyOf(...getActions('fulfilled')), handleFulfilled)
-      .addMatcher(isAnyOf(...getActions('rejected')), handleRejected);
+      .addMatcher(isAnyOf(...getActions(DispatchActionType.Pending)), handlePending)
+      .addMatcher(isAnyOf(...getActions(DispatchActionType.Fulfilled)), handleFulfilled)
+      .addMatcher(isAnyOf(...getActions(DispatchActionType.Rejected)), handleRejected);
   },
 });
 

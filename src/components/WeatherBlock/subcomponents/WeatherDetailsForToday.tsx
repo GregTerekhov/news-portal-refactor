@@ -1,5 +1,7 @@
 import React, { FC } from 'react';
 
+import { TooltipAlign, TooltipAppearanceSide, TooltipSideOffset } from 'types';
+
 import { useWeatherAPIRedux } from 'reduxStore/hooks';
 import { useWindowWidthContext } from 'contexts';
 
@@ -9,6 +11,7 @@ import { receiveCurrentDate, getWeatherDetailsForToday } from '../assistants';
 
 const WeatherDetailsForToday: FC = () => {
   const { currentWeather } = useWeatherAPIRedux();
+
   const { isSmallScreens } = useWindowWidthContext();
 
   const { days, dateNow } = receiveCurrentDate();
@@ -25,14 +28,14 @@ const WeatherDetailsForToday: FC = () => {
       <ul className='grid grid-cols-2 grid-rows-2 gap-y-3.5'>
         {Array.isArray(weatherDetails) &&
           weatherDetails.map(
-            ({ icon, iconSize, value, label, hint, justifyItemClass, subTextValue }) => (
-              <li key={label}>
+            ({ icon, iconSize, value, ariaLabel, hint, justifyItemClass, subTextValue }) => (
+              <li key={ariaLabel}>
                 <Hint
                   label={hint}
-                  side='top'
-                  align={justifyItemClass === 'justify-end' ? 'end' : 'start'}
-                  sideOffset={4}
-                  ariaLabel={`Info about ${label} for current time`}
+                  side={TooltipAppearanceSide.Top}
+                  align={justifyItemClass === 'justify-end' ? TooltipAlign.End : TooltipAlign.Start}
+                  sideOffset={TooltipSideOffset.Small}
+                  ariaLabel={`Info about ${ariaLabel} for current time`}
                 >
                   <div
                     className={`flex items-center gap-3 text-base text-contrastWhite md:text-medium hg:text-2xl ${justifyItemClass}`}

@@ -8,7 +8,7 @@ import { ScrollSentinel } from './subcomponents';
 
 import { useInfiniteScroll } from './hooks';
 
-const FavouritePage: FC<{}> = () => {
+const FavouritePage: FC = () => {
   const { getFavourites, getSavedNews } = useDBRedux();
   const { displayedNews, handleLoadMore } = useInfiniteScroll();
 

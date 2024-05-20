@@ -1,4 +1,15 @@
+import { PaginationDots } from 'types';
 import { COUNT, FIRST_PAGE, QUANTITY } from './constants';
+
+const {
+  FIRST_DESKTOP_PAGE_COUNT,
+  FIRST_MOBILE_PAGE_COUNT,
+  FIRST_TABLET_PAGE_COUNT,
+  OTHER_DESKTOP_PAGE_COUNT,
+  OTHER_MOBILE_PAGE_COUNT,
+  OTHER_TABLET_PAGE_COUNT,
+} = COUNT;
+const { DESKTOP_BUTTONS_QUANTITY, MOBILE_BUTTONS_QUANTITY } = QUANTITY;
 
 // Розрахунок кількості сторінок для кожного типу пристрою
 const calculatePagesArray = (
@@ -37,12 +48,12 @@ const calculatePagesForDevices = (
 function getFirstPageCount(isMobile: boolean, isTablet: boolean): number {
   switch (true) {
     case isMobile:
-      return COUNT.FIRST_MOBILE_PAGE_COUNT;
+      return FIRST_MOBILE_PAGE_COUNT;
     case isTablet:
-      return COUNT.FIRST_TABLET_PAGE_COUNT;
+      return FIRST_TABLET_PAGE_COUNT;
 
     default:
-      return COUNT.FIRST_DESKTOP_PAGE_COUNT;
+      return FIRST_DESKTOP_PAGE_COUNT;
   }
 }
 
@@ -50,12 +61,12 @@ function getFirstPageCount(isMobile: boolean, isTablet: boolean): number {
 function getOtherPageCount(isMobile: boolean, isTablet: boolean): number {
   switch (true) {
     case isMobile:
-      return COUNT.OTHER_MOBILE_PAGE_COUNT;
+      return OTHER_MOBILE_PAGE_COUNT;
     case isTablet:
-      return COUNT.OTHER_TABLET_PAGE_COUNT;
+      return OTHER_TABLET_PAGE_COUNT;
 
     default:
-      return COUNT.OTHER_DESKTOP_PAGE_COUNT;
+      return OTHER_DESKTOP_PAGE_COUNT;
   }
 }
 
@@ -79,20 +90,19 @@ export const renderPagination = (
   pageNumbers: number[],
   isNotMobile: boolean | undefined,
   renderPaginationButton: (pageNumber: number) => JSX.Element,
-  renderEllipsis: (direction: string) => JSX.Element,
+  renderEllipsis: (direction: PaginationDots) => JSX.Element,
 ) => {
   const lastPage = pageNumbers.length;
   const prevPage = currentPage - FIRST_PAGE;
   const nextPage = currentPage + FIRST_PAGE;
-  const visibleButtonsCount = !isNotMobile
-    ? QUANTITY.DESKTOP_BUTTONS_QUANTITY
-    : QUANTITY.MOBILE_BUTTONS_QUANTITY;
+  const visibleButtonsCount = !isNotMobile ? DESKTOP_BUTTONS_QUANTITY : MOBILE_BUTTONS_QUANTITY;
 
   const isFirstPage = currentPage === FIRST_PAGE;
   const isLastPage = currentPage === lastPage;
   const isPenultimatePage = currentPage + FIRST_PAGE === lastPage;
   const isRemainingPages =
     currentPage - FIRST_PAGE > FIRST_PAGE && currentPage + FIRST_PAGE !== lastPage;
+  const isMiddlePageInRange = currentPage > FIRST_PAGE && currentPage < lastPage;
 
   const paginationButtons: JSX.Element[] = [];
 
@@ -103,30 +113,30 @@ export const renderPagination = (
   } else if (isFirstPage) {
     paginationButtons.push(renderPaginationButton(currentPage));
     paginationButtons.push(renderPaginationButton(nextPage));
-    paginationButtons.push(renderEllipsis('next'));
+    paginationButtons.push(renderEllipsis(PaginationDots.Next));
     paginationButtons.push(renderPaginationButton(lastPage));
   } else if (isLastPage) {
     paginationButtons.push(renderPaginationButton(FIRST_PAGE));
-    paginationButtons.push(renderEllipsis('prev'));
+    paginationButtons.push(renderEllipsis(PaginationDots.Previous));
     paginationButtons.push(renderPaginationButton(prevPage));
     paginationButtons.push(renderPaginationButton(currentPage));
-  } else if (currentPage > FIRST_PAGE && currentPage < lastPage) {
+  } else if (isMiddlePageInRange) {
     if (currentPage === 2) {
-      paginationButtons.push(renderEllipsis('prev'));
+      paginationButtons.push(renderEllipsis(PaginationDots.Previous));
       paginationButtons.push(renderPaginationButton(currentPage));
       paginationButtons.push(renderPaginationButton(nextPage));
-      paginationButtons.push(renderEllipsis('next'));
+      paginationButtons.push(renderEllipsis(PaginationDots.Next));
       paginationButtons.push(renderPaginationButton(lastPage));
     }
     if (isRemainingPages) {
-      paginationButtons.push(renderEllipsis('prev'));
+      paginationButtons.push(renderEllipsis(PaginationDots.Previous));
       paginationButtons.push(renderPaginationButton(prevPage));
       paginationButtons.push(renderPaginationButton(currentPage));
       paginationButtons.push(renderPaginationButton(nextPage));
-      paginationButtons.push(renderEllipsis('next'));
+      paginationButtons.push(renderEllipsis(PaginationDots.Next));
     }
     if (isPenultimatePage) {
-      paginationButtons.push(renderEllipsis('prev'));
+      paginationButtons.push(renderEllipsis(PaginationDots.Previous));
       paginationButtons.push(renderPaginationButton(prevPage));
       paginationButtons.push(renderPaginationButton(currentPage));
       paginationButtons.push(renderPaginationButton(lastPage));

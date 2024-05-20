@@ -1,5 +1,7 @@
+import type { SetStateAction } from 'react';
+
 const useControls = (
-  setCurrentPage: (value: number) => void,
+  setCurrentPage: (value: SetStateAction<number>) => void,
   currentPage: number,
   pageNumbers: number[],
 ) => {

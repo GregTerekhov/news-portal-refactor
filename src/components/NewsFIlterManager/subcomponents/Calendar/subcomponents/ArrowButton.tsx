@@ -1,23 +1,24 @@
-import React, { FC, ReactNode } from 'react';
+import React, { FC } from 'react';
+
+import { ButtonType, IconName, IconSizes } from 'types';
 
 import { SvgIcon } from 'ui';
 
 interface IArrowButtonProps {
   ariaLabel: string;
+  iconClass: string;
   onClick: (event: React.MouseEvent<HTMLButtonElement>) => void;
-  children: ReactNode;
-  iconClass?: string;
 }
 
-const ArrowButton: FC<IArrowButtonProps> = ({ ariaLabel, onClick, children, iconClass }) => {
+const ArrowButton: FC<IArrowButtonProps> = ({ ariaLabel, onClick, iconClass }) => {
   return (
-    <button aria-label={ariaLabel} type='button' onClick={onClick}>
+    <button aria-label={ariaLabel} type={ButtonType.Button} onClick={onClick}>
       <SvgIcon
-        svgName='arrow'
-        sizeKey='xsIcon15'
-        className={`${iconClass} dark:hocus:fill-accentBase fill-accentBase dark:fill-disabledBase`}
+        svgName={IconName.Arrow}
+        sizeKey={IconSizes.xsIcon15}
+        className={`${iconClass} fill-accentBase dark:fill-disabledBase dark:hocus:fill-accentBase`}
       />
-      {children && <span className='sr-only'>{children}</span>}
+      {ariaLabel && <span className='sr-only'>{ariaLabel}</span>}
     </button>
   );
 };

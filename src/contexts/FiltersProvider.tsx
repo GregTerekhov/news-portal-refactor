@@ -1,22 +1,22 @@
-import React, { FC, ReactNode, createContext, useContext, useState } from 'react';
+import React, { FC, ReactNode, SetStateAction, createContext, useContext, useState } from 'react';
 
 import type { Filters } from 'types';
 
-type FiltersProviderProps = {
+interface IFiltersProviderProps {
   children: ReactNode;
-};
-type FiltersContextValue = {
+}
+interface IFiltersContext {
   filters: Filters;
-  setFilters: (value: Filters) => void;
   selectedMaterialType: string;
-  setSelectedMaterialType: (value: string) => void;
+  setFilters: (value: SetStateAction<Filters>) => void;
+  setSelectedMaterialType: (value: SetStateAction<string>) => void;
   resetFiltersState: () => void;
-};
+}
 
-export const FiltersContext = createContext<FiltersContextValue | undefined>(undefined);
+const FiltersContext = createContext<IFiltersContext | undefined>(undefined);
 
-export const FiltersProvider: FC<FiltersProviderProps> = ({ children }) => {
-  const [selectedMaterialType, setSelectedMaterialType] = useState<string>('');
+export const FiltersProvider: FC<IFiltersProviderProps> = ({ children }) => {
+  const [selectedMaterialType, setSelectedMaterialType] = useState('');
   const [filters, setFilters] = useState<Filters>({
     keyword: '',
     title: '',
@@ -47,8 +47,8 @@ export const FiltersProvider: FC<FiltersProviderProps> = ({ children }) => {
     <FiltersContext.Provider
       value={{
         filters,
-        setFilters,
         selectedMaterialType,
+        setFilters,
         setSelectedMaterialType,
         resetFiltersState,
       }}

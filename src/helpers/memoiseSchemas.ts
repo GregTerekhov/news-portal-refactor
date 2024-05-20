@@ -1,45 +1,63 @@
 import memoizeOne from 'memoize-one';
-import * as yup from 'yup';
+import { string, StringSchema } from 'yup';
+
+enum ValidateErrorMessage {
+  MinNameLength = 'Name must be at least 4 characters',
+  MaxNameLength = 'Name must be at most 20 characters',
+  NameRequired = 'Name is required',
+  EmailRequired = 'Email is required',
+  EmailFormat = 'Invalid email format',
+  PasswordRequired = 'Password is required',
+  MinPasswordLength = 'Password must be at least 8 characters',
+  PasswordFormat = 'Password must contain at least one uppercase letter, one number, and one special character',
+  CurrentPasswordRequired = 'Please enter your current password to confirm changes',
+  ConfirmPasswordRequired = 'Confirm password is required',
+  PasswordMatch = 'Passwords do not match',
+}
+
+const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const passwordRegex = /^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
 
 //Мемоїзація схеми валідації користувацького імені
-export const createNameValidation = memoizeOne(() =>
-  yup.string().min(4).max(20).required('Name is required'),
+export const createNameValidation = memoizeOne(
+  (): StringSchema<string> =>
+    string()
+      .min(4, ValidateErrorMessage.MinNameLength)
+      .max(20, ValidateErrorMessage.MaxNameLength)
+      .required(ValidateErrorMessage.NameRequired),
 );
 
 //Мемоїзація схеми валідації користувацької пошти
-export const createEmailValidation = memoizeOne(() =>
-  yup
-    .string()
-    .required('Email is required')
-    .matches(/^[^\s@]+@[^\s@]+\.[^\s@]+$/, 'Invalid email format')
-    .trim(),
+export const createEmailValidation = memoizeOne(
+  (): StringSchema<string> =>
+    string()
+      .required(ValidateErrorMessage.EmailRequired)
+      .matches(emailRegex, ValidateErrorMessage.EmailFormat)
+      .trim(),
 );
 
 //Мемоїзація схеми валідації користувацького пароля
-export const createPasswordValidation = memoizeOne(() =>
-  yup
-    .string()
-    .required('Password is required')
-    .min(8, 'Password must be at least 8 characters')
-    .matches(
-      /^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
-      'Password must contain at least one uppercase letter, one number, and one special character',
-    )
-    .trim(),
+export const createPasswordValidation = memoizeOne(
+  (): StringSchema<string> =>
+    string()
+      .required(ValidateErrorMessage.PasswordRequired)
+      .min(8, ValidateErrorMessage.MinPasswordLength)
+      .matches(passwordRegex, ValidateErrorMessage.PasswordFormat)
+      .trim(),
 );
 
 //Мемоїзація схеми валідації поточного користувацького пароля
-export const createCurrentPassword = memoizeOne(() =>
-  yup.string().required('Please enter your current password to confirm changes').trim(),
+export const createCurrentPasswordValidation = memoizeOne(
+  (): StringSchema<string> =>
+    string().required(ValidateErrorMessage.CurrentPasswordRequired).trim(),
 );
 
 //Мемоїзація схеми валідації повтора користувацького пароля
 export const createConfirmPasswordValidation = memoizeOne(
-  (passwordValidation: yup.StringSchema<string>) =>
-    yup
-      .string()
-      .required('Confirm password is required')
-      .test('passwords-match', 'Passwords do not match', function (value) {
+  (passwordValidation: StringSchema<string>): StringSchema<string> =>
+    string()
+      .required(ValidateErrorMessage.ConfirmPasswordRequired)
+      .test('passwords-match', ValidateErrorMessage.PasswordMatch, function (value) {
         return value === this.parent.newPassword;
       })
       .trim()

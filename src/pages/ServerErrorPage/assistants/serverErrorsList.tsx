@@ -1,64 +1,59 @@
-import type { ErrorList } from 'types';
+import { ServerErrorCode, ServerErrorMessage, ServerErrorWarning, type ErrorList } from 'types';
 
-export const serverErrorsList: ErrorList[] = [
+export const serverErrorsList: readonly ErrorList[] = [
   {
-    code: 500,
-    warning: 'Internal Server Error',
-    message:
-      'This is generic server error message. You see this because an unexpected condition was encountered and no more specific message is suitable',
+    code: ServerErrorCode.InternalServerError,
+    warning: ServerErrorWarning.InternalServerError,
+    message: ServerErrorMessage.InternalServerError,
   },
   {
-    code: 501,
-    warning: 'Not Implemented',
-    message:
-      'The server either does not recognize the request method, or it lacks the ability to fulfil the request',
+    code: ServerErrorCode.NotImplemented,
+    warning: ServerErrorWarning.NotImplemented,
+    message: ServerErrorMessage.NotImplemented,
   },
   {
-    code: 502,
-    warning: 'Bad Gateway',
-    message:
-      'The server might acting as a gateway or proxy and received an invalid response from the upstream server',
+    code: ServerErrorCode.BadGateway,
+    warning: ServerErrorWarning.BadGateway,
+    message: ServerErrorMessage.BadGateway,
   },
   {
-    code: 503,
-    warning: 'Service Unavailable',
-    message:
-      'The server cannot handle the request (because it is overloaded or down for maintenance)',
+    code: ServerErrorCode.ServiceUnavailable,
+    warning: ServerErrorWarning.ServiceUnavailable,
+    message: ServerErrorMessage.ServiceUnavailable,
   },
   {
-    code: 504,
-    warning: 'Gateway Timeout',
-    message:
-      'The server might acting as a gateway or proxy and did not receive a timely response from the upstream server',
+    code: ServerErrorCode.GatewayTimeout,
+    warning: ServerErrorWarning.GatewayTimeout,
+    message: ServerErrorMessage.GatewayTimeout,
   },
   {
-    code: 505,
-    warning: 'HTTP Version Not Supported',
-    message: 'The server does not support the HTTP version used in the request',
+    code: ServerErrorCode.HTTPVersionNotSupported,
+    warning: ServerErrorWarning.HTTPVersionNotSupported,
+    message: ServerErrorMessage.HTTPVersionNotSupported,
   },
   {
-    code: 506,
-    warning: 'Variant Also Negotiates',
-    message: 'Transparent content negotiation for the request results in a circular reference',
+    code: ServerErrorCode.VariantAlsoNegotiates,
+    warning: ServerErrorWarning.VariantAlsoNegotiates,
+    message: ServerErrorMessage.VariantAlsoNegotiates,
   },
   {
-    code: 507,
-    warning: 'Insufficient Storage',
-    message: 'The server is unable to store the representation needed to complete the request',
+    code: ServerErrorCode.InsufficientStorage,
+    warning: ServerErrorWarning.InsufficientStorage,
+    message: ServerErrorMessage.InsufficientStorage,
   },
   {
-    code: 508,
-    warning: 'Loop Detected',
-    message: 'The server detected an infinite loop while processing the request',
+    code: ServerErrorCode.LoopDetected,
+    warning: ServerErrorWarning.LoopDetected,
+    message: ServerErrorMessage.LoopDetected,
   },
   {
-    code: 510,
-    warning: 'Not Extended',
-    message: 'Further extensions to the request are required for the server to fulfil it',
+    code: ServerErrorCode.NotExtended,
+    warning: ServerErrorWarning.NotExtended,
+    message: ServerErrorMessage.NotExtended,
   },
   {
-    code: 511,
-    warning: 'Network Authentication Required',
-    message: 'The client needs to authenticate to gain network access',
+    code: ServerErrorCode.NetworkAuthenticationRequired,
+    warning: ServerErrorWarning.NetworkAuthenticationRequired,
+    message: ServerErrorMessage.NetworkAuthenticationRequired,
   },
 ];

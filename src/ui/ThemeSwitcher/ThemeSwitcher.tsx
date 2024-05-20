@@ -1,13 +1,12 @@
 import React, { FC } from 'react';
 import { Switch } from '@headlessui/react';
 
-import { VariantSwitcher } from 'types';
+import { IconName, IconSizes, VariantSwitcher } from 'types';
 import { useThemeContext, useWindowWidthContext } from 'contexts';
 
+import { SvgIcon } from '..';
+
 import { useActiveLinks, useHeaderStyles } from 'hooks';
-
-import SvgIcon from '../SvgIcon/SvgIcon';
-
 import {
   generateSwitcherStyles,
   getCommonLabelStyles,
@@ -20,6 +19,11 @@ interface Styles {
   iconStyles: string | undefined;
 }
 
+enum ThemeType {
+  Light = 'Light',
+  Dark = 'Dark',
+}
+
 const ThemeSwitcher: FC<{ variant: VariantSwitcher }> = ({ variant }) => {
   const { isWideScreens } = useWindowWidthContext();
   const { enabled, setEnabled, handleThemeChange } = useThemeContext();
@@ -30,17 +34,17 @@ const ThemeSwitcher: FC<{ variant: VariantSwitcher }> = ({ variant }) => {
   const styles = generateSwitcherStyles({ enabled });
   const { colorLeftLabel, spacing, strokeLeftIcon } = styles[variant];
 
-  const generatePointerThemeLabel = (themeType: string, svgName: string): JSX.Element => {
+  const generatePointerThemeLabel = (themeType: ThemeType, svgName: IconName): JSX.Element => {
     const getStyles = (): Styles => {
       let labelStyles;
       let iconStyles;
 
       switch (themeType) {
-        case 'Light':
+        case ThemeType.Light:
           labelStyles = colorLeftLabel;
           iconStyles = strokeLeftIcon;
           break;
-        case 'Dark':
+        case ThemeType.Dark:
           labelStyles = enabled ? 'text-whiteBase' : 'text-greyAlt';
           iconStyles = enabled ? 'stroke-whiteBase' : 'stroke-greyAlt';
           break;
@@ -52,24 +56,27 @@ const ThemeSwitcher: FC<{ variant: VariantSwitcher }> = ({ variant }) => {
 
       return { labelStyles, iconStyles };
     };
+
+    const { labelStyles, iconStyles } = getStyles();
+
     return isWideScreens ? (
       <p
-        className={`${getCommonLabelStyles(isHomeActive, variant, themeSwitcherTextClass)} ${getStyles().labelStyles}`}
+        className={`${getCommonLabelStyles(isHomeActive, variant, themeSwitcherTextClass)} ${labelStyles}`}
       >
         {themeType}
       </p>
     ) : (
       <SvgIcon
         svgName={svgName}
-        sizeKey='smIcon21'
-        className={`fill-transparent ${getStyles().iconStyles}`}
+        sizeKey={IconSizes.smIcon21}
+        className={`fill-transparent ${iconStyles}`}
       />
     );
   };
 
   return (
     <div className={`flex items-center gap-2 ${spacing}`}>
-      {generatePointerThemeLabel('Light', 'sun')}
+      {generatePointerThemeLabel(ThemeType.Light, IconName.Sun)}
       <Switch
         checked={enabled}
         onChange={setEnabled}
@@ -79,7 +86,7 @@ const ThemeSwitcher: FC<{ variant: VariantSwitcher }> = ({ variant }) => {
         <span className='sr-only'>Theme switcher</span>
         <span aria-hidden='true' className={getSwitchSliderStyles(enabled)} />
       </Switch>
-      {generatePointerThemeLabel('Dark', 'moon')}
+      {generatePointerThemeLabel(ThemeType.Dark, IconName.Moon)}
     </div>
   );
 };

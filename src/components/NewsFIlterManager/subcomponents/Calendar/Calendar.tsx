@@ -1,14 +1,13 @@
 import React, { FC } from 'react';
 
-import type { CalendarVariant } from 'types';
+import { ButtonType, CalendarVariant, IconName, IconSizes } from 'types';
 
 import { useActiveLinks, usePopUp } from 'hooks';
+import { calendarButtonStyles, getIconClass, getWrapperClass } from './assistants';
+import { useCalendarText } from './hooks';
 
 import { SvgIcon } from 'ui';
 import { CalendarContent } from './subcomponents';
-
-import { useCalendarText } from './hooks';
-import { calendarButtonStyles, getIconClass, getWrapperClass } from './assistants';
 
 const Calendar: FC<{ variant: CalendarVariant }> = ({ variant }) => {
   const { popUpRef, toggleCalendar, isOpenCalendar } = usePopUp();
@@ -21,17 +20,21 @@ const Calendar: FC<{ variant: CalendarVariant }> = ({ variant }) => {
   return (
     <div ref={popUpRef} className={wrapperClass}>
       <p className='text-base text-darkBase dark:text-greyAlt lg:text-medium'>
-        {variant === 'SearchBlock' ? 'Search' : 'Filter'} by Date or Date Period:
+        {variant === CalendarVariant.Search ? 'Search' : 'Filter'} by Date or Date Period:
       </p>
       <button
         id='Toggle calendar button'
-        type='button'
+        type={ButtonType.Button}
         onClick={toggleCalendar}
         className={calendarButtonStyles}
       >
-        <SvgIcon svgName='calendar' sizeKey='smIcon20' className='fill-accentBase' />
+        <SvgIcon
+          svgName={IconName.Calendar}
+          sizeKey={IconSizes.smIcon20}
+          className='fill-accentBase'
+        />
         {showButtonText(variant)}
-        <SvgIcon svgName='arrow' sizeKey='xsIcon14' className={iconClass} />
+        <SvgIcon svgName={IconName.Arrow} sizeKey={IconSizes.xsIcon14} className={iconClass} />
       </button>
       {isOpenCalendar && (
         <CalendarContent

@@ -1,5 +1,4 @@
-import type { MenuItem, NavId } from 'types';
-import type { ActiveLinks } from 'hooks';
+import { type ActiveLinks, IconName, NavId, type MenuItem, Paths, Pages } from 'types';
 
 type MenuItemProps = {
   activeLinks: ActiveLinks;
@@ -9,9 +8,9 @@ type MenuItemProps = {
 
 type MobileMenuLinks = {
   id: string;
-  iconName: string;
-  path: string;
-  label: string;
+  iconName: IconName;
+  path: Paths;
+  label: Pages;
 };
 
 export const renderMenuItem = ({
@@ -19,81 +18,89 @@ export const renderMenuItem = ({
   navId,
   isThirdPartyRegister,
 }: MenuItemProps): MenuItem[] => {
-  let links: MenuItem[];
+  const {
+    isAccountPage,
+    isManageAccountPage,
+    isHomeActive,
+    isFavoriteActive,
+    isReadActive,
+    isArchiveActive,
+  } = activeLinks;
 
-  if (navId === 'account-navigation') {
+  if (navId === NavId.Account) {
     if (isThirdPartyRegister) {
-      links = [];
+      return [];
     } else {
-      links = [
+      return [
         {
-          path: '/account',
-          label: 'Account',
-          icon: 'account',
-          activeLink: activeLinks.isAccountPage,
+          path: Paths.Account,
+          label: Pages.Account,
+          icon: IconName.Account,
+          activeLink: isAccountPage,
         },
         {
-          path: '/account-manage',
-          label: 'Account settings',
-          icon: 'manage',
-          activeLink: activeLinks.isManageAccountPage,
+          path: Paths.AccountSettings,
+          label: Pages.AccountSettings,
+          icon: IconName.AccountSettings,
+          activeLink: isManageAccountPage,
         },
       ];
     }
   } else {
-    links = [
-      { path: '/', label: 'Home', icon: 'home', activeLink: activeLinks.isHomeActive },
+    return [
       {
-        path: '/favourite',
-        label: 'Favourite',
-        icon: 'heart-menu',
-        activeLink: activeLinks.isFavoriteActive,
+        path: Paths.Home,
+        label: Pages.Home,
+        icon: IconName.Home,
+        activeLink: isHomeActive,
       },
       {
-        path: '/read',
-        label: 'Read',
-        icon: 'open-book',
-        activeLink: activeLinks.isReadActive,
+        path: Paths.Favourite,
+        label: Pages.Favourite,
+        icon: IconName.Favourite,
+        activeLink: isFavoriteActive,
       },
       {
-        path: '/archive',
-        label: 'Archive',
-        icon: 'archive',
-        activeLink: activeLinks.isArchiveActive,
+        path: Paths.Read,
+        label: Pages.Read,
+        icon: IconName.Read,
+        activeLink: isReadActive,
+      },
+      {
+        path: Paths.Archive,
+        label: Pages.Archive,
+        icon: IconName.Archive,
+        activeLink: isArchiveActive,
       },
     ];
   }
-
-  return links;
 };
 
-export const getMenuLinks = () => {
-  const links: MobileMenuLinks[] = [
+export const getMenuLinks = (): MobileMenuLinks[] => {
+  return [
     {
       id: 'Go home',
-      iconName: 'home',
-      path: '/',
-      label: 'Home',
+      iconName: IconName.Home,
+      path: Paths.Home,
+      label: Pages.Home,
     },
     {
       id: 'Go to Favourite Page',
-      iconName: 'heart',
-      path: '/favourite',
-      label: 'Favourite',
+      iconName: IconName.VotedFavourite,
+      path: Paths.Favourite,
+      label: Pages.Favourite,
     },
     {
       id: 'Go to Read Page',
-      iconName: 'open-book',
-      path: '/read',
-      label: 'Read',
+      iconName: IconName.Read,
+      path: Paths.Read,
+      label: Pages.Read,
     },
     {
       id: 'Go to Archive Page',
-      iconName: 'archive',
-      path: '/archive',
-      label: 'Archive',
+      iconName: IconName.Archive,
+      path: Paths.Archive,
+      label: Pages.Archive,
     },
   ];
-
-  return links;
 };

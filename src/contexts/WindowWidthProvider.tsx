@@ -1,12 +1,14 @@
 import React, { useEffect, useState, ReactNode, createContext, useContext } from 'react';
 
+import { BreakpointValue } from 'types';
+
 // Опис властивостей провайдера
-interface WindowWidthProviderProps {
+interface IWindowWidthProviderProps {
   children: ReactNode;
 }
 
 // Опис значень, які будуть доступні через контекст
-export interface WindowWidthContextValue {
+interface IWindowWidthContext {
   windowWidth: number;
   isSmallScreens: boolean;
   isTablet: boolean;
@@ -16,20 +18,11 @@ export interface WindowWidthContextValue {
   isWideScreens: boolean;
 }
 
-const LESS_THAN_MOBILE = 319;
-const IS_MOBILE = 320;
-const LESS_THAN_TABLET = 767;
-const IS_TABLET = 768;
-const LESS_THAN_DESKTOP = 1279;
-const IS_DESKTOP = 1280;
-const LESS_THAN_TV = 1535;
-const IS_TV = 1536;
-
 // Створення контексту з типом `WindowWidthContextValue`
-export const WindowWidthContext = createContext<WindowWidthContextValue | null>(null);
+const WindowWidthContext = createContext<IWindowWidthContext | null>(null);
 
 // Компонент-провайдер, який надає значення контексту своїм дітям
-export const WindowWidthProvider: React.FC<WindowWidthProviderProps> = ({ children }) => {
+export const WindowWidthProvider: React.FC<IWindowWidthProviderProps> = ({ children }) => {
   const [windowWidth, setWindowWidth] = useState<number>(window.innerWidth);
 
   useEffect(() => {
@@ -46,11 +39,12 @@ export const WindowWidthProvider: React.FC<WindowWidthProviderProps> = ({ childr
 
   // Визначення значень ключей об'єкта breakpointsForMarkup
   const breakpointsForMarkup = {
-    isNothing: windowWidth <= LESS_THAN_MOBILE,
-    isMobile: windowWidth >= IS_MOBILE && windowWidth <= LESS_THAN_TABLET,
-    isTablet: windowWidth >= IS_TABLET && windowWidth <= LESS_THAN_DESKTOP,
-    isDesktop: windowWidth >= IS_DESKTOP && windowWidth <= LESS_THAN_TV,
-    isTV: windowWidth >= IS_TV,
+    isNothing: windowWidth <= BreakpointValue.TinyLimit,
+    isMobile: windowWidth >= BreakpointValue.Mobile && windowWidth <= BreakpointValue.MobileLimit,
+    isTablet: windowWidth >= BreakpointValue.Tablet && windowWidth <= BreakpointValue.TabletLimit,
+    isDesktop:
+      windowWidth >= BreakpointValue.Desktop && windowWidth <= BreakpointValue.DesktopLimit,
+    isTV: windowWidth >= BreakpointValue.TV,
   };
 
   const { isNothing, isMobile, isTablet, isDesktop, isTV } = breakpointsForMarkup;
@@ -61,7 +55,7 @@ export const WindowWidthProvider: React.FC<WindowWidthProviderProps> = ({ childr
   const isWideScreens = isDesktop || isTV;
 
   // Значення контексту, яке буде надано дітям через `WindowWidthContext.Provider`
-  const contextValue: WindowWidthContextValue = {
+  const contextValue: IWindowWidthContext = {
     windowWidth,
     isSmallScreens,
     isNotMobile,

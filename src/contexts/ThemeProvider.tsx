@@ -1,31 +1,41 @@
-import React, { FC, ReactNode, createContext, useContext, useEffect, useState } from 'react';
+import React, {
+  FC,
+  ReactNode,
+  SetStateAction,
+  createContext,
+  useContext,
+  useEffect,
+  useState,
+} from 'react';
+
+import { ThemeValue } from 'types';
 
 import { useAuthRedux } from 'reduxStore/hooks';
 
-type ThemeContextProps = {
+interface IThemeContextProps {
   children: ReactNode;
-};
+}
 
-type ThemeContextValue = {
+interface IThemeContext {
   enabled: boolean;
-  setEnabled: (value: boolean) => void;
+  setEnabled: (value: SetStateAction<boolean>) => void;
   handleThemeChange: () => Promise<void>;
-};
+}
 
-const ThemeContext = createContext<ThemeContextValue | undefined>(undefined);
+const ThemeContext = createContext<IThemeContext | undefined>(undefined);
 
-export const ThemeProvider: FC<ThemeContextProps> = ({ children }) => {
-  const [enabled, setEnabled] = useState<boolean>(false);
+export const ThemeProvider: FC<IThemeContextProps> = ({ children }) => {
+  const [enabled, setEnabled] = useState(false);
 
   const { isAuthenticated, unauthorisedChangeTheme, changeTheme, userTheme } = useAuthRedux();
 
   useEffect(() => {
-    if (userTheme && userTheme === 'dark') {
+    if (userTheme === ThemeValue.Dark) {
       setEnabled(true);
-      document.documentElement.classList.add('dark');
+      document.documentElement.classList.add(ThemeValue.Dark);
     } else {
       setEnabled(false);
-      document.documentElement.classList.remove('dark');
+      document.documentElement.classList.remove(ThemeValue.Dark);
     }
   }, [userTheme]);
 
@@ -35,15 +45,15 @@ export const ThemeProvider: FC<ThemeContextProps> = ({ children }) => {
     setEnabled(newTheme);
 
     if (newTheme) {
-      document.documentElement.classList.add('dark');
+      document.documentElement.classList.add(ThemeValue.Dark);
       isAuthenticated
-        ? changeTheme({ updatedTheme: 'dark' })
-        : unauthorisedChangeTheme({ updatedTheme: 'dark' });
+        ? changeTheme({ updatedTheme: ThemeValue.Dark })
+        : unauthorisedChangeTheme({ updatedTheme: ThemeValue.Dark });
     } else {
-      document.documentElement.classList.remove('dark');
+      document.documentElement.classList.remove(ThemeValue.Dark);
       isAuthenticated
-        ? changeTheme({ updatedTheme: 'light' })
-        : unauthorisedChangeTheme({ updatedTheme: 'light' });
+        ? changeTheme({ updatedTheme: ThemeValue.Light })
+        : unauthorisedChangeTheme({ updatedTheme: ThemeValue.Light });
     }
   };
 

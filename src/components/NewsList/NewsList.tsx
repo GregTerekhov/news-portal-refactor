@@ -1,23 +1,24 @@
 import React, { FC } from 'react';
 
 import type { PartialVotedNewsArray, VotedItem } from 'types';
-import { useWeatherAPIRedux } from 'reduxStore/hooks';
 
-import { useActiveLinks } from 'hooks';
+import { useWeatherAPIRedux } from 'reduxStore/hooks';
 
 import { Loader } from 'ui';
 import WeatherBlock from '../WeatherBlock/WeatherBlock';
 import { NewsItem } from './subcomponents';
 
+import { useActiveLinks } from 'hooks';
 import { commonItemStyles, getNewsItemStyles, newsListStyles } from './assistants';
 
-interface NewsListProps {
+interface INewsListProps {
   currentItems: PartialVotedNewsArray;
   currentPage?: number;
 }
 
-const NewsList: FC<Partial<NewsListProps>> = ({ currentItems, currentPage }) => {
+const NewsList: FC<Partial<INewsListProps>> = ({ currentItems, currentPage }) => {
   const { isWeatherLoading } = useWeatherAPIRedux();
+
   const { isFavoriteActive } = useActiveLinks();
 
   const listClass = newsListStyles(isFavoriteActive);
@@ -30,7 +31,7 @@ const NewsList: FC<Partial<NewsListProps>> = ({ currentItems, currentPage }) => 
         </li>
       )}
       {Array.isArray(currentItems) &&
-        currentItems?.map((newsItem: Partial<VotedItem>, index: number) => (
+        currentItems.map((newsItem: Partial<VotedItem>, index: number) => (
           <li key={newsItem.newsUrl} className={getNewsItemStyles(index)}>
             <NewsItem liveNews={newsItem} />
           </li>

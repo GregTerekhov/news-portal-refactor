@@ -1,7 +1,8 @@
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 
-import type { ExtendedUpdatePasswordRequest } from 'types';
+import { InputLabel, type ExtendedUpdatePassword } from 'types';
+
 import { useAuthRedux } from 'reduxStore/hooks';
 import { useNotificationContext } from 'contexts';
 
@@ -9,7 +10,7 @@ import { handleRemoveFromLocalStorage } from 'helpers';
 import { renderPasswordInputs, updatePasswordSchema } from '../assistants';
 
 const useUpdatePassword = () => {
-  const { updatePassword } = useAuthRedux();
+  const { requestStatus, updatePassword } = useAuthRedux();
   const { showToast } = useNotificationContext();
 
   const {
@@ -19,7 +20,7 @@ const useUpdatePassword = () => {
     reset,
     getValues,
     formState: { errors },
-  } = useForm<ExtendedUpdatePasswordRequest>({
+  } = useForm<ExtendedUpdatePassword>({
     resolver: yupResolver(updatePasswordSchema),
     defaultValues: {
       newPassword: '',
@@ -30,23 +31,21 @@ const useUpdatePassword = () => {
 
   // споглядання за відповідними полями
   const [newPassword, confirmPassword, password] = watch([
-    'newPassword',
-    'confirmPassword',
-    'password',
+    InputLabel.NewPassword,
+    InputLabel.ConfirmPassword,
+    InputLabel.Password,
   ]);
 
-  const handlePasswordSubmitHandler: SubmitHandler<ExtendedUpdatePasswordRequest> = async (
-    data,
-  ) => {
+  const handlePasswordSubmitHandler: SubmitHandler<ExtendedUpdatePassword> = async (data) => {
     try {
       const { newPassword, password } = data;
 
-      const response = await updatePassword({ password, newPassword });
+      await updatePassword({ password, newPassword });
       handleRemoveFromLocalStorage();
 
-      showToast(response.meta.requestStatus);
+      requestStatus && showToast(requestStatus);
     } catch (error) {
-      console.error('Error during updatePassword:', error);
+      console.error('Error during updatePassword: ', error);
       throw error;
     } finally {
       reset({

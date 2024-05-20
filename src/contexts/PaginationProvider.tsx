@@ -1,21 +1,21 @@
-import React, { ReactNode, createContext, useContext, useState } from 'react';
+import React, { FC, ReactNode, SetStateAction, createContext, useContext, useState } from 'react';
 
-type PaginationContextProps = {
+interface IPaginationContextProps {
   children: ReactNode;
-};
+}
 
-type PaginationContextValue = {
+interface IPaginationContext {
   currentPage: number;
-  setCurrentPage: (value: number) => void;
+  setCurrentPage: (value: SetStateAction<number>) => void;
   resetPagination: () => void;
-};
+}
 
 const DEFAULT_PAGE = 1;
 
-const PaginationContext = createContext<PaginationContextValue | undefined>(undefined);
+const PaginationContext = createContext<IPaginationContext | undefined>(undefined);
 
-export const PaginationProvider = ({ children }: PaginationContextProps) => {
-  const [currentPage, setCurrentPage] = useState(DEFAULT_PAGE);
+export const PaginationProvider: FC<IPaginationContextProps> = ({ children }) => {
+  const [currentPage, setCurrentPage] = useState<number>(DEFAULT_PAGE);
 
   //Скидування глобального стану пагінації
   const resetPagination = (): void => {

@@ -1,7 +1,22 @@
 import { format, isAfter, parse } from 'date-fns';
 import { enUS } from 'date-fns/locale';
 
-import type { CalendarVariant, DateRequest } from 'types';
+import { CalendarVariant, type DateRequest } from 'types';
+
+enum WritingDateFormat {
+  YearFirst = 'yyyyMMdd',
+  DayFirst = 'dd/MM/yyyy',
+  MonthYear = 'MMM-yyyy',
+  YearOnly = 'yyyy',
+  MonthOnly = 'MMMM',
+  DayOnly = 'd',
+  Alphanumeric = 'LLLL yyyy',
+}
+
+export enum DatePosition {
+  Request = 'request',
+  Filter = 'filter',
+}
 
 interface FormattedDateObject {
   dayMonthYear: string;
@@ -23,6 +38,7 @@ export function convertDateStringToDDMMYYY(inputDate: string): string {
   return dayMonthYear;
 }
 
+//Функція конвертування рядкової дати у відповідний формат
 export function convertDateStringToVariables(inputDate: string, withoutYear?: boolean): string {
   // Розбиваємо рядок на компоненти
   const year = inputDate.substring(0, 4);
@@ -32,27 +48,32 @@ export function convertDateStringToVariables(inputDate: string, withoutYear?: bo
   return withoutYear ? `${day}.${month}` : `${day}/${month}/${year}`;
 }
 
+//Функція визначення початкової та кінцевої дати для запита та фільтрації
 export function determineNewSelectedDate(
   date: Date,
   currentBeginDate: Date,
-  position: string,
+  position: DatePosition,
 ): DateRequest {
   const [earlierDate, laterDate] = isAfter(date, currentBeginDate)
     ? [currentBeginDate, date]
     : [date, currentBeginDate];
 
+  const { dateStringWithPattern: firstDate } = formatDateToString(earlierDate, position);
+  const { dateStringWithPattern: lastDate } = formatDateToString(laterDate, position);
+
   return {
-    beginDate: formatDateToString(earlierDate, position).dateStringWithPattern,
-    endDate: formatDateToString(laterDate, position).dateStringWithPattern,
+    beginDate: firstDate,
+    endDate: lastDate,
   };
 }
 
 export const formatSortedDate = (dateStr: string | undefined): number => {
-  if (dateStr) {
-    const [day, month, year] = dateStr.split('/').map(Number);
-    return new Date(year, month - 1, day).getTime();
+  if (!dateStr) {
+    return 0;
   }
-  return 0;
+
+  const [day, month, year] = dateStr.split('/').map(Number);
+  return new Date(year, month - 1, day).getTime();
 };
 
 // Функція для розбиття дати на частини та перетворення на числові значення
@@ -87,21 +108,16 @@ export function formatDateRange(selectedDate: DateRequest): DateRequest {
 }
 
 export const getStringDateToCalendar = (day: Date, variant: CalendarVariant): string => {
-  let dayToString = '';
-
   const { yearMonthDay, dayMonthYear } = formatDateToString(day);
 
   switch (variant) {
-    case 'SearchBlock':
-      dayToString = yearMonthDay;
-      break;
-    case 'FiltersBlock':
-      dayToString = dayMonthYear;
-      break;
+    case CalendarVariant.Search:
+      return yearMonthDay;
+    case CalendarVariant.Filter:
+      return dayMonthYear;
     default:
-      break;
+      return '';
   }
-  return dayToString;
 };
 
 export const isDayInRange = (
@@ -111,27 +127,48 @@ export const isDayInRange = (
 ): boolean =>
   !!beginDate && !!endDate && beginDate <= certainDayOfMonth && endDate >= certainDayOfMonth;
 
+function getParsedDate(date: string, format: WritingDateFormat): Date {
+  return parse(date, format, new Date());
+}
+
+// Function to check if a date is within a given range
+export function isDateWithinRange(
+  dateString: string | undefined,
+  startDate: string,
+  endDate: string,
+): boolean {
+  if (!dateString) return false;
+
+  return dateString >= startDate && dateString <= endDate;
+}
+
 export function parseStringToDate(date: string, variant?: string): Date {
   switch (variant) {
     case 'yearFirst':
-      return parse(date, 'yyyyMMdd', new Date());
+      return getParsedDate(date, WritingDateFormat.YearFirst);
     case 'dayFirst':
-      return parse(date, 'dd/MM/yyyy', new Date());
+      return getParsedDate(date, WritingDateFormat.DayFirst);
 
     default:
-      return parse(date, 'MMM-yyyy', new Date());
+      return getParsedDate(date, WritingDateFormat.MonthYear);
   }
 }
 
-export function formatDateToString(date: Date | number, position?: string): FormattedDateObject {
+export function formatDateToString(
+  date: Date | number,
+  position?: DatePosition,
+): FormattedDateObject {
   return {
-    dayMonthYear: format(date, 'dd/MM/yyyy'),
-    yearMonthDay: format(date, 'yyyyMMdd'),
-    monthYear: format(date, 'MMM-yyyy'),
-    year: format(date, 'yyyy'),
-    month: format(date, 'MMMM'),
-    day: format(date, 'd'),
-    fullMonthYear: format(date, 'LLLL yyyy', { locale: enUS }),
-    dateStringWithPattern: format(date, position === 'request' ? 'yyyyMMdd' : 'dd/MM/yyyy'),
+    dayMonthYear: format(date, WritingDateFormat.DayFirst),
+    yearMonthDay: format(date, WritingDateFormat.YearFirst),
+    monthYear: format(date, WritingDateFormat.MonthYear),
+    year: format(date, WritingDateFormat.YearOnly),
+    month: format(date, WritingDateFormat.MonthOnly),
+    day: format(date, WritingDateFormat.DayOnly),
+    fullMonthYear: format(date, WritingDateFormat.Alphanumeric, { locale: enUS }),
+    dateStringWithPattern: format(
+      date,
+      position === DatePosition.Request ? WritingDateFormat.YearFirst : WritingDateFormat.DayFirst,
+    ),
   };
 }

@@ -1,32 +1,29 @@
 import React from 'react';
 
-import type { IControlButtons } from '../types';
+import type { IFilterButtons } from 'types';
 
 import { PrimaryButton } from 'ui';
 
-export const RenderButtons = (buttons: IControlButtons[]) => {
+export const RenderButtons = (buttons: IFilterButtons[]) => {
   return (
     <>
       {Array.isArray(buttons) &&
         buttons.map(
-          (
-            {
-              type,
-              id,
-              variant,
-              onHandleClick,
-              ariaLabel,
-              classNameButtons,
-              hasIcon,
-              svgName,
-              svgSize,
-              classNameIcon,
-              children,
-              disabled,
-            },
-            index,
-          ) => (
-            <React.Fragment key={index}>
+          ({
+            type,
+            id,
+            variant,
+            onHandleClick,
+            ariaLabel,
+            classNameButtons,
+            hasIcon,
+            svgName,
+            svgSize,
+            classNameIcon,
+            children,
+            disabled,
+          }) => (
+            <React.Fragment key={id ? id : ariaLabel}>
               <PrimaryButton
                 type={type}
                 id={id}

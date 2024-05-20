@@ -1,13 +1,22 @@
 import { useEffect, useState } from 'react';
 
+interface AspectRatio {
+  width: number;
+  height: number;
+}
+
 const useAspectRation = () => {
-  const [aspectWidth, setAspectWidth] = useState<number>(window.innerWidth);
-  const [aspectHeight, setAspectHeight] = useState<number>(window.innerHeight);
+  const [aspectRatio, setAspectRatio] = useState<AspectRatio>({
+    width: window.innerWidth,
+    height: window.innerHeight,
+  });
 
   useEffect(() => {
     const handleResize = () => {
-      setAspectWidth(window.innerWidth);
-      setAspectHeight(window.innerHeight);
+      setAspectRatio({
+        width: window.innerWidth,
+        height: window.innerHeight,
+      });
     };
 
     window.addEventListener('resize', handleResize);
@@ -17,7 +26,7 @@ const useAspectRation = () => {
     };
   }, []);
 
-  return { aspectWidth, aspectHeight };
+  return aspectRatio;
 };
 
 export default useAspectRation;

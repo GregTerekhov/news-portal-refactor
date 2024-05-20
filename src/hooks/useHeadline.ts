@@ -1,5 +1,4 @@
-import type { DateRequest } from 'types';
-import { TriggerType } from './commonTypes';
+import { type DateRequest, TriggerType } from 'types';
 import { useNewsAPIRedux } from 'reduxStore/hooks';
 
 const useHeadline = () => {

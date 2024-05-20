@@ -1,17 +1,24 @@
 import React, { FC } from 'react';
 
-import { IHistoryLog, VariantInputs } from 'types';
+import {
+  DeleteModalTitle,
+  IconName,
+  InputName,
+  InputType,
+  ModalType,
+  VariantsPlaceholder,
+  type IHistoryLog,
+} from 'types';
+
 import { useDBRedux } from 'reduxStore/hooks';
 import { useModalStateContext, useNotificationContext, useWindowWidthContext } from 'contexts';
 
-import { usePopUp } from 'hooks';
-
-import { DeleteModal } from 'components';
-import { Modal, UnverifiableInput } from 'ui';
+import { DeleteModal, Modal, UnverifiableInput } from 'ui';
 import ControlButtons from './ControlButtons';
 import DeletedNewsTable from './DeletedNewsTable';
 import TablePagination from './TablePagination';
 
+import { usePopUp } from 'hooks';
 import { useDeletedNewsControls } from '../hooks';
 
 interface IHistoryLogProps {
@@ -19,7 +26,8 @@ interface IHistoryLogProps {
 }
 
 const ArchiveHistoryLog: FC<IHistoryLogProps> = ({ logData }) => {
-  const { clearLog, archiveHistoryLog } = useDBRedux();
+  const { requestStatus, clearLog, archiveHistoryLog } = useDBRedux();
+
   const { showToast } = useNotificationContext();
   const { isSmallScreens, isNotMobile } = useWindowWidthContext();
   const { isOpenModal, modalType } = useModalStateContext();
@@ -36,8 +44,8 @@ const ArchiveHistoryLog: FC<IHistoryLogProps> = ({ logData }) => {
 
   const handleClearing = async (): Promise<void> => {
     try {
-      const response = await clearLog();
-      showToast(response.meta.requestStatus);
+      await clearLog();
+      requestStatus && showToast(requestStatus);
     } catch (error) {
       console.error('Error during clearLog:', error);
       throw error;
@@ -57,7 +65,7 @@ const ArchiveHistoryLog: FC<IHistoryLogProps> = ({ logData }) => {
                 {isSmallScreens ? (
                   <ControlButtons
                     toggleModal={(e: React.MouseEvent<HTMLButtonElement>) =>
-                      toggleModal(e, true, 'clearLog')
+                      toggleModal(e, true, ModalType.ClearLog)
                     }
                   />
                 ) : null}
@@ -68,17 +76,16 @@ const ArchiveHistoryLog: FC<IHistoryLogProps> = ({ logData }) => {
                   <div>
                     <UnverifiableInput
                       inputData={{
-                        name: 'Deleted news',
-                        type: 'text',
+                        name: InputName.DeletedNews,
+                        type: InputType.Text,
                         value: searchValue,
-                        placeholder: 'Title',
+                        placeholder: VariantsPlaceholder.FilterByTitle,
                       }}
                       hasIcon={true}
-                      svgName='search'
+                      svgName={IconName.Search}
                       onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
                         handleSearchNews(event)
                       }
-                      variant={VariantInputs.FilterServiceBlock}
                     />
                   </div>
                 ) : null}
@@ -95,7 +102,7 @@ const ArchiveHistoryLog: FC<IHistoryLogProps> = ({ logData }) => {
                 <div className='flex gap-x-7'>
                   <ControlButtons
                     toggleModal={(e: React.MouseEvent<HTMLButtonElement>) =>
-                      toggleModal(e, true, 'clearLog')
+                      toggleModal(e, true, ModalType.ClearLog)
                     }
                   />
                 </div>
@@ -104,12 +111,12 @@ const ArchiveHistoryLog: FC<IHistoryLogProps> = ({ logData }) => {
           </div>
         </div>
       </div>
-      {isOpenModal && modalType === 'clearLog' && (
+      {isOpenModal && modalType === ModalType.ClearLog && (
         <Modal closeModal={toggleModal} modalRef={popUpRef}>
           <DeleteModal
             handleClose={(e: React.MouseEvent<HTMLButtonElement>) => toggleModal(e)}
             handleDelete={handleClearing}
-            title='Clear log'
+            title={DeleteModalTitle.Clear}
           />
         </Modal>
       )}

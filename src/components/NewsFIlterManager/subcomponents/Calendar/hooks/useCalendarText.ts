@@ -1,6 +1,9 @@
 import { startOfToday } from 'date-fns';
 
+import { CalendarVariant } from 'types';
+
 import { useFiltersStateContext, useSelectedDateContext } from 'contexts';
+
 import { convertDateStringToVariables, formatDateToString } from 'helpers';
 
 const useCalendarText = () => {
@@ -11,14 +14,15 @@ const useCalendarText = () => {
   const { startDate: firstFilteredDate, endDate: lastFilteredDate } = filters.selectedFilterDate;
 
   const today = startOfToday();
-
+  const { dayMonthYear } = formatDateToString(today);
   const firstRequestDate = convertDateStringToVariables(beginDate);
   const lastRequestDate = convertDateStringToVariables(endDate);
 
   //Функція відображення дат в кнопці календаря
   const showButtonText = (variant: string): string => {
-    const hasRequestPeriod = variant === 'SearchBlock' && !!beginDate && !!endDate;
-    const hasFilterPeriod = variant === 'FiltersBlock' && !!firstFilteredDate && !!lastFilteredDate;
+    const hasRequestPeriod = variant === CalendarVariant.Search && !!beginDate && !!endDate;
+    const hasFilterPeriod =
+      variant === CalendarVariant.Filter && !!firstFilteredDate && !!lastFilteredDate;
 
     switch (true) {
       case hasRequestPeriod:
@@ -27,7 +31,7 @@ const useCalendarText = () => {
         return `${firstFilteredDate} - ${lastFilteredDate}`;
 
       default:
-        return formatDateToString(today).dayMonthYear;
+        return dayMonthYear;
     }
   };
 

@@ -1,9 +1,11 @@
 import { useNavigate } from 'react-router-dom';
 
+import { Paths } from 'types';
+
 import { useAuthRedux, useDBRedux, useNewsAPIRedux } from 'reduxStore/hooks';
 
-import { Paths, useActiveLinks } from 'hooks';
-import { isServerError } from '../../pages/template/assistants';
+import { useActiveLinks } from 'hooks';
+import { isServerError } from '../assistants';
 
 const useError = () => {
   const { errorDB } = useDBRedux();

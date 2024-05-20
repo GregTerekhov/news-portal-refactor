@@ -1,16 +1,17 @@
 import React, { FC, ReactElement, ReactNode } from 'react';
 import * as ScrollArea from '@radix-ui/react-scroll-area';
 
+import { ScrollOrientation } from 'types';
 import { areaThumbStyles, customScrollStyle } from './assistants';
 
-interface CustomScrollProps {
+interface ICustomScrollProps {
   children: ReactElement | ReactNode;
   isOpen: boolean;
-  orientation: 'vertical' | 'horizontal';
+  orientation: ScrollOrientation;
   className?: string;
 }
 
-const CustomScrollBar: FC<CustomScrollProps> = ({ children, isOpen, orientation, className }) => {
+const CustomScrollBar: FC<ICustomScrollProps> = ({ children, isOpen, orientation, className }) => {
   const scrollStyles = customScrollStyle(orientation);
   const thumbStyles = areaThumbStyles(orientation);
 

@@ -1,21 +1,22 @@
 import React, { FC } from 'react';
 import { Link } from 'react-router-dom';
 
-import type { NavId } from 'types';
+import { NavId, Paths } from 'types';
+
 import { useAuthRedux } from 'reduxStore/hooks';
 
 import MenuLinks from './MenuLinks';
 
-interface AdditionalContentProps {
+interface IAdditionalContentProps {
   navId: NavId;
   handleLinkClick: () => void;
   closeMenu?: (() => void) | undefined;
 }
 
-const AdditionalContent: FC<AdditionalContentProps> = ({ navId, handleLinkClick, closeMenu }) => {
+const AdditionalContent: FC<IAdditionalContentProps> = ({ navId, handleLinkClick, closeMenu }) => {
   const { user } = useAuthRedux();
 
-  return navId === 'account-navigation' ? (
+  return navId === NavId.Account ? (
     <div>
       <p className='mb-2 text-darkBase dark:text-whiteBase'>Main Menu</p>
       <hr className='mb-4 !border-accentBase' />
@@ -25,7 +26,7 @@ const AdditionalContent: FC<AdditionalContentProps> = ({ navId, handleLinkClick,
     </div>
   ) : (
     <Link
-      to='/account'
+      to={Paths.Account}
       className='text-end text-darkBase transition-colors duration-500 dark:text-whiteBase'
       onClick={closeMenu}
     >

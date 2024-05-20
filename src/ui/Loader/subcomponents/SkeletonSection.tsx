@@ -1,10 +1,9 @@
 import React, { FC } from 'react';
 
 import { useActiveLinks } from 'hooks';
-
 import { sectionStyles, skeletonLineStyles } from '../assistants';
 
-const SkeletonSection: FC<{}> = () => {
+const SkeletonSection: FC = () => {
   const { isHomeActive } = useActiveLinks();
 
   const { itemWrapper, sectionGroups } = sectionStyles;

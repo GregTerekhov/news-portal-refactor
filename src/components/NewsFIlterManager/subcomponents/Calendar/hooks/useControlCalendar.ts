@@ -5,7 +5,8 @@ import { formatDateToString, parseStringToDate } from 'helpers';
 
 const useControlCalendar = () => {
   const today = startOfToday();
-  const [currMonth, setCurrMonth] = useState<string>(formatDateToString(today).monthYear);
+  const { monthYear } = formatDateToString(today);
+  const [currMonth, setCurrMonth] = useState<string>(monthYear);
 
   const firstDayOfMonth: Date = useMemo(() => parseStringToDate(currMonth), [currMonth]);
 
@@ -19,8 +20,11 @@ const useControlCalendar = () => {
   const handleChangeMonth = useCallback(
     (event: React.MouseEvent<HTMLButtonElement>, amount: number): void => {
       event.preventDefault();
+
       const newFirstDay = add(firstDayOfMonth, { months: amount });
-      setCurrMonth(formatDateToString(newFirstDay).monthYear);
+      const { monthYear } = formatDateToString(newFirstDay);
+
+      setCurrMonth(monthYear);
     },
     [firstDayOfMonth],
   );
@@ -28,11 +32,16 @@ const useControlCalendar = () => {
   const handleChangeYear = useCallback(
     (event: React.MouseEvent<HTMLButtonElement>, amount: number) => {
       event.preventDefault();
+
       const newFirstDay = add(firstDayOfMonth, { years: amount });
-      setCurrMonth(formatDateToString(newFirstDay).monthYear);
+      const { monthYear } = formatDateToString(newFirstDay);
+
+      setCurrMonth(monthYear);
     },
     [firstDayOfMonth],
   );
+
+  const generateKey = (date: Date): string => date.toISOString();
 
   return {
     currMonth,
@@ -40,6 +49,7 @@ const useControlCalendar = () => {
     daysInMonth,
     handleChangeMonth,
     handleChangeYear,
+    generateKey,
   };
 };
 

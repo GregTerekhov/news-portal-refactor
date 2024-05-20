@@ -14,14 +14,14 @@ const useChangeFilter = () => {
   };
 
   //Функція зміни значення стану dropdown-фільтра
-  const handleMaterialTypeChange = (selectedType: string): void => {
+  const handleChangeMaterialType = (selectedType: string): void => {
     setFilters({
       ...filters,
       materialType: selectedType,
     });
   };
 
-  return { filterInputs: getInputsData(filters), handleChangeFilter, handleMaterialTypeChange };
+  return { filterInputs: getInputsData(filters), handleChangeFilter, handleChangeMaterialType };
 };
 
 export default useChangeFilter;

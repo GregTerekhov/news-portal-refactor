@@ -1,46 +1,54 @@
-type TableLabel = 'Title' | 'Category' | 'Addition Date' | 'Deletion Date';
+import { ButtonType, IconName } from 'types';
+
+enum TableLabel {
+  Title = 'Title',
+  Category = 'Category',
+  AdditionDate = 'Addition Date',
+  DeletionDate = 'Deletion Date',
+}
 
 type TableHeads = {
   label: TableLabel;
 };
 
 interface ButtonsData {
-  type: 'submit' | 'reset' | 'button' | undefined;
-  iconName: string;
+  type: ButtonType;
+  iconName: IconName;
   label: string;
   disabled: boolean;
 }
 
 export const tableHeads: TableHeads[] = [
   {
-    label: 'Title',
+    label: TableLabel.Title,
   },
   {
-    label: 'Category',
+    label: TableLabel.Category,
   },
   {
-    label: 'Addition Date',
+    label: TableLabel.AdditionDate,
   },
   {
-    label: 'Deletion Date',
+    label: TableLabel.DeletionDate,
   },
 ];
 
-export const getButtonsData = (isDisabledUpdateButton: boolean, isDisabledClearButton: boolean) => {
-  const buttonData: ButtonsData[] = [
+export const getButtonsData = (
+  isDisabledUpdateButton: boolean,
+  isDisabledClearButton: boolean,
+): ButtonsData[] => {
+  return [
     {
-      type: 'submit',
-      iconName: 'reset',
+      type: ButtonType.Submit,
+      iconName: IconName.Reset,
       label: 'Update log',
       disabled: isDisabledUpdateButton,
     },
     {
-      type: 'button',
-      iconName: 'trash',
+      type: ButtonType.Button,
+      iconName: IconName.Trash,
       label: 'Clear log',
       disabled: isDisabledClearButton,
     },
   ];
-
-  return buttonData;
 };

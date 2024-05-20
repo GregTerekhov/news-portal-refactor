@@ -1,17 +1,17 @@
 import React, { FC, ReactNode } from 'react';
 
-import { useActiveLinks } from 'hooks';
-
 import { NavigationErrorButtons } from 'components';
 
-interface ErrorTemplateProps {
+import { useActiveLinks } from 'hooks';
+
+interface IErrorTemplateProps {
   title: string | number;
   description: string;
   titleStyles: string;
   children: ReactNode;
 }
 
-const ErrorTemplate: FC<ErrorTemplateProps> = ({ title, description, titleStyles, children }) => {
+const ErrorTemplate: FC<IErrorTemplateProps> = ({ title, description, titleStyles, children }) => {
   const { isErrorPage, isServerErrorPage, isDevelopmentActive } = useActiveLinks();
 
   return (

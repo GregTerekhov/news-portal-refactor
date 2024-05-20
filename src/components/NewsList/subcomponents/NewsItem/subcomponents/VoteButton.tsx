@@ -1,24 +1,22 @@
 import React, { FC, useState } from 'react';
 
-import type { VotedItem } from 'types';
-
-import { useActiveLinks } from 'hooks';
+import { ButtonType, IconName, IconSizes, type VotedItem } from 'types';
 
 import { SvgIcon } from 'ui';
 
+import { useActiveLinks } from 'hooks';
 import { getButtonLabel, getIconStyles } from '../assistants';
 import { useNews } from '../hooks';
 
-interface VBProps {
-  buttonData: {
-    id?: string;
-  };
+interface IVotedButtonProps {
+  id: string;
   isFavourite: boolean;
   liveNews: Partial<VotedItem>;
 }
 
-const VoteButton: FC<VBProps> = ({ liveNews, isFavourite, buttonData }) => {
-  const [isHovered, setIsHovered] = useState<boolean>(false);
+const VoteButton: FC<IVotedButtonProps> = ({ liveNews, isFavourite, id }) => {
+  const [isHovered, setIsHovered] = useState(false);
+
   const { handleChangeFavourites } = useNews({ liveNews });
   const { isArchiveActive } = useActiveLinks();
 
@@ -31,15 +29,19 @@ const VoteButton: FC<VBProps> = ({ liveNews, isFavourite, buttonData }) => {
 
   return (
     <button
-      id={buttonData?.id}
-      type='button'
+      id={id}
+      type={ButtonType.Submit}
       className={buttonStyles}
       onClick={handleChangeFavourites}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
       {buttonText}
-      <SvgIcon svgName='heart' sizeKey='xsIcon16' className={iconStyles} />
+      <SvgIcon
+        svgName={IconName.VotedFavourite}
+        sizeKey={IconSizes.xsIcon16}
+        className={iconStyles}
+      />
     </button>
   );
 };

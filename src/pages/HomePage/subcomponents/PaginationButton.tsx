@@ -1,16 +1,17 @@
 import React, { FC } from 'react';
 
 import { VariantButton } from 'types';
+
 import { usePaginationContext } from 'contexts';
 
 import { PrimaryButton } from 'ui';
 
-interface PaginationButtonProps {
+interface IPaginationButtonProps {
   pageNumber: number;
   onClick: (pageNumber: number) => void;
 }
 
-const PaginationButton: FC<PaginationButtonProps> = ({ pageNumber, onClick }) => {
+const PaginationButton: FC<IPaginationButtonProps> = ({ pageNumber, onClick }) => {
   const { currentPage } = usePaginationContext();
 
   const paginationButtonStyles = `h-10 font-medium ring-whiteBase border-accentBase dark:ring-darkBase ring-2 ${

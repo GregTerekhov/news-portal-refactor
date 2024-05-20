@@ -1,34 +1,41 @@
 import React, { ButtonHTMLAttributes, ReactNode, forwardRef } from 'react';
 
-import { ClickHandler, PrimaryButtonType, VariantButton } from 'types';
-import { ICON_SIZES } from 'constants/iconSizes';
+import {
+  ClickHandler,
+  IconName,
+  IconSizes,
+  ButtonType,
+  VariantButton,
+  PrimaryButtonId,
+} from 'types';
 
-import SvgIcon from '../SvgIcon/SvgIcon';
+import { SvgIcon } from '..';
+
 import { generateButtonStyles } from './assistants';
 
-interface PBProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-  type?: PrimaryButtonType;
-  onHandleClick?: ClickHandler;
+interface IPBProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+  type?: ButtonType;
+  id?: PrimaryButtonId | undefined;
   variant: VariantButton;
-  children?: ReactNode;
-  hasIcon?: boolean;
-  svgName?: string | undefined;
-  svgSize?: keyof typeof ICON_SIZES | undefined;
-  classNameIcon?: string | undefined;
-  width?: string;
-  classNameButton?: string | undefined;
-  id?: string | undefined;
+  onHandleClick?: ClickHandler;
   ariaLabel?: string | undefined;
+  classNameButton?: string | undefined;
+  hasIcon?: boolean;
+  svgName?: IconName | undefined;
+  svgSize?: IconSizes | undefined;
+  classNameIcon?: string | undefined;
+  children?: ReactNode;
   disabled?: boolean | undefined;
+  width?: string;
 }
 
 const PrimaryButton = forwardRef<
   HTMLButtonElement,
-  PBProps & { ref?: React.Ref<HTMLButtonElement> }
+  IPBProps & { ref?: React.Ref<HTMLButtonElement> }
 >(
   (
     {
-      type = 'button',
+      type = ButtonType.Button,
       onHandleClick,
       variant,
       children,

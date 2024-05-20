@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
 
 import type { SavedNewsOptions, VotedItem } from 'types';
+
 import { useDBRedux } from 'reduxStore/hooks';
 import { useNotificationContext, useScrollBodyContext } from 'contexts';
 
@@ -22,10 +23,16 @@ const useNewsActions = ({
   setHasRead,
   getNewsState,
 }: NewsActionHookProps) => {
-  const [changesHappened, setChangesHappened] = useState<boolean>(false);
+  const [changesHappened, setChangesHappened] = useState(false);
 
-  const { savedNews, updateSavedNews, addVotedNews, removeNews, removeFavouriteNews } =
-    useDBRedux();
+  const {
+    savedNews,
+    requestStatus,
+    updateSavedNews,
+    addVotedNews,
+    removeNews,
+    removeFavouriteNews,
+  } = useDBRedux();
   const { showToast } = useNotificationContext();
   const { setIsScrollDisabled } = useScrollBodyContext();
 
@@ -46,7 +53,6 @@ const useNewsActions = ({
   }, [changesHappened, addVotedNews, isFavoriteActive]);
 
   const shouldMakeChanges = liveNews && liveNews?.newsUrl !== undefined && !isArchiveActive;
-
   const { savedFavourite, savedRead, savedAdditionDate } = getNewsState();
 
   const handleChangeFavourites = (e: React.MouseEvent<HTMLButtonElement>): void => {
@@ -90,10 +96,11 @@ const useNewsActions = ({
     e.stopPropagation();
     e.preventDefault();
     try {
-      const response = await removeNews(id);
-      showToast(response.meta.requestStatus);
+      await removeNews(id);
+      requestStatus && showToast(requestStatus);
     } catch (error) {
       console.error('Error during removeNews: ', error);
+      throw error;
     } finally {
       setIsScrollDisabled(false);
     }

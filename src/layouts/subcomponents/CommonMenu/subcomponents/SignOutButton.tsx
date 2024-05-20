@@ -1,26 +1,28 @@
 import React, { FC } from 'react';
 
-import { VariantButton } from 'types';
+import { IconName, IconSizes, ButtonType, VariantButton, PrimaryButtonId } from 'types';
+
 import { useWindowWidthContext } from 'contexts';
 
 import { PrimaryButton } from 'ui';
 
-interface SignOutButtonProps {
+interface ISignOutButtonProps {
   handleSignOut: () => void;
 }
 
-const SignOutButton: FC<SignOutButtonProps> = ({ handleSignOut }) => {
+const SignOutButton: FC<ISignOutButtonProps> = ({ handleSignOut }) => {
   const { isTV } = useWindowWidthContext();
 
   return (
     <PrimaryButton
-      id='Sign out button'
+      id={PrimaryButtonId.SignOut}
+      type={ButtonType.Submit}
       classNameButton='border border-solid border-transparent dark:border-whiteBase'
       hasIcon={true}
       variant={VariantButton.Other}
       width='w-32 hg:w-36'
-      svgName='signout'
-      svgSize={isTV ? 'mdIcon27' : 'mdIcon24'}
+      svgName={IconName.SignOut}
+      svgSize={isTV ? IconSizes.mdIcon27 : IconSizes.mdIcon24}
       classNameIcon='fill-whiteBase'
       onHandleClick={handleSignOut}
     >

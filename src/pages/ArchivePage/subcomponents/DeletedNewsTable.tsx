@@ -1,6 +1,7 @@
 import React, { FC } from 'react';
 
-import type { IHistoryLog } from 'types';
+import { ScrollOrientation, type IHistoryLog } from 'types';
+
 import { useWindowWidthContext } from 'contexts';
 
 import { CustomScrollBar } from 'ui';
@@ -8,18 +9,18 @@ import { CustomScrollBar } from 'ui';
 import { formatDateToString } from 'helpers';
 import { getNewsTitle, tableHeads } from '../assistants';
 
-interface TableProps {
+interface ITableProps {
   displayedRows: IHistoryLog[];
 }
 
-const DeletedNewsTable: FC<TableProps> = ({ displayedRows }) => {
+const DeletedNewsTable: FC<ITableProps> = ({ displayedRows }) => {
   const { isWideScreens } = useWindowWidthContext();
 
   const tableRowClass =
     'whitespace-nowrap px-6 text-small font-medium text-darkBase dark:text-whiteBase lg:text-medium group-hover:text-whiteBase transition-colors duration-500';
 
   return (
-    <CustomScrollBar isOpen={true} orientation='horizontal'>
+    <CustomScrollBar isOpen={true} orientation={ScrollOrientation.Horisontal}>
       <table className='mb-2.5 min-w-full divide-y divide-greyAlt/[.4] transition-colors duration-500 dark:divide-greyBase/[.4]'>
         <thead className='bg-accentBase/[.2] transition-colors duration-500 dark:bg-greyBase/[.4]'>
           <tr>

@@ -1,21 +1,22 @@
 import React, { FC, useEffect } from 'react';
 
+import { VariantsAccordion } from 'types';
+
 import { useDBRedux } from 'reduxStore/hooks';
 import { useReadSortStateContext } from 'contexts';
 import { PageTemplate } from '../template';
 
-import { useActiveLinks, useChooseRenderingNews, useReadNewsContent } from 'hooks';
-
 import { NewsList } from 'components';
 import { Accordeon } from 'ui';
+
+import { useChooseRenderingNews, useReadNewsContent } from 'hooks';
 
 const ReadPage: FC = () => {
   const { getReads } = useDBRedux();
   const { sortedDates } = useReadSortStateContext();
 
-  const activeLinks = useActiveLinks();
   const initialReadsList = useReadNewsContent();
-  const { rebuiltNews } = useChooseRenderingNews(activeLinks);
+  const { rebuiltNews } = useChooseRenderingNews();
 
   useEffect(() => {
     getReads();
@@ -28,7 +29,7 @@ const ReadPage: FC = () => {
       <div>
         {Array.isArray(readNews) &&
           readNews.map((date) => (
-            <Accordeon key={date} dateSeparator={date} position='readPage'>
+            <Accordeon key={date} dateSeparator={date} position={VariantsAccordion.Read}>
               <NewsList
                 currentItems={rebuiltNews?.filter(
                   (news) => news?.publishDate !== undefined && news?.publishDate === date,

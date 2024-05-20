@@ -1,27 +1,35 @@
-import React, { FC, ReactNode, createContext, useContext, useMemo, useState } from 'react';
+import React, {
+  FC,
+  ReactNode,
+  SetStateAction,
+  createContext,
+  useContext,
+  useMemo,
+  useState,
+} from 'react';
 
 import type { DateRequest } from 'types';
 
-type SelectedDateContextProps = {
+interface ISelectedDateContextProps {
   children: ReactNode;
-};
+}
 
-type SelectedDateContextValue = {
+interface ISelectedDateContext {
   beginRequestDate: Date | null;
   beginFilterDate: Date | null;
   memoizedSelectedRequestDate: DateRequest;
   memoizedSelectedFilterDate: DateRequest;
-  setSelectedFilterDate: (date: DateRequest) => void;
-  setSelectedRequestDate: (date: DateRequest) => void;
-  setBeginRequestDate: (value: Date | null) => void;
-  setBeginFilterDate: (value: Date | null) => void;
+  setSelectedFilterDate: (date: SetStateAction<DateRequest>) => void;
+  setSelectedRequestDate: (date: SetStateAction<DateRequest>) => void;
+  setBeginRequestDate: (value: SetStateAction<Date | null>) => void;
+  setBeginFilterDate: (value: SetStateAction<Date | null>) => void;
   resetFiltersDay: () => void;
   resetRequestDay: () => void;
-};
+}
 
-export const SelectedDateContext = createContext<SelectedDateContextValue | undefined>(undefined);
+const SelectedDateContext = createContext<ISelectedDateContext | undefined>(undefined);
 
-export const SelectedDateProvider: FC<SelectedDateContextProps> = ({ children }) => {
+export const SelectedDateProvider: FC<ISelectedDateContextProps> = ({ children }) => {
   const [selectedRequestDate, setSelectedRequestDate] = useState<DateRequest>({
     beginDate: '',
     endDate: '',

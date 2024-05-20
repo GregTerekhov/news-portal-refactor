@@ -1,19 +1,20 @@
 import React, { FC } from 'react';
 
-import type { WeatherData } from 'types';
+import { IconName, IconSizes, type WeatherData } from 'types';
+
 import { useWindowWidthContext } from 'contexts';
 
 import { SvgIcon } from 'ui';
 
 import { getWeatherTodayObject } from '../assistants';
 
-interface TopWeatherProps {
+interface ITopWeatherProps {
   toggleTemperatureScale: () => void;
   isCelsius: boolean;
   currentWeather: WeatherData;
 }
 
-const TopWeatherBlock: FC<TopWeatherProps> = ({
+const TopWeatherBlock: FC<ITopWeatherProps> = ({
   toggleTemperatureScale,
   currentWeather,
   isCelsius,
@@ -46,8 +47,8 @@ const TopWeatherBlock: FC<TopWeatherProps> = ({
         </div>
         <div className='flex items-center gap-1 rounded-lg bg-weatherForeground px-2 py-[9px] text-contrastWhite md:gap-2 md:pb-[9px] md:pl-[7px] md:pr-[17px] md:pt-[10px]'>
           <SvgIcon
-            svgName='location'
-            sizeKey={isSmallScreens ? 'smIcon20' : 'mdIcon27'}
+            svgName={IconName.Location}
+            sizeKey={isSmallScreens ? IconSizes.smIcon20 : IconSizes.mdIcon27}
             className='fill-whiteBase'
           />
           <p className='font-weather text-base text-contrastWhite md:text-medium'>{location}</p>

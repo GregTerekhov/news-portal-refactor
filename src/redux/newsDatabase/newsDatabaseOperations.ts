@@ -1,57 +1,60 @@
-import type {
-  ClearLogResponse,
-  DeleteNewsResponse,
-  HistoryLogResponse,
-  PartialVotedNewsArray,
-  SavedNewsResponse,
+import {
+  Routes,
+  HTTPMethods,
+  OperationName,
+  type ServicesInfo,
+  type DeleteNewsResponse,
+  type HistoryLogResponse,
+  type PartialVotedNewsArray,
+  type SavedNewsResponse,
 } from 'types';
 
 import { requestWithInstanceTemplate } from '../services';
 
 export const fetchAllNews = requestWithInstanceTemplate<void, SavedNewsResponse>(
-  'newsDB/all',
-  '/news',
-  'get',
+  OperationName.GetSavedNews,
+  Routes.GetAllAndAddNews,
+  HTTPMethods.GET,
 );
 
 export const addNews = requestWithInstanceTemplate<PartialVotedNewsArray, SavedNewsResponse>(
-  'newsDB/add',
-  '/news',
-  'post',
+  OperationName.AddNews,
+  Routes.GetAllAndAddNews,
+  HTTPMethods.POST,
 );
 
 export const deleteNews = requestWithInstanceTemplate<string, DeleteNewsResponse>(
-  'newsDB/delete',
-  '/news/archive/_id',
-  'delete',
+  OperationName.DeleteNews,
+  Routes.DeleteNews,
+  HTTPMethods.DELETE,
 );
 
 export const fetchFavourites = requestWithInstanceTemplate<void, SavedNewsResponse>(
-  'favourite/all',
-  '/news/favourite',
-  'get',
+  OperationName.GetFavourite,
+  Routes.SavedFavourite,
+  HTTPMethods.GET,
 );
 
 export const fetchRead = requestWithInstanceTemplate<void, SavedNewsResponse>(
-  'read/all',
-  '/news/read',
-  'get',
+  OperationName.GetRead,
+  Routes.SavedRead,
+  HTTPMethods.GET,
 );
 
 export const fetchArchivedNews = requestWithInstanceTemplate<void, SavedNewsResponse>(
-  'archive/all',
-  '/news/archive',
-  'get',
+  OperationName.GetArchive,
+  Routes.SavedArchive,
+  HTTPMethods.GET,
 );
 
 export const fetchHistoryLog = requestWithInstanceTemplate<void, HistoryLogResponse>(
-  'historyLog/all',
-  '/news/history-log',
-  'get',
+  OperationName.GetLog,
+  Routes.SavedLog,
+  HTTPMethods.GET,
 );
 
-export const clearHistoryLog = requestWithInstanceTemplate<void, ClearLogResponse>(
-  'historyLog/clear',
-  '/news/delete-log',
-  'delete',
+export const clearHistoryLog = requestWithInstanceTemplate<void, ServicesInfo>(
+  OperationName.ClearLog,
+  Routes.ClearLog,
+  HTTPMethods.DELETE,
 );

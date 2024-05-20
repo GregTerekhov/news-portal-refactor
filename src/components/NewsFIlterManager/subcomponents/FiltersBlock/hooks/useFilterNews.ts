@@ -1,7 +1,9 @@
+import { ResultsState, TriggerType } from 'types';
+
 import { useDBRedux, useFiltersRedux } from 'reduxStore/hooks';
 import { useFiltersStateContext, usePaginationContext } from 'contexts';
 
-import { TriggerType, useActiveLinks, useChooseRenderingNews, useHeadline } from 'hooks';
+import { useActiveLinks, useChooseRenderingNews, useHeadline } from 'hooks';
 import { getCrossFilteredNews, hasNonEmptyValue } from '../assistants';
 
 const useFilterNews = () => {
@@ -12,7 +14,7 @@ const useFilterNews = () => {
   const { resetPagination } = usePaginationContext();
 
   const activeLinks = useActiveLinks();
-  const { rebuiltNews } = useChooseRenderingNews(activeLinks);
+  const { rebuiltNews } = useChooseRenderingNews();
   const { handleChangeHeadline } = useHeadline();
 
   const { isHomeActive } = activeLinks;
@@ -26,7 +28,7 @@ const useFilterNews = () => {
     if (!filters || !rebuiltNews || rebuiltNews?.length === 0 || !hasNonEmptyValue(filters)) return;
 
     //Встановлення значення глобального стану завантаження новин
-    showResultsState('loading');
+    showResultsState(ResultsState.Loading);
 
     //Визначення заголовка, якщо локація - Домашня сторінка та скидання значення пагінації, якщо користувач знаходиться не на першій сторінці пагінації
     if (isHomeActive) {
@@ -43,12 +45,12 @@ const useFilterNews = () => {
     );
 
     if (filteredNews?.length === 0) {
-      showResultsState('empty');
+      showResultsState(ResultsState.Empty);
       return;
     }
 
     //Якщо є значення фільтрів зміна глобальних станів фільтрованих новин
-    showResultsState('full');
+    showResultsState(ResultsState.Fulfilled);
     getFilteredNews(filteredNews);
   };
 

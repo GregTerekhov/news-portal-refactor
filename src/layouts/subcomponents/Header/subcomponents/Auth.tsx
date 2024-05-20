@@ -1,37 +1,38 @@
 import React, { FC } from 'react';
 
-import { VariantButton } from 'types';
+import { IconName, IconSizes, ButtonType, VariantButton, PrimaryButtonId } from 'types';
+
 import { useAuthRedux } from 'reduxStore/hooks';
 import { useModalStateContext, useWindowWidthContext } from 'contexts';
-
-import { useActiveLinks, useCrypto, useHeaderStyles, usePopUp, useSignOut } from 'hooks';
-import { localStorageOperation } from 'helpers';
 
 import { AuthModal } from 'components';
 import { Modal, PrimaryButton } from 'ui';
 
+import { useActiveLinks, useCrypto, useHeaderStyles, usePopUp, useSignOut } from 'hooks';
+import { localStorageOperation, OperationType } from 'helpers';
 import { getButtonStyles, renderButtonText } from '../assistants';
 
-interface AuthButtonProps {
+interface IAuthButtonProps {
   passwordToken?: boolean;
 }
 
-const Auth: FC<AuthButtonProps> = ({ passwordToken }) => {
+const Auth: FC<IAuthButtonProps> = ({ passwordToken }) => {
   const { isAuthenticated } = useAuthRedux();
+
   const { isWideScreens } = useWindowWidthContext();
   const { isOpenModal } = useModalStateContext();
 
   const { popUpRef, toggleModal } = usePopUp();
   const { isHomeActive } = useActiveLinks();
   const { authButtonClass } = useHeaderStyles(isHomeActive);
-  const { fetchCryptoPassword } = useCrypto();
+  const { retrieveDecryptedData } = useCrypto();
   const { handleSignOut } = useSignOut();
 
-  const isCredentialsRemembered = localStorageOperation('get', 'rememberMe');
+  const isCredentialsRemembered = localStorageOperation(OperationType.Get, 'rememberMe');
 
   //Функція відкриття модалки при наявності збереженого Remember me та запиту шифрованого пароля
   const onOpenModal = () => {
-    if (isCredentialsRemembered) fetchCryptoPassword();
+    if (isCredentialsRemembered) retrieveDecryptedData();
     toggleModal();
   };
 
@@ -42,13 +43,14 @@ const Auth: FC<AuthButtonProps> = ({ passwordToken }) => {
     <>
       <div className='max-lg:flex max-lg:items-center max-lg:justify-center'>
         <PrimaryButton
-          id={isWideScreens ? 'Auth button for signin and signout' : ''}
-          ariaLabel={!isWideScreens ? 'Auth button for signin and signout' : ''}
+          id={isWideScreens ? PrimaryButtonId.AuthButton : undefined}
+          type={!isAuthenticated ? ButtonType.Button : ButtonType.Submit}
+          ariaLabel={isWideScreens ? undefined : PrimaryButtonId.AuthButton}
           variant={isWideScreens ? VariantButton.Primary : VariantButton.Small}
           onHandleClick={!isAuthenticated ? onOpenModal : handleSignOut}
           hasIcon={true}
-          svgName={isAuthenticated ? 'signout' : 'auth'}
-          svgSize={isWideScreens ? 'mdIcon28' : 'mdIcon24'}
+          svgName={isAuthenticated ? IconName.SignOut : IconName.Auth}
+          svgSize={isWideScreens ? IconSizes.mdIcon28 : IconSizes.mdIcon24}
           classNameIcon='fill-whiteBase'
           classNameButton={buttonStyles}
         >

@@ -1,14 +1,17 @@
 import React, { FC } from 'react';
 import { Link } from 'react-router-dom';
 
+import { IconSizes } from 'types';
+
 import { SvgIcon } from 'ui';
+
 import { getMenuLinks } from '../assistants';
 
-interface MenuLinksProps {
+interface IMenuLinksProps {
   handleLinkClick?: (() => void) | undefined;
 }
 
-const MenuLinks: FC<Partial<MenuLinksProps>> = ({ handleLinkClick }) => {
+const MenuLinks: FC<Partial<IMenuLinksProps>> = ({ handleLinkClick }) => {
   const links = getMenuLinks();
 
   const menuLinksStyles =
@@ -28,7 +31,7 @@ const MenuLinks: FC<Partial<MenuLinksProps>> = ({ handleLinkClick }) => {
             {label}
             <SvgIcon
               svgName={iconName}
-              sizeKey='smIcon20'
+              sizeKey={IconSizes.smIcon20}
               className='fill-transparent stroke-whiteBase'
             />
           </Link>

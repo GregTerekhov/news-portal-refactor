@@ -1,13 +1,10 @@
 import useChooseRenderingNews from './useChooseRenderingNews';
-
 import { compareDates } from 'helpers';
-import useActiveLinks from './useActiveLinks';
 
 const useReadNewsContent = () => {
-  const activeLinks = useActiveLinks();
-  const { rebuiltNews } = useChooseRenderingNews(activeLinks);
+  const { rebuiltNews } = useChooseRenderingNews();
 
-  if (rebuiltNews?.length === 0) return;
+  if (rebuiltNews?.length === 0) return [];
 
   const publishedDate = rebuiltNews
     .map((news) => news.publishDate)
@@ -15,9 +12,7 @@ const useReadNewsContent = () => {
 
   const uniqueDateList = new Set(publishedDate);
 
-  const readNews = Array.from(uniqueDateList).sort(compareDates).reverse();
-
-  return readNews;
+  return Array.from(uniqueDateList).sort(compareDates).reverse();
 };
 
 export default useReadNewsContent;

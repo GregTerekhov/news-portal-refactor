@@ -1,15 +1,18 @@
 import React, { FC } from 'react';
 
 import { ErrorTemplate } from '../template';
+
 import { errorImages } from 'constants/images';
 import { generateContentImages } from 'helpers';
-import { useCacheImage } from 'hooks';
+import { useCache } from 'hooks';
 
 const ErrorPage: FC = () => {
+  const { cacheImage } = useCache();
+
   const devicePixelRatio = window.devicePixelRatio || 1;
 
   const matchedErrorImage = generateContentImages(errorImages, devicePixelRatio, window.innerWidth);
-  const imageUrl = useCacheImage(matchedErrorImage?.src || '');
+  const imageUrl = cacheImage(matchedErrorImage?.src || '');
 
   return (
     <ErrorTemplate

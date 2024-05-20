@@ -4,15 +4,17 @@ import { usePaginationContext, useWindowWidthContext } from 'contexts';
 
 import DirectionButton from './DirectionButton';
 import PaginationButton from './PaginationButton';
+
 import { renderPagination } from '../assistants';
 import { useControls } from '../hooks';
-interface PaginationProps {
+interface IPaginationProps {
   pageNumbers: number[];
 }
 
-const Pagination: FC<PaginationProps> = ({ pageNumbers }) => {
+const Pagination: FC<IPaginationProps> = ({ pageNumbers }) => {
   const { isNotMobile } = useWindowWidthContext();
   const { currentPage, setCurrentPage } = usePaginationContext();
+
   const { handlePageNumberClick, handleNextClick, handlePrevClick } = useControls(
     setCurrentPage,
     currentPage,

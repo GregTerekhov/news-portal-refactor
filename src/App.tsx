@@ -1,13 +1,12 @@
 import React, { lazy, useEffect } from 'react';
 import { Route, Routes } from 'react-router-dom';
 
-import { ProtectedRoute } from 'routes';
-import { useAuthRedux } from 'reduxStore/hooks';
+import { Paths } from './types';
+import { ProtectedRoute } from './routes';
+import { useAuthRedux } from './redux/hooks';
 
-import { Paths } from './hooks';
-import { AccountLayout, Layout } from 'layouts';
-
-import { Loader } from 'ui';
+import { AccountLayout, Layout } from './layouts';
+import { Loader } from './ui';
 
 const HomePage = lazy(() => import('./pages/HomePage/HomePage'));
 const FavouritePage = lazy(() => import('./pages/FavouritePage/FavouritePage'));

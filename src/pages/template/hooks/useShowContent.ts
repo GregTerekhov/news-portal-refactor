@@ -9,7 +9,6 @@ const useShowContent = () => {
 
   // Отримання активних сторінок
   const { isArchiveActive, isFavoriteActive, isHomeActive, isReadActive } = useActiveLinks();
-
   const { isHomeLoader, commonDBLoader } = useShowLoader(); // Визначення статусу завантаження для домашньої сторінки
   const { isHomePlug, commonPlug } = useShowPlug(); // Визначення статусу плагіну
 

@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 
-import { VariantInputs } from 'types';
+import { IconName, InputType } from 'types';
 
 import { UnverifiableInput } from 'ui';
 
@@ -12,19 +12,18 @@ const FilterInputs: FC = () => {
   return (
     <>
       {Array.isArray(filterInputs) &&
-        filterInputs.map(({ value, placeholder }) => (
+        filterInputs.map(({ name, value, placeholder }) => (
           <div key={placeholder} className='md:col-span-3 lg:col-span-4'>
             <UnverifiableInput
               inputData={{
-                name: placeholder.toLowerCase(),
-                type: 'text',
+                name,
+                type: InputType.Text,
                 value,
                 placeholder,
               }}
-              svgName='search'
+              svgName={IconName.Search}
               hasIcon={true}
               onChange={(event: React.ChangeEvent<HTMLInputElement>) => handleChangeFilter(event)}
-              variant={VariantInputs.FilterServiceBlock}
             />
           </div>
         ))}

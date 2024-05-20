@@ -1,22 +1,31 @@
 import React, { FC } from 'react';
 
-import type { CalendarVariant } from 'types';
+import { CalendarVariant } from 'types';
 
 import CalendarControls from './CalendarControls';
 import GridCalendar from './GridCalendar';
 import WeekDays from './WeekDays';
 
 import { useControlCalendar, useFilterDateChange } from '../hooks';
-interface CalendarContentProps {
+interface ICalendarContentProps {
   variant: CalendarVariant;
   isOpenCalendar: boolean;
   toggleCalendar: () => void;
 }
 
-const CalendarContent: FC<CalendarContentProps> = ({ variant, isOpenCalendar, toggleCalendar }) => {
-  const { firstDayOfMonth, currMonth, daysInMonth, handleChangeMonth, handleChangeYear } =
-    useControlCalendar();
-
+const CalendarContent: FC<ICalendarContentProps> = ({
+  variant,
+  isOpenCalendar,
+  toggleCalendar,
+}) => {
+  const {
+    firstDayOfMonth,
+    currMonth,
+    daysInMonth,
+    handleChangeMonth,
+    handleChangeYear,
+    generateKey,
+  } = useControlCalendar();
   const { handleFilterDate } = useFilterDateChange();
 
   return (
@@ -29,9 +38,9 @@ const CalendarContent: FC<CalendarContentProps> = ({ variant, isOpenCalendar, to
       <WeekDays />
       <div className='mt-3.5 grid grid-cols-7 place-items-center gap-x-[18px] gap-y-3'>
         {Array.isArray(daysInMonth) &&
-          daysInMonth.map((day, index) => (
+          daysInMonth.map((day) => (
             <GridCalendar
-              key={index}
+              key={generateKey(day)}
               day={day}
               currMonth={currMonth}
               handleFilterDate={handleFilterDate}

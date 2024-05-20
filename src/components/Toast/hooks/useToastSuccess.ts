@@ -1,4 +1,12 @@
-import type { HaveAccounts, ToastMessage, ToastSuccessDescription, ToastSuccessTitle } from 'types';
+import {
+  type HaveAccounts,
+  SuccessCaseWithoutAccount,
+  type ToastMessage,
+  ToastSuccessCases,
+  type ToastSuccessDescription,
+  ToastSuccessDescriptionWithoutAccount,
+  ToastSuccessTitle,
+} from 'types';
 import { useAuthRedux, useDBRedux } from 'reduxStore/hooks';
 
 import { useActiveLinks } from 'hooks';
@@ -7,66 +15,68 @@ import { getHasAccount } from '../assistants';
 const useToastSuccess = () => {
   const { statusMessage, haveAccounts } = useAuthRedux();
   const { dbSuccessMessage } = useDBRedux();
+
   const { isArchiveActive } = useActiveLinks();
 
   //Функція виведення заголовка та опису для тостів успіху
-  const chooseSuccessToastText = (statusMessage: string): ToastMessage => {
-    let title: ToastSuccessTitle;
+  const chooseSuccessToastText = (
+    statusMessage: ToastSuccessCases<keyof HaveAccounts>,
+  ): ToastMessage => {
+    let title: ToastSuccessTitle = ToastSuccessTitle.Default;
     let description: ToastSuccessDescription<keyof HaveAccounts>;
 
     //Визначення наявності значення прив'язаного акаунту
     const linkingAccount = getHasAccount(haveAccounts);
 
     switch (statusMessage) {
-      case 'User sign-in success':
-      case 'User sign-up and sign-in success':
-        title = 'Welcome';
-        description = 'Welcome to New York Times News Viewer';
+      case SuccessCaseWithoutAccount.SignIn:
+      case SuccessCaseWithoutAccount.SignUp:
+        title = ToastSuccessTitle.Welcome;
+        description = ToastSuccessDescriptionWithoutAccount.Welcome;
         break;
-      case 'Your saved password has been successfully retrieved':
-        title = 'Paste credentials';
-        description = 'Your credentials have been successfully inserted. Please push Sign in';
+      case SuccessCaseWithoutAccount.RememberMe:
+        title = ToastSuccessTitle.PasteCredentials;
+        description = ToastSuccessDescriptionWithoutAccount.RememberMe;
         break;
-      case 'Sign-out success':
-        title = 'Goodbye';
-        description = 'See you soon! We will be waiting for you with new news';
+      case SuccessCaseWithoutAccount.SignOut:
+        title = ToastSuccessTitle.Goodbye;
+        description = ToastSuccessDescriptionWithoutAccount.Goodbye;
         break;
-      case 'Email is successfully updated':
-        title = 'Update credentials';
-        description = 'Your email address has been successfully updated';
+      case SuccessCaseWithoutAccount.UpdateEmail:
+        title = ToastSuccessTitle.UpdateCredentials;
+        description = ToastSuccessDescriptionWithoutAccount.UpdateEmail;
         break;
-      case 'Password is successfully updated':
-        title = 'Update credentials';
-        description = 'Your password has been successfully updated';
+      case SuccessCaseWithoutAccount.UpdatePassword:
+        title = ToastSuccessTitle.UpdateCredentials;
+        description = ToastSuccessDescriptionWithoutAccount.UpdatePassword;
         break;
-      case 'Email sent successfully':
-        title = 'Sending settings success';
-        description =
-          'Your request is successfully sent. Please check your email and follow the instructions for recovering your password';
+      case SuccessCaseWithoutAccount.RecoveryPasswordSent:
+        title = ToastSuccessTitle.SendRecovery;
+        description = ToastSuccessDescriptionWithoutAccount.SendRecovery;
         break;
-      case 'Password has successfully changed':
-        title = 'Password recovered';
-        description = 'Your password successfully recovered';
+      case SuccessCaseWithoutAccount.PasswordChange:
+        title = ToastSuccessTitle.RecoverPassword;
+        description = ToastSuccessDescriptionWithoutAccount.RecoveryPassword;
         break;
-      case 'Remove news success':
-        title = 'Delete news';
-        description = 'News has been successfully deleted';
+      case SuccessCaseWithoutAccount.DeleteNews:
+        title = ToastSuccessTitle.DeleteNews;
+        description = ToastSuccessDescriptionWithoutAccount.DeleteNews;
         break;
-      case 'Your History Log news feed has been successfully cleared':
-        title = 'Clearing log';
-        description = 'Your deleted news feed has been successfully cleared';
+      case SuccessCaseWithoutAccount.ClearLog:
+        title = ToastSuccessTitle.ClearLog;
+        description = ToastSuccessDescriptionWithoutAccount.ClearLog;
         break;
       case `Account ${linkingAccount} linking successful`:
-        title = 'Link Account';
+        title = ToastSuccessTitle.LinkAccount;
         description = `Your ${linkingAccount} account is successfully linking`;
         break;
       case `Account ${linkingAccount} unlinking successful`:
-        title = 'Unlink Account';
+        title = ToastSuccessTitle.UnlinkAccount;
         description = `Your ${linkingAccount} account has unlinked successfully`;
         break;
       default:
-        title = 'Default title';
-        description = 'Default description';
+        title = ToastSuccessTitle.Default;
+        description = ToastSuccessDescriptionWithoutAccount.Default;
         break;
     }
 
@@ -77,7 +87,7 @@ const useToastSuccess = () => {
 
   //Функція-обгортка
   const showSuccessToast = (): ToastMessage => {
-    return chooseSuccessToastText(responseMessage);
+    return chooseSuccessToastText(responseMessage as ToastSuccessCases<keyof HaveAccounts>);
   };
 
   return { showSuccessToast };

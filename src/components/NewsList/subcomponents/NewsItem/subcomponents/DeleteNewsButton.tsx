@@ -1,20 +1,26 @@
 import React, { FC, Ref } from 'react';
 
-import { VariantButton } from 'types';
+import {
+  IconName,
+  IconSizes,
+  TooltipAppearanceSide,
+  TooltipSideOffset,
+  VariantButton,
+} from 'types';
 
 import { Hint, PrimaryButton } from 'ui';
 
-interface DeleteButtonProps {
+interface IDeleteButtonProps {
   myButtonRef: Ref<HTMLButtonElement>;
   handleOpenConfirm: (e: React.MouseEvent<HTMLButtonElement>) => void;
 }
 
-const DeleteNewsButton: FC<DeleteButtonProps> = ({ myButtonRef, handleOpenConfirm }) => {
+const DeleteNewsButton: FC<IDeleteButtonProps> = ({ myButtonRef, handleOpenConfirm }) => {
   return (
     <Hint
       label='Delete news from archive'
-      side='bottom'
-      sideOffset={16}
+      side={TooltipAppearanceSide.Bottom}
+      sideOffset={TooltipSideOffset.Large}
       ariaLabel='Button for deleting news from archive'
     >
       <div>
@@ -23,8 +29,8 @@ const DeleteNewsButton: FC<DeleteButtonProps> = ({ myButtonRef, handleOpenConfir
           onHandleClick={handleOpenConfirm}
           variant={VariantButton.Small}
           hasIcon={true}
-          svgName='close'
-          svgSize='mdIcon24'
+          svgName={IconName.Close}
+          svgSize={IconSizes.mdIcon24}
           classNameIcon='stroke-whiteBase'
           ariaLabel='Delete news from archive button'
           classNameButton='absolute z-40 top-3 right-3 bg-accentBase/[.8] py-1.5'

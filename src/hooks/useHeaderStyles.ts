@@ -5,7 +5,7 @@ import { useWindowWidthContext } from 'contexts';
 import { getHeaderHeight } from 'helpers';
 
 const useHeaderStyles = (isHomePage: boolean) => {
-  const [isScrolled, setIsScrolled] = useState<boolean>(false);
+  const [isScrolled, setIsScrolled] = useState(false);
 
   const { isTablet, isDesktop, isTV } = useWindowWidthContext();
   const headerHeight = getHeaderHeight(isTablet, isDesktop, isTV);

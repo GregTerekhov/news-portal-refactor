@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 
 import type { PartialVotedNewsArray } from 'types';
+
 import { useNewsAPIRedux, useFiltersRedux } from 'reduxStore/hooks';
 import { usePaginationContext, useWindowWidthContext } from 'contexts';
 
@@ -11,6 +12,7 @@ const usePagination = (rebuiltNews: PartialVotedNewsArray) => {
 
   const { popularNews, newsByKeyword, newsByCategory, newsByDate } = useNewsAPIRedux();
   const { filteredNews } = useFiltersRedux();
+
   const { isSmallScreens, isTablet } = useWindowWidthContext();
   const { currentPage } = usePaginationContext();
 

@@ -1,6 +1,7 @@
 import { useCallback } from 'react';
 
 import type { Position } from 'types';
+
 import { useAppDispatch, useAppSelector } from './reduxHooks';
 import * as weather from '../weather';
 

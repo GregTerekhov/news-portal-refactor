@@ -1,13 +1,14 @@
 import { useNavigate } from 'react-router-dom';
 
-import { Paths } from './commonTypes';
+import { Paths } from 'types';
+
 import { useAuthRedux } from 'reduxStore/hooks';
 import { useNotificationContext } from 'contexts';
 
-import { localStorageOperation } from 'helpers';
+import { localStorageOperation, OperationType } from 'helpers';
 
 const useSignOut = (closeMenu?: (() => void) | undefined) => {
-  const { logout } = useAuthRedux();
+  const { requestStatus, logout } = useAuthRedux();
   const { showToast } = useNotificationContext();
 
   const navigate = useNavigate();
@@ -16,10 +17,11 @@ const useSignOut = (closeMenu?: (() => void) | undefined) => {
   const handleSignOut = async (): Promise<void> => {
     if (typeof closeMenu === 'function') closeMenu();
 
-    const response = await logout();
+    await logout();
 
-    showToast(response.meta.requestStatus);
-    localStorageOperation('remove', '_persist');
+    requestStatus && showToast(requestStatus);
+
+    localStorageOperation(OperationType.Remove, '_persist');
     navigate(Paths.Home);
   };
 

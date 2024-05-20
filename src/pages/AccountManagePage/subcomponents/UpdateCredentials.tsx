@@ -1,45 +1,49 @@
 import React, { FC } from 'react';
 
-import { UpdateCredentialsInput, VariantButton, VariantVerifiableInputs } from 'types';
+import {
+  ButtonType,
+  InputLabel,
+  PrimaryButtonId,
+  VariantButton,
+  VariantsAccordion,
+  VariantVerifiableInputs,
+  type UpdateCredentialsInput,
+} from 'types';
+
 import { useAuthRedux } from 'reduxStore/hooks';
 
 import { Accordeon, PrimaryButton, VerifiableInput } from 'ui';
 
 import { useUpdateEmail, useUpdatePassword } from '../hooks';
+import { getButtonDisabledState, getDescriptionText } from '../assistants';
 
-interface UpdateCredentialsProps {
-  field: string;
+interface IUpdateCredentialsProps {
+  field: InputLabel;
 }
 
-const UpdateCredentials: FC<UpdateCredentialsProps> = ({ field }) => {
+const UpdateCredentials: FC<IUpdateCredentialsProps> = ({ field }) => {
   const { isRefreshingUser } = useAuthRedux();
+
   const { emailSubmit, updateEmailRegister, emailInputs, handleEmailSubmitHandler } =
     useUpdateEmail();
   const { passwordSubmit, updatePasswordRegister, handlePasswordSubmitHandler, passwordInputs } =
     useUpdatePassword();
 
   const credentialInputs: UpdateCredentialsInput[] =
-    field === 'email' ? emailInputs : passwordInputs;
+    field === InputLabel.Email ? emailInputs : passwordInputs;
 
-  let descriptionText = '';
-  switch (field) {
-    case 'email':
-      descriptionText = `and confirm by inputting your current password in the new field.`;
-      break;
-    case 'password':
-      descriptionText = `in the first field and repeat the entry in the second field. In the third field, confirm the change by inputting your current password.`;
-      break;
-
-    default:
-      break;
-  }
+  const descriptionText = getDescriptionText(field);
+  const disabled = getButtonDisabledState(field, isRefreshingUser);
 
   return (
-    <Accordeon position='accountManagePage' blockDefinition={`Change your ${field}`}>
+    <Accordeon
+      position={VariantsAccordion.AccountSettings}
+      blockDefinition={`Change your ${field}`}
+    >
       <form
         className='space-y-4 pt-4 lg:space-y-8'
         onSubmit={
-          field === 'email'
+          field === InputLabel.Email
             ? emailSubmit(handleEmailSubmitHandler)
             : passwordSubmit(handlePasswordSubmitHandler)
         }
@@ -56,7 +60,9 @@ const UpdateCredentials: FC<UpdateCredentialsProps> = ({ field }) => {
                       fieldValue,
                     }}
                     errors={errors}
-                    register={field === 'email' ? updateEmailRegister : updatePasswordRegister}
+                    register={
+                      field === InputLabel.Email ? updateEmailRegister : updatePasswordRegister
+                    }
                     label={label}
                     hasIcon={true}
                     svgName={iconName}
@@ -72,11 +78,11 @@ const UpdateCredentials: FC<UpdateCredentialsProps> = ({ field }) => {
           notification confirming the successful update of your ${field}.`}
         </p>
         <PrimaryButton
-          type='submit'
+          type={ButtonType.Submit}
           width='w-28 lg:w-40'
-          id={`Button for applying change ${field === 'password' ? 'and confirm ' : ''}your new ${field}`}
+          id={InputLabel.Password ? PrimaryButtonId.UpdatePassword : PrimaryButtonId.UpdateEmail}
           variant={VariantButton.Other}
-          disabled={field === 'email' && isRefreshingUser ? true : false}
+          disabled={disabled}
         >
           Apply
         </PrimaryButton>

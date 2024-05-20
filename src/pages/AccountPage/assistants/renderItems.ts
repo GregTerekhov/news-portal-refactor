@@ -1,4 +1,4 @@
-import type { HaveAccounts, User } from 'types';
+import { IconName, type HaveAccounts, type User } from 'types';
 
 type UserInfoList = {
   label: string;
@@ -6,14 +6,14 @@ type UserInfoList = {
 };
 
 type IconsList = {
-  iconName: string;
+  iconName: IconName;
   linked: boolean;
 };
 
 export const renderInfoItems = (user: User): UserInfoList[] => {
   const { id, name, email } = user;
 
-  const userInfoList: UserInfoList[] = [
+  return [
     {
       label: 'Account ID: ',
       value: id,
@@ -27,22 +27,20 @@ export const renderInfoItems = (user: User): UserInfoList[] => {
       value: email,
     },
   ];
-
-  return userInfoList;
 };
 
 export const renderAccountIcons = (haveAccounts: HaveAccounts): IconsList[] => {
   const icons: IconsList[] = [
     {
-      iconName: 'google',
+      iconName: IconName.Google,
       linked: haveAccounts.google,
     },
     {
-      iconName: 'facebook',
+      iconName: IconName.Facebook,
       linked: haveAccounts.facebook,
     },
     {
-      iconName: 'apple',
+      iconName: IconName.Apple,
       linked: haveAccounts.apple,
     },
   ];

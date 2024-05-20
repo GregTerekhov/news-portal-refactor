@@ -1,26 +1,25 @@
 import React, { FC, useEffect } from 'react';
 import { Outlet } from 'react-router-dom';
 
-import { VariantSwitcher } from 'types';
-import { useAuthRedux, useNewsAPIRedux } from 'reduxStore/hooks';
+import { DirectionScrollButton, IconName, VariantSwitcher } from 'types';
 
-import { useActiveLinks } from 'hooks';
+import { useAuthRedux, useNewsAPIRedux } from 'reduxStore/hooks';
 
 import { NewsFilterManager } from 'components';
 import { ThemeSwitcher } from 'ui';
 import { Hero, Header, Footer, PageScrollController, Container } from './subcomponents';
+
+import { useActiveLinks } from 'hooks';
 import { useError, useLayoutContent } from './hooks';
 
 const Layout: FC = () => {
   const { fetchCategoriesList } = useNewsAPIRedux();
   const { isAuthenticated } = useAuthRedux();
 
-  const activeLinks = useActiveLinks();
+  const { isErrorPage, isHomeActive } = useActiveLinks();
   const { redirectToServerErrorPage } = useError();
   const { isFilterManager, isFullHeight, isLargeSection, isPageScrollController, isThemeSwitcher } =
     useLayoutContent();
-
-  const { isErrorPage, isHomeActive } = activeLinks;
 
   useEffect(() => {
     if (isAuthenticated && isHomeActive) {
@@ -57,16 +56,16 @@ const Layout: FC = () => {
             {isPageScrollController ? (
               <>
                 <PageScrollController
-                  direction='top'
+                  direction={DirectionScrollButton.Up}
                   label='Scroll up'
                   position='top-36'
-                  icon='triangle'
+                  icon={IconName.Triangle}
                 />
                 <PageScrollController
-                  direction='down'
+                  direction={DirectionScrollButton.Down}
                   label='Scroll down'
                   position='bottom-12'
-                  icon='triangle'
+                  icon={IconName.Triangle}
                   classIcon='rotate-180'
                 />
               </>

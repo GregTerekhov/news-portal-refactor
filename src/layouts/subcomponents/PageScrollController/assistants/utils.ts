@@ -1,7 +1,10 @@
 const DOWN_MEASURE_BUTTON_VISIBILITY = 48;
 const DOWN_MEASURE_BUTTON_INVISIBILITY = 112;
 
-type ButtonClass = 'hidden' | 'flex';
+enum ButtonClass {
+  Hidden = 'hidden',
+  Flex = 'flex',
+}
 
 export const calculateButtonVisibility = (
   currentScroll: number,
@@ -15,20 +18,20 @@ export const calculateButtonVisibility = (
   const isTopHide = currentScroll < DOWN_MEASURE_BUTTON_INVISIBILITY;
   const isTopVisibleFrontier = currentScroll > DOWN_MEASURE_BUTTON_VISIBILITY;
 
-  const topButtonVisibility = isTopVisible ? 'flex' : 'hidden';
+  const topButtonVisibility = isTopVisible ? ButtonClass.Flex : ButtonClass.Hidden;
 
   let buttonClass: ButtonClass;
 
   switch (true) {
     case isBottomHide || isTopHide:
-      buttonClass = 'hidden';
+      buttonClass = ButtonClass.Hidden;
       break;
     case isTopVisibleFrontier:
-      buttonClass = 'flex';
+      buttonClass = ButtonClass.Flex;
       break;
 
     default:
-      buttonClass = 'hidden';
+      buttonClass = ButtonClass.Hidden;
       break;
   }
 

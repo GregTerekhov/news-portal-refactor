@@ -61,7 +61,7 @@ export async function decryptPassword(
 }
 
 // Допоміжна функція для перетворення масиву байтів в base64 строку
-function arrayBufferToBase64String(buffer: ArrayBuffer | Uint8Array) {
+function arrayBufferToBase64String(buffer: ArrayBuffer | Uint8Array): string {
   if (buffer instanceof Uint8Array) {
     buffer = buffer.buffer;
   }
@@ -74,7 +74,7 @@ function arrayBufferToBase64String(buffer: ArrayBuffer | Uint8Array) {
   return btoa(binary);
 }
 
-// Допоміжна функція для зворотнього перетворення base64 строки в масив байтів
+// Допоміжна функція для зворотнього перетворення base64 строки в ArrayBuffer чи Uint8Array
 function base64StringToArrayBuffer(base64String: string): ArrayBuffer | Uint8Array {
   const binaryString = atob(base64String);
   const bytes = new Uint8Array(binaryString.length);

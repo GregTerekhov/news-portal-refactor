@@ -1,6 +1,19 @@
 import React, { FC } from 'react';
 
-import { VariantButton, VariantInputs } from 'types';
+import {
+  CalendarVariant,
+  DropdownType,
+  IconName,
+  IconSizes,
+  InputName,
+  InputType,
+  ButtonType,
+  VariantButton,
+  VariantsPlaceholder,
+  PrimaryButtonId,
+} from 'types';
+
+import { periods } from 'constants/dropdownArrays';
 import { useAdditionRequestContext, useWindowWidthContext } from 'contexts';
 
 import { Dropdown, PrimaryButton, UnverifiableInput } from 'ui';
@@ -8,11 +21,10 @@ import Calendar from './Calendar/Calendar';
 
 import { useAdditionalRequest } from './hooks';
 
-const PERIOD = ['Today', 'Week', 'Month'];
-
 const SearchBlock: FC = () => {
   const { isWideScreens } = useWindowWidthContext();
   const { searchParams, hasRequestValue, updateSearchParams } = useAdditionRequestContext();
+
   const {
     categoriesForDropdown,
     onChangeInput,
@@ -32,50 +44,49 @@ const SearchBlock: FC = () => {
       >
         <UnverifiableInput
           inputData={{
-            name: 'query',
-            type: 'text',
+            name: InputName.Query,
+            type: InputType.Text,
             value: query,
-            placeholder: 'Search |',
+            placeholder: VariantsPlaceholder.RequestByKeyword,
           }}
-          svgName='search'
+          svgName={IconName.Search}
           hasIcon={true}
-          variant={VariantInputs.FilterServiceBlock}
           onChange={(event: React.ChangeEvent<HTMLInputElement>) => onChangeInput(event)}
         />
       </form>
       <div className='md:col-span-2 lg:col-span-3'>
         <Dropdown
-          options={categoriesForDropdown || []}
+          options={categoriesForDropdown}
           getResults={getNewsByCategory}
           selectedItem={category}
           onSelectItem={updateSearchParams}
-          label='Categories'
+          label={DropdownType.Category}
         />
       </div>
       <div className='md:col-span-2 lg:col-span-3'>
         <Dropdown
-          options={PERIOD}
+          options={periods}
           getResults={getNewsByPeriod}
           selectedItem={period}
           onSelectItem={updateSearchParams}
-          label='Time period'
+          label={DropdownType.Period}
         />
       </div>
 
       <div className='md:col-span-3 lg:col-span-3'>
-        <Calendar variant='SearchBlock' />
+        <Calendar variant={CalendarVariant.Search} />
       </div>
       <div className='md:col-span-3 md:mt-auto lg:col-span-1 lg:space-y-2'>
         {isWideScreens ? (
           <p className='text-base text-darkBase dark:text-whiteBase lg:text-medium'>Reset</p>
         ) : null}
         <PrimaryButton
-          id='Reset all requests button'
-          type='submit'
+          id={PrimaryButtonId.ResetRequest}
+          type={ButtonType.Submit}
           hasIcon={true}
           variant={VariantButton.Primary}
-          svgName='reset'
-          svgSize={isWideScreens ? 'smIcon21' : 'xsIcon16'}
+          svgName={IconName.Reset}
+          svgSize={isWideScreens ? IconSizes.smIcon21 : IconSizes.xsIcon16}
           classNameIcon='fill-whiteBase'
           classNameButton='py-3'
           onHandleClick={handleResetRequests}

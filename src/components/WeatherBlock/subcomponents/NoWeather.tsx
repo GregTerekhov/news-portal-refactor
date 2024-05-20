@@ -1,16 +1,16 @@
 import React, { FC } from 'react';
 
-import { VariantButton } from 'types';
+import { IconName, IconSizes, PrimaryButtonId, VariantButton } from 'types';
 
 import { PrimaryButton, SvgIcon } from 'ui';
 
 import { useWeather } from '../hooks';
 
-type NoWeatherProps = {
+interface INoWeatherProps {
   showError: number | null;
-};
+}
 
-const NoWeather: FC<NoWeatherProps> = ({ showError }) => {
+const NoWeather: FC<INoWeatherProps> = ({ showError }) => {
   const { requestGeolocationPermission, showButtonText } = useWeather();
 
   //Визначення тексту в залежності від наявності помилки від серверу, або дефолтного значення
@@ -23,14 +23,14 @@ const NoWeather: FC<NoWeatherProps> = ({ showError }) => {
       <h2 className='text-medium text-whiteBase md:text-2xl lg:text-4xl'>{showInfoMessage}</h2>
       <div className={`my-auto ${showError ? 'flex justify-center' : ''}`}>
         <SvgIcon
-          svgName='moon'
-          sizeKey='ultraIcon156'
+          svgName={IconName.Moon}
+          sizeKey={IconSizes.ultraIcon156}
           className='fill-transparent stroke-greyBase'
         />
       </div>
       {!showError && (
         <PrimaryButton
-          id='Geolocation permission button'
+          id={PrimaryButtonId.GeoPermission}
           variant={VariantButton.Primary}
           onHandleClick={requestGeolocationPermission}
           classNameButton='border border-solid border-whiteBase'

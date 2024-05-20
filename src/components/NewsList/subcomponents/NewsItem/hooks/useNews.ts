@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react';
 
 import type { SavedNewsOptions, VotedItem } from 'types';
-import { useAuthRedux, useDBRedux } from 'reduxStore/hooks';
-import { useActiveLinks } from 'hooks';
 
+import { useAuthRedux, useDBRedux } from 'reduxStore/hooks';
+
+import { useActiveLinks } from 'hooks';
 import useNewsActions from './useNewsActions';
 
 interface NewsItemProps {
@@ -12,6 +13,7 @@ interface NewsItemProps {
 
 const useNews = ({ liveNews }: NewsItemProps) => {
   const { savedNews, allArchive } = useDBRedux();
+
   const { isArchiveActive } = useActiveLinks();
 
   const { savedFavourite, savedRead } = getNewsState();

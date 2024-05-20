@@ -1,15 +1,17 @@
 import React, { FC } from 'react';
 
-import { useCacheImage } from 'hooks';
-
 import { MembersList } from './subcomponents';
+
+import { useCache } from 'hooks';
 import { getMatchedImages, getMembersList } from './assistants';
 
 const AboutUs: FC = () => {
+  const { cacheImage } = useCache();
+
   const matchedMemberImages = getMatchedImages();
 
   const memberImageUrls = matchedMemberImages.map((matchedImage) =>
-    useCacheImage(matchedImage?.src || ''),
+    cacheImage(matchedImage?.src || ''),
   );
 
   const members = getMembersList(memberImageUrls);

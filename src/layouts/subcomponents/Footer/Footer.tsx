@@ -1,19 +1,20 @@
 import React, { FC } from 'react';
 
 import { VariantSwitcher } from 'types';
+
 import { useAuthRedux } from 'reduxStore/hooks';
 
 import { ThemeSwitcher } from 'ui';
 import { FooterMenu, SocialLinks } from './subcomponents';
-import Container from '../Container';
+import { Container } from '..';
 
-const Footer: FC<{}> = () => {
+const Footer: FC = () => {
   const { isAuthenticated } = useAuthRedux();
 
   return (
     <footer className='bg-accentBase py-8'>
       <Container className='relative'>
-        <div className={`${isAuthenticated ? 'mb-4' : 'hidden'}`}>
+        <div className={isAuthenticated ? 'mb-4' : 'hidden'}>
           <h2 className='text-center text-medium text-whiteBase md:text-3xl'>Menu</h2>
           <hr className='mt-2' />
         </div>

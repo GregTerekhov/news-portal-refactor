@@ -1,16 +1,15 @@
+import { ErrorCase } from 'types';
+
 import { useDBRedux, useNewsAPIRedux } from 'reduxStore/hooks';
 import { useWindowWidthContext } from 'contexts';
 
 import { useActiveLinks, useChooseRenderingNews } from 'hooks';
 
 export const useLayoutContent = () => {
-  const { isNotMobile } = useWindowWidthContext();
-
   const { errorAPI } = useNewsAPIRedux();
   const { allFavourites, allReads, isLoadingDBData } = useDBRedux();
 
-  const activeLinks = useActiveLinks();
-  const { rebuiltNews } = useChooseRenderingNews(activeLinks);
+  const { isNotMobile } = useWindowWidthContext();
 
   const {
     isAboutUs,
@@ -20,9 +19,10 @@ export const useLayoutContent = () => {
     isHomeActive,
     isReadActive,
     isDevelopmentActive,
-  } = activeLinks;
+  } = useActiveLinks();
+  const { rebuiltNews } = useChooseRenderingNews();
 
-  const is429ErrorAPI = errorAPI?.toString().includes('429') ?? false;
+  const is429ErrorAPI = errorAPI?.toString().includes(ErrorCase.TooManyRequest.toString()) ?? false;
 
   const shouldShowPageScrollController = (): boolean =>
     (isNotMobile && isHomeActive && rebuiltNews?.length > 0) ||

@@ -1,14 +1,18 @@
 import axios, { AxiosInstance } from 'axios';
 import { jwtDecode, JwtPayload } from 'jwt-decode';
 
+import { Routes } from 'types';
+
+import { Config, CONFIG } from 'config';
 import { store, RootState } from '../store';
-import { CONFIG } from 'config';
-import { isTokenExpired, updateTokens } from './helpers';
 import { setTokens } from '../auth';
+import { isTokenExpired, updateTokens } from './helpers';
+
+const { BASE_URL_DB }: Config = CONFIG;
 
 const createAxiosInstance = (): AxiosInstance => {
   const axiosInstance: AxiosInstance = axios.create({
-    baseURL: CONFIG.BASE_URL_DB,
+    baseURL: BASE_URL_DB,
   });
 
   axiosInstance.interceptors.request.use(
@@ -18,7 +22,7 @@ const createAxiosInstance = (): AxiosInstance => {
 
       const isAuthenticated = state.auth.isLoggedIn;
 
-      if (!isAuthenticated && config.url?.endsWith('/auth/current-user')) {
+      if (!isAuthenticated && config.url?.endsWith(Routes.CurrentUser)) {
         const abortController = new AbortController();
         config.signal = abortController.signal;
 
@@ -27,7 +31,7 @@ const createAxiosInstance = (): AxiosInstance => {
       }
 
       if (accessToken) {
-        if (config.url?.endsWith('/auth/forgot-password-change')) {
+        if (config.url?.endsWith(Routes.PasswordChange)) {
           config.headers['Authorization'] = `Bearer ${accessToken}`;
         }
 
@@ -48,7 +52,7 @@ const createAxiosInstance = (): AxiosInstance => {
           }
         }
 
-        if (config.url?.endsWith('/auth/sign-out')) {
+        if (config.url?.endsWith(Routes.SignOut)) {
           const refreshToken = state.auth.refreshToken;
 
           if (refreshToken) {
@@ -65,7 +69,7 @@ const createAxiosInstance = (): AxiosInstance => {
 
   axiosInstance.interceptors.response.use(
     async (response) => {
-      if (response.config.url?.endsWith('/auth/sign-out')) {
+      if (response.config.url?.endsWith(Routes.SignOut)) {
         response.config.headers['Authorization'] = '';
       }
 

@@ -1,14 +1,23 @@
 import { useEffect, useState, useMemo } from 'react';
 import debounce from 'lodash.debounce';
 
+import { DirectionScrollButton } from 'types';
+
 import { useWindowWidthContext } from 'contexts';
 
 import { getHeaderHeight } from 'helpers';
 import { calculateButtonVisibility } from '../assistants';
 
-const useScrollController = (direction: string) => {
-  const [upButtonVisibility, setUpButtonVisibility] = useState<string>('');
-  const [downButtonVisibility, setDownButtonVisibility] = useState<string>('');
+interface IButtonVisibility {
+  topVisibility: string;
+  downVisibility: string;
+}
+
+const useScrollController = (direction: DirectionScrollButton) => {
+  const [visibility, setVisibility] = useState<IButtonVisibility>({
+    topVisibility: '',
+    downVisibility: '',
+  });
 
   const { isTablet, isDesktop, isTV } = useWindowWidthContext();
 
@@ -26,9 +35,9 @@ const useScrollController = (direction: string) => {
       headerHeight,
     );
 
-    direction === 'top'
-      ? setUpButtonVisibility(topButtonVisibility)
-      : setDownButtonVisibility(bottomButtonVisibility);
+    direction === DirectionScrollButton.Up
+      ? setVisibility({ topVisibility: topButtonVisibility, downVisibility: '' })
+      : setVisibility({ topVisibility: '', downVisibility: bottomButtonVisibility });
   }, 200);
 
   useEffect(() => {
@@ -43,7 +52,8 @@ const useScrollController = (direction: string) => {
 
   //Функція обробки кліку по кнопкам швидкого скролу
   const onHandleClick = (): void => {
-    const topPosition = direction === 'top' ? 0 : document.documentElement.scrollHeight;
+    const topPosition =
+      direction === DirectionScrollButton.Up ? 0 : document.documentElement.scrollHeight;
 
     window.scrollTo({
       top: topPosition,
@@ -51,7 +61,7 @@ const useScrollController = (direction: string) => {
     });
   };
 
-  return { upButtonVisibility, downButtonVisibility, onHandleClick };
+  return { visibility, onHandleClick };
 };
 
 export default useScrollController;

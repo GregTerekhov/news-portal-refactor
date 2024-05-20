@@ -1,32 +1,32 @@
 import { PayloadAction, createAction, createSlice } from '@reduxjs/toolkit';
 
 import type { RootState } from './store';
-import type { FilterResults, PartialVotedNewsArray } from 'types';
+import { ResultsState, OperationName, PartialVotedNewsArray, SliceName } from 'types';
 
 export interface FiltersState {
   filters: PartialVotedNewsArray;
-  resultsState: FilterResults;
+  resultsState: ResultsState;
   isSorted: boolean;
 }
 
 const initialState: FiltersState = {
   filters: [],
-  resultsState: 'idle',
+  resultsState: ResultsState.Idle,
   isSorted: false,
 };
 
-export const results = createAction<FilterResults>('filters/filtering');
+export const results = createAction<ResultsState>(OperationName.Filters);
 
 const filterSlice = createSlice({
-  name: 'filters',
+  name: SliceName.Filter,
   initialState,
   reducers: {
     filterNews: (state, action: PayloadAction<PartialVotedNewsArray>) => {
       state.filters.length = 0;
-      if (action.payload.length === 0) state.resultsState = 'empty';
+      if (action.payload.length === 0) state.resultsState = ResultsState.Empty;
 
       state.filters.push(...action.payload);
-      state.resultsState = 'full';
+      state.resultsState = ResultsState.Fulfilled;
     },
     changeSortState: (state, action: PayloadAction<boolean>) => {
       state.isSorted = action.payload;
