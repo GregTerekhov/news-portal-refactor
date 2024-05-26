@@ -38,7 +38,11 @@ Three-paged app with actual news <!-- Дополнить описание -->
 
 ## Table of content
 
- <!-- в процессе  -->
+- Technologies;
+- Pre-requisites;
+- Getting started;
+- Project content;
+- Project structure;
 
 ## Technologies
 
@@ -110,6 +114,7 @@ Install [Node.js LTS](https://nodejs.org/en)
     - NYT twitter page;
     - NYT facebook page;
 12. Error handlings
+13. Data encryption
 
 ## Project structure
 
@@ -148,21 +153,48 @@ _all graphs will begin with “contains”_
        - **assistants** - auxiliary data to **weatherBlock**;
        - **hooks** - **weatherBlock** exclusive hooks;
        - **subComponents** - some specific components for **weatherBlock** proper function;
-   - **config** - ;
-   - **constants** - ;
-   - **context** – ;
-   - **helpers** – ;
-   - **hooks** - ;
-   - **layouts** - ;
-   - **pages** – ‘
-   - **redux** – ‘
-   - **routes** – ‘
-   - **types** –
-   - **ui** – s
-   - App.ts – application routes hub file;
-   - AppProvider – ;
-   - main.ts - main application file
-
-## Code examples
-
-_in progress_
+   - **config** - **env.** validation setups;
+   - **constants** - auxiliary constant data;
+     - _dropdownArrays.ts_ - lits of news material types;
+     - _images.ts_ - general image data objects;
+   - **context** – all global project constants;
+   - **helpers** – useful external functions;
+   - **hooks** - all general custom project custom hooks;
+   - **layouts** - all project layouts;
+     - **assistants** - function to determinate a _serverError_. Return a boolean;
+     - **hooks** - **layouts** exclusive hooks;
+     - **subComponents** - general layout components;
+       - **commonMenu** - mobile only main menu;
+       - **footer** - project footer component;
+       - **header** - project header component;
+       - **hero** - project hero component;
+       - **pageScrollController** - main page screen viewport controller;
+       - _container.tsx_ - project main style container;
+   - **pages** – list of project pages
+     - **aboutUs** - project developers info;
+     - **accountManagePage** - user data settings;
+     - **accountPage** - user general page;
+     - **archivePage** - list of all news that has been read at least two weeks ago;
+     - **developmentPage** - auxiliary error page, in a case of some sudden malfunctions;
+     - **errorPage** - general project error page, in a case of 400+ error happened;
+     - **favouritePage** - page with all user saved news;
+     - **homePage** - project main page with all useful info and features;
+     - **readPage** - page with all news that has been read at least one time;
+     - **serverErrorPage** - project error page, in a case of 500+ error happened;
+     - **template** - main project page template; wrapper;
+   - **redux** - _API_ logic and data processing;
+     - **auth** - user register and authorize logic; sending and retrieving data to project backend;
+     - **hooks** - **redux** exclusive custom hooks;
+     - **newsAPI** - _NYT-API_ news fetch and retrieve logic;
+     - **newsDatabase** - data, saved on backend; user personal stored and read news data;
+     - **services** - useful functions for a proper API data processing;
+     - **weather** - _Weather API_ news fetch and retrieve logic;
+     - **filterSlice.ts** - main filter logic processing;
+     - **reducers** - general redux reducer data collector;
+     - **store** - redux store data;
+   - **routes** – logic to determine if curren route are available or not;
+   - **types** – all project _TypeScript_ types;
+   - **ui** – all general project reused interface components;
+   - _App.ts_ – application routes hub file;
+   - _AppProvider_ – application wrapper hub file;
+   - _main.ts_ - main application file
